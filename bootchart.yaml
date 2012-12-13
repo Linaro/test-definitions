@@ -1,0 +1,15 @@
+metadata:
+    name: bootchart
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    deps:
+        - bootchart
+        - pybootchartgui
+    bzr-repos:
+        - lp:~linaro-foundations/lava-test/bootchartscript
+
+run:
+    steps:
+        - "lava-test-case ./bootchartscript/bootchartscript.sh --result pass --measurement 10 --units sec"
