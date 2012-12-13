@@ -1,0 +1,12 @@
+metadata:
+    name: gatortests
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    deps:
+        - gatortests
+
+run:
+    steps:
+        - "lava-test-case gatortests --result pass"

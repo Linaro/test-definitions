@@ -1,0 +1,19 @@
+metadata:
+    name: e2eaudiotest
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    deps:
+        - libasound2-dev
+        - libfftw3-dev
+        - gcc
+    git-repos:
+        - git://git.linaro.org/people/kurt-r-taylor/e2eaudiotest.git
+    steps:
+        - "cd e2eaudiotest; gcc testfreq.c utils_alsa.c -lasound -lfftw3 -o testfreq"
+
+run:
+    steps:
+        - cd e2eaudiotest
+        - "lava-test-case ./e2eaudiotest.sh --result pass --measurement 100 --units Hz"

@@ -1,0 +1,21 @@
+metadata:
+    name: linaro.perf
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    bzr-repos:
+        - lp:~linaro-maintainers/lava-test/lava-test-perf
+    deps:
+        - linux-tools
+        - stress-dbgsym
+
+run:
+    steps:
+        - ./lava-test-perf/run-perf-test.sh
+
+parse:
+    pattern: "^(?P<test_case_id>perf[\\w\\s-]+)\\s+:\\s+(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
