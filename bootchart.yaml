@@ -12,4 +12,6 @@ install:
 
 run:
     steps:
-        - "lava-test-case ./bootchartscript/bootchartscript.sh --result pass --measurement 10 --units sec"
+        - "cd bootchartscript"
+        - "lava-test-case ./bootchartscript.sh --shell true"
+        - "lava-test-case-attach ./bootchartscript.sh bootchart.log text/plain"
