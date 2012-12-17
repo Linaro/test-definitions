@@ -1,0 +1,13 @@
+metadata:
+    name: busybox
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    git-repos:
+        - git://git.linaro.org/ubuntu/test-definitions.git
+
+run:
+    steps:
+        - "cd test-definitions/scripts"
+        - "lava-test-case ./busybox.sh --result pass"
