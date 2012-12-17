@@ -9,6 +9,6 @@ install:
 
 run:
     steps:
-        - "cd test-definitions/scripts"
+        - "cd test-definitions/oe/scripts"
         - "lava-test-case ./ethernet.sh --result pass"
         - "lava-test-case-attach ./ethernet.sh ethernet.log text/plain"

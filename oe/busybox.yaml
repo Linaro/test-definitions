@@ -9,5 +9,5 @@ install:
 
 run:
     steps:
-        - "cd test-definitions/scripts"
+        - "cd test-definitions/oe/scripts"
         - "lava-test-case ./busybox.sh --result pass"
