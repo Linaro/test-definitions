@@ -5,7 +5,7 @@ metadata:
 
 install:
     git-repos:
-        - http://git.linaro.org/gitweb?p=ubuntu/test-definitions.git
+        - git://git.linaro.org/ubuntu/test-definitions.git
 
 run:
     steps:
