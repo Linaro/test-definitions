@@ -22,7 +22,7 @@
 #
 
 ifconfig eth0 > ethernet.log
-ifconfig eth0 | grep 'inet addr' | awk -F: '{print $2}'
+ifconfig eth0 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}'
 
 if [ 0 -eq $? ]
 then
