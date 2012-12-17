@@ -1,0 +1,14 @@
+metadata:
+    name: kernel-version
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    git-repos:
+        - http://git.linaro.org/gitweb?p=ubuntu/test-definitions.git
+
+run:
+    steps:
+        - "cd test-definitions"
+        - "lava-test-case ./kernel-version.sh --shell true"
+        - "lava-test-case-attach ./kernel-version.sh kernel-version.log text/plain"
