@@ -9,6 +9,6 @@ install:
 
 run:
     steps:
-        - "cd test-definitions"
-        - "lava-test-case ./toolchain.sh --shell true"
+        - "cd test-definitions/scripts"
+        - "lava-test-case ./toolchain.sh --result pass"
         - "lava-test-case-attach ./toolchain.sh toolchain.log text/plain"

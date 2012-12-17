@@ -9,6 +9,6 @@ install:
 
 run:
     steps:
-        - "cd test-definitions"
-        - "lava-test-case ./kernel-version.sh --shell true"
+        - "cd test-definitions/scripts"
+        - "lava-test-case ./kernel-version.sh --result pass"
         - "lava-test-case-attach ./kernel-version.sh kernel-version.log text/plain"
