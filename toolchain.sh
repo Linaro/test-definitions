@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Kernel Version test.
+# Toolchain test.
 #
 # Copyright (C) 2012, Linaro Limited.
 #
@@ -21,4 +21,4 @@
 # Author: Senthil Kumaran <senthil.kumaran@linaro.org>
 #
 
-uname -a | grep `uname -r` > kernel-version.log
+cat /proc/version | grep -i "gcc.*linaro" > toolchain.log
