@@ -21,7 +21,9 @@
 # Author: Senthil Kumaran <senthil.kumaran@linaro.org>
 #
 
-ifconfig eth1 > ethernet.log
+ifconfig eth0 > ethernet.log
+ifconfig eth0 | grep 'inet addr' | awk -F: '{print $2}'
+
 if [ 0 -eq $? ]
 then
     echo "ethernet: pass"
