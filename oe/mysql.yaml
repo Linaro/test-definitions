@@ -1,0 +1,14 @@
+metadata:
+    name: mysql
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    git-repos:
+        - git://git.linaro.org/ubuntu/test-definitions.git
+
+run:
+    steps:
+        - "cd test-definitions/oe/scripts"
+        - "lava-test-case ./mysql.sh --result pass"
+        - "lava-test-case-attach ./mysql.sh mysql.log text/plain"
