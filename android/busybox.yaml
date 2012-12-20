@@ -13,7 +13,7 @@ run:
         - "./busybox.sh"
 
 parse:
-    pattern: "^(?P<test_case_id>)=(?P<result>)\\s+"
+    pattern: "^(?P<test_case_id>.*)=(?P<result>.*)"
     fixupdict:
         PASS: pass
         FAIL: fail
