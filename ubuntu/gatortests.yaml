@@ -9,4 +9,10 @@ install:
 
 run:
     steps:
-        - "lava-test-case gatortests --result pass"
+        - gatortests
+
+parse:
+    pattern: "^\\*\\*\\*(?P<test_case_id>\\w+):\\s(?P<result>\\w+)\\*\\*\\*"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
