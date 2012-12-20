@@ -1,5 +1,5 @@
 metadata:
-    name: device-tree-test
+    name: device-tree
     version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
 
