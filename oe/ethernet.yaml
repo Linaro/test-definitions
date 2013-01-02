@@ -10,5 +10,10 @@ install:
 run:
     steps:
         - "cd test-definitions/oe/scripts"
-        - "lava-test-case ./ethernet.sh --result pass"
-        - "lava-test-case-attach ./ethernet.sh ethernet.log text/plain"
+        - "./ethernet.sh"
+
+parse:
+    pattern: "(?P<test_case_id>):\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail

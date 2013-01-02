@@ -10,5 +10,10 @@ install:
 run:
     steps:
         - "cd test-definitions/oe/scripts"
-        - "lava-test-case ./kernel-version.sh --result pass"
-        - "lava-test-case-attach ./kernel-version.sh kernel-version.log text/plain"
+        - "./kernel-version.sh"
+
+parse:
+    pattern: "(?P<test_case_id>):\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
