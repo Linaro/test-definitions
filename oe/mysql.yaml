@@ -10,5 +10,10 @@ install:
 run:
     steps:
         - "cd test-definitions/oe/scripts"
-        - "lava-test-case ./mysql.sh --result pass"
-        - "lava-test-case-attach ./mysql.sh mysql.log text/plain"
+        - "./mysql.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
