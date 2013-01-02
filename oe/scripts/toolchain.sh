@@ -22,7 +22,8 @@
 #
 
 cat /proc/version | grep -i "gcc.*linaro" > toolchain.log
-if [ -n "$OUT" ]
+
+if [ 0 -eq $? ]
 then
     echo "toolchain: pass"
     exit 0

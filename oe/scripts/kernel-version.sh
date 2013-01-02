@@ -22,7 +22,8 @@
 #
 
 uname -a | grep `uname -r` > kernel-version.log
-if [ -n "$OUT" ]
+
+if [ 0 -eq $? ]
 then
     echo "kernel-version: pass"
     exit 0
