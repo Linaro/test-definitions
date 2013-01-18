@@ -5,7 +5,7 @@ metadata:
 
 install:
     steps:
-        - 'wget http://downloads.sourceforge.net/project/ltp/LTP%20Source/ltp-20130109/ltp-full-20130109.bz2'
+        - 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-20120614/ltp-full-20120614.bz2'
         - 'tar --strip-components=1 -jxf ltp-full-20130109.bz2'
         - 'mkdir build'
         - './configure --prefix=$(readlink -f build)'
@@ -22,7 +22,7 @@ run:
         - 'sudo ./runltp -f syscalls -p -q'
 
 parse:
-    pattern: "^(?P<test_case_id>\\S+)\\s+(?P<subid>\\d+)\\s+(?P<result>\\w+)\\s+:\\s+(?P<message>.+)"
+    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
     fixupdict:
         TBROK: fail
         TCONF: skip
