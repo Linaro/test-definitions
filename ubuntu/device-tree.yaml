@@ -5,6 +5,7 @@ metadata:
     description: "Device tree test to check the folder structure."
     os: ubuntu
     devices: "origen, snowball, panda, panda-es, vexpress"
+    environment: 'lava-test-shell'
 
 install:
     bzr-repos:
