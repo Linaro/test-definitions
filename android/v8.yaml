@@ -1,0 +1,18 @@
+metadata:
+    name: v8
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+run:
+    steps:
+        - 'cd /data/benchmark/v8'
+        - 'if which v8shell 2>/dev/null 1>/dev/null'
+        - 'then v8shell run.js'
+        - 'else d8 run.js'
+        - 'fi'
+
+parse:
+    pattern: "^(?P<test_case_id>.*?):\\s+(?P<measurement>\\d+)\\s*$"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
