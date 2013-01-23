@@ -1,0 +1,19 @@
+metadata:
+    name: binder
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+
+install:
+    git-repos:
+        - git://git.linaro.org/qa/test-definitions.git
+
+run:
+    steps:
+        - "cd test-definitions/android/scripts"
+        - "./binder.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>.*)=(?P<result>.*)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
