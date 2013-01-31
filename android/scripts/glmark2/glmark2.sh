@@ -1,6 +1,6 @@
-#!/system/bin/sh
+#!/bin/bash
 #
-# v8 shell test.
+# glmark2 test.
 #
 # Copyright (C) 2012, Linaro Limited.
 #
@@ -21,14 +21,11 @@
 # Author: Senthil Kumaran <senthil.kumaran@linaro.org>
 #
 
-cd /data/benchmark/v8
-if which v8shell 2>/dev/null 1>/dev/null
-then v8shell run.js
-else d8 run.js
-fi
+function main(){
+    logcat -c
+    shell am start -W org.linaro.glmark2/.Glmark2Activity
+    python ./glmark2_wait.py
+    logcat -d
+}
 
-if [ $? -eq 0 ]; then
-	echo "v8shell=pass"
-else
-	echo "v8shell=fail"
-fi
+main "$@"
