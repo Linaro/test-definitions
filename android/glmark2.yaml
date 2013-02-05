@@ -8,8 +8,8 @@ install:
 
 run:
     steps:
-        - "cd test-definitions/android/scripts/glmark2"
-        - "/bin/bash ./glmark2.sh $(SERIAL)"
+        - "cd test-definitions/android/scripts"
+        - ./glmark2/glmark2.sh
 
 parse:
     pattern: "^\\s*I/glmark2\\s*\\(.+\\):\\s+(?P<test_case_id>\\[\\w+\\]\\s+\\S+)\\s+FPS:

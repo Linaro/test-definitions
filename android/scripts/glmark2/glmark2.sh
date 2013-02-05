@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/system/bin/sh
 #
 # glmark2 test.
 #
@@ -21,11 +21,7 @@
 # Author: Senthil Kumaran <senthil.kumaran@linaro.org>
 #
 
-function main(){
-    logcat -c
-    shell am start -W org.linaro.glmark2/.Glmark2Activity
-    python ./glmark2_wait.py
-    logcat -d
-}
-
-main "$@"
+logcat -c
+am start -W org.linaro.glmark2/.Glmark2Activity
+./glmark2/glmark2_wait.py
+logcat -d
