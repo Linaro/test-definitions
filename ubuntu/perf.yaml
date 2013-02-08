@@ -1,7 +1,7 @@
 metadata:
     name: perf
-    version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Performance tests in ubuntu."
 
 install:
     bzr-repos:
@@ -17,6 +17,3 @@ run:
 
 parse:
     pattern: "^(?P<test_case_id>perf[\\w\\s-]+)\\s+:\\s+(?P<result>\\w+)"
-    fixupdict:
-        PASS: pass
-        FAIL: fail

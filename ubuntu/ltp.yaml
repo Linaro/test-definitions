@@ -1,7 +1,7 @@
 metadata:
     name: ltp
-    version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test ltp on ubuntu."
 
 install:
     steps:

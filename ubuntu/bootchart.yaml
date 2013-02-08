@@ -1,7 +1,7 @@
 metadata:
     name: bootchart
-    version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test bootchart in ubuntu."
 
 install:
     deps:
@@ -13,5 +13,5 @@ install:
 run:
     steps:
         - "cd bootchartscript"
-        - "lava-test-case ./bootchartscript.sh --shell true"
-        - "lava-test-case-attach ./bootchartscript.sh bootchart.log text/plain"
+        - "lava-test-case bootchartscript --shell ./bootchartscript.sh"
+        - "lava-test-case-attach bootchartscript bootchart.log text/plain"
