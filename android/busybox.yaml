@@ -1,19 +1,11 @@
 metadata:
     name: busybox
-    version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
-
-install:
-    git-repos:
-        - git://git.linaro.org/qa/test-definitions.git
+    description: "Test busybox in android."
 
 run:
     steps:
-        - "cd test-definitions/android/scripts"
-        - "./busybox.sh"
+        - "./android/scripts/busybox.sh"
 
 parse:
     pattern: "^(?P<test_case_id>.*)=(?P<result>.*)"
-    fixupdict:
-        PASS: pass
-        FAIL: fail
