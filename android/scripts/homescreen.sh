@@ -25,7 +25,7 @@ timeout=0
 while(true)
 do
     echo "Waiting for Homescreen ..."
-    if logcat -d | grep -rni "Displayed com.android.launcher/com.android.launcher2Launcher:" ; then
+    if logcat -d | grep -rni "Displayed com.android.launcher/com.android.launcher2.Launcher:" ; then
         echo "Homescreen=pass"
         break
     fi
