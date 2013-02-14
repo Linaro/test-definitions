@@ -30,8 +30,8 @@ do
         break
     fi
     sleep 60
-    timeout+=1
-    if [ timeout = 30 ]; then
+    timeout=$((timeout+1))
+    if [ $timeout = 30 ]; then
         echo "Homescreen=fail"
         break;
     fi
