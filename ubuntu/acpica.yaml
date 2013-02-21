@@ -1,0 +1,29 @@
+metadata:
+    name: acpica
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test acpica on ubuntu."
+
+install:
+    git-repos:
+        - git://git.linaro.org/people/ahs3/acpica.git
+    steps:
+        - 'cd acpica && make all'
+    deps:
+        - bzip2
+        - flex
+        - bison
+        - build-essential
+run:
+    steps:
+        - 'cd acpica/tests/'
+        - 'sudo ./aslts.sh'
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    fixupdict:
+        TBROK: fail
+        TCONF: skip
+        TFAIL: fail
+        TINFO: unknown
+        TPASS: pass
+        TWARN: unknown
