@@ -1,0 +1,30 @@
+metadata:
+    name: abat
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test Automated Basic Acceptance Tests (ABAT)- V2.0 on ubuntu."
+
+install:
+    git-repos:
+        - 'wget https://lesswatts.org/projects/acpi/download/acpi_abat_0.2.tar.gz'
+    steps:
+	- 'tar -xvf acpi_abat_0.2.tar.gz'
+        - 'cd acpi_abat_0.2 && make all'
+    deps:
+        - bzip2
+        - flex
+        - bison
+        - build-essential
+run:
+    steps:
+        - 'cd acpi_abat_0.2'
+        - './runall'
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    fixupdict:
+        TBROK: fail
+        TCONF: skip
+        TFAIL: fail
+        TINFO: unknown
+        TPASS: pass
+        TWARN: unknown
