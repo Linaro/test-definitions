@@ -5,14 +5,11 @@ metadata:
 
 install:
     git-repos:
-        - 'wget https://lesswatts.org/projects/acpi/download/acpi_abat_0.2.tar.gz'
+        - 'wget --no-check-certificate https://lesswatts.org/projects/acpi/download/acpi_abat_0.2.tar.gz'
     steps:
-	- 'tar -xvf acpi_abat_0.2.tar.gz'
+	- 'tar -zxf acpi_abat_0.2.tar.gz'
         - 'cd acpi_abat_0.2 && make all'
     deps:
-        - bzip2
-        - flex
-        - bison
         - build-essential
 run:
     steps:
