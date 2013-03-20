@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+<string name="KEY_RESULT_CUSTOM_DIR">/data/data/org.zeroxlab.zeroxbenchmark/files</string>
+<int name="KEY_RESULT_SELECTION" value="1" />
+</map>

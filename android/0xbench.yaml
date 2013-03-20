@@ -1,0 +1,11 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: 0xbench
+    description: "0xbench test for android."
+
+run:
+    steps:
+        - "./android/scripts/0xbench.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>*?)\\s+(?P<measurement>[\\d.]+)\\s+(?P<units>\\S+)\\s+(?P<result>(pass|fail))\\s*$
