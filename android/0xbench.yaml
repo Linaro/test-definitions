@@ -8,4 +8,4 @@ run:
         - "./android/scripts/0xbench.sh"
 
 parse:
-    pattern: "^(?P<test_case_id>*?)\\s+(?P<measurement>[\\d.]+)\\s+(?P<units>\\S+)\\s+(?P<result>(pass|fail))\\s*$
+    pattern: "^(?P<test_case_id>*?)\\s+(?P<measurement>[\\d.]+)\\s+(?P<units>\\S+)\\s+(?P<result>(pass|fail))\\s*$"
