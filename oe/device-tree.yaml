@@ -1,0 +1,25 @@
+metadata:
+    name: device-tree
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Device tree test to check the folder structure."
+    os:
+        - ubuntu
+    devices:
+        - origen
+        - snowball
+        - panda
+        - panda-es
+        - vexpress
+    environment:
+        - lava-test-shell
+
+install:
+    bzr-repos:
+        - lp:~linaro-foundations/linaro-ubuntu/lava-test-device-tree
+
+run:
+    steps:
+        - "cd lava-test-device-tree; sudo bash -x ./run-test.sh"
+
+parse:
+    pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"

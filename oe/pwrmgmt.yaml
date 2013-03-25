@@ -1,0 +1,18 @@
+metadata:
+    name: pwrmgmt
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test power management."
+
+install:
+    git-repos:
+        - git://git.linaro.org/tools/pm-qa.git
+    steps:
+        - "cd pm-qa && make -C utils"
+
+run:
+    steps:
+        - cd pm-qa 
+        - make -k check
+
+parse:
+    pattern: "^(?P<test_case_id>[\\w/\\.]+):\\s+(?P<message>.+)\\.\\.\\.\\s+(?P<result>\\w+)"
