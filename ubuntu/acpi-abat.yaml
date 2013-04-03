@@ -6,7 +6,7 @@ metadata:
 install:
     steps:
         - 'wget --no-check-certificate https://lesswatts.org/projects/acpi/download/acpi_abat_0.2.tar.gz'
-	- 'tar -zxvf acpi_abat_0.2.tar.gz'
+        - 'tar -zxvf acpi_abat_0.2.tar.gz'
         - 'cd acpi_abat_0.2 && make all'
     deps:
         - build-essential
