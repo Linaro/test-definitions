@@ -4,9 +4,8 @@ metadata:
     description: "Test Automated Basic Acceptance Tests (ABAT)- V2.0 on ubuntu."
 
 install:
-    git-repos:
-        - 'wget --no-check-certificate https://lesswatts.org/projects/acpi/download/acpi_abat_0.2.tar.gz'
     steps:
+        - 'wget --no-check-certificate https://lesswatts.org/projects/acpi/download/acpi_abat_0.2.tar.gz'
 	- 'tar -zxvf acpi_abat_0.2.tar.gz'
         - 'cd acpi_abat_0.2 && make all'
     deps:
