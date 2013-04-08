@@ -1,0 +1,13 @@
+metadata:
+    name: fwts
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Firmware Test Suite (fwts) on ubuntu."
+
+install:
+    deps:
+        - fwts
+run:
+    steps:
+        - 'sudo fwts --batch --interactive --power-states'
+        - 'sudo fwts klog --power-states --batch-experimental'
+        - 'sudo fwts - | tee mylog.log'
