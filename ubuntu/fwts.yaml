@@ -8,6 +8,4 @@ install:
         - fwts
 run:
     steps:
-        - 'sudo fwts --batch --interactive --power-states'
-        - 'sudo fwts klog --power-states --batch-experimental'
-        - 'sudo fwts - | tee mylog.log'
+        - 'sudo fwts -a'
