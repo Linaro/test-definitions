@@ -7,8 +7,13 @@ install:
     git-repos:
         - git://git.linaro.org/people/ahs3/acpica.git
     steps:
-        - 'cd acpica && make all'
+        - 'cd acpica'
+        - 'git branch linaro origin/linaro'
+        - 'git checkout linaro'
+        - 'make all'
     deps:
+        - git
+        - git-core
         - bzip2
         - flex
         - bison
