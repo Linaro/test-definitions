@@ -1,7 +1,7 @@
 metadata:
     name: busybox
-    version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test busybox in OE."
 
 install:
     git-repos:

@@ -3,7 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Device tree test to check the folder structure."
     os:
-        - ubuntu
+        - oe
     devices:
         - origen
         - snowball

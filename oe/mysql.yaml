@@ -1,7 +1,7 @@
 metadata:
     name: mysql
-    version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test for mysql in OE."
 
 install:
     git-repos:

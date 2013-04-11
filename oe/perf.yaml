@@ -1,7 +1,7 @@
 metadata:
     name: perf
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Performance tests in ubuntu."
+    description: "Performance tests in OE."
 
 install:
     bzr-repos:

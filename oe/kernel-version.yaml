@@ -1,7 +1,7 @@
 metadata:
     name: kernel-version
-    version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test kernel version in OE."
 
 install:
     git-repos:
