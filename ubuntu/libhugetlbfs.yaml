@@ -1,0 +1,25 @@
+metadata:
+    name: libhugetlbfs
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run through libhugetlbfs next branch tests."
+
+install:
+    git-repos:
+        - git://libhugetlbfs.git.sourceforge.net/gitroot/libhugetlbfs/libhugetlbfs
+    steps:
+        - 'cd libhugetlbfs'
+        - 'git checkout origin/next -b next'
+        - 'make'
+        - 'mkdir -p /mnt/huge'
+    deps:
+        - git
+        - git-core
+        - build-essential
+        - python
+        - python2.7
+run:
+    steps:
+        - 'cd libhugetlbfs'
+        - 'echo 200 > /proc/sys/vm/nr_hugepages'
+        - 'mount -t hugetlbfs hugetlbfs /mnt/huge'
+        - 'make check'
