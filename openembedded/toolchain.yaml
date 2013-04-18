@@ -9,7 +9,7 @@ install:
 
 run:
     steps:
-        - "cd test-definitions/oe/scripts"
+        - "cd test-definitions/openembedded/scripts"
         - "./toolchain.sh"
 
 parse:
