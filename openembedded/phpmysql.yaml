@@ -1,0 +1,19 @@
+metadata:
+    name: phpmysql
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test for php/mysql in OE."
+
+install:
+    git-repos:
+        - git://git.linaro.org/qa/test-definitions.git
+
+run:
+    steps:
+        - "cd test-definitions/oe/scripts"
+        - "./phpmysql.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
