@@ -1,0 +1,11 @@
+metadata:
+    name: skia
+    format: "Lava-Test Test Definition 1.0"
+    description: "skia test for android."
+
+run:
+    steps:
+        - "./android/scripts/skia.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>\\w+)\\s+\\w+\\s+(?P<units>\\w+)\\s+(?P<measurement>[\\d\\.]+)\\s+(?P<result>\\w+)"
