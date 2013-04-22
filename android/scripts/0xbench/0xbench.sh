@@ -23,7 +23,6 @@
 #######################################android_0xbenchmark_kill.py
 
 pid=`ps |grep org.zeroxlab.zeroxbenchmark|tr -s " "|cut -d' ' -f2`
-#echo $pid
 kill $pid
 rm -rf /data/data/org.zeroxlab.zeroxbenchmark/files*
 rm -rf /data/data/org.zeroxlab.zeroxbenchmark/shared_prefs*
@@ -41,45 +40,24 @@ owner="None"
 group=`ls -l /data/data/|grep org.zeroxlab.zeroxbenchmark|tr -s " "|cut -d \  -f 2`
 owner=`ls -l /data/data/|grep org.zeroxlab.zeroxbenchmark|tr -s " "|cut -d \  -f 3`
 
-
-#echo group:$group
-#echo owner:$owner
-
 target_dir="/data/data/org.zeroxlab.zeroxbenchmark/shared_prefs"
-
-
-#make dir
 mkdir $target_dir
-#echo "directory created"
-#change owner
 chown $owner:$group $target_dir
-#echo "owner changed"
-#change mode
 chmod 771 $target_dir
-#echo "mode changed"
-#push file
 cp $source $target
-#change owner
+
 chown $owner:$group $target
-#change mode
 chmod 660 $target
-
 target_dir="/data/data/org.zeroxlab.zeroxbenchmark/files"
-
-#make dir
 mkdir $target_dir
-#change owner
 chown $owner:$group $target_dir
-#change mode
 chmod 771 $target_dir
 
 ########################################0xbench.py
 
-
 save_dir="/data/data/org.zeroxlab.zeroxbenchmark/files"
 
 #options to come from app which runs activity manager
-
 logcat -c
 
 am start -n org.zeroxlab.zeroxbenchmark/org.zeroxlab.zeroxbenchmark.Benchmark --ez autorun true --ez math true --ez 2d true 
@@ -91,10 +69,6 @@ while [ ! -f /data/data/org.zeroxlab.zeroxbenchmark/files/0xBenchmark.bundle ]
 do
   sleep 2
 done
-#cp /data/data/org.zeroxlab.zeroxbenchmark/files/0xBenchmark.bundle /mnt/sdcard/0xBenchmark.bundle
 
 logcat -d | grep "0xbench_test_case:" |tr -s " "|cut -d \  -f 4,5,6,7,8 > 0xBenchmarkresult.txt
 cat 0xBenchmarkresult.txt
-
-#cat /mnt/sdcard/0xBenchmark.bundle
-
