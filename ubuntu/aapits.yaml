@@ -1,0 +1,27 @@
+metadata:
+    name: aapits
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ACPI API test suite on ubuntu."
+
+install:
+    git-repos:
+        - git://git.linaro.org/people/ahs3/acpica.git
+    steps:
+        - 'cd acpica'
+        - 'git branch aapits origin/aapits'
+        - 'git checkout aapits'
+        - 'make all'
+        - 'cd tests/aapits && make all'
+    deps:
+        - bzip2
+        - flex
+        - bison
+        - build-essential
+        - make
+        - git
+run:
+    steps:
+        - 'cd acpica/tests/aapits/bin'
+        - './aapitsrun'
+parse:
+    pattern: "^(?P<test_case_id>\\w+\\s+\\d+\\s+\\d+):\\s+(?P<result>\\w+)"
