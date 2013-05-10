@@ -1,0 +1,12 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: tjbench
+    description: "tjbench test for android."
+
+run:
+    steps:
+        - "disablesuspend.sh"
+        - "./android/scripts/tjbench/tjbenchstart.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+(?P<result>\\S+)\\s+(?P<measurement>[\\d.]+)\\s+(?P<units>\\S+)$"
