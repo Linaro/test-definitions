@@ -1,0 +1,11 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: glmark2
+    description: "glmark2 test for android."
+
+run:
+    steps:
+        - "./android/scripts/glmark2.sh"
+
+parse:
+    pattern: "^\\(\\s+\\d*\\):\\s+(?P<test_case_id>\\S+)\\:\\s(?P<units>\\S+):\\s(?P<measurement>[\\d.]+)\\s+\\S+:\\s[\\d.]+\\s\\S+\\s(?P<result>\\S+)"
