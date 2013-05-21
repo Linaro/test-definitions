@@ -19,7 +19,7 @@ install:
 run:
     steps:
         - 'cd build'
-        - 'sudo ./runltp -f syscalls -p -q'
+        - 'sudo ./runltplite.sh -p -q'
 
 parse:
     pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
