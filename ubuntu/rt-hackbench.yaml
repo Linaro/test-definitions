@@ -1,5 +1,5 @@
 metadata:
-    name: networking-rt-tests-hackbench.yaml
+    name: rt-hackbench
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Hackbench Real Time Suite"
 
