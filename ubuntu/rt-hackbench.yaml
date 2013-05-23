@@ -10,6 +10,7 @@ install:
         - "cd rt-tests && make install"
     deps:
         - psmisc
+        - make
 
 run:
     steps:
