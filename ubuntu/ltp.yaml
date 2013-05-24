@@ -16,6 +16,7 @@ install:
         - flex
         - bison
         - build-essential
+        - wget
 run:
     steps:
         - 'cd build'
