@@ -28,6 +28,6 @@ parse:
         TBROK: fail
         TCONF: skip
         TFAIL: fail
-        TINFO: unknown
+        TINFO: skip
         TPASS: pass
         TWARN: unknown
