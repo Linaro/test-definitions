@@ -5,7 +5,7 @@ metadata:
 
 run:
     steps:
-        - "./android/scripts/bigLITTLE.sh"
+        - "./android/scripts/bigLITTLE/bigLITTLE.sh"
 
 parse:
     pattern: "^(?P<test_case_id>\\S+)\\s+:\\s+(?P<result>\\S+)$"
