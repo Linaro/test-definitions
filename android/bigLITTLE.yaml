@@ -1,0 +1,14 @@
+metadata:
+    format: "Lava-Test-Shell Test Definition 1.0"
+    name: bigLITTLE
+    description: "bigLITTLE"
+
+run:
+    steps:
+        - "./android/scripts/bigLITTLE.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+:\\s+(?P<result>\\S+)$"
+    fixupdict:
+          PASS: pass
+          FAIL: fail
