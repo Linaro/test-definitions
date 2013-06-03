@@ -8,9 +8,9 @@ install:
         - git://git.linaro.org/people/ahs3/acpica.git
     steps:
         - 'cd acpica'
-        - 'git branch aapits origin/aapits'
-        - 'git checkout aapits'
-        - 'make all'
+        - 'git branch linaro origin/linaro'
+        - 'git checkout linaro'
+        - 'make iasl'
         - 'cd tests/aapits && make all'
     deps:
         - bzip2
