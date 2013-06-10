@@ -19,3 +19,6 @@ run:
 
 parse:
     pattern: "^(?P<test_case_id>[\\w/\\.]+):\\s+(?P<message>.+)\\.\\.\\.\\s+(?P<result>\\w+)"
+    fixupdict:
+        Ok: pass
+        Err: fail
