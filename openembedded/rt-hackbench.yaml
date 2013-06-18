@@ -1,0 +1,13 @@
+metadata:
+    name: rt-hackbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Hackbench Real Time Suite"
+
+run:
+    steps:
+        - while true; do dd if=/dev/zero of=bigfile bs=1024000 count=1024; done &
+        - while true; do killall hackbench; sleep 5; done &
+        - while true; do hackbench 20; done &
+
+parse:
+    pattern: "^(Time:[\\w/\\.]+):\\s+(?P<message>.+)\\.\\.\\.\\s+(?P<result>\\w+)"

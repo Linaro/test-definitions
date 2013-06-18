@@ -1,0 +1,9 @@
+metadata:
+    name: rt-cyclictest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Cyclictest Real Time Suite"
+
+run:
+    steps:
+        - "exec cyclictest -t50 -p 80 -i 10000 -n -d 86400 -a 1 > ~/cyclictest.log"
+        - "lava-test-case-attach ~/cyclictest.log text/plain"

@@ -1,0 +1,19 @@
+metadata:
+    name: rt-ltp
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Realtime LTP tests."
+
+run:
+    steps:
+        - 'cd /opt/ltp'
+        - './runltplite.sh -q'
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    fixupdict:
+        TBROK: fail
+        TCONF: skip
+        TFAIL: fail
+        TINFO: skip
+        TPASS: pass
+        TWARN: unknown
