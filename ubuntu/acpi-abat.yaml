@@ -16,11 +16,7 @@ run:
         - './runall'
 
 parse:
-    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    pattern: "(?P<test_case_id>.*-*)\\s+:\\s+(?P<result>(PASS|FAIL))"
     fixupdict:
-        TBROK: fail
-        TCONF: skip
-        TFAIL: fail
-        TINFO: unknown
-        TPASS: pass
-        TWARN: unknown
+        PASS: pass
+        FAIL: fail
