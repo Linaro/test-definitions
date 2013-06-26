@@ -5,6 +5,7 @@ metadata:
 
 install:
     steps:
+	- 'apt-get install --yes wget'
         - 'wget http://people.linaro.org/~naresh.bhat/acpi_abat_0.2.tar.gz'
         - 'tar -zxvf acpi_abat_0.2.tar.gz'
         - 'cd acpi_abat_0.2 && make all'
