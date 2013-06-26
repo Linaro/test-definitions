@@ -22,6 +22,6 @@
 #
 
 echo "run_stress_switcher_tests"
-sh $PWD/android/scripts/bigLITTLE/run_stress_switcher_tests.sh -a &> stdout.log
+sh /system/bin/run_stress_switcher_tests.sh -a &> stdout.log
 cat stdout.log | egrep -w "PASS|FAIL"
 rm -rf stdout.log
