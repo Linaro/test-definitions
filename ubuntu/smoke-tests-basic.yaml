@@ -1,27 +1,14 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: smoke-tests-basic
-    description: "Basic daily test commands for Linux Linaro ubuntu Images"
+    description: "Basic system test command for Linux Linaro ubuntu Images"
 
 run:
     steps:
         - lava-test-case linux-linaro-ubuntu-pwd --shell pwd
         - lava-test-case linux-linaro-ubuntu-uname --shell uname -a
         - lava-test-case linux-linaro-ubuntu-vmstat --shell vmstat
-        - lava-test-case linux-linaro-ubuntu-netstat --shell netstat -an
-        - lava-test-case linux-linaro-ubuntu-ifconfig-dump --shell ifconfig -a
-        - lava-test-case linux-linaro-ubuntu-route-dump-a --shell route
-        - lava-test-case linux-linaro-ubuntu-route-ifconfig-up-lo --shell ifconfig lo up
-        - lava-test-case linux-linaro-ubuntu-route-dump-b --shell route
-        - lava-test-case linux-linaro-ubuntu-route-ifconfig-up --shell ifconfig eth0 up
-        - lava-test-case linux-linaro-ubuntu-route-ifconfig-down --shell ifconfig eth0 down
-        - lava-test-case linux-linaro-ubuntu-route-dhclient --shell dhclient -v eth0
-        - lava-test-case linux-linaro-ubuntu-route-dump-c --shell route
-        - lava-test-case linux-linaro-ubuntu-ping --shell ping -c 5 192.168.1.10
-        - echo 'Acquire::http::Proxy "http://192.168.1.10:3128";' > /etc/apt/apt.conf.d/lava-apt-proxy
-        - lava-test-case linux-linaro-ubuntu-apt-get --shell apt-get update
-        - lava-test-case linux-linaro-ubuntu-apt-get-curl --shell apt-get install -q -y curl
-        - lava-test-case linux-linaro-ubuntu-curl-big-video --shell curl -x http://192.168.1.10:3128 http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI > /dev/null
+        - lava-test-case linux-linaro-ubuntu-ifconfig --shell ifconfig -a
         - lava-test-case linux-linaro-ubuntu-lscpu --shell lscpu
         - lava-test-case linux-linaro-ubuntu-lspci --shell lspci -vv
         - lava-test-case linux-linaro-ubuntu-lsusb --shell lsusb
