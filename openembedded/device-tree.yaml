@@ -23,3 +23,6 @@ run:
 
 parse:
     pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
