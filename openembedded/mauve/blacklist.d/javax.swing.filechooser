@@ -1,0 +1,7 @@
+javax.swing.filechooser.FileSystemView.getFileSystemView
+javax.swing.filechooser.FileView.MyFileView
+javax.swing.filechooser.FileView.getDescription
+javax.swing.filechooser.FileView.getIcon
+javax.swing.filechooser.FileView.getName
+javax.swing.filechooser.FileView.getTypeDescription
+javax.swing.filechooser.FileView.isTraversable

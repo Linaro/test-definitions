@@ -1,0 +1,13 @@
+java.nio.channels.Channels.ChannelsTest
+java.nio.channels.FileChannel.copyIO
+java.nio.channels.FileChannel.lock
+java.nio.channels.FileChannel.manyopen
+java.nio.channels.FileChannel.map
+java.nio.channels.FileChannel.multibufferIO
+java.nio.channels.FileChannel.multidirectbufferIO
+java.nio.channels.FileChannel.offsetSingleBuffer
+java.nio.channels.FileChannel.offsetSingleDirectBuffer
+java.nio.channels.FileChannel.singlebufferIO
+java.nio.channels.FileChannel.truncate
+java.nio.channels.Selector.testEmptySelect
+java.nio.channels.SocketChannel.select

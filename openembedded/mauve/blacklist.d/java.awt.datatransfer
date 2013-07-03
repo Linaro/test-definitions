@@ -1,0 +1,6 @@
+java.awt.datatransfer.Clipboard.clipboard
+java.awt.datatransfer.Clipboard.clipboardFlavors
+java.awt.datatransfer.DataFlavor.flavor
+java.awt.datatransfer.DataFlavor.readExternal
+java.awt.datatransfer.DataFlavor.writeExternal
+java.awt.datatransfer.StringSelection.selection

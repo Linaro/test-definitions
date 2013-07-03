@@ -1,0 +1,6 @@
+javax.print.DocFlavor.hostEncoding
+javax.print.DocFlavor.parseMimeType
+javax.print.SimpleDoc.constructor
+javax.print.SimpleDoc.getAttributes
+javax.print.SimpleDoc.getReaderForText
+javax.print.SimpleDoc.getStreamForBytes

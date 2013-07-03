@@ -1,0 +1,14 @@
+java.util.zip.Adler32.checksum
+java.util.zip.Deflater.PR27435
+java.util.zip.GZIPInputStream.PR24461
+java.util.zip.GZIPInputStream.basic
+java.util.zip.InflaterInputStream.basic
+java.util.zip.ZipEntry.Size
+java.util.zip.ZipEntry.newZipEntry
+java.util.zip.ZipEntry.setComment
+java.util.zip.ZipEntry.time
+java.util.zip.ZipFile.DirEntryTest
+java.util.zip.ZipFile.NoEntryTest
+java.util.zip.ZipFile.newZipFile
+java.util.zip.ZipInputStream.basic
+java.util.zip.ZipInputStream.close

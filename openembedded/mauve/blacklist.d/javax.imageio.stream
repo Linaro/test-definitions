@@ -1,0 +1,4 @@
+javax.imageio.stream.IIOByteBuffer.setData
+javax.imageio.stream.IIOByteBuffer.setLength
+javax.imageio.stream.IIOByteBuffer.setOffset
+javax.imageio.stream.MemoryCacheImageInputStream.TestImageInputStreamImpl

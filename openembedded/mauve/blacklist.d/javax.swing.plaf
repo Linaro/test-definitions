@@ -1,0 +1,5 @@
+javax.swing.plaf.ColorUIResource.constructors
+javax.swing.plaf.ColorUIResource.equals
+javax.swing.plaf.ColorUIResource.serialization
+javax.swing.plaf.IconUIResource.constructor
+javax.swing.plaf.TestLookAndFeel

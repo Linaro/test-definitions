@@ -1,0 +1,8 @@
+javax.rmi.CORBA.Tie.Externa
+javax.rmi.CORBA.Tie.NodeObject
+javax.rmi.CORBA.Tie.RMI_IIOP
+javax.rmi.CORBA.Tie.RMI_test
+javax.rmi.CORBA.Tie.RMI_testImpl
+javax.rmi.CORBA.Tie._RMI_testImpl_Tie
+javax.rmi.CORBA.Tie._RMI_test_Stub
+javax.rmi.CORBA.Tie.myStructure

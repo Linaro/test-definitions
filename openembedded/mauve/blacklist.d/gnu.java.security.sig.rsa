@@ -1,0 +1,3 @@
+gnu.java.security.sig.rsa.TestOfRSAPKCS1V1_5Signature
+gnu.java.security.sig.rsa.TestOfRSAPSSSignature
+gnu.java.security.sig.rsa.TestOfRSASignatureCodec

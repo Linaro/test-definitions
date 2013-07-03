@@ -1,0 +1,3 @@
+java.awt.event.ComponentEvent.paramString
+java.awt.event.MouseEvent.modifiers
+java.awt.event.MouseEvent.modifiersEx

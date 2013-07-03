@@ -1,0 +1,14 @@
+javax.management.MBeanServerInvocationHandler.ChildMXBean
+javax.management.MBeanServerInvocationHandler.Colour
+javax.management.MBeanServerInvocationHandler.MBeanProxy
+javax.management.MBeanServerInvocationHandler.Test
+javax.management.MBeanServerInvocationHandler.TestC
+javax.management.MBeanServerInvocationHandler.TestCMXBean
+javax.management.MBeanServerInvocationHandler.TestMBean
+javax.management.MBeanServerInvocationHandler.TestX
+javax.management.MBeanServerInvocationHandler.TestXMBean
+javax.management.MBeanServerPermission.Constructor
+javax.management.ObjectName.Parsing
+javax.management.ObjectName.ParsingJDK6
+javax.management.ObjectName.apply
+javax.management.ObjectName.applyJDK6

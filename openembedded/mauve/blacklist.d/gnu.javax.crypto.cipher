@@ -1,0 +1,13 @@
+gnu.javax.crypto.cipher.BaseCipherTestCase
+gnu.javax.crypto.cipher.TestOfAnubis
+gnu.javax.crypto.cipher.TestOfBlowfish
+gnu.javax.crypto.cipher.TestOfCast5
+gnu.javax.crypto.cipher.TestOfCipherFactory
+gnu.javax.crypto.cipher.TestOfDES
+gnu.javax.crypto.cipher.TestOfKhazad
+gnu.javax.crypto.cipher.TestOfNullCipher
+gnu.javax.crypto.cipher.TestOfRijndael
+gnu.javax.crypto.cipher.TestOfSerpent
+gnu.javax.crypto.cipher.TestOfSquare
+gnu.javax.crypto.cipher.TestOfTripleDES
+gnu.javax.crypto.cipher.TestOfTwofish

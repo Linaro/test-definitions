@@ -1,0 +1,6 @@
+java.nio.charset.Charset.UTF8Charset
+java.nio.charset.Charset.canEncode
+java.nio.charset.Charset.encode
+java.nio.charset.Charset.forName
+java.nio.charset.Charset.forName2
+java.nio.charset.Charset.utf16

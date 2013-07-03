@@ -1,0 +1,13 @@
+gnu.java.security.hash.TestOfHashFactory
+gnu.java.security.hash.TestOfHaval
+gnu.java.security.hash.TestOfMD2
+gnu.java.security.hash.TestOfMD4
+gnu.java.security.hash.TestOfMD5
+gnu.java.security.hash.TestOfRipeMD128
+gnu.java.security.hash.TestOfRipeMD160
+gnu.java.security.hash.TestOfSha160
+gnu.java.security.hash.TestOfSha256
+gnu.java.security.hash.TestOfSha384
+gnu.java.security.hash.TestOfSha512
+gnu.java.security.hash.TestOfTiger
+gnu.java.security.hash.TestOfWhirlpool

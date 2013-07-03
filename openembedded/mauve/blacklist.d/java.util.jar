@@ -1,0 +1,3 @@
+java.util.jar.JarFile.TestOfManifest
+java.util.jar.JarFile.basic
+java.util.jar.JarInputStream.getNextEntry

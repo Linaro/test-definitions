@@ -1,0 +1,14 @@
+gnu.javax.crypto.jce.TestOfCipher
+gnu.javax.crypto.jce.TestOfCipherEngineInit
+gnu.javax.crypto.jce.TestOfCipherOutputStream
+gnu.javax.crypto.jce.TestOfCipherWrapUnwrap
+gnu.javax.crypto.jce.TestOfDHKeyAgreement
+gnu.javax.crypto.jce.TestOfDHKeyAgreement2
+gnu.javax.crypto.jce.TestOfDHKeyFactory
+gnu.javax.crypto.jce.TestOfMac
+gnu.javax.crypto.jce.TestOfOtherProviders
+gnu.javax.crypto.jce.TestOfPR25981
+gnu.javax.crypto.jce.TestOfPR27228
+gnu.javax.crypto.jce.TestOfPR27849
+gnu.javax.crypto.jce.TestOfPR27853
+gnu.javax.crypto.jce.TestOfTripleDESParityAdjustment

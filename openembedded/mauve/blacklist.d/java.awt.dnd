@@ -1,0 +1,12 @@
+java.awt.dnd.DnDTest
+java.awt.dnd.DragGestureRecognizer.resetRecognizer
+java.awt.dnd.DragSource.Constructors
+java.awt.dnd.DragSource.CreateDragGestureRecognizerTest
+java.awt.dnd.DragSource.FlavourMapTest
+java.awt.dnd.DragSource.getDragThresholdTest
+java.awt.dnd.DragSource.isDragImageSupportedTest
+java.awt.dnd.DragSourceContext.Constructor
+java.awt.dnd.DropTarget.Constructors
+java.awt.dnd.DropTargetContext.DropTargetContextTest
+java.awt.dnd.DropTargetDragEvent.Constructors
+java.awt.dnd.DropTargetDropEvent.Constructors
