@@ -121,7 +121,7 @@ run:
     - 'kill $XVFBPID'
 
 parse:
-  pattern: "(?P<result>(PASS|FAIL|SKIP)):\\s+(?P<test_result_id>(.*)\\s+)"
+  pattern: "(?P<result>(PASS|FAIL|SKIP)):\\s+(?P<test_result_id>(.*))"
   fixupdict:
     PASS: pass
     FAIL: fail
