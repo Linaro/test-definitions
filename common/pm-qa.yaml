@@ -1,0 +1,14 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: pm-qa
+    description: "pm-qa tests."
+
+run:
+    steps:
+        - './common/scripts/pm-qa.sh'
+
+parse:
+    pattern: "^(?P<test_case_id>[\\w/\\.]+)\\:\\s+\\S*\\s+\\S*\\s+\\S*\\.\\.\\.\\s+(?P<result>\\w+)$"
+    fixupdict:
+        Ok: pass
+        Err: fail
