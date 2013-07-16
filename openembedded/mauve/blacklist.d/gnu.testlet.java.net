@@ -1,0 +1,8 @@
+java.net.URLConnection.URLConnectionTest
+java.net.NetworkInterface.Consistency
+java.net.Socket.SocketTest
+java.net.URI.ToStringTest
+java.net.InetAddress.getCanonicalHostName
+java.net.SocketPermission.implies
+java.net.SocketPermission.argument
+java.net.URL.URLTest

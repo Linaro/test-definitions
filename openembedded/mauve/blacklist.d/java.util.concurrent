@@ -1,9 +1,0 @@
-java.util.concurrent.CopyOnWriteArrayList.AddAllAbsentTest
-java.util.concurrent.CopyOnWriteArrayList.AddAllTest
-java.util.concurrent.CopyOnWriteArrayList.Clone
-java.util.concurrent.CopyOnWriteArrayList.Equals
-java.util.concurrent.CopyOnWriteArrayList.RemoveAllTest
-java.util.concurrent.CopyOnWriteArrayList.RemoveTest
-java.util.concurrent.CopyOnWriteArrayList.RetainAllTest
-java.util.concurrent.CopyOnWriteArrayList.SubListTest
-java.util.concurrent.CopyOnWriteArrayList.TestIterators

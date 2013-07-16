@@ -1,8 +1,0 @@
-gnu.javax.crypto.mac.TestOfHMac
-gnu.javax.crypto.mac.TestOfHMacCloneability
-gnu.javax.crypto.mac.TestOfHMacFactory
-gnu.javax.crypto.mac.TestOfHMacMD5
-gnu.javax.crypto.mac.TestOfHMacSha1
-gnu.javax.crypto.mac.TestOfMacFactory
-gnu.javax.crypto.mac.TestOfOMAC
-gnu.javax.crypto.mac.TestOfTMMH16

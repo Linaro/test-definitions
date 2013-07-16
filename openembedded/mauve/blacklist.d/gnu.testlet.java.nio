@@ -1,0 +1,4 @@
+java.nio.channels.FileChannel.lock
+java.nio.charset.Charset.forName2
+java.nio.charset.Charset.encode
+java.nio.CharBuffer.CharSequenceWrapper

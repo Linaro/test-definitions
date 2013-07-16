@@ -1,4 +1,0 @@
-gnu.javax.crypto.prng.TestOfARCFour
-gnu.javax.crypto.prng.TestOfICMGenerator
-gnu.javax.crypto.prng.TestOfPBKDF2
-gnu.javax.crypto.prng.TestOfPRNGFactory

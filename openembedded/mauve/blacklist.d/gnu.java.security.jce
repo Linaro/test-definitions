@@ -1,9 +1,0 @@
-gnu.java.security.jce.TestOfDSSKeyFactory
-gnu.java.security.jce.TestOfDSSKeyPairGenerator
-gnu.java.security.jce.TestOfFormat
-gnu.java.security.jce.TestOfHttps
-gnu.java.security.jce.TestOfKeyFactory
-gnu.java.security.jce.TestOfKeyPairGenerator
-gnu.java.security.jce.TestOfMessageDigest
-gnu.java.security.jce.TestOfProvider
-gnu.java.security.jce.TestOfSignature

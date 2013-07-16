@@ -1,0 +1,10 @@
+java.lang.Double.new_Double
+java.lang.Runtime.security
+java.lang.Thread.security
+java.lang.Thread.sleep
+java.lang.String.decode
+java.lang.ClassLoader.findLoadedClass
+java.lang.Class.reflect2
+java.lang.Class.newInstance
+java.lang.Class.reflect
+java.lang.Process.destroy
