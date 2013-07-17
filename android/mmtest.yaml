@@ -1,0 +1,11 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: mmtest
+    description: "mmtest for android."
+
+run:
+    steps:
+        - "./android/scripts/mmtest.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>\\w+)\\s+\\w+\\s+\\w+\\s+(?P<result>\\w+)\\s*$"
