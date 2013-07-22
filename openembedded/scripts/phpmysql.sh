@@ -21,6 +21,8 @@
 # Author: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 #
 
+unset http_proxy
+
 wget http://localhost/mysql.php > phpmysql.log
 
 if [ 0 -eq $? ]
