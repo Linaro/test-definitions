@@ -1,0 +1,11 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: gatortest
+    description: "gatortest for android."
+
+run:
+    steps:
+        - "./android/scripts/gatortest.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>\\w+)=(?P<result>\\w+)$" 
