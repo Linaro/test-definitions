@@ -1,0 +1,14 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: cachecoherency.
+    description: "cachecoherency test for android."
+
+run:
+    steps:
+        - "./android/scripts/cachecoherency.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s*:\\s*(?P<result>\\w+)\\s*-\\s*\\S*\\s*\\S*\\s*\\S*\\s*\\S*\\s*\\S*$"
+    fixupdict:
+          PASS: pass
+          FAIL: fail
