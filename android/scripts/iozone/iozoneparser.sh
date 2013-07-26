@@ -34,7 +34,7 @@ do
  RandomWrite_val="$(echo $line | cut -d' ' -f6)"
  
  Write_string='iozone_Write_KB_16384_rclen'_$var' '$Write_val' 'Kbytes/sec' 'pas
- RandomRead_string='iozone_Random_read_KB_16384_rclen'_$var' '$RandomRead_val' Kbytes/sec' 'pass
+ RandomRead_string='iozone_Random_read_KB_16384_rclen'_$var' '$RandomRead_val' 'Kbytes/sec' 'pass
  RandomWrite_string='iozone_Random_write_KB_16384_rclen'_$var' '$RandomWrite_va' 'Kbytes/sec' 'pass
  ReWrite_string='iozone_Rewrite_KB_16384_rclen'_$var' '$ReWrite_val' 'Kbytes/se' 'pass
 
