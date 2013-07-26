@@ -1,0 +1,11 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: iozone
+    description: "iozone test for android."
+
+run:
+    steps:
+        - "./android/scripts/iozone/iozone.sh"
+
+parse:
+    pattern: "^(?P<test_case_id>\\w+)\\s+(?P<measurement>\\d+)\\s+(?P<units>\\S+)\\s+(?P<result>\\w+)$"
