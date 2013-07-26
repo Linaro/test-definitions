@@ -1,4 +1,4 @@
-javax.net.ssl.SSLEngine.TestNoCiphersuites
-javax.net.ssl.SSLEngine.TestHandshake
-javax.net.ssl.SSLEngine.TestNoProtocols
 javax.net.ssl.SSLEngine.TestGNUHandshake
+javax.net.ssl.SSLEngine.TestHandshake
+javax.net.ssl.SSLEngine.TestNoCiphersuites
+javax.net.ssl.SSLEngine.TestNoProtocols

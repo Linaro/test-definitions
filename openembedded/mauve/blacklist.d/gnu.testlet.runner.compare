@@ -1,6 +1,6 @@
 runner.compare.ClassComparison
-runner.compare.TestComparison
+runner.compare.EvolutionType
+runner.compare.PackageComparison
 runner.compare.ReportComparator
 runner.compare.RunComparison
-runner.compare.PackageComparison
-runner.compare.EvolutionType
+runner.compare.TestComparison
