@@ -34,9 +34,11 @@ function generate_exclude_list() {
     echo "${excludes}"
 }
 
-basedir=$(dirname $0)
+script=$(readlink -f $0)
+scriptpath=$(dirname $script)
 java_pkg=$1; shift
-blacklist_file="$basedir/../mauve/blacklist.d/${java_pkg}"
+java_pkg=${java_pkg//\//.}
+blacklist_file="$scriptpath/../mauve/blacklist.d/${java_pkg}"
 javavm=$(which java)
 
 if [[ -z "$javavm" ]]; then
