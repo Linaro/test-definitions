@@ -16,6 +16,7 @@ run:
     - 'Xvfb $DISPLAY &'
     - 'XVFBPID=$!'
     - 'PATH=$PATH:/lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
+    - 'PATH=/usr/lib/jvm/java-8-openjdk/bin:$PATH'
     - 'rm -rf /tmp/mauve'
     - 'ln -s /lava/tests/$TESTRUN_ID/mauve /tmp/mauve'
     - 'cd /tmp/mauve'
