@@ -1,7 +1,7 @@
 metadata:
   name: mauve
   format: "Lava-Test-Shell Test Definition 1.0"
-  description: "Java Mauve Tests for Open Embedded"
+  description: "Mauve Sanity Tests for Open Embedded"
   version: 1.0
 
 install:
@@ -11,10 +11,6 @@ install:
 
 run:
   steps:
-    - 'DISPLAY=:10'
-    - 'export DISPLAY'
-    - 'Xvfb $DISPLAY &'
-    - 'XVFBPID=$!'
     - 'PATH=$PATH:/lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
     - 'PATH=/usr/lib/jvm/java-8-openjdk/bin:$PATH'
     - 'which java'
@@ -22,8 +18,7 @@ run:
     - 'rm -rf /tmp/mauve'
     - 'ln -s /lava/tests/$TESTRUN_ID/mauve /tmp/mauve'
     - 'cd /tmp/mauve'
-    - 'mauve-lava-test -compile no -showpasses < /lava/tests/$TESTRUN_ID/test-definitions/openembedded/mauve/all-packages.txt'
-    - 'kill $XVFBPID'
+    - 'mauve-lava-test -compile no -showpasses < /lava/tests/$TESTRUN_ID/test-definitions/openembedded/mauve/sanity-test.txt'
 
 # The following "parser" will correctly parse the output from the
 # tests but it is deliberately commented out because you end up with
