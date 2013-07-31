@@ -1,0 +1,18 @@
+metadata:
+  name: dmidecode
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "DMI Decode Test"
+  version: 1.0
+
+install:
+    deps:
+        - dmidecode
+        - grep
+run:
+  steps:
+    - lava-test-case kernel-space-sysfs-dmi-exist --shell ls /sys/class/dmi/
+    - lava-test-case kernel-space-sysfs-dmi-id-exist --shell ls /sys/class/dmi/id
+    - lava-test-case kernel-space-sysfs-bios-date --shell cat /sys/class/dmi/id/bios_date
+    - lava-test-case kernel-space-sysfs-bios-vendor --shell cat /sys/class/dmi/id/bios_vendor
+    - lava-test-case kernel-space-sysfs-bios-version --shell cat /sys/class/dmi/id/bios_version
+    - ./common/scripts/dmidecode.sh
