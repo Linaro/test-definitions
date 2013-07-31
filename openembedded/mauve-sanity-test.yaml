@@ -1,7 +1,7 @@
 metadata:
   name: mauve
   format: "Lava-Test-Shell Test Definition 1.0"
-  description: "Mauve Sanity Tests for Open Embedded"
+  description: "Mauve Sanity Test for Open Embedded"
   version: 1.0
 
 install:
@@ -12,6 +12,7 @@ install:
 run:
   steps:
     - 'PATH=$PATH:/lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
+    - 'PATH=/usr/lib/jvm/java-8-openjdk/jre/bin:$PATH'
     - 'PATH=/usr/lib/jvm/java-8-openjdk/bin:$PATH'
     - 'which java'
     - 'java -version'

@@ -16,6 +16,7 @@ run:
     - 'Xvfb $DISPLAY &'
     - 'XVFBPID=$!'
     - 'PATH=$PATH:/lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
+    - 'PATH=/usr/lib/jvm/java-8-openjdk/jre/bin:$PATH'
     - 'PATH=/usr/lib/jvm/java-8-openjdk/bin:$PATH'
     - 'which java'
     - 'java -version'
