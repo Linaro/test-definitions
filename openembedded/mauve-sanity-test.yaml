@@ -19,7 +19,8 @@ run:
     - 'rm -rf /tmp/mauve'
     - 'ln -s /lava/tests/$TESTRUN_ID/mauve /tmp/mauve'
     - 'cd /tmp/mauve'
-    - 'mauve-lava-test -compile no -showpasses < /lava/tests/$TESTRUN_ID/test-definitions/openembedded/mauve/sanity-test.txt'
+    - 'lava-test-case gnu.testlet.java.lang.Integer --shell mauve-test-pkg gnu/testlet/java/lang/Integer -compile no -showpasses 2>&1 | tee /tmp/mauve-gnu.testlet.java.lang.Integer.txt'
+    - 'lava-test-case-attach gnu.testlet.java.lang.Integer /tmp/mauve-gnu.testlet.java.lang.Integer.txt text/plain'
 
 # The following "parser" will correctly parse the output from the
 # tests but it is deliberately commented out because you end up with
