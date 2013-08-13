@@ -1,7 +1,8 @@
 metadata:
-    name: rt-cyclictest
+    name: cyclictest
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Cyclictest Real Time Suite"
+    version: 1.0
+    description: "Cyclictest Suite"
 
 run:
     steps:

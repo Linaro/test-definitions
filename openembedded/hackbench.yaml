@@ -1,7 +1,8 @@
 metadata:
-    name: rt-hackbench
+    name: hackbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Hackbench Real Time Suite"
+    version: 1.0
+    description: "Hackbench Suite"
 
 run:
     steps:
