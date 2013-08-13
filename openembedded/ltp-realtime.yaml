@@ -1,12 +1,13 @@
 metadata:
-    name: rt-ltp
+    name: ltp-realtime
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Realtime LTP tests."
+    version: 20130503
+    description: "Run LTP test_realtime on OE."
 
 run:
     steps:
         - 'cd /opt/ltp'
-        - './runltplite.sh -q'
+        - './runltp -f test_realtime -p -q'
 
 parse:
     pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
