@@ -7,7 +7,7 @@ metadata:
 install:
   git-repos:
     - git://git.linaro.org/qa/test-definitions.git
-    - git://git.linaro.org/people/andrew.mcdermott/mauve.git
+    - git://git.linaro.org/leg/openjdk/mauve.git
 
 run:
   steps:
