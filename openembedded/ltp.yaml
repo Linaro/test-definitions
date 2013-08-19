@@ -1,5 +1,5 @@
 metadata:
-    name: rt-ltp
+    name: ltp
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 20130503
     description: "Run LTP syscalls on OE."
@@ -7,7 +7,7 @@ metadata:
 run:
     steps:
         - 'cd /opt/ltp'
-        - './runltp -f syscalls -p -q'
+        - './runltplite.sh -p -q'
 
 parse:
     pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
