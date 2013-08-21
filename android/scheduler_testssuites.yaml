@@ -1,0 +1,25 @@
+metadata:
+    name: schedulertests
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Scheduler tests"
+
+run:
+    steps:
+        - "echo 0 > /sys/kernel/bL_switcher/active"
+        - "mkdir /data/local/fts"
+        - "cd /data/local/fts"
+        - "wget http://people.linaro.org/~naresh.kamboju/scheduler_testrun.tar.gz"
+        - "tar -xvzf scheduler_testrun.tar.gz"
+        - "mv testrunner testrunner_back"
+        - "cp testrunner_back/run_sched_tests.sh ."
+        - "cp testrunner_back/testrunner ."
+        - "./run_sched_tests.sh &> stdout.log"
+        - "cat stdout.log | egrep -w 'succeeded|failed|deprecated'"
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+):\\s+(?P<result>\\S+)$"
+    fixupdict:
+        succeeded: pass
+        failed: fail
+        deprecated: skip
