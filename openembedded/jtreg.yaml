@@ -1,0 +1,35 @@
+metadata:
+  name: jtreg
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "Regression tests for the OpenJDK platform"
+  version: 1.0
+
+install:
+  git-repos:
+   - git://git.linaro.org/leg/openjdk/jtreg-bin.git
+   - git://git.linaro.org/leg/openjdk/openjdk8-aarch64-prebuilt-tests.git
+
+# This is the full set but right now we're only testing with jdk_math.
+#
+#   - 'MAKE_TESTS="jdk_awt jdk_beans1 jdk_beans2 jdk_beans3 jdk_beans jdk_io jdk_lang jdk_jmx jdk_management jdk_math jdk_time jdk_other jdk_net jdk_nio jdk_sctp jdk_rmi jdk_security1 jdk_security2 jdk_security3 jdk_security jdk_sound jdk_swing jdk_text jdk_jdi jdk_tools jdk_jfr jdk_jfr jdk_util"'
+
+run:
+  steps:
+    - 'set -x'
+    - 'export TESTRUN_ID'
+    - 'PATH=/lava/tests/$TESTRUN_ID/jtreg-bin/jtreg/linux/bin:$PATH'
+    - 'TEST_DIR=/lava/tests/$TESTRUN_ID/openjdk8-aarch64-prebuilt-tests'
+    - 'CLASSES_DIR=$TEST_DIR/JTwork/classes'
+    - 'for i in $CLASSES_DIR/*; do find $i -print | xargs touch -d tomorrow; done'
+    - 'pushd $PWD'
+    - 'cd $TEST_DIR; ls; tar axf openjdk8-aarch64-snapshot.tar.bz2'
+    - 'popd'
+    - 'which jtreg-lava'
+    - 'export JT_HOME=/lava/tests/$TESTRUN_ID/jtreg-bin/jtreg'
+    - 'export JT_JAVA=/usr/lib/jvm/java-8-openjdk/bin/java'
+    - 'JDK_HOME=/usr/lib/jvm/java-8-openjdk'
+    - 'JDK_TEST_DIR=$TEST_DIR/openjdk8-aarch64-snapshot/jdk/test'
+    - 'export JDK_TEST_VMOPTS=-vmoption:-Xint'
+    - 'MAKE_TESTS="jdk_math"'
+    - 'export JTREG_LAVA_PREBUILT_CLASSES_DIR=$CLASSES_DIR'
+    - 'for i in $MAKE_TESTS; do rm -rf /tmp/jtreg; mkdir -p /tmp/jtreg; d=/tmp/jtreg/testoutput/$i; pl=$d/passlist.txt; fl=$d/faillist.txt; lava-test-case $i --shell make -C $JDK_TEST_DIR PRODUCT_HOME=$JDK_HOME JTREG=$JT_HOME/linux/bin/jtreg-lava ALT_OUTPUTDIR=/tmp/jtreg $i; [ -e $pl ] && lava-test-case-attach $i $pl; [ -e $fl ] && lava-test-case-attach $i $fl; for j in $d/JTwork/scratch/hs*.log; do lava-test-case-attach $i $j; done; done'
