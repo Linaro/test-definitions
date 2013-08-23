@@ -1,0 +1,21 @@
+metadata:
+  name: openjdk7-sanity
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "Validates that the OpenJDK 7 java binary can run and matches version 1.7"
+  version: 1.0
+
+install:
+  git-repos:
+    - git://spicy/scratch/test-definitions
+
+run:
+  steps:
+    - 'cd test-definitions/openembedded/scripts'
+    - 'PATH=/usr/lib/jvm/openjdk-7-jdk/bin:/usr/lib/jvm/openjdk-7-jre/bin:$PATH'
+    - './openjdk-version.sh 1.7'
+
+parse:
+  pattern: "^(?P<test_case_id>[^:]+):\\s(?P<result>\\w+)"
+  fixupdict:
+    PASS: pass
+    FAIL: fail
