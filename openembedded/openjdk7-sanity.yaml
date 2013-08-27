@@ -11,7 +11,7 @@ install:
 run:
   steps:
     - 'cd test-definitions/openembedded/scripts'
-    - 'PATH=/usr/lib/jvm/openjdk-7-jdk/bin:/usr/lib/jvm/openjdk-7-jre/bin:$PATH'
+    - 'PATH=/usr/lib/jvm/java-7-openjdk/bin:/usr/lib/jvm/java-7-openjdk/jre/bin:$PATH'
     - './openjdk-version.sh 1.7'
 
 parse:
