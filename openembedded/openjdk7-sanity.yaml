@@ -6,7 +6,7 @@ metadata:
 
 install:
   git-repos:
-    - git://spicy/scratch/test-definitions
+    - git://git.linaro.org/qa/test-definitions.git
 
 run:
   steps:
