@@ -1,0 +1,37 @@
+metadata:
+    name: openvswitch-lng
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build and run OVS testsuite."
+
+install:
+    deps:
+        - git
+        - build-essential
+        - automake
+        - libtool
+        - python
+    git-repos:
+        - git://git.linaro.org/people/zishen.lim/openvswitch.git
+    steps:
+        - 'cd openvswitch'
+        - './boot.sh'
+        - './configure'
+        - 'make'
+
+run:
+    steps:
+        - 'cd openvswitch'
+        - 'git clone --depth 1 git://git.linaro.org/people/zishen.lim/ci.git ci'
+        - 'ci/openvswitch-run.sh'
+
+# We use openvswitch-run.sh (above) to run the testsuite,
+# parse the testsuite results and output the results
+# in a clean form that can be easily parsed by LAVA (below).
+
+parse:
+    pattern: "^(?P<result>(PASS|FAIL|SKIP)):\\s+(?P<test_case_id>.+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+        SKIP: skip
+
