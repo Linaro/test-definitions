@@ -14,7 +14,7 @@ install:
         - git://git.linaro.org/people/zishen.lim/openvswitch.git
     steps:
         - 'cd openvswitch'
-        - './boot.sh'
+        - 'autoreconf --install --force'
         - './configure'
         - 'make'
 
