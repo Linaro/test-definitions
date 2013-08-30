@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# JTREG jdk test harness.
+#
+# Copyright (C) 2013, Linaro Limited.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# Author: Andrew McDermott <andrew.mcdermott@linaro.org>
+#
+
+if [ $# -lt 1 ]; then
+    echo "usage: $0: <jdk-test>" >&2
+    exit 1
+fi
+
+if [ -z "$PRODUCT_HOME" ]; then
+    echo "error: PRODUCT_HOME not set!" >&2
+    exit 1
+fi
+
+if [ -z "$JT_HOME" ]; then
+    echo "error: JT_HOME not set!" >&2
+    exit 1
+fi
+
+if [ -z "$JDK_TEST_DIR" ]; then
+    echo "error: JDK_TEST_DIR not set!" >&2
+    exit 1
+fi
+
+if [ -z "$JTREG" ]; then
+    JTREG=$JT_HOME/linux/bin/jtreg-lava
+fi
+
+jdk_test=$1; shift
+
+t=/tmp/jtreg/$jdk_test.$$
+rm -rf $t
+mkdir -p $t
+d=$t/testoutput/$jdk_test
+pl=$d/passlist.txt
+fl=$d/faillist.txt
+
+lava-test-case $jdk_test \
+    --shell \
+    make -C $JDK_TEST_DIR PRODUCT_HOME=$PRODUCT_HOME JTREG=$JTREG ALT_OUTPUTDIR=$t $jdk_test
+
+exit_code=$?
+
+[ -e $pl ] && lava-test-case-attach $jdk_test $pl
+[ -e $fl ] && lava-test-case-attach $jdk_test $fl
+
+rm -rf $t
+
+exit $exit_code
