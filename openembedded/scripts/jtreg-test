@@ -21,8 +21,8 @@
 # Author: Andrew McDermott <andrew.mcdermott@linaro.org>
 #
 
-if [ $# -lt 1 ]; then
-    echo "usage: $0: <jdk-test>" >&2
+if [ $# -lt 2 ]; then
+    echo "usage: $0: <test-dir> <test>" >&2
     exit 1
 fi
 
@@ -36,32 +36,35 @@ if [ -z "$JT_HOME" ]; then
     exit 1
 fi
 
-if [ -z "$JDK_TEST_DIR" ]; then
-    echo "error: JDK_TEST_DIR not set!" >&2
-    exit 1
-fi
-
 if [ -z "$JTREG" ]; then
     JTREG=$JT_HOME/linux/bin/jtreg-lava
 fi
 
-jdk_test=$1; shift
+set -x
 
-t=/tmp/jtreg/$jdk_test.$$
+test_dir=$1
+test_to_run=$2
+
+t=/tmp/jtreg/$test_to_run.$$
 rm -rf $t
 mkdir -p $t
-d=$t/testoutput/$jdk_test
+d=$t/testoutput/$test_to_run
 pl=$d/passlist.txt
 fl=$d/faillist.txt
+archive_bundle=$d/ARCHIVE_BUNDLE.zip
 
-lava-test-case $jdk_test \
+lava-test-case $test_to_run \
     --shell \
-    make -C $JDK_TEST_DIR PRODUCT_HOME=$PRODUCT_HOME JTREG=$JTREG ALT_OUTPUTDIR=$t $jdk_test
+    make -C $test_dir PRODUCT_HOME=$PRODUCT_HOME JTREG=$JTREG ALT_OUTPUTDIR=$t $test_to_run
 
 exit_code=$?
 
-[ -e $pl ] && lava-test-case-attach $jdk_test $pl
-[ -e $fl ] && lava-test-case-attach $jdk_test $fl
+[ -e $pl ] && lava-test-case-attach $test_to_run $pl
+[ -e $fl ] && lava-test-case-attach $test_to_run $fl
+
+if [ $exit_code -ne 0 ]; then
+    [ -e $archive_bundle ] && lava-test-case-attach $test_to_run $archive_bundle
+fi
 
 rm -rf $t
 
