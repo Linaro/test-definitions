@@ -1,0 +1,12 @@
+metadata:
+    name: libhugetlbfs
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run through libhugetlbfs next branch tests."
+
+run:
+    steps:
+        - 'echo 200 > /proc/sys/vm/nr_hugepages'
+        - 'mkdir /mnt/huge'
+        - 'mount -t hugetlbfs hugetlbfs /mnt/huge'
+        - 'cd /usr/lib/libhugetlbfs/tests'
+        - './run_tests.py -p $((2 * 1024 * 1024)) -b 64'
