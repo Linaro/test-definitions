@@ -6,15 +6,10 @@ metadata:
 
 run:
     steps:
-        - 'cd /opt/ltp'
-        - './runltplite.sh -p -q'
+        - './openembedded/scripts/ltpfixup.sh'
 
 parse:
-    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    pattern: "^(?P<test_case_id>\\S+)\\s+(?P<result>\\w+)\\s+.+"
     fixupdict:
-        TBROK: fail
-        TCONF: skip
-        TFAIL: fail
-        TINFO: skip
-        TPASS: pass
-        TWARN: unknown
+        FAIL: fail
+        PASS: pass
