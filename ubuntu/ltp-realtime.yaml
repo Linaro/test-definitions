@@ -5,8 +5,8 @@ metadata:
 
 install:
     steps:
-        - 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-20130503/ltp-full-20130503.bz2'
-        - 'tar --strip-components=1 -jxf ltp-full-20130503.bz2'
+        - 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-20130904/ltp-full-20130904.tar.xz'
+        - 'tar --strip-components=1 -Jxf ltp-full-20130904.tar.xz'
         - 'mkdir build'
         - './configure --with-realtime-testsuite --prefix=$(readlink -f build)'
         - 'make all'
