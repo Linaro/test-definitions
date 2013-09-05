@@ -33,7 +33,7 @@ export ARMCAP
 
 for i in $(seq 100)
 do
-	OUT=$(dd if=/dev/urandom bs=16k count=1 |
+	OUT=$(dd if=/dev/urandom bs=65 count=$i |
 		tee >(md5sum >$TMP) |
 		openssl enc -$ALG -pass env:KEY |
 		${ARMCAP:-} openssl enc -d -$ALG -pass env:KEY |
