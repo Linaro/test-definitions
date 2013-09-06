@@ -28,7 +28,6 @@ run:
     - 'export PRODUCT_HOME=/usr/lib/jvm/java-8-openjdk'
     - 'export JDK_TEST_DIR=$TEST_DIR/openjdk8-aarch64-snapshot/jdk/test'
     - 'export HOTSPOT_TEST_DIR=$TEST_DIR/openjdk8-aarch64-snapshot/hotspot/test'
-    - 'export JDK_TEST_VMOPTS=-vmoption:-Xint'
     - 'export JTREG=$JT_HOME/linux/bin/jtreg-lava'
     - 'export JTREG_LAVA_PREBUILT_CLASSES_DIR=$CLASSES_DIR'
     - 'cd test-definitions/openembedded/scripts'
