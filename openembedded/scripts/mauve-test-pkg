@@ -57,4 +57,4 @@ if [[ -f ${blacklist_file} ]]; then
    done < "$blacklist_file"
 fi
 
-$javavm -Xint HarnessLinaro -vm $javavm -vmarg -Xint $excludes $java_pkg "$@"
+$javavm HarnessLinaro -vm $javavm -vmarg -Xmixed $excludes $java_pkg "$@"
