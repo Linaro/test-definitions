@@ -75,7 +75,7 @@ if [ -n "$TESTDIRS" ]; then
     lava-test-case-attach $test_to_run $to/${test_to_run}-ARCHIVE_BUNDLE.zip
     shopt -s nullglob
     for i in $to/JTwork/scratch/hs*.log; do
-        lava-test-case-attach $test_to_run $i
+        lava-test-case-attach $test_to_run $i text/plain
     done
 else
     lava-test-case $test_to_run \
@@ -95,7 +95,7 @@ else
     done
 
     for i in $to/${test_to_run}*/JTwork/scratch/hs*.log; do
-        lava-test-case-attach $test_to_run $i
+        lava-test-case-attach $test_to_run $i text/plain
     done
 
     for i in $to/${test_to_run}*/ARCHIVE_BUNDLE.zip; do
