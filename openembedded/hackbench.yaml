@@ -6,9 +6,11 @@ metadata:
 
 run:
     steps:
-        - while true; do dd if=/dev/zero of=bigfile bs=1024000 count=1024; done &
-        - while true; do killall hackbench; sleep 5; done &
-        - while true; do hackbench 20; done &
+        - ./openembedded/scripts/dd_infinite.sh &> /dev/null &
+        - while true; do sleep 5; killall hackbench; done &
+        - for i in {1..1001}; do hackbench | tee -a hackbench_res.txt; done
+        - ./openembedded/scripts/hackbench_parse.py hackbench_res.txt
+        - killall dd_infinite.sh
 
 parse:
-    pattern: "^(Time:[\\w/\\.]+):\\s+(?P<message>.+)\\.\\.\\.\\s+(?P<result>\\w+)"
+    pattern: '^(?P<test_case_id>\w+):\s+(?P<measurement>\d+(\.\d+)?)\s+(?P<units>\S+)\s+(?P<result>\w+)'
