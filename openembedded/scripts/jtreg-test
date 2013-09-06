@@ -73,10 +73,17 @@ if [ -n "$TESTDIRS" ]; then
     zip --quiet -d $to/ARCHIVE_BUNDLE.zip 'JTwork/classes/*'
     mv $to/ARCHIVE_BUNDLE.zip $to/${test_to_run}-ARCHIVE_BUNDLE.zip
     lava-test-case-attach $test_to_run $to/${test_to_run}-ARCHIVE_BUNDLE.zip
+    pushd $PWD
+    cd $to
+    unzip -x -o $to/${test_to_run}-ARCHIVE_BUNDLE.zip 'JTreport/text/*.txt'
     shopt -s nullglob
     for i in $to/JTwork/scratch/hs*.log; do
         lava-test-case-attach $test_to_run $i text/plain
     done
+    for i in JTreport/text/*.txt; do
+        lava-test-case-attach $test_to_run $i text/plain
+    done
+    popd
 else
     lava-test-case $test_to_run \
         --shell \
