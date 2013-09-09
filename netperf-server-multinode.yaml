@@ -1,0 +1,39 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: netperf-server-multinode
+    description: "Basic MultiNode netperf/ping test on server side"
+    maintainer:
+        - guoqing.zhu@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+        - performance
+        - latency
+        - cpu utilization
+    devices:
+        - kvm
+        - arndale
+        - panda
+        - beaglebone-black
+        - beagle-xm
+        - mx53loco
+
+install:
+     deps:
+         - curl
+         - python
+         - netperf
+
+run:
+    steps:
+        - ifconfig -a
+        - route
+        - lava-network broadcast eth0
+        - lava-network collect eth0
+        - lava-sync ready 
+        - lava-test-case multinode-lava-network --shell ./lng-netperf/netperf-server.sh
+        - lava-sync done 
+
+parse:
+        "pattern": "^test_case_id:(?P<test_case_id>.+) units:(?P<units>.+) measurement:(?P<measurement>\\d+\\.\\d+) result:(?P<result>\\w+)"
