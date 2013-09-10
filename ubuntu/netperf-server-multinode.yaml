@@ -21,9 +21,8 @@ metadata:
 
 install:
      deps:
-         - curl
-         - python
          - netperf
+         - python-minimal
 
 run:
     steps:
