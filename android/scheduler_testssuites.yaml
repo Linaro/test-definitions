@@ -1,10 +1,21 @@
 metadata:
-    name: schedulertests
+    name: big.LITTLE_Scheduler_tests
     version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Scheduler tests"
+    description: "big.LITTLE Scheduler tests: This test suite generates
+                  synthetic loads to validate the scheduler task placements
+                  functionality on big and little cores according to the load
+                  of the task. Test execution takes around 60 minutes"
+    maintainer: "naresh.kamboju@linaro.org"
+    os:
+        - "android"
+    devices:
+        - "vexpress-tc2"
+    scope:
+        - "functional"
+    timeout: 6000
 
-run:
+install:
     steps:
         - "echo 0 > /sys/kernel/bL_switcher/active"
         - "mkdir /data/local/fts"
@@ -14,8 +25,12 @@ run:
         - "mv testrunner testrunner_back"
         - "cp testrunner_back/run_sched_tests.sh ."
         - "cp testrunner_back/testrunner ."
-        - "./run_sched_tests.sh &> stdout.log"
-        - "cat stdout.log | egrep -w 'succeeded|failed|deprecated'"
+
+run:
+    steps:
+        - "sh /data/local/fts/run_sched_tests.sh &> sched_output.log"
+        - "cat sched_output.log | egrep -w 'succeeded|failed|deprecated'"
+        - "lava-test-run-attach sched_output.log text/plain"
 
 parse:
     pattern: "^(?P<test_case_id>\\S+):\\s+(?P<result>\\S+)$"
