@@ -27,8 +27,8 @@ fi
 
 ifconfig -a
 ping -c 1 ${remote_ip} || exit 1
-ping -c 30 ${remote_ip} | ./lng-netperf/netperf2LAVA.py
-for m in 64 128 256 512 1024 2048 4096 8192 16384; do netperf -H ${remote_ip} -l 20 -c -C -- -m $m -D; done | ./lng-netperf/netperf2LAVA.py
-for m in 64 128 256 512 1024 2048 4096 8192 16384; do netperf -H ${remote_ip} -l 20 -t UDP_STREAM -c -C -- -m $m -D; done | ./lng-netperf/netperf2LAVA.py
-for m in 1 32 64 128 512 1024 4096 8192 16384; do netperf -t TCP_RR -H ${remote_ip} -l 20 -c -C -- -r $m,$m -D; done | ./lng-netperf/netperf2LAVA.py
-for m in 1 32 64 128 512 1024 4096 8192 16384; do netperf -t UDP_RR -H ${remote_ip} -l 20 -c -C -- -r $m,$m -D; done | ./lng-netperf/netperf2LAVA.py
+ping -c 30 ${remote_ip} | ./scripts/netperf2LAVA.py
+for m in 64 128 256 512 1024 2048 4096 8192 16384; do netperf -H ${remote_ip} -l 20 -c -C -- -m $m -D; done | ./scripts/netperf2LAVA.py
+for m in 64 128 256 512 1024 2048 4096 8192 16384; do netperf -H ${remote_ip} -l 20 -t UDP_STREAM -c -C -- -m $m -D; done | ./scripts/netperf2LAVA.py
+for m in 1 32 64 128 512 1024 4096 8192 16384; do netperf -t TCP_RR -H ${remote_ip} -l 20 -c -C -- -r $m,$m -D; done | ./scripts/netperf2LAVA.py
+for m in 1 32 64 128 512 1024 4096 8192 16384; do netperf -t UDP_RR -H ${remote_ip} -l 20 -c -C -- -r $m,$m -D; done | ./scripts/netperf2LAVA.py

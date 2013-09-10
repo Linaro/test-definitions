@@ -32,7 +32,7 @@ run:
         - lava-network broadcast eth0
         - lava-network collect eth0
         - lava-sync ready 
-        - lava-test-case multinode-lava-network --shell ./lng-netperf/netperf-client.sh
+        - lava-test-case multinode-lava-network --shell ./scripts/netperf-client.sh
         - lava-sync done 
 
 parse:
