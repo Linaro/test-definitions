@@ -6,7 +6,8 @@ metadata:
                   synthetic loads to validate the scheduler task placements
                   functionality on big and little cores according to the load
                   of the task. Test execution takes around 60 minutes"
-    maintainer: "naresh.kamboju@linaro.org"
+    maintainer:
+        - "naresh.kamboju@linaro.org"
     os:
         - "android"
     devices:
