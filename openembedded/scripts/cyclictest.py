@@ -3,9 +3,15 @@ import re
 import sys
 import os
 
-threshold = 10000
-pass_threshold = True
+max_threshold = 15000
+avg_threshold = 20
+min_threshold = 10
+pass_max_threshold = True
+pass_avg_threshold = True
+pass_min_threshold = True
 max_lentency = 0
+avg_lentency = 0
+min_lentency = 0
 
 #parse format:
 # T:49 ( 4518) P:31 I:4243600 C:      2 Min:      8 Act:    8 Avg:    8 Max:       9
@@ -21,19 +27,35 @@ else:
     for line in data:
         result = parser.search(line)
         if result is not None:
-            if int(result.group('Max')) > threshold:
-                pass_threshold = False
+            if int(result.group('Max')) > max_threshold:
+                pass_max_threshold = False
 
-            if int(result.group('Avg')) > threshold:
-                pass_threshold = False
+            if int(result.group('Avg')) > avg_threshold:
+                pass_avg_threshold = False
 
-            if int(result.group('Min')) > threshold:
-                pass_threshold = False
+            if int(result.group('Min')) > min_threshold:
+                pass_min_threshold = False
 
             if int(result.group('Max')) > max_lentency:
                 max_lentency = int(result.group('Max'))
 
-    if pass_threshold is True:
-        print "test_case_id:Latency bound (<10ms) result:pass measurement:" + str(max_lentency) + " units:usecs"
+            if int(result.group('Avg')) > avg_lentency:
+                avg_lentency = int(result.group('Avg'))
+
+            if int(result.group('Min')) > min_lentency:
+                min_lentency = int(result.group('Min'))
+
+    if pass_max_threshold is True:
+        print "test_case_id:Max latency bound (<15ms) result:pass measurement:" + str(max_lentency) + " units:usecs"
     else:
-        print "test_case_id:Latency bound (<10ms) result:fail measurement:" + str(max_lentency) + " units:usecs"
+        print "test_case_id:Max latency bound (<15ms) result:fail measurement:" + str(max_lentency) + " units:usecs"
+
+    if pass_avg_threshold is True:
+        print "test_case_id:Avg latency bound (<20ns) result:pass measurement:" + str(avg_lentency) + " units:usecs"
+    else:
+        print "test_case_id:Avg latency bound (<20ns) result:fail measurement:" + str(avg_lentency) + " units:usecs"
+
+    if pass_min_threshold is True:
+        print "test_case_id:Min latency bound (<10ns) result:pass measurement:" + str(min_lentency) + " units:usecs"
+    else:
+        print "test_case_id:Min latency bound (<10ns) result:fail measurement:" + str(min_lentency) + " units:usecs"
