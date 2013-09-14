@@ -26,7 +26,7 @@ run:
         - lava-network broadcast eth0
         - lava-network collect eth0
         - lava-sync ready 
-        - lava-test-case multinode-lava-network --shell ./openembedded/scripts/netperf-client.sh
+        - lava-test-case multinode-lava-network --shell ./common/scripts/netperf-client.sh
         - lava-sync done 
 
 parse:
