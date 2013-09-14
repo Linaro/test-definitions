@@ -25,8 +25,8 @@ run:
         - route
         - lava-network broadcast eth0
         - lava-network collect eth0
-        - lava-sync ready 
         - lava-test-case multinode-lava-network --shell ./common/scripts/netperf-server.sh
+        - lava-sync ready 
         - lava-sync done 
 
 parse:
