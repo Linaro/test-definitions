@@ -1,0 +1,39 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: tcpreplay-client-multinode
+    description: "Basic MultiNode tcpreplay test on client side"
+    maintainer:
+        - guoqing.zhu@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+        - performance
+        - latency
+        - cpu utilization
+    devices:
+        - kvm
+        - arndale
+        - panda
+        - beaglebone-black
+        - beagle-xm
+        - mx53loco
+
+install:
+     deps:
+         - wget
+         - tcpreplay
+         - python-minimal
+
+run:
+    steps:
+        - wget -O telnet.cap http://packetlife.net/captures/telnet.cap
+        - ifconfig -a
+        - route
+        - lava-network broadcast eth0
+        - lava-network collect eth0
+        - lava-test-case multinode-lava-network --shell ./common/scripts/replay.sh
+        - lava-sync done 
+
+parse:
+        "pattern": "^test_case_id:(?P<test_case_id>.+) units:(?P<units>.+) measurement:(?P<measurement>\\d+\\.\\d+) result:(?P<result>\\w+)"

@@ -2,13 +2,16 @@
 import re
 import sys
 
-#Parse netperf results looking for the data in the form of
+#Parse netperf/ping/tcpreplay results looking for the data in the form of
+#line = "Actual: 113000 packets (7810000 bytes) sent in 4.75 seconds.		Rated: 1644210.5 bps, 12.54 Mbps, 23789.47 pps"
+#line = "rtt min/avg/max/mdev = 4.037/4.037/4.037/0.000 ms"
 #line = "87380 16384 2048 10.00 4289.48 51.12 51.12 3.905 3.905" ./netperf -l 10 -c -C -- -m 2048 -D
 #line = "180224    8192   10.00     1654855      0    10845.1     52.60    1.589" ./netperf -t UDP_STREAM -l 10 -c -C -- -m 8192 -D 
 #line = "180224           10.00     1649348           10809.0     52.60    1.589" rcv side of UDP_STREAM
 #line = "16384  87380  1       1      10.00   47469.68  29.84  29.84  25.146  25.146" ./netperf -t TCP_RR -l 10 -c -C -- -r 1,1
 
 found_result = "false"
+parser_replay = re.compile("Rated:\s+(?P<throughput1>\d+\.\d+)\s+\S+\s+(?P<throughput2>\d+\.\d+)\s+\S+\s+(?P<throughput3>\d+\.\d+)")
 parser_rtt = re.compile("^rtt\s+\S+\s+\=\s+(?P<min>\d+\.\d+)\/(?P<avg>\d+\.\d+)\/(?P<max>\d+\.\d+)\/(?P<mdev>\d+\.\d+)")
 parser_tcp = re.compile("^\s*(?P<Recv>\d+)\s+(?P<Send>\d+)\s+(?P<Msg>\d+)\s+(?P<time>\d+\.\d+)\s+(?P<throughput>\d+\.\d+)\s+(?P<cpu_s>\d+\.\d+)\s+(?P<cpu_r>\d+\.\d+)\s+(?P<srv_s>\d+\.\d+)\s+(?P<dem_r>\d+\.\d+)\s*$")
 parser_udp_l = re.compile("^\s*(?P<Sock>\d+)\s+(?P<Msg>\d+)\s+(?P<time>\d+\.\d+)\s+(?P<Okey>\d+)\s+(?P<Errs>\d+)\s+(?P<throughput>\d+\.\d+)\s+(?P<cpu_s>\d+\.\d+)\s+(?P<srv_s>\d+\.\d+)\s*$")
@@ -18,7 +21,7 @@ parser_rr_tcp = re.compile("TCP REQUEST/RESPONSE")
 parser_rr_udp = re.compile("UDP REQUEST/RESPONSE")
 
 for line in sys.stdin:
-        for parser in [parser_rtt, parser_tcp, parser_udp_l, parser_udp_r, parser_rr, parser_rr_tcp, parser_rr_udp]:
+        for parser in [parser_replay, parser_rtt, parser_tcp, parser_udp_l, parser_udp_r, parser_rr, parser_rr_tcp, parser_rr_udp]:
                 result = parser.search(line)
                 if result is not None:
                         if parser is parser_rr_tcp:
@@ -26,6 +29,12 @@ for line in sys.stdin:
                                 break
                         if parser is parser_rr_udp:
                                 rr_type = "UDP_RR"
+                                break
+                        if parser is parser_replay:
+                                print "test_case_id:tcpreplay rated throughput1" + " units:bps " + "measurement:" + result.group('throughput1') + " result:pass" 
+                                print "test_case_id:tcpreplay rated throughput2" + " units:Mbps " + "measurement:" + result.group('throughput2') + " result:pass"
+                                print "test_case_id:tcpreplay rated throughput3" + " units:pps " + "measurement:" + result.group('throughput3') + " result:pass"
+                                found_result = "true"
                                 break
                         if parser is parser_rtt:
                                 print "test_case_id:PING_RTT min" + " units:ms " + "measurement:" + result.group('min') + " result:pass" 
