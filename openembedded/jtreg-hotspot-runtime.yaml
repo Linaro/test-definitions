@@ -1,0 +1,24 @@
+# Copyright (C) 2013, Linaro Limited.
+#
+# PLEASE DO NOT HAND EDIT THIS FILE.
+#
+# This file has been auto-generated from:
+#
+#    make-yaml-files.sh
+#
+# which can be found in the following repo:
+#
+#    git://git.linaro.org/leg/openjdk/jtreg-lava-scripts
+#
+# PLEASE DO NOT HAND EDIT THIS FILE.
+#
+metadata:
+  name: hotspot-runtime
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "Regression tests for the OpenJDK platform"
+  version: 1.0
+run:
+  steps:
+    - 'source $HOME/jtreg-setup.env'
+    - 'cd $JTREG_TESTRUN_ID/test-definitions/openembedded/scripts'
+    - 'TESTDIRS=runtime ./jtreg-test $HOTSPOT_TEST_DIR runtime'

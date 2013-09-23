@@ -1,0 +1,48 @@
+# Copyright (C) 2013, Linaro Limited.
+#
+# PLEASE DO NOT HAND EDIT THIS FILE.
+#
+# This file has been auto-generated from:
+#
+#    make-yaml-files.sh
+#
+# which can be found in the following repo:
+#
+#    git://git.linaro.org/leg/openjdk/jtreg-lava-scripts
+#
+# PLEASE DO NOT HAND EDIT THIS FILE.
+#
+metadata:
+  name: jtreg-setup
+  format: "Lava-Test-Shell Test Definition 1.0"
+  description: "Regression tests for the OpenJDK platform"
+  version: 1.0
+install:
+  git-repos:
+    - git://frobware.com/scratch/jtreg-bin
+    - git://frobware.com/scratch/openjdk8-aarch64-test-archive
+    - git://frobware.com/scratch/oe/test-definitions
+run:
+  steps:
+    - 'cp -r /lava/tests/$TESTRUN_ID $HOME'
+    - 'echo "export JTREG_TESTRUN_ID=$HOME/$TESTRUN_ID" > $HOME/jtreg-setup.env'
+    - 'source $HOME/jtreg-setup.env'
+    - 'TEST_DIR=$JTREG_TESTRUN_ID/openjdk8-aarch64-test-archive'
+    - 'CLASSES_DIR=$TEST_DIR/openjdk8-aarch64-port-snapshot/JTwork/classes'
+    - 'JT_HOME=$JTREG_TESTRUN_ID/jtreg-bin/jtreg'
+    - 'for i in $TEST_DIR/openjdk8-aarch64-port-snapshot/jdk/*; do find $i -print | xargs touch -d now; done'
+    - 'for i in $TEST_DIR/openjdk8-aarch64-port-snapshot/hotspot/*; do find $i -print | xargs touch -d now; done'
+    - 'for i in $CLASSES_DIR/*; do find $i -print | xargs touch -d tomorrow; done'
+    - 'echo "PATH=$JTREG_TESTRUN_ID/jtreg-bin/jtreg/linux/bin:$PATH" >> $HOME/jtreg-setup.env'
+    - 'echo "TEST_DIR=$JTREG_TESTRUN_ID/openjdk8-aarch64-test-archive" >> $HOME/jtreg-setup.env'
+    - 'echo "CLASSES_DIR=$TEST_DIR/openjdk8-aarch64-port-snapshot/JTwork/classes" >> $HOME/jtreg-setup.env'
+    - 'echo "export JT_HOME=$JTREG_TESTRUN_ID/jtreg-bin/jtreg" >> $HOME/jtreg-setup.env'
+    - 'echo "export JT_JAVA=/usr/lib/jvm/java-8-openjdk/bin/java" >> $HOME/jtreg-setup.env'
+    - 'echo "export PRODUCT_HOME=/usr/lib/jvm/java-8-openjdk" >> $HOME/jtreg-setup.env'
+    - 'echo "export JDK_TEST_DIR=$TEST_DIR/openjdk8-aarch64-port-snapshot/jdk/test" >> $HOME/jtreg-setup.env'
+    - 'echo "export HOTSPOT_TEST_DIR=$TEST_DIR/openjdk8-aarch64-port-snapshot/hotspot/test" >> $HOME/jtreg-setup.env'
+    - 'echo "export JTREG=$JT_HOME/linux/bin/jtreg-lava" >> $HOME/jtreg-setup.env'
+    - 'echo "export JTREG_LAVA_PREBUILT_CLASSES_DIR=$CLASSES_DIR" >> $HOME/jtreg-setup.env'
+    - 'echo "env" >> $HOME/jtreg-setup.env'
+    - 'cat $HOME/jtreg-setup.env'
+    - 'lava-test-case jtreg-setup --result pass'
