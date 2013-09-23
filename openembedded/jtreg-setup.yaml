@@ -19,9 +19,9 @@ metadata:
   version: 1.0
 install:
   git-repos:
-    - git://frobware.com/scratch/jtreg-bin
-    - git://frobware.com/scratch/openjdk8-aarch64-test-archive
-    - git://frobware.com/scratch/oe/test-definitions
+    - git://git.linaro.org/leg/openjdk/jtreg-bin.git
+    - git://git.linaro.org/leg/openjdk/openjdk8-aarch64-test-archive.git
+    - git://git.linaro.org/qa/test-definitions.git
 run:
   steps:
     - 'cp -r /lava/tests/$TESTRUN_ID $HOME'
