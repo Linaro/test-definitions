@@ -2,7 +2,7 @@
 
 dmesg|grep 'Hyp mode initialized successfully' && echo kvm-init-1: pass || echo kvm-init-1: fail
 
-wget --no-check-certificate -nv https://snapshots.linaro.org/kernel-hwpack/linux-vexpress-kvm/linux-vexpress-kvm/kvm.qcow2.gz
+wget --no-check-certificate http://snapshots.linaro.org/kernel-hwpack/linux-vexpress-kvm/linux-vexpress-kvm/kvm.qcow2.gz
 gunzip kvm.qcow2.gz
 
 modprobe nbd max_part=16

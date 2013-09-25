@@ -1,0 +1,13 @@
+metadata:
+    name: kvm
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test kvm on openembedded."
+
+run:
+    steps:
+        - 'sudo ./common/scripts/kvm/test-host.sh'
+        - 'sudo ./common/scripts/kvm/test-kvm.sh'
+        - "lava-test-run-attach kvm-log.txt text/plain"
+
+parse:
+    pattern: "(?P<test_case_id>.*-*):\\s+(?P<result>(pass|fail))"
