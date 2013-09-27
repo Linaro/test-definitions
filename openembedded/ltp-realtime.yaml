@@ -9,10 +9,11 @@ run:
         - 'cd /opt/ltp'
         - 'export LTP_REALTIME_TESTS_TO_RUN="func/async_handler func/gtod_latency func/hrtimer-prio func/matrix_mult func/measurement func/periodic_cpu_load func/pi_perf func/prio-preempt func/prio-wake func/pthread_kill_latency func/rt-migrate func/sched_football func/sched_jitter func/sched_latency func/thread_clock"'
         - 'for TEST_TO_RUN in ${LTP_REALTIME_TESTS_TO_RUN} ; do ./testscripts/test_realtime.sh -t $TEST_TO_RUN ; done'
-        - 'grep -r Result: ./testcases/realtime/logs'
+        - 'for FILE in $(find testcases/realtime/logs -type f) ; do mv $FILE $(dirname $FILE)/$(echo $FILE | sed "s:.*2[0-9]*-[0-9]*-[0-9]*-::g"); done;'
+        - 'grep -r Result: ./testcases/realtime/logs | sed "s:.*/::g"'
 
 parse:
-    pattern: "^(?P<test_case_id>.+):Result:\\s+(?P<result>.+)"
+    pattern: "^(?P<test_case_id>.+).log:Result: (?P<result>.+)"
     fixupdict:
         FAIL: fail
         PASS: pass
