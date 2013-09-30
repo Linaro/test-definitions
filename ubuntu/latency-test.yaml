@@ -1,0 +1,29 @@
+metadata:
+    name: latency-test
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run latency test on Ubuntu."
+os:
+    - ubuntu
+devices:
+    - arndale
+environment:
+    - lava-test-shell
+install:
+    git-repos:
+        - 'git://git.linaro.org/people/mike.holmes/latency-test.git'
+    steps:
+        - 'cd latency-test'
+        - 'make'
+        - 'make install'
+    deps:
+        - 'build-essential'
+run:
+    steps:
+        - 'cd latency-test'
+        - 'insmod ./enable_cc.ko'
+        - 'chmod +x latency'
+        - './latency -s latency_data.txt'
+parse:
+    pattern: "^test_result:(?P<test_case_id>\\S+)=(?P<measurement>[0123456789infa\\.]+)\\s+(?P<units>\\S+)\\s+(?P<result>\\S+)"
+
