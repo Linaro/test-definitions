@@ -42,7 +42,6 @@ run:
     - 'echo "export JDK_TEST_DIR=$TEST_DIR/openjdk8-aarch64-port-snapshot/jdk/test" >> $HOME/jtreg-setup.env'
     - 'echo "export HOTSPOT_TEST_DIR=$TEST_DIR/openjdk8-aarch64-port-snapshot/hotspot/test" >> $HOME/jtreg-setup.env'
     - 'echo "export JTREG=$JT_HOME/linux/bin/jtreg-lava" >> $HOME/jtreg-setup.env'
-    - 'echo "export JTREG_LAVA_PREBUILT_CLASSES_DIR=$CLASSES_DIR" >> $HOME/jtreg-setup.env'
     - 'echo "env" >> $HOME/jtreg-setup.env'
     - 'cat $HOME/jtreg-setup.env'
     - 'lava-test-case jtreg-setup --result pass'
