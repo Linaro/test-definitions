@@ -1,17 +1,35 @@
 metadata:
     name: bootchart
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test bootchart in ubuntu."
+    description: "Test case that measures the boot time."
+    maintainer:
+        - Fathi Boudra <fathi.boudra@linaro.org>
+        - Milosz Wasilewski <milosz.wasilewski@linaro.org>
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - panda
+        - beaglebone-black
+        - beagle-xm
+        - mx53loco
+        - vexpress
+        - highbank
+    scope:
+        - performance
 
 install:
     deps:
         - bootchart
+        - lsb-release
         - pybootchartgui
-    bzr-repos:
-        - lp:~linaro-foundations/lava-test/bootchartscript
+    git-repos:
+        - http://git.linaro.org/git-ro/qa/test-definitions.git
 
 run:
     steps:
-        - "cd bootchartscript"
-        - "lava-test-case bootchartscript --shell ./bootchartscript.sh"
-        - "lava-test-case-attach bootchartscript bootchart.log text/plain"
+        - cd test-definitions/ubuntu/scripts
+        - lava-test-case bootchartscript --shell ./bootchartscript.sh
+        - lava-test-case-attach bootchartscript bootchart.log text/plain
+        - BOOTTIME=`cat bootchart.log | grep time | awk '{print $2}'`
+        - lava-test-case boot-time --result pass --measurement $BOOTTIME --units seconds
