@@ -19,7 +19,24 @@ umount /mnt
 sync
 qemu-nbd -d /dev/nbd0
 
-qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 -kernel ./zImage -dtb ./vexpress-v2p-ca15-tc1.dtb  -append 'root=/dev/mmcblk0p2 rw rootwait mem=1024M console=ttyAMA0,38400n8' -drive if=sd,cache=writeback,file=kvm.qcow2 -redir tcp:5022::22 -nographic -enable-kvm 2>&1|tee kvm-log.txt
+echo setting up and testing networking bridge for guest
+brctl addbr br0
+tunctl -u root
+ifconfig eth0 0.0.0.0 up
+ifconfig tap0 0.0.0.0 up
+brctl addif br0 eth0
+brctl addif br0 tap0
+udhcpc -t 10 -i br0
+ping -W 4 -c 10 192.168.1.10 && echo "kvm-host-net-1: pass" || echo "kvm-host-net-1: fail"
+
+qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
+	-kernel ./zImage -dtb ./vexpress-v2p-ca15-tc1.dtb \
+	-append 'root=/dev/mmcblk0p2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+	-drive if=sd,cache=writeback,file=kvm.qcow2 \
+	-netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
+	-device virtio-net-device,netdev=tap0 \
+	-nographic -enable-kvm \
+	 2>&1|tee kvm-log.txt
 
 if ! grep -q "kvm-boot-1:" kvm-log.txt
 then
