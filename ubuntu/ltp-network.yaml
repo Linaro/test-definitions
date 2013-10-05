@@ -1,7 +1,7 @@
 metadata:
     name: ltp
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run LTP networktests on Ubuntu."
+    description: "Run LTP network tests"
 
 install:
     steps:

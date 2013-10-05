@@ -1,7 +1,7 @@
 metadata:
     name: acpica
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test acpica on ubuntu."
+    description: "Test ACPICA"
 
 install:
     git-repos:

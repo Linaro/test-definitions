@@ -1,7 +1,7 @@
 metadata:
     name: abat
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test Automated Basic Acceptance Tests (ABAT)- V2.0 on ubuntu."
+    description: "Test Automated Basic Acceptance Tests (ABAT)"
 
 install:
     steps:

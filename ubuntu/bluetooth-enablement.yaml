@@ -1,17 +1,19 @@
 metadata:
     name: bluetooth-enablement
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test bluetooth enablement in ubuntu."
+    description: "Test bluetooth enablement"
+    os:
+        - ubuntu
 
 install:
-    bzr-repos:
-        - lp:~linaro-foundations/linaro-ubuntu/lava-test-bt-enablement
     deps:
         - bluez
+    git-repos:
+        - http://git.linaro.org/git-ro/qa/test-definitions.git
 
 run:
     steps:
-        - "cd lava-test-bt-enablement; sudo bash -x ./run-test.sh"
+        - "cd ubuntu/scripts; sudo bash -x ./bluetooth-enablement-test.sh"
 
 parse:
     pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"

@@ -1,7 +1,7 @@
 metadata:
     name: bootchart
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test case that measures the boot time."
+    description: "Test case that measures the boot time"
     maintainer:
         - Fathi Boudra <fathi.boudra@linaro.org>
         - Milosz Wasilewski <milosz.wasilewski@linaro.org>

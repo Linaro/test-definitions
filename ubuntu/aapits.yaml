@@ -1,7 +1,7 @@
 metadata:
     name: aapits
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "ACPI API test suite on ubuntu."
+    description: "Run ACPI API test suite"
 
 install:
     git-repos:

@@ -1,7 +1,7 @@
 metadata:
     name: libhugetlbfs
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run through libhugetlbfs next branch tests."
+    description: "Run through libhugetlbfs next branch tests"
 
 install:
     git-repos:

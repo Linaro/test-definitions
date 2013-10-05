@@ -2,7 +2,7 @@ metadata:
     name: latency-test
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run latency test on Ubuntu."
+    description: "Run latency test"
 os:
     - ubuntu
 devices:

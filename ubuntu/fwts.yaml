@@ -1,7 +1,7 @@
 metadata:
     name: fwts
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Firmware Test Suite (fwts) on ubuntu."
+    description: "Run Firmware Test Suite (fwts)"
 
 install:
     deps:

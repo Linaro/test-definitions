@@ -1,7 +1,7 @@
 metadata:
     name: e2eaudiotest
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test e2 audio in ubuntu."
+    description: "Test e2 audio"
 
 install:
     deps:

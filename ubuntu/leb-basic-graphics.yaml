@@ -1,7 +1,7 @@
 metadata:
     name: leb-basic-graphics
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test leb basic graphics in ubuntu."
+    description: "Test Linaro engineering builds basic graphics"
 
 install:
     bzr-repos:

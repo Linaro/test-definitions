@@ -1,7 +1,7 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: network-tests-basic
-    description: "Basic Network Test Command for Linux Linaro ubuntu Images"
+    description: "Basic network test commands for Linaro Ubuntu images"
 
 run:
     steps:

@@ -1,7 +1,7 @@
 metadata:
     name: pwrmgmt
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test power management in ubuntu."
+    description: "Test power management (PM-QA)"
 
 install:
     deps:

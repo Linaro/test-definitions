@@ -1,7 +1,7 @@
 metadata:
     name: rt-ltp
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run LTP test_realtime on Ubuntu."
+    description: "Run LTP realtime tests"
 
 install:
     steps:

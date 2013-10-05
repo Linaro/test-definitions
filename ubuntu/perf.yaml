@@ -1,18 +1,27 @@
 metadata:
     name: perf
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Performance tests in ubuntu."
+    description: "Run performance tests (perf)"
+    os:
+        - ubuntu
+    devices:
+        - origen
+        - snowball
+        - panda
+        - panda-es
+        - vexpress
+        - highbank
 
 install:
-    bzr-repos:
-        - lp:~linaro-maintainers/lava-test/lava-test-perf
+    git-repos:
+        - http://git.linaro.org/git-ro/qa/test-definitions.git
     deps:
         - linux-tools
         - stress-dbgsym
 
 run:
     steps:
-        - cd lava-test-perf
+        - cd ubuntu/scripts
         - sudo bash -x ./run-perf-test.sh
 
 parse:

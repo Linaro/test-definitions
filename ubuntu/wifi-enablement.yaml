@@ -1,11 +1,13 @@
 metadata:
     name: wifi-enablement
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test wifi enablement in ubuntu."
+    description: "Test wifi enablement"
+    os:
+        - ubuntu
 
 install:
-    bzr-repos:
-        - lp:~linaro-foundations/linaro-ubuntu/lava-test-wifi-enablement
+    git-repos:
+        - http://git.linaro.org/git-ro/qa/test-definitions.git
     deps:
         - wpasupplicant
         - isc-dhcp-client
@@ -14,7 +16,10 @@ install:
 
 run:
     steps:
-        - "cd lava-test-wifi-enablement; sudo bash -x ./run-test.sh"
+        - "cd ubuntu/scripts"
+        - "sudo bash -x ./wifi-enablement-test.sh LAVA-WiFiTest01 LemonFileDentist nl80211"
+        - "sudo bash -x ./wifi-enablement-test.sh LAVA-WiFiTest01 LemonFileDentist wext"
+
 
 parse:
     pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"

@@ -1,7 +1,7 @@
 metadata:
     name: bootchart-install
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test if bootchart is installed. This is first step to run bootchart.yaml test which measures the boot time"
+    description: "Test if bootchart is installed (first step to run bootchart.yaml test which measures the boot time)"
     maintainer:
         - Fathi Boudra <fathi.boudra@linaro.org>
         - Milosz Wasilewski <milosz.wasilewski@linaro.org>
