@@ -1,4 +1,4 @@
 [gerrit]
-host=staging.git.linaro.org
+host=staging.review.linaro.org
 port=29418
 project=qa/test-definitions
