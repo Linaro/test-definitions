@@ -3,12 +3,14 @@ metadata:
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run latency test"
-os:
-    - ubuntu
-devices:
-    - arndale
-environment:
-    - lava-test-shell
+    maintainer:
+        - mike.holmes@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+    environment:
+        - lava-test-shell
 install:
     git-repos:
         - 'git://git.linaro.org/people/mike.holmes/latency-test.git'

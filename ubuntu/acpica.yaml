@@ -2,6 +2,12 @@ metadata:
     name: acpica
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test ACPICA"
+    os:
+        - ubuntu
+    devices:
+        - highbank
+    scope:
+        - functional
 
 install:
     git-repos:

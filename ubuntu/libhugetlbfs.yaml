@@ -2,6 +2,18 @@ metadata:
     name: libhugetlbfs
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run through libhugetlbfs next branch tests"
+    maintainer:
+        - steve.capper@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
 
 install:
     git-repos:

@@ -2,6 +2,18 @@ metadata:
     name: busybox
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test busybox in android."
+    maintainer:
+        - senthil.kumaran@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - arndale
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
 
 run:
     steps:

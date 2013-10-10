@@ -2,6 +2,18 @@ metadata:
     format: "Lava-Test Test Definition 1.0"
     name: tjbench
     description: "tjbench test for android."
+    maintainer:
+        - harigopal.gollamudi@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - arndale
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
 
 run:
     steps:

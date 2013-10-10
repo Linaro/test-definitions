@@ -2,6 +2,16 @@ metadata:
     name: kvm
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test KVM"
+    maintainer:
+        - riku.voipio@linaro.org
+    scope:
+        - functional
+        - virtualization
+    os:
+        - openembedded
+    devices:
+        - arndale
+        - vexpress-tc2
 
 install:
     deps:

@@ -2,6 +2,15 @@ metadata:
     name: rt-ltp
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run LTP realtime tests"
+    maintainer:
+        - tyler.baker@linaro.org
+    scope:
+        - functional
+        - preempt_rt
+    devices:
+        - arndale
+    os:
+        - ubuntu
 
 install:
     steps:

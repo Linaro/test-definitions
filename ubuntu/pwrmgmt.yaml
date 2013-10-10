@@ -2,6 +2,17 @@ metadata:
     name: pwrmgmt
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test power management (PM-QA)"
+    os:
+        - ubuntu
+    scope:
+        - functional
+        - performance
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
 
 install:
     deps:

@@ -1,7 +1,15 @@
 metadata:
     name: busybox
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test busybox in OE."
+    description: "Test busybox in OpenEmbedded."
+    maintainer:
+        - senthil.kumaran@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_ve-armv8
 
 install:
     git-repos:

@@ -4,6 +4,9 @@ metadata:
     description: "Test bluetooth enablement"
     os:
         - ubuntu
+    scope:
+        - functional
+    devices:
 
 install:
     deps:

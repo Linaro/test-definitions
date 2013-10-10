@@ -4,6 +4,8 @@ metadata:
     description: "Test wifi enablement"
     os:
         - ubuntu
+    scope:
+        - functional
 
 install:
     git-repos:

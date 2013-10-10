@@ -1,7 +1,13 @@
 metadata:
     name: sdkhelloc
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test for C compiler in OE."
+    description: "Test for C compiler in OpenEmbedded."
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_ve-armv8
 
 install:
     git-repos:

@@ -1,8 +1,17 @@
 metadata:
-    name: ltp
+    name: ltp-oe
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 20130503
-    description: "Run LTP syscalls on OE."
+    description: "Run LTP syscalls on OpenEmbedded."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - fathi.boudra@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_ve-armv8
 
 run:
     steps:

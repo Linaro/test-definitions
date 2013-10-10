@@ -2,6 +2,19 @@ metadata:
     name: skia
     format: "Lava-Test Test Definition 1.0"
     description: "skia test for android."
+    maintainer:
+        - fahad.k@linaro.org
+        - harigopal.gollamudi@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - arndale
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
 
 run:
     steps:

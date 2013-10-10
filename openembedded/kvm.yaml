@@ -1,7 +1,18 @@
 metadata:
-    name: kvm
+    name: kvm-oe
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test kvm on openembedded."
+    maintainer:
+        - anders.roxell@linaro.org
+        - riku.voipio@linaro.org
+    scope:
+        - functional
+        - virtualization
+    os:
+        - openembedded
+    devices:
+        - rtsm_ve-armv8
+        - arndale
 
 run:
     steps:

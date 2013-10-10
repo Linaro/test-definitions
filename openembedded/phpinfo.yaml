@@ -1,7 +1,13 @@
 metadata:
     name: phpinfo
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test for phpinfo() in OE."
+    description: "Test for phpinfo() in OpenEmbedded."
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_ve-armv8
 
 install:
     git-repos:

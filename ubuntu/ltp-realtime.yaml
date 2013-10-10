@@ -2,6 +2,19 @@ metadata:
     name: rt-ltp
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run LTP realtime tests"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - fathi.boudra@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
 
 install:
     steps:

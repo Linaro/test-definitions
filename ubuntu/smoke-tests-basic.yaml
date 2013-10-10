@@ -2,6 +2,18 @@ metadata:
     format: Lava-Test Test Definition 1.0
     name: smoke-tests-basic
     description: "Basic system test command for Linaro Ubuntu images"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
 
 run:
     steps:
