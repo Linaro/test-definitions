@@ -2,6 +2,15 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     name: bigLITTLE
     description: "bigLITTLE"
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - vexpress-tc2
+    maintainer:
+        - harigopal.gollamudi@linaro.org
+        - naresh.kamboju@linaro.org 
 
 run:
     steps:

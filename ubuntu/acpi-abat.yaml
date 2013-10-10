@@ -2,7 +2,14 @@ metadata:
     name: abat
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test Automated Basic Acceptance Tests (ABAT)"
-
+    os:
+        - ubuntu
+    devices:
+        - highbank
+    scope:
+        - functional
+    maintainer:
+        - naresh.bhat@linaro.org
 install:
     steps:
         - 'apt-get install --yes wget'

@@ -1,7 +1,20 @@
 metadata:
-    name: libhugetlbfs
+    name: libhugetlbfs-oe
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run through libhugetlbfs next branch tests."
+    description: "Run through libhugetlbfs next branch tests. 
+                  Runs through 64 bit libhugetlbfs on target system. 
+                  One needs to run with a kernel that supports huge pages, 
+                  also the OpenEmbedded system needs to have the libhugetlbfs 
+                  test suite pre-installed. (Which is the case for recent 
+                  OpenEmbedded builds)."
+    maintainer:
+        - steve.capper@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_ve-armv8
 
 run:
     steps:

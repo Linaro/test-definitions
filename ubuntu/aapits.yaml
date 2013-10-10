@@ -2,6 +2,12 @@ metadata:
     name: aapits
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run ACPI API test suite"
+    os:
+        - ubuntu
+    devices:
+        - highbank
+    scope:
+        - functional
 
 install:
     git-repos:

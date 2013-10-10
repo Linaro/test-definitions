@@ -1,9 +1,12 @@
 metadata:
     name: bluetooth-enablement
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test bluetooth enablement"
+    description: "Test bluetooth enablement in ubuntu."
     os:
         - ubuntu
+    scope:
+        - functional
+    devices:
 
 install:
     deps:

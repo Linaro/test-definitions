@@ -1,7 +1,14 @@
 metadata:
-    name: pwrmgmt
+    name: pwrmgmt-oe
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test power management."
+    os:
+        - openembedded
+    scope:
+        - functional
+        - performance
+    devices:
+        - rtsm_ve-armv8
 
 install:
     git-repos:

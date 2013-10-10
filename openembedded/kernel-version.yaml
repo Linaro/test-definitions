@@ -2,6 +2,14 @@ metadata:
     name: kernel-version
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test kernel version in OE."
+    maintainer:
+        - senthil.kumaran@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_ve-armv8
 
 install:
     git-repos:

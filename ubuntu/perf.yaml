@@ -4,6 +4,8 @@ metadata:
     description: "Run performance tests (perf)"
     os:
         - ubuntu
+    scope:
+        - performance
     devices:
         - origen
         - snowball

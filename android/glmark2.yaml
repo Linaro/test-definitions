@@ -2,6 +2,16 @@ metadata:
     format: "Lava-Test Test Definition 1.0"
     name: glmark2
     description: "glmark2 test for android."
+    maintainer:
+        - harigopal.gollamudi@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - arndale
+        - panda
+        - panda-es
 
 run:
     steps:

@@ -2,6 +2,16 @@ metadata:
     name: gatortests
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run GATOR tests"
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
 
 install:
     deps:

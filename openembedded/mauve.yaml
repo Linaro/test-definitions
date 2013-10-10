@@ -3,6 +3,14 @@ metadata:
   format: "Lava-Test-Shell Test Definition 1.0"
   description: "Java Mauve Tests for Open Embedded"
   version: 1.0
+  maintainer:
+    - andrew.mcdermott@linaro.org
+  os:
+    - openembedded
+  scope:
+    - functional
+  devices:
+    - rtsm_ve-armv8
 
 install:
   git-repos:

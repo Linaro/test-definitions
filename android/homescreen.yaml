@@ -2,6 +2,18 @@ metadata:
     name: homescreen
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test if the homescreen is up in android."
+    maintainer:
+        - vishal.bhoj@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - arndale
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
 
 run:
     steps:

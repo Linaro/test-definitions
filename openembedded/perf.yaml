@@ -1,7 +1,13 @@
 metadata:
-    name: perf
+    name: perf-oe
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Performance tests in OE."
+    os:
+        - openembedded
+    scope:
+        - performance
+    devices:
+        - rtsm_ve-armv8
 
 install:
     bzr-repos:

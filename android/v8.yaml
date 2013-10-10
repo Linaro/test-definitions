@@ -2,6 +2,18 @@ metadata:
     name: v8
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "v8 shell test. In latest builds we test for d8 shell."
+    maintainer:
+        - senthil.kumaran@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - arndale
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
 
 run:
     steps:

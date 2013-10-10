@@ -2,6 +2,15 @@ metadata:
     name: rt-hackbench
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run Hackbench Real Time Suite"
+    maintainer:
+        - tyler.baker@linaro.org
+    scope:
+        - functional
+        - preempt_rt
+    devices:
+        - arndale
+    os:
+        - ubuntu
 
 install:
     git-repos:

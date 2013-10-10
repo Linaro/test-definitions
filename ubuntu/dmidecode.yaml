@@ -3,6 +3,16 @@ metadata:
   format: "Lava-Test-Shell Test Definition 1.0"
   description: "DMI Decode Test"
   version: 1.0
+  os:
+    - ubuntu
+  devices:
+    - arndale
+    - panda
+    - beaglebone-black
+    - beagle-xm
+    - mx53loco
+  scope:
+    - functional
 
 install:
     deps:

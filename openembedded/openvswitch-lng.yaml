@@ -2,6 +2,14 @@ metadata:
     name: openvswitch-lng
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Build and run OVS testsuite."
+    maintainer:
+        - zishen.lim@linaro.org
+    os:
+        - openembedded
+    devices:
+        - arndale
+    scope:
+        - functional
 
 install:
     deps:

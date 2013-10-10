@@ -1,8 +1,17 @@
 metadata:
-    name: ltp-realtime
+    name: ltp-realtime-oe
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 20130503
     description: "Run LTP test_realtime on OE."
+    maintainer:
+        - anders.roxell@linaro.org
+        - mike.holmes@linaro.org
+    os:
+        - openembedded
+    scope:
+        - preempt-rt
+    devices:
+        - arndale
 
 run:
     steps:
