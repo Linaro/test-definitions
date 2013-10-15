@@ -1,7 +1,7 @@
 metadata:
     name: device-tree
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Device tree test to check the folder structure."
+    description: "DEPRECATED! Device tree test to check the folder structure."
     os:
         - openembedded
     devices:
