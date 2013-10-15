@@ -4,12 +4,19 @@ metadata:
     description: "Device tree test to check the folder structure"
     os:
         - ubuntu
+        - openembedded
     devices:
         - origen
         - snowball
         - panda
         - panda-es
-        - vexpress
+        - vexpress-a9
+        - vexpress-tc2
+        - highbank
+        - rtsm_foundation-armv8
+        - rtsm_fvp_base-aemv8a
+        - arndale
+        - aa9
     environment:
         - lava-test-shell
 
