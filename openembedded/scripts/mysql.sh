@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Ethernet test.
+# mysql test.
 #
 # Copyright (C) 2012, Linaro Limited.
 #
