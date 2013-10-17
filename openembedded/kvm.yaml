@@ -1,5 +1,5 @@
 metadata:
-    name: kvm-oe
+    name: kvm
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test kvm on openembedded."
     maintainer:

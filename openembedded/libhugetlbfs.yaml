@@ -1,5 +1,5 @@
 metadata:
-    name: libhugetlbfs-oe
+    name: libhugetlbfs
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run through libhugetlbfs next branch tests. 
                   Runs through 64 bit libhugetlbfs on target system. 

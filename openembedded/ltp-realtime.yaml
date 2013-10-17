@@ -1,5 +1,5 @@
 metadata:
-    name: ltp-realtime-oe
+    name: ltp-realtime
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 20130503
     description: "Run LTP test_realtime on OpenEmbedded."

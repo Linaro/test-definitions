@@ -1,5 +1,5 @@
 metadata:
-    name: ltp-oe
+    name: ltp
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 20130503
     description: "Run LTP syscalls on OpenEmbedded."
