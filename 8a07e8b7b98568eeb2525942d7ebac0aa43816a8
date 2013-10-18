@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_dd92ff9e",
+        "filename": "common/scripts/min_max_avg_parse.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2013-10-18T14:38:17Z",
+      "side": 1,
+      "message": "Perhaps we can get rid of this, it is an ugly workaround that I did and it\u0027s not even full-proof. The hackbench problems will have to be solved the proper way.",
+      "revId": "8a07e8b7b98568eeb2525942d7ebac0aa43816a8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa0f191f_bd8f4b75",
+        "filename": "openembedded/hackbench.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2013-10-18T14:38:17Z",
+      "side": 1,
+      "message": "Any reason \u0027[0-9.]+\u0027 is better than \u0027\\d+(\\.\\d+)?\u0027 ?",
+      "revId": "8a07e8b7b98568eeb2525942d7ebac0aa43816a8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
