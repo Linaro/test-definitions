@@ -1,0 +1,217 @@
+#! /bin/sh
+#
+#   Copyright (c) International Business Machines  Corp., 2001
+#
+#   This program is free software;  you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY;  without even the implie; warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+#   the GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program;  if not, write to the Free Software
+#   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+#
+#
+#
+#  FILE   : nfs01
+#
+#  PURPOSE: Stresses NFS by opening a large number of files on a nfs
+#           mounted filesystem.
+#
+#  SETUP: The home directory of root on the machine exported as "RHOST"
+#         MUST have a ".rhosts" file with the hostname of the machine
+#         where the test is executed.
+#
+#
+#  HISTORY:
+#    04/27/01 Robbie Williamson (robbiew@us.ibm.com)
+#      -Ported
+#
+#***********************************************************************
+
+#Uncomment line below for debug output.
+#trace_logic=${trace_logic:-"set -x"}
+
+$trace_logic
+
+#-----------------------------------------------------------------------
+# Initialize local variables
+#-----------------------------------------------------------------------
+TC=${TC:=nfs01}
+TCbin=${TCbin:=`pwd`}
+TCdat=${TCdat:=$TCbin}
+TCsrc=${TCsrc:=$TCbin}
+TCtmp=${TCtmp:=$TCbin/$TC$$}
+TCdump=${TCdump:=$TCbin}
+
+# If CLEANUP is not set; set it to "ON"
+CLEANUP=${CLEANUP:="ON"}
+
+# If EXECUTABLES is not set; set it to default executables
+EXECUTABLES=${EXECUTABLES:="open_files"}
+
+#LNG: standardize log
+export TCID=$TC
+export TST_TOTAL=1
+export TST_COUNT=1
+
+#=============================================================================
+# FUNCTION NAME:        setup_testcase
+#
+# FUNCTION DESCRIPTION: Perform the setup function for the testcase.
+#
+# PARAMETERS:   	None.
+#
+# RETURNS:      	None.
+#=============================================================================
+
+setup_testcase()
+{
+$trace_logic
+
+    PID=$$
+    #LNG: use nfs v4
+    #VERSION=${VERSION:=2}
+    VERSION=${VERSION:=4}
+    RHOST=${RHOST:=`hostname`}
+    NFILES=${NFILES:=1000}
+    SOCKET_TYPE=${SOCKET_TYPE:=udp}
+    TESTDIR=${TESTDIR:=/tmp/$TC$PID.testdir}
+    NFS_TYPE=${NFS_TYPE:=nfs}
+
+    echo ""
+    echo "Test Options:"
+    echo " VERSION: $VERSION"
+    echo " RHOST: $RHOST"
+    echo " NFILES: $NFILES"
+    echo " SOCKET_TYPE: $SOCKET_TYPE"
+    echo " NFS_TYPE: $NFS_TYPE"
+    echo " TESTDIR: $TESTDIR"
+
+    if [ "x$NFS_TYPE" != "xnfs4" ]; then
+        OPTS=${OPTS:="-o proto=$SOCKET_TYPE,vers=$VERSION "}
+    fi
+
+    REMOTE_DIR=${RHOST}:${TESTDIR}
+    LOCAL_DIR=$TCtmp/${RHOST}.${LUSER}
+    LUSER=${LUSER:=root}
+    mkdir -p $TCtmp || end_testcase "Could not create $TCtmp"
+    chmod 777 $TCtmp
+
+    echo "Setting up remote machine: $RHOST"
+    rsh -n $RHOST "mkdir -p $TESTDIR"
+    [ $? = 0 ] || end_testcase "Could not create remote directory"
+
+    if [ "x$NFS_TYPE" = "xnfs4" ]; then
+        rsh -n $RHOST "mkdir -p /export$TESTDIR"
+        [ $? = 0 ] || end_testcase "Could not create /export$TESTDIR on server"
+        rsh -n $RHOST "mount --bind $TESTDIR /export$TESTDIR"
+        [ $? = 0 ] || end_testcase "Could not bind $TESTDIR to export on server"
+        rsh -n $RHOST "/usr/sbin/exportfs -o no_root_squash,rw,nohide,insecure,no_subtree_check *:$TESTDIR"
+        [ $? = 0 ] || end_testcase "Could not export remote directory"
+    else
+        rsh -n $RHOST "/usr/sbin/exportfs -i -o no_root_squash,rw *:$TESTDIR"
+        [ $? = 0 ] || end_testcase "Could not export remote directory"
+    fi
+
+    echo "Mounting NFS filesystem $REMOTE_DIR on $TCtmp with options '$OPTS'"
+    mount -t $NFS_TYPE $OPTS $REMOTE_DIR $TCtmp || end_testcase "Cannot mount $TCtmp"
+    [ $? = 0 ] || end_testcase "Could not mount $REMOTE_DIR"
+
+    cd $TCtmp
+    echo "Removing old and create new directories"
+    [ -d $LOCAL_DIR ] && rm -rf $LOCAL_DIR
+    [ -d $LOCAL_DIR ] || { \
+	mkdir -p $LOCAL_DIR || end_testcase "Could not create $LOCAL_DIR"
+	chmod 777 $LOCAL_DIR
+        cp $TCsrc/$EXECUTABLES $LOCAL_DIR || end_testcase "Could not write to mount point"
+    }
+}
+
+
+#=============================================================================
+# FUNCTION NAME:        do_test
+#
+# FUNCTION DESCRIPTION: Perform the test
+#
+# PARAMETERS:   	None.
+#
+# RETURNS:      	None.
+#=============================================================================
+do_test()
+{
+$trace_logic
+    for executable in $EXECUTABLES
+    do
+
+        cd $LOCAL_DIR
+    	echo "${LOCAL_DIR}/${executable} $NFILES Starting"
+	./${executable} $NFILES 2>&1
+	retval=$?
+    	echo "${LOCAL_DIR}/${executable} $NFILES Finished"
+
+	if [ "$retval" != 0 ]; then
+		end_testcase "Errors have resulted from this test"
+	fi
+
+        cd $HOME
+    	echo "Unmounting $TCtmp"
+	sleep 2
+        umount $TCtmp || error "Cannot umount $TCtmp"
+    done
+}
+
+
+#=============================================================================
+# FUNCTION NAME:        end_testcase
+#
+# FUNCTION DESCRIPTION: Clean up
+#
+# PARAMETERS:   	None.
+#
+# RETURNS:      	None.
+#=============================================================================
+end_testcase()
+{
+$trace_logic
+    if [ "$CLEANUP" = "ON" ]; then
+	cd \
+
+	echo "Cleaning up testcase"
+
+        mount -t $NFS_TYPE $OPTS $REMOTE_DIR $TCtmp || echo "Cannot mount $TCtmp"
+	rm -rf $LOCAL_DIR || echo "Cannot remove $LOCAL_DIR"
+        /bin/umount $TCtmp || echo "Cannot umount $TCtmp"
+	rm -rf $TCtmp || echo "Cannot remove $TCtmp"
+        rsh -n $RHOST "/usr/sbin/exportfs -u *:$TESTDIR"
+		 rsh -n $RHOST "rm -rf $TESTDIR"
+    fi
+
+    #LNG: standardize log
+    #[ $# = 0 ] && { echo "Test Successful"; exit 0; }
+    #echo "Test Failed: $@"
+    [ $# = 0 ] && { tst_resm TPASS "Test Successful"; exit 0; }
+    tst_resm TFAIL "Test Failed: $@"
+    exit 1
+}
+
+#=============================================================================
+# MAIN PROCEDURE
+#=============================================================================
+
+# Check if current filesystem is NFS
+
+STR=`stat -f . | grep "Type: nfs"`
+if [ -n "$STR" ]; then
+        test_resm TCONF "Cannot run nfs stress test on an NFS mounted filesystem"
+        exit 0
+fi
+
+setup_testcase
+do_test
+end_testcase

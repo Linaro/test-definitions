@@ -1,0 +1,103 @@
+#!/bin/sh
+
+#******************************************************************************
+#   Copyright (c) International Business Machines  Corp., 2000
+#
+#   This program is free software;  you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY;  without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+#   the GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program;  if not, write to the Free Software
+#   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+#
+#
+#
+#  FILE   : tcpdump
+#
+#  PURPOSE: To test the basic functionality of `tcpdump`.
+#
+#  SETUP: The "RHOST" setting should be exported to be the hostname of
+#         another machine on the same subnet.  Otherwise, the hostname
+#         of the tested machine will be used.
+#
+#  HISTORY:
+#    04/17/01 Robbie Williamson (robbiew@us.ibm.com)
+#      -Written
+#
+#-----------------------------------------------------------------------
+
+#******************************************************************************
+#
+# FUNCTION:  do_test
+# PURPOSE:   Invoke tcpdump
+# INPUT:     None
+#
+#******************************************************************************
+
+do_setup()
+{
+
+    tst_setup
+
+    exists awk grep host hostname ifconfig netstat ping tail tcpdump
+    #LNG: Why use RHOST? Only LHOST IP will appear in interface.
+    #RHOST=${RHOST:-`hostname`}
+    #IP=`host ${RHOST} 2>/dev/null | awk '{print $4}'`
+    LHOST=${LHOST:-`hostname`}
+    IP=`ping ${LHOST} -c 1 | awk '{print $3}' | head -n1 | cut -f2 -d'(' | cut -f1 -d')'`
+    IFNUMS=`netstat -i|wc -l`
+    IFNUMS=$(( $IFNUMS - 2 ))
+    IFNAME=${IFNAME:-$(netstat -i | awk '{print $1}' | tail -n ${IFNUMS})}
+
+    for i in ${IFNAME}; do
+        if ifconfig ${i} | grep $IP; then
+            IF=$i
+            break
+        fi
+    done
+    # Default to empty string if unset, to avoid errors caused by set -u, which we use (see cmdlib.sh)
+    if [ -z "${IF:-}" ]; then
+        end_testcase "Could not identify interface"
+        exit 1
+    fi
+    IFNAME=${IF}
+    NUMLOOPS=${NUMLOOPS:-20}
+    OUTFILE=$TCtmp/tcpdump_out
+
+}
+
+do_test()
+{
+    ping -f $RHOST > /dev/null 2>&1 &
+    if ! tcpdump -i $IFNAME -c $NUMLOOPS > $OUTFILE; then
+        end_testcase "Problems trying to launch tcpdump"
+    fi
+    if ! grep "$RHOST\>" $OUTFILE; then
+        end_testcase "$RHOST was not listed in network traffic"
+    fi
+    kill -15 %1
+    rm -rf $OUTFILE
+}
+
+#-----------------------------------------------------------------------
+#
+# FUNCTION:  MAIN
+# PURPOSE:   To invoke functions that perform the tasks as described in
+#	     the design in the prolog above.
+# INPUT:     See SETUP in the prolog above.
+# OUTPUT:    Logged run results written to testcase run log
+#
+#-----------------------------------------------------------------------
+. net_cmdlib.sh
+
+read_opts $*
+do_setup
+do_test
+end_testcase
