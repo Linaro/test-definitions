@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_7d63f31a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000025
+      },
+      "writtenOn": "2013-10-23T16:30:42Z",
+      "side": 1,
+      "message": "There are a lot of files in this commit, are all the scripts necessary, are they modified from the originals in any way ?\n\nIf they are not modified, can they be used from their regular location /opt/ltp/testcases/bin ?\n\nIf they are modified, have the changes been submitted upstream to LTP ?",
+      "revId": "1092aec46d369d56de0412d980b2256775f22197",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
