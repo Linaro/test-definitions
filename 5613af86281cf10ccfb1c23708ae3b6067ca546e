@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_1d175753",
+        "filename": "common/scripts/kvm/test-kvm.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000030
+      },
+      "writtenOn": "2013-10-24T07:51:48Z",
+      "side": 1,
+      "message": "I don\u0027t constructing kvm-lava.conf like this makes the code cleaner. \n\nInstead I suggest we make a simple kvm-lava.conf that has:\n\nscript\n  /usr/bin/kvm-guest-tests.sh\nend script\n\nand then from kvm-guest-tests.sh we run ping, and then either hackbench or lmbench accordingly.",
+      "revId": "5613af86281cf10ccfb1c23708ae3b6067ca546e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
