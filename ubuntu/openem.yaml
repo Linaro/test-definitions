@@ -1,0 +1,28 @@
+metadata:
+    name: thp 
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test for open event machine x86."
+
+install:
+    git-repos:
+        - git://git.linaro.org/qa/test-definitions.git
+    deps:
+        - python-twisted
+        - git
+        - make
+        - unzip
+        - gcc
+        - build-essential
+        - libc6-dev
+        - gcc-multilib
+run:
+    steps:
+        - "cd testcases/ubuntu/scripts"
+        - "./openem.sh"
+
+
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
