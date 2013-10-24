@@ -17,6 +17,9 @@ install:
     deps:
         - qemu-system
         - rt-tests
+        - uml-utilities
+        - bridge-utils
+        - udhcpc
 run:
     steps:
         - 'sudo ./common/scripts/kvm/test-host.sh'
