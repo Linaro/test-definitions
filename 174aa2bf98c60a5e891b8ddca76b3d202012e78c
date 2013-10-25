@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_20f8aee4",
+        "filename": "ubuntu/scripts/openem.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000031
+      },
+      "writtenOn": "2013-10-25T11:25:39Z",
+      "side": 1,
+      "message": "As mentioned in my e-mail, might be good to find DPDK an official home in LNG rather than being part of a personal repository.",
+      "revId": "174aa2bf98c60a5e891b8ddca76b3d202012e78c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
