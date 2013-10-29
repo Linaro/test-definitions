@@ -37,6 +37,40 @@
     },
     {
       "key": {
+        "uuid": "da141535_f995d788",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-10-29T14:05:41Z",
+      "side": 1,
+      "message": "isn\u0027t bzip2 in the ubuntu dist by default?",
+      "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_1981ab4a",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-10-29T14:05:41Z",
+      "side": 1,
+      "message": "isn\u0027t wget already in the the ubuntu dist by default?",
+      "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_99b5bb33",
         "filename": "ubuntu/scripts/ltp-networking.sh",
         "patchSetId": 2
