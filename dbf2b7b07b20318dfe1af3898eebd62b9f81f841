@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da141535_59872362",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-10-29T01:50:34Z",
+      "side": 1,
+      "message": "It was created from my private repo:\ngit git://git.linaro.org/people/vincent.hsu/ltp.git -b patches_to_20130904",
+      "parentUuid": "da141535_b9b87f2b",
+      "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_99b5bb33",
         "filename": "ubuntu/scripts/ltp-networking.sh",
         "patchSetId": 2
