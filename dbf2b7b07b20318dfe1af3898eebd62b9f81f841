@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "da141535_998c9b81",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-10-29T15:55:01Z",
+      "side": 1,
+      "message": "yes, just make sure we have it. it won\u0027t have side effect. ubuntu have many versions, like nano, server.\nhttp://validation.linaro.org/scheduler/job/82059/log_file#L_21_420",
+      "parentUuid": "da141535_f995d788",
+      "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_1981ab4a",
         "filename": "ubuntu/ltp-networking.yaml",
         "patchSetId": 2
@@ -65,6 +83,24 @@
       "writtenOn": "2013-10-29T14:05:41Z",
       "side": 1,
       "message": "isn\u0027t wget already in the the ubuntu dist by default?",
+      "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_b98f5f75",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-10-29T15:55:01Z",
+      "side": 1,
+      "message": "wget not installed by default, look at\nhttp://validation.linaro.org/scheduler/job/82059/log_file#L_21_442",
+      "parentUuid": "da141535_1981ab4a",
       "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
