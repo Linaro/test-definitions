@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_b9b87f2b",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000025
+      },
+      "writtenOn": "2013-10-29T01:37:30Z",
+      "side": 1,
+      "message": "Should this patch be in an LNG repository ?\nMaybe we need a comment on what is in it, and what is likely to make it upstream",
+      "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_99b5bb33",
+        "filename": "ubuntu/scripts/ltp-networking.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000025
+      },
+      "writtenOn": "2013-10-29T01:37:30Z",
+      "side": 1,
+      "message": "Maybe it is ok to take this as a first pass, but the IP address needs to become an argument, or the server should be configured via multi-node.",
+      "revId": "dbf2b7b07b20318dfe1af3898eebd62b9f81f841",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
