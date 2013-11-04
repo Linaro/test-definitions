@@ -4,7 +4,6 @@ metadata:
     version: 1.0
     description: "Hackbench Suite"
     maintainer:
-        - ciprian.barbu@linaro.org
         - anders.roxell@linaro.org
     os:
         - openembedded
@@ -16,9 +15,7 @@ metadata:
 
 run:
     steps:
-        - ./openembedded/scripts/dd_infinite.sh &> /dev/null &
-        - while true; do sleep 5; killall hackbench; done &
-        - for i in {1..1001}; do hackbench | tee -a hackbench_res.txt; done
+        - for i in {1..1000}; do timeout 10s hackbench | tee -a hackbench_res.txt; done
         - ./common/scripts/min_max_avg_parse.py hackbench_res.txt "Time:" "Seconds"
         - killall dd_infinite.sh
 
