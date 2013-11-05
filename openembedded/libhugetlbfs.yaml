@@ -22,4 +22,10 @@ run:
         - 'mkdir /mnt/huge'
         - 'mount -t hugetlbfs hugetlbfs /mnt/huge'
         - 'cd /usr/lib/libhugetlbfs/tests'
-        - './run_tests.py -p $((2 * 1024 * 1024)) -b 64'
+        - './run_tests.py -p $((2 * 1024 * 1024))'
+
+parse:
+    pattern: '^(?P<test_case_id>.+):\s+(?P<result>FAIL|PASS)'
+    fixupdict:
+        FAIL: fail
+        PASS: pass
