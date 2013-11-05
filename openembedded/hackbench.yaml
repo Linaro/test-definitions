@@ -4,6 +4,7 @@ metadata:
     version: 1.0
     description: "Hackbench Suite"
     maintainer:
+        - ciprian.barbu@linaro.org
         - anders.roxell@linaro.org
     os:
         - openembedded
