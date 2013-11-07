@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_79c78713",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-07T07:21:08Z",
+      "side": 1,
+      "message": "isn\u0027t this already in the standard distribution?",
+      "revId": "bb70722bb382f5ab2301453b9cec18ed6f29dac4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_59ccc335",
+        "filename": "ubuntu/scripts/ltp-networking.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-07T07:21:08Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "revId": "bb70722bb382f5ab2301453b9cec18ed6f29dac4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_39d10fce",
+        "filename": "ubuntu/scripts/ltp-networking.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-07T07:21:08Z",
+      "side": 1,
+      "message": "Do we need different logfiles?\ncant we just run all the test?\nlike this: ./runltp -p -f multicast,nfs,tcp_cmds,tcp_cmds_addition... -S \u003cskiplist\u003e",
+      "revId": "bb70722bb382f5ab2301453b9cec18ed6f29dac4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
