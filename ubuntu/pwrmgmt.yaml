@@ -1,7 +1,7 @@
 metadata:
     name: pwrmgmt
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test power management (PM-QA)"
+    description: "Test power management (PM-QA). Test case documentation available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
     os:
         - ubuntu
     scope:
