@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_dce32104",
+        "filename": "openembedded/libhugetlbfs.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-11T16:30:08Z",
+      "side": 1,
+      "message": "should we add another device here?",
+      "revId": "ed6b42de025342e2f5c938ae1b12f9e94563b16f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
