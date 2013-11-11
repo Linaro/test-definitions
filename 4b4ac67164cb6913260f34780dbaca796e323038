@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_bcc74d64",
+        "filename": "ubuntu/openem.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-11T17:46:26Z",
+      "side": 1,
+      "message": "why do we clone this?\nthat will be cloned from the json file or?",
+      "revId": "4b4ac67164cb6913260f34780dbaca796e323038",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_9cc48960",
+        "filename": "ubuntu/openem.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-11T17:46:26Z",
+      "side": 1,
+      "message": "is this a correct path?",
+      "revId": "4b4ac67164cb6913260f34780dbaca796e323038",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
