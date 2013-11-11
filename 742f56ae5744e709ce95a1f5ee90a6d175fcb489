@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_dcf561cc",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-11T12:53:33Z",
+      "side": 1,
+      "message": "I think we should ad maintainer, os, scope and devices here...\nas it was in the previous yaml file.",
+      "revId": "742f56ae5744e709ce95a1f5ee90a6d175fcb489",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_bc02adb2",
+        "filename": "ubuntu/scripts/ltp-networking-xinetd.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-11T12:53:33Z",
+      "side": 1,
+      "message": "can we fix the indentation above?",
+      "revId": "742f56ae5744e709ce95a1f5ee90a6d175fcb489",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_9cffe9aa",
+        "filename": "ubuntu/scripts/ltp-networking.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-11T12:53:33Z",
+      "side": 1,
+      "message": "remove tabs or add tab to the comment above or?",
+      "revId": "742f56ae5744e709ce95a1f5ee90a6d175fcb489",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
