@@ -20,7 +20,7 @@ run:
         - "taskset -c 1 ./openembedded/scripts/infinite_loop.py 86300 &> /dev/null &"
         - "taskset -c 1 cyclictest -t 1 -p 80 -i 10000 -n -a1 -v -D 3600 > ~/cyclictest_full.log &"
         - "taskset -c 1 cyclictest -t 50 -p 80 -i 10000 -n -a1 -q -D 86400 > ~/cyclictest_summary.log"
-        - "cat ~/cyclictest_summary.log | ./openembedded/scripts/cyclictest.py"
+        - "cat ~/cyclictest_summary.log | ./openembedded/scripts/cyclictest.py $MAX $AVG $MIN"
         - "lava-test-run-attach ~/cyclictest_summary.log text/plain"
         - "tar -cjf ~/cyclictest_full.log.tbz ~/cyclictest_full.log"
         - "lava-test-run-attach ~/cyclictest_full.log.tbz application/x-bzip2"

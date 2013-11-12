@@ -3,9 +3,9 @@ import re
 import sys
 import os
 
-max_threshold = 15000
-avg_threshold = 20
-min_threshold = 10
+max_threshold = int(sys.argv[1])
+avg_threshold = int(sys.argv[2])
+min_threshold = int(sys.argv[3])
 pass_max_threshold = True
 pass_avg_threshold = True
 pass_min_threshold = True
@@ -46,16 +46,16 @@ else:
                 min_lentency = int(result.group('Min'))
 
     if pass_max_threshold is True:
-        print "test_case_id:Max latency bound (<15ms) result:pass measurement:" + str(max_lentency) + " units:usecs"
+        print "test_case_id:Max latency bound (<" + str(max_threshold) + "us) result:pass measurement:" + str(max_lentency) + " units:usecs"
     else:
-        print "test_case_id:Max latency bound (<15ms) result:fail measurement:" + str(max_lentency) + " units:usecs"
+        print "test_case_id:Max latency bound (<" + str(max_threshold) + "us) result:fail measurement:" + str(max_lentency) + " units:usecs"
 
     if pass_avg_threshold is True:
-        print "test_case_id:Avg latency bound (<20ns) result:pass measurement:" + str(avg_lentency) + " units:usecs"
+        print "test_case_id:Avg latency bound (<" + str(avg_threshold) + "us) result:pass measurement:" + str(avg_lentency) + " units:usecs"
     else:
-        print "test_case_id:Avg latency bound (<20ns) result:fail measurement:" + str(avg_lentency) + " units:usecs"
+        print "test_case_id:Avg latency bound (<" + str(avg_threshold) + "us) result:fail measurement:" + str(avg_lentency) + " units:usecs"
 
     if pass_min_threshold is True:
-        print "test_case_id:Min latency bound (<10ns) result:pass measurement:" + str(min_lentency) + " units:usecs"
+        print "test_case_id:Min latency bound (<" + str(min_threshold) + "us) result:pass measurement:" + str(min_lentency) + " units:usecs"
     else:
-        print "test_case_id:Min latency bound (<10ns) result:fail measurement:" + str(min_lentency) + " units:usecs"
+        print "test_case_id:Min latency bound (<" + str(min_threshold) + "us) result:fail measurement:" + str(min_lentency) + " units:usecs"
