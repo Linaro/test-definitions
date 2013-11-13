@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_9cf8094b",
+        "filename": "ubuntu/ltp-networking.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-11-13T10:43:29Z",
+      "side": 1,
+      "message": "I didn\u0027t know it can add default parameters in yaml. So I want to modify this file and push again.",
+      "revId": "b1b5b1b0b7d51c6b53781cfa7c81c39a5eccc9e6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
