@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_dcfe8138",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-11-13T10:28:28Z",
+      "side": 1,
+      "message": "Where those variables come from? When using variables passed from JSON, please add the default vaules in \u0027params\u0027 section of the YAML.",
+      "revId": "d06c59abad38c2408510f6e8b2dd2bd60421eccc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
