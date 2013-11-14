@@ -17,6 +17,14 @@ metadata:
   format: "Lava-Test-Shell Test Definition 1.0"
   description: "Regression tests for the OpenJDK platform"
   version: 1.0
+  maintainer:
+    - andrew.mcdermott@linaro.org
+  os:
+    - openembedded
+  scope:
+    - test
+  devices:
+    - rtsm_ve-armv8
 run:
   steps:
     - 'source $HOME/jtreg-setup.env'
