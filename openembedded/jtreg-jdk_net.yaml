@@ -25,8 +25,24 @@ metadata:
     - test
   devices:
     - rtsm_ve-armv8
+params:
+  - 'JAVA_VM=-client'
+  - 'JTREG_VERBOSE=-v1'
+  - 'JTREG_CONC=-conc:1'
+  - 'JTREG_TIMEOUT=-timeout:3'
+  - 'JTREG_EXCLUDE_FILE=../jtreg/exclude.txt'
+  - 'PRODUCT_HOME=/usr/lib/jvm/java-8-openjdk'
+install:
+  git-repos:
+    - git://git.linaro.org/leg/openjdk/jtreg-bin.git
+    - git://git.linaro.org/qa/test-definitions.git
 run:
   steps:
-    - 'source $HOME/jtreg-setup.env'
-    - 'cd $JTREG_TESTRUN_ID/test-definitions/openembedded/scripts'
-    - './jtreg-test $JDK_TEST_DIR jdk_net'
+    - 'PATH=/lava/tests/$TESTRUN_ID/jtreg-bin/jtreg/linux/bin:$PATH'
+    - 'cd /lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
+    - './jtreg-test -t jdk_net -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/jdk/test/java/net'
+parse:
+  pattern: "(?P<result>^(Passed|FAILED)):\\s+(?P<test_case_id>(.*))"
+  fixupdict:
+    Passed: pass
+    FAILED: fail

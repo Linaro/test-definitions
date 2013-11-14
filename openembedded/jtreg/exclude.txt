@@ -1,0 +1,61 @@
+# These tests all require the G1 Garbage Collector, which is not
+# implemented in the aarch64-port.  They are guaranteed to fail.
+# Unfortunately, some of them run multiple tests with multiple garbage
+# collectors, but as soon as they get to the G1 collector, they abort
+# with an Unimplemented assertion.
+
+gc/7168848/HumongousAlloc.java	generic-all
+gc/8000311/Test8000311.java	generic-all
+gc/arguments/TestAlignmentToUseLargePages.java	generic-all
+gc/arguments/TestG1HeapRegionSize.java	generic-all
+gc/arguments/TestG1HeapSizeFlags.java	generic-all
+gc/arguments/TestMaxHeapSizeTools.java	generic-all
+gc/arguments/TestUseCompressedOopsErgo.java	generic-all
+gc/g1/TestPrintGCDetails.java	generic-all
+gc/g1/TestPrintRegionRememberedSetInfo.java	generic-all
+gc/g1/TestRegionAlignment.java	generic-all
+gc/g1/TestShrinkToOneRegion.java	generic-all
+gc/g1/TestSummarizeRSetStats.java	generic-all
+gc/metaspace/G1AddMetaspaceDependency.java	generic-all
+gc/metaspace/TestMetaspacePerfCounters.java	generic-all
+gc/startup_warnings/TestG1.java	generic-all
+gc/TestG1ZeroPGCTJcmdThreadPrint.java	generic-all
+
+# I cranked up the timeout to -timeout:3 (3 times the expected) and
+# still got timeout errors on the foundation model with the following
+# tests:
+
+compiler/5091921/Test6850611.java	generic-all
+compiler/5091921/Test6905845.java	generic-all
+compiler/5091921/Test6931567.java	generic-all
+compiler/5091921/Test6992759.java	generic-all
+compiler/5091921/Test7020614.java	generic-all
+compiler/6866651/Test.java	generic-all
+compiler/6901572/Test.java	generic-all
+compiler/7024475/Test7024475.java	generic-all
+compiler/7100757/Test7100757.java	generic-all
+compiler/7184394/TestAESMain.java	generic-all
+compiler/7196199/Test7196199.java	generic-all
+
+# this test uses an option that is only accepted by a fastdebug build
+compiler/print/PrintInlining.java	generic-all
+
+# this test also fails on x86-64 reference; I suspect that this is a Java 8 issue
+compiler/whitebox/IsMethodCompilableTest.java	generic-all
+
+# ClassSpaceSize (aka PermGen) is not supported by Java 8
+gc/metaspace/CompressedClassSpaceSizeInJmapHeap.java	generic-all
+
+# also fails on x86-64 reference; -m64 passed to gcc, which is not accepted by aarch64 gcc compiler
+runtime/6929067/Test6929067.sh	generic-all
+
+# also fails on x86-64 reference; -m64 passed to gcc, which is not accepted by aarch64 gcc compiler
+runtime/InitialThreadOverflow/testme.sh	generic-all
+
+# also fails on x86-64 reference; suspect this is a Java 8 issue, since bad jar file in classpath is now rejected.
+runtime/LoadClass/LoadClassNegative.java	generic-all
+
+# There are also a couple of tests which time out on aarch64, which
+# could contribute to the overall job timeout:
+runtime/CDSCompressedKPtrs/CDSCompressedKPtrs.java	generic-all
+runtime/CDSCompressedKPtrs/XShareAuto.java	generic-all

@@ -13,7 +13,7 @@
 # PLEASE DO NOT HAND EDIT THIS FILE.
 #
 metadata:
-  name: jdk_beans1
+  name: hotspot-compiler
   format: "Lava-Test-Shell Test Definition 1.0"
   description: "Regression tests for the OpenJDK platform"
   version: 1.0
@@ -25,8 +25,20 @@ metadata:
     - test
   devices:
     - rtsm_ve-armv8
+install:
+  git-repos:
+    - git://git.linaro.org/leg/openjdk/jtreg-bin.git
+    - git://git.linaro.org/qa/test-definitions.git
+params:
+    - 'JAVA_VM=-client'
+    - 'JTREG_VERBOSE=-v1'
+    - 'JTREG_CONC=-conc:1'
+    - 'JTREG_TIMEOUT=-timeout:3'
+    - 'JTREG_EXCLUDE_FILE=../jtreg/exclude.txt'
+    - 'TEST_CASE=/usr/lib/jvm/java-8-openjdk/jtreg/hotspot/test/sanity/WhiteBox.java'
 run:
   steps:
     - 'source $HOME/jtreg-setup.env'
     - 'cd $JTREG_TESTRUN_ID/test-definitions/openembedded/scripts'
-    - './jtreg-test $JDK_TEST_DIR jdk_beans1'
+    - 'tc=$(basename $TEST_CASE)'
+    - './jtreg-test -t $tc -j $JAVA_VM -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $TEST_CASE'

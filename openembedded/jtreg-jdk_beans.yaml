@@ -13,7 +13,7 @@
 # PLEASE DO NOT HAND EDIT THIS FILE.
 #
 metadata:
-  name: hotspot-testlibrary
+  name: jdk_beans
   format: "Lava-Test-Shell Test Definition 1.0"
   description: "Regression tests for the OpenJDK platform"
   version: 1.0
@@ -40,7 +40,7 @@ run:
   steps:
     - 'PATH=/lava/tests/$TESTRUN_ID/jtreg-bin/jtreg/linux/bin:$PATH'
     - 'cd /lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
-    - './jtreg-test -t hotspot-testlibrary -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/hotspot/test/testlibrary'
+    - './jtreg-test -t jdk_beans -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/jdk/test/java/beans'
 parse:
   pattern: "(?P<result>^(Passed|FAILED)):\\s+(?P<test_case_id>(.*))"
   fixupdict:

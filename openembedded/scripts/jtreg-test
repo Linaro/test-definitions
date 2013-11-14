@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# JTREG LAVA test harness.
+# LAVA wrapper for invoking jtreg(1) and accumulating the results.
 #
 # Copyright (C) 2013, Linaro Limited.
 #
@@ -21,104 +21,83 @@
 # Author: Andrew McDermott <andrew.mcdermott@linaro.org>
 #
 
-if [ $# -lt 2 ]; then
-    echo "usage: $0: <test-dir> <test>" >&2
-    exit 1
-fi
+# All options before the '--' are for this script. The remaining are
+# for jtreg(1).
 
-if [ -z "$PRODUCT_HOME" ]; then
-    echo "error: PRODUCT_HOME not set!" >&2
-    exit 1
-fi
+test_case=unknown
+java_vm=-client
+product_home=/usr/lib/jvm/java-8-openjdk
 
-if [ -z "$JT_HOME" ]; then
-    echo "error: JT_HOME not set!" >&2
-    exit 1
-fi
+while getopts ":j:o:p:t:" opt; do
+    case $opt in
+	j)
+	    java_vm=$OPTARG
+	    ;;
+	o)
+	    output_dir=$OPTARG
+	    ;;
+	p)
+	    product_home=$OPTARG
+	    ;;
+	t)
+	    test_case=$OPTARG
+	    ;;
+	\?)
+	    echo "Invalid option: -$OPTARG" >&2
+	    exit 1
+	    ;;
+	:)
+	    echo "Option -$OPTARG requires an argument." >&2
+	    exit 1
+	    ;;
+    esac
+done
 
-if [ -z "$JTREG" ]; then
-    JTREG=$JT_HOME/linux/bin/jtreg-lava
-fi
+shift $((OPTIND-1))
 
-set -x
+output_dir=/tmp/jtreg/$test_case.$$
+rm -rf $output_dir
 
-uniq_pathname() {
-    local name=$1
-    name=${name#$to/}
-    name=${name////-}
-    echo $to/$name
-}
+lava-test-case $test_case --shell		\
+    jtreg					\
+      -J${java_vm}				\
+      -vmoption:${java_vm}			\
+      -jdk:"${product_home}"			\
+      -w:$output_dir/JTwork			\
+      -r:$output_dir/JTreport			\
+      "$@"
 
-test_dir=$1
-test_to_run=$2
+exit_code=$?
 
-t=/tmp/jtreg/$test_to_run.$$
-rm -rf $t
-mkdir -p $t
-to=$t/testoutput
+shopt -s globstar
+shopt -s nullglob
 
-# Accommodate differences between jdk tests and hotspot tests.
-#
-# The hotspot tests need to be invoked with TESTDIRS set and they also
-# put the output one directory deeper and the output content (and
-# location) is different to the jdk tests.
-#
-if [ -n "$TESTDIRS" ]; then
-    lava-test-case $test_to_run \
-        --shell \
-        make -C $test_dir PRODUCT_HOME=$PRODUCT_HOME JTREG=$JTREG JT_HOME=$JT_HOME ALT_OUTPUTDIR=$t TESTDIRS=$TESTDIRS
+# By pushd'ing we make the attached filenames in the LAVA dashboard
+# much smaller.
 
-    exit_code=$?
-    to=`ls -1d $t/*/testoutput`
-    zip --quiet -d $to/ARCHIVE_BUNDLE.zip 'JTwork/classes/*'
-    mv $to/ARCHIVE_BUNDLE.zip $to/${test_to_run}-ARCHIVE_BUNDLE.zip
-    lava-test-case-attach $test_to_run $to/${test_to_run}-ARCHIVE_BUNDLE.zip
-    pushd $PWD
-    cd $to
-    unzip -x -o $to/${test_to_run}-ARCHIVE_BUNDLE.zip 'JTreport/text/*.txt'
-    shopt -s nullglob
-    for i in $to/JTwork/scratch/hs*.log; do
-        lava-test-case-attach $test_to_run $i text/plain
-    done
-    for i in JTreport/text/*.txt; do
-        lava-test-case-attach $test_to_run $i text/plain
+if [ -d $output_dir/JTreport/text ]; then
+    pushd $output_dir/JTreport/text
+    for i in *.txt; do
+	if [ $i = "summary.txt" ]; then
+	    grep 'Failed\.' $i > failed.txt
+	    lava-test-case-attach $test_case failed.txt
+	    grep 'Passed\.' $i > success.txt
+	    lava-test-case-attach $test_case success.txt
+	    sed -i '/Not run\./d' $i
+	fi
+	lava-test-case-attach $test_case $i
     done
     popd
-else
-    lava-test-case $test_to_run \
-        --shell \
-        make -C $test_dir PRODUCT_HOME=$PRODUCT_HOME JTREG=$JTREG JT_HOME=$JT_HOME ALT_OUTPUTDIR=$t $test_to_run
-
-    exit_code=$?
-
-    shopt -s nullglob
-
-    for i in $to/${test_to_run}*/*.txt; do
-        name=$(uniq_pathname $i)
-        cp $i $name
-        if [ -s $name ]; then
-            lava-test-case-attach $test_to_run $name
-        fi
-    done
-
-    for i in $to/${test_to_run}*/JTwork/scratch/hs*.log; do
-        lava-test-case-attach $test_to_run $i text/plain
-    done
-
-    for i in $to/${test_to_run}*/ARCHIVE_BUNDLE.zip; do
-        zip --quiet -d $i 'JTwork/classes/*'
-        name=$(uniq_pathname $i)
-        cp $i $name
-        if [ -s $name ]; then
-            lava-test-case-attach $test_to_run $name
-        fi
-    done
-
-    for i in $to/${test_to_run}*/Stats.txt; do
-        cat $i
-    done
 fi
 
-rm -rf $t
+if [ -d $output_dir/JTwork/scratch ]; then
+    pushd $output_dir/JTwork/scratch
+    for i in hs*.log; do
+	lava-test-case-attach $test_case $i text/plain
+    done
+    popd
+fi
+
+rm -rf $output_dir
 
 exit $exit_code
