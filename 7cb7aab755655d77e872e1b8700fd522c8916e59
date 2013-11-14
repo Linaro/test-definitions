@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da141535_9fb59b33",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-11-14T09:29:52Z",
+      "side": 1,
+      "message": "Is the indentation not correct? I\u0027m following this sample.\nhttp://validation.linaro.org/static/docs/lava-dispatcher/lava_test_shell.html#quick-start",
+      "parentUuid": "da141535_ffaed7e6",
+      "revId": "7cb7aab755655d77e872e1b8700fd522c8916e59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_dfab13d5",
         "filename": "openembedded/scripts/cyclictest.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-11-14T08:59:57Z",
       "side": 1,
       "message": "We still want to see the results from min results right or?",
+      "revId": "7cb7aab755655d77e872e1b8700fd522c8916e59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da141535_7f82c753",
+        "filename": "openembedded/scripts/cyclictest.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-11-14T09:29:52Z",
+      "side": 1,
+      "message": "You told about skipping min results in Patch Set 1.",
+      "parentUuid": "da141535_dfab13d5",
       "revId": "7cb7aab755655d77e872e1b8700fd522c8916e59",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
