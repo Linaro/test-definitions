@@ -3,6 +3,7 @@ import re
 import sys
 import os
 
+# threshold values, in us
 max_threshold = 15000
 avg_threshold = 20
 min_threshold = 10
@@ -22,8 +23,6 @@ data = sys.stdin.readlines()
 if len(data) == 0:
     print "test_case_id:Test program running result:fail measurement:0 units:none"
 else:
-    print "test_case_id:Test program running result:pass measurement:0 units:none"
-
     for line in data:
         result = parser.search(line)
         if result is not None:
@@ -46,16 +45,16 @@ else:
                 min_lentency = int(result.group('Min'))
 
     if pass_max_threshold is True:
-        print "test_case_id:Max latency bound (<15ms) result:pass measurement:" + str(max_lentency) + " units:usecs"
+        print "test_case_id:Max latency bound (<15000us) result:pass measurement:" + str(max_lentency) + " units:usecs"
     else:
-        print "test_case_id:Max latency bound (<15ms) result:fail measurement:" + str(max_lentency) + " units:usecs"
+        print "test_case_id:Max latency bound (<15000us) result:fail measurement:" + str(max_lentency) + " units:usecs"
 
     if pass_avg_threshold is True:
-        print "test_case_id:Avg latency bound (<20ns) result:pass measurement:" + str(avg_lentency) + " units:usecs"
+        print "test_case_id:Avg latency bound (<20us) result:pass measurement:" + str(avg_lentency) + " units:usecs"
     else:
-        print "test_case_id:Avg latency bound (<20ns) result:fail measurement:" + str(avg_lentency) + " units:usecs"
+        print "test_case_id:Avg latency bound (<20us) result:fail measurement:" + str(avg_lentency) + " units:usecs"
 
     if pass_min_threshold is True:
-        print "test_case_id:Min latency bound (<10ns) result:pass measurement:" + str(min_lentency) + " units:usecs"
+        print "test_case_id:Min latency bound (<10us) result:pass measurement:" + str(min_lentency) + " units:usecs"
     else:
-        print "test_case_id:Min latency bound (<10ns) result:fail measurement:" + str(min_lentency) + " units:usecs"
+        print "test_case_id:Min latency bound (<10us) result:fail measurement:" + str(min_lentency) + " units:usecs"
