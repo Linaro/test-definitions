@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_136864b9",
+        "filename": "openembedded/libhugetlbfs.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-18T11:06:52Z",
+      "side": 1,
+      "message": "nit: trailing whitespace.",
+      "revId": "1efe6e5eb83ce88f6590d54c57e9036e4bcc9202",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
