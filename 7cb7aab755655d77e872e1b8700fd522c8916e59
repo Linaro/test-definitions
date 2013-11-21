@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba092121_9beecfb3",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-21T09:24:02Z",
+      "side": 1,
+      "message": "I\u0027m sorry, your right!",
+      "parentUuid": "da141535_9fb59b33",
+      "revId": "7cb7aab755655d77e872e1b8700fd522c8916e59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_dfab13d5",
         "filename": "openembedded/scripts/cyclictest.py",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "You told about skipping min results in Patch Set 1.",
       "parentUuid": "da141535_dfab13d5",
+      "revId": "7cb7aab755655d77e872e1b8700fd522c8916e59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba092121_bbf19397",
+        "filename": "openembedded/scripts/cyclictest.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-21T09:24:02Z",
+      "side": 1,
+      "message": "Yes, I did...\nhowever, what I meant was that we should add: result:skip\nso we still can see the results... I\u0027m sorry that I was unclear. \u003d(",
+      "parentUuid": "da141535_7f82c753",
       "revId": "7cb7aab755655d77e872e1b8700fd522c8916e59",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
