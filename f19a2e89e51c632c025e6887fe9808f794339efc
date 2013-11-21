@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "ba092121_fbd02bf9",
+        "filename": "ubuntu/openem.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2013-11-21T08:48:55Z",
+      "side": 1,
+      "message": "definitely, no. please clean up the build deps.",
+      "parentUuid": "da141535_d3c78c63",
+      "revId": "f19a2e89e51c632c025e6887fe9808f794339efc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba092121_dbcd675f",
+        "filename": "ubuntu/scripts/openem.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2013-11-21T08:48:55Z",
+      "side": 1,
+      "message": "could you add a comment/justification on why you do that?\nwhy we don\u0027t pull for website and have to carry a copy?\ndoes the license permit to redistribute this way?",
+      "revId": "f19a2e89e51c632c025e6887fe9808f794339efc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da141535_33b928ea",
         "filename": "ubuntu/scripts/openem.sh",
         "patchSetId": 6
