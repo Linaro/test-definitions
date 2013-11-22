@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba092121_bbfbd346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2013-11-22T09:34:16Z",
+      "side": 1,
+      "message": "I would suggest adding spaces between sentences (after dots and commas)",
+      "revId": "17c4067012d1bce5186bedfa6ba09e00cd5e42f3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
