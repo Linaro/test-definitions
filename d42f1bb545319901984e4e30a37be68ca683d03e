@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba092121_1ba4ff55",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2013-11-22T10:34:06Z",
+      "side": 1,
+      "message": "I understand that the test will run for a minute without load, right?",
+      "revId": "d42f1bb545319901984e4e30a37be68ca683d03e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
