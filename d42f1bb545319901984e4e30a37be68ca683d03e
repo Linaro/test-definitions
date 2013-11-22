@@ -52,6 +52,24 @@
       "revId": "d42f1bb545319901984e4e30a37be68ca683d03e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba092121_9ba6cf52",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-11-22T13:07:21Z",
+      "side": 1,
+      "message": "The loop just returns directly if less than 60, and the test will continue. It doesn\u0027t make sense to run the test in short time.",
+      "parentUuid": "ba092121_fbaf0b2a",
+      "revId": "d42f1bb545319901984e4e30a37be68ca683d03e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
