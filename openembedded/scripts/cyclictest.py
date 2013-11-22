@@ -5,11 +5,11 @@ import os
 
 max_threshold = int(sys.argv[1])
 avg_threshold = int(sys.argv[2])
-pass_max_threshold = True
-pass_avg_threshold = True
-max_lentency = 0
-avg_lentency = 0
-min_lentency = 0
+pass_max_threshold = "pass"
+pass_avg_threshold = "pass"
+max_latency = 0
+avg_latency = 0
+min_latency = max_threshold
 
 # parse format:
 # T:49 ( 4518) P:31 I:4243600 C:      2 Min:      8 Act:    8 Avg:    8 Max:       9
@@ -24,29 +24,23 @@ else:
         result = parser.search(line)
         if result is not None:
             if int(result.group('Max')) > max_threshold:
-                pass_max_threshold = False
+                pass_max_threshold = "fail"
 
             if int(result.group('Avg')) > avg_threshold:
-                pass_avg_threshold = False
+                pass_avg_threshold = "fail"
 
-            if int(result.group('Max')) > max_lentency:
-                max_lentency = int(result.group('Max'))
+            if int(result.group('Max')) > max_latency:
+                max_latency = int(result.group('Max'))
 
-            if int(result.group('Avg')) > avg_lentency:
-                avg_lentency = int(result.group('Avg'))
+            if int(result.group('Avg')) > avg_latency:
+                avg_latency = int(result.group('Avg'))
 
-            if int(result.group('Min')) > min_lentency:
-                min_lentency = int(result.group('Min'))
+            if int(result.group('Min')) < min_latency:
+                min_latency = int(result.group('Min'))
 
-    if pass_max_threshold is True:
-        print "test_case_id:Max latency bound (<" + str(max_threshold) + "us) result:pass measurement:" + str(max_lentency) + " units:usecs"
-    else:
-        print "test_case_id:Max latency bound (<" + str(max_threshold) + "us) result:fail measurement:" + str(max_lentency) + " units:usecs"
+    print "test_case_id:Max latency bound (<" + str(max_threshold) + "us) result:" + pass_max_threshold + " measurement:" + str(max_latency) + " units:usecs"
 
-    if pass_avg_threshold is True:
-        print "test_case_id:Avg latency bound (<" + str(avg_threshold) + "us) result:pass measurement:" + str(avg_lentency) + " units:usecs"
-    else:
-        print "test_case_id:Avg latency bound (<" + str(avg_threshold) + "us) result:fail measurement:" + str(avg_lentency) + " units:usecs"
+    print "test_case_id:Avg latency bound (<" + str(avg_threshold) + "us) result:" + pass_avg_threshold + " measurement:" + str(avg_latency) + " units:usecs"
 
     # ignore min latency bound
-    print "test_case_id:Min latency result:skip measurement:" + str(min_lentency) + " units:usecs"
+    print "test_case_id:Min latency result:skip measurement:" + str(min_latency) + " units:usecs"
