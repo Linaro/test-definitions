@@ -70,6 +70,24 @@
       "revId": "d42f1bb545319901984e4e30a37be68ca683d03e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba092121_bb80738c",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-22T13:14:51Z",
+      "side": 1,
+      "message": "thats good, as long as it doesn\u0027t crashes... would we need a comment on this issue in the yaml?",
+      "parentUuid": "ba092121_9ba6cf52",
+      "revId": "d42f1bb545319901984e4e30a37be68ca683d03e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
