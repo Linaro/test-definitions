@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba092121_1bd63fc6",
+        "filename": "ubuntu/scripts/openem.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000033
+      },
+      "writtenOn": "2013-11-22T07:14:00Z",
+      "side": 1,
+      "message": "dpdk.org is maintained by 6Wind, not Intel - thus the latest packages found on dpdk.org might not be identical to the package used for patching.",
+      "revId": "c91db82bb0fdce8810dd5dca659f9ac6f2864181",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
