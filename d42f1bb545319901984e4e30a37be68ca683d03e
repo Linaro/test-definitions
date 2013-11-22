@@ -16,6 +16,24 @@
       "revId": "d42f1bb545319901984e4e30a37be68ca683d03e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba092121_bb92b3f4",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-11-22T12:35:36Z",
+      "side": 1,
+      "message": "Yes, since the test usually run in 24 hours, 1 minute without heavy loading won\u0027t affect the result. But it can avoid being killed.",
+      "parentUuid": "ba092121_1ba4ff55",
+      "revId": "d42f1bb545319901984e4e30a37be68ca683d03e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
