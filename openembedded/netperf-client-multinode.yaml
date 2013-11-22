@@ -18,13 +18,15 @@ metadata:
         - beaglebone-black
         - beagle-xm
         - mx53loco
+params:
+        - "ETH=eth0"
 
 run:
     steps:
         - ifconfig -a
         - route
-        - lava-network broadcast eth0
-        - lava-network collect eth0
+        - lava-network broadcast $ETH
+        - lava-network collect $ETH
         - lava-sync ready 
         - lava-test-case multinode-lava-network --shell ./common/scripts/netperf-client.sh
         - lava-sync done 
