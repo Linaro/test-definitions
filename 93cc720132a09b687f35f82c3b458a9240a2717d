@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0e1d27_f76720e9",
+        "filename": "ubuntu/scripts/openem.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-26T12:49:30Z",
+      "side": 1,
+      "message": "remove trailing whitespace",
+      "revId": "93cc720132a09b687f35f82c3b458a9240a2717d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
