@@ -75,17 +75,32 @@ shopt -s nullglob
 # By pushd'ing we make the attached filenames in the LAVA dashboard
 # much smaller.
 
+mkdir -p $output_dir/JTwork/failed
+
 if [ -d $output_dir/JTreport/text ]; then
     pushd $output_dir/JTreport/text
     for i in *.txt; do
-	if [ $i = "summary.txt" ]; then
-	    grep 'Failed\.' $i > failed.txt
-	    lava-test-case-attach $test_case failed.txt
-	    grep 'Passed\.' $i > success.txt
-	    lava-test-case-attach $test_case success.txt
-	    sed -i '/Not run\./d' $i
-	fi
-	lava-test-case-attach $test_case $i
+        if [ $i = "summary.txt" ]; then
+            grep 'Failed\.' $i > failed.txt
+            lava-test-case-attach $test_case failed.txt
+            grep 'Passed\.' $i > success.txt
+            lava-test-case-attach $test_case success.txt
+            sed -i '/Not run\./d' $i
+            while read -r line; do
+                tc=$(echo $line | awk '{print $1}')
+                y=$(dirname $tc)
+                z=$(basename $tc .java)
+                test_result=$output_dir/JTwork/${y}/${z}.jtr
+                if [ -e $test_result ]; then
+                    pushd $output_dir/JTwork
+                    mkdir -p failed/${y}
+                    cp $test_result failed/${y}/${z}.jtr
+                    lava-test-case-attach $test_case failed/${y}/${z}.jtr text/plain
+                    popd
+                fi
+            done < failed.txt
+        fi
+        lava-test-case-attach $test_case $i
     done
     popd
 fi
@@ -95,6 +110,13 @@ if [ -d $output_dir/JTwork/scratch ]; then
     for i in hs*.log; do
 	lava-test-case-attach $test_case $i text/plain
     done
+    popd
+fi
+
+if [ -d $output_dir/JTwork ]; then
+    pushd $output_dir
+    zip --quiet -r JTwork.zip JTwork
+    lava-test-case-attach $test_case JTwork.zip
     popd
 fi
 
