@@ -42,7 +42,7 @@ run:
     - 'cd /lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
     - './jtreg-test -t jdk_text -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/jdk/test/java/text'
 parse:
-  pattern: "(?P<result>^(Passed|FAILED)):\\s+(?P<test_case_id>(.*))"
+  pattern: "(?P<result>^(JTREG-SUCCESS|JTREG-FAIL))\\s+(?P<test_case_id>(.*))"
   fixupdict:
-    Passed: pass
-    FAILED: fail
+    JTREG-SUCCESS: pass
+    JTREG-FAIL: fail
