@@ -16,6 +16,23 @@
       "revId": "02039fde89953e21d0aeb753e78b06a164a9cdcd",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a23299d_762670bc",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2013-11-27T10:50:35Z",
+      "side": 1,
+      "message": "I tried your suggestion of removing this same line I have in the jtreg-*.yaml tests and I get the following error when the test is executed:\n\n/lava/tests/0_hotspot-compiler/run.sh: line 21: cd: /lava/tests/0_hotspot-compiler/test-definitions/openembedded/scripts: No such file or directory\n\nso I would actually run the test with and without to verify whether this line is needed.",
+      "revId": "02039fde89953e21d0aeb753e78b06a164a9cdcd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
