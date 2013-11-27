@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a23299d_3620f89a",
+        "filename": "openembedded/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2013-11-27T10:53:44Z",
+      "side": 1,
+      "message": "Do these scripts need copyright / license notices, et al?",
+      "revId": "1c954ae47dd70f826c18e61da1ad59c84045f5ef",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
