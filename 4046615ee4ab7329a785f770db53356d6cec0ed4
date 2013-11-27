@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0e1d27_d71c1c16",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-27T09:41:41Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "revId": "4046615ee4ab7329a785f770db53356d6cec0ed4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0e1d27_b719a824",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-27T09:41:41Z",
+      "side": 1,
+      "message": "- \"./openembedded/scripts/is-cpu-isolated.sh 5 10\"\n\ncant it be like this?",
+      "revId": "4046615ee4ab7329a785f770db53356d6cec0ed4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
