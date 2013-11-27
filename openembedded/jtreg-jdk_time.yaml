@@ -35,11 +35,10 @@ params:
 install:
   git-repos:
     - git://git.linaro.org/leg/openjdk/jtreg-bin.git
-    - git://git.linaro.org/qa/test-definitions.git
 run:
   steps:
     - 'PATH=/lava/tests/$TESTRUN_ID/jtreg-bin/jtreg/linux/bin:$PATH'
-    - 'cd /lava/tests/$TESTRUN_ID/test-definitions/openembedded/scripts'
+    - 'cd openembedded/scripts'
     - './jtreg-test -t jdk_time -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/jdk/test/java/time'
 parse:
   pattern: "(?P<result>^(JTREG-SUCCESS|JTREG-FAIL))\\s+(?P<test_case_id>(.*))"
