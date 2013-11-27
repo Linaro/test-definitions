@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_93511cdb",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-27T23:38:33Z",
+      "side": 1,
+      "message": "I\u0027m sorry Viresh, would it be possible to use variables and set the default variables to 5 and 10?\nthe value 5 are Number of samples requested and 10 are Minutes isolation required right?",
+      "revId": "e3c37200e6f831f85b1ca5aef1c3adaaa9b0bb92",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
