@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a23299d_160e1c35",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-27T10:22:35Z",
+      "side": 1,
+      "message": "You don\u0027t need to specify this repository here, because this repository will be selected from the json file.",
+      "revId": "02039fde89953e21d0aeb753e78b06a164a9cdcd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
