@@ -16,6 +16,24 @@
       "revId": "1c954ae47dd70f826c18e61da1ad59c84045f5ef",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a202591_75ff8802",
+        "filename": "openembedded/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2013-11-27T11:11:43Z",
+      "side": 1,
+      "message": "Don\u0027t really know..",
+      "parentUuid": "7a23299d_3620f89a",
+      "revId": "1c954ae47dd70f826c18e61da1ad59c84045f5ef",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
