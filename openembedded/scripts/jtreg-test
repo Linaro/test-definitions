@@ -74,41 +74,36 @@ shopt -s nullglob
 # By pushd'ing we make the attached filenames in the LAVA dashboard
 # much smaller.
 
-mkdir -p $output_dir/JTwork/failed
+process_file() {
+    local filename=$1
+    local result=$2
+    while read -r line; do
+	tc=$(echo $line | awk '{print $1}')
+	y=$(dirname $tc)
+	z=$(basename $tc .java)
+	test_result=$output_dir/JTwork/$y/${z}.jtr
+	if [ -e $test_result ]; then
+	    pushd $output_dir/JTwork
+	    lava-test-case $z --result $result
+	    lava-test-case-attach $z $y/${z}.jtr text/plain
+	    popd
+	fi
+    done < $filename
+}
 
 if [ -d $output_dir/JTreport/text ]; then
     pushd $output_dir/JTreport/text
     for i in *.txt; do
 	lava-test-run-attach $i
 	if [ $i = "summary.txt" ]; then
-	    grep 'Failed\.' $i > failed.txt
-	    grep 'Passed\.' $i > success.txt
+	    egrep '[^ ]+[ ]+Not run\.' $i > notrun.txt
+	    egrep '[^ ]+[ ]+(Failed|Error)\.' $i > failed.txt
+	    egrep '[^ ]+[ ]+Passed\.' $i > pass.txt
+	    lava-test-run-attach notrun.txt
 	    lava-test-run-attach failed.txt
-	    lava-test-run-attach success.txt
-            while read -r line; do
-		tc=$(echo $line | awk '{print $1}')
-		y=$(dirname $tc)
-		z=$(basename $tc .java)
-		lava-test-case $z --result pass
-		echo "JTREG-SUCCESS $z"
-            done < success.txt
-            while read -r line; do
-		tc=$(echo $line | awk '{print $1}')
-		y=$(dirname $tc)
-		z=$(basename $tc .java)
-		test_result=$output_dir/JTwork/$y/${z}.jtr
-		if [ -e $test_result ]; then
-		    pushd $output_dir/JTwork
-		    mkdir -p failed-results/$y
-		    cp $test_result failed-results/$y/${z}.jtr
-		    pushd failed-results
-		    lava-test-case $z --result fail
-		    lava-test-case-attach $z $y/${z}.jtr text/plain
-		    popd
-		    echo "JTREG-FAIL $z"
-		    popd
-		fi
-	    done < failed.txt
+	    lava-test-run-attach pass.txt
+	    process_file pass.txt pass
+	    process_file failed.txt fail
 	fi
     done
     popd
