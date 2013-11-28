@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_d3cd545f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2013-11-28T14:08:33Z",
+      "side": 1,
+      "message": "pattern",
+      "revId": "22d51ce5c8fcfd2bb275485b0c3bbec5fcad7990",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_b3dad815",
+        "filename": "openembedded/libhugetlbfs.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2013-11-28T14:08:33Z",
+      "side": 1,
+      "message": "This looks sensible.\nlibhugetlbfs test suite can provide blank answers on occasion in rare circumstances. This would be picked up by a lower PASS count?",
+      "revId": "22d51ce5c8fcfd2bb275485b0c3bbec5fcad7990",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
