@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_f3a29099",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-11-28T11:31:27Z",
+      "side": 1,
+      "message": "need to add scripts:\nopenembedded/scripts/is-cpu-isolated.sh $ITERATIONS $ISOL_MIN",
+      "revId": "773850ab2963ff97f6c38ab3a8c7cf5b2f4b6707",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
