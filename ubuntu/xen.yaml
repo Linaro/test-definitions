@@ -1,0 +1,30 @@
+metadata:
+    name: xen-test-suite
+    format: "Lava-Test-Shell Test Definition 1.0"
+    version: "1.0"
+    description: "Xen test suite"
+    os:
+        - ubuntu
+    devices:
+        - vexpress
+        - arndale
+    environment:
+        - lava-test-shell
+install:
+    deps:
+        - libyajl2
+        - libfdt1
+        - kpartx
+        - rt-tests
+        - wget
+run:
+    steps:
+        - "./lava/scripts/initialize-xen-tools.sh"
+        - "./lava/scripts/test-guest.sh"
+        - "lava-test-run-attach /var/log/xen/console/guest-guest1.log text/plain"
+
+parse:
+    pattern: "(?P<test_case_id>[^+]*-*):\\s+(?P<result>\\w+)"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
