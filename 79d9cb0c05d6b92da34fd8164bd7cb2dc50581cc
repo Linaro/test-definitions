@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_f324d0c7",
+        "filename": "ubuntu/scripts/initialize-xen-tools.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2013-11-29T14:18:16Z",
+      "side": 1,
+      "message": "Is bash required? Could bashisms be removed or is this never likely to be called except when bash is available?",
+      "revId": "79d9cb0c05d6b92da34fd8164bd7cb2dc50581cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_13406c55",
+        "filename": "ubuntu/scripts/test-guest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2013-11-29T14:18:16Z",
+      "side": 1,
+      "message": "Is bash required? Could bashisms be removed or is this never likely to be called except when bash is available?",
+      "revId": "79d9cb0c05d6b92da34fd8164bd7cb2dc50581cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_333b68ed",
+        "filename": "ubuntu/scripts/test-guest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2013-11-29T14:18:16Z",
+      "side": 1,
+      "message": "The FIXME appears to be fixed, remove it and the old code?",
+      "revId": "79d9cb0c05d6b92da34fd8164bd7cb2dc50581cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_d321d4b5",
+        "filename": "ubuntu/xen.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2013-11-29T14:18:16Z",
+      "side": 1,
+      "message": "A Maintainer name is needed here for inclusion into standard QA sets.\n   maintainer:\n      - ...\n(use just the email address of the maintainer)",
+      "revId": "79d9cb0c05d6b92da34fd8164bd7cb2dc50581cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
