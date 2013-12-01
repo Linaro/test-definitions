@@ -1,0 +1,26 @@
+metadata:
+    name: sd-mmc
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test SD MMC on Linaro Android"
+    maintainer:
+        -  botao.sun@linaro.org
+    os:
+        - android
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    scope:
+        - functional
+
+run:
+    steps:
+        - "./android/scripts/sd-mmc.sh"
+
+parse:
+    pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
