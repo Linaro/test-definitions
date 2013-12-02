@@ -59,3 +59,8 @@ runtime/LoadClass/LoadClassNegative.java	generic-all
 # could contribute to the overall job timeout:
 runtime/CDSCompressedKPtrs/CDSCompressedKPtrs.java	generic-all
 runtime/CDSCompressedKPtrs/XShareAuto.java	generic-all
+
+# This collector is not implemented for server; for simplicity also ignoring on client tests.
+gc/concurrentMarkSweep/CheckAllocateAndSystemGC.java    generic-all
+gc/concurrentMarkSweep/GuardShrinkWarning.java  generic-all
+gc/concurrentMarkSweep/SystemGCOnForegroundCollector.java       generic-all
