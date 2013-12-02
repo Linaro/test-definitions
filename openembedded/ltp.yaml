@@ -13,9 +13,12 @@ metadata:
     devices:
         - rtsm_ve-armv8
 
+params:
+    TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb
+
 run:
     steps:
-        - './openembedded/scripts/ltpfixup.sh'
+        - './openembedded/scripts/ltpfixup.sh $TST_CMDFILES'
 
 parse:
     pattern: "^(?P<test_case_id>\\S+)\\s+(?P<result>\\w+)\\s+.+"
