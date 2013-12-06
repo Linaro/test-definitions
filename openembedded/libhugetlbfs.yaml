@@ -21,7 +21,7 @@ metadata:
         - arndale
 
 params:
-    - "WORD_SIZE=64"
+    WORD_SIZE: 64
 
 run:
     steps:

@@ -20,9 +20,9 @@ metadata:
 #   AVG: Average latency bound.
 #   RTIME: Running time. Must set this longer than 60.
 params:
-    - "MAX=15000"
-    - "AVG=50"
-    - "RTIME=86400"
+    MAX: 15000
+    AVG: 50
+    RTIME: 86400
 
 run:
     steps:
