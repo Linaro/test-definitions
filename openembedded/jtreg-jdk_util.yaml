@@ -26,12 +26,12 @@ metadata:
   devices:
     - rtsm_ve-armv8
 params:
-  - 'JAVA_VM=-client'
-  - 'JTREG_VERBOSE=-v1'
-  - 'JTREG_CONC=-conc:1'
-  - 'JTREG_TIMEOUT=-timeout:3'
-  - 'JTREG_EXCLUDE_FILE=../jtreg/exclude.txt'
-  - 'PRODUCT_HOME=/usr/lib/jvm/java-8-openjdk'
+  JAVA_VM: -client
+  JTREG_VERBOSE: -v1
+  JTREG_CONC: -conc:1
+  JTREG_TIMEOUT: -timeout:3
+  JTREG_EXCLUDE_FILE: ../jtreg/exclude.txt
+  PRODUCT_HOME: /usr/lib/jvm/java-8-openjdk
 install:
   git-repos:
     - git://git.linaro.org/leg/openjdk/jtreg-bin.git
