@@ -19,7 +19,7 @@ metadata:
         - beagle-xm
         - mx53loco
 params:
-        - "ETH=eth0"
+    ETH: eth0
 
 run:
     steps:

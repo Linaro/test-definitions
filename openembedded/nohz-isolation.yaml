@@ -12,8 +12,8 @@ metadata:
         - arndale
 
 params:
-    - "ITERATIONS=5"
-    - "ISOL_MIN=10"
+    ITERATIONS: 5
+    ISOL_MIN: 10
 run:
     steps:
         - "common/scripts/is-cpu-isolated.sh $ITERATIONS $ISOL_MIN"
