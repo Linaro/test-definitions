@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3479d7_b5c3ca37",
+        "filename": "openembedded/hackbench.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2013-12-06T12:38:23Z",
+      "side": 1,
+      "message": "is this needed?\nshouldn\u0027t we remove the script dd_infinite.sh as well if we\u0027re not going to use it?",
+      "revId": "31bb95381ea7d165cc63363b0ede052907a82ac6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
