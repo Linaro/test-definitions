@@ -16,6 +16,24 @@
       "revId": "31bb95381ea7d165cc63363b0ede052907a82ac6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3479d7_75dd6214",
+        "filename": "openembedded/hackbench.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2013-12-06T12:44:10Z",
+      "side": 1,
+      "message": "That\u0027s actually a good point. I removed the dd_infinite call exactly so that we can discuss on whether we should test the system under heavy load, or just let hackbench to its magic. Hackbench does, after all, run a sort of stress by copying data between a number of clients.",
+      "parentUuid": "fa3479d7_b5c3ca37",
+      "revId": "31bb95381ea7d165cc63363b0ede052907a82ac6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
