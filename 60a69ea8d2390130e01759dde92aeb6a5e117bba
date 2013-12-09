@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3975d1_51795492",
+        "filename": "android/scripts/sd-mmc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-09T11:34:14Z",
+      "side": 1,
+      "message": "Is this really needed? Test cases should be executed after the boot is finished.",
+      "revId": "60a69ea8d2390130e01759dde92aeb6a5e117bba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da3975d1_316ed0ca",
+        "filename": "android/scripts/sd-mmc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-09T11:34:14Z",
+      "side": 1,
+      "message": "Please put the echo contents into the variable so we can avoid potential typo in the line 97.",
+      "revId": "60a69ea8d2390130e01759dde92aeb6a5e117bba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
