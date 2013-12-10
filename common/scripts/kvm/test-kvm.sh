@@ -4,7 +4,7 @@ KVM_HOST_NET="kvm-host-net-1:"
 KVM_GUEST_NET="kvm-guest-net-1:"
 KVM_INIT="kvm-init-1:"
 KVM_BOOT="kvm-boot-1:"
-if [ $1 = "benchmark" ]; then
+if [ "x$1" = "xbenchmark" ]; then
     KVM_HOST_NET="$KVM_HOST_NET 0 none"
     KVM_GUEST_NET="$KVM_GUEST_NET 0 none"
     KVM_INIT="$KVM_INIT 0 none"
@@ -13,19 +13,23 @@ fi
 
 dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT pass" || echo "$KVM_INIT fail"
 
-wget --no-check-certificate http://snapshots.linaro.org/kernel-hwpack/linux-vexpress-kvm/linux-vexpress-kvm/kvm.qcow2.gz
-gunzip kvm.qcow2.gz
+BUILD_NUMBER=`wget -q --no-check-certificate -O - https://ci.linaro.org/jenkins/job/linux-vexpress-kvm/lastSuccessfulBuild/buildNumber`
 
+WGET="wget --progress=dot -e dotbytes=2M --no-check-certificate"
+
+$WGET http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/kvm.qcow2.gz
+$WGET http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/zImage
+$WGET http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/vexpress-v2p-ca15-tc1.dtb
+
+gunzip kvm.qcow2.gz
 modprobe nbd max_part=16
 qemu-nbd -c /dev/nbd0 kvm.qcow2
 mount /dev/nbd0p2 /mnt/
 
-cp /mnt/boot/vmlinuz-*-linaro-vexpress ./zImage
-cp /mnt/lib/firmware/*-linaro-vexpress/device-tree/vexpress-v2p-ca15-tc1.dtb .
 cp common/scripts/kvm/kvm-lava.conf  /mnt/etc/init/kvm-lava.conf
 
 # Build up file test-guest.sh
-if [ $1 = "benchmark" ]; then
+if [ "x$1" = "xbenchmark" ]; then
     cp /usr/bin/lat_ctx /mnt/usr/bin/lat_ctx
     cp common/scripts/lmbench.sh /mnt/root/lmbench.sh
     TEST_SCRIPT=/root/lmbench.sh
@@ -37,6 +41,7 @@ fi
 
 cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
+    exec > /root/guest.log 2>&1
     echo "$KVM_BOOT pass"
     ping -W 4 -c 10 192.168.1.10 && echo "$KVM_GUEST_NET pass" || echo "$KVM_GUEST_NET fail"
     sh $TEST_SCRIPT
@@ -67,7 +72,16 @@ qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
 	-nographic -enable-kvm \
 	 2>&1|tee kvm-log.txt
 
-if ! grep -q "kvm-boot-1:" kvm-log.txt
+qemu-nbd -c /dev/nbd0 kvm.qcow2
+mount /dev/nbd0p2 /mnt/
+
+if ! grep -q "kvm-boot-1:" /mnt/root/guest.log
 then
     echo "$KVM_BOOT fail"
 fi
+
+cat /mnt/root/guest.log
+
+umount /mnt
+sync
+qemu-nbd -d /dev/nbd0

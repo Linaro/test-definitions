@@ -16,6 +16,7 @@ metadata:
 install:
     deps:
         - qemu-system
+        - qemu-utils
         - rt-tests
         - uml-utilities
         - bridge-utils
