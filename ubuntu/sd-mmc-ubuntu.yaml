@@ -1,0 +1,26 @@
+metadata:
+    name: sd-mmc-ubuntu
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test SD MMC on Linux Linaro ubuntu"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - lava-test-shell
+
+run:
+    steps:
+        - "cd ubuntu/scripts; ./sd-mmc-ubuntu.sh"
+
+parse:
+    pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
