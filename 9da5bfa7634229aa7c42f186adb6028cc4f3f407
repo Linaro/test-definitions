@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba3e81b7_d0853cae",
+        "filename": "ubuntu/sd-mmc-ubuntu.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-16T10:02:47Z",
+      "side": 1,
+      "message": "Maintainer field is missing.",
+      "revId": "9da5bfa7634229aa7c42f186adb6028cc4f3f407",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba3e81b7_f08840c8",
+        "filename": "ubuntu/sd-mmc-ubuntu.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-16T10:02:47Z",
+      "side": 1,
+      "message": "Is there SD support on highbank?",
+      "revId": "9da5bfa7634229aa7c42f186adb6028cc4f3f407",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
