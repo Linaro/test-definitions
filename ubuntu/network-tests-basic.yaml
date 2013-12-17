@@ -4,6 +4,7 @@ metadata:
     description: "Basic network test commands for Linaro Ubuntu images"
     maintainer:
         - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
     scope:
@@ -26,8 +27,7 @@ run:
         - lava-test-case linux-linaro-ubuntu-route-ifconfig-down --shell ifconfig eth0 down
         - lava-test-case linux-linaro-ubuntu-route-dhclient --shell dhclient -v eth0
         - lava-test-case linux-linaro-ubuntu-route-dump-c --shell route
-        - lava-test-case linux-linaro-ubuntu-ping --shell ping -c 5 192.168.1.10
-        - echo 'Acquire::http::Proxy "http://192.168.1.10:3128";' > /etc/apt/apt.conf.d/lava-apt-proxy
+        - lava-test-case linux-linaro-ubuntu-ping --shell ping -c 5 10.0.0.1
         - lava-test-case linux-linaro-ubuntu-apt-get --shell apt-get update
         - lava-test-case linux-linaro-ubuntu-apt-get-curl --shell apt-get install -q -y curl
-        - lava-test-case linux-linaro-ubuntu-curl-big-video --shell curl -x http://192.168.1.10:3128 http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI > /dev/null
+        - lava-test-case linux-linaro-ubuntu-curl-big-video --shell curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI > /dev/null
