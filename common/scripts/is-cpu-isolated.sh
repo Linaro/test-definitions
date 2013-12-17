@@ -89,7 +89,7 @@ get_isolation_duration() {
 	done
 
 	isdebug echo "Result:"
-	echo $RESULT": "$MIN_ISOLATION
+	echo $RESULT": min-isolation "$MIN_ISOLATION "seconds"
 	isdebug echo ""
 }
 
