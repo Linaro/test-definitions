@@ -1,2 +1,3 @@
 java.beans.Beans.instantiate_1
 java.beans.Introspector.getBeanInfo4
+java.beans.XMLDecoder.jdk14

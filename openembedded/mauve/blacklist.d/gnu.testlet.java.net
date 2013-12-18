@@ -1,11 +1,12 @@
+java.net.DatagramSocket.DatagramSocketTest
 java.net.InetAddress.getCanonicalHostName
 java.net.NetworkInterface.Consistency
 java.net.NetworkInterface.security
+java.net.Socket.SocketTest
+java.net.Socket.security
 java.net.SocketPermission.argument
 java.net.SocketPermission.implies
-java.net.Socket.security
-java.net.Socket.SocketTest
 java.net.URI.ToStringTest
+java.net.URL.URLTest
 java.net.URLClassLoader.getResource
 java.net.URLConnection.URLConnectionTest
-java.net.URL.URLTest

@@ -1,11 +1,12 @@
 java.lang.Character.unicode
-java.lang.ClassLoader.findLoadedClass
 java.lang.Class.newInstance
-java.lang.ClassNotFoundException.classInfo.getMethods
 java.lang.Class.reflect
 java.lang.Class.reflect2
+java.lang.ClassLoader.findLoadedClass
+java.lang.ClassNotFoundException.classInfo.getMethods
 java.lang.CloneNotSupportedException.classInfo.getDeclaredFields
 java.lang.CloneNotSupportedException.classInfo.getMethods
+java.lang.Double.DoubleTest
 java.lang.Double.new_Double
 java.lang.IllegalAccessException.classInfo.getSuperclass
 java.lang.InstantiationException.classInfo.getSuperclass
