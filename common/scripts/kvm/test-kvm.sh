@@ -13,13 +13,19 @@ fi
 
 dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT pass" || echo "$KVM_INIT fail"
 
-BUILD_NUMBER=`wget -q --no-check-certificate -O - https://ci.linaro.org/jenkins/job/linux-vexpress-kvm/lastSuccessfulBuild/buildNumber`
+if hash curl 2>/dev/null; then
+    EXTRACT_BUILD_NUMBER="curl -s"
+    DOWNLOAD_FILE="curl -SO"
+else
+    EXTRACT_BUILD_NUMBER="wget -q --no-check-certificate -O -"
+    DOWNLOAD_FILE="wget --progress=dot -e dotbytes=2M --no-check-certificate"
+fi
 
-WGET="wget --progress=dot -e dotbytes=2M --no-check-certificate"
+BUILD_NUMBER=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/jenkins/job/linux-vexpress-kvm/lastSuccessfulBuild/buildNumber`
 
-$WGET http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/kvm.qcow2.gz
-$WGET http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/zImage
-$WGET http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/vexpress-v2p-ca15-tc1.dtb
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/kvm.qcow2.gz
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/zImage
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/vexpress-v2p-ca15-tc1.dtb
 
 gunzip kvm.qcow2.gz
 modprobe nbd max_part=16
