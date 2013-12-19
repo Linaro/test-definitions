@@ -118,6 +118,21 @@ isolate_cpu1() {
 
 	fi
 
+	# Delay the annoying vmstat timer far away (in seconds)
+	sysctl vm.stat_interval=1000
+
+	# Delay the annoying vmstat timer far away (in centiseconds)
+	sysctl vm.dirty_writeback_centisecs=100000
+
+	# Delay the annoying vmstat timer far away (in centiseconds)
+	sysctl vm.dirty_expire_centisecs=100000
+
+	# Shutdown nmi watchdog as it uses perf events
+	sysctl -w kernel.watchdog=0
+
+	# Move bdi writeback workqueues to CPU0
+	echo 1 > /sys/bus/workqueue/devices/writeback/cpumask
+
 	# make sure that the /dev/cpuset dir exits
 	# and mount the cpuset filesystem if needed
 	[ -d /dev/cpuset ] || mkdir /dev/cpuset
