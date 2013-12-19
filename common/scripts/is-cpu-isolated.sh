@@ -61,13 +61,16 @@ get_isolation_duration() {
 	do
 		let x=x+1
 
-		old_count=$new_count;
-
 		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
 
-		# sometimes there are continuous ticks, skip them.
-		sleep 1
+		# sometimes there are continuous ticks, skip them by sleeping for 100 ms.
+		sleep .1
+
+		# get count again after continuous ticks are skiped
+		old_count=$(get_tick_count)
+		new_count=$old_count
+
 
 		while [ $new_count -eq $old_count ]
 		do
