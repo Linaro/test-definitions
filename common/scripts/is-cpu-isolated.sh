@@ -45,24 +45,25 @@ get_isolation_duration() {
 	new_count=$(get_tick_count)
 	isdebug echo "initial count: " $new_count
 
+	old_count=$new_count
+	while [ $new_count -eq $old_count ]
+	do
+		new_count=$(get_tick_count)
+	done
+
+	isdebug echo "count locked: " $new_count
+
+	# Get time as a UNIX timestamp (seconds elapsed since Jan 1, 1970 0:00 UTC)
+	T2="$(date +%s)"
+
 	x=0
 	while [ $x -lt $sample_count ]
 	do
 		let x=x+1
 
-		old_count=$new_count
-		while [ $new_count -eq $old_count ]
-		do
-			new_count=$(get_tick_count)
-		done
-
-		isdebug echo "count locked: " $new_count
-
 		old_count=$new_count;
 
-		# Get time as a UNIX timestamp (seconds elapsed since Jan 1, 1970 0:00 UTC)
-		T1="$(date +%s)"
-
+		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
 
 		# sometimes there are continuous ticks, skip them.
