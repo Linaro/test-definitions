@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_a3d712ed",
+        "filename": "android/sd-mmc.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T14:49:19Z",
+      "side": 1,
+      "message": "This test is not applicable to highbank",
+      "revId": "a60583092bb25cec6403fd2ace497894df06731c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_83040e7f",
+        "filename": "android/sd-mmc.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T14:49:19Z",
+      "side": 1,
+      "message": "There is no aa9 Anroid build. Let\u0027s remove this device.",
+      "revId": "a60583092bb25cec6403fd2ace497894df06731c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
