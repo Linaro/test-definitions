@@ -4,8 +4,6 @@ metadata:
     description: "Test Linaro engineering builds basic graphics"
 
 install:
-    git-repos:
-        - http://git.linaro.org/git-ro/qa/test-definitions.git
     deps:
         - mesa-utils-extra
         - ubuntu-desktop

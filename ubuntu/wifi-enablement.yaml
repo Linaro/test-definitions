@@ -8,8 +8,6 @@ metadata:
         - functional
 
 install:
-    git-repos:
-        - http://git.linaro.org/git-ro/qa/test-definitions.git
     deps:
         - wpasupplicant
         - isc-dhcp-client

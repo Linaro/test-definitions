@@ -23,12 +23,10 @@ install:
         - bootchart
         - lsb-release
         - pybootchartgui
-    git-repos:
-        - http://git.linaro.org/git-ro/qa/test-definitions.git
 
 run:
     steps:
-        - cd test-definitions/ubuntu/scripts
+        - cd ubuntu/scripts
         - lava-test-case bootchartscript --shell ./bootchartscript.sh
         - lava-test-case-attach bootchartscript bootchart.log text/plain
         - BOOTTIME=`cat bootchart.log | grep time | awk '{print $2}'`

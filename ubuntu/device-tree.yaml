@@ -20,10 +20,6 @@ metadata:
     environment:
         - lava-test-shell
 
-install:
-    git-repos:
-        - http://git.linaro.org/git-ro/qa/test-definitions.git
-
 run:
     steps:
         - "cd ubuntu/scripts; sudo bash -x ./device-tree.sh"

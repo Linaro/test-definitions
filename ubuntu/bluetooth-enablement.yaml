@@ -11,8 +11,6 @@ metadata:
 install:
     deps:
         - bluez
-    git-repos:
-        - http://git.linaro.org/git-ro/qa/test-definitions.git
 
 run:
     steps:
