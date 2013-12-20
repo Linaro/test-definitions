@@ -12,13 +12,9 @@ metadata:
   devices:
     - rtsm_ve-armv8
 
-install:
-  git-repos:
-    - git://git.linaro.org/qa/test-definitions.git
-
 run:
   steps:
-    - 'cd test-definitions/openembedded/scripts'
+    - 'cd openembedded/scripts'
     - 'PATH=/usr/lib/jvm/java-8-openjdk/bin:/usr/lib/jvm/java-8-openjdk/jre/bin:$PATH'
     - './openjdk-version.sh 1.8'
 

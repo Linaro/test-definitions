@@ -11,13 +11,9 @@ metadata:
     devices:
         - rtsm_ve-armv8
 
-install:
-    git-repos:
-        - git://git.linaro.org/qa/test-definitions.git
-
 run:
     steps:
-        - "cd test-definitions/openembedded/scripts"
+        - "cd openembedded/scripts"
         - "./busybox.sh"
 
 parse:
