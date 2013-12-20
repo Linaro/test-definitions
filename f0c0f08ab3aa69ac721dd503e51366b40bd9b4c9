@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8379aefe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:25:11Z",
+      "side": 1,
+      "message": "It would be better to use your @linaro.org email and sign-off the patch.",
+      "revId": "f0c0f08ab3aa69ac721dd503e51366b40bd9b4c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_0326de16",
+        "filename": "openembedded/acpi-smoke-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:25:11Z",
+      "side": 1,
+      "message": "Please remove trailing white space",
+      "revId": "f0c0f08ab3aa69ac721dd503e51366b40bd9b4c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c31fb6b6",
+        "filename": "openembedded/acpi-smoke-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:25:11Z",
+      "side": 1,
+      "message": "I\u0027m missing devices in the meta section",
+      "revId": "f0c0f08ab3aa69ac721dd503e51366b40bd9b4c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e322ba00",
+        "filename": "openembedded/acpi-smoke-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:25:11Z",
+      "side": 1,
+      "message": "Please remove trailing white space",
+      "revId": "f0c0f08ab3aa69ac721dd503e51366b40bd9b4c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6317eaa4",
+        "filename": "openembedded/scripts/acpi-smoke-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:25:11Z",
+      "side": 1,
+      "message": "PLease remove spaces from empty line.",
+      "revId": "f0c0f08ab3aa69ac721dd503e51366b40bd9b4c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
