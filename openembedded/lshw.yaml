@@ -1,0 +1,15 @@
+metadata:
+    name: lshw
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "lshw Test"
+    version: 1.0
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_fvp_base_cortex-a57x1-a53x1
+        - rtsm_fvp_base-aemv8a
+run:
+    steps:
+        - "./common/scripts/lshw.sh"
