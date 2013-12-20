@@ -57,6 +57,7 @@ get_isolation_duration() {
 	T2="$(date +%s)"
 
 	x=0
+	AVG=0
 	while [ $x -lt $sample_count ]
 	do
 		let x=x+1
@@ -86,14 +87,17 @@ get_isolation_duration() {
 		isdebug echo "Time in seconds: "
 		echo $T
 		isdebug echo ""
+		let AVG=AVG+T
 
 		if [ $T -lt $MIN_ISOLATION -a $RESULT="PASS"  ]; then
 			RESULT="FAIL"
 		fi
 	done
 
+	let AVG=AVG/$sample_count
+
 	isdebug echo "Result:"
-	echo $RESULT": min-isolation "$MIN_ISOLATION "seconds"
+	echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$AVG" units:secs"
 	isdebug echo ""
 }
 
