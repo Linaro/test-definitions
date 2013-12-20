@@ -1,0 +1,16 @@
+metadata:
+    name: acpi-smoke-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Testing for the presence of ACPI"
+    maintainer:
+        - timothy.anzaku@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rtsm_fvp_base_cortex-a57x1-a53x1
+        - rtsm_fvp_base-aemv8a
+run:
+    steps:
+        - "./openembedded/scripts/acpi-smoke-test.sh"
