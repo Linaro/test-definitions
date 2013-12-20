@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_4383c6cc",
+        "filename": "common/scripts/lshw.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2013-12-20T15:30:05Z",
+      "side": 1,
+      "message": "Please remove the whitespace.",
+      "revId": "09bf6c27be89315845a0b86206114aca7a5ae670",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
