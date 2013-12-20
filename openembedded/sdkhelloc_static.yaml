@@ -1,7 +1,7 @@
 metadata:
-    name: sdkhelloc
+    name: sdkhelloc-static
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test for C compiler in OpenEmbedded."
+    description: "Test for C compiler (static linking) in OpenEmbedded."
     maintainer:
         - milosz.wasilewski@linaro.org
     os:
@@ -21,7 +21,7 @@ install:
 run:
     steps:
         - "cd test-definitions/openembedded/scripts"
-        - "./sdkhelloc.sh"
+        - "./sdkhelloc_static.sh"
 
 parse:
     pattern: "^(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
