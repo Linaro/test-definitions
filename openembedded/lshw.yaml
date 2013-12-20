@@ -1,0 +1,15 @@
+metadata:
+    name: lshw
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "lshw Test"
+    version: 1.0
+    os:
+        - openembedded    
+
+    install:
+        deps:
+            - lshw
+            - grep
+    run:
+        steps:
+            - "./common/scripts/lshw.sh"
