@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_033ffe26",
+        "filename": "ubuntu/scripts/gator-data-streaming-ubuntu.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:07:42Z",
+      "side": 1,
+      "message": "There is sh-test-lib available in ubuntu/scripts/include. Please use it instead of copying the functions inline.",
+      "revId": "01eedab8254742a39f9f88c6096732b9c1a24675",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
