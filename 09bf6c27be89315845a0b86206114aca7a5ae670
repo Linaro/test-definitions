@@ -16,6 +16,23 @@
       "revId": "09bf6c27be89315845a0b86206114aca7a5ae670",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e3699a26",
+        "filename": "openembedded/lshw.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2013-12-20T15:30:28Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "09bf6c27be89315845a0b86206114aca7a5ae670",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
