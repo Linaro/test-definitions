@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_c348d6ce",
+        "filename": "ubuntu/scripts/sd-mmc-ubuntu.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:08:48Z",
+      "side": 1,
+      "message": "there is sh-test-lib available in ubuntu/scripts/include. Please use it instead of copying the functions inline.",
+      "revId": "64f2e23f8ccf33407f4d20c36c3f94b9c95fc712",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
