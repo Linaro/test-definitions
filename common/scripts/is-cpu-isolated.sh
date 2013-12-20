@@ -58,6 +58,8 @@ get_isolation_duration() {
 
 	x=0
 	AVG=0
+	MIN=99999999
+	MAX=0
 	while [ $x -lt $sample_count ]
 	do
 		let x=x+1
@@ -89,8 +91,16 @@ get_isolation_duration() {
 		isdebug echo ""
 		let AVG=AVG+T
 
-		if [ $T -lt $MIN_ISOLATION -a $RESULT="PASS"  ]; then
+		if [ $T -lt $MIN_ISOLATION -a $RESULT="PASS" ]; then
 			RESULT="FAIL"
+		fi
+
+		# Record minimum and maximum isolation
+		if [ $T -lt $MIN ]; then
+			MIN=$T
+		fi
+		if [ $T -gt $MAX ]; then
+			MAX=$T
 		fi
 	done
 
@@ -98,6 +108,7 @@ get_isolation_duration() {
 
 	isdebug echo "Result:"
 	echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$AVG" units:secs"
+	echo "Min isolation is: "$MIN", Max isolation is: "$MAX" and Average isolation time is: "$AVG
 	isdebug echo ""
 }
 
