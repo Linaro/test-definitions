@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a437d4f_a3739214",
+        "filename": "common/scripts/lshw.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:33:26Z",
+      "side": 1,
+      "message": "Please remove all white spaces from empty lines",
+      "revId": "09bf6c27be89315845a0b86206114aca7a5ae670",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_83608e36",
+        "filename": "common/scripts/lshw.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:33:26Z",
+      "side": 1,
+      "message": "I guess this can be wrapped into\nlava-test-case user-space-lshw-core-present --shell grep -E \u0027core\u0027 lshw.txt\nlava-test-case marks test case passed if exit code is 0 and failed othwerwise. According to grep man page if no match was found the exit code is 1.\nSame comment for the tests below.",
+      "revId": "09bf6c27be89315845a0b86206114aca7a5ae670",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_4383c6cc",
         "filename": "common/scripts/lshw.sh",
         "patchSetId": 1
@@ -30,6 +64,23 @@
       "writtenOn": "2013-12-20T15:30:28Z",
       "side": 1,
       "message": "ditto",
+      "revId": "09bf6c27be89315845a0b86206114aca7a5ae670",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6365aa44",
+        "filename": "openembedded/lshw.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2013-12-20T15:33:26Z",
+      "side": 1,
+      "message": "PLease remove the trailing white spaces",
       "revId": "09bf6c27be89315845a0b86206114aca7a5ae670",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
