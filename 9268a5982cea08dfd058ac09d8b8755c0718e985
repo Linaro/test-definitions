@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_78ee758d",
+        "filename": "ubuntu/netperf-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2013-12-20T02:16:12Z",
+      "side": 1,
+      "message": "Gerrit complains to the trailing whitespace.",
+      "revId": "9268a5982cea08dfd058ac09d8b8755c0718e985",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
