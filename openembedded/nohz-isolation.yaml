@@ -19,7 +19,7 @@ run:
         - "common/scripts/is-cpu-isolated.sh $ITERATIONS $ISOL_MIN"
 
 parse:
-    pattern: "(?P<result>(PASS|FAIL|SKIP)):\\s+(?P<test_case_id>(.*))"
+    pattern: "^test_case_id:(?P<test_case_id>.+)\\s+result:(?P<result>\\w+)\\s+measurement:(?P<measurement>.+)\\s+units:(?P<units>.+)"
     fixupdict:
         PASS: pass
         FAIL: fail
