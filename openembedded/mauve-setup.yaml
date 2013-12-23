@@ -18,5 +18,5 @@ install:
     - git://git.linaro.org/leg/openjdk/mauve.git
 run:
   steps:
-    - 'cp -a /lava/tests/$TESTRUN_ID/mauve $HOME'
+    - 'mv /lava/tests/$TESTRUN_ID/mauve $HOME'
     - 'lava-test-case mauve-setup --result pass'
