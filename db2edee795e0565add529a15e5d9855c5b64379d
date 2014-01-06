@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "7a288981_8e4afbaa",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-01-06T19:42:07Z",
+      "side": 1,
+      "message": "we don\u0027t have install steps in OE, need to be part of the image.",
+      "revId": "db2edee795e0565add529a15e5d9855c5b64379d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_6ec7cf13",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-01-06T19:42:07Z",
+      "side": 1,
+      "message": "should be part of the OE image.\nShould not be built on the target",
+      "revId": "db2edee795e0565add529a15e5d9855c5b64379d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a288981_6eb6afde",
         "filename": "ubuntu/replay-server-multinode.yaml",
         "patchSetId": 1
