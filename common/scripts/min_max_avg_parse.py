@@ -6,7 +6,7 @@ from numpy import *
 
 values = []
 
-r = re.compile(sys.argv[2]+"\s+(?P<measurement>[0-9.])")
+r = re.compile(sys.argv[2]+"\s+(?P<measurement>[0-9.]+)")
 f = open(sys.argv[1], "r")
 for line in f.readlines():
     search = r.search(line)
