@@ -16,6 +16,23 @@
       "revId": "db2edee795e0565add529a15e5d9855c5b64379d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_8e1c3bc3",
+        "filename": "ubuntu/replay-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000025
+      },
+      "writtenOn": "2014-01-06T14:34:00Z",
+      "side": 1,
+      "message": "If there is no pass/fail criteria I think the return code should be \"skip\"",
+      "revId": "db2edee795e0565add529a15e5d9855c5b64379d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
