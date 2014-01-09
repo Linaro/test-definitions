@@ -1,0 +1,26 @@
+metadata:
+    name: wifi-android
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test WiFi on Linaro Android"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    devices:
+        - panda
+        - panda-es
+        - nexus
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+
+run:
+    steps:
+        - "./android/scripts/wifi-android.sh '"LAVA-WiFi-G"' '"DoubleSuezBun"'"
+
+parse:
+    pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
