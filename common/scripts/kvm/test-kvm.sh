@@ -14,8 +14,8 @@ fi
 dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT pass" || echo "$KVM_INIT fail"
 
 if hash curl 2>/dev/null; then
-    EXTRACT_BUILD_NUMBER="curl -s"
-    DOWNLOAD_FILE="curl -SO"
+    EXTRACT_BUILD_NUMBER="curl -sk"
+    DOWNLOAD_FILE="curl -SOk"
 else
     EXTRACT_BUILD_NUMBER="wget -q --no-check-certificate -O -"
     DOWNLOAD_FILE="wget --progress=dot -e dotbytes=2M --no-check-certificate"
