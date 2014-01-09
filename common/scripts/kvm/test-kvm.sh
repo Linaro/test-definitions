@@ -49,7 +49,7 @@ cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
     exec > /root/guest.log 2>&1
     echo "$KVM_BOOT pass"
-    ping -W 4 -c 10 192.168.1.10 && echo "$KVM_GUEST_NET pass" || echo "$KVM_GUEST_NET fail"
+    ping -W 4 -c 10 10.0.0.1 && echo "$KVM_GUEST_NET pass" || echo "$KVM_GUEST_NET fail"
     sh $TEST_SCRIPT
 EOF
 chmod a+x /mnt/usr/bin/test-guest.sh
@@ -67,7 +67,7 @@ brctl addif br0 eth0
 brctl addif br0 tap0
 udhcpc -t 10 -i br0
 
-ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET pass" || echo "$KVM_HOST_NET fail"
+ping -W 4 -c 10 10.0.0.1 && echo "$KVM_HOST_NET pass" || echo "$KVM_HOST_NET fail"
 
 qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
 	-kernel ./zImage -dtb ./vexpress-v2p-ca15-tc1.dtb \
