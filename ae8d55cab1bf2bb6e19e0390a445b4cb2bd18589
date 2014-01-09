@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a288981_31e7eae6",
+        "filename": "android/scripts/wifi-android.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-09T11:59:29Z",
+      "side": 1,
+      "message": "MAybe it would be a good idea to have a sh-lib-test like in Ubuntu? This code appears in the second test case already.",
+      "revId": "ae8d55cab1bf2bb6e19e0390a445b4cb2bd18589",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_51e276d6",
+        "filename": "android/wifi-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-09T11:59:29Z",
+      "side": 1,
+      "message": "Please make that call parametrized so it can be changed from JSON",
+      "revId": "ae8d55cab1bf2bb6e19e0390a445b4cb2bd18589",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
