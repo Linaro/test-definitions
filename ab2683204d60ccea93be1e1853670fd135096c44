@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a288981_91ee9eb3",
+        "filename": "android/ethernet-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-09T14:03:30Z",
+      "side": 1,
+      "message": "There is no Android build for highbank",
+      "revId": "ab2683204d60ccea93be1e1853670fd135096c44",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
