@@ -3,6 +3,7 @@
 # Variable decided outcome of test, this is the minimum isolation we need.
 MIN_ISOLATION=10
 RESULT="PASS"
+STRESS_DURATION=500
 
 if [ $2 ]; then
 	MIN_ISOLATION=$2
@@ -49,6 +50,13 @@ get_isolation_duration() {
 	while [ $new_count -eq $old_count ]
 	do
 		new_count=$(get_tick_count)
+		ps h -C stress -o pid > /dev/null
+		if [ $? != 0 ]; then
+			echo "Tick didn't got updated for stress duration:" $STRESS_DURATION
+			echo "Probably in infinite mode, quiting test"
+			echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$STRESS_DURATION" units:secs"
+			exit
+		fi
 	done
 
 	isdebug echo "count locked: " $new_count
@@ -186,7 +194,7 @@ isolate_cpu1() {
 	# But disallow load balancing within the NOHZ domain
 	echo 0 > /dev/cpuset/rt/sched_load_balance
 
-	stress -q --cpu 1 --timeout 500 &
+	stress -q --cpu 1 --timeout $STRESS_DURATION &
 
 	# Restart CPU1 to migrate all tasks to CPU0
 	echo 0 > /sys/devices/system/cpu/cpu1/online
