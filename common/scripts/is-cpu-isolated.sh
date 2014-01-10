@@ -186,10 +186,24 @@ isolate_cpu1() {
 	# But disallow load balancing within the NOHZ domain
 	echo 0 > /dev/cpuset/rt/sched_load_balance
 
-	# Start a single threaded task on CPU1 or RT group
-	echo $$ > /dev/cpuset/rt/tasks
-	stress -q --cpu 1 --timeout 2000 &
-	echo $$ > /dev/cpuset/gp/tasks
+	stress -q --cpu 1 --timeout 500 &
+
+	# Restart CPU1 to migrate all tasks to CPU0
+	echo 0 > /sys/devices/system/cpu/cpu1/online
+	echo 1 > /sys/devices/system/cpu/cpu1/online
+
+	# Setup the NOHZ domain again: CPU1
+	echo 0 > /dev/cpuset/rt/mems
+	echo 1 > /dev/cpuset/rt/cpus
+
+	# Try to move all processes in top set to the GP set.
+	for pid in `ps h -C stress -o pid`; do
+		echo $pid > /dev/cpuset/rt/tasks 2>/dev/null
+		if [ $? != 0 ]; then
+			isdebug echo -n "RT: Cannot move PID $pid: "
+			isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
+		fi
+	done
 }
 
 clear_cpusets() {
