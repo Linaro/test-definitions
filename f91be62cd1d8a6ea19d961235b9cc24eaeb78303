@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a288981_f4f830c6",
+        "filename": "openembedded/acpi-smoke-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-14T11:21:07Z",
+      "side": 1,
+      "message": "white space still present at the end of the line. Please remove it",
+      "revId": "f91be62cd1d8a6ea19d961235b9cc24eaeb78303",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_d4f534cc",
+        "filename": "openembedded/acpi-smoke-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-14T11:21:07Z",
+      "side": 1,
+      "message": "rtsm_ve_a15x1-a7x1 is a deprecated model. If I remember correctly it will be removed from LAVA in coming weeks. Please use rtsm_fvp_base_cortex-a57x1-a53x1",
+      "revId": "f91be62cd1d8a6ea19d961235b9cc24eaeb78303",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a288981_b402a8b2",
+        "filename": "openembedded/acpi-smoke-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-14T11:21:07Z",
+      "side": 1,
+      "message": "white space still present at the end of the line. Please remove it.",
+      "revId": "f91be62cd1d8a6ea19d961235b9cc24eaeb78303",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
