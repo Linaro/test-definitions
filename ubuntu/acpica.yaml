@@ -11,7 +11,7 @@ metadata:
 
 install:
     git-repos:
-        - git://git.linaro.org/people/ahs3/acpica.git
+        - git://git.linaro.org/people/al.stone/acpica.git
     steps:
         - 'cd acpica'
         - 'git branch linaro origin/linaro'
