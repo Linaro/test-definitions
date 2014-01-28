@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a2585a7_d0c66249",
+        "filename": "ubuntu/wifi-ubuntu.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-28T10:55:09Z",
+      "side": 1,
+      "message": "Please add message that SSID and PASSWORD are possible to set in JSON.",
+      "revId": "214d0f467a78394efe96668bf1dbe84eb472a16a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a2585a7_10b50acd",
+        "filename": "ubuntu/wifi-ubuntu.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-01-28T10:55:09Z",
+      "side": 1,
+      "message": "default values for SSID and PASSWORD are missing.",
+      "revId": "214d0f467a78394efe96668bf1dbe84eb472a16a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
