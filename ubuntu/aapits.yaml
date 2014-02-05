@@ -2,6 +2,8 @@ metadata:
     name: aapits
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run ACPI API test suite"
+    maintainer:
+        - tomasz.nowicki@linaro.org
     os:
         - ubuntu
     devices:
