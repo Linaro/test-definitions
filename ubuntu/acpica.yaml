@@ -2,6 +2,8 @@ metadata:
     name: acpica
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test ACPICA"
+    maintainer:
+        - naresh.bhat@linaro.org
     os:
         - ubuntu
     devices:

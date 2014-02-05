@@ -2,6 +2,8 @@ metadata:
     name: fwts
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run Firmware Test Suite (fwts)"
+    maintainer:
+        - naresh.bhat@linaro.org
     os:
         - ubuntu
     scope:
