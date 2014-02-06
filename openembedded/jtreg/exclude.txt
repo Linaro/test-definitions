@@ -1,11 +1,11 @@
 # Added: Wed Feb  5 2014
 # ----------------------
-hotspot/compiler/regalloc/C1ObjectSpillInLogicOp.java	generic-all
-hotspot/gc/TestSystemGC.java	generic-all
-hotspot/gc/arguments/TestMaxNewSize.java	generic-all
-hotspot/gc/g1/TestHumongousAllocInitialMark.java	generic-all
-hotspot/runtime/8001071/Test8001071.java	generic-all
-jdk/java/lang/management/MemoryMXBean/ResetPeakMemoryUsage.java	generic-all
+compiler/regalloc/C1ObjectSpillInLogicOp.java	generic-all
+gc/TestSystemGC.java	generic-all
+gc/arguments/TestMaxNewSize.java	generic-all
+gc/g1/TestHumongousAllocInitialMark.java	generic-all
+runtime/8001071/Test8001071.java	generic-all
+java/lang/management/MemoryMXBean/ResetPeakMemoryUsage.java	generic-all
 
 # Added: Mon Feb  3 2014
 # ----------------------
