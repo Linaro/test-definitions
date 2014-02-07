@@ -1,3 +1,7 @@
+# Added: Fri Feb  7 2014
+# ----------------------
+gc/g1/TestHumongousCodeCacheRoots	generic-all
+
 # Added: Wed Feb  5 2014
 # ----------------------
 compiler/regalloc/C1ObjectSpillInLogicOp.java	generic-all
