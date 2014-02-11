@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a2585a7_e1d74ebe",
+        "filename": "openembedded/smoke-tests-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-02-11T15:09:09Z",
+      "side": 1,
+      "message": "this might not work on some platforms.",
+      "revId": "83c397c439ecbf206e3bb0aff4455c7a2ad74242",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a2585a7_c1e452ae",
+        "filename": "openembedded/smoke-tests-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-02-11T15:09:09Z",
+      "side": 1,
+      "message": "does lsb_release work on OE based rootfs?",
+      "revId": "83c397c439ecbf206e3bb0aff4455c7a2ad74242",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
