@@ -16,13 +16,6 @@ install:
         - git://git.linaro.org/people/al.stone/acpica-tools.git
     steps:
         - 'cd acpica-tools'
-    deps:
-        - git
-        - git-core
-        - bzip2
-        - flex
-        - bison
-        - build-essential
 run:
     steps:
         - 'cd acpica-tools/tests/'
