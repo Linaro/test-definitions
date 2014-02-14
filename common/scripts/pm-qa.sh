@@ -35,9 +35,10 @@ test_func(){
 
    pwd_dir=$PWD
    echo $pwd
-   tests_dirs="cpuidle cpufreq cpuhotplug sched_mc suspend thermal utils"
+   tests_dirs="cpuidle cpufreq cpuhotplug suspend thermal utils"
 
    for dir in $tests_dirs; do
+       var=$dir'_sanity.sh'
        subDir=${pwd_dir}/$dir
        if [ -d $subDir ]; then
            cd $subDir
@@ -46,6 +47,12 @@ test_func(){
        fi
 
        echo `pwd`
+
+       /system/bin/sh $var
+       if [ $? -ne 0 ]; then
+           continue
+       fi
+
        for file in `find . -name "*.sh"`; do
            path=$file
            echo $path
