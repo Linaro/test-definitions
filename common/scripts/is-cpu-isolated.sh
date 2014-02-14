@@ -85,9 +85,18 @@ get_isolation_duration() {
 		new_count=$old_count
 
 
+		T2="$(date +%s)"
 		while [ $new_count -eq $old_count ]
 		do
 			new_count=$(get_tick_count)
+			ps h -C stress -o pid > /dev/null
+			if [ $? != 0 ]; then
+				T=$(($(date +%s)-$T2))
+				echo "Tick didn't got updated for stress duration:" $T
+				echo "Probably in infinite mode, quiting test"
+				echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:PASS measurement:"$T" units:secs"
+				exit
+			fi
 		done
 
 		isdebug echo "sampling over: " $new_count
