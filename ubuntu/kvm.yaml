@@ -17,15 +17,23 @@ install:
     deps:
         - qemu-system
         - qemu-utils
-        - rt-tests
+        - python-numpy
         - uml-utilities
         - bridge-utils
         - udhcpc
+        - wget
+    steps:
+        - 'wget http://people.redhat.com/mingo/cfs-scheduler/tools/hackbench.c'
+        - 'gcc -g -Wall -O2 -o hackbench hackbench.c -lpthread'
+        - 'cp hackbench /usr/bin/'
+
 run:
     steps:
         - 'sudo ./common/scripts/kvm/test-host.sh'
         - 'sudo ./common/scripts/kvm/test-kvm.sh'
-        - "lava-test-run-attach kvm-log.txt text/plain"
+        - 'sudo ./common/scripts/kvm/test-rt-parse.sh'
+        - 'lava-test-run-attach kvm-log.txt text/plain'
+        - 'lava-test-run-attach guest.log text/plain'
 
 parse:
-    pattern: "(?P<test_case_id>.*-*):\\s+(?P<result>(pass|fail))"
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'

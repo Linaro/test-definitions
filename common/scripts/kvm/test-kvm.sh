@@ -11,7 +11,7 @@ if [ "x$1" = "xbenchmark" ]; then
     KVM_BOOT="$KVM_BOOT 0 none"
 fi
 
-dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT pass" || echo "$KVM_INIT fail"
+dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || echo "$KVM_INIT 0 pc fail"
 
 if hash curl 2>/dev/null; then
     EXTRACT_BUILD_NUMBER="curl -sk"
@@ -42,14 +42,14 @@ if [ "x$1" = "xbenchmark" ]; then
 else
     cp /usr/bin/hackbench /mnt/usr/bin/hackbench
     cp common/scripts/kvm/test-rt-tests.sh /mnt/root/test-rt-tests.sh
-    TEST_SCRIPT=/root/test-rt-tests.sh
+    TEST_SCRIPT='/root/test-rt-tests.sh guest'
 fi
 
 cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
     exec > /root/guest.log 2>&1
-    echo "$KVM_BOOT pass"
-    ping -W 4 -c 10 10.0.0.1 && echo "$KVM_GUEST_NET pass" || echo "$KVM_GUEST_NET fail"
+    echo "$KVM_BOOT 0 pc pass"
+    ping -W 4 -c 10 192.168.1.10 && echo "$KVM_GUEST_NET 0 pc pass" || echo "$KVM_GUEST_NET 0 pc fail"
     sh $TEST_SCRIPT
 EOF
 chmod a+x /mnt/usr/bin/test-guest.sh
@@ -67,7 +67,7 @@ brctl addif br0 eth0
 brctl addif br0 tap0
 udhcpc -t 10 -i br0
 
-ping -W 4 -c 10 10.0.0.1 && echo "$KVM_HOST_NET pass" || echo "$KVM_HOST_NET fail"
+ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
 
 qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
 	-kernel ./zImage -dtb ./vexpress-v2p-ca15-tc1.dtb \
@@ -83,10 +83,12 @@ mount /dev/nbd0p2 /mnt/
 
 if ! grep -q "kvm-boot-1:" /mnt/root/guest.log
 then
-    echo "$KVM_BOOT fail"
+    echo "$KVM_BOOT 0 pc fail"
 fi
 
 cat /mnt/root/guest.log
+cp /mnt/*.txt .
+cp /mnt/root/guest.log .
 
 umount /mnt
 sync
