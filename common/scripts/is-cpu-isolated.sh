@@ -3,7 +3,7 @@
 # Variable decided outcome of test, this is the minimum isolation we need.
 MIN_ISOLATION=10
 RESULT="PASS"
-STRESS_DURATION=500
+STRESS_DURATION=5000
 
 if [ $2 ]; then
 	MIN_ISOLATION=$2
