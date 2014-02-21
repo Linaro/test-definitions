@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# SDK hello.cc test.
+# SDK hello.c static test.
 #
 # Copyright (C) 2013, Linaro Limited.
 #
@@ -23,14 +23,14 @@
 #
 
 cd
-g++ hello.cc -o hello > sdkhellocxx.log
+gcc -static hello.c -o hello > sdkhelloc.log
 EXIT=0
 
 if [ 0 -eq $? ]
 then
-    echo "sdkhellocxx: pass"
+    echo "sdkhelloc_static: pass"
 else
-    echo "sdkhellocxx: fail"
+    echo "sdkhelloc_static: fail"
     EXIT=1
 fi
 
@@ -38,10 +38,10 @@ HELLO_OUT=$(./hello)
 
 if [ "$HELLO_OUT" != 'hello world' ]
 then
-    echo "sdkhellocixxout: fail"
+    echo "sdkhellocout_static: fail"
     EXIT=1
 else
-    echo "sdkhellocxxout: pass"
+    echo "sdkhellocout_static: pass"
 fi
 
 exit $EXIT

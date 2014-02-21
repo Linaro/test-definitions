@@ -19,16 +19,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # Author: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+# Author: Milosz Wasilewski <milosz.wasilewski@linaro.org>
 #
 
 cd
 gcc hello.c -o hello > sdkhelloc.log
+EXIT=0
 
 if [ 0 -eq $? ]
 then
     echo "sdkhelloc: pass"
-    exit 0
 else
     echo "sdkhelloc: fail"
-    exit 1
+    EXIT=1
 fi
+
+HELLO_OUT=$(./hello)
+
+if [ "$HELLO_OUT" != 'hello world' ]
+then
+    echo "sdkhellocout: fail"
+    EXIT=1
+else
+    echo "sdkhellocout: pass"
+fi
+
+exit $EXIT
