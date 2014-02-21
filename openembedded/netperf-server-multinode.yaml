@@ -19,10 +19,12 @@ metadata:
         - beagle-xm
         - mx53loco
 params:
-    ETH: eth0
+    CONNECTION: lngswitch
 
 run:
     steps:
+        - 'ETH=$(./common/scripts/lookup-eth $CONNECTION | egrep "(rename|eth)")'
+        - 'if [ -n $ETH ]; then ETH=eth0; fi'
         - ifconfig -a
         - route
         - lava-network broadcast $ETH

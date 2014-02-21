@@ -1,0 +1,17 @@
+#!/bin/bash
+
+connection=${1}
+
+for row in $(grep ${connection} common/lng-mapping-table-eth); do
+    ifname=""
+    mac=$(echo ${row} | awk -F'=' '{print $2}')
+    ifname=$(ip link show | grep -B1 "${mac}" | awk -F':' '{print $2}'|head -n1)
+    if [[ -n ${ifname} ]]; then
+        ifconfig ${ifname} up
+        udhcpc -i ${ifname}
+        echo ${ifname}
+        break
+    fi
+done
+
+## vim: set sw=4 sts=4 et foldmethod=syntax : ##
