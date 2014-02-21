@@ -2,7 +2,7 @@
 
 set -x
 
-local_ip=$(ifconfig|grep "inet addr"|grep -v "127.0.0.1"|cut -d: -f2|cut -d' ' -f1)
+local_ip=$(ifconfig $1|grep "inet addr"|grep -v "127.0.0.1"|cut -d: -f2|cut -d' ' -f1)
 
 for line in `lava-group | grep server | awk '{print $1}'` ; do
 	echo $line

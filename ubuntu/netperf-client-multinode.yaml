@@ -33,7 +33,7 @@ run:
         - lava-network broadcast $ETH
         - lava-network collect $ETH
         - lava-sync ready 
-        - lava-test-case multinode-lava-network --shell ./common/scripts/netperf-client.sh
+        - lava-test-case multinode-lava-network --shell ./common/scripts/netperf-client.sh $ETH
         - lava-sync done 
 
 parse:
