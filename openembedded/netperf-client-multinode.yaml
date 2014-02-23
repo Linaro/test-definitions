@@ -32,6 +32,7 @@ run:
         - lava-sync ready 
         - lava-test-case multinode-lava-network --shell ./common/scripts/netperf-client.sh $ETH
         - lava-sync done 
+        - "lava-test-run-attach ~/output.txt text/plain"
 
 parse:
         "pattern": "^test_case_id:(?P<test_case_id>.+) units:(?P<units>.+) measurement:(?P<measurement>\\d+\\.\\d+) result:(?P<result>\\w+)"
