@@ -16,6 +16,10 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
 
+params:
+    - "TEST_INTERFACE=eth0"
+    - "GATEWAY=10.0.0.1"
+
 run:
     steps:
         - lava-test-case linux-linaro-ubuntu-netstat --shell netstat -an
@@ -23,11 +27,11 @@ run:
         - lava-test-case linux-linaro-ubuntu-route-dump-a --shell route
         - lava-test-case linux-linaro-ubuntu-route-ifconfig-up-lo --shell ifconfig lo up
         - lava-test-case linux-linaro-ubuntu-route-dump-b --shell route
-        - lava-test-case linux-linaro-ubuntu-route-ifconfig-up --shell ifconfig eth0 up
-        - lava-test-case linux-linaro-ubuntu-route-ifconfig-down --shell ifconfig eth0 down
-        - lava-test-case linux-linaro-ubuntu-route-dhclient --shell dhclient -v eth0
+        - lava-test-case linux-linaro-ubuntu-route-ifconfig-up --shell ifconfig $TEST_INTERFACE up
+        - lava-test-case linux-linaro-ubuntu-route-ifconfig-down --shell ifconfig $TEST_INTERFACE down
+        - lava-test-case linux-linaro-ubuntu-route-dhclient --shell dhclient -v $TEST_INTERFACE
         - lava-test-case linux-linaro-ubuntu-route-dump-c --shell route
-        - lava-test-case linux-linaro-ubuntu-ping --shell ping -c 5 10.0.0.1
+        - lava-test-case linux-linaro-ubuntu-ping --shell ping -c 5 $GATEWAY
         - lava-test-case linux-linaro-ubuntu-apt-get --shell apt-get update
         - lava-test-case linux-linaro-ubuntu-apt-get-curl --shell apt-get install -q -y curl
         - lava-test-case linux-linaro-ubuntu-curl-big-video --shell curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI > /dev/null
