@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a3291f1_d2e30404",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-02-27T08:35:35Z",
+      "side": 1,
+      "message": "ubuntu?\nit should be openembedded right?",
+      "revId": "6968603c5587b57e1046de84ffe7015810176dfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_b2f078ca",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-02-27T08:35:35Z",
+      "side": 1,
+      "message": "in OE we don\u0027t have the install step.",
+      "revId": "6968603c5587b57e1046de84ffe7015810176dfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_92ed7cf2",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-02-27T08:35:35Z",
+      "side": 1,
+      "message": "add this to the linaro-image-lng\nhttp://layers.openembedded.org/layerindex/branch/master/recipes/?q\u003dlibpcap\n\nand we can remove the build steps",
+      "revId": "6968603c5587b57e1046de84ffe7015810176dfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_72ba10e3",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-02-27T08:35:35Z",
+      "side": 1,
+      "message": "ad this to the linaro-image-lng\nhttp://layers.openembedded.org/layerindex/branch/master/recipes/?q\u003dtcpreplay\n\nand we can remove the build steps",
+      "revId": "6968603c5587b57e1046de84ffe7015810176dfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_52bf14d1",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-02-27T08:35:35Z",
+      "side": 1,
+      "message": "remove trailing whitspaces",
+      "revId": "6968603c5587b57e1046de84ffe7015810176dfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_32b488f1",
+        "filename": "openembedded/replay-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-02-27T08:35:35Z",
+      "side": 1,
+      "message": "openembedded?",
+      "revId": "6968603c5587b57e1046de84ffe7015810176dfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
