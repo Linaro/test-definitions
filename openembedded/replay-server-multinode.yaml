@@ -26,7 +26,7 @@ run:
         - route
         - lava-network broadcast eth0
         - lava-network collect eth0
-        - echo "test-0:skip"
+        - echo "test-0:pass"
         - lava-sync done 
 
 parse:

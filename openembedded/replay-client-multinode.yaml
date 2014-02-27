@@ -18,8 +18,22 @@ metadata:
         - beaglebone-black
         - beagle-xm
         - mx53loco
+
+install:
+     deps:
+         - flex
+         - bison
+         - python-minimal
+         - build-essential
 run:
     steps:
+        - wget http://www.tcpdump.org/release/libpcap-1.5.2.tar.gz
+        - tar -zxf libpcap-1.5.2.tar.gz
+        - cd libpcap-1.5.2/
+        - sh configure
+        - make
+        - make install
+        - cd ..
         - wget http://prdownloads.sourceforge.net/tcpreplay/tcpreplay-3.4.4.tar.gz
         - tar -zxf tcpreplay-3.4.4.tar.gz
         - cd tcpreplay-3.4.4
