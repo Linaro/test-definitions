@@ -33,7 +33,7 @@ setprop net.dns1 8.8.8.8
 
 echo "Content downloading"
 
-cd /mnt/sdcard/
+cd /mnt/media_rw/sdcard0
 mkdir media_api
 cd media_api
 
@@ -89,13 +89,13 @@ wget http://samplemedia.linaro.org/Mmtest/media_api/videoeditor/H264_BP_640x480_
 wget http://samplemedia.linaro.org/Mmtest/media_api/videoeditor/H264_BP_640x480_15fps_384kbps_60_0.mp4
 
 
-if [ -f /mnt/sdcard/media_api/music/test_amr_ietf.amr ]
+if [ -f /mnt/media_rw/sdcard0/media_api/music/test_amr_ietf.amr ]
 then
 echo "file is downloaded"
 fi
 
 logcat -c
 
-am instrument -r -e targetDir  /sdcard/media_api/music -w com.android.mediaframeworktest/.MediaFrameworkTestRunner > stdout.log 
+am instrument -r -e targetDir  /storage/sdcard0/media_api/music -w com.android.mediaframeworktest/.MediaFrameworkTestRunner > stdout.log 
 
-grep -A 1 "INSTRUMENTATION_STATUS: test=" stdout.log | egrep "INSTRUMENTATION_STATUS: test=|INSTRUMENTATION_STATUS_CODE:" |cut -d'=' -f 2 |cut -d ':' -f 2 |xargs -n 4 |sed -e 's/0/pass/g' -e 's/-1/fail/g' -e 's/-2/fail/g'
+egrep "INSTRUMENTATION_STATUS: test=|INSTRUMENTATION_STATUS_CODE:" stdout.log |cut -d'=' -f 2 |cut -d ':' -f 2 |xargs -n 4 |sed -e 's/0/pass/g' -e 's/-1/fail/g' -e 's/-2/fail/g' | awk '{$1=""; print $3" "$4}'
