@@ -16,8 +16,26 @@ metadata:
         - vexpress-tc2
 
 install:
+    git-repos:
+        - git://kernel.ubuntu.com/hwe/fwts
+    steps:
+        - 'cd fwts'
+        - 'autoreconf -ivf'
+        - './configure'
+        - 'make'
     deps:
-        - fwts
+        - git
+        - git-core
+        - bzip2
+        - flex
+        - bison
+        - build-essential
+        - autoconf
+        - automake
+        - libtool
+        - libpcre3-dev
+        - libjson0-dev
+        - dkms
 run:
     steps:
         - 'sudo fwts -a'
