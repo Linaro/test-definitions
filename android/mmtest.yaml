@@ -20,4 +20,4 @@ run:
         - "./android/scripts/mmtest.sh"
 
 parse:
-    pattern: "^\\s*(?P<test_case_id>test\\w+)\\s+(?P<result>\w\+)\\s*$"
+    pattern: "^\\s*(?P<test_case_id>test\\w+)\\s+(?P<result>\\w+)\\s*$"
