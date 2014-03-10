@@ -13,10 +13,6 @@ for line in f.readlines():
     if search:
         values.append(float(search.group('measurement')))
 
-if "hackbench" in sys.argv[1]:
-    # Usually the first value is inexplicably high
-    values.pop(0)
-
 try:
     sys.argv[4]
 except IndexError:
@@ -31,3 +27,4 @@ print format % (sys.argv[1].split('.', 1)[0]+cmd_options+"_min:", str(min(np_arr
 print format % (sys.argv[1].split('.', 1)[0]+cmd_options+"_max:", str(max(np_array)),    sys.argv[3], "pass")
 print format % (sys.argv[1].split('.', 1)[0]+cmd_options+"_avg:", str(mean(np_array)),   sys.argv[3], "pass")
 print format % (sys.argv[1].split('.', 1)[0]+cmd_options+"_mdn:", str(median(np_array)), sys.argv[3], "pass")
+print format % (sys.argv[1].split('.', 1)[0]+cmd_options+"_std:", str(std(np_array)),    sys.argv[3], "pass")
