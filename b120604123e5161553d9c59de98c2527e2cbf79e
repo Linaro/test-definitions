@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5d592f_ad6149d5",
+        "filename": "openembedded/replay-client-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-03-18T11:46:10Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "b120604123e5161553d9c59de98c2527e2cbf79e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_6d9b51ca",
+        "filename": "openembedded/replay-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-03-18T11:46:10Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "b120604123e5161553d9c59de98c2527e2cbf79e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
