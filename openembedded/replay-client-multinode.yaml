@@ -5,7 +5,7 @@ metadata:
     maintainer:
         - weilong.chen@linaro.org
     os:
-        - ubuntu
+        - openembedded
     scope:
         - functional
         - performance
@@ -20,13 +20,6 @@ metadata:
         - mx53loco
 run:
     steps:
-        - wget http://prdownloads.sourceforge.net/tcpreplay/tcpreplay-3.4.4.tar.gz
-        - tar -zxf tcpreplay-3.4.4.tar.gz
-        - cd tcpreplay-3.4.4
-        - sh configure
-        - make
-        - make install
-        - cd ..
         - lava-sync start
         - ifconfig -a
         - route
@@ -39,6 +32,5 @@ run:
         - remote_ip=`echo $STR | sed -e 's/.*addr://'`
         - lava-test-case multinode-lava-network --shell ./common/scripts/generator.sh eth0 $remote_ip max 100
         - lava-sync done 
-
 parse:
         "pattern": "^test_case_id:(?P<test_case_id>.+) units:(?P<units>.+) measurement:(?P<measurement>\\d+\\.\\d+) result:(?P<result>\\w+)"

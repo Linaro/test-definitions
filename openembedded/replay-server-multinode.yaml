@@ -5,7 +5,7 @@ metadata:
     maintainer:
         - weilong.chen@linaro.org
     os:
-        - ubuntu
+        - openembedded
     scope:
         - functional
         - performance
