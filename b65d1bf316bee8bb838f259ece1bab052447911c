@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5d592f_6ddd9114",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "Please make the description a bit more detailed so it can be used in the changelog",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_8da9e57d",
+        "filename": "ubuntu/openssl.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_6db6b1de",
+        "filename": "ubuntu/openssl.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_4dbbedc4",
+        "filename": "ubuntu/openssl.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_adaca98d",
+        "filename": "ubuntu/openssl.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "I don\u0027t think we need sudo here. Scripts are run with privileged user in LAVA.",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_2db0b9dc",
+        "filename": "ubuntu/scripts/openssl.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "remove white spaces from empty line",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_cdc6bd49",
+        "filename": "ubuntu/scripts/openssl.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "remove white spaces from empty line",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_adc38937",
+        "filename": "ubuntu/scripts/openssl.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "remove white spaces from empty line",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_8dc0c52b",
+        "filename": "ubuntu/scripts/openssl.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-19T12:36:22Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "b65d1bf316bee8bb838f259ece1bab052447911c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
