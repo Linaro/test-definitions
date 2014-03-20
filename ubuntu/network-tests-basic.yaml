@@ -17,8 +17,8 @@ metadata:
         - vexpress-tc2
 
 params:
-    - "TEST_INTERFACE=eth0"
-    - "GATEWAY=10.0.0.1"
+    - TEST_INTERFACE: eth0
+    - GATEWAY: 10.0.0.1
 
 run:
     steps:
