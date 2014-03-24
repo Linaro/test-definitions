@@ -1,4 +1,4 @@
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2013, 2014, Linaro Limited.
 
 metadata:
   name: mauve-setup
@@ -18,5 +18,5 @@ install:
     - git://git.linaro.org/leg/openjdk/mauve.git
 run:
   steps:
-    - 'mv /lava/tests/$TESTRUN_ID/mauve $HOME'
+    - 'mv mauve $HOME'
     - 'lava-test-case mauve-setup --result pass'

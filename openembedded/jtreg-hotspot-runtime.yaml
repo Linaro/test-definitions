@@ -1,4 +1,4 @@
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2013, 2014 Linaro Limited.
 #
 # PLEASE DO NOT HAND EDIT THIS FILE.
 #
@@ -37,7 +37,7 @@ install:
     - git://git.linaro.org/leg/openjdk/jtreg-bin.git
 run:
   steps:
-    - 'PATH=/lava/tests/$TESTRUN_ID/jtreg-bin/jtreg/linux/bin:$PATH'
+    - 'PATH=$PWD/jtreg-bin/jtreg/linux/bin:$PATH'
     - 'cd openembedded/scripts'
     - './jtreg-test -t hotspot-runtime -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/hotspot/test/runtime'
 parse:
