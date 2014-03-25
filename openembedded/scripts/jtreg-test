@@ -77,18 +77,22 @@ shopt -s nullglob
 process_file() {
     local filename=$1
     local result=$2
-    while read -r line; do
-	tc=$(echo $line | awk '{print $1}')
+    local ofile=/tmp/jtreg-test-process-file.$$
+    echo "#!/bin/bash" > $ofile
+    while IFS=' ' read -r tc rem; do
 	y=$(dirname $tc)
 	z=$(basename $tc .java)
 	test_result=$output_dir/JTwork/$y/${z}.jtr
+	echo "lava-test-case $z --result $result" >> $ofile
 	if [ -e $test_result ]; then
-	    pushd $output_dir/JTwork
-	    lava-test-case $z --result $result
-	    lava-test-case-attach $z $y/${z}.jtr text/plain
-	    popd
+	    echo "pushd $output_dir/JTwork >/dev/null" >> $ofile
+	    echo "lava-test-case-attach $z $y/${z}.jtr text/plain" >> $ofile
+	    echo "popd > /dev/null" >> $ofile
 	fi
     done < $filename
+    [ -e $ofile ] && chmod 755 $ofile
+    [ -e $ofile ] && $ofile
+    rm -f $ofile
 }
 
 if [ -d $output_dir/JTreport/text ]; then

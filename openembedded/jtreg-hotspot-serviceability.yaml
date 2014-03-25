@@ -39,9 +39,4 @@ run:
   steps:
     - 'PATH=$PWD/jtreg-bin/jtreg/linux/bin:$PATH'
     - 'cd openembedded/scripts'
-    - './jtreg-test -t hotspot-serviceability -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/hotspot/test/serviceability'
-parse:
-  pattern: "(?P<result>^(JTREG-SUCCESS|JTREG-FAIL))\\s+(?P<test_case_id>(.*))"
-  fixupdict:
-    JTREG-SUCCESS: pass
-    JTREG-FAIL: fail
+    - './jtreg-test -t hotspot-serviceability -j $JAVA_VM -p $PRODUCT_HOME -- $JTREG_CONC $JTREG_TEST_MODE $JTREG_TIMEOUT -exclude:$JTREG_EXCLUDE_FILE $JTREG_VERBOSE $PRODUCT_HOME/jtreg/hotspot/test/serviceability || true'
