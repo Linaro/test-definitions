@@ -20,4 +20,5 @@ install:
         - fwts
 run:
     steps:
-        - 'sudo fwts -a'
+        - lava-test-case fwts --shell fwts -a
+        - lava-test-case-attach fwts results.log text/plain
