@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5d592f_b3764a05",
+        "filename": "ubuntu/device-tree.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-03-26T11:43:44Z",
+      "side": 1,
+      "message": "don\u0027t remove the previous devices.",
+      "revId": "41a9928be96084643fc238bc6e5747f5f43bf005",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_93734615",
+        "filename": "ubuntu/device-tree.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-03-26T11:43:44Z",
+      "side": 1,
+      "message": "it wasn\u0027t a typo. the device is named rtsm_fvp_base-aemv8a",
+      "revId": "41a9928be96084643fc238bc6e5747f5f43bf005",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_5365ce43",
+        "filename": "ubuntu/scripts/device-tree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-03-26T11:43:44Z",
+      "side": 1,
+      "message": "2012-2014",
+      "revId": "41a9928be96084643fc238bc6e5747f5f43bf005",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_7360d235",
+        "filename": "ubuntu/scripts/device-tree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-03-26T11:43:44Z",
+      "side": 1,
+      "message": "Ricardo is obviously the author. please revert.",
+      "revId": "41a9928be96084643fc238bc6e5747f5f43bf005",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
