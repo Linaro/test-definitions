@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Device Tree Enablement test cases
+# Device Tree test cases for Linux Linaro ubuntu
 #
-# Copyright (C) 2012, Linaro Limited.
+# Copyright (C) 2012 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # Author: Ricardo Salveti <rsalveti@linaro.org>
+# Maintainer Botao Sun <botao.sun@linaro.org>
 #
 
 source include/sh-test-lib
@@ -54,15 +55,10 @@ test_device_tree_model_not_empty() {
         return 1
     fi
 
-    echo "MODEL: $model" 1>&2
+    echo "The model of the board is $model"
 
     pass_test
 }
-
-# check we're root
-if ! check_root; then
-    error_msg "Please run the test case as root"
-fi
 
 # run the tests
 test_has_proc_device_tree
