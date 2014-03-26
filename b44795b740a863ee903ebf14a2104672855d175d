@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5d592f_d3c65e49",
+        "filename": "ubuntu/openssl.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-03-26T09:50:44Z",
+      "side": 1,
+      "message": "white space at the end of the line",
+      "revId": "b44795b740a863ee903ebf14a2104672855d175d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
