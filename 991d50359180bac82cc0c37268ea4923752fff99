@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa5d592f_7ee9b919",
+        "filename": "openembedded/odp-ring.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000025
+      },
+      "writtenOn": "2014-03-27T19:38:29Z",
+      "side": 1,
+      "message": "I have only tested on Arndale.",
+      "parentUuid": "fa5d592f_deab05d5",
+      "revId": "991d50359180bac82cc0c37268ea4923752fff99",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa5d592f_feaec9e6",
         "filename": "openembedded/odp-ring.yaml",
         "patchSetId": 1
