@@ -1,0 +1,25 @@
+metadata:
+    name: openssl
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test case that measures openssl speed benchmark"
+    maintainer:
+        - Amit Khare <amit.khare@linaro.org>
+    os:
+        - ubuntu
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - highbank
+        - arndale
+        - origen
+        - vexpress 
+    scope:
+        - performance
+run:
+    steps:
+        - 'cd ubuntu/scripts'
+        - './openssl.sh'
+parse:
+    pattern: "^(?P<test_case_id>\\S+):\\s+(?P<measurement>\\d+)\\s+(?P<units>\\S+)\\s+(?P<result>.*)"
