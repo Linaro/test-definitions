@@ -1,0 +1,17 @@
+metadata:
+    name: odp_shm
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run odp-shm"
+    maintainer:
+        - mike.holmes@linaro.org
+    os:
+        - openembedded
+    devices:
+        - arndale
+    environment:
+        - lava-test-shell
+
+run:
+    steps:
+        - lava-test-case odp_shm --shell /usr/share/odp/odp_shm
