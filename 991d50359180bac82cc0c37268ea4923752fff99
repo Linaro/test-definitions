@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5d592f_deab05d5",
+        "filename": "openembedded/odp-ring.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000049
+      },
+      "writtenOn": "2014-03-27T19:11:34Z",
+      "side": 1,
+      "message": "is it really only arndale? why not x86 also?",
+      "revId": "991d50359180bac82cc0c37268ea4923752fff99",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5d592f_feaec9e6",
+        "filename": "openembedded/odp-ring.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000049
+      },
+      "writtenOn": "2014-03-27T19:11:34Z",
+      "side": 1,
+      "message": "white space at the end of line.",
+      "revId": "991d50359180bac82cc0c37268ea4923752fff99",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
