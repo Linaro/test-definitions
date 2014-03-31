@@ -18,7 +18,8 @@ run:
     steps:
         - 'sudo ./common/scripts/kvm/test-host.sh'
         - 'sudo ./common/scripts/kvm/test-kvm.sh'
+        - 'sudo ./common/scripts/kvm/test-rt-parse.sh'
         - "lava-test-run-attach kvm-log.txt text/plain"
 
 parse:
-    pattern: "(?P<test_case_id>.*-*):\\s+(?P<result>(pass|fail))"
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'
