@@ -1,0 +1,20 @@
+metadata:
+    name: odp_example
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run odp-example"
+    maintainer:
+        - mike.holmes@linaro.org
+    os:
+        - openembedded
+    devices:
+        - arndale
+    environment:
+        - lava-test-shell
+
+params:
+    CORES: 2
+
+run:
+    steps:
+        - lava-test-case odp_example --shell /usr/share/odp/odp_example -c $CORES
