@@ -56,7 +56,7 @@ get_isolation_duration() {
 			T=$(($(date +%s)-$T2))
 			echo "Tick didn't got updated for stress duration:" $T
 			echo "Probably in infinite mode, quiting test"
-			echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$STRESS_DURATION" units:secs"
+			echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$T" units:secs"
 			exit
 		fi
 	done
