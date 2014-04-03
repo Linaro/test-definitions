@@ -1,0 +1,52 @@
+metadata:
+    name: qemu-build
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build a QEMU linux-user instance"
+    maintainer:
+        - alex.bennee@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - kvm
+
+params:
+    REPO: git://git.qemu.org/qemu.git
+    BRANCH: master
+    TARGET: arm-linux-user
+    BUILD: check
+
+install:
+    steps:
+        - cd /home
+        - git clone ${REPO} qemu.git
+        - cd qemu.git
+        - git checkout -b build origin/${BRANCH}
+        - git submodule update --init --recursive
+        - ./configure --static --disable-strip --target-list=${TARGET}
+        - make
+        - make ${BUILD}
+
+    deps:
+        - build-essential
+        - python
+        - git-core
+        - pkg-config
+        - autoconf
+        - automake
+        - autotools-dev
+        - libtool
+        - bison
+        - zlib1g-dev
+        - libglib2.0-dev
+        - libusb-1.0-0-dev
+        - librados-dev
+        - libncurses5-dev
+        - libseccomp-dev
+        - libgnutls-dev
+        - libnss3-dev
+        
+run:
+    steps:
+        - lava-test-case build-qemu --pass

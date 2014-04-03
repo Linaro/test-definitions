@@ -1,0 +1,42 @@
+metadata:
+    name: qemu-setup-chroot
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Setup a QEMU linux-user chroot"
+    maintainer:
+        - alex.bennee@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - kvm
+
+params: 
+    TARGET: aarch64
+    # This will likely want to be changed to the LTS once it is out.
+    ROOTFS: http://cdimages.ubuntu.com/ubuntu-core/daily/current/trusty-core-arm64.tar.gz
+
+install:
+    steps:
+        - cd /home
+        - wget -O chroot.tar ${ROOTFS}
+        - mkdir -p chroot
+        - tar -x -C chroot -f chroot.tar
+        - mkdir -p chroot/usr/local/bin
+        - mount -o bind /usr/local/bin chroot/usr/local/bin
+        - mkdir -p chroot/lava
+        - mount -o bind /lava chroot/lava
+        - mkdir -p chroot/home
+        - mount -o bind /home chroot/home
+        - cp -f /etc/resolv.conf chroot/etc/resolv.conf
+        - ${OLDPWD}/common/scripts/qemu-binfmt.sh || true
+        - ls -l /proc/sys/fs/binfmt_misc/
+
+    deps:
+        - coreutils
+        - binfmt-support
+        
+run:
+    steps:
+        - cd /home
+        - ls -l chroot

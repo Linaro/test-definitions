@@ -1,0 +1,36 @@
+metadata:
+    name: ltp
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run LTP syscalls tests in a QEMU chroot"
+    maintainer:
+        - alex.bennee@linaro.org
+    os:
+        - debian
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - kvm
+
+params:
+    CHROOT: /home/chroot
+    LTP_RELEASE: 20140115
+
+install:
+    steps:
+      - chroot ${CHROOT} apt-get update
+      - chroot ${CHROOT} apt-get install -y --force-yes git-core autoconf bzip2 flex bison build-essential wget
+      - chroot ${CHROOT} ${PWD}/common/scripts/qemu-ltp.sh -r ${LTP_RELEASE} install
+run:
+    steps:
+      - chroot ${CHROOT} ${PWD}/common/scripts/qemu-ltp.sh -r ${LTP_RELEASE} run
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    fixupdict:
+        TBROK: fail
+        TCONF: skip
+        TFAIL: fail
+        TINFO: skip
+        TPASS: pass
+        TWARN: unknown
