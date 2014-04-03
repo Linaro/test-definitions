@@ -205,6 +205,9 @@ isolate_cpu1() {
 	# But disallow load balancing within the NOHZ domain
 	echo 0 > /dev/cpuset/rt/sched_load_balance
 
+	# Quiesce CPU: i.e. migrate timers/hrtimers away
+	echo 1 > /dev/cpuset/rt/quiesce
+
 	stress -q --cpu 1 --timeout $STRESS_DURATION &
 
 	# Restart CPU1 to migrate all tasks to CPU0
