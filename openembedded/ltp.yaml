@@ -1,7 +1,7 @@
 metadata:
     name: ltp
     format: "Lava-Test-Shell Test Definition 1.0"
-    version: 20130503
+    version: 20140115
     description: "Run LTP syscalls on OpenEmbedded."
     maintainer:
         - milosz.wasilewski@linaro.org
