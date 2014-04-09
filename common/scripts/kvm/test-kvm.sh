@@ -11,7 +11,14 @@ if [ "x$1" = "xbenchmark" ]; then
     KVM_BOOT="$KVM_BOOT 0 none"
 fi
 
-dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || echo "$KVM_INIT 0 pc fail"
+dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || \
+{
+    echo "$KVM_INIT 0 pc fail"
+    echo "$KVM_HOST_NET 0 pc skip"
+    echo "$KVM_BOOT 0 pc skip"
+    echo "$KVM_GUEST_NET 0 pc skip"
+    exit 0
+}
 
 if hash curl 2>/dev/null; then
     EXTRACT_BUILD_NUMBER="curl -sk"
@@ -28,6 +35,13 @@ $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/zImag
 $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/vexpress-v2p-ca15-tc1.dtb
 
 gunzip kvm.qcow2.gz
+if [ $? -ne 0 ]; then
+    echo "$KVM_HOST_NET 0 pc skip"
+    echo "$KVM_BOOT 0 pc skip"
+    echo "$KVM_GUEST_NET 0 pc skip"
+    exit 0
+fi
+
 modprobe nbd max_part=16
 qemu-nbd -c /dev/nbd0 kvm.qcow2
 mount /dev/nbd0p2 /mnt/
