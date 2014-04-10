@@ -1,0 +1,37 @@
+metadata:
+    name: qemu-system-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Setup and run a test on QEMU System Image"
+    maintainer:
+        - alex.bennee@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - kvm
+
+params:
+    # This is a combined image and initrd/rootfs that qemu can boot
+    IMAGE: http://people.linaro.org/~alex.bennee/images/aarch64-linux-buildroot.img
+    # List of tests to run
+    TESTS: boot
+    # The QEMU executable
+    QEMU_BIN: /usr/local/bin/qemu-system-aarch64
+    # The QEMU machine definitions
+    QEMU_ARGS: -machine virt -cpu cortex-a57 -machine type=virt -nographic -smp 1 -m 396
+    # The arguments passed to the kernel
+    KERNEL_ARGS: console=ttyAMA0
+
+install:
+    steps:
+        - cd /home
+        - wget -O image ${IMAGE}
+
+    deps:
+        - expect
+
+run:
+    steps:
+        - export QEMU_BIN QEMU_ARGS KERNEL_ARGS
+        - ubuntu/scripts/qemu-system-tests.sh ${TESTS}

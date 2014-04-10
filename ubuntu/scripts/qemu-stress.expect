@@ -1,0 +1,38 @@
+#!/usr/bin/expect --
+#
+# Run qemu-system and spawn the stress benchmark
+#
+
+if {[llength $argv] == 0} {
+  send_user "Usage: stress.expect <qemu invocation>\n"
+  exit 1
+}
+
+set exit_status 0
+set timeout 20
+spawn {*}$argv
+expect "buildroot login: "
+send -- "root\r"
+expect "# "
+set timeout 40
+send -- "stress --cpu 4 --io 4 --vm 2 --vm-bytes 64M -d 2 --hdd-bytes 32M --timeout 30s\r"
+expect {
+    "successful run completed in *s" { expect "# "; send "# found success\n" }
+    timeout { send "# time waiting for stress to finish\n"; set exit_status 1 }
+}
+expect "# "
+set timeout 10
+send -- "echo \$?\r"
+expect {
+    "0\r\r" { send "# found success\n" }
+    "1\r\r" { send "# found failure\n"; set exit_status 2 }
+    timeout { send "# time out looking for result\n"; set exit_status 3 }
+}
+expect "# "
+send -- "halt -d 5\r"
+expect "reboot: System halted"
+send -- "c"
+expect "(qemu) "
+send -- "quit\r"
+expect eof
+exit $exit_status
