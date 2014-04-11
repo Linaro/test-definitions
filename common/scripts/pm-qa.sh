@@ -35,7 +35,7 @@ test_func(){
 
    pwd_dir=$PWD
    echo $pwd
-   tests_dirs="cpuidle cpufreq cpuhotplug suspend thermal utils"
+   tests_dirs="cpuidle cpufreq cpuhotplug suspend thermal"
 
    for dir in $tests_dirs; do
        var=$dir'_sanity.sh'
