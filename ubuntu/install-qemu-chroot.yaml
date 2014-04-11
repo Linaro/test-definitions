@@ -1,0 +1,42 @@
+metadata:
+    name: install-qemu-setup
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Setup a system QEMU chroot and set-up binfmt_misc"
+    maintainer:
+        - alex.bennee@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - kvm
+
+params:
+    # Location of chroot
+    CHROOT: /home/chroot
+    # This will likely want to be changed to the LTS once it is out.
+    ROOTFS: http://cdimages.ubuntu.com/ubuntu-core/daily/current/trusty-core-arm64.tar.gz
+
+install:
+    steps:
+        - cd /home
+        - wget -O chroot.tar ${ROOTFS}
+        - mkdir -p ${CHROOT}
+        - tar -x -C ${CHROOT} -f chroot.tar
+        - mkdir -p ${CHROOT}/usr/local/bin
+        - mount -o bind /usr/local/bin ${CHROOT}/usr/local/bin
+        - mkdir -p ${CHROOT}/lava
+        - mount -o bind /lava ${CHROOT}/lava
+        - mkdir -p ${CHROOT}/home
+        - mount -o bind /home ${CHROOT}/home
+        - cp -f /etc/resolv.conf ${CHROOT}/etc/resolv.conf
+        - ${OLDPWD}/common/scripts/qemu-binfmt.sh || true
+        - ls -l /proc/sys/fs/binfmt_misc/
+
+    deps:
+        - coreutils
+        - binfmt-support
+
+run:
+    steps:
+        - lava-test-case qemu-setup-chroot --pass

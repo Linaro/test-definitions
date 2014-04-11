@@ -1,0 +1,60 @@
+metadata:
+    name: qemu-build
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build QEMU from source"
+    maintainer:
+        - alex.bennee@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - kvm
+        - x86
+
+params:
+    REPO: git://git.qemu.org/qemu.git
+    BRANCH: master
+    TARGET: arm-linux-user
+    BUILD_OPTS: --static --disable-strip 
+
+install:
+    # As we sometimes need an installed QEMU for other steps the actual build will
+    # be done in the install steps. However we repeat the build targets to get the
+    # test results in the run steps.
+    steps:
+        - cd /home
+        - git clone ${REPO} qemu.git
+        - cd qemu.git
+        - git checkout -b build origin/${BRANCH}
+        - git submodule update --init --recursive
+        - ./configure ${BUILD_OPTS} --target-list=${TARGET}
+        - make
+        - make install
+
+    deps:
+        - build-essential
+        - python
+        - git-core
+        - pkg-config
+        - autoconf
+        - automake
+        - autotools-dev
+        - libtool
+        - bison
+        - flex
+        - zlib1g-dev
+        - libglib2.0-dev
+        - libusb-1.0-0-dev
+        - librados-dev
+        - libncurses5-dev
+        - libseccomp-dev
+        - libgnutls-dev
+        - libnss3-dev
+        
+run:
+    steps:
+        - cd /home/qemu.git
+        - lava-test-case qemu-make --shell make
+        - lava-test-case qemu-make-install --shell make install
+        - lava-test-case qemu-make-check --shell make check
