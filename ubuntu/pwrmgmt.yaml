@@ -23,10 +23,13 @@ install:
     steps:
         - "cd pm-qa && make -C utils"
 
+params:
+    PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
+
 run:
     steps:
         - cd pm-qa 
-        - make -k check
+        - for testset in $PWR_TESTARG; do make -C $testset check; done
 
 parse:
     pattern: "^(?P<test_case_id>[\\w/\\.]+):\\s+(?P<message>.+)\\.\\.\\.\\s+(?P<result>\\w+)"
