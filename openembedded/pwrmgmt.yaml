@@ -2,6 +2,8 @@ metadata:
     name: pwrmgmt
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test power management. Test case documentation available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
+    maintainer:
+        - sanjay.rawat@linaro.org
     os:
         - openembedded
     scope:
@@ -14,12 +16,15 @@ metadata:
 
 install:
     git-repos:
-        - git://git.linaro.org/tools/pm-qa.git
+        - git://git.linaro.org/power/pm-qa.git
     steps:
-        - "cd pm-qa && make -C utils"
+        - "cd pm-qa"
+        - "git checkout tags/$RELEASE"
+        - "make -C utils"
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
+    RELEASE: 'pm-qa-v0.4.8'
     
 run:
     steps:
