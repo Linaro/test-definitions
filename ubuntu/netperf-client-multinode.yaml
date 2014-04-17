@@ -4,6 +4,7 @@ metadata:
     description: "Basic MultiNode netperf/ping test on client side"
     maintainer:
         - guoqing.zhu@linaro.org
+        - weilong.chen@linaro.org
     os:
         - ubuntu
     scope:

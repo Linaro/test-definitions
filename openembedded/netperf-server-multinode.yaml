@@ -4,6 +4,7 @@ metadata:
     description: "Basic MultiNode netperf/ping test on server side"
     maintainer:
         - guoqing.zhu@linaro.org
+        - weilong.chen@linaro.org
     os:
         - openembedded
     scope:
