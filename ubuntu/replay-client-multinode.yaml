@@ -3,37 +3,28 @@ metadata:
     name: tcpreplay-client-multinode
     description: "Basic MultiNode tcpreplay test on client side"
     maintainer:
-        - guoqing.zhu@linaro.org
+        - weilong.chen@linaro.org
     os:
         - ubuntu
     scope:
-        - functional
         - performance
-        - latency
-        - cpu utilization
     devices:
         - kvm
         - arndale
-        - panda
-        - beaglebone-black
-        - beagle-xm
-        - mx53loco
-
-install:
-     deps:
-         - wget
-         - tcpreplay
-         - python-minimal
-
+params:
+    ETH: eth0
+    REP: 100
 run:
     steps:
-        - wget -O telnet.cap http://packetlife.net/captures/telnet.cap
+        - lava-sync start
         - ifconfig -a
         - route
-        - lava-network broadcast eth0
-        - lava-network collect eth0
-        - lava-test-case multinode-lava-network --shell ./common/scripts/replay.sh
-        - lava-sync done 
-
+        - lava-network broadcast $ETH
+        - lava-network collect $ETH
+        - line=`lava-group | grep server | awk '{print $1}'`
+        - STR=`lava-network query $line ipv4`
+        - remote_ip=`echo $STR | sed -e 's/.*addr://'`
+        - lava-test-case multinode-lava-network --shell ./common/scripts/generator.sh $ETH $remote_ip max $REP
+        - lava-sync done
 parse:
         "pattern": "^test_case_id:(?P<test_case_id>.+) units:(?P<units>.+) measurement:(?P<measurement>\\d+\\.\\d+) result:(?P<result>\\w+)"

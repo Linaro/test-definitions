@@ -3,29 +3,24 @@ metadata:
     name: tcpreplay-server-multinode
     description: "Basic MultiNode tcpreplay test on server side"
     maintainer:
-        - guoqing.zhu@linaro.org
+        - weilong.chen@linaro.org
     os:
         - ubuntu
     scope:
-        - functional
         - performance
-        - latency
-        - cpu utilization
     devices:
         - kvm
         - arndale
-        - panda
-        - beaglebone-black
-        - beagle-xm
-        - mx53loco
-
+params:
+    ETH: eth0
 run:
     steps:
+        - lava-sync start
         - ifconfig -a
         - route
-        - lava-network broadcast eth0
-        - lava-network collect eth0
-        - lava-sync done 
-
+        - lava-network broadcast $ETH
+        - lava-network collect $ETH
+        - echo "test-0:ignore"
+        - lava-sync done
 parse:
-        "pattern": "^test_case_id:(?P<test_case_id>.+) units:(?P<units>.+) measurement:(?P<measurement>\\d+\\.\\d+) result:(?P<result>\\w+)"
+        "pattern": "(?P<test_case_id>.*-*):\\s+(?P<result>(pass|fail))"
