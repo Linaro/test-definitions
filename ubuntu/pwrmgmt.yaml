@@ -31,7 +31,7 @@ install:
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
-    RELEASE: 'pm-qa-v0.4.8'
+    RELEASE: 'pm-qa-v0.4.9'
 
 run:
     steps:
