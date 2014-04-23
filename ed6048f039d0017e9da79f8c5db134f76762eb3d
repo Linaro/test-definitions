@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_38f3550c",
+        "filename": "ubuntu/build-qemu-from-source.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-04-23T11:05:03Z",
+      "side": 1,
+      "message": "Maybe anothere param SKIP_INSTALL would be handy here? If set to true - don\u0027t perform install steps. I\u0027m not exactly sure how to implement this in yaml.\n\nHowever skip_install is already in cooking in LAVA: https://cards.linaro.org/browse/CARD-1256",
+      "revId": "ed6048f039d0017e9da79f8c5db134f76762eb3d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_58ee0924",
+        "filename": "ubuntu/install-qemu-chroot.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-04-23T11:05:03Z",
+      "side": 1,
+      "message": "Since the test case goal is setup QEMU chroot I propose to move these steps to \u0027run\u0027 section and wrap in lava-test-case --shell. If some step fails it would be easy to track the problem. This would go like this\n\nlava-test-case qemu-setup-chroot-step1 --shell cd /home\nlava-test-case qemu-setup-chroot-step2 --shell wget -O chroot.tar ${ROOTFS}\n...",
+      "revId": "ed6048f039d0017e9da79f8c5db134f76762eb3d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_78e9cd19",
+        "filename": "ubuntu/scripts/ltp-build.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-04-23T11:05:03Z",
+      "side": 1,
+      "message": "I\u0027d prefer to fail gracefully if LTP_RELEASE is not set with the script call than fallback to other release. The parameter is already defined in the YAML and I prefer to maintain it in only one place.",
+      "revId": "ed6048f039d0017e9da79f8c5db134f76762eb3d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
