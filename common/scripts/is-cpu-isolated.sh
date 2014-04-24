@@ -1,23 +1,30 @@
+# This script is used for isolating $1 cpu from other kernel background
+# activites. Currently this supports isolating a single core. This runs 'stress'
+# test on the isolated CPU and Figures out if CPU is isolated or not by reading
+# 'cat /proc/interrupts' for tick timers.
+#
+# Because it depends on the order of the columns in 'cat /proc/interrupts', it
+# requires all CPUs to be online, otherwise things may go crazy.
+
 #!/bin/bash
 
 # Variable decided outcome of test, this is the minimum isolation we need.
+ISOL_CPU=1 #CPU to isolate, default 1
+SAMPLE_COUNT=1
 MIN_ISOLATION=10
-RESULT="PASS"
 STRESS_DURATION=5000
+NON_ISOL_CPUS="0" #CPU not to isolate, zero will always be there as we can't stop ticks on boot CPU.
+RESULT="PASS"
 
-if [ $2 ]; then
-	MIN_ISOLATION=$2
-fi
-
-# $1 is the number of samples required of isolation time, by default 1
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
-	echo "Usage: $0 <number of samples to take> <Min Isolation Time Expected>"
+	echo "Usage: $0 <CPU to isolate (default 1)> <number of samples to take (default 1)> <Min Isolation Time Expected in seconds (default 10)>"
 	exit
-elif [ $1 ]; then
-	SAMPLE_COUNT=$1
-else
-	SAMPLE_COUNT=1
 fi
+
+# Parse parameters
+[ $1 ] && ISOL_CPU=$1
+[ $2 ] && SAMPLE_COUNT=$2
+[ $3 ] && MIN_ISOLATION=$3
 
 
 # ROUTINES
@@ -28,17 +35,36 @@ isdebug() {
 	fi
 }
 
-# routine to get tick count
-get_tick_count() { cat /proc/interrupts | grep arch_timer | grep 30 | sed 's/\s\+/ /g' | cut -d' ' -f4 ; }
+# routine to get tick count: Expects all CPUs to be online (otherwise column
+# number may get wrong)
+get_tick_count() { cat /proc/interrupts | grep arch_timer | grep 30 | sed 's/\s\+/ /g' | sed 's/^\s//g' | cut -d' ' -f$((2+$ISOL_CPU)) ; }
 #For testing script on: x86
-#get_tick_count() { cat /proc/interrupts | grep NMI | sed 's/\s\+/ /g' | cut -d' ' -f4 ; }
+#get_tick_count() { cat /proc/interrupts | grep NMI | sed 's/\s\+/ /g' | sed 's/\s\+/ /g' | cut -d' ' -f$((2+$ISOL_CPU)) ; }
+
+# update list of all non-ISOL CPUs
+update_non_isol_cpus() {
+	total_cpus=`nproc --all --ignore=1` #ignore CPU 0 as we already have that
+	cpu=1
+
+	while [ $cpu -le $total_cpus ]
+	do
+		[ $cpu != $ISOL_CPU ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+		let cpu=cpu+1
+	done
+
+	isdebug echo "Isolate: CPU "$ISOL_CPU" and leave others: "$NON_ISOL_CPUS
+	isdebug echo ""
+}
 
 # routine to isolate a CPU
-isolate_cpu1() {
+isolate_cpu() {
 	isdebug echo ""
 	isdebug echo "Started Isolating CPUs - via CPUSETS"
 	isdebug echo "------------------------------------"
 	isdebug echo ""
+
+	# Update list of non isol CPUs
+	update_non_isol_cpus
 
 	# Check that we have cpusets enabled in the kernel
 	if ! grep -q -s cpuset /proc/filesystems ; then
@@ -89,13 +115,15 @@ isolate_cpu1() {
 	[ -d /dev/cpuset/gp ] || mkdir /dev/cpuset/gp
 	[ -d /dev/cpuset/rt ] || mkdir /dev/cpuset/rt
 
-	# Setup the GP domain: CPU0
+	# Give same mems to both
 	echo 0 > /dev/cpuset/gp/mems
-	echo 0 > /dev/cpuset/gp/cpus
+	echo 0 > /dev/cpuset/rt/mems
+
+	# Setup the GP domain: CPU0
+	echo $NON_ISOL_CPUS > /dev/cpuset/gp/cpus
 
 	# Setup the NOHZ domain: CPU1
-	echo 0 > /dev/cpuset/rt/mems
-	echo 1 > /dev/cpuset/rt/cpus
+	echo $ISOL_CPU > /dev/cpuset/rt/cpus
 
 	# Try to move all processes in top set to the GP set.
 	for pid in `cat /dev/cpuset/tasks`; do
@@ -121,15 +149,14 @@ isolate_cpu1() {
 	# Quiesce CPU: i.e. migrate timers/hrtimers away
 	echo 1 > /dev/cpuset/rt/quiesce
 
-	stress -q --cpu 1 --timeout $STRESS_DURATION &
+	stress -q --cpu $ISOL_CPU --timeout $STRESS_DURATION &
 
-	# Restart CPU1 to migrate all tasks to CPU0
-	echo 0 > /sys/devices/system/cpu/cpu1/online
-	echo 1 > /sys/devices/system/cpu/cpu1/online
+	# Restart $ISOL_CPU to migrate all tasks to CPU0
+	echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
+	echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 
 	# Setup the NOHZ domain again: CPU1
-	echo 0 > /dev/cpuset/rt/mems
-	echo 1 > /dev/cpuset/rt/cpus
+	echo $ISOL_CPU > /dev/cpuset/rt/cpus
 
 	# Try to move all processes in top set to the GP set.
 	for pid in `ps h -C stress -o pid`; do
@@ -272,6 +299,6 @@ clear_cpusets() {
 }
 
 # tests to run
-isolate_cpu1
+isolate_cpu
 get_isolation_duration
 clear_cpusets

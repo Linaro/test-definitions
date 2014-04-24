@@ -12,11 +12,12 @@ metadata:
         - arndale
 
 params:
+    ISOL_CPU: 1
     ITERATIONS: 5
     ISOL_MIN: 10
 run:
     steps:
-        - "common/scripts/is-cpu-isolated.sh $ITERATIONS $ISOL_MIN"
+        - "common/scripts/is-cpu-isolated.sh $ISOL_CPU $ITERATIONS $ISOL_MIN"
 
 parse:
     pattern: "^test_case_id:(?P<test_case_id>.+)\\s+result:(?P<result>\\w+)\\s+measurement:(?P<measurement>.+)\\s+units:(?P<units>.+)"
