@@ -33,6 +33,104 @@ get_tick_count() { cat /proc/interrupts | grep arch_timer | grep 30 | sed 's/\s\
 #For testing script on: x86
 #get_tick_count() { cat /proc/interrupts | grep NMI | sed 's/\s\+/ /g' | cut -d' ' -f4 ; }
 
+# routine to isolate a CPU
+isolate_cpu1() {
+	isdebug echo ""
+	isdebug echo "Started Isolating CPUs - via CPUSETS"
+	isdebug echo "------------------------------------"
+	isdebug echo ""
+
+	# Check that we have cpusets enabled in the kernel
+	if ! grep -q -s cpuset /proc/filesystems ; then
+		echo "Error: Kernel is lacking support for cpuset!"
+		exit 1
+	fi
+
+	# Try to disable sched_tick_max_deferment
+	if [ -d /sys/kernel/debug -a -f /sys/kernel/debug/sched_tick_max_deferment ]; then
+		echo -1 > /sys/kernel/debug/sched_tick_max_deferment
+		echo "sched_tick_max_deferment set to:" `cat /sys/kernel/debug/sched_tick_max_deferment`
+	else
+		sysctl -e kernel.sched_tick_max_deferment=-1
+
+	fi
+
+	# Delay the annoying vmstat timer far away (in seconds)
+	sysctl vm.stat_interval=1000
+
+	# Delay the annoying vmstat timer far away (in centiseconds)
+	sysctl vm.dirty_writeback_centisecs=100000
+
+	# Delay the annoying vmstat timer far away (in centiseconds)
+	sysctl vm.dirty_expire_centisecs=100000
+
+	# Shutdown nmi watchdog as it uses perf events
+	sysctl -w kernel.watchdog=0
+
+	# Move bdi writeback workqueues to CPU0
+	echo 1 > /sys/bus/workqueue/devices/writeback/cpumask
+
+	# make sure that the /dev/cpuset dir exits
+	# and mount the cpuset filesystem if needed
+	[ -d /dev/cpuset ] || mkdir /dev/cpuset
+	mount | grep /dev/cpuset > /dev/null || mount -t cpuset none /dev/cpuset
+
+	# Create 2 cpusets. One GP and one NOHZ domain.
+	[ -d /dev/cpuset/gp ] || mkdir /dev/cpuset/gp
+	[ -d /dev/cpuset/rt ] || mkdir /dev/cpuset/rt
+
+	# Setup the GP domain: CPU0
+	echo 0 > /dev/cpuset/gp/mems
+	echo 0 > /dev/cpuset/gp/cpus
+
+	# Setup the NOHZ domain: CPU1
+	echo 0 > /dev/cpuset/rt/mems
+	echo 1 > /dev/cpuset/rt/cpus
+
+	# Try to move all processes in top set to the GP set.
+	for pid in `cat /dev/cpuset/tasks`; do
+		if [ -d /proc/$pid ]; then
+			echo $pid > /dev/cpuset/gp/tasks 2>/dev/null
+			if [ $? != 0 ]; then
+				isdebug echo -n "Cannot move PID $pid: "
+				isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
+			fi
+		fi
+	done
+
+	# Disable load balancing on top level (otherwise the child-sets' setting
+	# won't take effect.)
+	echo 0 > /dev/cpuset/sched_load_balance
+
+	# Enable load balancing withing the GP domain
+	echo 1 > /dev/cpuset/gp/sched_load_balance
+
+	# But disallow load balancing within the NOHZ domain
+	echo 0 > /dev/cpuset/rt/sched_load_balance
+
+	# Quiesce CPU: i.e. migrate timers/hrtimers away
+	echo 1 > /dev/cpuset/rt/quiesce
+
+	stress -q --cpu 1 --timeout $STRESS_DURATION &
+
+	# Restart CPU1 to migrate all tasks to CPU0
+	echo 0 > /sys/devices/system/cpu/cpu1/online
+	echo 1 > /sys/devices/system/cpu/cpu1/online
+
+	# Setup the NOHZ domain again: CPU1
+	echo 0 > /dev/cpuset/rt/mems
+	echo 1 > /dev/cpuset/rt/cpus
+
+	# Try to move all processes in top set to the GP set.
+	for pid in `ps h -C stress -o pid`; do
+		echo $pid > /dev/cpuset/rt/tasks 2>/dev/null
+		if [ $? != 0 ]; then
+			isdebug echo -n "RT: Cannot move PID $pid: "
+			isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
+		fi
+	done
+}
+
 # routine to get CPU isolation time
 get_isolation_duration() {
 	isdebug echo ""
@@ -129,103 +227,6 @@ get_isolation_duration() {
 	echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$AVG" units:secs"
 	echo "Min isolation is: "$MIN", Max isolation is: "$MAX" and Average isolation time is: "$AVG
 	isdebug echo ""
-}
-
-isolate_cpu1() {
-	isdebug echo ""
-	isdebug echo "Started Isolating CPUs - via CPUSETS"
-	isdebug echo "------------------------------------"
-	isdebug echo ""
-
-	# Check that we have cpusets enabled in the kernel
-	if ! grep -q -s cpuset /proc/filesystems ; then
-		echo "Error: Kernel is lacking support for cpuset!"
-		exit 1
-	fi
-
-	# Try to disable sched_tick_max_deferment
-	if [ -d /sys/kernel/debug -a -f /sys/kernel/debug/sched_tick_max_deferment ]; then
-		echo -1 > /sys/kernel/debug/sched_tick_max_deferment
-		echo "sched_tick_max_deferment set to:" `cat /sys/kernel/debug/sched_tick_max_deferment`
-	else
-		sysctl -e kernel.sched_tick_max_deferment=-1
-
-	fi
-
-	# Delay the annoying vmstat timer far away (in seconds)
-	sysctl vm.stat_interval=1000
-
-	# Delay the annoying vmstat timer far away (in centiseconds)
-	sysctl vm.dirty_writeback_centisecs=100000
-
-	# Delay the annoying vmstat timer far away (in centiseconds)
-	sysctl vm.dirty_expire_centisecs=100000
-
-	# Shutdown nmi watchdog as it uses perf events
-	sysctl -w kernel.watchdog=0
-
-	# Move bdi writeback workqueues to CPU0
-	echo 1 > /sys/bus/workqueue/devices/writeback/cpumask
-
-	# make sure that the /dev/cpuset dir exits
-	# and mount the cpuset filesystem if needed
-	[ -d /dev/cpuset ] || mkdir /dev/cpuset
-	mount | grep /dev/cpuset > /dev/null || mount -t cpuset none /dev/cpuset
-
-	# Create 2 cpusets. One GP and one NOHZ domain.
-	[ -d /dev/cpuset/gp ] || mkdir /dev/cpuset/gp
-	[ -d /dev/cpuset/rt ] || mkdir /dev/cpuset/rt
-
-	# Setup the GP domain: CPU0
-	echo 0 > /dev/cpuset/gp/mems
-	echo 0 > /dev/cpuset/gp/cpus
-
-	# Setup the NOHZ domain: CPU1
-	echo 0 > /dev/cpuset/rt/mems
-	echo 1 > /dev/cpuset/rt/cpus
-
-	# Try to move all processes in top set to the GP set.
-	for pid in `cat /dev/cpuset/tasks`; do
-		if [ -d /proc/$pid ]; then
-			echo $pid > /dev/cpuset/gp/tasks 2>/dev/null
-			if [ $? != 0 ]; then
-				isdebug echo -n "Cannot move PID $pid: "
-				isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
-			fi
-		fi
-	done
-
-	# Disable load balancing on top level (otherwise the child-sets' setting
-	# won't take effect.)
-	echo 0 > /dev/cpuset/sched_load_balance
-
-	# Enable load balancing withing the GP domain
-	echo 1 > /dev/cpuset/gp/sched_load_balance
-
-	# But disallow load balancing within the NOHZ domain
-	echo 0 > /dev/cpuset/rt/sched_load_balance
-
-	# Quiesce CPU: i.e. migrate timers/hrtimers away
-	echo 1 > /dev/cpuset/rt/quiesce
-
-	stress -q --cpu 1 --timeout $STRESS_DURATION &
-
-	# Restart CPU1 to migrate all tasks to CPU0
-	echo 0 > /sys/devices/system/cpu/cpu1/online
-	echo 1 > /sys/devices/system/cpu/cpu1/online
-
-	# Setup the NOHZ domain again: CPU1
-	echo 0 > /dev/cpuset/rt/mems
-	echo 1 > /dev/cpuset/rt/cpus
-
-	# Try to move all processes in top set to the GP set.
-	for pid in `ps h -C stress -o pid`; do
-		echo $pid > /dev/cpuset/rt/tasks 2>/dev/null
-		if [ $? != 0 ]; then
-			isdebug echo -n "RT: Cannot move PID $pid: "
-			isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
-		fi
-	done
 }
 
 clear_cpusets() {
