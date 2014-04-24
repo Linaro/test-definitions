@@ -14,9 +14,9 @@ if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	echo "Usage: $0 <number of samples to take> <Min Isolation Time Expected>"
 	exit
 elif [ $1 ]; then
-	sample_count=$1
+	SAMPLE_COUNT=$1
 else
-	sample_count=1
+	SAMPLE_COUNT=1
 fi
 
 
@@ -40,7 +40,7 @@ get_isolation_duration() {
 	isdebug echo "Capture Isolation time"
 	isdebug echo "----------------------"
 
-	isdebug echo "No. of samples requested:" $sample_count", min isolation required:" $MIN_ISOLATION
+	isdebug echo "No. of samples requested:" $SAMPLE_COUNT", min isolation required:" $MIN_ISOLATION
 	isdebug echo ""
 
 	new_count=$(get_tick_count)
@@ -70,7 +70,7 @@ get_isolation_duration() {
 	AVG=0
 	MIN=99999999
 	MAX=0
-	while [ $x -lt $sample_count ]
+	while [ $x -lt $SAMPLE_COUNT ]
 	do
 		let x=x+1
 
@@ -123,7 +123,7 @@ get_isolation_duration() {
 		fi
 	done
 
-	let AVG=AVG/$sample_count
+	let AVG=AVG/$SAMPLE_COUNT
 
 	isdebug echo "Result:"
 	echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$AVG" units:secs"
