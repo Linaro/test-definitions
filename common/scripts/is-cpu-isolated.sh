@@ -46,6 +46,16 @@ isolate_cpu1() {
 		exit 1
 	fi
 
+	# Remove governor's background timers, i.e. use performance governor
+	if [ -d /sys/devices/system/cpu/cpu$ISOL_CPU/cpufreq ]; then
+		echo performance > /sys/devices/system/cpu/cpu$ISOL_CPU/cpufreq/scaling_governor
+	fi
+
+	# Affine all irqs to CPU0
+	for i in `find /proc/irq/* -name smp_affinity`; do
+		echo 1 > $i > /dev/null;
+	done
+
 	# Try to disable sched_tick_max_deferment
 	if [ -d /sys/kernel/debug -a -f /sys/kernel/debug/sched_tick_max_deferment ]; then
 		echo -1 > /sys/kernel/debug/sched_tick_max_deferment
