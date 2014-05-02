@@ -1,0 +1,25 @@
+metadata:
+    name: fio-ubuntu
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "FIO Test on Linux Linaro ubuntu. The target Device ID is possible to be set in JSON."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - d01
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+    environment:
+        - lava-test-shell
+params:
+    DeviceID: /dev/sda
+run:
+    steps:
+        - "cd ubuntu/scripts; ./fio_test.py $DeviceID"
+
+parse:
+    pattern: "(?P<test_case_id>^fio_\\w+):\\s(?P<result>(PASS|FAIL))"
