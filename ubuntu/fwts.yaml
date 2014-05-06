@@ -1,7 +1,7 @@
 metadata:
     name: fwts
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run Firmware Test Suite (fwts)"
+    description: "Ubuntu Firmware Test Suite (fwts) -  https://wiki.linaro.org/LEG/Engineering/test-acpi#Ubuntu_Firmware_test_suite"
     maintainer:
         - naresh.bhat@linaro.org
     os:
@@ -14,6 +14,7 @@ metadata:
         - arndale
         - vexpress-a9
         - vexpress-tc2
+        - rtsm_fvp_base-aemv8a
 
 install:
     deps:
