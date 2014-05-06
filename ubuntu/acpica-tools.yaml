@@ -1,7 +1,7 @@
 metadata:
     name: acpica
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test ACPICA ASL"
+    description: "ACPI ASL on ARMv8 - https://wiki.linaro.org/LEG/Engineering/test-acpi#ASLTS_-_ASL_Test_Suite"
     maintainer:
         - naresh.bhat@linaro.org
     os:
@@ -9,7 +9,7 @@ metadata:
     devices:
         - highbank
     scope:
-        - functional
+        - fastmodel
 
 install:
     git-repos:
