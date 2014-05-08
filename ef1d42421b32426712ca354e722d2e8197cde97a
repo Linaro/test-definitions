@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_52126563",
+        "filename": "ubuntu/scripts/fio_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-08T10:31:36Z",
+      "side": 1,
+      "message": "I\u0027d rather move it to the end of the file and check if the parameter was supplied. It would also be good to check if the supplied parameter is a path to drive.",
+      "revId": "ef1d42421b32426712ca354e722d2e8197cde97a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_b22be193",
+        "filename": "ubuntu/scripts/fio_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-08T10:31:36Z",
+      "side": 1,
+      "message": "Please move it to the deps section",
+      "revId": "ef1d42421b32426712ca354e722d2e8197cde97a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_9218dd85",
+        "filename": "ubuntu/scripts/fio_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-08T10:31:36Z",
+      "side": 1,
+      "message": "Please remove comments if they are not necessary",
+      "revId": "ef1d42421b32426712ca354e722d2e8197cde97a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_721d6973",
+        "filename": "ubuntu/scripts/fio_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-08T10:31:36Z",
+      "side": 1,
+      "message": "Measurement is missing. It needs to be recorded in LAVA",
+      "revId": "ef1d42421b32426712ca354e722d2e8197cde97a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
