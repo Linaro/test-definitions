@@ -299,6 +299,18 @@ clear_cpusets() {
 }
 
 # tests to run
-isolate_cpu
-get_isolation_duration
-clear_cpusets
+if [ $4 ]; then
+	if [ $4 -eq 1 ]; then
+		isolate_cpu
+	elif [ $4 -eq 2 ]; then
+		get_isolation_duration
+	elif [ $4 -eq 3 ]; then
+		clear_cpusets
+	else
+		update_non_isol_cpus
+	fi
+else
+	isolate_cpu
+	get_isolation_duration
+	clear_cpusets
+fi
