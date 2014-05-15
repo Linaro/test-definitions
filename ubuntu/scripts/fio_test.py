@@ -34,24 +34,41 @@ print os.getcwd()
 commands.getstatusoutput("sudo fdisk -l > partition_layout.txt 2>&1")
 device_name = sys.argv[1]
 
-def fio_installation():
-    testcase_name = "fio_installation"
-    run_command = "sudo apt-get -y install fio"
+def fio_device_existence():
+    testcase_name = "fio_device_existence"
+    if sys.argv[1] == "":
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Device name is empty"
+        sys.exit(1)
+    else:
+        logfile = open("partition_layout.txt", "r")
+        logcontent = logfile.readlines()
+        positive_counter = 0
+        for i in range(0, len(logcontent)):
+            print logcontent[i].strip("\n")
+            if sys.argv[1] in logcontent[i]:
+                positive_counter = positive_counter + 1
+        logfile.close()
+        if positive_counter > 0:
+            print testcase_name + ": PASS" + " 0" + " Inapplicable"
+        else:
+            print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not locate " + sys.argv[1] + " on target board"
+            sys.exit(1)
+
+def fio_existence():
+    testcase_name = "fio_existence"
+    run_command = "which fio"
     print run_command
 
-    fio_installation_return = commands.getstatusoutput(run_command)
-    if fio_installation_return[0] != 0:
-        print testcase_name + ": FAIL - Installation Failure!"
+    fio_binary_location = commands.getstatusoutput(run_command)
+    if fio_binary_location[0] != 0:
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not locate FIO binary"
+        sys.exit(1)
     else:
-        fio_binary_location = commands.getstatusoutput("which fio")
-        if fio_binary_location[0] != 0:
-            print testcase_name + ": FAIL - Could not locate FIO binary, something is wrong during the installation"
-        else:
-            print "The FIO binary location is: " + fio_binary_location[1]
-            print testcase_name + ": PASS"
+        print "The FIO binary location is: " + fio_binary_location[1]
+        print testcase_name + ": PASS" + " 0" + " Inapplicable"
 
 def fio_read():
-    testcase_name = "fio_read"
+    testcase_name = "fio_read_iops"
     run_command = "sudo fio -filename=" + device_name + " -rw=read -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_read > fio_read.txt 2>&1"
     print run_command
 
@@ -59,7 +76,7 @@ def fio_read():
     print fio_read_return[0]
 
     if fio_read_return[0] != 0:
-        print testcase_name + ": FAIL - Command ran failed on " + device_name
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Command ran failed on " + device_name
     else:
         # Print output to stdout
         logfile = open("fio_read.txt", "r")
@@ -71,18 +88,17 @@ def fio_read():
         keyword = "iops="
         for i in range(0, len(logcontent)):
             if keyword in logcontent[i]:
-                # print logcontent[i]
                 target_element = logcontent[i].split(",")
-                # print target_element
                 for j in range(0, len(target_element)):
                     if keyword in target_element[j]:
-                        print "The IOPS number in fio_read test is: " + target_element[j].split("=")[1].strip(" ")
+                        iops_result = target_element[j].split("=")[1].strip(" ")
+                        print "The IOPS number in fio_read test is: " + iops_result
 
         logfile.close()
-        print testcase_name + ": PASS"
+        print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
 
 def fio_randread():
-    testcase_name = "fio_randread"
+    testcase_name = "fio_randread_iops"
     run_command = "sudo fio -filename=" + device_name + " -rw=randread -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randread > fio_randread.txt 2>&1"
     print run_command
 
@@ -90,7 +106,7 @@ def fio_randread():
     print fio_randread_return[0]
 
     if fio_randread_return[0] != 0:
-        print testcase_name + ": FAIL - Command ran failed on " + device_name
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Command ran failed on " + device_name
     else:
         # Print output to stdout
         logfile = open("fio_randread.txt", "r")
@@ -102,18 +118,17 @@ def fio_randread():
         keyword = "iops="
         for i in range(0, len(logcontent)):
             if keyword in logcontent[i]:
-                # print logcontent[i]
                 target_element = logcontent[i].split(",")
-                # print target_element
                 for j in range(0, len(target_element)):
                     if keyword in target_element[j]:
-                        print "The IOPS number in fio_randread test is: " + target_element[j].split("=")[1].strip(" ")
+                        iops_result = target_element[j].split("=")[1].strip(" ")
+                        print "The IOPS number in fio_randread test is: " + iops_result
 
         logfile.close()
-        print testcase_name + ": PASS"
+        print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
 
 def fio_write():
-    testcase_name = "fio_write"
+    testcase_name = "fio_write_iops"
     run_command = "sudo fio -filename=" + device_name + " -rw=write -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_write > fio_write.txt 2>&1"
     print run_command
 
@@ -121,7 +136,7 @@ def fio_write():
     print fio_write_return[0]
 
     if fio_write_return[0] != 0:
-        print testcase_name + ": FAIL - Command ran failed on " + device_name
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Command ran failed on " + device_name
     else:
         # Print output to stdout
         logfile = open("fio_write.txt", "r")
@@ -133,18 +148,17 @@ def fio_write():
         keyword = "iops="
         for i in range(0, len(logcontent)):
             if keyword in logcontent[i]:
-                # print logcontent[i]
                 target_element = logcontent[i].split(",")
-                # print target_element
                 for j in range(0, len(target_element)):
                     if keyword in target_element[j]:
-                        print "The IOPS number in fio_write test is: " + target_element[j].split("=")[1].strip(" ")
+                        iops_result = target_element[j].split("=")[1].strip(" ")
+                        print "The IOPS number in fio_write test is: " + iops_result
 
         logfile.close()
-        print testcase_name + ": PASS"
+        print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
 
 def fio_randwrite():
-    testcase_name = "fio_randwrite"
+    testcase_name = "fio_randwrite_iops"
     run_command = "sudo fio -filename=" + device_name + " -rw=randwrite -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randwrite > fio_randwrite.txt 2>&1"
     print run_command
 
@@ -152,7 +166,7 @@ def fio_randwrite():
     print fio_randwrite_return[0]
 
     if fio_randwrite_return[0] != 0:
-        print testcase_name + ": FAIL - Command ran failed on " + device_name
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Command ran failed on " + device_name
     else:
         # Print output to stdout
         logfile = open("fio_randwrite.txt", "r")
@@ -164,18 +178,17 @@ def fio_randwrite():
         keyword = "iops="
         for i in range(0, len(logcontent)):
             if keyword in logcontent[i]:
-                # print logcontent[i]
                 target_element = logcontent[i].split(",")
-                # print target_element
                 for j in range(0, len(target_element)):
                     if keyword in target_element[j]:
-                        print "The IOPS number in fio_randwrite test is: " + target_element[j].split("=")[1].strip(" ")
+                        iops_result = target_element[j].split("=")[1].strip(" ")
+                        print "The IOPS number in fio_randwrite test is: " + iops_result
 
         logfile.close()
-        print testcase_name + ": PASS"
+        print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
 
 def fio_512k_write():
-    testcase_name = "fio_512k_write"
+    testcase_name = "fio_512k_write_bandwidth"
     run_command = "sudo fio -filename=" + device_name + " -rw=write -direct=1 -iodepth 1 -thread -ioengine=psync -bs=512k -numjobs=1 -runtime=10 -group_reporting -name=fio_512k_write > fio_512k_write.txt 2>&1"
     print run_command
 
@@ -183,7 +196,7 @@ def fio_512k_write():
     print fio_512k_write_return[0]
 
     if fio_512k_write_return[0] != 0:
-        print testcase_name + ": FAIL - Command ran failed on " + device_name
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Command ran failed on " + device_name
     else:
         # Print output to stdout
         logfile = open("fio_512k_write.txt", "r")
@@ -195,18 +208,18 @@ def fio_512k_write():
         keyword = "bw="
         for i in range(0, len(logcontent)):
             if keyword in logcontent[i]:
-                # print logcontent[i]
                 target_element = logcontent[i].split(",")
-                # print target_element
                 for j in range(0, len(target_element)):
                     if keyword in target_element[j]:
-                        print "The Bandwidth number in fio_512k_write test is: " + target_element[j].split("=")[1].strip(" ")
+                        bandwidth_result = target_element[j].split("=")[1].strip(" ")
+                        print "The Bandwidth number in fio_512k_write test is: " + bandwidth_result
+                        bandwidth_number = bandwidth_result.split("/")[0][:-2]
 
         logfile.close()
-        print testcase_name + ": PASS"
+        print testcase_name + ": PASS" + " " + bandwidth_number + " " + "KB/s"
 
 def fio_512k_read():
-    testcase_name = "fio_512k_read"
+    testcase_name = "fio_512k_read_bandwidth"
     run_command = "sudo fio -filename=" + device_name + " -rw=read -direct=1 -iodepth 1 -thread -ioengine=psync -bs=512k -numjobs=1 -runtime=10 -group_reporting -name=fio_512k_read > fio_512k_read.txt 2>&1"
     print run_command
 
@@ -214,7 +227,7 @@ def fio_512k_read():
     print fio_512k_read_return[0]
 
     if fio_512k_read_return[0] != 0:
-        print testcase_name + ": FAIL - Command ran failed on " + device_name
+        print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Command ran failed on " + device_name
     else:
         # Print output to stdout
         logfile = open("fio_512k_read.txt", "r")
@@ -226,18 +239,19 @@ def fio_512k_read():
         keyword = "bw="
         for i in range(0, len(logcontent)):
             if keyword in logcontent[i]:
-                # print logcontent[i]
                 target_element = logcontent[i].split(",")
-                # print target_element
                 for j in range(0, len(target_element)):
                     if keyword in target_element[j]:
-                        print "The Bandwidth number in fio_512k_read test is: " + target_element[j].split("=")[1].strip(" ")
+                        bandwidth_result = target_element[j].split("=")[1].strip(" ")
+                        print "The Bandwidth number in fio_512k_read test is: " + bandwidth_result
+                        bandwidth_number = bandwidth_result.split("/")[0][:-2]
 
         logfile.close()
-        print testcase_name + ": PASS"
+        print testcase_name + ": PASS" + " " + bandwidth_number + " " + "KB/s"
 
 # Run all test
-fio_installation()
+fio_device_existence()
+fio_existence()
 fio_read()
 fio_randread()
 fio_write()

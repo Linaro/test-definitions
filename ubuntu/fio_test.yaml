@@ -15,11 +15,17 @@ metadata:
         - vexpress-tc2
     environment:
         - lava-test-shell
+
+install:
+    deps:
+        - fio
+
 params:
     DeviceID: /dev/sda
+
 run:
     steps:
         - "cd ubuntu/scripts; ./fio_test.py $DeviceID"
 
 parse:
-    pattern: "(?P<test_case_id>^fio_\\w+):\\s(?P<result>(PASS|FAIL))"
+    pattern: '^(?P<test_case_id>fio_\w+):\s(?P<result>\w+)\s(?P<measurement>[0-9.]+)\s(?P<units>[a-zA-Z/]+)'
