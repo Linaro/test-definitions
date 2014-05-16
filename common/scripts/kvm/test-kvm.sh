@@ -1,22 +1,20 @@
 #!/bin/sh
 
-KVM_HOST_NET="kvm-host-net-1:"
-KVM_GUEST_NET="kvm-guest-net-1:"
-KVM_INIT="kvm-init-1:"
-KVM_BOOT="kvm-boot-1:"
+KVM_HOST_NET="kvm-host-net:"
+KVM_GUEST_NET="kvm-guest-net:"
+KVM_INIT="kvm-init:"
 if [ "x$1" = "xbenchmark" ]; then
-    KVM_HOST_NET="$KVM_HOST_NET 0 none"
-    KVM_GUEST_NET="$KVM_GUEST_NET 0 none"
-    KVM_INIT="$KVM_INIT 0 none"
-    KVM_BOOT="$KVM_BOOT 0 none"
+    KVM_BOOT="kvm-boot-lmbench:"
+else
+    KVM_BOOT="kvm-boot-rtbench:"
 fi
 
-dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || \
+dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT pass" || \
 {
-    echo "$KVM_INIT 0 pc fail"
-    echo "$KVM_HOST_NET 0 pc skip"
-    echo "$KVM_BOOT 0 pc skip"
-    echo "$KVM_GUEST_NET 0 pc skip"
+    echo "$KVM_INIT fail"
+    echo "$KVM_HOST_NET skip"
+    echo "$KVM_BOOT skip"
+    echo "$KVM_GUEST_NET skip"
     exit 0
 }
 
@@ -36,9 +34,9 @@ $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER/vexpr
 
 gunzip kvm.qcow2.gz
 if [ $? -ne 0 ]; then
-    echo "$KVM_HOST_NET 0 pc skip"
-    echo "$KVM_BOOT 0 pc skip"
-    echo "$KVM_GUEST_NET 0 pc skip"
+    echo "$KVM_HOST_NET skip"
+    echo "$KVM_BOOT skip"
+    echo "$KVM_GUEST_NET skip"
     exit 0
 fi
 
@@ -62,8 +60,8 @@ fi
 cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
     exec > /root/guest.log 2>&1
-    echo "$KVM_BOOT 0 pc pass"
-    ping -W 4 -c 10 192.168.1.10 && echo "$KVM_GUEST_NET 0 pc pass" || echo "$KVM_GUEST_NET 0 pc fail"
+    echo "$KVM_BOOT pass"
+    ping -W 4 -c 10 192.168.1.10 && echo "$KVM_GUEST_NET pass" || echo "$KVM_GUEST_NET fail"
     sh $TEST_SCRIPT
 EOF
 chmod a+x /mnt/usr/bin/test-guest.sh
@@ -81,7 +79,7 @@ brctl addif br0 eth0
 brctl addif br0 tap0
 udhcpc -t 10 -i br0
 
-ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
+ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET pass" || echo "$KVM_HOST_NET fail"
 
 qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
 	-kernel ./zImage -dtb ./vexpress-v2p-ca15-tc1.dtb \
@@ -97,7 +95,7 @@ mount /dev/nbd0p2 /mnt/
 
 if ! grep -q "kvm-boot-1:" /mnt/root/guest.log
 then
-    echo "$KVM_BOOT 0 pc fail"
+    echo "$KVM_BOOT fail"
 fi
 
 cat /mnt/root/guest.log
