@@ -1,0 +1,23 @@
+metadata:
+    name: odp_atomic
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run odp-atomic test"
+    maintainer:
+        - mike.holmes@linaro.org
+    os:
+        - openembedded
+    devices:
+        - arndale
+    environment:
+        - lava-test-shell
+
+params:
+    TESTCASE: "-t 1"
+    THREADS: ""
+
+run:
+    steps:
+        - /usr/share/odp/odp_atomic $TESTCASE $THREADS
+parse:
+    pattern: "^(?P<test_case_id>(.+))\\s+Result:(?P<result>(pass|fail))"
