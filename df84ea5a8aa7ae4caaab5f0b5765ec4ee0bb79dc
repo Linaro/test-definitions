@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_a84a4eaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-20T11:00:42Z",
+      "side": 1,
+      "message": "Is there a chance to get the commit message a bit more verbose to describe what odp_atomic is?",
+      "revId": "df84ea5a8aa7ae4caaab5f0b5765ec4ee0bb79dc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_c84d82c6",
+        "filename": "openembedded/odp-atomic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-20T11:00:42Z",
+      "side": 1,
+      "message": "Mike, please add scope to metadata. I guess ODP would be a good scope description. It\u0027s a list variable.",
+      "revId": "df84ea5a8aa7ae4caaab5f0b5765ec4ee0bb79dc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
