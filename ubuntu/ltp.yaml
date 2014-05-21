@@ -1,7 +1,7 @@
 metadata:
     name: ltp
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run LTP syscalls tests"
+    description: "Run LTP test suite on Ubuntu"
     maintainer:
         - milosz.wasilewski@linaro.org
         - fathi.boudra@linaro.org
@@ -30,17 +30,16 @@ install:
         - bison
         - build-essential
         - wget
+
+params:
+    TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+
 run:
     steps:
-        - 'cd build'
-        - 'sudo ./runltp -f syscalls -p -q'
+        - './common/scripts/ltpfixup.sh $TST_CMDFILES'
 
 parse:
-    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
     fixupdict:
-        TBROK: fail
-        TCONF: skip
-        TFAIL: fail
-        TINFO: skip
-        TPASS: pass
-        TWARN: unknown
+        FAIL: fail
+        PASS: pass
