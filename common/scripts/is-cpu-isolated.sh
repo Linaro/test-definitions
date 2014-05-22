@@ -111,28 +111,28 @@ isolate_cpu() {
 	[ -d /dev/cpuset ] || mkdir /dev/cpuset
 	mount | grep /dev/cpuset > /dev/null || mount -t cpuset none /dev/cpuset
 
-	# Create 2 cpusets. One GP and one NOHZ domain.
-	[ -d /dev/cpuset/gp ] || mkdir /dev/cpuset/gp
-	[ -d /dev/cpuset/rt ] || mkdir /dev/cpuset/rt
+	# Create 2 cpusets. One control plane and one data plane
+	[ -d /dev/cpuset/cplane ] || mkdir /dev/cpuset/cplane
+	[ -d /dev/cpuset/dplane ] || mkdir /dev/cpuset/dplane
 
 	# check if platform needs a prefix for cpuset
-	[ -f /dev/cpuset/gp/cpus ] && CPUSET_PREFIX=""
-	[ -f /dev/cpuset/gp/cpuset.cpus ] && CPUSET_PREFIX="cpuset."
+	[ -f /dev/cpuset/cplane/cpus ] && CPUSET_PREFIX=""
+	[ -f /dev/cpuset/cplane/cpuset.cpus ] && CPUSET_PREFIX="cpuset."
 
 	# Give same mems to both
-	echo 0 > /dev/cpuset/gp/$CPUSET_PREFIX"mems"
-	echo 0 > /dev/cpuset/rt/$CPUSET_PREFIX"mems"
+	echo 0 > /dev/cpuset/cplane/$CPUSET_PREFIX"mems"
+	echo 0 > /dev/cpuset/dplane/$CPUSET_PREFIX"mems"
 
-	# Setup the GP domain: CPU0
-	echo $NON_ISOL_CPUS > /dev/cpuset/gp/$CPUSET_PREFIX"cpus"
+	# Setup the cplane domain: CPU0
+	echo $NON_ISOL_CPUS > /dev/cpuset/cplane/$CPUSET_PREFIX"cpus"
 
 	# Setup the NOHZ domain: CPU1
-	echo $ISOL_CPU > /dev/cpuset/rt/$CPUSET_PREFIX"cpus"
+	echo $ISOL_CPU > /dev/cpuset/dplane/$CPUSET_PREFIX"cpus"
 
-	# Try to move all processes in top set to the GP set.
+	# Try to move all processes in top set to the cplane set.
 	for pid in `cat /dev/cpuset/tasks`; do
 		if [ -d /proc/$pid ]; then
-			echo $pid > /dev/cpuset/gp/tasks 2>/dev/null
+			echo $pid > /dev/cpuset/cplane/tasks 2>/dev/null
 			if [ $? != 0 ]; then
 				isdebug echo -n "Cannot move PID $pid: "
 				isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
@@ -144,14 +144,14 @@ isolate_cpu() {
 	# won't take effect.)
 	echo 0 > /dev/cpuset/sched_load_balance
 
-	# Enable load balancing withing the GP domain
-	echo 1 > /dev/cpuset/gp/$CPUSET_PREFIX"sched_load_balance"
+	# Enable load balancing withing the cplane domain
+	echo 1 > /dev/cpuset/cplane/$CPUSET_PREFIX"sched_load_balance"
 
 	# But disallow load balancing within the NOHZ domain
-	echo 0 > /dev/cpuset/rt/$CPUSET_PREFIX"sched_load_balance"
+	echo 0 > /dev/cpuset/dplane/$CPUSET_PREFIX"sched_load_balance"
 
 	# Quiesce CPU: i.e. migrate timers/hrtimers away
-	echo 1 > /dev/cpuset/rt/$CPUSET_PREFIX"quiesce"
+	echo 1 > /dev/cpuset/dplane/$CPUSET_PREFIX"quiesce"
 
 	stress -q --cpu $ISOL_CPU --timeout $STRESS_DURATION &
 
@@ -160,13 +160,13 @@ isolate_cpu() {
 	echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 
 	# Setup the NOHZ domain again: CPU1
-	echo $ISOL_CPU > /dev/cpuset/rt/$CPUSET_PREFIX"cpus"
+	echo $ISOL_CPU > /dev/cpuset/dplane/$CPUSET_PREFIX"cpus"
 
-	# Try to move all processes in top set to the GP set.
+	# Try to move all processes in top set to the cplane set.
 	for pid in `ps h -C stress -o pid`; do
-		echo $pid > /dev/cpuset/rt/tasks 2>/dev/null
+		echo $pid > /dev/cpuset/dplane/tasks 2>/dev/null
 		if [ $? != 0 ]; then
-			isdebug echo -n "RT: Cannot move PID $pid: "
+			isdebug echo -n "dplane: Cannot move PID $pid: "
 			isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
 		fi
 	done
@@ -286,8 +286,8 @@ clear_cpusets() {
 		kill -9 $i;
 	done
 
-	# Try to move all from GP back to root
-	for pid in `cat /dev/cpuset/gp/tasks`; do
+	# Try to move all from cplane back to root
+	for pid in `cat /dev/cpuset/cplane/tasks`; do
 		if [ -d /proc/$pid ]; then
 			echo $pid > /dev/cpuset/tasks 2>/dev/null
 			if [ $? != 0 ]; then
@@ -298,8 +298,8 @@ clear_cpusets() {
 	done
 
 	# Remove the CPUsets
-	rmdir /dev/cpuset/gp
-	rmdir /dev/cpuset/rt
+	rmdir /dev/cpuset/cplane
+	rmdir /dev/cpuset/dplane
 }
 
 # tests to run
