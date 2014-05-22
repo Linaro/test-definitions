@@ -1,7 +1,7 @@
 metadata:
     name: cyclictest
     format: "Lava-Test-Shell Test Definition 1.0"
-    version: 1.0
+    version: 1.1
     description: "Cyclictest Suite"
     maintainer:
         - vincent.hsu@linaro.org
@@ -19,16 +19,17 @@ metadata:
 #   MAX: Maximum latency bound.
 #   AVG: Average latency bound.
 #   RTIME: Running time. Must set this longer than 60.
+#   (changed so default RTIME is two hours - GSR)
 params:
     MAX: 15000
     AVG: 50
-    RTIME: 86400
+    RTIME: 7200
 
 run:
     steps:
         - "taskset -c 1 fping -g 127.0.0.1 127.0.0.10 -t 100 -q -l &> /dev/null &"
         - "taskset -c 1 ./openembedded/scripts/infinite_loop.py $(expr $RTIME - 60) &> /dev/null &"
-        - "taskset -c 1 cyclictest -t 1 -p 80 -i 10000 -n -a1 -v -D $(expr $RTIME / 24) > ~/cyclictest_full.log &"
+        - "taskset -c 1 cyclictest -t 1 -p 80 -i 10000 -n -a1 -v -D $(expr $RTIME / 2) > ~/cyclictest_full.log &"
         - "taskset -c 1 cyclictest -t 50 -p 80 -i 10000 -n -a1 -q -D $RTIME > ~/cyclictest_summary.log"
         - "cat ~/cyclictest_summary.log | ./openembedded/scripts/cyclictest.py $MAX $AVG"
         - "lava-test-run-attach ~/cyclictest_summary.log text/plain"
