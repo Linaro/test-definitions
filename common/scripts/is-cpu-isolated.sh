@@ -115,15 +115,19 @@ isolate_cpu() {
 	[ -d /dev/cpuset/gp ] || mkdir /dev/cpuset/gp
 	[ -d /dev/cpuset/rt ] || mkdir /dev/cpuset/rt
 
+	# check if platform needs a prefix for cpuset
+	[ -f /dev/cpuset/gp/cpus ] && CPUSET_PREFIX=""
+	[ -f /dev/cpuset/gp/cpuset.cpus ] && CPUSET_PREFIX="cpuset."
+
 	# Give same mems to both
-	echo 0 > /dev/cpuset/gp/mems
-	echo 0 > /dev/cpuset/rt/mems
+	echo 0 > /dev/cpuset/gp/$CPUSET_PREFIX"mems"
+	echo 0 > /dev/cpuset/rt/$CPUSET_PREFIX"mems"
 
 	# Setup the GP domain: CPU0
-	echo $NON_ISOL_CPUS > /dev/cpuset/gp/cpus
+	echo $NON_ISOL_CPUS > /dev/cpuset/gp/$CPUSET_PREFIX"cpus"
 
 	# Setup the NOHZ domain: CPU1
-	echo $ISOL_CPU > /dev/cpuset/rt/cpus
+	echo $ISOL_CPU > /dev/cpuset/rt/$CPUSET_PREFIX"cpus"
 
 	# Try to move all processes in top set to the GP set.
 	for pid in `cat /dev/cpuset/tasks`; do
@@ -141,13 +145,13 @@ isolate_cpu() {
 	echo 0 > /dev/cpuset/sched_load_balance
 
 	# Enable load balancing withing the GP domain
-	echo 1 > /dev/cpuset/gp/sched_load_balance
+	echo 1 > /dev/cpuset/gp/$CPUSET_PREFIX"sched_load_balance"
 
 	# But disallow load balancing within the NOHZ domain
-	echo 0 > /dev/cpuset/rt/sched_load_balance
+	echo 0 > /dev/cpuset/rt/$CPUSET_PREFIX"sched_load_balance"
 
 	# Quiesce CPU: i.e. migrate timers/hrtimers away
-	echo 1 > /dev/cpuset/rt/quiesce
+	echo 1 > /dev/cpuset/rt/$CPUSET_PREFIX"quiesce"
 
 	stress -q --cpu $ISOL_CPU --timeout $STRESS_DURATION &
 
@@ -156,7 +160,7 @@ isolate_cpu() {
 	echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 
 	# Setup the NOHZ domain again: CPU1
-	echo $ISOL_CPU > /dev/cpuset/rt/cpus
+	echo $ISOL_CPU > /dev/cpuset/rt/$CPUSET_PREFIX"cpus"
 
 	# Try to move all processes in top set to the GP set.
 	for pid in `ps h -C stress -o pid`; do
