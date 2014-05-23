@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_4bfe2c6d",
+        "filename": "ubuntu/aapits.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-23T11:09:39Z",
+      "side": 0,
+      "message": "since we\u0027re not using highbank any more, let\u0027s switch to fastmodel (as this is the target for LEG)",
+      "revId": "97cd698f46250318184f064e0c9b16dbe593bfe2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_6b09f094",
+        "filename": "ubuntu/acpica-tools.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-23T11:09:39Z",
+      "side": 0,
+      "message": "since we\u0027re not using highbank any more, let\u0027s switch to fastmodel (as this is the target for LEG)",
+      "revId": "97cd698f46250318184f064e0c9b16dbe593bfe2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_8b04247f",
+        "filename": "ubuntu/aapits.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-23T11:09:39Z",
+      "side": 1,
+      "message": "https://wiki.linaro.org/LEG/Engineering/test-acpi#AAPITS_-_ACPICA_API_Test_Suite ?",
+      "revId": "9db527ff2dda3e3af3cee3e3bf09e4b024d63bde",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_abd7e8ec",
+        "filename": "ubuntu/acpica-tools.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-23T11:09:39Z",
+      "side": 1,
+      "message": "https://wiki.linaro.org/LEG/Engineering/test-acpi#ASLTS_-_ASL_Test_Suite ?",
+      "revId": "9db527ff2dda3e3af3cee3e3bf09e4b024d63bde",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_cbda1c17",
+        "filename": "ubuntu/acpica.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-23T11:09:39Z",
+      "side": 1,
+      "message": "https://wiki.linaro.org/LEG/Engineering/test-acpi#AAPITS_-_ACPICA_API_Test_Suite ?",
+      "revId": "9db527ff2dda3e3af3cee3e3bf09e4b024d63bde",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_ebcde05e",
+        "filename": "ubuntu/fwts.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-23T11:09:39Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be: https://wiki.linaro.org/LEG/Engineering/test-acpi#Ubuntu_Firmware_test_suite",
+      "revId": "9db527ff2dda3e3af3cee3e3bf09e4b024d63bde",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
