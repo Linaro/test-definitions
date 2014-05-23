@@ -1,0 +1,29 @@
+metadata:
+    name: sata-partition-rw
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "SATA Partition, Read and Write Test on Linux Linaro ubuntu. The target Device ID is possible to be set in JSON."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - d01
+        - panda
+        - panda-es
+        - arndale
+    environment:
+        - lava-test-shell
+
+install:
+    deps:
+        - parted
+
+params:
+    DeviceID: /dev/sda
+
+run:
+    steps:
+        - "cd ubuntu/scripts; ./sata-partition-rw.py $DeviceID"
+
+parse:
+    pattern: '^(?P<test_case_id>sata_\w+):\s(?P<result>\w+)\s(?P<measurement>[0-9.]+)\s(?P<units>[a-zA-Z/]+)'
