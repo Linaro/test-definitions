@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_cb1fbcb6",
+        "filename": "openembedded/cyclictest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-05-23T13:37:42Z",
+      "side": 1,
+      "message": "the $(expr $RTIME/2) will give 3600. This was also the case with 86400/24. Why not just hardcode 3600? Otherwise changing RTIME will also change this call to something potentially undesirable.",
+      "revId": "0375046670045d8c54df623515fd949cdd166619",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
