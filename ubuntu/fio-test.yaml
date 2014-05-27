@@ -19,6 +19,7 @@ metadata:
 install:
     deps:
         - fio
+        - python
 
 params:
     DeviceID: /dev/sda

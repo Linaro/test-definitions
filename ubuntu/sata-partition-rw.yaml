@@ -17,6 +17,7 @@ metadata:
 install:
     deps:
         - parted
+        - python
 
 params:
     DeviceID: /dev/sda
