@@ -1,0 +1,28 @@
+metadata:
+    name: minmax_gles2
+    version: 1.0
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "minmax_gles2 test for android"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+
+run:
+    steps:
+        - "export PIGLIT_PLATFORM=android"
+        - "cd test-definitions/android/scripts"
+        - "./homescreen.sh"
+        - "./piglit-run-test.sh /system/xbin/piglit/piglit-spec-gles2/minmax_gles2"
+
+parse:
+    pattern: "(?P<test_case_id>.*-*):\\s+(?P<result>(pass|fail))"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+        SKIP: skip
