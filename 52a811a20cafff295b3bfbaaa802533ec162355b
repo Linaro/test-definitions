@@ -16,6 +16,24 @@
       "revId": "52a811a20cafff295b3bfbaaa802533ec162355b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba57610f_e8ae13e7",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-06-03T14:08:20Z",
+      "side": 1,
+      "message": "That\u0027s what I mentioned in log:\n\nLeave it commented so that it can be used for testing later.",
+      "parentUuid": "ba57610f_c83d8fbd",
+      "revId": "52a811a20cafff295b3bfbaaa802533ec162355b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
