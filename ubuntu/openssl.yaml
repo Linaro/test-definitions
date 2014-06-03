@@ -3,7 +3,7 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test case that measures openssl speed benchmark"
     maintainer:
-        - Amit Khare <amit.khare@linaro.org>
+        - amit.khare@linaro.org
     os:
         - ubuntu
     devices:
@@ -21,5 +21,6 @@ run:
     steps:
         - 'cd ubuntu/scripts'
         - './openssl.sh'
+        - lava-test-run-attach openssl-result.txt text/plain
 parse:
     pattern: "^(?P<test_case_id>\\S+):\\s+(?P<measurement>\\d+)\\s+(?P<units>\\S+)\\s+(?P<result>.*)"

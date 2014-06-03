@@ -23,8 +23,8 @@
 
 test_func(){
     test_cmd=$1
-    openssl speed $test_cmd 2>&1|grep "Doing $test_cmd"> /tmp/result.txt
-    awk '{printf "%s-%s: %d sec pass\n" , $2, $6, $9/3}' /tmp/result.txt
+    openssl speed $test_cmd 2>&1|grep "Doing $test_cmd"> openssl-result.txt
+    awk '{printf "%s-%s: %d blocks/sec pass\n" , $2, $6, $9/3}' openssl-result.txt
 }
 test_func md5
 test_func sha1
