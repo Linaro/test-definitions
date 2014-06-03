@@ -156,8 +156,9 @@ isolate_cpu() {
 	stress -q --cpu $ISOL_CPU --timeout $STRESS_DURATION &
 
 	# Restart $ISOL_CPU to migrate all tasks to CPU0
-	echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
-	echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
+	# Commented-out: as we should get good numbers without this HACK
+	#echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
+	#echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 
 	# Setup the NOHZ domain again: CPU1
 	echo $ISOL_CPU > /dev/cpuset/dplane/$CPUSET_PREFIX"cpus"
