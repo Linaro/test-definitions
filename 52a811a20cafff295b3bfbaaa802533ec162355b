@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba57610f_c83d8fbd",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2014-06-03T12:14:05Z",
+      "side": 1,
+      "message": "why not just delete it if its not needed?",
+      "revId": "52a811a20cafff295b3bfbaaa802533ec162355b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
