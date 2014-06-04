@@ -34,6 +34,24 @@
       "revId": "52a811a20cafff295b3bfbaaa802533ec162355b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba57610f_28f30b0c",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000058
+      },
+      "writtenOn": "2014-06-04T04:08:49Z",
+      "side": 1,
+      "message": "It looks ok to me to keep hotplug method in comment for now. In future clean up make sense because new isol changes is under evolution, likely go through series of changes or may need to undo :)",
+      "parentUuid": "ba57610f_e8ae13e7",
+      "revId": "52a811a20cafff295b3bfbaaa802533ec162355b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
