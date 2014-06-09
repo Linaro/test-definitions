@@ -6,7 +6,12 @@ SCRIPT=$(readlink -f $0)
 SCRIPTPATH=`dirname $SCRIPT`
 echo "Script path is: $SCRIPTPATH"
 
-cd /opt/ltp
+LTP_PATH=/opt/ltp
+# Second parameter is used as a path to LTP installation
+if [ "$#" -gt 1 ]; then
+    LTP_PATH=$2
+fi
+cd $LTP_PATH
 ./runltp -p -q -f $1 -l $SCRIPTPATH/LTP_$1.log -C $SCRIPTPATH/LTP_$1.failed | tee $SCRIPTPATH/LTP_$1.out
 find $SCRIPTPATH -name "LTP_$1.log" -print0 |xargs -0 cat
 tar czfv $SCRIPTPATH/LTP_$1.tar.gz $SCRIPTPATH/LTP*
