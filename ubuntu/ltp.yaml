@@ -36,7 +36,7 @@ params:
 
 run:
     steps:
-        - './common/scripts/ltpfixup.sh $TST_CMDFILES'
+        - './common/scripts/ltpfixup.sh $TST_CMDFILES $(readlink -f build)'
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
