@@ -1,7 +1,7 @@
 metadata:
     name: ltp
     format: "Lava-Test-Shell Test Definition 1.0"
-    version: 20140115
+    version: 20140422
     description: "Run LTP test suite on OpenEmbedded."
     maintainer:
         - milosz.wasilewski@linaro.org

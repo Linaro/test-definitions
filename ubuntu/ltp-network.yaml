@@ -25,8 +25,8 @@ install:
     steps:
         - 'echo "nameserver 8.8.8.8" >> /etc/resolf.conf'
         - 'ntpdate pool.ntp.org'
-        - 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-20140115/ltp-full-20140115.tar.xz'
-        - 'tar --strip-components=1 -Jxf ltp-full-20140115.tar.xz'
+        - 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-20140422/ltp-full-20140422.tar.xz'
+        - 'tar --strip-components=1 -Jxf ltp-full-20140422.tar.xz'
         - 'wget http://people.linaro.org/~vincent.hsu/ltp-network-patches.tgz'
         - 'tar -zxf ltp-network-patches.tgz'
         - 'for i in ./*.patch; do patch -p1 < $i; done'
