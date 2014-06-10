@@ -1,0 +1,18 @@
+metadata:
+    name: acpi-smoke-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ACPI smoke test - http://lists.linaro.org/pipermail/linaro-acpi/2013-August/000381.html"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - functional
+
+run:
+    steps:
+        - 'sudo ./ubuntu/scripts/acpi-check.sh'
+parse:
+    pattern: "(?P<test_case_id>[ /a-zA-Z0-9]+): (?P<result>[A-Z]+)"
