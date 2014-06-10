@@ -1,0 +1,22 @@
+metadata:
+    name: acpi-smoke-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "ACPI smoke test,
+         1) Check presence of /sys/firmware/acpi
+         2) Check presence of /sys/firmware/acpi/tables/DSDT
+         3) If iasl is installed test decompile of /sys/firmware/acpi/tables/DSDT"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - functional
+
+run:
+    steps:
+        - 'sudo ./ubuntu/scripts/acpi-check.sh'
+parse:
+    pattern: "(?P<test_case_id>[ /a-zA-Z0-9]+): (?P<result>[A-Z]+)"
