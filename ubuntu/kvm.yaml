@@ -22,10 +22,7 @@ install:
         - bridge-utils
         - udhcpc
         - wget
-    steps:
-        - 'wget http://people.redhat.com/mingo/cfs-scheduler/tools/hackbench.c'
-        - 'gcc -g -Wall -O2 -o hackbench hackbench.c -lpthread'
-        - 'cp hackbench /usr/bin/'
+        - build-essential
 
 run:
     steps:

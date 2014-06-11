@@ -85,10 +85,11 @@ ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOS
 
 qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
 	-kernel ./zImage -dtb ./vexpress-v2p-ca15-tc1.dtb \
-	-append 'root=/dev/mmcblk0p2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
-	-drive if=sd,cache=writeback,file=kvm.qcow2 \
+	-append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+	-drive if=none,id=image,file=kvm.qcow2 \
 	-netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
 	-device virtio-net-device,netdev=tap0 \
+	-device virtio-blk-device,drive=image \
 	-nographic -enable-kvm \
 	 2>&1|tee kvm-log.txt
 
