@@ -13,7 +13,7 @@ metadata:
 
 install:
     git-repos:
-        - git://git.linaro.org/people/al.stone/acpica.git
+        - git://git.linaro.org/leg/acpica/acpica.git
     steps:
         - 'cd acpica'
         - 'git branch linaro origin/linaro'
@@ -26,17 +26,23 @@ install:
         - flex
         - bison
         - build-essential
+
+params:
+    TESTMODE: n64   # There're 4 test modes: n32, n64, s32, s64
+
 run:
     steps:
-        - 'cd acpica/tests/'
-        - 'sudo ./aslts.sh'
+        - "cd acpica/tests/"
+        - "lava-test-case acpica --shell sudo ./aslts.sh -m $TESTMODE"
+        - "../../ubuntu/scripts/acpica-parser.sh ."
+        - "cd aslts/tmp/RESULTS/*; tar zcf result.tar.gz *"
+        - "lava-test-case-attach acpica result.tar.gz"
+        
 
 parse:
-    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    pattern: "(?P<test_case_id>[ :a-zA-Z0-9-]+):(?P<result>PASS|FAIL|SKIPPED|BLOCKED)"
     fixupdict:
-        TBROK: fail
-        TCONF: skip
-        TFAIL: fail
-        TINFO: unknown
-        TPASS: pass
-        TWARN: unknown
+        SKIPPED: skip
+        FAIL: fail
+        PASS: pass
+        BLOCKED: unknown
