@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
     lshw > lshw.txt
 if grep -E 'core' lshw.txt
 then

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,7 +25,7 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpufreq_03
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 check_governor() {
 

@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-function check_return_fail() {
+check_return_fail() {
     if [ $? -ne 0 ]; then
         fail_test "$1"
         return 0
@@ -29,17 +29,17 @@ function check_return_fail() {
     fi
 }
 
-function fail_test() {
+fail_test() {
     local reason=$1
     echo "${TEST}: FAIL - ${reason}"
 }
 
-function pass_test() {
+pass_test() {
     echo "${TEST}: PASS"
 }
 
-function check_root() {
-    if [ `whoami` == "root" ]; then
+check_root() {
+    if [ `whoami` = "root" ]; then
         return 0
     else
         return 1
@@ -47,7 +47,11 @@ function check_root() {
 }
 
 # Create sample XML file as a template
-echo -ne "<?xml version="1.0" encoding="US-ASCII" ?> \n<session version="1" output_path="x" call_stack_unwinding="yes" parse_debug_info="yes" \nhigh_resolution="no" buffer_mode="streaming" sample_rate="normal" duration="10" \ntarget_host="linaro-android-boards" target_port="8080"> \n</session> \n" > $EXTERNAL_STORAGE/session.xml
+echo "<?xml version=\"1.0\" encoding=\"US-ASCII\" ?> " > $EXTERNAL_STORAGE/session.xml
+echo "<session version=\"1\" output_path=\"x\" call_stack_unwinding=\"yes\" parse_debug_info=\"yes\" " >> $EXTERNAL_STORAGE/session.xml
+echo "high_resolution=\"no\" buffer_mode=\"streaming\" sample_rate=\"normal\" duration=\"10\" " >> $EXTERNAL_STORAGE/session.xml
+echo "target_host=\"linaro-android-boards\" target_port=\"8080\"> " >> $EXTERNAL_STORAGE/session.xml
+echo "</session>" >> $EXTERNAL_STORAGE/session.xml
 
 ## Test case definitions
 

@@ -1,3 +1,4 @@
+#!/system/bin/sh
 # Copyright (C) 2012, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or

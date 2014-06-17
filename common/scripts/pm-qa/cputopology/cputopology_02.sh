@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,7 +25,7 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cputopology_02
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 FILES="core_id core_siblings core_siblings_list physical_package_id \
 thread_siblings thread_siblings_list"

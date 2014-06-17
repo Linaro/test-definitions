@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # LAVA wrapper for invoking jtreg(1) and accumulating the results.
 #
@@ -78,7 +78,7 @@ process_file() {
     local filename=$1
     local result=$2
     local ofile=/tmp/jtreg-test-process-file.$$
-    echo "#!/bin/bash" > $ofile
+    echo "#!/bin/sh" > $ofile
     while IFS=' ' read -r tc rem; do
 	y=$(dirname $tc)
 	z=$(basename $tc .java)

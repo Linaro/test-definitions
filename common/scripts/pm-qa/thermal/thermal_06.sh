@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,8 +25,8 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#thermal_06
 
-source ../include/functions.sh
-source ../include/thermal_functions.sh
+. ../include/functions.sh
+. ../include/thermal_functions.sh
 
 if [ "$thermal_try_max" -eq 0 ]; then
     log_skip "test of trip points being crossed"
@@ -66,7 +66,7 @@ check_trip_point_change() {
 
     local index=0
     for trip in $(ls $dirpath | grep "trip_point_['$MAX_ZONE']_temp"); do
-	trip_cross[$index]=0
+	eval trip_cross_$index=0
 	index=$((index + 1))
     done
     while (test $count -lt $TEST_LOOP); do
@@ -76,7 +76,8 @@ check_trip_point_change() {
 	    cur_temp=$(cat $dirpath/temp)
 	    trip_temp=$(cat $dirpath/$trip)
 	    if [ $cur_temp -gt $trip_temp ]; then
-	        trip_cross[$index]=$((${trip_cross[$index]} + 1))
+               old_trip_cross=`eval echo \\$"trip_cross_$index"`
+               eval trip_cross_$index=$((old_trip_cross + 1))
  	    fi
 	    index=$((index + 1))
 
@@ -91,7 +92,7 @@ check_trip_point_change() {
 	trip_temp=$(cat $dirpath/$trip)
 
 	if [ $trip_type != "critical" ]; then
-	    count=${trip_cross[$index]}
+	    count=`eval echo \\$"trip_cross_$index"`
 	    check "$trip:$trip_temp crossed" "test $count -gt 0"
 	fi
 	index=$((index + 1))

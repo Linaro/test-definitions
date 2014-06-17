@@ -35,6 +35,6 @@
 # stdout and can be parsed
 
 iozone_cmd="iozone -a -i 0 -i 2 -s 16m -V teststring "
-${iozone_cmd} &> stdout.log
+${iozone_cmd} > stdout.log 2>&1
 sh $PWD/android/scripts/iozone/iozoneparser.sh
 rm -rf stdout.log

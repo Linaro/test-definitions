@@ -20,7 +20,8 @@ dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || 
     exit 0
 }
 
-if hash curl 2>/dev/null; then
+curl 2>/dev/null
+if [ $? = 2 ] then
     EXTRACT_BUILD_NUMBER="curl -sk"
     DOWNLOAD_FILE="curl -SOk"
 else

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -26,8 +26,8 @@
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#suspend_04
 
 
-source ../include/functions.sh
-source ../include/suspend_functions.sh
+. ../include/functions.sh
+. ../include/suspend_functions.sh
 
 if [ "$suspend_ac" -eq 0 ]; then
 	log_skip "suspend test involving ac power remove"

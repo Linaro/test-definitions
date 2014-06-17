@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,10 +25,11 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpuhotplug_08
 
-source ../include/functions.sh
+. ../include/functions.sh
 
-function randomize() {
-    echo $[ ( $RANDOM % $1 )  + 1 ]
+randomize() {
+    local random=`hexdump -n 2 -e '/2 "%u"' /dev/urandom`
+    echo $(( ( $random % $1 )  + 1 ))
 }
 
 random_stress() {

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # SD MMC test for ubuntu
 #
@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-source include/sh-test-lib
+. include/sh-test-lib
 
 keyword="I/O error"
 

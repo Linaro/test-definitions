@@ -21,6 +21,6 @@
 # owner: harigopal.gollamudi@linaro.org
 #
 
-tjbench $1 95 -rgb -quiet $2 $3 &> tjbench.txt
+tjbench $1 95 -rgb -quiet $2 $3 > tjbench.txt 2>&1
 sh $PWD/android/scripts/tjbench/tjbenchparse.sh $2 $3
 rm -rf tjbench.txt

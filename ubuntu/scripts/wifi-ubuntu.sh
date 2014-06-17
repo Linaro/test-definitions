@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # WiFi test cases for Linaro ubuntu
 #
@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-source include/sh-test-lib
+. include/sh-test-lib
 
 ## Test case definitions
 # Check if wifi interface exists or not
@@ -51,7 +51,10 @@ test_connect_to_ap() {
 
     # Turn off Ethernet
     mv $network_config_file $network_config_file".bak"
-    echo -ne "auto wlan0\niface wlan0 inet dhcp\nwpa-ssid $1\nwpa-psk $2" > $network_config_file
+    echo "auto wlan0" >> $network_config_file
+    echo "iface wlan0 inet dhcp" >> $network_config_file
+    echo "wpa-ssid $1" >> $network_config_file
+    echo -n "wpa-psk $2" >> $network_config_file
 
     service networking restart
 
@@ -63,11 +66,10 @@ test_connect_to_ap() {
     ip_address_line=`ifconfig wlan0 | grep "inet addr"`
     echo $ip_address_line
 
-    ip_address_array=($ip_address_line)
-    ip_address_element=${ip_address_array[1]}
+    ip_address_element=echo $ip_address_line | awk '${print $2}'
     echo $ip_address_element
 
-    ip_address=${ip_address_element:5}
+    ip_address=echo $ip_address_element | awk -F: '{print $2}'
     echo $ip_address
 
     # Ping test here
@@ -81,8 +83,7 @@ test_connect_to_ap() {
     packet_loss_line=`ping -c 5 -I ${ip_address} www.google.com | grep "packet loss"`
     echo $packet_loss_line
 
-    packet_loss_array=($packet_loss_line)
-    packet_loss=${packet_loss_array[5]}
+    packet_loss=echo $packet_loss_line | awk '{print $6}'
     echo "The packet loss rate is $packet_loss"
 
     if [ "$packet_loss" != "0%" ]; then

@@ -1,3 +1,4 @@
+#!/bin/sh
 # This script is used for isolating $1 cpu from other kernel background
 # activites. Currently this supports isolating a single core. This runs 'stress'
 # test on the isolated CPU and Figures out if CPU is isolated or not by reading
@@ -5,8 +6,6 @@
 #
 # Because it depends on the order of the columns in 'cat /proc/interrupts', it
 # requires all CPUs to be online, otherwise things may go crazy.
-
-#!/bin/bash
 
 # Variable decided outcome of test, this is the minimum isolation we need.
 ISOL_CPU=1 #CPU to isolate, default 1
@@ -49,7 +48,7 @@ update_non_isol_cpus() {
 	while [ $cpu -le $total_cpus ]
 	do
 		[ $cpu != $ISOL_CPU ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
-		let cpu=cpu+1
+		cpu=$(($cpu + 1))
 	done
 
 	isdebug echo "Isolate: CPU "$ISOL_CPU" and leave others: "$NON_ISOL_CPUS
@@ -212,7 +211,7 @@ get_isolation_duration() {
 	MAX=0
 	while [ $x -lt $SAMPLE_COUNT ]
 	do
-		let x=x+1
+		x=$(($x + 1))
 
 		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
@@ -248,7 +247,7 @@ get_isolation_duration() {
 		isdebug echo "Time in seconds: "
 		echo $T
 		isdebug echo ""
-		let AVG=AVG+T
+		AVG=$(($AVG + $T))
 
 		if [ $T -lt $MIN_ISOLATION -a $RESULT="PASS" ]; then
 			RESULT="FAIL"
@@ -263,7 +262,7 @@ get_isolation_duration() {
 		fi
 	done
 
-	let AVG=AVG/$SAMPLE_COUNT
+	AVG=$(($AVG / $SAMPLE_COUNT))
 
 	isdebug echo "Result:"
 	echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$AVG" units:secs"
