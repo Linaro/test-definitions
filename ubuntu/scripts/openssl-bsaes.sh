@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ##
 ## openssl-bsaes.sh - test the NEON bit sliced AES implementation
@@ -21,7 +21,7 @@ NAME=neon-$ALG
 # ctr mode is essentially a stream cipher, so instead of using it for both
 # encrypt and decrypt (which both call encrypt() under the hood), disable NEON
 # for the decrypt case by setting OPENSSL_armcap to zero in the environment
-if [ "$MODE" == "ctr" ]
+if [ "$MODE" = "ctr" ]
 then
 	ARMCAP="env OPENSSL_armcap=0"
 fi
@@ -33,12 +33,20 @@ export ARMCAP
 
 for i in $(seq 100)
 do
+        TMPFIFO=mktemp
+        mkfifo $TMPFIFO
+        touch $TMP
+        md5sum $TMPFIFO | awk '{ print $1 }' > $TMP &
 	OUT=$(dd if=/dev/urandom bs=65 count=$i |
-		tee >(md5sum >$TMP) |
+		tee $TMPFIFO |
 		openssl enc -$ALG -pass env:KEY |
 		${ARMCAP:-} openssl enc -d -$ALG -pass env:KEY |
-		md5sum)
-
+		md5sum | awk '{ print $1 }' )
+        while [ "x$OUT" = "x" ] || [ "x$(cat $TMP)" = "x" ]
+        do
+            :
+        done
+        rm $TMPFIFO
 	if [ "$OUT" != "$(cat $TMP)" ]
 	then
 		echo ${NAME}: fail

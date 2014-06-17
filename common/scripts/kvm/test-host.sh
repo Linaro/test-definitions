@@ -1,7 +1,8 @@
 #!/bin/sh
 
 echo "Compile hackbench"
-if hash curl 2>/dev/null; then
+curl 2>/dev/null
+if [ $? = 2 ]; then
     DOWNLOAD_FILE="curl -SOk"
 else
     DOWNLOAD_FILE="wget --progress=dot -e dotbytes=2M --no-check-certificate"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -26,8 +26,8 @@
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#suspend_01
 
 
-source ../include/functions.sh
-source ../include/suspend_functions.sh
+. ../include/functions.sh
+. ../include/suspend_functions.sh
 
 if [ "$suspend_dbus" -eq 0 ]; then
 	log_skip "dbus message suspend test not enabled"

@@ -23,6 +23,6 @@
 #
 ##############################################################################
 
-memtester 1M 1 | sed -n '/ ok/p' | sed -e 's/ok/pass/g' &> stdout.log
+memtester 1M 1 | sed -n '/ ok/p' | sed -e 's/ok/pass/g' > stdout.log 2>&1
 cat stdout.log
 rm -rf stdout.log

@@ -2,11 +2,11 @@
 set -x
 usage()
 {
-	echo "usage:\n" \
-	     " - $1 (interface.Primary traffic output interface.)\n" \
-	     " - $2 (address.The IP address that the packages will be replayed to.)\n" \
-	     " - $3 (rate.Replay packets at a given packets/sec.It takes an integer number or 'max' as its argument.)\n" \
-	     " - $4 (loop number.Loop through the capture file X times.)"
+	echo "usage:"
+	echo " - $1 (interface.Primary traffic output interface.)"
+	echo " - $2 (address.The IP address that the packages will be replayed to.)"
+	echo " - $3 (rate.Replay packets at a given packets/sec.It takes an integer number or 'max' as its argument.)"
+	echo " - $4 (loop number.Loop through the capture file X times.)"
 }
 
 if [  $# -ne 4 ]; then

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -23,7 +23,7 @@
 #       - initial API and implementation
 #
 
-source ../Switches.sh
+. ../Switches.sh
 
 CPU_PATH="/sys/devices/system/cpu"
 TEST_NAME=$(basename ${0%.sh})
@@ -219,8 +219,8 @@ get_online() {
 
 check() {
 
-    local descr=$1
-    local func=$2
+    local descr="$1"
+    local func="$2"
     shift 2;
 
     log_begin "checking $descr"
@@ -294,11 +294,10 @@ check_cpuhotplug_files() {
 
 save_governors() {
 
-    governors_backup=
     local index=0
 
     for i in $(ls $CPU_PATH | grep "cpu[0-9].*"); do
-	governors_backup[$index]=$(cat $CPU_PATH/$i/cpufreq/scaling_governor)
+	eval governors_backup_$index=$(cat $CPU_PATH/$i/cpufreq/scaling_governor)
 	index=$((index + 1))
     done
 }
@@ -309,7 +308,7 @@ restore_governors() {
     local oldgov=
 
     for i in $(ls $CPU_PATH | grep "cpu[0-9].*"); do
-	oldgov=${governors_backup[$index]}
+	oldgov=`eval echo \\$"governors_backup_$index"`
 	echo $oldgov > $CPU_PATH/$i/cpufreq/scaling_governor
 	index=$((index + 1))
     done
@@ -317,14 +316,13 @@ restore_governors() {
 
 save_frequencies() {
 
-    frequencies_backup=
     local index=0
     local cpus=$(ls $CPU_PATH | grep "cpu[0-9].*")
     local cpu=
 
     for cpu in $cpus; do
-	frequencies_backup[$index]=$(cat $CPU_PATH/$cpu/cpufreq/scaling_cur_freq)
-	index=$((index + 1))
+        eval frequencies_backup_$index=$(cat $CPU_PATH/$cpu/cpufreq/scaling_cur_freq)
+        index=$((index + 1))
     done
 }
 
@@ -335,7 +333,7 @@ restore_frequencies() {
     local cpus=$(ls $CPU_PATH | grep "cpu[0-9].*")
 
     for cpu in $cpus; do
-	oldfreq=${frequencies_backup[$index]}
+	oldfreq=`eval echo \\$"frequencies_backup_$index"`
 	echo $oldfreq > $CPU_PATH/$cpu/cpufreq/scaling_setspeed
 	index=$((index + 1))
     done

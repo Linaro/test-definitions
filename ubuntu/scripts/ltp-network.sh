@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 DIS="ubuntu"
 START_DIR=$(pwd)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,7 +25,7 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpuidle_01
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 STATES="desc latency name power time usage"
 FILES="current_driver current_governor_ro"

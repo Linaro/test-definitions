@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-function check_return_fail() {
+check_return_fail() {
     if [ $? -ne 0 ]; then
         fail_test "$1"
         return 0
@@ -29,12 +29,12 @@ function check_return_fail() {
     fi
 }
 
-function fail_test() {
+fail_test() {
     local reason=$1
     echo "${TEST}: FAIL - ${reason}"
 }
 
-function pass_test() {
+pass_test() {
     echo "${TEST}: PASS"
 }
 

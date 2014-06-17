@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,8 +25,8 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#thermal_03
 
-source ../include/functions.sh
-source ../include/thermal_functions.sh
+. ../include/functions.sh
+. ../include/thermal_functions.sh
 
 CPU_HEAT_BIN=../utils/heat_cpu
 cpu_pid=0

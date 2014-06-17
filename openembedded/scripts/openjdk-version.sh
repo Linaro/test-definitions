@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # OpenJDK execution and version test.
 #
@@ -50,7 +50,7 @@ echo "actual   version: $actual_version"
 echo "expected version: $version"
 
 if [ $? -eq 0 ]; then
-    if [[ "$actual_version" =~ "$version" ]]; then
+    if [ "\"$actual_version\"" =~ "\"$version\"" ]; then
 	echo "openjdk-version: pass"
 	exit 0
     else

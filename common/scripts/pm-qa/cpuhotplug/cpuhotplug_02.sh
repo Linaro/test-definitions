@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,7 +25,7 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpuhotplug_02
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 check_state() {
     local cpu=$1
@@ -33,7 +33,7 @@ check_state() {
     local state=
     shift 1
 
-    if [ "$cpu" == "cpu0" ]; then
+    if [ "$cpu" = "cpu0" ]; then
 	return 0
     fi
 

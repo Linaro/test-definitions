@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,7 +25,7 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpufreq_01
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 FILES="scaling_available_frequencies scaling_cur_freq scaling_setspeed"
 

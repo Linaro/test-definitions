@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -26,8 +26,8 @@
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#suspend_05
 
 
-source ../include/functions.sh
-source ../include/suspend_functions.sh
+. ../include/functions.sh
+. ../include/suspend_functions.sh
 
 args_power_sleep=60
 
@@ -46,7 +46,7 @@ if [ "$battery_count" -eq 0 ]; then
 	log_skip "no BATTERY detected for power test"
 else
 	save_timer_sleep="$timer_sleep"
-	let timer_sleep="$args_power_sleep"
+	timer_sleep="$args_power_sleep"
 
 	ac_required 0
 	phase
@@ -66,9 +66,9 @@ else
 	bat_after=`battery_capacity`
 
 	# do the calculations 
-	let consumed="$bat_before - $bat_after"
-	let elapsed="$date_after - $date_before"
-	let usage="($consumed * 60*60) / $elapsed"
+	consumed=$(($bat_before - $bat_after))
+	elapsed=$(($date_after - $date_before))
+	usage=$((($consumed * 60*60) / $elapsed))
 
 	# output the results
 	ECHO "before: $bat_before mWh"

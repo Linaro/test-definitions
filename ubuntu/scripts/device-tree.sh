@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Device Tree test cases for Linux Linaro ubuntu
 #
@@ -22,7 +22,7 @@
 # Maintainer Botao Sun <botao.sun@linaro.org>
 #
 
-source include/sh-test-lib
+. include/sh-test-lib
 
 ## Test case definitions
 

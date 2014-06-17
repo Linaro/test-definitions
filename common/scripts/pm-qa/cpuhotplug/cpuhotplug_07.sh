@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,16 +25,16 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpuhotplug_07
 
-source ../include/functions.sh
+. ../include/functions.sh
 TMPFILE=cpuhotplug_07.tmp
 
 check_notification() {
     local cpu=$1
-    local cpuid=${cpu:3}
+    local cpuid=${cpu#cpu}
     local pid=
     local ret=
 
-    if [ "$cpu" == "cpu0" ]; then
+    if [ "$cpu" = "cpu0" ]; then
 	return 0
     fi
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Author: Viresh Kumar <viresh.kumar@linaro.org>
 #
@@ -71,8 +71,8 @@ update_non_isol_cpus() {
 
 	while [ $cpu -le $total_cpus ]
 	do
-		[ $cpu != $ISOL_CPUS ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
-		let cpu=cpu+1
+		[ $cpu != $ISOL_CPU ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+		cpu=$(($cpu + 1))
 	done
 
 	isdebug echo "Isolate: CPU "$ISOL_CPUS" and leave others: "$NON_ISOL_CPUS
@@ -330,7 +330,7 @@ get_isolation_duration() {
 
 	while [ $x -lt $SAMPLE_COUNT ]
 	do
-		let x=x+1
+		x=$(($x + 1))
 
 		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
@@ -349,7 +349,7 @@ get_isolation_duration() {
 		isdebug echo ""
 
 		# Calculations to show results
-		let AVG=AVG+T
+		AVG=$(($AVG + $T))
 
 		if [ $T -lt $MIN_ISOLATION -a $RESULT="PASS" ]; then
 			RESULT="FAIL"
@@ -364,7 +364,7 @@ get_isolation_duration() {
 		fi
 	done
 
-	let AVG=AVG/$SAMPLE_COUNT
+	AVG=$(($AVG / $SAMPLE_COUNT))
 
 	isdebug echo "Result:"
 	echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$AVG" units:secs"

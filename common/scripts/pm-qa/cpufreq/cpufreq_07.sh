@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,7 +25,7 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpufreq_07
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 CPUBURN=../utils/cpuburn
 
@@ -42,7 +42,7 @@ check_ondemand() {
     # wait for a quescient point
     for i in $(seq 1 10); do
 
-	if [ "$minfreq" == "$(get_frequency $cpu)" ]; then
+	if [ "$minfreq" = "$(get_frequency $cpu)" ]; then
 
 	    $CPUBURN $cpu &
 	    pid=$!
