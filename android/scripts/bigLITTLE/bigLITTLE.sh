@@ -22,6 +22,6 @@
 #
 
 echo "run_stress_switcher_tests"
-sh /system/bin/run_stress_switcher_tests.sh -a &> stdout.log
+sh /system/bin/run_stress_switcher_tests.sh -a > stdout.log 2>&1
 cat stdout.log | egrep -w "PASS|FAIL"
 rm -rf stdout.log

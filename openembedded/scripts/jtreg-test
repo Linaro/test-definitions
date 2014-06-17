@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # LAVA wrapper for invoking jtreg(1) and accumulating the results.
 #
@@ -68,26 +68,24 @@ jtreg						\
 
 exit_code=$?
 
-shopt -s globstar
-shopt -s nullglob
-
-# By pushd'ing we make the attached filenames in the LAVA dashboard
-# much smaller.
+# By changing the current directory we make the attached filenames in the LAVA
+# dashboard much smaller.
 
 process_file() {
     local filename=$1
     local result=$2
     local ofile=/tmp/jtreg-test-process-file.$$
-    echo "#!/bin/bash" > $ofile
+    echo "#!/bin/sh" > $ofile
     while IFS=' ' read -r tc rem; do
 	y=$(dirname $tc)
 	z=$(basename $tc .java)
 	test_result=$output_dir/JTwork/$y/${z}.jtr
 	echo "lava-test-case $z --result $result" >> $ofile
 	if [ -e $test_result ]; then
-	    echo "pushd $output_dir/JTwork >/dev/null" >> $ofile
+	    echo "previous_dir=\$(pwd)" >> $ofile
+	    echo "cd $output_dir/JTwork" >> $ofile
 	    echo "lava-test-case-attach $z $y/${z}.jtr text/plain" >> $ofile
-	    echo "popd > /dev/null" >> $ofile
+	    echo "cd \$previous_dir" >> $ofile
 	fi
     done < $filename
     [ -e $ofile ] && chmod 755 $ofile
@@ -96,7 +94,8 @@ process_file() {
 }
 
 if [ -d $output_dir/JTreport/text ]; then
-    pushd $output_dir/JTreport/text
+    previous_dir=$(pwd)
+    cd $output_dir/JTreport/text
     for i in *.txt; do
 	lava-test-run-attach $i
 	if [ $i = "summary.txt" ]; then
@@ -110,16 +109,17 @@ if [ -d $output_dir/JTreport/text ]; then
 	    process_file failed.txt fail
 	fi
     done
-    popd
+    cd $previous_dir
 fi
 
 if [ -d $output_dir ]; then
-    pushd $output_dir
+    previous_dir=$(pwd)
+    cd $output_dir
     # Remove .class files as they are quite large.
     find . -name \*.class -print | xargs rm
     zip --quiet -r RESULTS-BUNDLE.zip *
     lava-test-run-attach RESULTS-BUNDLE.zip
-    popd
+    cd $previous_dir
 fi
 
 rm -rf $output_dir

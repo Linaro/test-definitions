@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Basic Graphics test cases
 #
@@ -23,7 +23,7 @@
 
 DEFAULT_USER="linaro"
 
-source include/sh-test-lib
+. include/sh-test-lib
 
 set_lightdm_session() {
     session=$1

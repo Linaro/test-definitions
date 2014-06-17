@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,15 +25,15 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpuhotplug_03
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 check_affinity_fails() {
     local cpu=$1
-    local cpuid=${cpu:3}
+    local cpuid=${cpu#cpu}
     local dirpath=$CPU_PATH/$1
     local ret=
 
-    if [ "$cpu" == "cpu0" ]; then
+    if [ "$cpu" = "cpu0" ]; then
 	return 0
     fi
 

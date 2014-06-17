@@ -16,7 +16,7 @@ install:
 run:
     steps:
         - cd lava-test-perf
-        - sudo bash -x ./run-perf-test.sh
+        - sudo sh -x ./run-perf-test.sh
 
 parse:
     pattern: "^(?P<test_case_id>perf[\\w\\s-]+)\\s+:\\s+(?P<result>\\w+)"

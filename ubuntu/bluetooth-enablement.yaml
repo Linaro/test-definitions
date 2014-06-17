@@ -14,7 +14,7 @@ install:
 
 run:
     steps:
-        - "cd ubuntu/scripts; sudo bash -x ./bluetooth-enablement-test.sh"
+        - "cd ubuntu/scripts; sudo sh -x ./bluetooth-enablement-test.sh"
 
 parse:
     pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"

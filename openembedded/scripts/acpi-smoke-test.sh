@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 #
 # Test ACPI Support in UEFI on v7 and v8
 #

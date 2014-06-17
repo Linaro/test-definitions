@@ -17,8 +17,8 @@ install:
 run:
     steps:
         - "cd ubuntu/scripts"
-        - "sudo bash -x ./wifi-enablement-test.sh LAVA-WiFiTest01 LemonFileDentist nl80211"
-        - "sudo bash -x ./wifi-enablement-test.sh LAVA-WiFiTest01 LemonFileDentist wext"
+        - "sudo sh -x ./wifi-enablement-test.sh LAVA-WiFiTest01 LemonFileDentist nl80211"
+        - "sudo sh -x ./wifi-enablement-test.sh LAVA-WiFiTest01 LemonFileDentist wext"
 
 
 parse:

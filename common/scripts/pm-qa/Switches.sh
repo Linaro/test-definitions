@@ -1,3 +1,4 @@
+#!/bin/sh
 # These are switches to enable/disable some tests.
 
 # Thermal tests

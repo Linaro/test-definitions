@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # SDK hello.c test.
 #

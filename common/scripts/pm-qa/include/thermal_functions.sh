@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #

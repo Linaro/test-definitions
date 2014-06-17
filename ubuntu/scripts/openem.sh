@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/sh -x
 
 mount -t tmpfs none /dev/shm
 echo 400 > /proc/sys/vm/nr_hugepages

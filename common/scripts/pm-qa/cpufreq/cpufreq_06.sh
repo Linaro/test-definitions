@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # PM-QA validation test suite for the power management on Linux
 #
@@ -25,7 +25,7 @@
 
 # URL : https://wiki.linaro.org/WorkingGroups/PowerManagement/Doc/QA/Scripts#cpufreq_06
 
-source ../include/functions.sh
+. ../include/functions.sh
 
 CPUCYCLE=../utils/cpucycle
 
@@ -41,13 +41,13 @@ compute_freq_ratio() {
 	return 1
     fi
 
-    results[$index]=$(echo "scale=3;($result / $freq)" | bc -l)
+    eval cpu_freq_results_$index=$(echo "scale=3;($result / $freq)" | bc -l)
     index=$((index + 1))
 }
 
 compute_freq_ratio_sum() {
 
-    res=${results[$index]}
+    res=`eval echo \\$"cpu_freq_results_$index"`
     sum=$(echo "($sum + $res)" | bc -l)
     index=$((index + 1))
 
@@ -55,7 +55,7 @@ compute_freq_ratio_sum() {
 
 __check_freq_deviation() {
 
-    res=${results[$index]}
+    res=`eval echo \\$"cpu_freq_results_$index"`
 
     # compute deviation
     dev=$(echo "scale=3;((( $res - $avg ) / $avg) * 100 )" | bc -l)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Script to automate suspend / resume
 #
@@ -112,7 +112,7 @@ suspend_system ()
 	echo "v---" >>"$LOGFILE"
 	retry=30
 	while [ "$retry" -gt 0 ]; do
-		let "retry=$retry-1"
+		retry=$(($retry-1))
 
 		# Accumulate the dmesg delta.
 		dmesg >"$LOGFILE.dmesg.B"
@@ -233,7 +233,7 @@ ac_online()
 
 ac_check()
 {
-	typeset ac_current=`ac_online`
+	ac_current=`ac_online`
 
 	if [ "$ac_becomes" -ne -1 -a "$ac_current" -ne -1 -a \
 			"$ac_current" -ne "$ac_becomes" ]; then
@@ -249,9 +249,9 @@ phase_interactive=1
 
 phase()
 {
-	typeset sleep
+	sleep
 
-	let phase="$phase+1"
+	phase=$(($phase + 1))
 
 	if [ "$ac_needed" -ne "$ac_is" ]; then
 		case "$ac_needed" in
@@ -262,7 +262,7 @@ phase()
 	fi
 	
 	if [ "$timer_sleep" -gt 60 ]; then
-		let sleep="$timer_sleep / 60"
+		sleep=$(($timer_sleep / 60))
 		sleep="$sleep minutes"
 	else
 		sleep="$timer_sleep seconds"

@@ -3,7 +3,7 @@
 # find and loop over the vert and frag tests found
 # looks recursively down the directory tree
 
-find ${2} -name "*.frag" -or -name "*.vert" -print0 | while read -d $'\0' file
+find ${2} -name "*.frag" -or -name "*.vert" | while read file
 do
    RESULTFOUND=$(grep expect_result ${file} )
    case $RESULTFOUND in

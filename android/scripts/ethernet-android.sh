@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-function check_return_fail() {
+check_return_fail() {
     if [ $? -ne 0 ]; then
         fail_test "$1"
         return 0
@@ -29,12 +29,12 @@ function check_return_fail() {
     fi
 }
 
-function fail_test() {
+fail_test() {
     local reason=$1
     echo "${TEST}: FAIL - ${reason}"
 }
 
-function pass_test() {
+pass_test() {
     echo "${TEST}: PASS"
 }
 
@@ -118,11 +118,10 @@ test_ethernet_ping() {
     ip_address_line=`busybox ifconfig eth0 | grep "inet addr"`
     echo $ip_address_line
 
-    ip_address_array=($ip_address_line)
-    ip_address_element=${ip_address_array[1]}
+    ip_address_element=$(echo $ip_address_line | awk '${print $2}')
     echo $ip_address_element
 
-    ip_address=${ip_address_element:5}
+    ip_address=$(echo $ip_address_element | awk -F: '{print $2}')
     echo $ip_address
 
     # Ping test here
@@ -136,8 +135,7 @@ test_ethernet_ping() {
     packet_loss_line=`ping -c 5 -I ${ip_address} www.google.com | grep "packet loss"`
     echo $packet_loss_line
 
-    packet_loss_array=($packet_loss_line)
-    packet_loss=${packet_loss_array[5]}
+    packet_loss=$(echo $packet_loss_line | awk '{print $6}')
     echo "The packet loss rate is $packet_loss"
 
     if [ "$packet_loss" != "0%" ]; then

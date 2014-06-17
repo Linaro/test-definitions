@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Author: Viresh Kumar <viresh.kumar@linaro.org>
 #
@@ -71,8 +71,8 @@ update_non_isol_cpus() {
 
 	while [ $cpu -le $total_cpus ]
 	do
-		[ $cpu != $ISOL_CPUS ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
-		let cpu=cpu+1
+		[ $cpu != $ISOL_CPU ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+		cpu=$(($cpu + 1))
 	done
 
 	isdebug echo "Isolate: CPU "$ISOL_CPUS" and leave others: "$NON_ISOL_CPUS
@@ -261,11 +261,11 @@ isolate_cpu() {
 
 # Count total number of interrupts for all isolated CPUs
 count_interrupts_on_isol_cpus() {
-	temp=($*)
 	count=0
 
 	for i in `echo $ISOL_CPUS | sed 's/,/ /g'`; do
-		count=$(( $count + ${temp[i]} ))
+		i=$(( $i + 1 ))
+		count=$(( $count + `eval echo \\$"$i"` ))
 	done
 
 	echo $count
@@ -274,12 +274,12 @@ count_interrupts_on_isol_cpus() {
 # Scan all interrupts again and find total for isolated-cores
 refresh_interrupts() {
 	# Get interrupt count for all CPUs
-	interrupts=($(total_interrupts "ALL"))
+	interrupts=$(total_interrupts "ALL")
 
 	# Find total count of all interrupts on isol CPUs
-	new_count=$(count_interrupts_on_isol_cpus ${interrupts[@]})
+	new_count=`eval "count_interrupts_on_isol_cpus $interrupts"`
 
-	[ $1 ] && isdebug echo "Counts for all CPUs: ${interrupts[@]}, total isol-cpus interrupts: $new_count"
+	[ $1 ] && isdebug echo "Counts for all CPUs: $interrupts, total isol-cpus interrupts: $new_count"
 }
 
 # Sense infinite isolation
@@ -330,7 +330,7 @@ get_isolation_duration() {
 
 	while [ $x -lt $SAMPLE_COUNT ]
 	do
-		let x=x+1
+		x=$(($x + 1))
 
 		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
@@ -349,7 +349,7 @@ get_isolation_duration() {
 		isdebug echo ""
 
 		# Calculations to show results
-		let AVG=AVG+T
+		AVG=$(($AVG + $T))
 
 		if [ $T -lt $MIN_ISOLATION -a $RESULT="PASS" ]; then
 			RESULT="FAIL"
@@ -364,7 +364,7 @@ get_isolation_duration() {
 		fi
 	done
 
-	let AVG=AVG/$SAMPLE_COUNT
+	AVG=$(($AVG / $SAMPLE_COUNT))
 
 	isdebug echo "Result:"
 	echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$AVG" units:secs"
