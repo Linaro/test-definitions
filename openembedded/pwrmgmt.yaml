@@ -19,12 +19,12 @@ install:
         - git://git.linaro.org/power/pm-qa.git
     steps:
         - "cd pm-qa"
-        - "git checkout tags/$RELEASE"
+        - "git checkout $RELEASE"
         - "make -C utils"
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
-    RELEASE: 'pm-qa-v0.4.10'
+    RELEASE: 'tags/pm-qa-v0.4.10'
     
 run:
     steps:
