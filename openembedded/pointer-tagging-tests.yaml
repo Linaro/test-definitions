@@ -1,0 +1,28 @@
+metadata:
+    name: pointer-tagging-tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "https://cards.linaro.org/browse/REQ-304"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - openembedded
+    devices:
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - functional
+
+install:
+    git-repos:
+        - git://git.linaro.org/qa/pointer-tagging-tests.git
+    steps:
+        - 'cd pointer-tagging-tests'
+        - 'make all'
+
+run:
+    steps:
+        - 'cd pointer-tagging-tests'
+        - 'for t in `./pointer_tagging_tests -l` ; do ./pointer_tagging_tests -t $t >/dev/null ; result=$? ; echo -n "$t: "; [ $result -eq 0 ] && echo -e "pass\n" || echo -e "fail\n" ; done'
+        
+
+parse:
+    pattern: "(?P<test_case_id>[a-z_]+): (?P<result>pass|fail)"
