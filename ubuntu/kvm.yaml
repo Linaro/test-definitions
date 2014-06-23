@@ -12,6 +12,8 @@ metadata:
     devices:
         - arndale
         - vexpress-tc2
+        - mustang
+        - midway
 
 install:
     deps:
