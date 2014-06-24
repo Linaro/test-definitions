@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_8a730b15",
+        "filename": "ubuntu/acpi-smoke-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-06-24T09:10:51Z",
+      "side": 1,
+      "message": "Please change the description so it says what the test does.",
+      "revId": "6d62386ba52bc9e030d4251d559db31f17399e3a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_4a651344",
+        "filename": "ubuntu/scripts/acpi-check.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-06-24T09:10:51Z",
+      "side": 1,
+      "message": "please remove empty space.",
+      "revId": "6d62386ba52bc9e030d4251d559db31f17399e3a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
