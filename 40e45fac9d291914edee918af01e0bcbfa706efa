@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_8a1c2bc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-06-24T09:01:37Z",
+      "side": 1,
+      "message": "Don\u0027t put the link to the REQ here. It\u0027s not public.",
+      "revId": "40e45fac9d291914edee918af01e0bcbfa706efa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_aa1fefb6",
+        "filename": "openembedded/pointer-tagging-tests.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-06-24T09:01:37Z",
+      "side": 1,
+      "message": "Please change description to something more meaningful. The link to REQ isn\u0027t very verbose.",
+      "revId": "40e45fac9d291914edee918af01e0bcbfa706efa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_ca222301",
+        "filename": "openembedded/pointer-tagging-tests.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-06-24T09:01:37Z",
+      "side": 1,
+      "message": "please remove white spaces",
+      "revId": "40e45fac9d291914edee918af01e0bcbfa706efa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
