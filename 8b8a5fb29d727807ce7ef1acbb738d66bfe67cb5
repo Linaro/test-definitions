@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_4a7e33e6",
+        "filename": "ubuntu/acpica.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-06-24T09:03:59Z",
+      "side": 1,
+      "message": "that needs to be checked with Naresh",
+      "revId": "8b8a5fb29d727807ce7ef1acbb738d66bfe67cb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_2a83ffcd",
+        "filename": "ubuntu/acpica.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-06-24T09:03:59Z",
+      "side": 1,
+      "message": "please remove white space.",
+      "revId": "8b8a5fb29d727807ce7ef1acbb738d66bfe67cb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
