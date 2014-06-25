@@ -1,0 +1,26 @@
+metadata:
+    name: device-tree
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Device tree test to check the folder structure"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+        - fedora
+    scope:
+        - functional
+    devices:
+        - beaglebone-black
+        - panda
+        - panda-es
+    environment:
+        - lava-test-shell
+run:
+    steps:
+        - "cd ubuntu/scripts; ./device-tree.sh"
+parse:
+    pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
