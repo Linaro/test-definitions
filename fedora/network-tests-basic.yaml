@@ -1,0 +1,33 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: network-tests-basic
+    description: "Basic network test commands for Linaro Ubuntu images"
+    maintainer:
+        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
+    os:
+        - fedora
+    scope:
+        - functional
+    devices:
+        - panda-es
+        - beaglebone-black
+params:
+    TEST_INTERFACE: eth0
+    GATEWAY: 10.0.0.1
+
+run:
+    steps:
+        - lava-test-case linux-linaro-fedora-netstat --shell netstat -an
+        - lava-test-case linux-linaro-fedora-ifconfig-dump --shell ifconfig -a
+        - lava-test-case linux-linaro-fedora-route-dump-a --shell route
+        - lava-test-case linux-linaro-fedora-route-ifconfig-up-lo --shell ifconfig lo up
+        - lava-test-case linux-linaro-fedora-route-dump-b --shell route
+        - lava-test-case linux-linaro-fedora-route-ifconfig-up --shell ifconfig $TEST_INTERFACE up
+        - lava-test-case linux-linaro-fedora-route-ifconfig-down --shell ifconfig $TEST_INTERFACE down
+        - lava-test-case linux-linaro-fedora-route-dhclient --shell dhclient -v $TEST_INTERFACE
+        - lava-test-case linux-linaro-fedora-route-dump-c --shell route
+        - lava-test-case linux-linaro-fedora-ping --shell ping -c 5 $GATEWAY
+        - lava-test-case linux-linaro-fedora-yum-update --shell yum update -y
+        - lava-test-case linux-linaro-fedora-yum-install-curl --shell yum install -q -y curl
+        - lava-test-case linux-linaro-fedora-curl-big-video --shell curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI > /dev/null
