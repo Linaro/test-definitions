@@ -1,0 +1,38 @@
+metadata:
+    name: aapits
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run ACPI API test suite"
+    maintainer:
+        - tomasz.nowicki@linaro.org
+    os:
+        - fedora
+    devices:
+        - beaglebone-black
+    scope:
+        - functional
+
+install:
+    git-repos:
+        - git://git.linaro.org/leg/acpica/acpica.git
+    steps:
+        - 'cd acpica'
+        - 'git branch linaro origin/linaro'
+        - 'git checkout linaro'
+        - 'make iasl'
+        - 'cd tests/aapits && make all'
+    deps:
+        - bzip2
+        - flex
+        - bison
+        - automake
+        - gcc
+        - gcc-c++
+        - kernel-devel
+        - make
+        - git
+run:
+    steps:
+        - 'cd acpica/tests/aapits/bin'
+        - './aapitsrun'
+parse:
+    pattern: "^(?P<test_case_id>\\w+\\s+\\d+\\s+\\d+):\\s+(?P<result>\\w+)"
