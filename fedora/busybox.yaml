@@ -1,0 +1,22 @@
+metadata:
+    name: busybox
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test busybox in Fedora."
+    maintainer:
+        - senthil.kumaran@linaro.org
+    os:
+        - fedora
+    scope:
+        - functional
+    devices:
+        - beaglebone-black
+
+run:
+    steps:
+        - "cd fedora/scripts"
+        - "./busybox.sh"
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
