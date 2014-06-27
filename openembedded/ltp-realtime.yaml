@@ -15,9 +15,10 @@ metadata:
 
 run:
     steps:
+        - 'export LAVA_TESTDIR=`echo $(dirname $(readlink -f build))`'
         - 'cd /opt/ltp'
         - 'export LTP_REALTIME_TESTS_TO_RUN="func/async_handler func/gtod_latency func/hrtimer-prio func/matrix_mult func/measurement func/periodic_cpu_load func/pi_perf func/prio-preempt func/prio-wake func/pthread_kill_latency func/rt-migrate func/sched_football func/sched_jitter func/sched_latency func/thread_clock"'
-        - 'for TEST_TO_RUN in ${LTP_REALTIME_TESTS_TO_RUN} ; do ./testscripts/test_realtime.sh -t $TEST_TO_RUN | /lava/tests/0_ltp-realtime/common/scripts/ltp-realtime2LAVA.py; done'
+        - 'for TEST_TO_RUN in ${LTP_REALTIME_TESTS_TO_RUN} ; do ./testscripts/test_realtime.sh -t $TEST_TO_RUN | $LAVA_TESTDIR/common/scripts/ltp-realtime2LAVA.py; done'
 
 parse:
     "pattern": "^test_case_id:(?P<test_case_id>.+)\\s+measurement:(?P<measurement>[\\d\\.]+)\\s+units:(?P<units>\\w+)\\s+result:(?P<result>\\w+)"
