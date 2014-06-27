@@ -142,7 +142,7 @@ isolate_cpu() {
 
 	# Disable load balancing on top level (otherwise the child-sets' setting
 	# won't take effect.)
-	echo 0 > /dev/cpuset/sched_load_balance
+	echo 0 > /dev/cpuset/$CPUSET_PREFIX"sched_load_balance"
 
 	# Enable load balancing withing the cplane domain
 	echo 1 > /dev/cpuset/cplane/$CPUSET_PREFIX"sched_load_balance"
