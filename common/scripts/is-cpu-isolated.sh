@@ -35,11 +35,50 @@ isdebug() {
 	fi
 }
 
-# routine to get tick count: Expects all CPUs to be online (otherwise column
-# number may get wrong)
-get_tick_count() { cat /proc/interrupts | grep arch_timer | grep 30 | sed 's/\s\+/ /g' | sed 's/^\s//g' | cut -d' ' -f$((2+$ISOL_CPU)) ; }
-#For testing script on: x86
-#get_tick_count() { cat /proc/interrupts | grep NMI | sed 's/\s\+/ /g' | sed 's/\s\+/ /g' | cut -d' ' -f$((2+$ISOL_CPU)) ; }
+# Find total number of interrupts for
+# - one CPU, pass cpu number as parameter
+# - all CPUs, pass "ALL" as parameter
+total_interrupts() {
+	awk -v isolate_cpu="$1" '
+	BEGIN {
+		line=0;
+	}
+
+	# Find total CPUs, do only on first row
+	NR==1 {
+		cpus = NF;
+		next;
+	}
+
+	# Fill array with interrupt counts
+	{
+		for (cpu = 0; cpu < cpus; cpu++) {
+			irqs[cpu, line] = $(cpu+2);
+		}
+		line++;
+	}
+
+	# Count total interrupts:
+	END {
+		for (cpu = 0; cpu < cpus; cpu++) {
+			for (j = 0; j < line; j++) {
+				count[cpu] += irqs[cpu,j];
+				# for debugging
+				# printf "%d: %d: %d\n",cpu, j,irqs[cpu,j];
+			}
+
+			if (isolate_cpu == "ALL")
+				printf "%d ",count[cpu]
+			else if (cpu == isolate_cpu)
+				printf "%d ",count[cpu]
+
+		}
+		printf "\n"
+	}
+
+	# File to process
+' /proc/interrupts
+}
 
 # update list of all non-ISOL CPUs
 update_non_isol_cpus() {
@@ -173,6 +212,14 @@ isolate_cpu() {
 	done
 }
 
+dump_interrupts() {
+	[ ! $1 ] && printf "\n\nInitial dump of /proc/interrupts\n"
+	[ $1 ] && printf "\n\nInterrupted: new dump of /proc/interrupts\n"
+
+	cat /proc/interrupts
+	printf "\n\n"
+}
+
 # routine to get CPU isolation time
 get_isolation_duration() {
 	isdebug echo ""
@@ -183,14 +230,17 @@ get_isolation_duration() {
 	isdebug echo "No. of samples requested:" $SAMPLE_COUNT", min isolation required:" $MIN_ISOLATION
 	isdebug echo ""
 
-	new_count=$(get_tick_count)
+	isdebug dump_interrupts
+
+	# Get initial count
+	new_count=$(total_interrupts $ISOL_CPU)
 	isdebug echo "initial count: " $new_count
 
 	old_count=$new_count
 	T2="$(date +%s)"
 	while [ $new_count -eq $old_count ]
 	do
-		new_count=$(get_tick_count)
+		new_count=$(total_interrupts $ISOL_CPU)
 		ps h -C stress -o pid > /dev/null
 		if [ $? != 0 ]; then
 			T=$(($(date +%s)-$T2))
@@ -214,6 +264,9 @@ get_isolation_duration() {
 	do
 		let x=x+1
 
+		# Interrupted, dump interrupts
+		isdebug dump_interrupts 1
+
 		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
 
@@ -221,14 +274,14 @@ get_isolation_duration() {
 		sleep .1
 
 		# get count again after continuous ticks are skiped
-		old_count=$(get_tick_count)
+		old_count=$(total_interrupts $ISOL_CPU)
 		new_count=$old_count
 
 
 		T2="$(date +%s)"
 		while [ $new_count -eq $old_count ]
 		do
-			new_count=$(get_tick_count)
+			new_count=$(total_interrupts $ISOL_CPU)
 			ps h -C stress -o pid > /dev/null
 			if [ $? != 0 ]; then
 				T=$(($(date +%s)-$T2))
