@@ -109,6 +109,30 @@ total_interrupts() {
 ' /proc/interrupts
 }
 
+# Create per-cpu data plane cpuset
+create_dplane_cpuset() {
+	# Create per-cpu cpuset and set important fields
+	[ -d /dev/cpuset/dplane/cpu$1 ] || mkdir /dev/cpuset/dplane/cpu$1
+
+	echo 0 > /dev/cpuset/dplane/cpu$1/$CPUSET_PREFIX"mems"
+	echo $1 > /dev/cpuset/dplane/cpu$1/$CPUSET_PREFIX"cpus"
+	echo 0 > /dev/cpuset/dplane/cpu$1/$CPUSET_PREFIX"sched_load_balance"
+
+	# Move shell to isolated CPU
+	echo $$ > /dev/cpuset/dplane/cpu$1/tasks
+
+	# Start single cpu bound stress thread
+	stress -q --cpu 1 --timeout $STRESS_DURATION &
+
+	# Move shell back to control plane CPU
+	echo $$ > /dev/cpuset/cplane/tasks
+}
+
+# Remove per-cpu cpusets
+remove_dplane_cpuset() {
+	rmdir /dev/cpuset/dplane/cpu$1
+}
+
 # Update sysfs tunables to isolate CPU
 update_sysfs_tunables() {
 	# Call cpufreq_fix_governor for each isolated CPU
@@ -216,14 +240,8 @@ isolate_cpu() {
 	#echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 	#echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 
-	# Move shell to isolated CPU
-	echo $$ > /dev/cpuset/dplane/tasks
-
-	# Start single cpu bound stress thread
-	stress -q --cpu 1 --timeout $STRESS_DURATION &
-
-	# Move shell back to control plane CPU
-	echo $$ > /dev/cpuset/cplane/tasks
+	# Call create_dplane_cpuset for each isolated CPU
+	for_each_isol_cpu create_dplane_cpuset
 }
 
 # routine to get CPU isolation time
@@ -358,6 +376,7 @@ clear_cpusets() {
 	done
 
 	# Remove the CPUsets
+	for_each_isol_cpu remove_dplane_cpuset
 	rmdir /dev/cpuset/cplane
 	rmdir /dev/cpuset/dplane
 }
