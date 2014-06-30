@@ -111,22 +111,8 @@ for_each_isol_cpu() {
 }
 
 
-# routine to isolate a CPU
-isolate_cpu() {
-	isdebug echo ""
-	isdebug echo "Started Isolating CPUs - via CPUSETS"
-	isdebug echo "------------------------------------"
-	isdebug echo ""
-
-	# Update list of non isol CPUs
-	update_non_isol_cpus
-
-	# Check that we have cpusets enabled in the kernel
-	if ! grep -q -s cpuset /proc/filesystems ; then
-		echo "Error: Kernel is lacking support for cpuset!"
-		exit 1
-	fi
-
+# Update sysfs tunables to isolate CPU
+update_sysfs_tunables() {
 	# Call cpufreq_fix_governor for each isolated CPU
 	for_each_isol_cpu cpufreq_fix_governor
 
@@ -158,6 +144,27 @@ isolate_cpu() {
 
 	# Shutdown nmi watchdog as it uses perf events
 	sysctl -w kernel.watchdog=0
+
+}
+
+# routine to isolate a CPU
+isolate_cpu() {
+	isdebug echo ""
+	isdebug echo "Started Isolating CPUs - via CPUSETS"
+	isdebug echo "------------------------------------"
+	isdebug echo ""
+
+	# Update list of non isol CPUs
+	update_non_isol_cpus
+
+	# Update sysfs tunables
+	update_sysfs_tunables
+
+	# Check that we have cpusets enabled in the kernel
+	if ! grep -q -s cpuset /proc/filesystems ; then
+		echo "Error: Kernel is lacking support for cpuset!"
+		exit 1
+	fi
 
 	# make sure that the /dev/cpuset dir exits
 	# and mount the cpuset filesystem if needed
