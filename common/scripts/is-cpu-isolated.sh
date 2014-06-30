@@ -1,30 +1,40 @@
-# This script is used for isolating $1 cpu from other kernel background
-# activites. Currently this supports isolating a single core. This runs 'stress'
-# test on the isolated CPU and Figures out if CPU is isolated or not by reading
-# 'cat /proc/interrupts' for tick timers.
-#
-# Because it depends on the order of the columns in 'cat /proc/interrupts', it
-# requires all CPUs to be online, otherwise things may go crazy.
-
 #!/bin/bash
+#
+# Author: Viresh Kumar <viresh.kumar@linaro.org>
+#
+# This script is used for isolating $1 (comma separated list of CPUs) CPUs from
+# other kernel background activities.
+#
+# This runs 'stress' test on the isolated CPUs and Figures out if CPUs are
+# isolated or not by reading 'cat /proc/interrupts' for all interrupts.
 
-# Variable decided outcome of test, this is the minimum isolation we need.
-ISOL_CPUS=1 #CPU to isolate, default 1. Comma-separated list of CPUs
-SAMPLE_COUNT=1
-MIN_ISOLATION=10
-STRESS_DURATION=5000
-NON_ISOL_CPUS="0" #CPU not to isolate, zero will always be there as we can't stop ticks on boot CPU.
-RESULT="PASS"
+# SCRIPT ARGUMENTS
+# $1: CPUs to isolate (default 1), pass comma separated list here
+# $2: number of samples to take (default 1)
+# $3: Min Isolation Time Expected in seconds (default 10)
+
+# Script arguments
+ISOL_CPUS=1		# CPU to isolate, default 1. Comma-separated list of CPUs.
+SAMPLE_COUNT=1		# How many samples to be taken
+MIN_ISOLATION=10	# Minimum isolation expected
 
 # Global variables
+STRESS_DURATION=5000	# Run 'stress' for this duration
+NON_ISOL_CPUS="0"	# CPU not to isolate, zero will always be there as we can't stop ticks on boot CPU.
+DEBUG_SCRIPT=1		# Print debug messages, set 0 if not required
+RESULT="PASS"
+
+# Variables to keep an eye on total interrupt counts
 old_count=0
 new_count=0
 
 
-# ROUTINES
-debug_script=1
+# 		ROUTINES
+# ------------------------------------
+
+# Print debug messages, set DEBUG_SCRIPT to 0 if not required
 isdebug() {
-	if [ $debug_script -eq 1 ]; then
+	if [ $DEBUG_SCRIPT -eq 1 ]; then
 		$*
 	fi
 }
@@ -249,6 +259,7 @@ isolate_cpu() {
 	for_each_isol_cpu create_dplane_cpuset
 }
 
+# Count total number of interrupts for all isolated CPUs
 count_interrupts_on_isol_cpus() {
 	temp=($*)
 	count=0
@@ -260,7 +271,7 @@ count_interrupts_on_isol_cpus() {
 	echo $count
 }
 
-# process interrupts
+# Scan all interrupts again and find total for isolated-cores
 refresh_interrupts() {
 	# Get interrupt count for all CPUs
 	interrupts=($(total_interrupts "ALL"))
@@ -300,7 +311,7 @@ sense_infinite_isolation() {
 	isdebug dump_interrupts 1
 }
 
-# routine to get CPU isolation time
+# routine to report CPU isolation time
 get_isolation_duration() {
 	isdebug echo ""
 	isdebug echo ""
@@ -315,10 +326,8 @@ get_isolation_duration() {
 	# Get time as a UNIX timestamp (seconds elapsed since Jan 1, 1970 0:00 UTC)
 	T2="$(date +%s)"
 
-	x=0
-	AVG=0
-	MIN=99999999
-	MAX=0
+	x=0; AVG=0; MIN=99999999; MAX=0
+
 	while [ $x -lt $SAMPLE_COUNT ]
 	do
 		let x=x+1
@@ -326,7 +335,7 @@ get_isolation_duration() {
 		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
 
-		# sometimes there are continuous ticks, skip them by sleeping for 100 ms.
+		# sometimes there are two or more continuous ticks, skip them by sleeping for 100 ms.
 		sleep .1
 
 		# Sense infinite isolation
@@ -334,7 +343,9 @@ get_isolation_duration() {
 
 		T2="$(date +%s)"
 		T=$(($T2-$T1))
-		isdebug echo "End Time in seconds: ${T2}, time diff: $T"
+
+		isdebug echo "End Time in seconds: ${T2}, time diff: "
+		echo "$T seconds"
 		isdebug echo ""
 
 		# Calculations to show results
@@ -361,6 +372,7 @@ get_isolation_duration() {
 	isdebug echo ""
 }
 
+# Clear/remove all CPUsets, kill all instances of 'stess'
 clear_cpusets() {
 	isdebug echo ""
 	isdebug echo "Started cleaning CPUSETS"
@@ -399,9 +411,12 @@ clear_cpusets() {
 	rmdir /dev/cpuset/dplane
 }
 
+
+# Execution starts from HERE
+
 # Check validity of arguments
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
-	echo "Usage: $0 <CPU to isolate (default 1)> <number of samples to take (default 1)> <Min Isolation Time Expected in seconds (default 10)>"
+	echo "Usage: $0 <CPUs to isolate (default 1), comma separated list> <number of samples to take (default 1)> <Min Isolation Time Expected in seconds (default 10)>"
 	exit
 fi
 
