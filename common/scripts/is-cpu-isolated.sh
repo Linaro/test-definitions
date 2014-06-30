@@ -95,6 +95,22 @@ update_non_isol_cpus() {
 	isdebug echo ""
 }
 
+# Get rid of cpufreq-timer activities, pass CPU number in $1
+cpufreq_fix_governor() {
+	# Remove governor's background timers, i.e. use performance governor
+	if [ -d /sys/devices/system/cpu/cpu$1/cpufreq ]; then
+		echo performance > /sys/devices/system/cpu/cpu$1/cpufreq/scaling_governor
+	fi
+}
+
+# Calls routine $1 for each Isolated CPU with parameter CPU-number
+for_each_isol_cpu() {
+	for i in `echo $ISOL_CPU | sed 's/,/ /g'`; do
+		$1 $i
+	done
+}
+
+
 # routine to isolate a CPU
 isolate_cpu() {
 	isdebug echo ""
@@ -111,10 +127,8 @@ isolate_cpu() {
 		exit 1
 	fi
 
-	# Remove governor's background timers, i.e. use performance governor
-	if [ -d /sys/devices/system/cpu/cpu$ISOL_CPU/cpufreq ]; then
-		echo performance > /sys/devices/system/cpu/cpu$ISOL_CPU/cpufreq/scaling_governor
-	fi
+	# Call cpufreq_fix_governor for each isolated CPU
+	for_each_isol_cpu cpufreq_fix_governor
 
 	# Affine all irqs to CPU0
 	for i in `find /proc/irq/* -name smp_affinity`; do
