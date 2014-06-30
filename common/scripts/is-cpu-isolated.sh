@@ -16,23 +16,52 @@ STRESS_DURATION=5000
 NON_ISOL_CPUS="0" #CPU not to isolate, zero will always be there as we can't stop ticks on boot CPU.
 RESULT="PASS"
 
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-	echo "Usage: $0 <CPU to isolate (default 1)> <number of samples to take (default 1)> <Min Isolation Time Expected in seconds (default 10)>"
-	exit
-fi
-
-# Parse parameters
-[ $1 ] && ISOL_CPU=$1
-[ $2 ] && SAMPLE_COUNT=$2
-[ $3 ] && MIN_ISOLATION=$3
-
-
 # ROUTINES
 debug_script=1
 isdebug() {
 	if [ $debug_script -eq 1 ]; then
 		$*
 	fi
+}
+
+# Calls routine $1 for each Isolated CPU with parameter CPU-number
+for_each_isol_cpu() {
+	for i in `echo $ISOL_CPU | sed 's/,/ /g'`; do
+		$1 $i
+	done
+}
+
+# Get rid of cpufreq-timer activities, pass CPU number in $1
+cpufreq_fix_governor() {
+	# Remove governor's background timers, i.e. use performance governor
+	if [ -d /sys/devices/system/cpu/cpu$1/cpufreq ]; then
+		echo performance > /sys/devices/system/cpu/cpu$1/cpufreq/scaling_governor
+	fi
+}
+
+# dump all interrupts on standard output
+dump_interrupts() {
+	[ ! $1 ] && printf "\nInitial dump of /proc/interrupts\n"
+	[ $1 ] && printf "\n\nInterrupted: new dump of /proc/interrupts\n"
+	echo "----------------------------------------------"
+
+	cat /proc/interrupts
+	printf "\n\n"
+}
+
+# update list of all non-ISOL CPUs
+update_non_isol_cpus() {
+	total_cpus=`nproc --all --ignore=1` #ignore CPU 0 as we already have that
+	cpu=1
+
+	while [ $cpu -le $total_cpus ]
+	do
+		[ $cpu != $ISOL_CPU ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+		let cpu=cpu+1
+	done
+
+	isdebug echo "Isolate: CPU "$ISOL_CPU" and leave others: "$NON_ISOL_CPUS
+	isdebug echo ""
 }
 
 # Find total number of interrupts for
@@ -79,37 +108,6 @@ total_interrupts() {
 	# File to process
 ' /proc/interrupts
 }
-
-# update list of all non-ISOL CPUs
-update_non_isol_cpus() {
-	total_cpus=`nproc --all --ignore=1` #ignore CPU 0 as we already have that
-	cpu=1
-
-	while [ $cpu -le $total_cpus ]
-	do
-		[ $cpu != $ISOL_CPU ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
-		let cpu=cpu+1
-	done
-
-	isdebug echo "Isolate: CPU "$ISOL_CPU" and leave others: "$NON_ISOL_CPUS
-	isdebug echo ""
-}
-
-# Get rid of cpufreq-timer activities, pass CPU number in $1
-cpufreq_fix_governor() {
-	# Remove governor's background timers, i.e. use performance governor
-	if [ -d /sys/devices/system/cpu/cpu$1/cpufreq ]; then
-		echo performance > /sys/devices/system/cpu/cpu$1/cpufreq/scaling_governor
-	fi
-}
-
-# Calls routine $1 for each Isolated CPU with parameter CPU-number
-for_each_isol_cpu() {
-	for i in `echo $ISOL_CPU | sed 's/,/ /g'`; do
-		$1 $i
-	done
-}
-
 
 # Update sysfs tunables to isolate CPU
 update_sysfs_tunables() {
@@ -231,14 +229,6 @@ isolate_cpu() {
 			isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
 		fi
 	done
-}
-
-dump_interrupts() {
-	[ ! $1 ] && printf "\n\nInitial dump of /proc/interrupts\n"
-	[ $1 ] && printf "\n\nInterrupted: new dump of /proc/interrupts\n"
-
-	cat /proc/interrupts
-	printf "\n\n"
 }
 
 # routine to get CPU isolation time
@@ -377,7 +367,19 @@ clear_cpusets() {
 	rmdir /dev/cpuset/dplane
 }
 
-# tests to run
+# Check validity of arguments
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+	echo "Usage: $0 <CPU to isolate (default 1)> <number of samples to take (default 1)> <Min Isolation Time Expected in seconds (default 10)>"
+	exit
+fi
+
+# Parse arguments
+[ $1 ] && ISOL_CPU=$1
+[ $2 ] && SAMPLE_COUNT=$2
+[ $3 ] && MIN_ISOLATION=$3
+
+
+# Run tests
 if [ $4 ]; then
 	if [ $4 -eq 1 ]; then
 		isolate_cpu
