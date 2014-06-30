@@ -211,21 +211,19 @@ isolate_cpu() {
 	# Quiesce CPU: i.e. migrate timers/hrtimers away
 	echo 1 > /dev/cpuset/dplane/$CPUSET_PREFIX"quiesce"
 
-	stress -q --cpu $ISOL_CPU --timeout $STRESS_DURATION &
-
 	# Restart $ISOL_CPU to migrate all tasks to CPU0
 	# Commented-out: as we should get good numbers without this HACK
 	#echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 	#echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 
-	# Try to move all processes in top set to the cplane set.
-	for pid in `ps h -C stress -o pid`; do
-		echo $pid > /dev/cpuset/dplane/tasks 2>/dev/null
-		if [ $? != 0 ]; then
-			isdebug echo -n "dplane: Cannot move PID $pid: "
-			isdebug echo "$(cat /proc/$pid/status | grep ^Name | cut -f2)"
-		fi
-	done
+	# Move shell to isolated CPU
+	echo $$ > /dev/cpuset/dplane/tasks
+
+	# Start single cpu bound stress thread
+	stress -q --cpu 1 --timeout $STRESS_DURATION &
+
+	# Move shell back to control plane CPU
+	echo $$ > /dev/cpuset/cplane/tasks
 }
 
 # routine to get CPU isolation time
