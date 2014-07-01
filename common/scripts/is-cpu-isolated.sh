@@ -16,6 +16,11 @@ STRESS_DURATION=5000
 NON_ISOL_CPUS="0" #CPU not to isolate, zero will always be there as we can't stop ticks on boot CPU.
 RESULT="PASS"
 
+# Global variables
+old_count=0
+new_count=0
+
+
 # ROUTINES
 debug_script=1
 isdebug() {
@@ -244,6 +249,57 @@ isolate_cpu() {
 	for_each_isol_cpu create_dplane_cpuset
 }
 
+count_interrupts_on_isol_cpus() {
+	temp=($*)
+	count=0
+
+	for i in `echo $ISOL_CPU | sed 's/,/ /g'`; do
+		count=$(( $count + ${temp[i]} ))
+	done
+
+	echo $count
+}
+
+# process interrupts
+refresh_interrupts() {
+	# Get interrupt count for all CPUs
+	interrupts=($(total_interrupts "ALL"))
+
+	# Find total count of all interrupts on isol CPUs
+	new_count=$(count_interrupts_on_isol_cpus ${interrupts[@]})
+
+	[ $1 ] && isdebug echo "Counts for all CPUs: ${interrupts[@]}, total isol-cpus interrupts: $new_count"
+}
+
+# Sense infinite isolation
+sense_infinite_isolation() {
+	# process interrupts
+	refresh_interrupts "print"
+	old_count=$new_count
+
+	# Get time as a UNIX timestamp (seconds elapsed since Jan 1, 1970 0:00 UTC)
+	T1="$(date +%s)"
+
+	while [ $new_count -eq $old_count ]
+	do
+		# process interrupts
+		refresh_interrupts
+
+		ps h -C stress -o pid > /dev/null
+		if [ $? != 0 ]; then
+			T2="$(date +%s)"
+			T=$(($T2-$T1))
+
+			echo "Quitting. Infinite Isolation detected: No interrupts for last: $T seconds"
+			echo "test_case_id:Min-isolation $MIN_ISOLATION secs result:$RESULT measurement:$T units:secs"
+			exit
+		fi
+	done
+
+	# Interrupted, dump interrupts
+	isdebug dump_interrupts 1
+}
+
 # routine to get CPU isolation time
 get_isolation_duration() {
 	isdebug echo ""
@@ -256,24 +312,8 @@ get_isolation_duration() {
 
 	isdebug dump_interrupts
 
-	# Get initial count
-	new_count=$(total_interrupts $ISOL_CPU)
-	isdebug echo "initial count: " $new_count
-
-	old_count=$new_count
-	T2="$(date +%s)"
-	while [ $new_count -eq $old_count ]
-	do
-		new_count=$(total_interrupts $ISOL_CPU)
-		ps h -C stress -o pid > /dev/null
-		if [ $? != 0 ]; then
-			T=$(($(date +%s)-$T2))
-			echo "Tick didn't got updated for stress duration:" $T
-			echo "Probably in infinite mode, quiting test"
-			echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:"$RESULT" measurement:"$T" units:secs"
-			exit
-		fi
-	done
+	# Sense infinite isolation
+	sense_infinite_isolation
 
 	isdebug echo "count locked: " $new_count
 
@@ -288,43 +328,21 @@ get_isolation_duration() {
 	do
 		let x=x+1
 
-		# Interrupted, dump interrupts
-		isdebug dump_interrupts 1
-
 		T1=$T2
 		isdebug echo "Start Time in seconds: ${T1}"
 
 		# sometimes there are continuous ticks, skip them by sleeping for 100 ms.
 		sleep .1
 
-		# get count again after continuous ticks are skiped
-		old_count=$(total_interrupts $ISOL_CPU)
-		new_count=$old_count
-
+		# Sense infinite isolation
+		sense_infinite_isolation
 
 		T2="$(date +%s)"
-		while [ $new_count -eq $old_count ]
-		do
-			new_count=$(total_interrupts $ISOL_CPU)
-			ps h -C stress -o pid > /dev/null
-			if [ $? != 0 ]; then
-				T=$(($(date +%s)-$T2))
-				echo "Tick didn't got updated for stress duration:" $T
-				echo "Probably in infinite mode, quiting test"
-				echo "test_case_id:Min-isolation "$MIN_ISOLATION" secs result:PASS measurement:"$T" units:secs"
-				exit
-			fi
-		done
-
-		isdebug echo "sampling over: " $new_count
-
-		T2="$(date +%s)"
-		isdebug echo "End Time in seconds: ${T2}"
-
 		T=$(($T2-$T1))
-		isdebug echo "Time in seconds: "
-		echo $T
+		isdebug echo "End Time in seconds: ${T2}, time diff: $T"
 		isdebug echo ""
+
+		# Calculations to show results
 		let AVG=AVG+T
 
 		if [ $T -lt $MIN_ISOLATION -a $RESULT="PASS" ]; then
