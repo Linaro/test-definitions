@@ -377,6 +377,11 @@ clear_cpusets() {
 
 	# Remove the CPUsets
 	for_each_isol_cpu remove_dplane_cpuset
+
+	# delay required b/w cpu* cpusets and dplane cpuset for some reason,
+	# other wise we get this: Device or resource busy
+	sleep .1
+
 	rmdir /dev/cpuset/cplane
 	rmdir /dev/cpuset/dplane
 }
