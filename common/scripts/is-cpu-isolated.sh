@@ -9,7 +9,7 @@
 #!/bin/bash
 
 # Variable decided outcome of test, this is the minimum isolation we need.
-ISOL_CPU=1 #CPU to isolate, default 1
+ISOL_CPUS=1 #CPU to isolate, default 1. Comma-separated list of CPUs
 SAMPLE_COUNT=1
 MIN_ISOLATION=10
 STRESS_DURATION=5000
@@ -31,7 +31,7 @@ isdebug() {
 
 # Calls routine $1 for each Isolated CPU with parameter CPU-number
 for_each_isol_cpu() {
-	for i in `echo $ISOL_CPU | sed 's/,/ /g'`; do
+	for i in `echo $ISOL_CPUS | sed 's/,/ /g'`; do
 		$1 $i
 	done
 }
@@ -61,11 +61,11 @@ update_non_isol_cpus() {
 
 	while [ $cpu -le $total_cpus ]
 	do
-		[ $cpu != $ISOL_CPU ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+		[ $cpu != $ISOL_CPUS ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
 		let cpu=cpu+1
 	done
 
-	isdebug echo "Isolate: CPU "$ISOL_CPU" and leave others: "$NON_ISOL_CPUS
+	isdebug echo "Isolate: CPU "$ISOL_CPUS" and leave others: "$NON_ISOL_CPUS
 	isdebug echo ""
 }
 
@@ -214,7 +214,7 @@ isolate_cpu() {
 	echo $NON_ISOL_CPUS > /dev/cpuset/cplane/$CPUSET_PREFIX"cpus"
 
 	# Setup the NOHZ domain: CPU1
-	echo $ISOL_CPU > /dev/cpuset/dplane/$CPUSET_PREFIX"cpus"
+	echo $ISOL_CPUS > /dev/cpuset/dplane/$CPUSET_PREFIX"cpus"
 
 	# Try to move all processes in top set to the cplane set.
 	for pid in `cat /dev/cpuset/tasks`; do
@@ -240,10 +240,10 @@ isolate_cpu() {
 	# Quiesce CPU: i.e. migrate timers/hrtimers away
 	echo 1 > /dev/cpuset/dplane/$CPUSET_PREFIX"quiesce"
 
-	# Restart $ISOL_CPU to migrate all tasks to CPU0
+	# Restart $ISOL_CPUS to migrate all tasks to CPU0
 	# Commented-out: as we should get good numbers without this HACK
-	#echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
-	#echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
+	#echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPUS/online
+	#echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPUS/online
 
 	# Call create_dplane_cpuset for each isolated CPU
 	for_each_isol_cpu create_dplane_cpuset
@@ -253,7 +253,7 @@ count_interrupts_on_isol_cpus() {
 	temp=($*)
 	count=0
 
-	for i in `echo $ISOL_CPU | sed 's/,/ /g'`; do
+	for i in `echo $ISOL_CPUS | sed 's/,/ /g'`; do
 		count=$(( $count + ${temp[i]} ))
 	done
 
@@ -411,7 +411,7 @@ if [ "$1" = "-h" -o "$1" = "--help" ]; then
 fi
 
 # Parse arguments
-[ $1 ] && ISOL_CPU=$1
+[ $1 ] && ISOL_CPUS=$1
 [ $2 ] && SAMPLE_COUNT=$2
 [ $3 ] && MIN_ISOLATION=$3
 
