@@ -218,9 +218,6 @@ isolate_cpu() {
 	#echo 0 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 	#echo 1 > /sys/devices/system/cpu/cpu$ISOL_CPU/online
 
-	# Setup the NOHZ domain again: CPU1
-	echo $ISOL_CPU > /dev/cpuset/dplane/$CPUSET_PREFIX"cpus"
-
 	# Try to move all processes in top set to the cplane set.
 	for pid in `ps h -C stress -o pid`; do
 		echo $pid > /dev/cpuset/dplane/tasks 2>/dev/null
