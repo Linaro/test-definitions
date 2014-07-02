@@ -312,11 +312,6 @@ get_isolation_duration() {
 
 	isdebug dump_interrupts
 
-	# Sense infinite isolation
-	sense_infinite_isolation
-
-	isdebug echo "count locked: " $new_count
-
 	# Get time as a UNIX timestamp (seconds elapsed since Jan 1, 1970 0:00 UTC)
 	T2="$(date +%s)"
 
