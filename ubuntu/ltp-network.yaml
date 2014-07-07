@@ -18,8 +18,8 @@ metadata:
         - vexpress-tc2
 
 params:
-    - "TEST_INTERFACE=eth1"
-    - "TEST_SERVER=172.31.1.4"
+    TEST_INTERFACE: "eth1"
+    TEST_SERVER: "172.31.1.4"
 
 install:
     steps:
