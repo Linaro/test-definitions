@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a51691d_8cc44b60",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000058
+      },
+      "writtenOn": "2014-07-14T08:16:31Z",
+      "side": 1,
+      "message": "Okay on TODO comment.\n\n2nd bug related to x86 isolation, breaks due to LOC and Rescheduling IPI, though script has nothing or less to improve  for it, The bug is in the kernel. I just wanted to track list of activity.",
+      "parentUuid": "7a51691d_4cbf73d1",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a51691d_2cb437f1",
         "filename": "common/scripts/is-cpu-isolated.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-14T08:00:36Z",
       "side": 1,
       "message": "Invert the logic and make it is_isol_cpu() as that can be used at other places as well later on.",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_6ca10fa9",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000058
+      },
+      "writtenOn": "2014-07-14T08:16:31Z",
+      "side": 1,
+      "message": "Make sense.",
+      "parentUuid": "7a51691d_2cb437f1",
       "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7a51691d_4ca653c3",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000058
+      },
+      "writtenOn": "2014-07-14T08:16:31Z",
+      "side": 1,
+      "message": "Okay.",
+      "parentUuid": "7a51691d_0cb97be9",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a51691d_eccdff87",
         "filename": "common/scripts/is-cpu-isolated.sh",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "7a51691d_2cab178b",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000058
+      },
+      "writtenOn": "2014-07-14T08:16:31Z",
+      "side": 1,
+      "message": "Initially thought so, but later felt returning a \u0027return\u0027 in a function makes more sense for reader. Okay to move echo way of returning!!",
+      "parentUuid": "7a51691d_eccdff87",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a51691d_ccca436e",
         "filename": "common/scripts/is-cpu-isolated.sh",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2014-07-14T08:00:36Z",
       "side": 1,
       "message": "And so instead of all this, it will become:\n!$(is_isol_cpu) \u0026\u0026 NON_ISOL_CPUS\u003d\"$NON_ISOL_CPUS,$cpu\"",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_0cb05bf3",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000058
+      },
+      "writtenOn": "2014-07-14T08:16:31Z",
+      "side": 1,
+      "message": "Fine!!",
+      "parentUuid": "7a51691d_ccca436e",
       "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
