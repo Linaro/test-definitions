@@ -13,6 +13,18 @@
 # $2: number of samples to take (default 1)
 # $3: Min Isolation Time Expected in seconds (default 10)
 
+# TODOlist :
+# Below list of todo observed for x86 platform though few logic fixes
+# will seen on arm arch too. I will updating todolist with tag [BUG-ArchName],
+# [generic] format and updating "fixes done" accordingly.
+# 1. [generic]Fix isol and non-isol cpu listing logic.
+# 2. [BUG-x86 ]LOC IPI and Resched IPI ticking though at very slower pace
+#    [ 1tick / sec approximate], Therefore
+
+# Fixes done:
+# 1. [generic]Fix isol and non-isol cpu listing logic.
+#
+
 # Script arguments
 ISOL_CPUS=1		# CPU to isolate, default 1. Comma-separated list of CPUs.
 SAMPLE_COUNT=1		# How many samples to be taken
@@ -64,6 +76,20 @@ dump_interrupts() {
 	printf "\n\n"
 }
 
+# check $1 cpu IS non-isol cpu or not, if found return 0
+is_non_isol_cpu() {
+	for i in `echo $ISOL_CPUS | sed 's/,/ /g'`; do
+		if [ $i = $1 ]
+		then
+			retval=1 # $1 is isol cpu
+			return "$retval"
+		fi
+	done
+
+	retval=0 # non-isol cpu found
+	return "$retval"
+}
+
 # update list of all non-ISOL CPUs
 update_non_isol_cpus() {
 	total_cpus=`nproc --all --ignore=1` #ignore CPU 0 as we already have that
@@ -71,7 +97,13 @@ update_non_isol_cpus() {
 
 	while [ $cpu -le $total_cpus ]
 	do
-		[ $cpu != $ISOL_CPUS ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+
+		is_non_isol_cpu $cpu
+		retval=$?
+		if [ "$retval" == 0 ]
+		then
+			NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+		fi
 		let cpu=cpu+1
 	done
 
