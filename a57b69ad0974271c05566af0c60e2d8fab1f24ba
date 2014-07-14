@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7a51691d_cc912354",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-07-14T08:18:42Z",
+      "side": 1,
+      "message": "Sorry, this is not the right place for adding your personal todo list :)",
+      "parentUuid": "7a51691d_8cc44b60",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a51691d_2cb437f1",
         "filename": "common/scripts/is-cpu-isolated.sh",
         "patchSetId": 1
