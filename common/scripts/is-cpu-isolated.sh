@@ -64,6 +64,18 @@ dump_interrupts() {
 	printf "\n\n"
 }
 
+# Check $1 is isol cpu or not
+is_isol_cpu() {
+	for i in `echo $ISOL_CPUS | sed 's/,/ /g'`; do
+		if [ $i = $1 ]
+		then
+			echo 1 # isol cpu found
+		fi
+	done
+
+	echo 0 # non-isol cpu
+}
+
 # update list of all non-ISOL CPUs
 update_non_isol_cpus() {
 	total_cpus=`nproc --all --ignore=1` #ignore CPU 0 as we already have that
@@ -71,7 +83,7 @@ update_non_isol_cpus() {
 
 	while [ $cpu -le $total_cpus ]
 	do
-		[ $cpu != $ISOL_CPUS ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
+		[ "$(is_isol_cpu $cpu)" == 0 ] && NON_ISOL_CPUS="$NON_ISOL_CPUS,$cpu"
 		let cpu=cpu+1
 	done
 
