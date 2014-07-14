@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a51691d_4cbf73d1",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-07-14T08:00:36Z",
+      "side": 1,
+      "message": "If you want to add a TODO list, then please add it in a separate commit, don\u0027t mix up things.\n\nOnly keep things which are TODO here, don\u0027t need to mention what\u0027s fixed and the paragraph above the list about what \"I will be updating\"..\n\nAlso, can you explain what the 2nd bug is?",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_2cb437f1",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-07-14T08:00:36Z",
+      "side": 1,
+      "message": "Invert the logic and make it is_isol_cpu() as that can be used at other places as well later on.",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_0cb97be9",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-07-14T08:00:36Z",
+      "side": 1,
+      "message": "You don\u0027t need a local variable retval for this and below.",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_eccdff87",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-07-14T08:00:36Z",
+      "side": 1,
+      "message": "Instead of the \u0027return\u0027 statement, use echo 1 or 0. See how count_interrupts_on_isol_cpus() is written and used",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_ccca436e",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-07-14T08:00:36Z",
+      "side": 1,
+      "message": "And so instead of all this, it will become:\n!$(is_isol_cpu) \u0026\u0026 NON_ISOL_CPUS\u003d\"$NON_ISOL_CPUS,$cpu\"",
+      "revId": "a57b69ad0974271c05566af0c60e2d8fab1f24ba",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
