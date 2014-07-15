@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a51691d_8c1c4bc3",
+        "filename": "fedora/aapits.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-15T12:16:22Z",
+      "side": 1,
+      "message": "We probably need a better set of devices here. Is there a fedora build for BBB?",
+      "revId": "e057582b745b5706a3b9631d2e5cb7d9ad8be530",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_6c790ffc",
+        "filename": "fedora/aapits.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-15T12:16:22Z",
+      "side": 1,
+      "message": "Is the only difference between Ubuntu and Fedora the dependency list?",
+      "revId": "e057582b745b5706a3b9631d2e5cb7d9ad8be530",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a51691d_4c7e53e6",
+        "filename": "fedora/aapits.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-15T12:16:22Z",
+      "side": 1,
+      "message": "please check the latest version of the ubuntu test. Result parsing will be broken in your version.",
+      "revId": "e057582b745b5706a3b9631d2e5cb7d9ad8be530",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
