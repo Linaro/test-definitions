@@ -1,0 +1,26 @@
+metadata:
+    name: ds5-remote-debug
+    format: "Manual Test Definition 1.0"
+    description: "Test remote debug feature in ARM DS-5 for hardware board."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board until boot up successfully."
+        - "Follow this WiKi page to perform the debug procedures: https://wiki.linaro.org/Platform/DevPlatform/DS5#Application_debugger_validation"
+        - "This test depends on test 'ds5-ssh'"
+    expected:
+        - "'ds5-ssh' test should be done successfully as a pre-condition."
+        - "After debug view shows, by clicking F5, F6 and F7, the feature should work well."

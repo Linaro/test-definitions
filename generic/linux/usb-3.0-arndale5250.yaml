@@ -1,0 +1,121 @@
+metadata:
+    name: usb-3.0-arndale5250
+    format: "Manual Test Definition 1.0"
+    description: "Check enablement of USB 3.0 on Samsung Arndale 5250 board."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Plug an external USB storage device to on-board USB 3.0 slot."
+        - "Power on the board until boot up successfully."
+        - "In serial console, run:
+        # fdisk -l
+        # mount /dev/sda1 /media
+        # cd /media
+        # ls -l
+        # lsusb
+        # lsusb -t
+        # cd ..
+        # umount /media"
+    expected:
+        - "the output of command line 'fdisk -l' should look like this:
+        # fdisk -l
+
+        Disk /dev/mmcblk0: 4001 MB, 4001366016 bytes
+        4 heads, 16 sectors/track, 122112 cylinders, total 7815168 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0x00000000
+
+                Device Boot      Start         End      Blocks   Id  System
+        /dev/mmcblk0p1         3031424     7815167     2391872    c  W95 FAT32 (LBA)
+        /dev/mmcblk0p2           31168     1031295      500064   83  Linux
+        /dev/mmcblk0p3         1031296     2031359      500032   83  Linux
+        /dev/mmcblk0p4         2031360     3031423      500032   83  Linux
+
+        Partition table entries are not in disk order
+
+        Disk /dev/mmcblk0rpmb: 0 MB, 131072 bytes
+        4 heads, 16 sectors/track, 4 cylinders, total 256 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0x00000000
+
+        Disk /dev/mmcblk0rpmb doesn't contain a valid partition table
+
+        Disk /dev/mmcblk0boot1: 1 MB, 1048576 bytes
+        4 heads, 16 sectors/track, 32 cylinders, total 2048 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0x00000000
+
+        Disk /dev/mmcblk0boot1 doesn't contain a valid partition table
+
+        Disk /dev/mmcblk0boot0: 1 MB, 1048576 bytes
+        4 heads, 16 sectors/track, 32 cylinders, total 2048 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0xea000790
+
+        Disk /dev/mmcblk0boot0 doesn't contain a valid partition table
+
+        Disk /dev/mmcblk1: 7948 MB, 7948206080 bytes
+        128 heads, 32 sectors/track, 3790 cylinders, total 15523840 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0x00000000
+
+                Device Boot      Start         End      Blocks   Id  System
+        /dev/mmcblk1p1               1        8191        4095+  da  Non-FS data
+        /dev/mmcblk1p2   *        8192      114687       53248    c  W95 FAT32 (LBA)
+        /dev/mmcblk1p3          114688     2097151      991232   83  Linux
+
+        Disk /dev/sda: 7948 MB, 7948206080 bytes
+        81 heads, 10 sectors/track, 19165 cylinders, total 15523840 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0x00000000
+
+        Device Boot      Start         End      Blocks   Id  System
+        /dev/sda1            8192    15523839     7757824    b  W95 FAT32
+        #"
+
+        - "command line 'mount /dev/sda1 /media' should be executed successfully, the contents on USB external storage device should be shown after run 'ls -l'"
+
+        - "the output of 'lsusb' and 'lsusb -t' should look like this:
+        # lsusb
+        Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+        Bus 003 Device 002: ID 05e3:0717 Genesys Logic, Inc. All-in-1 Card Reader
+        Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+        Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+        Bus 001 Device 004: ID 0b95:772a ASIX Electronics Corp. AX88772A Fast Ethernet
+        Bus 001 Device 003: ID 05e3:0610 Genesys Logic, Inc. 4-port hub
+        Bus 001 Device 002: ID 0424:3503 Standard Microsystems Corp. 
+        Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+        #
+
+        # lsusb -t
+        /:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=xhci-hcd/1p, 5000M
+        /:  Bus 03.Port 1: Dev 1, Class=root_hub, Driver=xhci-hcd/1p, 480M
+            |__ Port 1: Dev 2, If 0, Class=Mass Storage, Driver=usb-storage, 480M
+        /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=exynos-ohci/3p, 12M
+        /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=exynos-ehci/3p, 480M
+            |__ Port 3: Dev 2, If 0, Class=Hub, Driver=hub/3p, 480M
+                |__ Port 2: Dev 3, If 0, Class=Hub, Driver=hub/4p, 480M
+                    |__ Port 4: Dev 4, If 0, Class=Vendor Specific Class, Driver=asix, 480M
+        #"

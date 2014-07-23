@@ -1,0 +1,24 @@
+metadata:
+    name: reboot
+    format: "Manual Test Definition 1.0"
+    description: "Check the board can be rebooted or not"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board until boot up successfully."
+        - "After command line prompt shows in serial console, type 'reboot' then click enter key."
+    expected:
+        - "Reboot should be done successfully, without kernel panic, crash, hang or any other serve error observed."

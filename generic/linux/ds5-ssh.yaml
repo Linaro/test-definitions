@@ -1,0 +1,25 @@
+metadata:
+    name: ds5-ssh
+    format: "Manual Test Definition 1.0"
+    description: "Test SSH connection in ARM DS-5 for hardware board."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board until boot up successfully."
+        - "Follow this WiKi page to establish the SSH connection: https://wiki.linaro.org/Platform/DevPlatform/DS5#RSE_validation"
+    expected:
+        - "The SSH connection in ARM DS-5 between host PC and target board should be established successfully."
+        - "Remote terminal console can be launched successfully in DS-5."
