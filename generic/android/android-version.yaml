@@ -20,7 +20,8 @@ metadata:
 run:
     steps:
         - "From UI application goto Settings"
-        - "select 'About tablet' feature from the last options of settings."
+        - "Select 'About tablet' feature from the last options of settings"
+        - "Check Android version"
 
     expected:
         - "Validate the Android version matches the current tag version"

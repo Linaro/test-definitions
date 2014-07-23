@@ -1,0 +1,27 @@
+metadata:
+    name: andriod-secondary-video-output
+    format: "Manual Test Definition 1.0"
+    description: "Test if secondary video output works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "If the board support the secondary display output, then connect it to a monitor or TV"
+        - "Power on the monitor or TV, assign input source properly"
+        - "Boot the board"
+
+    expected:
+        - "The display should be shown well on monitor or TV"

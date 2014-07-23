@@ -1,0 +1,27 @@
+metadata:
+    name: andriod-bluetooth-tethering
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth tethering works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Select another Android device as device B and the target Android device A (Samsung Galaxy Nexus)"
+        - "Remove SIM card on device A, power on both devices until boot up succeeded"
+        - "Ensure device B can access Internet successfully (launch Browser to test it), turn on Bluetooth, then go to Settings->More->Portable hotspot & tethering->enable Bluetooth tethering"
+        - "On Device A, disconnect WiFi, also disable \"Data enabled\" from Settings -> More -> Mobile networks"
+        - "Turn on Bluetooth on Device A and pair with Device B"
+        - "After pairing successfully, launch Browser on device A to access Internet"
+
+    expected:
+        - "Device A should can access Internet successfully via device B"

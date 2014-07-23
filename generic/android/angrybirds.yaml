@@ -1,0 +1,31 @@
+metadata:
+    name: andriod-angrybirds
+    format: "Manual Test Definition 1.0"
+    description: "Test if Angry Birds App works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Download Angry Birds installation APK file from Internet"
+        - "Install the APK file via ADB:
+           $ sudo adb install angrybirds.apk"
+        - "After Angry Birds icon shows on screen, click it to launch the game"
+        - "Play this game for several minutes"
+
+    expected:
+        - "Angry Birds can be launched successfully"
+        - "The game should work well, both video and audio should can be played smoothly"
+        - "No freezing, kernel panic or crash observed during the game"

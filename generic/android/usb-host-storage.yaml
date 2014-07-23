@@ -1,0 +1,31 @@
+metadata:
+    name: andriod-usb-host-storage
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB storage device can be mounted and works properly"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Connect a USB storage device (e.g: USB Flash device or Pen drive)"
+        - "Type following commands in serial or ADB console:
+           # mkdir /mnt/msc
+           # mount -t vfat /dev/block/sda1 /mnt/msc
+           # cd /mnt/msc
+           # ls"
+
+    expected:
+        - "USB storage device mounted successfully"
+        - "Content in USB storage drive should be shown successfully in serial or ADB console after \"ls\" command executed."

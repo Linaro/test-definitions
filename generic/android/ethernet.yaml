@@ -1,0 +1,38 @@
+metadata:
+    name: andriod-ethernet
+    format: "Manual Test Definition 1.0"
+    description: "Test if ethernet can be configured and works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Manually Configuration: Device IP: 192.168.1.7; Router (Gateway) IP: 192.168.1.1; Google DNS Server: 8.8.8.8"
+        - "After the board booted successfully, in serial console, run:
+           # busybox ifconfig eth0 192.168.1.7 netmask 255.255.255.0 up
+           # route add default gw 192.168.1.1 dev eth0
+           # setprop net.dns1 192.168.1.1
+           # setprop net.dns2 8.8.8.8
+           # setprop net.eth0.dns1 192.168.1.1
+           # setprop net.eth0.dns2 8.8.8.8
+           # busybox ping www.google.com"
+        - "Power OFF and Power ON the board again"
+        - "After the board booted successfully, enable the Ethernet (if it is not enabled) in network manager, then back to serial console and run:
+           # busybox ifconfig -a
+           # busybox ping www.google.com"
+
+    expected:
+        - "IP address should be assigned successfully"
+        - "No data loss in ping test"

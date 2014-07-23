@@ -1,0 +1,28 @@
+metadata:
+    name: andriod-youtube
+    format: "Manual Test Definition 1.0"
+    description: "Test if Youtube App works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Enable Ethernet or WiFi, plug in 3.5mm headset or HDMI cable"
+        - "Launch web browser to access www.google.com"
+        - "Click YouTube link on the top left bar of the Google main page"
+        - "Click any video clip to play"
+
+    expected:
+        - "Video and Audio should be played smoothly and synchronously"

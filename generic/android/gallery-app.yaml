@@ -1,0 +1,30 @@
+metadata:
+    name: andriod-gallery-app
+    format: "Manual Test Definition 1.0"
+    description: "Test if Gallery App works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Put some pictures and videos to SD card then boot the board"
+        - "Gallery app should be available and shown after the board booted successfully"
+        - "Launch Gallery app, and click some pictures and videos"
+
+    expected:
+        - "Gallery app should can be launched successfully"
+        - "The thumbnails of pictures and videos should be available"
+        - "Pictures should can be shown full size successfully after click it"
+        - "Video can be played successfully after click it"

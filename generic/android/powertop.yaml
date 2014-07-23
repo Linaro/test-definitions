@@ -1,0 +1,32 @@
+metadata:
+    name: andriod-powertop
+    format: "Manual Test Definition 1.0"
+    description: "Test if powertop utility works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "After the board booted successfully, in serial console, run:
+           # powertop"
+        - "If the output can be shown successfully, using \"Tab\" key to navigate between different tabs"
+        - "Press \"Esc\" key to exit the program"
+
+    expected:
+        - "\"powertop\" command should can be executed successfully"
+        - "Output from \"powertop\" command should can be read clearly"
+        - "Tabs can be navigated successfully"
+        - "PowerTop program can exit successfully after press \"Esc\" key"
+        - "No hang, kernel panic or other serve error during the test"

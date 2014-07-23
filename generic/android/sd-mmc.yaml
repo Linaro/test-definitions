@@ -1,0 +1,26 @@
+metadata:
+    name: andriod-sd-mmc
+    format: "Manual Test Definition 1.0"
+    description: "Test if the SD/MMC cards are properly registered by kernel"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Boot the board until main desktop screen shows up"
+        - "In serial or ADB console, run:
+           # echo $EXTERNAL_STORAGE
+           # df"
+
+    expected:
+        - "The return string of \"echo $EXTERNAL_STORAGE\" should be in output of \"df\""

@@ -1,0 +1,33 @@
+metadata:
+    name: android-hardware-usb
+    format: "Manual Test Definition 1.0"
+    description: "Android hardware USB test"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen"
+        - "On host PC, in terminal, run:
+           # lava-android-test install usbhardware
+           # lava-android-test run usbhardware"
+        - "Power OFF and power on the board again to boot into Android main screen"
+        - "In serial console, run:
+           # cat /sys/class/android_usb/android0/state"
+        - "Check the return value"
+
+    expected:
+        - "LAVA Test should pass"
+        - "If the return value is \"DISCONNECTED\", then it means test failed; if the return value is \"CONFIGURED\", it means test passed"

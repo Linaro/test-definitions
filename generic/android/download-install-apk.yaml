@@ -1,0 +1,30 @@
+metadata:
+    name: andriod-download-install-apk
+    format: "Manual Test Definition 1.0"
+    description: "Test if APK can be downloaded and installed successfully"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen, ensure there is at least one active network connection, Ethernet or WiFi"
+        - "Launch browser, visit http://www.whatsapp.com/android/"
+        - "Click \"Download Now\" button"
+        - "After the APK downloaded successfully, click Settings -> Security, then enable the \"Unknown Sources\""
+        - "Click \"Downloads\" app, find that APK file, then click it"
+
+    expected:
+        - "The APK file should can be downloaded successfully and shown in \"Downloads\" app"
+        - "The APK file should can be installed successfully after click it in in \"Downloads\" app"

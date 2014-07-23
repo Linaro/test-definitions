@@ -1,0 +1,113 @@
+metadata:
+    name: andriod-hwgfx
+    format: "Manual Test Definition 1.0"
+    description: "Test hardware accelerated 3D support"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "After the board booted up successfully, click \"0xbenchmark\" to run the graphic test suites"
+        - "For STE Snowball board, run:
+           # dmesg > /sdcard/snowball_dmesg.txt 2>&1 &
+           # logcat > /sdcard/snowball_logcat.txt 2>&1 &"
+        - "For TI Panda 4430 and 4460, install hardware acceleration by following the instructions on Linaro Android Build Service page first, and then run the below command in serial console
+           # logcat > /sdcard/ti_panda_logcat.txt 2>&1 &"
+        - "For old Samsung Origen board, in serial console, run
+           # logcat > /sdcard/old_samsung_origen_logcat.txt 2>&1 &"
+
+    expected:
+        - "Graphic test in \"0xbenchmark\" should look smoothly without any characteristic tearing"
+        - "For STE Snowball board, the output similarly likes this should be observed in file \"/sdcard/snowball_dmesg.txt\":
+           [    1.781585] Mali<2>: Inserting Mali v9 device driver.
+           [    1.786712] Mali<2>: Compiled: Dec 19 2011, time: 07:16:47.
+           [    1.792327] Mali<2>: Svn revision:
+           [    1.795806] Mali<2>: MMU memory system initializing
+           [    1.800689] Mali<2>: Rendercore: subsystem global mutex initialized
+           [    1.806945] Mali<2>: Core: subsystem_init: Mali-400 PP
+           [    1.812103] Mali<2>: Core: subsystem_init: Mali-400 GP
+           [    1.817230] Mali<2>: Mali L2 cache system initializing
+           [    1.822387] Mali<1>: Overriding arch resource[4] :
+           [    1.827178] Mali<1>: Type: MEMORY, base: 8000000, size 2000000
+           [    1.833251] Mali<2>: MMU registered
+           [    1.836761] Mali<2>: MMU registered
+           [    1.840270] Mali<2>: Mali OS memory allocator created with max allocation size of 0x7FF00000 bytes, cpu_usage_adjust 0x00000000
+           [    1.851776] Mali<2>: Memory Validator 'Framebuffer' installed for Mali physical address base==0x00000000, size==0x7FF00000, cpu_adjust==0x00000000
+           [    1.864959] Mali<2>: Creating Mali L2 cache: Mali-400 L2 cache
+           [    1.870880] Mali<1>: Mali memory allocators will be used in this order of preference (lowest numbered first) :
+           [    1.880889] Mali<1>:         0: Mali SDRAM
+           [    1.884399] Mali<1>:         5: Linux kernel memory
+           [    1.888916] Mali<2>: Attach mmu: 0xe6df72c0 to core: Mali-400 PP in subsystem: Mali-400 PP
+           [    1.897216] Mali<2>: Attach mmu: 0xe6df7320 to core: Mali-400 GP in subsystem: Mali-400 GP
+           [    1.905487] Mali<2>: Mali L2 cache system load complete
+           [    1.910705] Mali: Mali device driver  loaded
+           [    1.915008] Mali<2>: malidrv:  CONFIG=ux500 USING_OS_MEMORY=1 API_VERSION=9 REPO_URL= REVISION= CHANGED_REVISION= CHANGE_DATE= BUILD_DATE=Mon Dec 19 07:16:46 UTC 2011 BUILD=DEBUG CPU=ux500 USING_UMP=1 USING_HWMEM=1 USING_PMM=1 USING_MALI200=0 USING_MALI400=3 USING_MALI400_L2_CACHE=1 USING_GP2=0 KDIR= MALI_PLATFORM_FILE=platform/ux500/mali_platform.c OS_MEMORY_KERNEL_BUFFER_SIZE_IN_MB=6 USING_PROFILING=0 USING_GPU_UTILIZATION=1 USING_MALI_RUN_TIME_PM=1"
+        - "For STE Snowball board, the output similarly likes this should be observed in file \"snowball_logcat.txt\":
+           D/libEGL  ( 1595): loaded /system/lib/egl/libGLES_android.so
+           D/libEGL  ( 1595): loaded /system/lib/egl/libEGL_mali.so
+           D/libEGL  ( 1595): loaded /system/lib/egl/libGLESv1_CM_mali.so
+           [  142.400238] Mali<2>: D/libEGL  ( 1595): loaded /system/lib/egl/libGLESv2_mali.soMMU session begin
+           [  142.414825] Mali<2>: Page directory for session 0xe510b680 placed at physical address 0x09FC8000
+           [  142.424072] Mali<2>: MMU session begin: success
+           [  142.429168] Mali<2>: Core: session_begin: for Mali-400 PP
+           [  142.434600] Mali<2>: Core: session_begin: for Mali-400 GP
+           I/Mali-EGL( 1595): Mali libraries compiled on Dec  8 2011, at 09:40:03
+           D/OpenGLRenderer( 1595): Enabling debug mode 0"
+        - "For TI Panda 4430 and 4460, the output similarly likes this should be observed in file \"/sdcard/ti_panda_logcat.txt\":
+           D/libEGL  ( 1334): loaded /system/lib/egl/libGLES_android.so
+           D/libEGL  ( 1334): loaded /vendor/lib/egl/libEGL_POWERVR_SGX540_120.so
+           D/libEGL  ( 1334): loaded /vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so
+           D/libEGL  ( 1334): loaded /vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so
+           W/SurfaceFlinger( 1334): ro.sf.lcd_density not defined, using 160 dpi by default.
+           I/SurfaceFlinger( 1334): EGL informations:
+           I/SurfaceFlinger( 1334): # of configs : 33
+           I/SurfaceFlinger( 1334): vendor    : Android
+           I/SurfaceFlinger( 1334): version   : 1.4 Android META-EGL
+           I/SurfaceFlinger( 1334): extensions: EGL_KHR_image EGL_KHR_image_base EGL_KHR_image_base EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_fence_sync EGL_ANDROID_image_native_buffer EGL_ANDROID_image_native_buffer
+           I/SurfaceFlinger( 1334): Client API: OpenGL ES
+           I/SurfaceFlinger( 1334): EGLSurface: 8-8-8-8, config=0x1
+           I/SurfaceFlinger( 1334): OpenGL informations:
+           I/SurfaceFlinger( 1334): vendor    : Imagination Technologies
+           I/SurfaceFlinger( 1334): renderer  : PowerVR SGX 540
+           I/SurfaceFlinger( 1334): version   : OpenGL ES-CM 1.1 build 1.8@550175
+           I/SurfaceFlinger( 1334): extensions: GL_OES_byte_coordinates GL_OES_fixed_point GL_OES_single_precision GL_OES_matrix_get GL_OES_read_format GL_OES_compressed_paletted_texture GL_OES_point_sprite GL_OES_point_size_array GL_OES_matrix_palette GL_OES_draw_texture GL_OES_query_matrix GL_OES_texture_env_crossbar GL_OES_texture_mirrored_repeat GL_OES_texture_cube_map GL_OES_blend_subtract GL_OES_blend_func_separate GL_OES_blend_equation_separate GL_OES_stencil_wrap GL_OES_extended_matrix_palette GL_OES_framebuffer_object GL_OES_rgb8_rgba8 GL_OES_depth24 GL_OES_stencil8 GL_OES_compressed_ETC1_RGB8_texture GL_OES_mapbuffer GL_OES_EGL_image GL_OES_EGL_image_external GL_EXT_multi_draw_arrays GL_OES_required_internalformat GL_IMG_read_format GL_IMG_texture_compression_pvrtc GL_IMG_texture_format_BGRA8888 GL_EXT_texture_format_BGRA8888 GL_OES_egl_sync GL_IMG_vertex_array_object
+           I/SurfaceFlinger( 1334): GL_MAX_TEXTURE_SIZE = 2048
+           I/SurfaceFlinger( 1334): GL_MAX_VIEWPORT_DIMS = 2048 x 2048
+           I/SurfaceFlinger( 1334): flags = 00010000"
+        - "For old Samsung Origen board, the output similarly likes this should be observed in file \"/sdcard/old_samsung_origen_logcat.txt\":
+           Mali: Mali: Mali device driver  loaded
+           Mali device driver  loaded
+           D/libEGL  ( 2094): loaded /system/lib/egl/libGLES_android.so
+           D/libEGL  ( 2094): loaded /system/lib/egl/libEGL_mali.so
+           D/libEGL  ( 2094): loaded /system/lib/egl/libGLESv1_CM_mali.so
+           D/libEGL  ( 2094): loaded /system/lib/egl/libGLESv2_mali.so
+           W/SurfaceFlinger( 2094): ro.sf.lcd_density not defined, using 160 dpi by default.
+           E/libEGL  ( 2094): eglSetSwapRectangleANDROID:1460 error 3008 (EGL_BAD_DISPLAY)
+           I/SurfaceFlinger( 2094): EGL informations:
+           I/SurfaceFlinger( 2094): # of configs : 28
+           I/SurfaceFlinger( 2094): vendor    : Android
+           I/SurfaceFlinger( 2094): version   : 1.4 Android META-EGL
+           I/SurfaceFlinger( 2094): extensions: EGL_KHR_image EGL_KHR_image_base EGL_KHR_image_pixmap EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_fence_sync EGL_ANDROID_image_native_buffer EGL_ANDROID_swap_rectangle EGL_NV_system_time
+           I/SurfaceFlinger( 2094): Client API: OpenGL ES
+           I/SurfaceFlinger( 2094): EGLSurface: 8-8-8-8, config=0x13
+           I/SurfaceFlinger( 2094): OpenGL informations:
+           I/SurfaceFlinger( 2094): vendor    : ARM
+           I/SurfaceFlinger( 2094): renderer  : Mali-400 MP
+           I/SurfaceFlinger( 2094): version   : OpenGL ES-CM 1.1
+           I/SurfaceFlinger( 2094): extensions: GL_OES_byte_coordinates GL_OES_fixed_point GL_OES_single_precision GL_OES_matrix_get GL_OES_read_format GL_OES_compressed_paletted_texture GL_OES_point_size_array GL_OES_point_sprite GL_OES_texture_npot GL_OES_query_matrix GL_OES_matrix_palette GL_OES_extended_matrix_palette GL_OES_compressed_ETC1_RGB8_texture GL_OES_EGL_image GL_OES_draw_texture GL_OES_depth_texture GL_OES_packed_depth_stencil GL_EXT_texture_format_BGRA8888 GL_OES_framebuffer_object GL_OES_stencil8 GL_OES_depth24 G
+           L_ARM_rgba8 GL_OES_EGL_image_external GL_OES_EGL_sync
+           I/SurfaceFlinger( 2094): GL_MAX_TEXTURE_SIZE = 4096
+           I/SurfaceFlinger( 2094): GL_MAX_VIEWPORT_DIMS = 4096 x 4096
+           I/SurfaceFlinger( 2094): flags = 00000000"

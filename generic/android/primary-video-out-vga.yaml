@@ -1,0 +1,28 @@
+metadata:
+    name: andriod-primary-video-out-vga
+    format: "Manual Test Definition 1.0"
+    description: "Test if VGA video works"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Note: For the board comes with LCD module, Primary Video Output means that LCD display"
+        - "Plug in VGA cable between the board and VGA Monitor or VGA TV"
+        - "Power on the VGA Monitor or VGA TV, switch input source to VGA if required"
+        - "Boot the board"        
+
+    expected:
+        - "Display should be shown well on VGA monitor or VGA TV"

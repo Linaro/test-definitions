@@ -1,0 +1,31 @@
+metadata:
+    name: andriod-wifi
+    format: "Manual Test Definition 1.0"
+    description: "Test if wifi module works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Plug out Ethernet cable if any, boot the board"
+        - "After the board booted successfully, enable WiFi via Settings -> Wireless and Networks -> WiFi"
+        - "Connect to an access point with PSK-2 password enabled"
+        - "In serial console, run:
+           # busybox ifconfig -a
+           # busybox ping www.google.com"
+        - "Launch web browser, access \"www.google.com\""
+
+    expected:
+        - "WiFi should be enabled successfully, with a PSK-2 password"
+        - "IP address should be shown successfully in output of \"ifconfig -a\""
+        - "No data loss in \"ping\" test"
+        - "Google main page should be shown up successfully"

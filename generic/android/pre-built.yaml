@@ -1,0 +1,33 @@
+metadata:
+    name: andriod-pre-built
+    format: "Manual Test Definition 1.0"
+    description: "Test if the pre-build image can be installed and boot-up ok"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "On host PC, download binary \"img.bz2\" file from build page"
+        - "Extract the \"img\" file from the compressed package:
+           $ tar xjvf XXXXX.img.bz2"
+        - "Plug in SD card to host PC, in terminal, run:
+           $ sudo fdisk -l
+           $ sudo dd if=XXXXX.img of=/dev/sdX bs=4M"
+        - "After SD card flashing completed, then insert it to the board and power on"
+        - "Note: Remember to replace \"XXXXX\" and \"sdX\" to yours"
+
+    expected:
+        - "The SD card should can be flashed successfully with \"dd\" command"
+        - "The board should can boot into Android main screen and work well"

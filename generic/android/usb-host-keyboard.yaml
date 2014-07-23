@@ -1,0 +1,27 @@
+metadata:
+    name: andriod-usb-host-keyboard
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB keyboard can be detected and works properly"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Connect USB keyboard to USB OTG port on device and boot"
+        - "After the board booted up, press \"F1\" key"
+
+    expected:
+        - "USB Mouse should be detected successfully"
+        - "Navigation on UI is possible using USB keyboard"

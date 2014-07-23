@@ -1,0 +1,36 @@
+metadata:
+    name: andriod-monkeyrunner-test
+    format: "Manual Test Definition 1.0"
+    description: "Test if Monkey Runner can be triggered successfully"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "On host PC, ensure Android SDK is the latest version, \"platform-tools\" and \"tools\" have been added to system PATH or user environment"
+        - "Power on the board to boot into Android main screen"
+        - "Setup ADB over USB or ADB over Ethernet"
+        - "On host PC, in terminal, run:
+           $ git clone git://android.git.linaro.org/test/linaro/android/system.git
+           $ cd system
+           $ sudo monkeyrunner 0xbench/run.py <device serial number>
+           $ sudo monkeyrunner 3D_game/run.py <device serial number>
+           $ sudo monkeyrunner localaudio/run.py <device serial number>
+           $ sudo monkeyrunner localswvideo/run.py <device serial number>
+           $ sudo monkeyrunner localhwvideo/run.py <device serial number>
+           $ sudo monkeyrunner angrybird/run.py <device serial number>"
+
+    expected:
+        - "Monkey Runner can be triggered successfully"

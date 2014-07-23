@@ -1,0 +1,38 @@
+metadata:
+    name: andriod-makefile
+    format: "Manual Test Definition 1.0"
+    description: "Test if compile with makefile successful"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen"
+        - "In serial console, run:
+           # cd /data/data
+           # busybox vi Makefile"
+        - "Add following contents to file \"Makefile\", save and quit:
+           g++test: test.cpp
+           <Insert a Tab Here>$(CXX) -o $@ $<"
+        - "In serial console, run:
+           # make
+           # ./g++test"
+        - "In serial console, run:
+           # objdump -x g++test | busybox grep stlport"
+
+    expected:
+        - "Output should be normal make output followed by \"g++ works\", anything else is a bug"
+        - "Output of objdump command should be:
+           NEEDED          libstlport.so"

@@ -1,12 +1,10 @@
 metadata:
-    name: linux-kernel-version
+    name: installation-instructions
     format: "Manual Test Definition 1.0"
-    description: "Test if the kernel version is correct"
+    description: "Validate Installation Instructions."
     maintainer:
         - botao.sun@linaro.org
     os:
-        - ubuntu
-        - openembedded
         - android
     scope:
         - functional
@@ -16,15 +14,11 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
-        - ifc6410 
     environment:
         - manual-test
 
 run:
     steps:
-        - "uname -a"
-        - "Check the output of the kernel version matches the version displayed on the build page"
-
+        - "Follow the installation instructions explicitly as it shows in \"Using the pre-built images\" section on build page"
     expected:
-        - "Kernel version matches the version on build page"
-
+        - "Make sure that there are no missed or incorrect procedures on instructions"

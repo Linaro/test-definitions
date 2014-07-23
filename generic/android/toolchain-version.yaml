@@ -20,8 +20,8 @@ metadata:
 run:
     steps:
         - "dmesg | busybox grep gcc > /sdcard/log.txt 2>&1 &"
-        - "check the log.txt for toolchain version matches the version displayed on the build page"
+        - "Check the log.txt for toolchain version matches the version displayed on the build page"
 
     expected:
-        - " Toolchain version matches the version on build page"
+        - "Toolchain version matches the version on build page"
 

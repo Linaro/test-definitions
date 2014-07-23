@@ -1,12 +1,10 @@
 metadata:
-    name: linux-kernel-version
+    name: andriod-linaro-kernel-build-command
     format: "Manual Test Definition 1.0"
-    description: "Test if the kernel version is correct"
+    description: "Test if Linaro kernel build script works properly"
     maintainer:
         - botao.sun@linaro.org
     os:
-        - ubuntu
-        - openembedded
         - android
     scope:
         - functional
@@ -16,15 +14,13 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
-        - ifc6410 
     environment:
         - manual-test
 
 run:
     steps:
-        - "uname -a"
-        - "Check the output of the kernel version matches the version displayed on the build page"
+        - "On host PC, download \"linaro_kernel_build_cmds.sh\" script from the build site which you will test"
+        - "TBD"
 
     expected:
-        - "Kernel version matches the version on build page"
-
+        - "TBD"

@@ -1,0 +1,38 @@
+metadata:
+    name: linaro-android-build-command
+    format: "Manual Test Definition 1.0"
+    description: "Test if Linaro Android build script works properly"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "On host PC, download \"linaro_android_build_cmds.sh\" script from the build site which you will test"
+        - "In terminal of host PC, run:
+           $ mkdir build_test
+           $ mv linaro_android_build_cmds.sh build_test/
+           $ chmod +x linaro_android_build_cmds.sh
+           $ ./linaro_android_build_cmds.sh -h"
+        - "Copy and paste the overlay URL to browser, accept the license, download \"vendor.tar.bz2\""
+        - "In terminal of host PC, run:
+           $ mv vendor.tar.bz2 build_test/
+           $ ./linaro_android_build_cmds.sh -t -o vendor.tar.bz2"
+        - "After generated \"boot.tar.bz2\", \"system.tar.bz2\" and \"userdata.tar.bz2\", using Linaro Image Tools to flash them to SD card and boot the board"
+
+    expected:
+        - "\"linaro_android_build_cmds.sh\" can be download successfully from build web page"
+        - "\"vendor.tar.bz2\" can be downloaded successfully from overlay URL"
+        - "\"boot.tar.bz2\", \"system.tar.bz2\" and \"userdata.tar.bz2\" can be successfully generated and flashed to SD card by using Linaro Image Tools"
+        - "The target board can be booted into Android main screen and works well"
