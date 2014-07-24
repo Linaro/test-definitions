@@ -1,0 +1,71 @@
+metadata:
+    name: install-uprobe-kernel-on-arndale
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build and install uprobes kernel on arndale. Pre-requirement of uprobes_systemtap_test.yaml"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - arndale
+    timeout: 14400
+
+install:
+    deps:
+        - build-essential
+        - m4
+        - dejagnu
+        - bzip2
+        - wget
+        - gettext
+        - git
+        - bc
+        - expect
+
+    steps:
+        - 'git clone git://git.linaro.org/kernel/linux-linaro-tracking.git /usr/src/linux-linaro-tracking'
+        - 'echo git_clone_linux-linaro-tracking: pass'
+        - 'git clone git://git.linaro.org/qa/test-definitions.git /usr/src/test-definitions'
+        - 'echo git_clone_test-definitions: pass'
+        - 'cd /usr/src/linux-linaro-tracking'
+        - 'git checkout -b linux-linaro-uprobes origin/linux-linaro'
+        - 'echo checkout_linux-linaro: pass'
+        - 'ARCH=arm scripts/kconfig/merge_config.sh linaro/configs/linaro-base.conf linaro/configs/distribution.conf linaro/configs/kvm-host.conf linaro/configs/xen.conf linaro/configs/uprobes.conf linaro/configs/arndale.conf'
+        - 'make -j4  ARCH=arm LOADADDR=0x40008000 uImage'
+        - 'echo make_uImage: pass'
+        - 'make ARCH=arm modules'
+        - 'echo make_modules: pass'
+        - 'make ARCH=arm modules_install'
+        - 'echo make_modules_install: pass'
+        - 'cp /usr/src/test-definitions/common/scripts/make-kernel-install.exp /usr/src/linux-linaro-tracking/'
+        - 'echo copy_make-kernel-install: pass'
+        - '/usr/bin/expect make-kernel-install.exp'
+        - 'echo make-kernel-install: pass'
+        - 'make ARCH=arm headers_install'
+        - 'echo make_headers-install: pass'
+        - 'mount /dev/mmcblk1p5 /mnt/'
+        - 'echo mount_boot_partition: pass'
+        - 'cp arch/arm/boot/uImage /mnt/'
+        - 'echo copy_uImage: pass'
+        - 'umount /mnt/'
+        - 'echo umount_boot_partition: pass'
+run:
+    steps:
+        - 'cat /proc/version'
+        - 'df -h'
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+:\\s+(?P<result>\\S+)$"
+    fixupdict:
+          PASS: pass
+          FAIL: fail
+
+# Linux kernel clone, build, install would take 3 hours on target.
+# 10 GB test partition needed for install-uprobe-kernel and uprobes_systemtap_test
+# uImage will be copied on to boot partition.
+# Newly installed kernel image would be booted in next reboot by lava_test_shell
+# uprobes_systemtap_test.yaml would be run after this test.
+# Currently test intended to run on arndale target device.
+# Example json file:
+# http://people.linaro.org/~naresh.kamboju/uprobe-systemtap-test-on-lava.json
