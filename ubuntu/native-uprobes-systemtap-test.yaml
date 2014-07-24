@@ -1,0 +1,75 @@
+metadata:
+    name: native-uprobes-systemtap-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run uprobes systemtap tests. Pre-requirement is install-uprobe-kernel-on-arndale.yaml"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - arndale
+    timeout: 90000
+
+install:
+    deps:
+        - build-essential
+        - m4
+        - dejagnu
+        - bzip2
+        - wget
+        - gettext
+        - openssh-server
+        - expect
+        - xz-utils
+
+    steps:
+        - 'cat /proc/version'
+        - 'ls -l /lib/modules/`uname -r`/build/'
+        - 'cd /usr/src/'
+        - 'wget --no-check-certificate  https://fedorahosted.org/releases/e/l/elfutils/0.159/elfutils-0.159.tar.bz2'
+        - 'tar -xvf elfutils-0.159.tar.bz2'
+        - 'wget --no-check-certificate https://sourceware.org/systemtap/ftp/releases/systemtap-2.5.tar.gz'
+        - 'tar -xvf systemtap-2.5.tar.gz'
+        - 'cd systemtap-2.5'
+        - 'cp /usr/share/dejagnu/* . -a'
+        - 'echo "skip tests which are known to hang"'
+        - 'mv testsuite/systemtap.base/poll_map.exp testsuite/systemtap.base/poll_map.exp.back'
+        - 'mv testsuite/systemtap.base/pr14546.exp testsuite/systemtap.base/pr14546.exp.back'
+        - 'mv testsuite/systemtap.base/pr10854.exp testsuite/systemtap.base/pr10854.exp.back'
+        - 'mv testsuite/systemtap.base/implicitptr.exp testsuite/systemtap.base/implicitptr.exp.back'
+        - 'mv testsuite/systemtap.base/probefunc.exp testsuite/systemtap.base/probefunc.exp.back'
+        - 'mv testsuite/systemtap.base/sdt_global_var.exp testsuite/systemtap.base/sdt_global_var.exp.back'
+        - 'mv testsuite/systemtap.base/target_set_thread.exp testsuite/systemtap.base/target_set_thread.exp.back'
+        - 'mv testsuite/systemtap.unprivileged/unprivileged_myproc.exp testsuite/systemtap.unprivileged/unprivileged_myproc.exp.back'
+        - './configure --prefix=/usr/local/ --with-elfutils=../elfutils-0.159'
+        - 'make all'
+        - 'make install'
+run:
+    steps:
+        - 'lava-test-case systemtap-make-install --result pass'
+        - 'cd /usr/src/systemtap-2.5'
+        - 'make installcheck'
+        - 'lava-test-case systemtap-make-installcheck --result pass'
+        - 'cat testsuite/systemtap.sum'
+        - 'lava-test-case-attach systemtap.sum testsuite/systemtap.sum text/plain'
+        - 'lava-test-case-attach systemtap.log testsuite/systemtap.log text/plain'
+        - 'lava-test-case attach-systemtap-results --result pass'
+parse:
+    pattern: "(?P<result>PASS|FAIL|KFAIL|XFAIL|UNTESTED|UNSUPPORTED): (?P<test_case_id>[ ().0-9A-Za-z-_/]*)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+        KFAIL: fail
+        XFAIL: pass
+        UNTESTED: skip
+        UNSUPPORTED: skip
+
+# install-uprobe-kernel-on-arndale.yaml to be run before test
+# 10 GB test partition needed for install-uprobe-kernel and native-uprobes-systemtap-test
+# This is a long running test, expected to run for 25 hours.
+# Systemtap build, install and installcheck is the purpose of this test.
+# make installcheck runs systemtap testsuite.
+# Example json file:
+# http://people.linaro.org/~naresh.kamboju/uprobe-systemtap-test-on-lava.json
