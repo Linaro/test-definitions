@@ -1,0 +1,44 @@
+metadata:
+    name: ltp-vmgroup
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run LTP syscalls tests inside a guest VM"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - fathi.boudra@linaro.org
+        - alex.bennee@linaro.org
+        - neil.williams@linaro.org
+    os:
+        - ubuntu
+        - debian
+    scope:
+        - functional
+    devices:
+        - arndale
+        - vexpress-tc2
+        - kvm
+
+params:
+    # set to HEAD for tip of tree (needed for aarch64)
+    LTP_RELEASE: 20140422
+    TST_CMDFILES: syscalls
+
+install:
+    deps:
+      - autoconf
+      - bzip2
+      - flex
+      - bison
+      - build-essential
+      - wget
+    steps:
+      - ./vm/scripts/ltp-build.sh -r ${LTP_RELEASE}
+
+run:
+    steps:
+      - /home/ltp/build/runltp -f ${TST_CMDFILES} -p -q
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+)\\s+\\d+\\s+(?P<result>\\w+)\\s+:\\s+.+"
+    fixupdict:
+        TFAIL: fail
+        TPASS: pass
