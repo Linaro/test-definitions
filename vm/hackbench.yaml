@@ -1,0 +1,32 @@
+metadata:
+    name: hackbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test hackbench (Ingo Molnar version). Mostly suitable for KVM testing."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    scope:
+        - functional
+        - virtualization
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - vexpress-tc2
+
+install:
+    deps:
+      - wget
+      - gcc
+    steps:
+        - 'wget http://people.redhat.com/mingo/cfs-scheduler/tools/hackbench.c'
+        - 'gcc -g -Wall -O2 -o hackbench hackbench.c -lpthread'
+        - 'chmod a+x hackbench'
+        - 'cp hackbench /usr/bin/'
+
+run:
+    steps:
+        - for i in {1..10}; do timeout 300s hackbench 100 process 500 | tee -a hackbench_res.txt; done
+        - ./common/scripts/min_max_avg_parse.py hackbench_res.txt "Time:" "Seconds"
+
+parse:
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'
