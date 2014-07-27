@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a4b7175_87e30833",
+        "filename": "android/media_codecs_functional_tests.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-27T21:01:48Z",
+      "side": 1,
+      "message": "the device type name for juno is wg. Don\u0027t ask why :)",
+      "revId": "fd47a0c547ba64052af4c6cce66bad767cec5198",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
