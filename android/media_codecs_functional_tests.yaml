@@ -1,0 +1,23 @@
+metadata:
+    name: media_codecs_functional_tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test Android media codecs"
+    maintainer:
+        - edmund.szeto@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - wg
+
+run:
+    steps:
+        - "./android/scripts/media_codecs_functional_tests.sh"
+
+parse:
+    pattern: "^\\[(?P<test_case_id>\\w+)\\]:\\s*test\\s*(?P<result>\\w+)"
+    fixupdict:
+        passed: pass
+        failed: fail
+        skipped: skip
