@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a4b7175_871668f0",
+        "filename": "ubuntu/install-uprobe-kernel-on-arndale.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-30T07:53:16Z",
+      "side": 1,
+      "message": "Can we use shallow clone to speed things up?",
+      "revId": "d6240cbdb07d7dc4afdc41a80be10a3f71e43925",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a4b7175_27dd7443",
+        "filename": "ubuntu/install-uprobe-kernel-on-arndale.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-30T07:53:16Z",
+      "side": 1,
+      "message": "I guess it\u0027s more clear and less error prone to use \"lava-test-case git_clone_linux-linaro-tracking --result pass\"",
+      "revId": "d6240cbdb07d7dc4afdc41a80be10a3f71e43925",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a4b7175_67d36c39",
+        "filename": "ubuntu/install-uprobe-kernel-on-arndale.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-30T07:53:16Z",
+      "side": 1,
+      "message": "this step is redundant. The test-definitions repo is cloned by default before starting lava-test-shell",
+      "revId": "d6240cbdb07d7dc4afdc41a80be10a3f71e43925",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a4b7175_47d87053",
+        "filename": "ubuntu/install-uprobe-kernel-on-arndale.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-30T07:53:16Z",
+      "side": 1,
+      "message": "path needs to be changed when using the repo cloned by LAVA",
+      "revId": "d6240cbdb07d7dc4afdc41a80be10a3f71e43925",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a4b7175_07e27803",
+        "filename": "ubuntu/native-uprobes-systemtap-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-07-30T07:53:16Z",
+      "side": 1,
+      "message": "Since the tests run without parameters, I suggest using \u0027test-case-deps:\u0027. Details here: https://validation.linaro.org/static/docs/lava_test_shell.html#adding-dependent-test-cases. This can be done if there is no need to reboot between executing yaml files.",
+      "revId": "d6240cbdb07d7dc4afdc41a80be10a3f71e43925",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
