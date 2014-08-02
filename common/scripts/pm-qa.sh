@@ -49,7 +49,7 @@ test_func(){
        echo `pwd`
 
        /system/bin/sh $var
-       if [ $? -ne 0 ]; then
+       if [ $? -ne 1 ]; then
            continue
        fi
 
