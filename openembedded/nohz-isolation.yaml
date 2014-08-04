@@ -5,6 +5,7 @@ metadata:
     maintainer:
         - viresh.kumar@linaro.org
     os:
+        - openembedded
         - ubuntu
     scope:
         - functional
