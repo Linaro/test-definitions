@@ -30,8 +30,7 @@ else
     DOWNLOAD_FILE="wget --progress=dot -e dotbytes=2M --no-check-certificate"
 fi
 
-BUILD_NUMBER_GUEST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/jenkins/job/kvm-guest-image/lastSuccessfulBuild/buildNumber`
-BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/jenkins/job/linux-kvm/lastSuccessfulBuild/buildNumber`
+BUILD_NUMBER_GUEST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/kvm-guest-image/lastSuccessfulBuild/buildNumber`
 
 case ${ARCH} in
     armv7l)
@@ -43,6 +42,7 @@ case ${ARCH} in
         modprobe nbd max_part=16
         ;;
     aarch64)
+        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=mustang,label=kernel_cloud/lastSuccessfulBuild/buildNumber`
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm64.qcow2.gz
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-mustang
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd.ko.gz
