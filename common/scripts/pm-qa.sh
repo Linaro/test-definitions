@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-scripts_dir="/data/benchmark/pm-qa"
+scripts_dir="/system/bin/pm-qa"
 test_func(){
    if [ ! -d "${scripts_dir}" ]; then
        echo "pm-qa=fail"
