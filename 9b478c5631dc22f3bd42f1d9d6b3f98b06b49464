@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_a36b9a84",
+        "filename": "openembedded/pwrmgmt.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-08-07T08:06:52Z",
+      "side": 1,
+      "message": "The fixupdict isn\u0027t needed in this case. LAVA will manage the results without mapping.",
+      "revId": "9b478c5631dc22f3bd42f1d9d6b3f98b06b49464",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
