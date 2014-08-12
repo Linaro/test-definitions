@@ -32,8 +32,7 @@ run:
         - for testset in $PWR_TESTARG; do make -C $testset check; done
 
 parse:
-    pattern: "^(?P<test_case_id>[a-z0-9_]+):\\s+(?P<result>pass|fail|skip)"
+    pattern: "^(?P<test_case_id>[\\w/\\.]+):\\s+(?P<message>.+)\\.\\.\\.\\s+(?P<result>\\w+)"
     fixupdict:
-        pass: pass
-        fail: fail
-        skip: skip
+        Ok: pass
+        Err: fail
