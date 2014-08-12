@@ -14,4 +14,4 @@ metadata:
 
 run:
     steps:
-        - lava-test-case odp_shm --shell /usr/share/odp/odp_shm
+        - lava-test-case odp_shm --shell odp_shm

@@ -17,4 +17,4 @@ params:
 
 run:
     steps:
-        - lava-test-case odp_packet --shell /usr/share/odp/odp_packet -i $INTERFACES
+        - lava-test-case odp_packet --shell odp_packet -i $INTERFACES

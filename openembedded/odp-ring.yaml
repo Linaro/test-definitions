@@ -14,4 +14,4 @@ metadata:
 
 run:
     steps:
-        - lava-test-case odp-ring --shell  /usr/share/odp/odp_ring
+        - lava-test-case odp-ring --shell  odp_ring

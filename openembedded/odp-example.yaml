@@ -17,4 +17,4 @@ params:
 
 run:
     steps:
-        - lava-test-case odp_example --shell /usr/share/odp/odp_example -c $CORES
+        - lava-test-case odp_example --shell odp_example -c $CORES
