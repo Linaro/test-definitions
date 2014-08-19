@@ -24,6 +24,7 @@ NON_ISOL_CPUS="0"	# CPU not to isolate, zero will always be there as we can't st
 DEBUG_SCRIPT=1		# Print debug messages, set 0 if not required
 TASK="stress"		# Single threaded task to Run on Isolated CPUs
 FUNC="all"		# Perform complete isolation test by default
+SCRIPT_VERSION=1.0	# To track release version
 RESULT="PASS"
 
 # Variables to keep an eye on total interrupt counts
@@ -428,7 +429,7 @@ clear_cpusets() {
 
 # Execution starts from HERE
 
-USAGE="Usage: $0 [-h] [-ctfsd args] [-c <Comma separated isol cpulist (default cpu1)>] [-t <Task name for isolation (default stress)>] [-f <Function type options - isolate, duration, clear, nonisol_list, all (default all)>] [-s <Number of samples to take (default 1)>] [-d <Min Isolation duration expected in seconds (default 10)>]"
+USAGE="Usage: $0 [-hv] [-ctfsd args] [-c <Comma separated isol cpulist (default cpu1)>] [-t <Task name for isolation (default stress)>] [-f <Function type options - isolate, duration, clear, nonisol_list, all (default all)>] [-s <Number of samples to take (default 1)>] [-d <Min Isolation duration expected in seconds (default 10)>]"
 
 # Run isolation test for $FUNC
 run_func()
@@ -468,11 +469,16 @@ run_func()
 # Parse isol arguments
 parse_arguments()
 {
-	while getopts hc:t:f:s:d: arguments 2>/dev/null
+	while getopts hvc:t:f:s:d: arguments 2>/dev/null
 	do
 		case $arguments in
 			h) # --help
 				echo "$USAGE"
+				exit 0
+				;;
+
+			v) # --script version
+				isdebug echo "$0 Version $SCRIPT_VERSION"
 				exit 0
 				;;
 
