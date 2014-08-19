@@ -5,7 +5,7 @@
 # This script is used for isolating $1 (comma separated list of CPUs) CPUs from
 # other kernel background activities.
 #
-# This runs 'stress' test on the isolated CPUs and Figures out if CPUs are
+# This runs task on the isolated CPUs and Figures out if CPUs are
 # isolated or not by reading 'cat /proc/interrupts' for all interrupts.
 
 # SCRIPT ARGUMENTS
@@ -19,9 +19,11 @@ SAMPLE_COUNT=1		# How many samples to be taken
 MIN_ISOLATION=10	# Minimum isolation expected
 
 # Global variables
-STRESS_DURATION=5000	# Run 'stress' for this duration
+STRESS_DURATION=5000	# Run task for this duration
 NON_ISOL_CPUS="0"	# CPU not to isolate, zero will always be there as we can't stop ticks on boot CPU.
 DEBUG_SCRIPT=1		# Print debug messages, set 0 if not required
+TASK="stress"		# Single threaded task to Run on Isolated CPUs
+FUNC="all"		# Perform complete isolation test by default
 RESULT="PASS"
 
 # Variables to keep an eye on total interrupt counts
@@ -148,7 +150,7 @@ create_dplane_cpuset() {
 	# Move shell to isolated CPU
 	echo $$ > /dev/cpuset/dplane/cpu$1/tasks
 
-	# Start single cpu bound stress thread
+	# Start single cpu bound task
 	stress -q --cpu 1 --timeout $STRESS_DURATION &
 
 	# Move shell back to control plane CPU
@@ -308,7 +310,7 @@ sense_infinite_isolation() {
 		# process interrupts
 		refresh_interrupts
 
-		ps h -C stress -o pid > /dev/null
+		ps h -C $TASK -o pid > /dev/null
 		if [ $? != 0 ]; then
 			T2="$(date +%s)"
 			T=$(($T2-$T1))
@@ -395,8 +397,8 @@ clear_cpusets() {
 	# Cleanup
 	#
 
-	# kill all instances of stress
-	for i in `ps | grep stress | sed 's/^\ *//g' | cut -d' ' -f1`;
+	# kill all instances of task
+	for i in `ps | grep $TASK | sed 's/^\ *//g' | cut -d' ' -f1`;
 	do
 		kill -9 $i;
 	done
@@ -426,31 +428,85 @@ clear_cpusets() {
 
 # Execution starts from HERE
 
-# Check validity of arguments
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-	echo "Usage: $0 <CPUs to isolate (default 1), comma separated list> <number of samples to take (default 1)> <Min Isolation Time Expected in seconds (default 10)>"
-	exit
-fi
+USAGE="Usage: $0 [-h] [-ctfsd args] [-c <Comma separated isol cpulist (default cpu1)>] [-t <Task name for isolation (default stress)>] [-f <Function type options - isolate, duration, clear, nonisol_list, all (default all)>] [-s <Number of samples to take (default 1)>] [-d <Min Isolation duration expected in seconds (default 10)>]"
 
-# Parse arguments
-[ $1 ] && ISOL_CPUS=$1
-[ $2 ] && SAMPLE_COUNT=$2
-[ $3 ] && MIN_ISOLATION=$3
+# Run isolation test for $FUNC
+run_func()
+{
+	isdebug echo ""
+	isdebug echo "Function type: $FUNC"
 
-
-# Run tests
-if [ $4 ]; then
-	if [ $4 -eq 1 ]; then
+	case "$FUNC" in
+		"isolate")
 		isolate_cpu
-	elif [ $4 -eq 2 ]; then
+		;;
+
+		"duration")
 		get_isolation_duration
-	elif [ $4 -eq 3 ]; then
+		;;
+
+		"clear")
 		clear_cpusets
-	else
+		;;
+
+		"nonisol_list")
 		update_non_isol_cpus
-	fi
-else
-	isolate_cpu
-	get_isolation_duration
-	clear_cpusets
-fi
+		;;
+
+		"all")
+		isolate_cpu
+		get_isolation_duration
+		clear_cpusets
+		;;
+
+		*)
+		echo "Invalid [-f] function type"
+		;;
+	esac
+}
+
+# Parse isol arguments
+parse_arguments()
+{
+	while getopts hc:t:f:s:d: arguments 2>/dev/null
+	do
+		case $arguments in
+			h) # --help
+				echo "$USAGE"
+				exit 0
+				;;
+
+			c) # --cpu (comma separated isol cpulist, default cpu1)
+				ISOL_CPUS=$OPTARG
+				;;
+
+			t) # --task (task to run, default stress)
+				TASK=$OPTARG
+				;;
+
+			f) # --func_type (Function to perform: Isolate, Duration,
+				# Clear, Nonisol_list, all. default all)
+				FUNC=$OPTARG
+				;;
+
+			s) # --sample_count (no of samples to take, default 1)
+				SAMPLE_COUNT=$OPTARG
+				;;
+
+			d) # --duration (min isolation time duration, default 10)
+				MIN_ISOLATION=$OPTARG
+				;;
+
+			\?) # getopts issues an error message
+				echo "$USAGE "
+				exit 1
+				;;
+		esac
+	done
+}
+
+# Parse isol arguments
+parse_arguments $@
+
+# Run isolation test for requested functionality
+run_func
