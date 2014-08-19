@@ -148,6 +148,11 @@ create_dplane_cpuset() {
 	echo $1 > /dev/cpuset/dplane/cpu$1/$CPUSET_PREFIX"cpus"
 	echo 0 > /dev/cpuset/dplane/cpu$1/$CPUSET_PREFIX"sched_load_balance"
 
+	# exit early in case of non-stress app
+	if [ "stress" != "$TASK" ]; then
+		return
+	fi
+
 	# Move shell to isolated CPU
 	echo $$ > /dev/cpuset/dplane/cpu$1/tasks
 
