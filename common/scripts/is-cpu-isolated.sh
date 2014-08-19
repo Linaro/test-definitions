@@ -25,6 +25,8 @@ DEBUG_SCRIPT=1		# Print debug messages, set 0 if not required
 TASK="stress"		# Single threaded task to Run on Isolated CPUs
 FUNC="all"		# Perform complete isolation test by default
 SCRIPT_VERSION=1.0	# To track release version
+FILE="cat /proc/interrupts" # File to monitor for isolation
+QUIRKS=""		# IPI mask variable for known x86 IPI quirk, default 'null'
 RESULT="PASS"
 
 # Variables to keep an eye on total interrupt counts
@@ -98,6 +100,7 @@ update_non_isol_cpus() {
 # - one CPU, pass cpu number as parameter
 # - all CPUs, pass "ALL" as parameter
 total_interrupts() {
+	(([ $QUIRKS ] && $FILE | egrep -v $QUIRKS) || $FILE) |
 	awk -v isolate_cpu="$1" '
 	BEGIN {
 		line=0;
@@ -136,7 +139,7 @@ total_interrupts() {
 	}
 
 	# File to process
-' /proc/interrupts
+'
 }
 
 # Create per-cpu data plane cpuset
@@ -434,7 +437,7 @@ clear_cpusets() {
 
 # Execution starts from HERE
 
-USAGE="Usage: $0 [-hv] [-ctfsd args] [-c <Comma separated isol cpulist (default cpu1)>] [-t <Task name for isolation (default stress)>] [-f <Function type options - isolate, duration, clear, nonisol_list, all (default all)>] [-s <Number of samples to take (default 1)>] [-d <Min Isolation duration expected in seconds (default 10)>]"
+USAGE="Usage: $0 [-hvq] [-ctfsd args] [-h <help>] [-v <script version>] [-q <quirks: X86_IPI>][-c <Comma separated isol cpulist (default cpu1)>] [-t <Task name for isolation (default stress)>] [-f <Function type options: isolate, duration, clear, all (default all)>] [-s <Number of samples to take (default 1)>] [-d <Min Isolation duration expected in seconds (default 10)>]"
 
 # Run isolation test for $FUNC
 run_func()
@@ -474,7 +477,7 @@ run_func()
 # Parse isol arguments
 parse_arguments()
 {
-	while getopts hvc:t:f:s:d: arguments 2>/dev/null
+	while getopts hvc:t:f:s:d:q: arguments 2>/dev/null
 	do
 		case $arguments in
 			h) # --help
@@ -506,6 +509,18 @@ parse_arguments()
 
 			d) # --duration (min isolation time duration, default 10)
 				MIN_ISOLATION=$OPTARG
+				;;
+
+			q) # --quirk
+				# Known Quirks:
+				# - X86_IPI: Spurious IPI's break isolation
+
+				if [ $OPTARG = X86_IPI ]; then
+					QUIRKS="interrupts|RTR|TLB|MCE|MCP|ERR|MIS"
+					isdebug echo "Enabled Quriks: $OPTARG"
+				else
+					echo "Invalid Quirk passed. Valid options: X86_IPI"
+				fi
 				;;
 
 			\?) # getopts issues an error message
