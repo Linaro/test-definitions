@@ -16,15 +16,13 @@ metadata:
 
 install:
     git-repos:
-        - git://git.linaro.org/power/pm-qa.git
+        - git://git.linaro.org/power/pm-qa.git -b pm-qa-v0.4.13 pm-qa
     steps:
         - "cd pm-qa"
-        - "git checkout $RELEASE"
         - "make -C utils"
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
-    RELEASE: 'tags/pm-qa-v0.4.13'
     
 run:
     steps:
