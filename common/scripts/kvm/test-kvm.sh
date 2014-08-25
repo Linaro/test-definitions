@@ -93,8 +93,8 @@ umount /mnt
 sync
 qemu-nbd -d /dev/nbd0
 
-if [ -e /dev/net/tun ]
-then
+case ${ARCH} in
+    armv7l)
 echo setting up and testing networking bridge for guest
 brctl addbr br0
 tunctl -u root
@@ -104,10 +104,11 @@ brctl addif br0 eth0
 brctl addif br0 tap0
 udhcpc -t 10 -i br0
 ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
-else
-echo "$KVM_HOST_NET 0 pc skip"
-fi
-
+    ;;
+    aarch64)
+    echo "$KVM_HOST_NET 0 pc skip"
+    ;;
+esac
 
 case ${ARCH} in
     armv7l)
