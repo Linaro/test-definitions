@@ -41,15 +41,16 @@ test_func(){
 
 rm -r /data/busybox 1>/dev/null 2>/dev/null
 
-test_func mkdir /data/busybox
-test_func touch /data/busybox/test.txt
-test_func ls /data/busybox/test.txt
+tgt_dir="/data/local/tmp/"
+test_func mkdir ${tgt_dir}/busybox
+test_func touch ${tgt_dir}/busybox/test.txt
+test_func ls ${tgt_dir}/busybox/test.txt
 test_func ps
 test_func whoami
 test_func which busybox
 test_func basename /data/busybox/test.txt
-test_func cp /data/busybox/test.txt /data/busybox/test2.txt
-test_func rm /data/busybox/test2.txt
+test_func cp ${tgt_dir}/busybox/test.txt ${tgt_dir}/busybox/test2.txt
+test_func rm ${tgt_dir}/busybox/test2.txt
 test_func dmesg
 test_func grep service /init.rc
 
