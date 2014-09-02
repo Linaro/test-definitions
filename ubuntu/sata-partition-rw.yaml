@@ -1,7 +1,7 @@
 metadata:
     name: sata-partition-rw
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "SATA Partition, Read and Write Test on Linux Linaro ubuntu. The target Device ID is possible to be set in JSON."
+    description: "SATA Partition, Read and Write Test on Linux Linaro ubuntu. The target Device ID is possible to be set in JSON. For read and write performance testing, this script is using dd with iflag and oflag set to direct. In this way it can provide the real output without cache involved. For more information, please refer to dd GNU web page."
     maintainer:
         - botao.sun@linaro.org
     os:
