@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_00cb4873",
+        "filename": "ubuntu/scripts/sata-partition-rw.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-02T12:28:59Z",
+      "side": 1,
+      "message": "we\u0027re running as root, no need to \u0027sudo\u0027",
+      "revId": "5f73dfdf4bd11555453d2de055f808e3e3f38797",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a0c7f463",
+        "filename": "ubuntu/scripts/sata-partition-rw.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-02T12:28:59Z",
+      "side": 1,
+      "message": "let\u0027s stick to python: https://docs.python.org/2/library/os.html#os.unlink",
+      "revId": "5f73dfdf4bd11555453d2de055f808e3e3f38797",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c0c48061",
+        "filename": "ubuntu/scripts/sata-partition-rw.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-02T12:28:59Z",
+      "side": 1,
+      "message": "pythonic way wold be to use https://docs.python.org/2/library/os.html#os.fdopen and than close the file. It would give return code immediately (by raising exception). Example here: http://www.tutorialspoint.com/python/os_fdopen.htm",
+      "revId": "5f73dfdf4bd11555453d2de055f808e3e3f38797",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e0cdfc87",
+        "filename": "ubuntu/scripts/sata-partition-rw.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-02T12:28:59Z",
+      "side": 1,
+      "message": "let\u0027s stick to python: https://docs.python.org/2/library/os.html#os.chmod",
+      "revId": "5f73dfdf4bd11555453d2de055f808e3e3f38797",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_60a1eca8",
+        "filename": "ubuntu/scripts/sata-partition-rw.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-02T12:28:59Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this is right approach. Check here http://therub.org/2010/12/09/dd-in-python/ and here: https://gist.github.com/hikoz/741643 or here: http://code.activestate.com/recipes/578907-python-awesome-dd/ (long read)",
+      "revId": "5f73dfdf4bd11555453d2de055f808e3e3f38797",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
