@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_20820401",
+        "filename": "ubuntu/sata-partition-rw.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-03T10:26:04Z",
+      "side": 0,
+      "message": "Please brake this to multiple lines for better legibility.",
+      "revId": "8de5d1ee55fe34b4df375d177e3401cbc1bd534f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
