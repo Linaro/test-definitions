@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2083e4cd",
+        "filename": "android/scripts/toolchain-android.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-09-04T08:02:15Z",
+      "side": 1,
+      "message": "Not quite sure we will continue to use GPLv2 in Linaro but let\u0027s stay in this way for now.",
+      "revId": "9d39aa67982e8cd957509cb07004277ad5dba066",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_807e78e3",
+        "filename": "android/toolchain-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-09-04T08:02:15Z",
+      "side": 1,
+      "message": "Would you add more information about the pass and fail conditions? Then other people read this file will quickly understand the design. Multiple lines are acceptable.",
+      "revId": "9d39aa67982e8cd957509cb07004277ad5dba066",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6079ecfb",
+        "filename": "android/toolchain-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-09-04T08:02:15Z",
+      "side": 1,
+      "message": "highbank can be removed from list",
+      "revId": "9d39aa67982e8cd957509cb07004277ad5dba066",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c01c80c4",
+        "filename": "android/toolchain-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-09-04T08:02:15Z",
+      "side": 1,
+      "message": "Arndale can be removed from list",
+      "revId": "9d39aa67982e8cd957509cb07004277ad5dba066",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
