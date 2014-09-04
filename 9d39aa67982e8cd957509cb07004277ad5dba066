@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_e06c1c39",
+        "filename": "android/scripts/toolchain-android.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-04T09:55:24Z",
+      "side": 1,
+      "message": "It would be a good idea to record the measurement in the result. It will require updating the pattern in YAML or using lava-test-case in the script.",
+      "revId": "9d39aa67982e8cd957509cb07004277ad5dba066",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_807e78e3",
         "filename": "android/toolchain-android.yaml",
         "patchSetId": 1
