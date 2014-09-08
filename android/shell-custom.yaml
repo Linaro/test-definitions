@@ -1,0 +1,19 @@
+metadata:
+    name: shell-custom
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test to Run custom shell script"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - wg
+
+params:
+    SHELL_COMMAND: "ls -l"
+
+run:
+    steps:
+        - lava-test-case run-shell-command --shell $SHELL_COMMAND
