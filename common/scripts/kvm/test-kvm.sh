@@ -112,6 +112,7 @@ esac
 
 case ${ARCH} in
     armv7l)
+        qemu-system-arm --version
 qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
 	-kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
 	-append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
@@ -123,6 +124,7 @@ qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
 	 2>&1|tee kvm-log.txt
         ;;
     aarch64)
+        qemu-system-aarch64 --version
 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
 	-kernel ./Image-mustang \
 	-append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
