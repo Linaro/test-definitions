@@ -32,6 +32,15 @@ home_path = os.environ['HOME']
 os.chdir(home_path)
 print os.getcwd()
 
+# List all test cases
+test_case_list = ["sata_device_existence", "sata_mklabel_msdos", "sata_mklabel_gpt", "sata_first_ext2_partition", "sata_second_ext2_partition", "sata_ext3_format", "sata_ext4_format", "sata_ext4_mount_umount", "sata_ext4_file_fill_edit", "sata_ext4_dd_write_read"]
+print "There are " + str(len(test_case_list)) + " test cases in this test suite."
+
+# All skipped - If test case sata_device_existence failed, then skip all the rest.
+def all_skipped():
+    for element in test_case_list[1:]:
+        print element + ": SKIP" + " 0" + " Inapplicable"
+
 # Save partition layout to a local file for reference
 commands.getstatusoutput("fdisk -l > partition_layout.txt 2>&1")
 device_name = sys.argv[1]
@@ -40,6 +49,7 @@ def sata_device_existence():
     testcase_name = "sata_device_existence"
     if device_name == "":
         print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Device name is empty"
+        all_skipped()
         sys.exit(1)
     else:
         logfile = open("partition_layout.txt", "r")
@@ -54,6 +64,7 @@ def sata_device_existence():
             print testcase_name + ": PASS" + " 0" + " Inapplicable"
         else:
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not locate " + device_name + " on target board"
+            all_skipped()
             sys.exit(1)
 
 def sata_mklabel_msdos():
