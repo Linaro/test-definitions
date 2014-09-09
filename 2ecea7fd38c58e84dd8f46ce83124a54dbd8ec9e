@@ -34,6 +34,24 @@
       "revId": "2ecea7fd38c58e84dd8f46ce83124a54dbd8ec9e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_43b07af4",
+        "filename": "android/bionic_libc_tests.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T12:10:25Z",
+      "side": 1,
+      "message": "You\u0027re partially correct. LAVA has it\u0027s own fixupdict which works with uppercase PASS and FAIL results. It is still a good idea to have it in test definition and not rely on default.",
+      "parentUuid": "5a93c517_83a682c0",
+      "revId": "2ecea7fd38c58e84dd8f46ce83124a54dbd8ec9e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
