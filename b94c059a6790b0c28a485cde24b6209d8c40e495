@@ -34,6 +34,24 @@
       "revId": "b94c059a6790b0c28a485cde24b6209d8c40e495",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_03cef25a",
+        "filename": "android/monkey_long_run.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T15:16:34Z",
+      "side": 1,
+      "message": "In that case I think we can hack it a bit. For example put a pattern like this:\n\n## Network (?P\u003ctest_case_id\u003estats):\\\\s(?P\u003cresult\u003eelapsed)\\\\stime\u003d(?P\u003cmeasurement\u003e\\\\d+)(?P\u003cunits\u003ems)\n\nand add fixupdict:\n\nelapsed: pass\n\nI don\u0027t see a better \u0027quick\u0027 solution.",
+      "parentUuid": "5a93c517_c3c00a2d",
+      "revId": "b94c059a6790b0c28a485cde24b6209d8c40e495",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
