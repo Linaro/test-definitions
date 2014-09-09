@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e3cd0688",
+        "filename": "android/bionic_libc_tests.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T11:51:51Z",
+      "side": 1,
+      "message": "fixupdict is still incorrect. It should be:\n\nPASS: pass\nFAIL: fail\n\nAt least this is what I can tell from the job log and pattern. There are no \u0027passed\u0027 and \u0027failed\u0027 results in the log or pattern.",
+      "revId": "2ecea7fd38c58e84dd8f46ce83124a54dbd8ec9e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
