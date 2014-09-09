@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4314faf4",
+        "filename": "android/bionic_libc_tests.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T09:22:35Z",
+      "side": 1,
+      "message": "don\u0027t use lava-test-case here. There is no need. Parsing pattern does the job.",
+      "revId": "2d6f391cec1014dd1c75eadef3d5c228ac420b7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_230f6ee3",
+        "filename": "android/linaro_android_kernel_test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T09:22:35Z",
+      "side": 1,
+      "message": "using lava-test-case here isn\u0027t the best idea. You can combine lava-test-case with parsing pattern, but I think it shouldn\u0027t be done here.",
+      "revId": "2d6f391cec1014dd1c75eadef3d5c228ac420b7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e3f8a6c6",
+        "filename": "android/monkey_long_run.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T09:22:35Z",
+      "side": 1,
+      "message": "can we have it also for other devices?",
+      "revId": "2d6f391cec1014dd1c75eadef3d5c228ac420b7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_03f6f2d7",
+        "filename": "android/shell-custom.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T09:22:35Z",
+      "side": 1,
+      "message": "As mentioned in the bug, this use case is already covered by busybox test. I don\u0027t think we need a separate test case just for \u0027ls -l\u0027",
+      "revId": "2d6f391cec1014dd1c75eadef3d5c228ac420b7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
