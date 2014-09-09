@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_83944238",
+        "filename": "android/monkey_long_run.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-09T14:00:35Z",
+      "side": 1,
+      "message": "do we need that? There is no test result so LAVA gets confused. lava-test-case will fail if monkey crashes. This will produce proper result in LAVA. I\u0027m not sure if recording time is a good idea in this case.",
+      "revId": "b94c059a6790b0c28a485cde24b6209d8c40e495",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
