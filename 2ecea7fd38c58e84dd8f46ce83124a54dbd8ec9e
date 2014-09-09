@@ -16,6 +16,24 @@
       "revId": "2ecea7fd38c58e84dd8f46ce83124a54dbd8ec9e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_83a682c0",
+        "filename": "android/bionic_libc_tests.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2014-09-09T12:01:00Z",
+      "side": 1,
+      "message": "seems the fixupdict is not needed here. The result can be parsed successfully when I tried it on LAVA. will try with deleted and submitted again",
+      "parentUuid": "5a93c517_e3cd0688",
+      "revId": "2ecea7fd38c58e84dd8f46ce83124a54dbd8ec9e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
