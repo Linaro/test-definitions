@@ -1,0 +1,22 @@
+metadata:
+    name: bionic_libc_tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run the bionic libc test, but this will be replaced with the cts test after the migration"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - wg
+
+run:
+    steps:
+        - /system/bin/run-bionic-tests.sh
+
+parse:
+    pattern: "(?P<test_case_id>.*-*)\\s+:\\s+(?P<result>(PASS|FAIL))"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
