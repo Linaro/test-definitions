@@ -16,6 +16,24 @@
       "revId": "b94c059a6790b0c28a485cde24b6209d8c40e495",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c3c00a2d",
+        "filename": "android/monkey_long_run.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2014-09-09T14:45:56Z",
+      "side": 1,
+      "message": "At the time I added monkey to lava-android-test, I was told that recording the time monkey runs, and not mark as fail even monkey crashed. And I also think we need to record the time monkey run, so that we know how stable the build is.\nThe bad place here is that LAVA marks that result as unknown.\nDo you know any better method to mark that test as pass when there is no test result in the line. Actually getting the measurement means the parsing is passed.",
+      "parentUuid": "5a93c517_83944238",
+      "revId": "b94c059a6790b0c28a485cde24b6209d8c40e495",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
