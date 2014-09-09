@@ -1,0 +1,23 @@
+metadata:
+    name: linaro_android_kernel_test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Linaro Android kernel test"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - wg
+
+run:
+    steps:
+        - /system/bin/linaro-android-kernel-tests.sh
+
+parse:
+    pattern: "^\\[(?P<test_case_id>\\w+)\\]:\\s*test\\s*(?P<result>\\w+)"
+    fixupdict:
+        passed: pass
+        failed: fail
+        skipped: skip
