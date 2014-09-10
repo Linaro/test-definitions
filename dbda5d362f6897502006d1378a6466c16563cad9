@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a3761e05",
+        "filename": "common/scripts/gcov.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-10T11:11:35Z",
+      "side": 1,
+      "message": "Do I assume correctly this job only works on arndale? How do we make sure that the kernel running in the job is built from the same sources that are available in the rootfs downloaded from snapshots?",
+      "revId": "dbda5d362f6897502006d1378a6466c16563cad9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_036a721a",
+        "filename": "common/scripts/gcov.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-10T11:11:35Z",
+      "side": 1,
+      "message": "I would see this as an option in JSON. In short the gcov script should be split into 2 parts. The execution in JSON should be done as follows:\n 1. start gcov (the part above)\n 2. run tests (without reboot!) using lava-test-shell\n 3. collect gcov results (the part below)\n\nI hope it can work this way.",
+      "revId": "dbda5d362f6897502006d1378a6466c16563cad9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e36c2639",
+        "filename": "common/scripts/gcov.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-10T11:11:35Z",
+      "side": 1,
+      "message": "how big is the tarball (for some reason I\u0027m not able to login to hackbox)? Can we simply attach it to LAVA results?",
+      "revId": "dbda5d362f6897502006d1378a6466c16563cad9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c3732a14",
+        "filename": "ubuntu/gcov-ltp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-10T11:11:35Z",
+      "side": 1,
+      "message": "should be only arndale IMHO",
+      "revId": "dbda5d362f6897502006d1378a6466c16563cad9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_63601636",
+        "filename": "ubuntu/gcov-ltp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-10T11:11:35Z",
+      "side": 1,
+      "message": "I would remove this part and move split this yaml into \u0027start gcov\u0027 and \u0027collect gcov results\u0027 parts. Than any tests can be run in between.",
+      "revId": "dbda5d362f6897502006d1378a6466c16563cad9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
