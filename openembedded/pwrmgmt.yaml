@@ -4,6 +4,7 @@ metadata:
     description: "Test power management. Test case documentation available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
     maintainer:
         - sanjay.rawat@linaro.org
+        - lisa.nguyen@linaro.org
     os:
         - openembedded
     scope:
@@ -24,7 +25,7 @@ install:
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
-    RELEASE: 'tags/pm-qa-v0.4.13'
+    RELEASE: 'tags/pm-qa-v0.4.14'
     
 run:
     steps:

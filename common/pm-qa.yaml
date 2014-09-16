@@ -8,7 +8,4 @@ run:
         - './common/scripts/pm-qa.sh'
 
 parse:
-    pattern: "^(?P<test_case_id>[\\w/\\.]+)\\:\\s+\\S*\\s+\\S*\\s+\\S*\\.\\.\\.\\s+(?P<result>\\w+)$"
-    fixupdict:
-        Ok: pass
-        Err: fail
+    pattern: "^(?P<test_case_id>[a-z0-9_]+):\\s+(?P<result>pass|fail|skip)"
