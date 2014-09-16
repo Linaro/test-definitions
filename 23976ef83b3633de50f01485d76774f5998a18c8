@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a692acf4",
+        "filename": "ubuntu/pwrmgmt.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-16T22:33:31Z",
+      "side": 1,
+      "message": "the keyword is \u0027maintainer\u0027. Please keep it unchanged.",
+      "revId": "23976ef83b3633de50f01485d76774f5998a18c8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
