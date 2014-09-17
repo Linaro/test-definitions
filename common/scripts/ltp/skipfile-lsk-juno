@@ -1,0 +1,270 @@
+##################################################################
+                Blacklist or skip tests list
+##################################################################
+chdir01A symlink01 -T chdir01
+readahead02 readahead02
+setregid02 setregid02
+setregid02_16 setregid02_16
+sysfs01 sysfs01
+sysfs02 sysfs02
+sysfs03 sysfs03
+sysfs04 sysfs04
+sysfs05 sysfs05
+sysfs06 sysfs06
+syslog01 syslog01
+syslog02 syslog02
+syslog03 syslog03
+syslog04 syslog04
+syslog05 syslog05
+syslog06 syslog06
+syslog07 syslog07
+syslog08 syslog08
+syslog09 syslog09
+syslog10 syslog10
+ustat01 ustat01
+ustat02 ustat02
+
+overcommit_memory02 overcommit_memory -R 0
+
+cron02 cron02
+cron_deny01 cron_deny01
+cron_allow01 cron_allow01
+cron_dirs_checks01 cron_dirs_checks01
+acl_test01 export TCbin=$LTPROOT/testcases/bin;acl_test01
+##################################################################
+                      README
+##################################################################
+chdir01 is failed due to the way LAVA mounted /tmp file system
+##################################################################
+chdir01     1  TFAIL  :  symlink(object, symbolic) was succesful.
+mkdir(object, 0700) was successful
+chdir(2) returned successfully, but getcwd(3) indicated new current working
+directory location /var/volatile/tmp/ltp-BQRm8VAuqo/chdQl8Poa/object not
+equal to expected /tmp/ltp-BQRm8VAuqo/chdQl8Poa/object
+##################################################################
+
+readahead02 fail on Juno and arndale every time.
+readahead02 pass on TC2 every time.
+Need to investigate the reason for failure on juno.
+Till that time we would like to skip this file from execution
+##################################################################
+readahead02    0  TINFO  :  creating test file of size: 67108864
+readahead02    0  TINFO  :  read_testfile(0)
+readahead02    0  TINFO  :  read_testfile(1)
+readahead02    1  TFAIL  :  unexpected failure - returned value = -1, expected: 0
+readahead02    2  TPASS  :  offset is still at 0 as expected
+readahead02    0  TINFO  :  read_testfile(0) took: 62527 usec
+readahead02    0  TINFO  :  read_testfile(1) took: 86802 usec
+readahead02    3  TCONF  :  Your system doesn't have /proc/pid/io, unable to determine read bytes during test
+readahead02    0  TINFO  :  cache can hold at least: 17612 kB
+readahead02    0  TINFO  :  read_testfile(0) used cache: 0 kB
+readahead02    0  TINFO  :  read_testfile(1) used cache: 0 kB
+readahead02    4  TCONF  :  Page cache on your system is too small to hold whole testfile.
+##################################################################
+openat(AT_FDCWD, "testfile", O_RDONLY)  = 3
+readahead(3, 0, 67108864)               = -1 EINVAL (Invalid argument)
+write(1, "readahead02    1  TFAIL  :  unex"..., 82readahead02    1  TFAIL  :  unexpected failure - returned value = -1, expected: 0
+) = 82
+##################################################################
+
+setregid02 and setregid02_16 failed on juno, TC2 and arndale.
+getgrnam return error number zero which means   0 or ENOENT or ESRCH or EBADF or EPERM
+##################################################################
+setregid02    1  TBROK  :  getgrnam("nobody") failed: errno=SUCCESS(0): Success
+setregid02    2  TBROK  :  Remaining cases broken
+setregid02_16    1  TBROK  :  getgrnam("nobody") failed: errno=SUCCESS(0): Success
+setregid02_16    2  TBROK  :  Remaining cases broken
+##################################################################
+
+sysfs01 sysfs02 sysfs03 sysfs04 sysfs05 and sysfs06 no more valid.
+sysfs system call is obsolete; don't use it.
+##################################################################
+sysfs01     0  TWARN  :  This test can only run on kernels that support the sysfs system call
+sysfs02     0  TWARN  :  This test can only run on kernels that support the sysfs system call
+sysfs03     0  TWARN  :  This test can only run on kernels that support the sysfs system call
+sysfs04     0  TWARN  :  This test can only run on kernels that support the sysfs system call
+sysfs05     0  TWARN  :  This test can only run on kernels that support the sysfs system call
+sysfs06     0  TWARN  :  This test can only run on kernels that support the sysfs system call
+
+ustat01 and ustat02 failed only on Juno, because this syscall not implemented on arm-64 architecture.
+##################################################################
+ustat01     1  TFAIL  :  ustat(2) failed and setthe errno to 38 : Function not implemented
+ustat02     1  TFAIL  :  ustat(2) failed to produce expected error; 22, errno: EINVAL: TEST_ERRNO=ENOSYS(38): Function not implemented
+ustat02     2  TFAIL  :  ustat(2) failed to produce expected error; 14, errno: EFAULT: TEST_ERRNO=ENOSYS(38): Function not implemented
+##################################################################
+
+
+overcommit_memory02 overcommit_memory -R 0
+Test faild.
+Because overcommit_ratio = 0. 
+CommitLimit = SwapTotal + MemTotal * overcommit_ratio
+CommitLimit = ( 0 + 8232052 * 0 )
+CommitLimit = 0
+Committed_AS is the amount of memory that system has used.
+Committed_AS = 727208
+(CommitLimit < Committed_AS) == TEST BROKEN
+( 0 < 727208 ) = TRUE == TEST BROKEN
+##################################################################
+tag=overcommit_memory02 stime=1410838101
+cmdline="overcommit_memory -R 0"
+contacts=""
+analysis=exit
+<<<test_output>>>
+overcommit_memory    0  TINFO  :  set overcommit_ratio to 0
+overcommit_memory    0  TINFO  :  MemTotal is 8232052 kB
+overcommit_memory    0  TINFO  :  SwapTotal is 0 kB
+overcommit_memory    0  TINFO  :  CommitLimit is 0 kB
+overcommit_memory    0  TINFO  :  set overcommit_memory to 2
+overcommit_memory    0  TINFO  :  CommmitLimit is 0, Committed_AS is 727208
+overcommit_memory    1  TBROK  :  Unexpected error: CommitLimit < Committed_AS
+overcommit_memory    2  TBROK  :  Remaining cases broken
+overcommit_memory    0  TINFO  :  set overcommit_memory to 0
+overcommit_memory    0  TINFO  :  set overcommit_ratio to 50
+##################################################################
+
+With SWAP enabled manually.
+overcommit_memory02 overcommit_memory -R 0
+Test faild.
+Because overcommit_ratio = 0. 
+CommitLimit = SwapTotal + MemTotal * overcommit_ratio
+CommitLimit = ( 65532  + 8232052 * 0 )
+CommitLimit = 65532
+Committed_AS is the amount of memory that system has used.
+Committed_AS = 727080
+if (CommitLimit < Committed_AS) TEST BROKEN ;
+if ( 65532 < 727080 )  TEST BROKEN ;
+cmdline="overcommit_memory -R 0"
+contacts=""
+analysis=exit
+<<<test_output>>>
+overcommit_memory    0  TINFO  :  set overcommit_ratio to 0
+overcommit_memory    0  TINFO  :  MemTotal is 8232052 kB
+overcommit_memory    0  TINFO  :  SwapTotal is 65532 kB
+overcommit_memory    0  TINFO  :  CommitLimit is 65532 kB
+overcommit_memory    0  TINFO  :  set overcommit_memory to 2
+overcommit_memory    0  TINFO  :  CommmitLimit is 65532, Committed_AS is 727080
+overcommit_memory    1  TBROK  :  Unexpected error: CommitLimit < Committed_AS
+overcommit_memory    2  TBROK  :  Remaining cases broken
+overcommit_memory    0  TINFO  :  set overcommit_memory to 0
+overcommit_memory    0  TINFO  :  set overcommit_ratio to 50
+##################################################################
+cron02                         FAIL       1
+crontab: command not found
+External package cron not installed on rootfs.
+This test case comes under admin_tools, which is not critical.
+##################################################################
+Running as user c01_user...
+/opt/ltp/testcases/bin/cron_pos_tests.sh: line 66: crontab: command not found
+new job added successfully
+sleeping for 130 seconds...
+Job has not been executed
+This script contains bashism that needs to be fixed!
+No passwd entry for user 'cd_user1'
+No passwd entry for user 'cd_user2'
+userdel: user 'cd_user1' does not exist
+userdel: user 'cd_user2' does not exist
+##################################################################
+cron_deny01                    FAIL       1
+crontab: command not found
+External package cron not installed on rootfs.
+This test case comes under admin_tools, which is not critical.
+##################################################################
+/opt/ltp/testcases/bin/cron_deny01: line 177: /var/spool/cron/deny: No such file or directory
+This script contains bashism that needs to be fixed!
+TEST: /var/spool/cron/deny should allow only allow those who are not in the file to
+run cron jobs.
+(1) TEST THAT PERSON NOT IN /var/spool/cron/deny IS ABLE TO RUN JOB.
+/opt/ltp/testcases/bin/cron_deny01: line 116: crontab: command not found
+Error while adding crontab for user cd_user1
+This script contains bashism that needs to be fixed!
+(2) TEST THAT PERSON IN /var/spool/cron/deny IS NOT ABLE TO RUN JOB.
+/opt/ltp/testcases/bin/cron_deny01: line 145: crontab: command not found
+Error while adding crontab for user cd_user2
+sleeping for 130 seconds....
+Cron did not allow user to execute job , TEST PASSED
+/bin/sh: crontab: command not found
+/bin/sh: crontab: command not found
+rm: cannot remove '/var/spool/cron/deny': No such file or directory
+This script contains bashism that needs to be fixed!
+No passwd entry for user 'ca_user1'
+No passwd entry for user 'ca_user2'
+userdel: user 'ca_user1' does not exist
+userdel: user 'ca_user2' does not exist
+##################################################################
+cron_allow01                   FAIL       1
+crontab: command not found
+External package cron not installed on rootfs.
+This test case comes under admin_tools, which is not critical.
+##################################################################
+/opt/ltp/testcases/bin/cron_allow01: line 187: /var/spool/cron/allow: No such file or directory
+This script contains bashism that needs to be fixed!
+TEST: /var/spool/cron/allow should only allow those in the file to
+run cron jobs.
+(1) TEST THAT PERSON IN /var/spool/cron/allow IS ABLE TO RUN JOB.
+backup crontab....
+/opt/ltp/testcases/bin/cron_allow01: line 112: crontab: command not found
+/opt/ltp/testcases/bin/cron_allow01: line 114: crontab: command not found
+Error while adding crontab for user ca_user1
+This script contains bashism that needs to be fixed!
+(2) TEST THAT PERSON NOT IN /var/spool/cron/allow IS NOT ABLE TO RUN JOB.
+backup crontab....
+/opt/ltp/testcases/bin/cron_allow01: line 149: crontab: command not found
+/opt/ltp/testcases/bin/cron_allow01: line 151: crontab: command not found
+Error while adding crontab for user ca_user2
+sleeping for 130 seconds....
+Cron did not allow user to execute job , TEST PASSED
+restore old crontab...
+/opt/ltp/testcases/bin/cron_allow01: line 171: crontab: command not found
+/bin/sh: crontab: command not found
+/bin/sh: crontab: command not found
+rm: cannot remove '/var/spool/cron/allow': No such file or directory
+##################################################################
+cron_dirs_checks01
+crontab: command not found
+External package cron not installed on rootfs.
+This test case comes under admin_tools, which is not critical.
+##################################################################
+Checking /etc/cron.d
+FAIL: /etc/cron.d. Could not obtain directory status
+/etc/cron.d FAILED TEST!!!!!
+Checking /etc/cron.daily
+FAIL: /etc/cron.daily. Could not obtain directory status
+/etc/cron.daily FAILED TEST!!!!!
+Checking /etc/cron.hourly
+FAIL: /etc/cron.hourly. Could not obtain directory status
+/etc/cron.hourly FAILED TEST!!!!!
+Checking /etc/cron.monthly
+FAIL: /etc/cron.monthly. Could not obtain directory status
+/etc/cron.monthly FAILED TEST!!!!!
+Checking /etc/cron.weekly
+FAIL: /etc/cron.weekly. Could not obtain directory status
+/etc/cron.weekly FAILED TEST!!!!!
+Checking /var/spool/cron
+FAIL: /var/spool/cron. Could not obtain directory status
+/var/spool/cron FAILED TEST!!!!!
+##################################################################
+
+acl_test01 export TCbin=$LTPROOT/testcases/bin;acl_test01
+acl test cases comes under admin_tools
+##################################################################
+TESTING ACLS FOR USER root
+setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
+setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file: Operation not supported
+Trying extended acls for files
+No xattrs defined for /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file, further testcase useless
+Extended acls for files (FAILED)
+Trying extended acls for file links
+No xattrs defined for /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link, further testcase useless
+Extended acls for links (FAILED)
+TESTING ACLS FOR 2ND USER acltest1
+setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
+setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file: Operation not supported
+Trying extended acls for files
+No xattrs defined for /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file, further testcase useless
+Extended acls for files (FAILED)
+Trying extended acls for file links
+No xattrs defined for /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link, further testcase useless
+Extended acls for links (FAILED)
+/dev/loop1 on /var/volatile/tmp/ltp-UH9jbROZVN/tacl/mount-ext3 type ext3 (rw,relatime,errors=continue,user_xattr,barrier=1,data=ordered)
+losetup: /dev/loop1: detach failed: No such device or address
+losetup: /dev/loop1: detach failed: No such device or address

@@ -33,10 +33,11 @@ install:
 
 params:
     TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+    SKIPFILE: ""
 
 run:
     steps:
-        - './common/scripts/ltpfixup.sh $TST_CMDFILES $(readlink -f build)'
+        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -S $SKIPFILE -P $(readlink -f build)'
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"

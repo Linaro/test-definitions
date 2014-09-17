@@ -7,24 +7,29 @@ SCRIPTPATH=`dirname $SCRIPT`
 echo "Script path is: $SCRIPTPATH"
 
 LTP_PATH=/opt/ltp
-# Second parameter is used as a path to LTP installation
-if [ "$#" -gt 1 ]; then
-    LTP_PATH=$2
-fi
+
+while getopts T:S:P: arg
+    do case $arg in
+        T) TST_CMDFILES="$OPTARG";;
+        S) SKIPFILE="$OPTARG";;
+        P) LTP_PATH=$OPTARG;;
+    esac
+done
+
 cd $LTP_PATH
 RESULT=pass
 
 exec 4>&1
-error_statuses="`((./runltp -p -q -f $1 -l $SCRIPTPATH/LTP_$1.log -C $SCRIPTPATH/LTP_$1.failed ||  echo "0:$?" >&3) |
-        (tee $SCRIPTPATH/LTP_$1.out ||  echo "1:$?" >&3)) 3>&1 >&4`"
+error_statuses="`((./runltp -p -q -f $TST_CMDFILES -S $SCRIPTPATH/ltp/$SKIPFILE -l $SCRIPTPATH/LTP_$TST_CMDFILES.log -C $SCRIPTPATH/LTP_$TST_CMDFILES.failed ||  echo "0:$?" >&3) |
+        (tee $SCRIPTPATH/LTP_$TST_CMDFILES.out ||  echo "1:$?" >&3)) 3>&1 >&4`"
 exec 4>&-
 
 ! echo "$error_statuses" | grep '0:' >/dev/null
 if [ $? -ne 0 ]; then
     RESULT=fail
 fi
-lava-test-case LTP_$1 --result $RESULT
-find $SCRIPTPATH -name "LTP_$1.log" -print0 |xargs -0 cat
-tar czfv $SCRIPTPATH/LTP_$1.tar.gz $SCRIPTPATH/LTP*
-lava-test-case-attach LTP_$1 $SCRIPTPATH/LTP_$1.tar.gz
+lava-test-case LTP_$TST_CMDFILES --result $RESULT
+find $SCRIPTPATH -name "LTP_$TST_CMDFILES.log" -print0 |xargs -0 cat
+tar czfv $SCRIPTPATH/LTP_$TST_CMDFILES.tar.gz $SCRIPTPATH/LTP*
+lava-test-case-attach LTP_$TST_CMDFILES $SCRIPTPATH/LTP_$TST_CMDFILES.tar.gz
 exit 0
