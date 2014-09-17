@@ -1,0 +1,83 @@
+                Blacklist or skip tests list
+##################################################################
+
+##################################################################
+chdir01A symlink01 -T chdir01
+chdir01 is failed due to the way LAVA mounted /tmp file system
+##################################################################
+
+setregid02 setregid02
+setregid02_16 setregid02_16
+setregid02 and setregid02_16 failed on juno, TC2 and arndale.
+getgrnam return error number zero which means   0 or ENOENT or ESRCH or EBADF or EPERM
+getgrnam("nobody") failed: errno=SUCCESS(0): Success
+##################################################################
+
+sysfs01 sysfs01
+sysfs02 sysfs02
+sysfs03 sysfs03
+sysfs04 sysfs04
+sysfs05 sysfs05
+sysfs06 sysfs06
+sysfs01 sysfs02 sysfs03 sysfs04 sysfs05 and sysfs06 no more valid.
+sysfs system call is obsolete; don't use it.
+This test can only run on kernels that support the sysfs system call
+##################################################################
+syslog01 syslog01
+syslog02 syslog02
+syslog03 syslog03
+syslog04 syslog04
+syslog05 syslog05
+syslog06 syslog06
+syslog07 syslog07
+syslog08 syslog08
+syslog09 syslog09
+syslog10 syslog10
+
+LAVA looks for TPASS or TFAIL, but these tests returns TINFO.
+LAVA did not found TPASS output from these test cases and marked
+as FAILED which is insane.
+These tests produce same output on Juno, TC2 and arndale.
+##################################################################
+
+ustat01 ustat01
+ustat02 ustat02
+ustat01 and ustat02 failed only on Juno, because this syscall not implemented on arm-64 architecture.
+ustat(2) failed and setthe errno to 38 : Function not implemented
+##################################################################
+overcommit_memory02 overcommit_memory -R 0
+Test faild.
+Because overcommit_ratio = 0. 
+CommitLimit = SwapTotal + MemTotal * overcommit_ratio
+CommitLimit = ( 0 + 8232052 * 0 )
+CommitLimit = 0
+Committed_AS is the amount of memory that system has used.
+Committed_AS = 727208
+(CommitLimit < Committed_AS) == TEST BROKEN
+( 0 < 727208 ) = TRUE == TEST BROKEN
+
+With SWAP enabled manually.
+overcommit_memory02 overcommit_memory -R 0
+Test faild.
+Because overcommit_ratio = 0. 
+CommitLimit = SwapTotal + MemTotal * overcommit_ratio
+CommitLimit = ( 65532  + 8232052 * 0 )
+CommitLimit = 65532
+Committed_AS is the amount of memory that system has used.
+Committed_AS = 727080
+if (CommitLimit < Committed_AS) TEST BROKEN ;
+if ( 65532 < 727080 )  TEST BROKEN ;
+##################################################################
+cron02 cron02
+cron_deny01 cron_deny01
+cron_allow01 cron_allow01
+cron_dirs_checks01 cron_dirs_checks01
+
+crontab: command not found
+External package cron not installed on rootfs.
+This test case comes under admin_tools, which is not critical.
+##################################################################
+
+acl_test01 export TCbin=$LTPROOT/testcases/bin;acl_test01
+acl test cases comes under admin_tools
+setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
