@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_91300c58",
+        "filename": "common/scripts/ltp/skipfile-lsk-juno",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000109
+      },
+      "writtenOn": "2014-09-18T19:38:45Z",
+      "side": 1,
+      "message": "It seems like we can have comments in this file so why not have them next to the exclusions?",
+      "revId": "707cd7116a166c8d2c280aa066e05e1f9b777b37",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f13e3029",
+        "filename": "common/scripts/ltp/skipfile-lsk-juno",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000109
+      },
+      "writtenOn": "2014-09-18T19:38:45Z",
+      "side": 1,
+      "message": "Pasting the entire test output into the file is making it really hard to follow what\u0027s going on - it\u0027s hard to spot the information about what\u0027s been disabled among the testcase output.",
+      "revId": "707cd7116a166c8d2c280aa066e05e1f9b777b37",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_31357846",
+        "filename": "common/scripts/ltp/skipfile-lsk-juno",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000109
+      },
+      "writtenOn": "2014-09-18T19:38:45Z",
+      "side": 1,
+      "message": "This seems to be defeating the point of the exercise - if we\u0027ve got test failures we\u0027ve got test failures...",
+      "revId": "707cd7116a166c8d2c280aa066e05e1f9b777b37",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_513a8437",
+        "filename": "common/scripts/ltp/skipfile-lsk-juno",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000109
+      },
+      "writtenOn": "2014-09-18T19:38:45Z",
+      "side": 1,
+      "message": "...though it seems like the testcase is trying to tell us what\u0027s going on?",
+      "revId": "707cd7116a166c8d2c280aa066e05e1f9b777b37",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
