@@ -80,6 +80,8 @@ else
     TEST_SCRIPT='/root/test-rt-tests.sh guest'
 fi
 
+echo 0 2000000 > /proc/sys/net/ipv4/ping_group_range
+
 cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
     exec > /root/guest.log 2>&1
@@ -103,12 +105,9 @@ ifconfig tap0 0.0.0.0 up
 brctl addif br0 eth0
 brctl addif br0 tap0
 udhcpc -t 10 -i br0
-ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
-    ;;
-    aarch64)
-    echo "$KVM_HOST_NET 0 pc skip"
-    ;;
 esac
+
+ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
 
 case ${ARCH} in
     armv7l)
