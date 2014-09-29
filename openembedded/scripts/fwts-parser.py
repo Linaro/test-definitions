@@ -1,0 +1,1 @@
+../../ubuntu/scripts/fwts-parser.py
