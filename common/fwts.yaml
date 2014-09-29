@@ -8,6 +8,7 @@ metadata:
         - naresh.bhat@linaro.org
     os:
         - ubuntu
+        - openembedded
     scope:
         - functional
     devices:
@@ -25,7 +26,7 @@ run:
     steps:
         - lava-test-case fwts --shell fwts -a --log-filter=ALL --log-format='%owner-%field:' -w 250
         - lava-test-case-attach fwts results.log text/plain
-        - ./ubuntu/scripts/fwts-parser.py results.log
+        - ./common/scripts/fwts-parser.py results.log
 
 parse:
     pattern: "(?P<test_case_id>.*):\\s(?P<result>(pass|fail|skip)$)"

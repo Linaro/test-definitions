@@ -5,12 +5,14 @@ metadata:
   version: 1.0
   os:
     - ubuntu
+    - openembedded
   devices:
     - arndale
     - panda
     - beaglebone-black
     - beagle-xm
     - mx53loco
+    - rtsm_fvp_base-aemv8a
   scope:
     - functional
 
