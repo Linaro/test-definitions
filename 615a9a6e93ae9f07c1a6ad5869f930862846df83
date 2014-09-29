@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_1c83b5cd",
+        "filename": "common/scripts/ltp/skipfile-lsk-juno",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-29T10:38:08Z",
+      "side": 1,
+      "message": "please remove above lines",
+      "revId": "615a9a6e93ae9f07c1a6ad5869f930862846df83",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_3c88f1e6",
+        "filename": "common/scripts/ltp/skipfile-lsk-juno",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-29T10:38:08Z",
+      "side": 1,
+      "message": "The above statement is invalid. Test definition no longer checks atomic LTP messages. We check the overall result from the results file. These tests simply fail:\nhttps://validation.linaro.org/dashboard/attachment/1046950/view#L13366 from here: https://validation.linaro.org/dashboard/streams/private/team/linaro/ci-linux-linaro-stable-lsk/bundles/105bc7836b7afe7fa92faa94e0b20eb27c91d0d1/db06c469-ad0c-4a8f-8adc-cc61ce3d9fd4/\nDo we have syslog running in the first place?",
+      "revId": "615a9a6e93ae9f07c1a6ad5869f930862846df83",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_7c7e79e6",
+        "filename": "common/scripts/ltpfixup.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-29T10:38:08Z",
+      "side": 1,
+      "message": "we need a check if TST_CMDFILES is not empty. Similarly for SKIPFILE as I suspect runltp to fail with -S + empty param.",
+      "revId": "615a9a6e93ae9f07c1a6ad5869f930862846df83",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_5c793dfb",
+        "filename": "openembedded/ltp.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-29T10:38:08Z",
+      "side": 1,
+      "message": "will that work with empty skipfile?",
+      "revId": "615a9a6e93ae9f07c1a6ad5869f930862846df83",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_bc1c01c3",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-09-29T10:38:08Z",
+      "side": 1,
+      "message": "will that work if skipfile is empty?",
+      "revId": "615a9a6e93ae9f07c1a6ad5869f930862846df83",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
