@@ -1,0 +1,38 @@
+metadata:
+    name: kselftest-ptrace
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
+         For running this test, git is required in the rootfs"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - functional
+
+install:
+    git-repos:
+        - http://git.linaro.org/qa/kselftest.git
+    steps:
+        - 'cd kselftest'
+        - 'git checkout $BRANCH'
+        - 'sed -i "1s/^/CFLAGS = -DPAGE_SIZE=4096\n/" ptrace/Makefile'
+        - 'make -C ptrace'
+    deps:
+        - git
+        - build-essential
+
+params:
+    BRANCH: master
+
+run:
+    steps:
+        - './kselftest/ptrace/peeksiginfo && echo "peeksiginfo selftests: pass" || echo "peeksiginfo selftests: fail"'
+
+parse:
+    pattern: "^(?P<test_case_id>[a-z_ ]+):\\s(?P<result>pass|fail)"
