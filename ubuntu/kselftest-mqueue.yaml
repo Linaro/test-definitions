@@ -1,0 +1,41 @@
+metadata:
+    name: kselftest-mqueue
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
+         For running this test, git is required in the rootfs"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - functional
+
+install:
+    git-repos:
+        - http://git.linaro.org/qa/kselftest.git
+    steps:
+        - 'cd kselftest'
+        - 'git checkout $BRANCH'
+    deps:
+        - git
+        - build-essential
+        - wget
+
+params:
+    BRANCH: master
+
+run:
+    steps:
+        - './common/scripts/kselftest-mqueue.sh'
+
+parse:
+    pattern: "^(?P<test_case_id>[A-Za-z0-9_>=/, ]+):[\\s]+(?P<result>PASS|FAIL)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+
