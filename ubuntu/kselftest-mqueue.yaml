@@ -1,0 +1,57 @@
+metadata:
+    name: kselftest-mqueue
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
+         For running this test, git is required in the rootfs"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu 
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - functional
+
+install:
+    git-repos:
+        - http://git.linaro.org/qa/kselftest.git
+    steps:
+        - 'cd kselftest'
+        - 'git checkout $BRANCH'
+    deps:
+        - git
+        - build-essential
+        - wget
+
+params:
+    BRANCH: master
+
+run:
+    steps:
+######## Test mq_open_tests ########
+        - 'echo -e "\nTest mq_open_tests\n"'
+        - 'cd kselftest/mqueue'
+        - 'gcc -O2 mq_open_tests.c -o mq_open_tests -lrt'
+        - './mq_open_tests /test1 || echo "mq_open_tests: FAIL"'
+######## Test mq_perf_tests ########
+        - 'echo -e "\nTest mq_perf_tests\n"'
+#       Build libpopt
+        - 'cd ../..'
+        - 'wget http://rpm5.org/files/popt/popt-1.16.tar.gz -O - | tar zxf -'
+        - 'cd popt-1.16'
+#       Due to the config.guess doesn't support aarch64 yet. We have to specify system type
+        - '[ `uname -m` = "aarch64" ] && BUILD="--build=aarch64-unknown-linux-gnu"; ./configure ${BUILD} --prefix=/usr'
+        - 'make install; cd ..'
+        - 'cd kselftest/mqueue'
+        - 'gcc -O2 -o mq_perf_tests mq_perf_tests.c -lrt -lpthread -lpopt'
+        - './mq_perf_tests || echo "mq_perf_tests: FAIL"'
+
+parse:
+    pattern: "^(?P<test_case_id>[A-Za-z0-9_>=/, ]+):[\\s]+(?P<result>PASS|FAIL)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+

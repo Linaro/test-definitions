@@ -1,0 +1,36 @@
+metadata:
+    name: kselftest-net
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
+         For running this test, git is required in the rootfs"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - openembedded
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - functional
+
+install:
+    git-repos:
+        - http://git.linaro.org/qa/kselftest.git
+    steps:
+        - 'cd kselftest'
+        - 'git checkout $BRANCH'
+        - 'make -C net'
+params:
+    BRANCH: master
+    TESTS: socket psock_fanout psock_tpacket
+
+run:
+    steps:
+        - 'cd kselftest/net'
+        - 'if /sbin/modprobe test_bpf; then /sbin/rmmod test_bpf; echo "test_bpf: pass"; else echo "test_bpf: fail"; fi'
+        - 'for t in $TESTS; do echo -e "\nRunning $t"; ./$t; [ $? -ne 0 ] && echo "$t: fail" || echo "$t: pass"; done;'
+
+parse:
+    pattern: "^(?P<test_case_id>[a-z_]+):\\s(?P<result>pass|fail)"
