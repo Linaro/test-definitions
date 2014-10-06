@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_bfc0732b",
+        "filename": "openembedded/kselftest-cpu-hotplug.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-06T09:27:14Z",
+      "side": 1,
+      "message": "please split into several lines for better legibility and move to script in common/scripts.",
+      "revId": "327f0a361523b178033ea0cb33006ecec4587d2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_9fc33738",
+        "filename": "openembedded/kselftest-efivarfs.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-06T09:27:14Z",
+      "side": 1,
+      "message": "please move above lines to common/scripts. Makes sense to have single script for OE and Ubuntu.",
+      "revId": "327f0a361523b178033ea0cb33006ecec4587d2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_ffc6fb48",
+        "filename": "openembedded/kselftest-memory-hotplug.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-06T09:27:14Z",
+      "side": 1,
+      "message": "please move to separate script (in common/scripts). This is the same code for OE and Ubuntu",
+      "revId": "327f0a361523b178033ea0cb33006ecec4587d2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_7fe2ebd6",
+        "filename": "openembedded/kselftest-mqueue.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-06T09:27:14Z",
+      "side": 1,
+      "message": "please move the above lines to common/scripts.",
+      "revId": "327f0a361523b178033ea0cb33006ecec4587d2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_5fddaf13",
+        "filename": "openembedded/kselftest-net.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-06T09:27:14Z",
+      "side": 1,
+      "message": "please move to commons/scripts.",
+      "revId": "327f0a361523b178033ea0cb33006ecec4587d2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_dfd0dff9",
+        "filename": "openembedded/kselftest-vm.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-06T09:27:14Z",
+      "side": 1,
+      "message": "we don\u0027t want bash here.",
+      "revId": "327f0a361523b178033ea0cb33006ecec4587d2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
