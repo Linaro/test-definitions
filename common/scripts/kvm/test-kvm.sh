@@ -42,10 +42,11 @@ case ${ARCH} in
         modprobe nbd max_part=16
         ;;
     aarch64)
-        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=mustang,label=kernel_cloud/lastSuccessfulBuild/buildNumber`
+        hwpack=`uname -r|sed -e's,.*-,,'`
+        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=${hwpack},label=kernel_cloud/lastSuccessfulBuild/buildNumber`
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm64.qcow2.gz
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-mustang
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd.ko.gz
+        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
+        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
         gunzip kvm-arm64.qcow2.gz
         gunzip nbd.ko.gz
         mv kvm-arm64.qcow2 kvm.qcow2
