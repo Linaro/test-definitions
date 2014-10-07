@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_e23982d9",
+        "filename": "openembedded/kselftest-memory-hotplug.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-07T16:39:49Z",
+      "side": 1,
+      "message": "please remove spaces from empty line",
+      "revId": "d69fbb4e20808deb836b5bf40d14fa485fa27c07",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_4225d6a9",
+        "filename": "ubuntu/kselftest-ptrace.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-07T16:39:49Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "d69fbb4e20808deb836b5bf40d14fa485fa27c07",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_2220ca9a",
+        "filename": "ubuntu/kselftest-vm.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-07T16:39:49Z",
+      "side": 1,
+      "message": "please remove trailing whitespace",
+      "revId": "d69fbb4e20808deb836b5bf40d14fa485fa27c07",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
