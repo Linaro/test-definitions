@@ -1,0 +1,43 @@
+metadata:
+    name: ebizzy
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Running ebizzy tool"
+    os:
+        - openembedded
+    devices:
+        - juno
+        - vexpress-tc2
+    scope:
+        - performance
+
+install:
+    git-repos:
+        - https://github.com/linux-test-project/ltp.git
+
+    steps:
+        - cd ltp/utils/benchmark/ebizzy-0.3/
+        - chmod +x configure
+        - ./configure
+        - sed -i 's/lpthread/pthread/' Makefile
+        - make
+
+params:
+    THREADS: 2
+    TIME: 20
+    REPEAT: 50
+
+run:
+    steps:
+        - cd ltp/utils/benchmark/ebizzy-0.3/
+        - i=1
+        - while [ $i -le $REPEAT ]; do ./ebizzy -t $THREADS -S $TIME | tee -a ebizzy.log; true $(( i++ )); done
+        - cp ebizzy.log ebizzy-real.log
+        - cp ebizzy.log ebizzy-user.log
+        - cp ebizzy.log ebizzy-sys.log
+        - ../../../../common/scripts/min_max_avg_parse.py ebizzy-real.log "real" "Second"
+        - ../../../../common/scripts/min_max_avg_parse.py ebizzy-user.log "user" "Second"
+        - ../../../../common/scripts/min_max_avg_parse.py ebizzy-sys.log "sys"  "Second"
+
+parse:
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'
