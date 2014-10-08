@@ -48,8 +48,8 @@ case ${ARCH} in
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
         gunzip kvm-arm64.qcow2.gz
-        gunzip nbd.ko.gz
         mv kvm-arm64.qcow2 kvm.qcow2
+        zcat nbd-${hwpack}.ko.gz > nbd.ko
         insmod nbd.ko max_part=16
         ;;
     *)
