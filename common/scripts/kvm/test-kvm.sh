@@ -126,7 +126,7 @@ qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
     aarch64)
         qemu-system-aarch64 --version
 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
-	-kernel ./Image-mustang \
+	-kernel ./Image-${hwpack} \
 	-append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
 	-drive if=none,id=image,file=kvm.qcow2 \
 	-netdev user,id=user0 -device virtio-net-device,netdev=user0 \
