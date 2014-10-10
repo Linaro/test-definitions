@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_02e4ae0b",
+        "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-10T05:00:42Z",
+      "side": 1,
+      "message": "This line can be removed as you don\u0027t use those declared functions in this script.",
+      "revId": "860213b8e273bf736f866841bae8b8ee454f2178",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_a2f05aca",
+        "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-10T05:00:42Z",
+      "side": 1,
+      "message": "Here is a white space, remove it! :D",
+      "revId": "860213b8e273bf736f866841bae8b8ee454f2178",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
