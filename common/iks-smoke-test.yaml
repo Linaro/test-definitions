@@ -1,0 +1,24 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: iks-smoke-test
+    description: "IKS-smoke-test
+        This test is to enable and disable big.LITTLE IKS switcher 100 times"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - android
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - vexpress-tc2
+    environment:
+        - lava-test-shell
+    timeout: 1800
+
+run:
+    steps:
+        - './common/scripts/iks-smoke-test.sh'
+
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z0-9_ \\-]+):\\s+(?P<result>PASS|FAIL|SKIP)"
