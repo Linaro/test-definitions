@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_455c0026",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T15:10:32Z",
+      "side": 1,
+      "message": "did you mean ${log_file} here?",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_25577404",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T15:10:32Z",
+      "side": 1,
+      "message": "please check if the file exists (if [ -f ... ]). That call fails if the file doesn\u0027t exist and the rest of the test would not be executed.",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_c547b04a",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T15:10:32Z",
+      "side": 1,
+      "message": "this will give variable number of results. Was that intentional?",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_65749c9c",
+        "filename": "openembedded/cyclictest-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T15:10:32Z",
+      "side": 1,
+      "message": "I\u0027m not sure this section is needed. Shouldn\u0027t we assume the tools are available in OE image?",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
