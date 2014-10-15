@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_256e94ca",
+        "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T15:29:05Z",
+      "side": 1,
+      "message": "please make this configurable as parameter in YAML.",
+      "revId": "63db3bb525fb958002c654eebdbdc84d10a9afa8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_4573a0b1",
+        "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T15:29:05Z",
+      "side": 1,
+      "message": "I assume we\u0027re only targeting ETH interfaces.\n\nAnother thing is indentation in the code. It\u0027s hard to read without clear indent.",
+      "revId": "63db3bb525fb958002c654eebdbdc84d10a9afa8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_e5674ce9",
+        "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T15:29:05Z",
+      "side": 1,
+      "message": "where does $i come from? I guess using local variables is preferred here.",
+      "revId": "63db3bb525fb958002c654eebdbdc84d10a9afa8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
