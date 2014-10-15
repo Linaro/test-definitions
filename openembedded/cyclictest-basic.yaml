@@ -1,0 +1,26 @@
+metadata:
+    name: cyclictest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "Run cyclictest in loop and increase the number of thread after each iteration"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - performance
+        - preempt-rt
+
+params:
+    TIMES: 8
+    INTERVAL: 10000
+    LATENCY: 1000000
+    DURATION: 20
+
+run:
+    steps:
+        - './common/scripts/cyclictest-basic.sh ${TIMES} ${INTERVAL} ${LATENCY} ${DURATION}'
