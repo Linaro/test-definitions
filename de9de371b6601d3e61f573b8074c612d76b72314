@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_226d2a05",
+        "filename": "common/iks-smoke-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-15T07:44:31Z",
+      "side": 1,
+      "message": "There is a white space at the end of this line.",
+      "revId": "de9de371b6601d3e61f573b8074c612d76b72314",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_4272b6e6",
+        "filename": "common/scripts/iks-smoke-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-15T07:44:31Z",
+      "side": 1,
+      "message": "Some meta information is missing, by comparing with this change: https://review.linaro.org/#/c/3283/4/ubuntu/scripts/multiple-network-interfaces-test.sh",
+      "revId": "de9de371b6601d3e61f573b8074c612d76b72314",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_e27662d8",
+        "filename": "common/scripts/iks-smoke-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-15T07:44:31Z",
+      "side": 1,
+      "message": "Looks like TAB is using here. Normally it should be replaced by individual white spaces.Most of text editor allow users to enable this feature then all TAB will be automatically filled with white spaces.",
+      "revId": "de9de371b6601d3e61f573b8074c612d76b72314",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_0274aecd",
+        "filename": "common/scripts/iks-smoke-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-15T07:44:31Z",
+      "side": 1,
+      "message": "There is a white space at the end of this line.",
+      "revId": "de9de371b6601d3e61f573b8074c612d76b72314",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
