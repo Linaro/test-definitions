@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3aa0d159_c55ed012",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2014-10-15T16:01:47Z",
+      "side": 1,
+      "message": "result.log is the output of every iteration and the content will be appended to ${log_file} which is ${threads}-cyc.log (ex. 10-cyc.log) and attach to the test case",
+      "parentUuid": "3aa0d159_455c0026",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_25577404",
         "filename": "common/scripts/cyclictest-basic.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-10-15T15:10:32Z",
       "side": 1,
       "message": "please check if the file exists (if [ -f ... ]). That call fails if the file doesn\u0027t exist and the rest of the test would not be executed.",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_85a0c8f5",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2014-10-15T16:01:47Z",
+      "side": 1,
+      "message": "will do it.",
+      "parentUuid": "3aa0d159_25577404",
       "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3aa0d159_25a53404",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2014-10-15T16:01:47Z",
+      "side": 1,
+      "message": "please check the result bundle below\nhttps://staging.validation.linaro.org/dashboard/streams/anonymous/arthur.she/bundles/ded70748411cd3602efaa54ee523abbe6933c86b/d24ea9e9-4bd2-4c18-a1fb-edb7f3f5218f/\n\nIs that what we want?",
+      "parentUuid": "3aa0d159_c547b04a",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_65749c9c",
         "filename": "openembedded/cyclictest-basic.yaml",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2014-10-15T15:10:32Z",
       "side": 1,
       "message": "I\u0027m not sure this section is needed. Shouldn\u0027t we assume the tools are available in OE image?",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_45aac0d5",
+        "filename": "openembedded/cyclictest-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2014-10-15T16:01:47Z",
+      "side": 1,
+      "message": "I\u0027ve checked the existing openembedded/cyclictest.yaml. I\u0027ll remove this section.",
+      "parentUuid": "3aa0d159_65749c9c",
       "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
