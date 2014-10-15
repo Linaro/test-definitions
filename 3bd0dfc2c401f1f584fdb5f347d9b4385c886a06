@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_2509b42c",
+        "filename": "common/iks-smoke-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T12:47:12Z",
+      "side": 1,
+      "message": "should be vexpress-tc2",
+      "revId": "3bd0dfc2c401f1f584fdb5f347d9b4385c886a06",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_85044816",
+        "filename": "common/scripts/iks-smoke-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T12:47:12Z",
+      "side": 1,
+      "message": "if the test exits here, we\u0027ll have no results recorded in LAVA. That is not desirable. Please either add skip test output here, or make the other testing functions aware of the missing support and output \u0027skip\u0027 there.",
+      "revId": "3bd0dfc2c401f1f584fdb5f347d9b4385c886a06",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_65ffbc02",
+        "filename": "common/scripts/iks-smoke-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-15T12:47:12Z",
+      "side": 1,
+      "message": "I think these 2 tests should be merged into one. The kernel oops should be checked after each IKS on/off operation. Alternatively just check it once after all switches were done. Is there any condition when enable_and_disable_switcher_100_times fails?",
+      "revId": "3bd0dfc2c401f1f584fdb5f347d9b4385c886a06",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
