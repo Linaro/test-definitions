@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "3aa0d159_a58f0475",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2014-10-15T16:42:56Z",
+      "side": 1,
+      "message": "The load condition (numbers of thread) is different from each iteration. Is it a good idea to mix them up?\nGary also mentioned the result should be reported separately for each variation in load.",
+      "parentUuid": "3aa0d159_05acb8ec",
+      "revId": "d4d576d69ae81fe4f01bc437a4172721cef506cc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_65749c9c",
         "filename": "openembedded/cyclictest-basic.yaml",
         "patchSetId": 1
