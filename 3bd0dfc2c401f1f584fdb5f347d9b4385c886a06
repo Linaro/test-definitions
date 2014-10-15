@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3aa0d159_e512ec57",
+        "filename": "common/iks-smoke-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-15T13:29:57Z",
+      "side": 1,
+      "message": "vexpress-tc2",
+      "parentUuid": "3aa0d159_2509b42c",
+      "revId": "3bd0dfc2c401f1f584fdb5f347d9b4385c886a06",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_85044816",
         "filename": "common/scripts/iks-smoke-test.sh",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3aa0d159_0510384d",
+        "filename": "common/scripts/iks-smoke-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-15T13:29:57Z",
+      "side": 1,
+      "message": "This should solve the problem.\necho \"IKS-not-implemented-on-this-device: SKIP\"\necho \"skipping IKS tests\"\nexit 1",
+      "parentUuid": "3aa0d159_85044816",
+      "revId": "3bd0dfc2c401f1f584fdb5f347d9b4385c886a06",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_65ffbc02",
         "filename": "common/scripts/iks-smoke-test.sh",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2014-10-15T12:47:12Z",
       "side": 1,
       "message": "I think these 2 tests should be merged into one. The kernel oops should be checked after each IKS on/off operation. Alternatively just check it once after all switches were done. Is there any condition when enable_and_disable_switcher_100_times fails?",
+      "revId": "3bd0dfc2c401f1f584fdb5f347d9b4385c886a06",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_a51ce46b",
+        "filename": "common/scripts/iks-smoke-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-15T13:29:57Z",
+      "side": 1,
+      "message": "switcher_enable and switcher_disable are each individual functions. Error check at each function would be sane.\n\nenable_and_disable_switcher_100_times never fails.\nBut when function \"enable_and_disable_switcher_100_times\" returns successfully which means it got passed. if not it would not reach up to this line, which means got failed at any of these functions check_kernel_oops, switcher_enable and switcher_disable.\n\nOTOH, If it is a kernel oops / kernel panic this script exit from that point.",
+      "parentUuid": "3aa0d159_65ffbc02",
       "revId": "3bd0dfc2c401f1f584fdb5f347d9b4385c886a06",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
