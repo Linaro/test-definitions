@@ -2,7 +2,7 @@
 #
 # Device Tree test cases for Linaro Android
 #
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-function check_return_fail() {
+check_return_fail() {
     if [ $? -ne 0 ]; then
         fail_test "$1"
         return 0
@@ -29,17 +29,17 @@ function check_return_fail() {
     fi
 }
 
-function fail_test() {
+fail_test() {
     local reason=$1
     echo "${TEST}: FAIL - ${reason}"
 }
 
-function pass_test() {
+pass_test() {
     echo "${TEST}: PASS"
 }
 
-function check_root() {
-    if [ `whoami` == "root" ]; then
+check_root() {
+    if [ `whoami` = "root" ]; then
         return 0
     else
         return 1
