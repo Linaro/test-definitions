@@ -43,7 +43,7 @@ case ${ARCH} in
         ;;
     aarch64)
         hwpack=`uname -r|sed -e's,.*-,,'`
-        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=${hwpack},label=kernel_cloud/lastSuccessfulBuild/buildNumber`
+        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=${hwpack},label=docker/lastSuccessfulBuild/buildNumber`
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm64.qcow2.gz
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
@@ -125,7 +125,7 @@ qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
         ;;
     aarch64)
         qemu-system-aarch64 --version
-qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
+taskset -c 0,1,2,3 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
 	-kernel ./Image-${hwpack} \
 	-append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
 	-drive if=none,id=image,file=kvm.qcow2 \
