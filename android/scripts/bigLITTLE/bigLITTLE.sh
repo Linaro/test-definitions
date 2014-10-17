@@ -2,7 +2,7 @@
 #
 # big.LITTLE switcher test
 #
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,13 +15,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-# owner: harigopal.gollamudi@linaro.org
-#
+# Author: Harigopal Gollamudi <harigopal.gollamudi@linaro.org>
+# Maintainer: Botao Sun <botao.sun@linaro.org>
 
 echo "run_stress_switcher_tests"
-sh /system/bin/run_stress_switcher_tests.sh -a &> stdout.log
+sh /system/bin/run_stress_switcher_tests.sh -a > stdout.log 2>&1
 cat stdout.log | egrep -w "PASS|FAIL"
 rm -rf stdout.log
