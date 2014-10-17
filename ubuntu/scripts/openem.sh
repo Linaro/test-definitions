@@ -1,4 +1,24 @@
-#!/bin/bash -x
+#!/bin/sh
+#
+# Open Event Machine x86 Test
+#
+# Copyright (C) 2010 - 2014, Linaro Limited.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# Maintainer: Maxim Uvarov <maxim.uvarov@linaro.org>
 
 mount -t tmpfs none /dev/shm
 echo 400 > /proc/sys/vm/nr_hugepages
@@ -23,20 +43,22 @@ sed -i 's/CONFIG_RTE_MBUF_REFCNT_ATOMIC=y/CONFIG_RTE_MBUF_REFCNT_ATOMIC=n/' ./co
 sed -i 's/CONFIG_RTE_PKTMBUF_HEADROOM=128/CONFIG_RTE_PKTMBUF_HEADROOM=192/' ./config/defconfig_*
 make install T=generic_32-default-linuxapp-gcc
 
-export RTE_SDK=`pwd`
-export RTE_TARGET=generic_32-default-linuxapp-gcc
-#export RTE_TARGET=generic_64-default-linuxapp-gcc
+RTE_SDK=`pwd`
+export RTE_SDK
+RTE_TARGET=generic_32-default-linuxapp-gcc
+export RTE_TARGET
+# export RTE_TARGET=generic_64-default-linuxapp-gcc
 
 mkdir /mnt/huge
 umount /mnt/huge
 mount -t hugetlbfs nodev /mnt/huge
 
-#EM
+# EM
 cd ../eventmachine-code.git/event_test/example/linux-generic
 make real_clean && make em_clean
 make
 
-#run some tests:
+# run some tests:
 ./build/hello -c 0xfe -n 4 -- -p  | head -n 500    # (Run 'hello' on  7 cores using EM process-per-core mode(-p))
 ./build/hello -c 0xfcfc -n 4 -- -t | head -n 500       # (Run 'hello' on 12 cores using EM thread-per-core  mode(-t))
 ./build/perf -c 0xffff -n 4 -- -p  | head -n 500      # (Run 'perf' on 16 cores using EM process-per-core mode(-p))
@@ -47,4 +69,3 @@ make
 ./build/error -c 0x2 -n 4 -- -t |head -n 500         # (Run 'error' on 1 core  using EM thread-per-core  mode(-t))
 
 echo "OPENEM TEST END!!!"
-
