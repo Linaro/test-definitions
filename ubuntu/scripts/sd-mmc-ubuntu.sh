@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #
 # SD MMC test for ubuntu
 #
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-source include/sh-test-lib
+. include/sh-test-lib
 
 keyword="I/O error"
 
