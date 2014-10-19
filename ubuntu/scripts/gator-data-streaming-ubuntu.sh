@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Gator data streaming test for ubuntu
 #
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,14 +20,18 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-source include/sh-test-lib
+. include/sh-test-lib
 
 # Location of XML template and data streaming result folder
 xml_template="/root/session.xml"
 data_streaming_result="/root/linaro-ubuntu-gator-data-streaming.apc"
 
 # Create sample XML file as a template
-echo -ne "<?xml version="1.0" encoding="US-ASCII" ?> \n<session version="1" output_path="x" call_stack_unwinding="yes" parse_debug_info="yes" \nhigh_resolution="no" buffer_mode="streaming" sample_rate="normal" duration="10" \ntarget_host="linaro-ubuntu-boards" target_port="8080"> \n</session> \n" > $xml_template
+echo "<?xml version=\"1.0\" encoding=\"US-ASCII\" ?> " > $xml_template
+echo "<session version=\"1\" output_path=\"x\" call_stack_unwinding=\"yes\" parse_debug_info=\"yes\" " >> $xml_template
+echo "high_resolution=\"no\" buffer_mode=\"streaming\" sample_rate=\"normal\" duration=\"10\" " >> $xml_template
+echo "target_host=\"linaro-ubuntu-boards\" target_port=\"8080\"> " >> $xml_template
+echo "</session>" >> $xml_template
 
 ## Test case definitions
 # Check whether session.xml is available
