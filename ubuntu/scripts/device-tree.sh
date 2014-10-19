@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Device Tree test cases for Linux Linaro ubuntu
 #
-# Copyright (C) 2012 - 2014, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,9 +20,8 @@
 #
 # Author: Ricardo Salveti <rsalveti@linaro.org>
 # Maintainer Botao Sun <botao.sun@linaro.org>
-#
 
-source include/sh-test-lib
+. include/sh-test-lib
 
 ## Test case definitions
 

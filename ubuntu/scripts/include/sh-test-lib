@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Shared shell library for test management
 #
-# Copyright (C) 2012, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,22 +19,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # Author: Ricardo Salveti <rsalveti@linaro.org>
-#
+# Maintainer Botao Sun <botao.sun@linaro.org>
 
-function error_msg() {
-    local msg=$1
+error_msg() {
+    local msg="$1"
     test -z "$msg" && msg="Unknown error"
     echo "ERROR: $msg" >&2
     exit 1
 }
 
-function warn_msg() {
-    local msg=$1
+warn_msg() {
+    local msg="$1"
     test -z "$msg" && msg="Unknown error"
-    echo "WARNING: $msg\n" >&2
+    printf "WARNING: %s\n\n" "$msg" >&2
 }
 
-function check_return_fail() {
+check_return_fail() {
     if [ $? -ne 0 ]; then
         fail_test "$1"
         return 0
@@ -43,20 +43,19 @@ function check_return_fail() {
     fi
 }
 
-function fail_test() {
-    local reason=$1
+fail_test() {
+    local reason="$1"
     echo "${TEST}: FAIL - ${reason}"
 }
 
-function pass_test() {
+pass_test() {
     echo "${TEST}: PASS"
 }
 
-function check_root() {
-    if [ $UID -eq 0 ]; then
+check_root() {
+    if [ $(id -ru) -eq 0 ]; then
         return 0
     else
         return 1
     fi
 }
-
