@@ -2,17 +2,16 @@ metadata:
     name: perf
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run performance tests (perf)"
+    maintainer:
+        - botao.sun@linaro.org
     os:
         - ubuntu
     scope:
         - performance
     devices:
-        - origen
-        - snowball
         - panda
         - panda-es
         - vexpress
-        - highbank
 
 install:
     deps:
@@ -22,7 +21,7 @@ install:
 run:
     steps:
         - cd ubuntu/scripts
-        - sudo bash -x ./run-perf-test.sh
+        - sudo sh -x ./run-perf-test.sh
 
 parse:
     pattern: "^(?P<test_case_id>perf[\\w\\W]+)\\s+:\\s+(?P<result>\\w+)"
