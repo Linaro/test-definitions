@@ -1,4 +1,27 @@
-#!/bin/bash
+#!/bin/sh
+#
+# Run LTP network tests on Linux Linaro ubuntu
+#
+# Copyright (C) 2010 - 2014, Linaro Limited.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# Maintainer:
+#   vincent.hsu@linaro.org
+#   milosz.wasilewski@linaro.org
+#   fathi.boudra@linaro.org
 
 DIS="ubuntu"
 START_DIR=$(pwd)
@@ -84,8 +107,10 @@ echo "===== ltp network test start ====="
 cd $LTP_DIR
 
 # form networktests.sh
-export RHOST=$SERVER_NAME
-export PASSWD=$SERVER_PASSWD
+RHOST=$SERVER_NAME
+export RHOST
+PASSWD=$SERVER_PASSWD
+export PASSWD
 
 # for nfs test
 echo "/ *(rw,sync,no_root_squash,no_subtree_check)" > /etc/exports
@@ -109,4 +134,3 @@ find ./results -name "LTP_RUN_ON*" -print0 |xargs -0 cat
 # recover server hostname
 rsh -n -l root $SERVER_IP hostname $SERVER_ORI_NAME
 echo "===== ltp network test end ====="
-
