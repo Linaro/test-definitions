@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_d051acd9",
+        "filename": "common/scripts/cyclictest-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-20T16:06:20Z",
+      "side": 1,
+      "message": "With this check we can go to unified definition for OE and Ubuntu. The only difference is deps section in Ubuntu. LAVA is smart enough not to run deps on OE images. Please create one YAML file in common dir and symlinks in OE/Ubuntu (for post-build-lava compatibility).",
+      "revId": "a5b173ac847fe7c1d6004f928ed78f36a2f92dc3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
