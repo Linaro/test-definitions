@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #
 # SDK hello.c static test.
 #
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,11 +16,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-# Author: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-# Author: Milosz Wasilewski <milosz.wasilewski@linaro.org>
-#
+# Author:
+#    Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+#    Milosz Wasilewski <milosz.wasilewski@linaro.org>
 
 cd
 gcc -static hello.c -o hello > sdkhelloc.log
