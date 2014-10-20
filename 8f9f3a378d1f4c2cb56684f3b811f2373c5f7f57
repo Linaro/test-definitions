@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_50811c49",
+        "filename": "openembedded/scripts/sdkhellocxx.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-20T13:37:30Z",
+      "side": 0,
+      "message": "do we need this line? It\u0027s not used anywhere. Similarly in the other scripts.",
+      "revId": "8f9f3a378d1f4c2cb56684f3b811f2373c5f7f57",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
