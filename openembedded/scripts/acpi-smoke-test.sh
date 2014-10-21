@@ -1,8 +1,8 @@
-#! /bin/bash
+#!/bin/sh
 #
 # Test ACPI Support in UEFI on v7 and v8
 #
-# Copyright (C) 2012, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,16 +16,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-#
+# Maintainer: timothy.anzaku@linaro.org
+
 DSDTPASS=
+
 echo -n "Testing presence of /sys/firmware/acpi: "
 if [ -d /sys/firmware/acpi ]; then
     lava-test-case sys-firmware-acpi-present --result pass
 else
     lava-test-case sys-firmware-acpi-present --result fail
 fi
+
 echo -n "Testing presence of /sys/firmware/acpi/tables/DSDT: "
 if [ -f /sys/firmware/acpi/tables/DSDT ]; then
     lava-test-case sys-firmware-acpi-tables-DSDT --result pass
@@ -33,6 +36,7 @@ if [ -f /sys/firmware/acpi/tables/DSDT ]; then
 else
     lava-test-case sys-firmware-acpi-tables-DSDT --result fail
 fi
+
 echo -n "Can decompile DSDT: "
 if [ -x /usr/bin/iasl -a -n "$DSDTPASS" ]; then
     cp /sys/firmware/acpi/tables/DSDT /tmp/
