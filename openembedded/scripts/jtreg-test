@@ -1,8 +1,9 @@
-#!/bin/bash
-
-# LAVA wrapper for invoking jtreg(1) and accumulating the results.
+#!/bin/sh
 #
-# Copyright (C) 2013, Linaro Limited.
+# LAVA wrapper for invoking jtreg(1) and accumulating the results.
+# All options before the '--' are for this script. The remaining are for jtreg(1).
+#
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,13 +17,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # Author: Andrew McDermott <andrew.mcdermott@linaro.org>
-#
-
-# All options before the '--' are for this script. The remaining are
-# for jtreg(1).
 
 test_case=unknown
 java_vm=-client
@@ -30,26 +27,26 @@ product_home=/usr/lib/jvm/java-8-openjdk
 
 while getopts ":j:o:p:t:" opt; do
     case $opt in
-	j)
-	    java_vm=$OPTARG
-	    ;;
-	o)
-	    output_dir=$OPTARG
-	    ;;
-	p)
-	    product_home=$OPTARG
-	    ;;
-	t)
-	    test_case=$OPTARG
-	    ;;
-	\?)
-	    echo "Invalid option: -$OPTARG" >&2
-	    exit 1
-	    ;;
-	:)
-	    echo "Option -$OPTARG requires an argument." >&2
-	    exit 1
-	    ;;
+    j)
+        java_vm=$OPTARG
+        ;;
+    o)
+        output_dir=$OPTARG
+        ;;
+    p)
+        product_home=$OPTARG
+        ;;
+    t)
+        test_case=$OPTARG
+        ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        exit 1
+        ;;
+    :)
+        echo "Option -$OPTARG requires an argument." >&2
+        exit 1
+        ;;
     esac
 done
 
@@ -58,37 +55,34 @@ shift $((OPTIND-1))
 output_dir=/tmp/jtreg/$test_case.$$
 rm -rf $output_dir
 
-jtreg						\
-    -J${java_vm}				\
-    -vmoption:${java_vm}			\
-    -jdk:"${product_home}"			\
-    -w:$output_dir/JTwork			\
-    -r:$output_dir/JTreport			\
+jtreg                       \
+    -J${java_vm}            \
+    -vmoption:${java_vm}    \
+    -jdk:"${product_home}"  \
+    -w:$output_dir/JTwork   \
+    -r:$output_dir/JTreport \
     "$@"
 
 exit_code=$?
 
-shopt -s globstar
-shopt -s nullglob
-
-# By pushd'ing we make the attached filenames in the LAVA dashboard
-# much smaller.
+# By changing the current directory we make the attached filenames in the LAVA dashboard much smaller.
 
 process_file() {
     local filename=$1
     local result=$2
     local ofile=/tmp/jtreg-test-process-file.$$
-    echo "#!/bin/bash" > $ofile
+    echo "#!/bin/sh" > $ofile
     while IFS=' ' read -r tc rem; do
-	y=$(dirname $tc)
-	z=$(basename $tc .java)
-	test_result=$output_dir/JTwork/$y/${z}.jtr
-	echo "lava-test-case $z --result $result" >> $ofile
-	if [ -e $test_result ]; then
-	    echo "pushd $output_dir/JTwork >/dev/null" >> $ofile
-	    echo "lava-test-case-attach $z $y/${z}.jtr text/plain" >> $ofile
-	    echo "popd > /dev/null" >> $ofile
-	fi
+        y=$(dirname $tc)
+        z=$(basename $tc .java)
+        test_result=$output_dir/JTwork/$y/${z}.jtr
+        echo "lava-test-case $z --result $result" >> $ofile
+        if [ -e $test_result ]; then
+            echo "previous_dir=\$(pwd)" >> $ofile
+            echo "cd $output_dir/JTwork" >> $ofile
+            echo "lava-test-case-attach $z $y/${z}.jtr text/plain" >> $ofile
+            echo "cd \$previous_dir" >> $ofile
+        fi
     done < $filename
     [ -e $ofile ] && chmod 755 $ofile
     [ -e $ofile ] && $ofile
@@ -96,30 +90,32 @@ process_file() {
 }
 
 if [ -d $output_dir/JTreport/text ]; then
-    pushd $output_dir/JTreport/text
+    previous_dir=$(pwd)
+    cd $output_dir/JTreport/text
     for i in *.txt; do
-	lava-test-run-attach $i
-	if [ $i = "summary.txt" ]; then
-	    egrep '[^ ]+[ ]+Not run\.' $i > notrun.txt
-	    egrep '[^ ]+[ ]+(Failed|Error)\.' $i > failed.txt
-	    egrep '[^ ]+[ ]+Passed\.' $i > pass.txt
-	    lava-test-run-attach notrun.txt
-	    lava-test-run-attach failed.txt
-	    lava-test-run-attach pass.txt
-	    process_file pass.txt pass
-	    process_file failed.txt fail
-	fi
+        lava-test-run-attach $i
+        if [ $i = "summary.txt" ]; then
+            egrep '[^ ]+[ ]+Not run\.' $i > notrun.txt
+            egrep '[^ ]+[ ]+(Failed|Error)\.' $i > failed.txt
+            egrep '[^ ]+[ ]+Passed\.' $i > pass.txt
+            lava-test-run-attach notrun.txt
+            lava-test-run-attach failed.txt
+            lava-test-run-attach pass.txt
+            process_file pass.txt pass
+            process_file failed.txt fail
+        fi
     done
-    popd
+    cd $previous_dir
 fi
 
 if [ -d $output_dir ]; then
-    pushd $output_dir
+    previous_dir=$(pwd)
+    cd $output_dir
     # Remove .class files as they are quite large.
     find . -name \*.class -print | xargs rm
     zip --quiet -r RESULTS-BUNDLE.zip *
     lava-test-run-attach RESULTS-BUNDLE.zip
-    popd
+    cd $previous_dir
 fi
 
 rm -rf $output_dir
