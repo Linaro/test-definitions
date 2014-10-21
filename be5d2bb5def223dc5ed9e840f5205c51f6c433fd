@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_90e244d4",
+        "filename": "openembedded/scripts/jtreg-test",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2014-10-21T11:37:02Z",
+      "side": 1,
+      "message": "Is indentation a POSIX thing?",
+      "revId": "be5d2bb5def223dc5ed9e840f5205c51f6c433fd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_70dd3814",
+        "filename": "openembedded/scripts/jtreg-test",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2014-10-21T11:37:02Z",
+      "side": 1,
+      "message": "Are tabs forbidden by POSIX?",
+      "revId": "be5d2bb5def223dc5ed9e840f5205c51f6c433fd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_d0c0cc2c",
+        "filename": "openembedded/scripts/jtreg-test",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2014-10-21T11:37:02Z",
+      "side": 1,
+      "message": "By removing these options the \u0027for i in *.txt\u0027 further down may fail - which will then fail the complete script.",
+      "revId": "be5d2bb5def223dc5ed9e840f5205c51f6c433fd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
