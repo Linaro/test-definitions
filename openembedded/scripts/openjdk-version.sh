@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #
 # OpenJDK execution and version test.
 #
-# Copyright (C) 2013, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,10 +16,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # Author: Andrew McDermott <andrew.mcdermott@linaro.org>
-#
+# Maintainer: Botao Sun <botao.sun@linaro.org>
 
 if [ $# -eq 0 ]; then
     echo "usage: $0 <version>"
@@ -32,16 +32,16 @@ rm -f JavaVersion.java JavaVersion.class
 
 echo '
 class JavaVersion {
-	public static void main(String[] args) {
-		System.out.println(System.getProperty("java.version"));
-	}
+    public static void main(String[] args) {
+        System.out.println(System.getProperty("java.version"));
+    }
 }' > JavaVersion.java
 
 javac JavaVersion.java
 
 if [ $? -ne 0 ]; then
-	echo "openjdk-version: fail"
-	exit 1
+    echo "openjdk-version: fail"
+    exit 1
 fi
 
 actual_version=`java JavaVersion`
@@ -50,12 +50,12 @@ echo "actual   version: $actual_version"
 echo "expected version: $version"
 
 if [ $? -eq 0 ]; then
-    if [[ "$actual_version" =~ "$version" ]]; then
-	echo "openjdk-version: pass"
-	exit 0
+    if [ "$actual_version" = "$version" ]; then
+        echo "openjdk-version: pass"
+        exit 0
     else
-	echo "openjdk-version: fail"
-	exit 1
+        echo "openjdk-version: fail"
+        exit 1
     fi
 else
     echo "openjdk-version: fail"
