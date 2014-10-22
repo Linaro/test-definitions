@@ -16,6 +16,24 @@
       "revId": "8f9f3a378d1f4c2cb56684f3b811f2373c5f7f57",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_3099f06e",
+        "filename": "openembedded/scripts/sdkhellocxx.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-22T11:46:33Z",
+      "side": 0,
+      "message": "Yes, we need it as at the end of the script it has:\n\nexit $EXIT\n\nGerrit doesn\u0027t show it though, it\u0027s hidden in \"skipped 11 common lines\" at the bottom of the page.",
+      "parentUuid": "3aa0d159_50811c49",
+      "revId": "8f9f3a378d1f4c2cb56684f3b811f2373c5f7f57",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
