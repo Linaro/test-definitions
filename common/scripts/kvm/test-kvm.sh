@@ -1,4 +1,20 @@
 #!/bin/sh
+#
+# Copyright (C) 2010 - 2014, Linaro Limited.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 KVM_HOST_NET="kvm-host-net-1:"
 KVM_GUEST_NET="kvm-guest-net-1:"
@@ -22,7 +38,8 @@ dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || 
     exit 0
 }
 
-if hash curl 2>/dev/null; then
+curl 2>/dev/null
+if [ $? = 2 ]; then
     EXTRACT_BUILD_NUMBER="curl -sk"
     DOWNLOAD_FILE="curl -SOk"
 else
@@ -30,7 +47,8 @@ else
     DOWNLOAD_FILE="wget --progress=dot -e dotbytes=2M --no-check-certificate"
 fi
 
-BUILD_NUMBER_GUEST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/kvm-guest-image/lastSuccessfulBuild/buildNumber`
+BUILD_NUMBER_GUEST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/jenkins/job/kvm-guest-image/lastSuccessfulBuild/buildNumber`
+BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/jenkins/job/linux-kvm/lastSuccessfulBuild/buildNumber`
 
 case ${ARCH} in
     armv7l)
@@ -42,14 +60,12 @@ case ${ARCH} in
         modprobe nbd max_part=16
         ;;
     aarch64)
-        hwpack=`uname -r|sed -e's,.*-,,'`
-        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=${hwpack},label=docker/lastSuccessfulBuild/buildNumber`
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm64.qcow2.gz
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
+        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-mustang
+        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd.ko.gz
         gunzip kvm-arm64.qcow2.gz
+        gunzip nbd.ko.gz
         mv kvm-arm64.qcow2 kvm.qcow2
-        zcat nbd-${hwpack}.ko.gz > nbd.ko
         insmod nbd.ko max_part=16
         ;;
     *)
@@ -81,8 +97,6 @@ else
     TEST_SCRIPT='/root/test-rt-tests.sh guest'
 fi
 
-echo 0 2000000 > /proc/sys/net/ipv4/ping_group_range
-
 cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
     exec > /root/guest.log 2>&1
@@ -96,43 +110,41 @@ umount /mnt
 sync
 qemu-nbd -d /dev/nbd0
 
+if [ -e /dev/net/tun ]; then
+    echo "setting up and testing networking bridge for guest"
+    brctl addbr br0
+    tunctl -u root
+    ifconfig eth0 0.0.0.0 up
+    ifconfig tap0 0.0.0.0 up
+    brctl addif br0 eth0
+    brctl addif br0 tap0
+    udhcpc -t 10 -i br0
+    ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
+else
+    echo "$KVM_HOST_NET 0 pc skip"
+fi
+
 case ${ARCH} in
     armv7l)
-echo setting up and testing networking bridge for guest
-brctl addbr br0
-tunctl -u root
-ifconfig eth0 0.0.0.0 up
-ifconfig tap0 0.0.0.0 up
-brctl addif br0 eth0
-brctl addif br0 tap0
-udhcpc -t 10 -i br0
-esac
-
-ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
-
-case ${ARCH} in
-    armv7l)
-        qemu-system-arm --version
-qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
-	-kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
-	-append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
-	-drive if=none,id=image,file=kvm.qcow2 \
-	-netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
-	-device virtio-net-device,netdev=tap0 \
-	-device virtio-blk-device,drive=image \
-	-nographic -enable-kvm \
-	 2>&1|tee kvm-log.txt
+        qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
+        -kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
+        -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        -drive if=none,id=image,file=kvm.qcow2 \
+        -netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
+        -device virtio-net-device,netdev=tap0 \
+        -device virtio-blk-device,drive=image \
+        -nographic -enable-kvm \
+        2>&1|tee kvm-log.txt
         ;;
     aarch64)
-        qemu-system-aarch64 --version
-taskset -c 0,1,2,3 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
-	-kernel ./Image-${hwpack} \
-	-append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
-	-drive if=none,id=image,file=kvm.qcow2 \
-	-netdev user,id=user0 -device virtio-net-device,netdev=user0 \
-	-device virtio-blk-device,drive=image \
-	-nographic -enable-kvm \
-	 2>&1|tee kvm-log.txt
+        qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
+        -kernel ./Image-mustang \
+        -append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
+        -drive if=none,id=image,file=kvm.qcow2 \
+        -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
+        -device virtio-blk-device,drive=image \
+        -nographic -enable-kvm \
+        2>&1|tee kvm-log.txt
         ;;
     *)
         echo unknown arch ${ARCH}
