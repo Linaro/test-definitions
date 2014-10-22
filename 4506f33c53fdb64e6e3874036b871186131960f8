@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_906804f7",
+        "filename": "common/scripts/kvm/test-kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-10-22T11:14:58Z",
+      "side": 0,
+      "message": "Botao, checkout the latest version of the script. It looks like you have an outdated one.",
+      "revId": "4506f33c53fdb64e6e3874036b871186131960f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
