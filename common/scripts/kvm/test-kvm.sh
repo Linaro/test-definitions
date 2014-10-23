@@ -1,4 +1,22 @@
 #!/bin/sh
+#
+# Copyright (C) 2010 - 2014, Linaro Limited.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# Maintainer: Riku Voipio <riku.voipio@linaro.org>
 
 KVM_HOST_NET="kvm-host-net-1:"
 KVM_GUEST_NET="kvm-guest-net-1:"
@@ -22,7 +40,8 @@ dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || 
     exit 0
 }
 
-if hash curl 2>/dev/null; then
+curl 2>/dev/null
+if [ $? = 2 ]; then
     EXTRACT_BUILD_NUMBER="curl -sk"
     DOWNLOAD_FILE="curl -SOk"
 else
@@ -98,14 +117,14 @@ qemu-nbd -d /dev/nbd0
 
 case ${ARCH} in
     armv7l)
-echo setting up and testing networking bridge for guest
-brctl addbr br0
-tunctl -u root
-ifconfig eth0 0.0.0.0 up
-ifconfig tap0 0.0.0.0 up
-brctl addif br0 eth0
-brctl addif br0 tap0
-udhcpc -t 10 -i br0
+        echo "setting up and testing networking bridge for guest"
+        brctl addbr br0
+        tunctl -u root
+        ifconfig eth0 0.0.0.0 up
+        ifconfig tap0 0.0.0.0 up
+        brctl addif br0 eth0
+        brctl addif br0 tap0
+        udhcpc -t 10 -i br0
 esac
 
 ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
@@ -113,26 +132,24 @@ ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOS
 case ${ARCH} in
     armv7l)
         qemu-system-arm --version
-qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
-	-kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
-	-append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
-	-drive if=none,id=image,file=kvm.qcow2 \
-	-netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
-	-device virtio-net-device,netdev=tap0 \
-	-device virtio-blk-device,drive=image \
-	-nographic -enable-kvm \
-	 2>&1|tee kvm-log.txt
+        qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
+        -kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
+        -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        -drive if=none,id=image,file=kvm.qcow2 \
+        -netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
+        -device virtio-net-device,netdev=tap0 \
+        -device virtio-blk-device,drive=image \
+        -nographic -enable-kvm 2>&1|tee kvm-log.txt
         ;;
     aarch64)
         qemu-system-aarch64 --version
-taskset -c 0,1,2,3 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
-	-kernel ./Image-${hwpack} \
-	-append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
-	-drive if=none,id=image,file=kvm.qcow2 \
-	-netdev user,id=user0 -device virtio-net-device,netdev=user0 \
-	-device virtio-blk-device,drive=image \
-	-nographic -enable-kvm \
-	 2>&1|tee kvm-log.txt
+        taskset -c 0,1,2,3 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
+        -kernel ./Image-${hwpack} \
+        -append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
+        -drive if=none,id=image,file=kvm.qcow2 \
+        -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
+        -device virtio-blk-device,drive=image \
+        -nographic -enable-kvm 2>&1|tee kvm-log.txt
         ;;
     *)
         echo unknown arch ${ARCH}
