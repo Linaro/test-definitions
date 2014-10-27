@@ -1,0 +1,31 @@
+metadata:
+    name: sysbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "Run sysbench test in loop and increase the number of thread after each iteration"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - performance
+        - preempt-rt
+
+install:
+    deps:
+        - sysbench
+
+params:
+    TIMES: 8                # The number of times 'sysbench' will be run
+    TEST: cpu               # Could be cpu, threads, fileio, memory or mutex
+    MAX_REQUESTS: 50000     # Limit for total number of requests
+    DURATION: 20            # Limit for total execution time in seconds
+    FILE_TEST_MODE: seqrewr # Possible values: seqwr, seqrewr, seqrd, rndrd, rndwr, rndwr
+
+run:
+    steps:
+        - './common/scripts/sysbench.sh ${TIMES} ${TEST} ${MAX_REQUESTS} ${DURATION} ${FILE_TEST_MODE}'
