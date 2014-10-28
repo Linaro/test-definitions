@@ -2,30 +2,31 @@ metadata:
     name: perf
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run performance tests (perf)"
+    maintainer:
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
     scope:
         - performance
     devices:
-        - origen
-        - snowball
         - panda
         - panda-es
-        - vexpress
-        - highbank
+        - vexpress-tc2
+        - vexpress-a9
+        - beaglebone-black
+        - ifc6410
 
 install:
     deps:
-        - linux-tools
-        - stress-dbgsym
+        - linux-tools-3.16
+        # perf complains for missing stress symbols but there is no package available
+        - stress
+    steps:
+        - ln -s /usr/bin/perf_3.16 /usr/bin/perf
 
 run:
     steps:
-        - cd ubuntu/scripts
-        - sudo bash -x ./run-perf-test.sh
+        - ./common/scripts/run-perf-test.sh
 
 parse:
-    pattern: "^(?P<test_case_id>perf[\\w\\W]+)\\s+:\\s+(?P<result>\\w+)"
-    fixupdict:
-        PASS: pass
-        FAIL: fail
+    pattern: "^(?P<test_case_id>[\\w\\s\\'\\,\\:\\*\\&\\>\\-]+)\\s:\\s(?P<result>pass|fail|skip)$"
