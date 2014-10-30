@@ -16,6 +16,24 @@
       "revId": "8f7110a4d93b3e2f2236fe0eae517ed731e05f09",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_b6e65843",
+        "filename": "android/scripts/bigLITTLE/bigLITTLE.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-10-30T21:55:50Z",
+      "side": 1,
+      "message": "So you mean that run_stress_switcher_tests.sh always comes from the system image itself instead of test definition? That\u0027s confused because I found it in test definition repository, and in order to keep the version same we\u0027d better to maintain it in one place, otherwise if it got updated in the image then we have to manually update it again in test definition repository. Is there a specific reason we have to release it along with the image? Is that the test has to be run under the /system/bin path due to the permission issue? I know that path is read-only by default which means we can\u0027t transfer file to it once system booted up.",
+      "parentUuid": "3aa0d159_36f3280c",
+      "revId": "8f7110a4d93b3e2f2236fe0eae517ed731e05f09",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
