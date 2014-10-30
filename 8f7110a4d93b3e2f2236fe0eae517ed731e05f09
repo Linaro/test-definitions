@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_36f3280c",
+        "filename": "android/scripts/bigLITTLE/bigLITTLE.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-10-30T20:02:33Z",
+      "side": 1,
+      "message": "sh /system/bin/run_stress_switcher_tests.sh\nWhich runs the latest script from the file system.\nMaintaining run_stress_switcher_tests.sh in test-definition would not be a good idea. Please delete \"./android/scripts/bigLITTLE/run_stress_switcher_tests.sh\".",
+      "revId": "8f7110a4d93b3e2f2236fe0eae517ed731e05f09",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
