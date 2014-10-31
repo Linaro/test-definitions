@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_f64aa026",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2014-10-31T16:10:38Z",
+      "side": 1,
+      "message": "Should it be till Boot animation or \"Displayed Homescreen\" log. The latter makes more sense as LAVA itself is waiting for that command to mark boot test. If the duration between the 2 is minimal then we can stay with the former log.",
+      "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
