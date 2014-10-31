@@ -1,0 +1,24 @@
+metadata:
+    name: android-boottime
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Checks android boot time to UI
+        It relies on the dmesg and logcat information"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+
+run:
+    steps:
+        - "./android/scripts/boot_time.sh"
+        - "dmesg > dmesg.log"
+        - lava-test-run-attach dmesg.log text/plain
+        - "logcat -d > logcat.log"
+        - lava-test-run-attach logcat.log text/plain
+
+parse:
+    pattern: "^TEST\\s(?P<test_case_id>\\w+):\\s(?P<measurement>\\d+\\.\\d+)\\s(?P<result>\\w+)"
