@@ -1,0 +1,20 @@
+metadata:
+    name: Android-Boot-Time
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test the Boot Time on Linaro Android."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - juno
+
+run:
+    steps:
+        - "./android/scripts/boot-time-android.sh"
