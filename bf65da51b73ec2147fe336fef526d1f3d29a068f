@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_b1e66243",
+        "filename": "common/scripts/is-cpu-isolated.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2014-11-10T07:26:06Z",
+      "side": 1,
+      "message": "It doesn\u0027t always run \u0027stress\u0027 test...",
+      "revId": "bf65da51b73ec2147fe336fef526d1f3d29a068f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
