@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_a3a059f5",
+        "filename": "android/scripts/piglit-gles-3.0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-11-11T08:36:26Z",
+      "side": 1,
+      "message": "Here is a white space at the end of this line.",
+      "revId": "9faeadf9704b3b22bda5195c7a94d4c8059b9b11",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_43a5d502",
+        "filename": "android/scripts/piglit-gles-3.0.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-11-11T08:36:26Z",
+      "side": 1,
+      "message": "Here are some white spaces at the beginning of this line.",
+      "revId": "9faeadf9704b3b22bda5195c7a94d4c8059b9b11",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
