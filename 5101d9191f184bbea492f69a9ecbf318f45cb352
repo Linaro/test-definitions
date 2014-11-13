@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_e3a66153",
+        "filename": "android/piglit_gles2.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-13T11:02:50Z",
+      "side": 1,
+      "message": "skip isn\u0027t allowed here and it appears in the script.",
+      "revId": "5101d9191f184bbea492f69a9ecbf318f45cb352",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_8363dd19",
+        "filename": "android/piglit_gles3.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-13T11:02:50Z",
+      "side": 1,
+      "message": "skip isn\u0027t allowed here and it appears in the script",
+      "revId": "5101d9191f184bbea492f69a9ecbf318f45cb352",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_a36859f6",
+        "filename": "android/piglit_glslparser.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-13T11:02:50Z",
+      "side": 1,
+      "message": "skip isn\u0027t allowed here and it appears in the script",
+      "revId": "5101d9191f184bbea492f69a9ecbf318f45cb352",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_436dd503",
+        "filename": "android/piglit_shader_runner.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-13T11:02:50Z",
+      "side": 1,
+      "message": "skip isn\u0027t allowed here and it appears in the script",
+      "revId": "5101d9191f184bbea492f69a9ecbf318f45cb352",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_c3a9e525",
+        "filename": "android/scripts/piglit-gles-2.0.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-13T11:02:50Z",
+      "side": 1,
+      "message": "Where do PSTRING SSTRING and FSTRING come from? It seems to work in some magical way though.",
+      "revId": "5101d9191f184bbea492f69a9ecbf318f45cb352",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
