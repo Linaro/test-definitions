@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # Author: Senthil Kumaran <senthil.kumaran@linaro.org>
-# Maintainer: Botao Sun <botao.sun@linaro.org>
+# Maintainer: Milosz Wasilewski <milosz.wasilewski@linaro.org>, Koen Kooi <koen.kooi@linaro.org>
 
 mysql -u root -e 'show databases' > mysql.log
 
