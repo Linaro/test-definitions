@@ -4,6 +4,7 @@ metadata:
     description: "Test busybox in android."
     maintainer:
         - senthil.kumaran@linaro.org
+        - amit.pundir@linaro.org
     os:
         - android
     scope:

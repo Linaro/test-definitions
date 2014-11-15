@@ -4,6 +4,7 @@ metadata:
     description: "v8 shell test. In latest builds we test for d8 shell."
     maintainer:
         - senthil.kumaran@linaro.org
+        - amit.pundir@linaro.org
     os:
         - android
     scope:

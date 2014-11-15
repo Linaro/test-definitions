@@ -2,7 +2,7 @@
 #
 # v8 shell test.
 #
-# Copyright (C) 2012, Linaro Limited.
+# Copyright (C) 2010 - 2014, Linaro Limited.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # Author: Senthil Kumaran <senthil.kumaran@linaro.org>
-#
+# Maintainer: Amit Pundir <amit.pundir@linaro.org>
 
 cd /data/benchmark/v8
 if which v8shell 2>/dev/null 1>/dev/null
