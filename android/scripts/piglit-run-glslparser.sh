@@ -25,10 +25,11 @@
 
 # find and loop over the vert and frag tests found
 # looks recursively down the directory tree
-export PIGLIT_PLATFORM=android
+PIGLIT_PLATFORM=android
+export PIGLIT_PLATFORM
 bin_path="/system/xbin/piglit/glslparsertest/glslparsertest"
 data_dir="/data/piglit/glslparser/"
-/system/bin/busybox find ${data_dir} -name "*.frag" -or -name "*.vert" -print0 | while read -d $'\0' file
+/system/bin/busybox find ${data_dir} -name "*.frag" -or -name "*.vert" | while read file
 do
    RESULTFOUND=$(grep expect_result ${file} )
    case $RESULTFOUND in

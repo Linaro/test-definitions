@@ -23,7 +23,8 @@
 #
 ###############################################################################
 
-export PIGLIT_PLATFORM=android
+PIGLIT_PLATFORM=android
+export PIGLIT_PLATFORM
 
 PSTRING='PIGLIT: {"result": "pass"'
 SSTRING='PIGLIT: {"result": "skip"'
@@ -31,7 +32,7 @@ FSTRING='PIGLIT: {"result": "fail"'
 
 gles3_bin_dir=/system/xbin/piglit/piglit-spec-gles3
 
-function normal_test(){
+normal_test(){
     cmd="${gles3_bin_dir}/$1"
     test_name="${1}"
     RESULT=$(${cmd} -auto)
@@ -43,12 +44,13 @@ function normal_test(){
     esac
 }
 
-function test_oes_compressed_etc2_texture_miptree_gles3(){
+test_oes_compressed_etc2_texture_miptree_gles3(){
+    PIGLIT_SOURCE_DIR="/data/piglit"
+    export PIGLIT_SOURCE_DIR
     cmd="${gles3_bin_dir}/oes_compressed_etc2_texture-miptree_gles3"
     test_base_name="oes_compressed_etc2_texture-miptree_gles3"
     formats="rgb8 srgb8 rgba8 srgb8-alpha8 r11 rg11 rgb8-punchthrough-alpha1 srgb8-punchthrough-alpha1"
     for format in ${formats}; do
-        export PIGLIT_SOURCE_DIR="/data/piglit"
         RESULT=$(${cmd} ${format} -auto)
 
         test_name="${test_base_name}_${format}"
