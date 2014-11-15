@@ -4,6 +4,8 @@ metadata:
     description: "Test if we have toolchain installed in OpenEmbedded."
     maintainer:
         - senthil.kumaran@linaro.org
+        - milosz.wasilewski@linaro.org
+        - koen.kooi@linaro.org
     os:
         - openembedded
     scope:

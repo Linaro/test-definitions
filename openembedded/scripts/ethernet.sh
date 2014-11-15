@@ -19,6 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # Author: Senthil Kumaran <senthil.kumaran@linaro.org>
+# Maintainer: Milosz Wasilewski <milosz.wasilewski@linaro.org>, Koen Kooi <koen.kooi@linaro.org>
 
 ifconfig eth0 > ethernet.log
 ifconfig eth0 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}'
