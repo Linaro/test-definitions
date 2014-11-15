@@ -23,7 +23,8 @@
 #
 ###############################################################################
 
-export PIGLIT_PLATFORM=android
+PIGLIT_PLATFORM=android
+export PIGLIT_PLATFORM
 
 PSTRING='PIGLIT: {"result": "pass"'
 SSTRING='PIGLIT: {"result": "skip"'
@@ -31,7 +32,7 @@ FSTRING='PIGLIT: {"result": "fail"'
 
 gles2_bin_dir="/system/xbin/piglit/piglit-spec-gles2"
 
-function normal_test(){
+normal_test(){
     cmd="${gles2_bin_dir}/$1"
     test_name="${1}"
     RESULT=$(${cmd} -auto)
