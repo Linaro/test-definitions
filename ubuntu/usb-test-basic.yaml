@@ -1,0 +1,28 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: usb-test-basic
+    description: "Basic USB test for Linaro Ubuntu images"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - beaglebone-black
+        - d01
+    environment:
+        - lava-test-shell
+
+install:
+    deps:
+        - usbutils
+
+run:
+    steps:
+        - ./ubuntu/scripts/usb-test-basic.sh
