@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_66725fe7",
+        "filename": "ubuntu/scripts/usb-test-basic.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-18T08:56:22Z",
+      "side": 1,
+      "message": "this won\u0027t work properly. When all but last device fail, you will still get a passed test.",
+      "revId": "59a24a3f3f27258cfd3e490a8e700aef8ec59404",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
