@@ -1,0 +1,22 @@
+metadata:
+    name: android_boottime
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Collect android boot time from logcat, should be run after boot completed"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+
+params:
+    BLACK_LIST: "/data/juno_monkey_blacklist"
+    EVENT_COUNT: "30000"
+
+run:
+    steps:
+        - ./android/scripts/boottime.sh
+parse:
+    pattern: "(?P<test_case_id>boot_time):\\s(?P<result>(pass|fail)\\s(?P<measurement>\\d+)\\s(?P<units>ms)"
