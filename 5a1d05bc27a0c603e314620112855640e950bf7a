@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3aa0d159_592b8430",
+        "filename": "android/boottime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-19T15:41:10Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "3aa0d159_b95408cb",
+      "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_d951d4d9",
         "filename": "android/boottime.yaml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-19T14:35:26Z",
       "side": 1,
       "message": "also could we add the log of \"logcat -d -b events\", there is more information  to debug/check the boot time of android.",
+      "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_f91ff007",
+        "filename": "android/boottime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-19T15:41:10Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "3aa0d159_d951d4d9",
       "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2014-11-19T14:35:26Z",
       "side": 1,
       "message": "The time you calculated here is from the first \"debuggerd\" line to the line \"Boot animation finished\", it\u0027s very close to  the time out putted by this line: \"SurfaceFlinger: Boot is finished (18716 ms)\". This boot time is from line of \"SurfaceFlinger: SurfaceFlinger is starting\". I think we can use the time by android in \"\"SurfaceFlinger: Boot is finished (18716 ms)\". and that would be simple.",
+      "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_3926b869",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-19T15:41:10Z",
+      "side": 1,
+      "message": "Just checked that and the SurfaceFlinger gives the same value as my method. It is much easier so I will switch to it.",
+      "parentUuid": "3aa0d159_19489c2c",
       "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
