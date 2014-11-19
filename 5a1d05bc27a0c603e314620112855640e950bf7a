@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "3aa0d159_b95408cb",
+        "filename": "android/boottime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2014-11-19T14:35:26Z",
+      "side": 1,
+      "message": "I think it\u0027s better to run \"logcat -d *:V\" here to log all the  information.",
+      "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_d951d4d9",
+        "filename": "android/boottime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2014-11-19T14:35:26Z",
+      "side": 1,
+      "message": "also could we add the log of \"logcat -d -b events\", there is more information  to debug/check the boot time of android.",
+      "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_f64aa026",
         "filename": "android/scripts/boot_time.sh",
         "patchSetId": 1
@@ -13,6 +47,23 @@
       "writtenOn": "2014-10-31T16:10:38Z",
       "side": 1,
       "message": "Should it be till Boot animation or \"Displayed Homescreen\" log. The latter makes more sense as LAVA itself is waiting for that command to mark boot test. If the duration between the 2 is minimal then we can stay with the former log.",
+      "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_19489c2c",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2014-11-19T14:35:26Z",
+      "side": 1,
+      "message": "The time you calculated here is from the first \"debuggerd\" line to the line \"Boot animation finished\", it\u0027s very close to  the time out putted by this line: \"SurfaceFlinger: Boot is finished (18716 ms)\". This boot time is from line of \"SurfaceFlinger: SurfaceFlinger is starting\". I think we can use the time by android in \"\"SurfaceFlinger: Boot is finished (18716 ms)\". and that would be simple.",
       "revId": "5a1d05bc27a0c603e314620112855640e950bf7a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
