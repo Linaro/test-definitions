@@ -38,7 +38,7 @@ TIME_INFO=$(logcat -d -s SurfaceFlinger:I|grep "Boot is finished")
 if [ -z "${TIME_INFO}" ]; then
     echo "TEST ANDROID_BOOT_TIME: fail -1 ms"
 fi
-TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\( -f2)
+TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\( -f3)
 TIME_VALUE=$(echo ${TIME_VALUE}|awk '{print $1}')
 echo "TEST ANDROID_BOOT_TIME: pass ${TIME_VALUE} ms"
 
