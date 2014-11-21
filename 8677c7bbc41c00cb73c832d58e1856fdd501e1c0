@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_9ceeda21",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2014-11-21T17:24:08Z",
+      "side": 1,
+      "message": "ya, the format of the log seems not stable, maybe you can use the L43~L46 here: https://git.linaro.org/people/yongqin.liu/public/test-definitions.git/blob/HEAD:/android/scripts/boottime.sh#l43",
+      "revId": "8677c7bbc41c00cb73c832d58e1856fdd501e1c0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
