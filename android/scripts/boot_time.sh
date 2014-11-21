@@ -37,10 +37,13 @@ echo "TEST KERNEL_BOOT_TIME: pass $CONSOLE_SECONDS s"
 TIME_INFO=$(logcat -d -s SurfaceFlinger:I|grep "Boot is finished")
 if [ -z "${TIME_INFO}" ]; then
     echo "TEST ANDROID_BOOT_TIME: fail -1 ms"
+else
+    while echo "${TIME_INFO}"|grep -q "("; do
+        TIME_INFO=$(echo "${TIME_INFO}"|cut -d\( -f2-)
+    done
+    TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\  -f1)
+    echo "TEST ANDROID_BOOT_TIME: pass ${TIME_VALUE} ms"
 fi
-TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\( -f2)
-TIME_VALUE=$(echo ${TIME_VALUE}|awk '{print $1}')
-echo "TEST ANDROID_BOOT_TIME: pass ${TIME_VALUE} ms"
 
 SERVICE_START_TIME_INFO=$(dmesg |grep "healthd:"|head -n1)
 SERVICE_START_TIME_END=$(echo "$SERVICE_START_TIME_INFO"|cut -d] -f 1|cut -d[ -f2| tr -d " ")
