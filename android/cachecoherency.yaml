@@ -1,7 +1,8 @@
 metadata:
     format: "Lava-Test Test Definition 1.0"
     name: cachecoherency.
-    description: "cachecoherency test for android."
+    description: "Cachecoherency test for android tries to maximize randomized traffic to memory from processor and I/O using
+                  stressapptest."
     maintainer:
         - harigopal.gollamudi@linaro.org
     os:
