@@ -1,7 +1,8 @@
 metadata:
     name: 0xbench
     format: "Lava-Test Test Definition 1.0"
-    description: "0xbench test for android."
+    description: "0xbench integrates a series of benchmarks for Android system into the comprehensive benchmark suite.
+                  The test suite constitutes of OpenGL|ES, 2D Canvas, 3D graphics, C library and System call."
     maintainer:
         - harigopal.gollamudi@linaro.org
     os:
