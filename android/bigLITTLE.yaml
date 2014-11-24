@@ -1,7 +1,7 @@
 metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     name: bigLITTLE
-    description: "bigLITTLE"
+    description: "big.LITTLE test suite covers CPU Hotplug Scheduling policies for short and long-lived tasks, Power management features 			  related to big.LITTLE and Workload automation to determine the performance and power numbers."
     os:
         - android
     scope:
