@@ -1,7 +1,8 @@
 metadata:
     name: busybox
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test busybox in android."
+    description: "BusyBox combines tiny versions of many common UNIX utilities into a single small executable Test. Busybox for android
+                  covers test's like mkdir, touch, ls, ps, whoami, which, basename, cp, rm, dmesg and grep."
     maintainer:
         - senthil.kumaran@linaro.org
         - amit.pundir@linaro.org
