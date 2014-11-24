@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_1c488a2c",
+        "filename": "android/ping_dns.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-11-24T06:58:49Z",
+      "side": 1,
+      "message": "I remember there should be a space between -c and 10, but anyway it\u0027s fine if it works on Android.\n\nIt works on my PC.",
+      "revId": "e2bb3559bde325acfedb2ae8555dd202268ac827",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
