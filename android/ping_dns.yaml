@@ -1,0 +1,16 @@
+metadata:
+    name: ping_dns
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Ping www.google.com to check the dns for command line"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+
+run:
+    steps:
+        - lava-test-case ping-dns --shell ping -c10 www.google.com
