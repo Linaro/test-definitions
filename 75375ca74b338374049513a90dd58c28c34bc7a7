@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_9c8d7a34",
+        "filename": "ubuntu/scripts/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-24T14:24:52Z",
+      "side": 1,
+      "message": "please add license",
+      "revId": "75375ca74b338374049513a90dd58c28c34bc7a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_7c88ae22",
+        "filename": "ubuntu/scripts/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-24T14:24:52Z",
+      "side": 1,
+      "message": "please fix indentation",
+      "revId": "75375ca74b338374049513a90dd58c28c34bc7a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
