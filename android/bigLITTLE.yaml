@@ -1,7 +1,8 @@
 metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     name: bigLITTLE
-    description: "bigLITTLE"
+    description: "This test suite covers big.LITTLE switching functionality and stress tests. The main focus is to test
+                  big.LITTLE switching while system switches its cores from A15 to A7 and vice versa."
     os:
         - android
     scope:
