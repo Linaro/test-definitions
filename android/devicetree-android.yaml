@@ -1,7 +1,7 @@
 metadata:
     name: device-tree
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test Device Tree on Linaro Android"
+    description: "This test checks for Flattened Device Tree blob for Android builds."
     os:
         - android
     devices:
