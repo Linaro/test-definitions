@@ -1,7 +1,10 @@
 metadata:
     name: binder
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Binder test for android."
+    description: "Binder test's uses binderAddInts to measures the rate at which a short
+                  binder IPC operation can be performed. The test consist of a client sending
+                  a parcel containing two integers to server which in turn adds the two integers
+                  and sends the sum back to client."
     os:
         - android
     scope:
@@ -11,6 +14,7 @@ metadata:
         - panda
         - vexpress-a9
         - vexpress-tc2
+        - juno
     maintainer:
         - amit.pundir@linaro.org
 
