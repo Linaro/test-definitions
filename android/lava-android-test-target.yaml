@@ -15,7 +15,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
-        - wg
+        - juno
 
 params:
     TEST_NAME: "busybox"
@@ -24,9 +24,11 @@ params:
 run:
     steps:
         - lava-test-case step1-cat-build-info --shell cat /system/build.prop
+        - IPADDR=$(getprop dhcp.eth0.ipaddress)
+        - if [ -z $IPADDR ]; then netcfg eth0 up; netcfg eth0 dhcp; IPADDR=$(getprop dhcp.eth0.ipaddress); fi
         - lava-test-case step2-get-adb --shell getprop service.adb.tcp.port
         - lava-test-case step3-set-adb --shell setprop service.adb.tcp.port 5555
         - lava-test-case step4-stop-adbd --shell stop adbd
         - lava-test-case step5-start-adbd --shell start adbd
-        - lava-test-case step6-send-ip --shell lava-send $TEST_NAME-${TEST_PARAMS// /_}-send-ip ipaddr=$(getprop dhcp.eth0.ipaddress)
+        - lava-test-case step6-send-ip --shell lava-send $TEST_NAME-${TEST_PARAMS// /_}-send-ip ipaddr=$IPADDR
         - lava-test-case step7-multinode-sync --shell lava-sync $TEST_NAME-${TEST_PARAMS// /_}-finished
