@@ -1,7 +1,7 @@
 metadata:
     name: binder
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Binder test for android."
+    description: "Binder test's android's inter process communication mechanism."
     os:
         - android
     scope:
