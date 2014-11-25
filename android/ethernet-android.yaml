@@ -1,7 +1,8 @@
 metadata:
     name: ethernet-android
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test Ethernet on Linaro Android"
+    description: "Checks Ethernet on Linaro Android builds. The test verify's if Ethernet is enabled and checks ping
+                  and packet loss"
     maintainer:
         -  botao.sun@linaro.org
     os:
