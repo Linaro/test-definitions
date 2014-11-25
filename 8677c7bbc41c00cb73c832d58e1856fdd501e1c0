@@ -16,6 +16,24 @@
       "revId": "8677c7bbc41c00cb73c832d58e1856fdd501e1c0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_5c5ff272",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-25T08:29:27Z",
+      "side": 1,
+      "message": "That does the job. I will post the new patch.",
+      "parentUuid": "3aa0d159_9ceeda21",
+      "revId": "8677c7bbc41c00cb73c832d58e1856fdd501e1c0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
