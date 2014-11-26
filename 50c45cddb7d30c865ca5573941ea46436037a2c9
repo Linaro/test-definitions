@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_17206348",
+        "filename": "android/devicetree-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-26T21:25:18Z",
+      "side": 0,
+      "message": "please remove highbank (it should never be there) and add juno",
+      "revId": "50c45cddb7d30c865ca5573941ea46436037a2c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
