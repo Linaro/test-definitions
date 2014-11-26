@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_f7fff7a8",
+        "filename": "android/ethernet-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-26T21:23:34Z",
+      "side": 1,
+      "message": "should be \u0027verifies\u0027",
+      "revId": "f33a43e347683a4875b1b0e2973f6801cdac6f0e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_b7316fa4",
+        "filename": "android/ethernet-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-26T21:23:34Z",
+      "side": 1,
+      "message": "please roll back to original version. Extra white space at the end is not needed.",
+      "revId": "f33a43e347683a4875b1b0e2973f6801cdac6f0e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}

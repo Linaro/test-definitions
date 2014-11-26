@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_972c734c",
+        "filename": "android/ethernet-android.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-11-26T21:23:34Z",
+      "side": 0,
+      "message": "please add juno",
+      "revId": "634449805276ced12b27eb7024bdab3221b34b4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
