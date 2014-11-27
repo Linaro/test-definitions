@@ -1,7 +1,7 @@
 metadata:
     format: "Lava-Test Test Definition 1.0"
     name: gatortest
-    description: "Gator test for android checks for availibility of gator daemon and module which
+    description: "Gator test for android checks for availibility of gator daemon and module on target, which
                   is required to enable profiling."
     maintainer: 
         -  harigopal.gollamudi@linaro.org
