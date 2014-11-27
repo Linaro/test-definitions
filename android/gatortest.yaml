@@ -1,7 +1,8 @@
 metadata:
     format: "Lava-Test Test Definition 1.0"
     name: gatortest
-    description: "gatortest for android."
+    description: "Gatortest for android checks availability of gator daemon and module on target which
+                  is required to enable profiling between host and target machines."
     maintainer: 
         -  harigopal.gollamudi@linaro.org
     os:
@@ -14,6 +15,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 run:
     steps:
