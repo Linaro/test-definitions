@@ -43,7 +43,7 @@ test_func(){
         # Perform timings of cache reads
         hdparm -T /dev/$test_cmd
         # Perform timings of device reads in MB/sec
-        c_read=(`hdparm -t /dev/$test_cmd | grep 'reads' | awk -v col1=11 '{print $col1}'`)
+        c_read=`hdparm -t /dev/$test_cmd | grep 'reads' | awk -v col1=11 '{print $col1}'`
         if [ $c_read ]
         then
             echo "Device read timings: $c_read MB/sec"
@@ -51,16 +51,16 @@ test_func(){
             echo "test_case_id:device_read_perf-$test_cmd units:none measurement:0 result:fail"
             exit 0
         fi
-        t_read=(`echo $t_read $c_read | awk '{print $1+$2}'`)
+        t_read=`echo $t_read $c_read | awk '{print $1+$2}'`
     done
         # Get average of device reads in MB/sec
-        t_read=(`echo $t_read | awk '{print $1/3}'`)
+        t_read=`echo $t_read | awk '{print $1/3}'`
         echo "Average device read timings: $t_read MB/sec"
         echo "test_case_id:device_read_perf-$test_cmd units:MBperSecond measurement:$t_read result:pass"
 }
 
 # Get total block devices
-disk_count=(`lsblk | grep disk -c`)
+disk_count=`lsblk | grep disk -c`
 
 if [ $disk_count -ge 1 ]
 then
