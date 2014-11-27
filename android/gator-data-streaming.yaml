@@ -1,7 +1,10 @@
 metadata:
     name: gator-data-streaming
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Gator Data Streaming Test for Android."
+    description: "Gator Data Streaming Test checks DS5 profiling feature for Android builds. The
+                  test creates a sample session XML file called 'session.xml', this file is passed
+                  as a parameter to the gatord command to do a local capture and then depending upon
+                  the output of this command, test results are generated."
     maintainer:
         - botao.sun@linaro.org
     os:
@@ -14,6 +17,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 run:
     steps:
