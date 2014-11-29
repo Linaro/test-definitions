@@ -1,0 +1,33 @@
+metadata:
+    name: pmqtest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "Start pairs of threads and measure the latency of interprocess
+         communication with POSIX messages queues"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - performance
+        - preempt-rt
+
+install:
+    deps:
+        - rt-tests
+
+params:
+    LOOPS: 1000
+
+run:
+    steps:
+        - 'pmqtest -l ${LOOPS} -S | tee result.log'
+        - './ubuntu/scripts/rt-tests-parser.sh result.log'
+        - 'lava-test-run-attach result.log'
+
+parse:
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>pass)'
