@@ -1,7 +1,8 @@
 metadata:
     format: "Lava-Test Test Definition 1.0"
     name: memtester
-    description: "memtester for android."
+    description: "Memtester for android is userspace utility to test for faulty memory subsystem
+                  or faulty memory modules. The test checks 1MB of memory and runs all tests once."
     maintainer:
         - harigopal.gollamudi@linaro.org
     os:
@@ -14,6 +15,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 run:
     steps:
