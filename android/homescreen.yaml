@@ -1,7 +1,7 @@
 metadata:
     name: homescreen
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test if the homescreen is up in android."
+    description: "Test to check if the homescreen is up for Linaro android builds."
     maintainer:
         - vishal.bhoj@linaro.org
     os:
@@ -14,6 +14,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 run:
     steps:
