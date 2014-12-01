@@ -1,7 +1,7 @@
 metadata:
     format: "Lava-Test Test Definition 1.0"
     name: ime
-    description: "ime test for android."
+    description: "IME test for linaro android builds checks for all available input method editors."
     maintainer:
         - harigopal.gollamudi@linaro.org
     os:
@@ -14,6 +14,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 run:
     steps:
