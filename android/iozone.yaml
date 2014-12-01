@@ -1,7 +1,9 @@
 metadata:
     format: "Lava-Test Test Definition 1.0"
     name: iozone
-    description: "iozone test for android."
+    description: "Iozone test for linaro android is a filesystem benchmark tool. The benchmark
+                  tests file I/O performance for Read, write, re-read, re-write, read backwards,
+                  read strided, fread, fwrite, random read, pread ,mmap, aio_read and aio_write."
     maintainer:
         - harigopal.gollamudi@linaro.org
     os:
@@ -14,6 +16,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 run:
     steps:
