@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_32cecd5b",
+        "filename": "android/ethernet-android.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-02T08:51:54Z",
+      "side": 1,
+      "message": "There is still extra white space at the end of the line :(",
+      "revId": "61d788e2c5cd8e387ec4cbcd00cc4d82f36042a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
