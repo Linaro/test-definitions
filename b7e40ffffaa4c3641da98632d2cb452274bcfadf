@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_52359944",
+        "filename": "android/linaro_android_kernel_test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-02T09:03:49Z",
+      "side": 1,
+      "message": "http://en.wikipedia.org/wiki/Genitive_case ...",
+      "revId": "b7e40ffffaa4c3641da98632d2cb452274bcfadf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
