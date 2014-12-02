@@ -1,7 +1,10 @@
 metadata:
     name: monkey_long_run
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run monkey test long time with blacklist"
+    description: "Monkey long run performs stress testing for stability using monkey command which
+                  generates pesudo-random streams of user events such as clicks, touches, or gestures
+                  as well as some system level events. Currently, monkey long run test runs with a set
+                  blacklist packages which are known to fail."
     maintainer:
         - yongqin.liu@linaro.org
     os:
@@ -9,7 +12,7 @@ metadata:
     scope:
         - functional
     devices:
-        - wg
+        - juno
 
 params:
     BLACK_LIST: "/data/juno_monkey_blacklist"
@@ -21,4 +24,4 @@ run:
 parse:
     pattern: "## Network (?P<test_case_id>stats):\\s(?P<result>elapsed)\\stime=(?P<measurement>\\d+)(?P<units>ms)"
     fixupdict:
-        elapsed: pass
+        elapsed: pas
