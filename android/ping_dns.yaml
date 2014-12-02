@@ -1,7 +1,8 @@
 metadata:
     name: ping_dns
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Ping www.google.com to check the dns for command line"
+    description: "Ping test to check dns. The test runs ping command on www.google.com to
+                  test dns with count set to 10."
     maintainer:
         - yongqin.liu@linaro.org
     os:
