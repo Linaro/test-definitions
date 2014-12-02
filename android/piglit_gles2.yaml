@@ -2,7 +2,8 @@ metadata:
     name: piglit_gles2.0
     version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "piglit test for android on gles-2.0"
+    description: "Piglit is a collection of automated tests for OpenGL implementations. piglit_gles2.0
+                  runs OpenGL ES 2.0 tests."
     maintainer:
         - yongqin.liu@linaro.org
     os:
