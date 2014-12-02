@@ -1,7 +1,10 @@
 metadata:
     name: v8
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "v8 shell test. In latest builds we test for d8 shell."
+    description: "V8 benchmark suite contains a number of pure JavaScript benchmarks that test
+                  JavaScript engine performance. The test suite runs following benchmarks: Richards,
+                  DeltaBlue, Crypto, RayTrace, EarleyBoyer, RegExp, Splay and NavierStokesv8. D8 shell
+                  test has also been included recently."
     maintainer:
         - senthil.kumaran@linaro.org
         - amit.pundir@linaro.org
@@ -15,6 +18,7 @@ metadata:
         - panda-es
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 run:
     steps:
