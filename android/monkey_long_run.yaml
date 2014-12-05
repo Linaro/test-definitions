@@ -24,4 +24,4 @@ run:
 parse:
     pattern: "## Network (?P<test_case_id>stats):\\s(?P<result>elapsed)\\stime=(?P<measurement>\\d+)(?P<units>ms)"
     fixupdict:
-        elapsed: pas
+        elapsed: pass
