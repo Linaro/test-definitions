@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_a817d0a2",
+        "filename": "ubuntu/scripts/signaltest-parser.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-05T15:09:00Z",
+      "side": 1,
+      "message": "trailing white space",
+      "revId": "b9cb8216bf7c49e864e4be834bdf491b78831a37",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_881214b3",
+        "filename": "ubuntu/scripts/signaltest-parser.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-05T15:09:00Z",
+      "side": 1,
+      "message": "please prefix the results with signaltest name so there is no confusion",
+      "revId": "b9cb8216bf7c49e864e4be834bdf491b78831a37",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
