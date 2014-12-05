@@ -1,0 +1,32 @@
+metadata:
+    name: signaltest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "RT signal roundtrip test software"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - performance
+        - preempt-rt
+
+install:
+    deps:
+        - rt-tests
+
+params:
+    LOOPS: 1000
+
+run:
+    steps:
+        - 'signaltest -l ${LOOPS} | tee result.log'
+        - './ubuntu/scripts/signaltest-parser.sh result.log'
+        - 'lava-test-run-attach result.log'
+
+parse:
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<result>pass)'
