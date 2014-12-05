@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_e8ee38b4",
+        "filename": "openembedded/ebizzy.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-05T12:39:48Z",
+      "side": 1,
+      "message": "Can we make it a bit more clear. Sth. like\nCURRENT_PWD\u003d$(pwd)\ngo to LTP...\ncp ebizzy.log $PWD/ebizzy-real.log\n...\ncd $CURRENT_PWD\n./common/scripts/min_max_avg_parse.py ebizzy-real.log \"real\" \"Second\"",
+      "revId": "b5c897334f09da2e4866a68d42e03859f4860a91",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
