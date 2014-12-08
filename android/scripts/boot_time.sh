@@ -27,7 +27,7 @@
 # to the moment rootfs is mounted.
 # The test requires dc to be available in rootfs
 
-CONSOLE_SECONDS_START=`dmesg | awk '{print $2}' | awk '{FS="]"; print $1}' | grep -v "^0.0" | head -1`
+CONSOLE_SECONDS_START=`dmesg | awk '{print $2}' | awk '{FS="]"; print $1}' | grep -v "^0.0" | head -n 1`
 CONSOLE_SECONDS_END=`dmesg | grep "Freeing unused kernel memory" | tail -n 1 | tr -s " " | cut -d [ -f 2 | cut -d ] -f 1`
 echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p"
 CONSOLE_SECONDS=`echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p" | dc`
@@ -45,7 +45,7 @@ else
     echo "TEST ANDROID_BOOT_TIME: pass ${TIME_VALUE} ms"
 fi
 
-SERVICE_START_TIME_INFO=$(dmesg |grep "healthd:"|head -n1)
+SERVICE_START_TIME_INFO=$(dmesg |grep "healthd:"|head -n 1)
 SERVICE_START_TIME_END=$(echo "$SERVICE_START_TIME_INFO"|cut -d] -f 1|cut -d[ -f2| tr -d " ")
 if [ -z "${SERVICE_START_TIME_END}" ]; then
     echo "TEST ANDROID_SERVICE_START_TIME: fail -1 s"
