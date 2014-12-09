@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_0e5fed0f",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2014-12-09T01:40:13Z",
+      "side": 1,
+      "message": "+1 for this change. BTW I tried \u0027head -1\u0027 on local side, seems it works. what\u0027s the problem here?",
+      "revId": "85bcc839299b4fcd850594a1298f3d9d7da40135",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
