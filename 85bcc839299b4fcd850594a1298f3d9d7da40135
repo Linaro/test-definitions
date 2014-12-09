@@ -16,6 +16,24 @@
       "revId": "85bcc839299b4fcd850594a1298f3d9d7da40135",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_2eaf49e5",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-09T09:08:02Z",
+      "side": 1,
+      "message": "head -1 doesn\u0027t work on Juno with AOSP master build for some reason: https://validation.linaro.org/dashboard/attachment/1228147/view - this job https://validation.linaro.org/scheduler/job/207158",
+      "parentUuid": "3aa0d159_0e5fed0f",
+      "revId": "85bcc839299b4fcd850594a1298f3d9d7da40135",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
