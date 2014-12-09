@@ -1,0 +1,32 @@
+metadata:
+    name: rt-migrate-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "Test to verify the RT threads scheduler balancing"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - performance
+        - preempt-rt
+
+install:
+    deps:
+        - rt-tests
+
+params:
+    LOOPS: 1000
+
+run:
+    steps:
+        - 'rt-migrate-test -l ${LOOPS} | tee result.log'
+        - 'lava-test-run-attach result.log'
+        - './ubuntu/scripts/rt-migrate-test-parser.sh result.log'
+
+parse:
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>pass)'
