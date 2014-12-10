@@ -1,0 +1,29 @@
+metadata:
+    name: rcutorture
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run RCU Torture test on Linux-Linaro Kernel based images."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    devices:
+        - d01
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - ifc6410
+        - rtsm_fvp_base-aemv8a
+        - juno
+        - beaglebone-black
+    environment:
+        - lava-test-shell
+
+params:
+    TortureTime: 600
+
+run:
+    steps:
+        - "cd ubuntu/scripts; ./rcutorture.py $TortureTime"
