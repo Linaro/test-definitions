@@ -1,0 +1,30 @@
+metadata:
+    name: rcutorture
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run RCU Torture test on Linux Linaro ubuntu."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - d01
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - ifc6410
+        - rtsm_fvp_base-aemv8a
+    environment:
+        - lava-test-shell
+
+install:
+    deps:
+        - python
+
+params:
+    TortureTime: 600
+
+run:
+    steps:
+        - "cd ubuntu/scripts; ./rcutorture.py $TortureTime"
