@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_91aa3cd3",
+        "filename": "openembedded/ebizzy.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:42:17Z",
+      "side": 1,
+      "message": "LPT is included in OE LAMP image. I propose not to build it again.",
+      "revId": "dbcd63da641256c49e4039659c7a58b6818ab4d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_31afa8e5",
+        "filename": "openembedded/ebizzy.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:42:17Z",
+      "side": 1,
+      "message": "the pattern is faulty :(",
+      "revId": "dbcd63da641256c49e4039659c7a58b6818ab4d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_71a53003",
+        "filename": "ubuntu/ebizzy.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:42:17Z",
+      "side": 1,
+      "message": "are we using tip of the tree always? For benchmarks it\u0027s pretty important to have a stable version.",
+      "revId": "dbcd63da641256c49e4039659c7a58b6818ab4d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_d1a0c4f6",
+        "filename": "ubuntu/ebizzy.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:42:17Z",
+      "side": 1,
+      "message": "that pattern doesn\u0027t work. I\u0027m trying to fix it now. You\u0027re missing at least double backslashes.",
+      "revId": "dbcd63da641256c49e4039659c7a58b6818ab4d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
