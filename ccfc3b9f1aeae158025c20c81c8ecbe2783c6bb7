@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_b14df874",
+        "filename": "ubuntu/scripts/rcutorture.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:10:45Z",
+      "side": 1,
+      "message": "I still think it\u0027s not \u0027pythonic\u0027. Other option\n\ntorture_list \u003d filter(lambda x:\u0027torture\u0027 in x, lsmod_list)\nif torture_list:\n    collect_result(\u0027rcutorture-module-check\u0027, \u0027pass\u0027)\n    rcutorture_end \u003d \u0027rmmod %s\u0027 % torture_list[0] # there should be only one item\nelse:\n    ...\n\nyou can even get away without lsmod_list by putting lsmod_output.split() into the filter call. Less code is better :)",
+      "revId": "ccfc3b9f1aeae158025c20c81c8ecbe2783c6bb7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_d1520413",
+        "filename": "ubuntu/scripts/rcutorture.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:10:45Z",
+      "side": 1,
+      "message": "same trick with filter will work here. keyword_counter will be the output list length.",
+      "revId": "ccfc3b9f1aeae158025c20c81c8ecbe2783c6bb7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_71577003",
+        "filename": "ubuntu/scripts/rcutorture.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:10:45Z",
+      "side": 1,
+      "message": "not needed. Please remove.",
+      "revId": "ccfc3b9f1aeae158025c20c81c8ecbe2783c6bb7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
