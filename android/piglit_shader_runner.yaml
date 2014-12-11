@@ -2,7 +2,8 @@ metadata:
     name: shader_runner
     version: 1.0
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "piglit shader_runner test for android"
+    description: "Piglit shader_runner test suite for android. The test suite runs
+                  shader tests using OpenGL shaders."
     maintainer:
         - yongqin.liu@linaro.org
     os:
