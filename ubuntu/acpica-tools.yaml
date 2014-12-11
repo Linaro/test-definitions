@@ -1,7 +1,9 @@
 metadata:
     name: acpica
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "ACPI ASL on ARMv8 - https://wiki.linaro.org/LEG/Engineering/test-acpi#ASLTS_-_ASL_Test_Suite"
+    description: "ACPI ASL test suite on ARMv8. ASLTS verifies, in "hardware-independent" mode, conformity of
+                  ACPICA ASL compiler and interpreter to the ACPI ASL grammar specification.
+                  More Details - https://wiki.linaro.org/LEG/Engineering/test-acpi#ASLTS_-_ASL_Test_Suite"
     maintainer:
         - naresh.bhat@linaro.org
     os:
