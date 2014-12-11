@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3aa0d159_f1b8602c",
+        "filename": "ubuntu/scripts/rcutorture.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-12-11T10:46:00Z",
+      "side": 1,
+      "message": "Well, yes, sometimes less code is better but for this case, there are only 2 options, do you really think we should involve lambda stuff, and string format?\nI have to say, sometimes I don\u0027t like that \u0027pythonic\u0027 thing. I read many materials related to it, but in my opinion the code is written to be read by people, who may have variety programming backgrounds, \u0027read-and-understand\u0027 probably is a better way to go with, though I certainly agree on some certain problems, \u0027pythonic\u0027 is beautiful.\nIn this particular case, I do have some ideas before I wrote the code, go through a list was the first one popped up in my mind. But considering the simplicity, I decided to go with the direct way.",
+      "parentUuid": "3aa0d159_b14df874",
+      "revId": "ccfc3b9f1aeae158025c20c81c8ecbe2783c6bb7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa0d159_d1520413",
         "filename": "ubuntu/scripts/rcutorture.py",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-11T10:10:45Z",
       "side": 1,
       "message": "same trick with filter will work here. keyword_counter will be the output list length.",
+      "revId": "ccfc3b9f1aeae158025c20c81c8ecbe2783c6bb7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_11b62c3e",
+        "filename": "ubuntu/scripts/rcutorture.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2014-12-11T10:46:00Z",
+      "side": 1,
+      "message": "same comment as above.",
+      "parentUuid": "3aa0d159_d1520413",
       "revId": "ccfc3b9f1aeae158025c20c81c8ecbe2783c6bb7",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
