@@ -1,7 +1,9 @@
 metadata:
     name: aapits
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "ACPI API test - https://wiki.linaro.org/LEG/Engineering/test-acpi#AAPITS_-_ACPICA_API_Test_Suite"
+    description: "ACPI API test suite. AAPITS verifies, in emulating mode, conformity of the ACPICA API
+                  implementation to the definitions in ACPI Component Architecture Programmer Reference.
+                  More details - https://wiki.linaro.org/LEG/Engineering/test-acpi#AAPITS_-_ACPICA_API_Test_Suite"
     maintainer:
         - tomasz.nowicki@linaro.org
     os:
