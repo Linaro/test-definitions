@@ -1,7 +1,9 @@
 metadata:
     name: aapits
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "ACPI API test - https://wiki.linaro.org/LEG/Engineering/test-acpi#AAPITS_-_ACPICA_API_Test_Suite"
+    description: "ACPI API test suite. ASLTS verifies, in "hardware-independent" mode, conformity
+                  of ACPICA ASL compiler and interpreter to the ACPI ASL grammar specification
+                  More details - https://wiki.linaro.org/LEG/Engineering/test-acpi#AAPITS_-_ACPICA_API_Test_Suite"
     maintainer:
         - tomasz.nowicki@linaro.org
     os:
