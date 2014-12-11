@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_716e90cb",
+        "filename": "common/scripts/dt-selftests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:30:47Z",
+      "side": 1,
+      "message": "I\u0027m not sure we can rely on gawk. This script should work with minimal awk in ramdisk.",
+      "revId": "3264aa6905a2aecbe5383d57349c6191ff76f9d2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_316808ba",
+        "filename": "common/scripts/dt-selftests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T10:30:47Z",
+      "side": 1,
+      "message": "I was rather expecting something like\n\ndt-selftest-passed XX pass\ndt-selftest-failed 0 pass (if # \u003e 0 the result should be fail)",
+      "revId": "3264aa6905a2aecbe5383d57349c6191ff76f9d2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
