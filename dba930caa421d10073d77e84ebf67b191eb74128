@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_d12be480",
+        "filename": "ubuntu/rcutorture.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T09:31:04Z",
+      "side": 1,
+      "message": "Please make it uppercase for consistency with other tests",
+      "revId": "dba930caa421d10073d77e84ebf67b191eb74128",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_91255cad",
+        "filename": "ubuntu/scripts/rcutorture.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-11T09:31:04Z",
+      "side": 1,
+      "message": "if \u0027torture\u0027 in lsmod_list or \u0027rcutorture\u0027 in lsmod_list:\n\nthis will do the job easier",
+      "revId": "dba930caa421d10073d77e84ebf67b191eb74128",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
