@@ -1,11 +1,8 @@
 metadata:
     name: acpi-smoke-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "ACPI smoke test,
-         1) Check presence of /sys/firmware/acpi
-         2) Check presence of /sys/firmware/acpi/tables/DSDT
-         3) If iasl is installed test decompile of /sys/firmware/acpi/tables/DSDT"
+    description: "ACPI smoke test verifies presence of acpi and DSDT under /sys/firmware. It also checks
+                  for decompilation of DSDT under /sys/firmware/acpi/tables/DSDT if iasl is installed."
     maintainer:
         - arthur.she@linaro.org
     os:
