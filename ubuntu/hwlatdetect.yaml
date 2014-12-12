@@ -1,0 +1,43 @@
+metadata:
+    name: hwlatdetect
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description:
+        "Program to control the kernel hardware latency detection module"
+
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - performance
+        - preempt-rt
+
+install:
+    deps:
+        - rt-tests
+    git-repos:
+        - http://git.linaro.org/kernel/linux-linaro-stable.git
+    steps:
+        - cd linux-linaro-stable/drivers/misc
+        - git checkout linux-linaro-lsk-rt
+        - cp ../../../ubuntu/scripts/Makefile-hwlatdetect ./Makefile
+        - KINCDIR="/lib/modules/`uname -r`/build/include"
+        - if [ -z "`grep -r 'strict_strtoul' ${KINCDIR}/*`" ]; then sed -i -e "s/strict_strtoul/kstrtoul/" -e "s/strict_strtoull/kstrtoull/" hwlat_detector.c; fi
+        - INSTALL_MOD_DIR=kernel/drivers/misc make modules modules_install
+        - depmod -a
+        - cd ../../../; rm -rf linux-linaro-stable
+
+params:
+    DURATION: 5m    # total time to test for hardware latency (<n>{smdw})
+    THRESHOLD: 1    # value above which is considered an hardware latency
+
+run:
+    steps:
+        - 'lava-test-case "modprobe hwlat_detector" --shell modprobe hwlat_detector'
+        - 'hwlatdetect --duration ${DURATION} --threshold=${THRESHOLD} | tee result.log'
+        - 'lava-test-run-attach result.log'
+        - './ubuntu/scripts/hwlatdetect-parser.sh result.log'
