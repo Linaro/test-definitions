@@ -1,25 +1,10 @@
 metadata:
     name: acpica
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "ACPI ASL on ARMv7/ARMv8 - https://wiki.linaro.org/LEG/Engineering/test-acpi#ASLTS_-_ASL_Test_Suite
-         There're 4 test modes (n32, n64, s32, s64). By default, we run test mode 'n64'
-         The test mode can be specified by test job parameter:
-         {
-            'command': 'lava_test_shell',
-            'parameters': {
-                'testdef_repos': [
-                    {
-                        'git-repo': 'git://git.linaro.org/qa/test-definitions.git',
-                        'parameters': {
-                            'TESTMODE': 's64'
-                        },
-                        'testdef': 'ubuntu/acpica.yaml'
-                    }
-                ],
-                'timeout': 172800
-            }
-         }"
+    description: "ACPI ASL on ARMv7/ARMv8. Testing is performed in 'hardware-independent' mode to check functionality
+                  of ACPICA which is first initiated and then verified from inside the test modules coded in ASL.
+                  ACPICA test can be run in 4 test modes (n32, n64, s32, s64) and default is set to n64.
+                  More Details - https://wiki.linaro.org/LEG/Engineering/test-acpi#ASLTS_-_ASL_Test_Suite"
     maintainer:
         - naresh.bhat@linaro.org
         - arthur.she@linaro.org
