@@ -1,8 +1,8 @@
 metadata:
     name: cyclictest-basic
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Run cyclictest in loop and increase the number of thread after each iteration"
+    description: "Cyclictest tool is used to measure event latency in kernel. The test runs cyclictest
+                  command in loop and increases the number of thread after each iteration."
     maintainer:
         - arthur.she@linaro.org
     os:
