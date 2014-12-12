@@ -1,7 +1,8 @@
 metadata:
     name: device_read_perf
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Perform device timings for block devices"
+    description: "Device read perf test for Ubuntu. The test performs device timings for block devices
+                  using 'hdparm' command to test device read timings (hdparm -t) and cache read timings (hdparm -T)."
     maintainer:
         - hanumantha.naradla@linaro.org
     os:
