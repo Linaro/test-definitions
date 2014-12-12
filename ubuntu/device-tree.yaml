@@ -1,7 +1,8 @@
 metadata:
     name: device-tree
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Device tree test to check the folder structure"
+    description: "Device tree test to check the folder structure. The test verifies that device-tree 
+                  is available and contains model name of the board."
     maintainer:
         - botao.sun@linaro.org
     os:
