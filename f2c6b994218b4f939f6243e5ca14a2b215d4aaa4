@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_3496b695",
+        "filename": "ubuntu/hwlatdetect.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-15T18:15:06Z",
+      "side": 1,
+      "message": "that is a controversial approach.",
+      "revId": "f2c6b994218b4f939f6243e5ca14a2b215d4aaa4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_148dba7b",
+        "filename": "ubuntu/scripts/Makefile-hwlatdetect",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-15T18:15:06Z",
+      "side": 1,
+      "message": "please change to spaces",
+      "revId": "f2c6b994218b4f939f6243e5ca14a2b215d4aaa4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_d4ee7222",
+        "filename": "ubuntu/scripts/hwlatdetect-parser.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-15T18:15:06Z",
+      "side": 1,
+      "message": "if it\u0027s not needed, please remove",
+      "revId": "f2c6b994218b4f939f6243e5ca14a2b215d4aaa4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
