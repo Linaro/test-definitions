@@ -1,0 +1,24 @@
+metadata:
+    name: bootchart
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "collect the bootchart data and try to analyse"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+
+params:
+    OPERATION: "stop"
+    BOOTCHART_TIME: "120"
+
+run:
+    steps:
+        - ./android/scripts/bootchart.sh $OPERATION $BOOTCHART_TIME
+        - lava-test-run-attach /data/local/tmp/bootchart.tgz application/x-gzip
+
+parse:
+    pattern: "(?P<test_case_id>\\w+):\\s+(?P<result>(pass|fail))"
