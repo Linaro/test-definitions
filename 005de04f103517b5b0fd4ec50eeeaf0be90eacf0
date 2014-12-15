@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_f4b84e2c",
+        "filename": "ubuntu/rcutorture.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-15T18:07:53Z",
+      "side": 1,
+      "message": "please remove linux-linaro from the description. It might be used on any kernel.",
+      "revId": "005de04f103517b5b0fd4ec50eeeaf0be90eacf0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa0d159_14b61a3e",
+        "filename": "ubuntu/scripts/rcutorture.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2014-12-15T18:07:53Z",
+      "side": 1,
+      "message": "we need to make sure the same number of results is returned despite the fact the module is missing. The remaining tests\u0027 results should be \u0027skip\u0027. The same comment applies for all \u0027sys.exit(1)\u0027 calls.",
+      "revId": "005de04f103517b5b0fd4ec50eeeaf0be90eacf0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
