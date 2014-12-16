@@ -33,7 +33,7 @@ os.chdir(home_path)
 print os.getcwd()
 
 # List all test cases
-test_case_list = ["sata_device_existence", "sata_mklabel_msdos", "sata_mklabel_gpt", "sata_first_ext2_partition", "sata_second_ext2_partition", "sata_ext3_format", "sata_ext4_format", "sata_ext4_mount_umount", "sata_ext4_file_fill_edit", "sata_ext4_dd_write_read"]
+test_case_list = ["sata_device_existence", "sata_mklabel_msdos", "sata_mklabel_gpt", "sata_first_ext2_partition", "sata_second_ext2_partition", "sata_ext3_format", "sata_ext4_format", "sata_ext4_mount", "sata_ext4_umount", "sata_ext4_file_fill", "sata_ext4_file_edit", "sata_ext4_dd_write", "sata_ext4_dd_read"]
 print "There are " + str(len(test_case_list)) + " test cases in this test suite."
 
 # All skipped - If test case sata_device_existence failed, then skip all the rest.
