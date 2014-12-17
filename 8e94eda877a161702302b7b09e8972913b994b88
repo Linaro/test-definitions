@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_d47e72e4",
+        "filename": "ubuntu/scripts/Makefile-hwlatdetect",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2014-12-17T05:27:54Z",
+      "side": 1,
+      "message": "This file is a Makefile, so the space at the beginning has to be a \u0027tab\u0027",
+      "revId": "8e94eda877a161702302b7b09e8972913b994b88",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
