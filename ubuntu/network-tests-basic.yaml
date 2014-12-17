@@ -34,4 +34,4 @@ run:
         - lava-test-case linux-linaro-ubuntu-ping --shell ping -c 5 $GATEWAY
         - lava-test-case linux-linaro-ubuntu-apt-get --shell apt-get update
         - lava-test-case linux-linaro-ubuntu-apt-get-curl --shell apt-get install -q -y curl
-        - lava-test-case linux-linaro-ubuntu-curl-big-video --shell curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI > /dev/null
+        - lava-test-case linux-linaro-ubuntu-curl-big-video --shell curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI -o curl_big_video.avi
