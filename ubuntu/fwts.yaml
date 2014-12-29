@@ -1,7 +1,9 @@
 metadata:
     name: fwts
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Ubuntu Firmware Test Suite (fwts) -  https://wiki.linaro.org/LEG/Engineering/test-acpi#Ubuntu_Firmware_test_suite"
+    description: "Ubuntu Firmware Test Suite (fwts). The FWTS tool comprises of over fifty tests
+                  that are designed to exercise and test different aspects of a machine's firmware.
+                  More details - https://wiki.linaro.org/LEG/Engineering/test-acpi#Ubuntu_Firmware_test_suite"
     maintainer:
         - naresh.bhat@linaro.org
     os:
