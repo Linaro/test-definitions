@@ -1,7 +1,8 @@
 metadata:
     name: hackbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test hackbench (rt-tests version)."
+    description: "Test hackbench (rt-tests version) on Ubuntu. Hackbench works by creating multiple
+                  pairs of threads or processes, that pass data between themselves over pipes."
     maintainer:
         - milosz.wasilewski@linaro.org
     scope:
@@ -12,6 +13,7 @@ metadata:
     devices:
         - arndale
         - vexpress-tc2
+        - juno
 
 install:
     deps:
