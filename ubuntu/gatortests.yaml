@@ -1,7 +1,7 @@
 metadata:
     name: gatortests
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run GATOR tests"
+    description: "Gatortest checks availability of gator daemon and module on target."
     os:
         - ubuntu
     scope:
@@ -12,6 +12,7 @@ metadata:
         - arndale
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 install:
     deps:
