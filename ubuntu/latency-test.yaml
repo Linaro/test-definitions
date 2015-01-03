@@ -2,13 +2,18 @@ metadata:
     name: latency-test
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run latency test"
+    description: "latency-test sets up and runs one or two real-time threads.Each time a thread is started by the
+                  scheduler, the code set up by latency-test gets the time and subtracts from it the previous time
+                  the same thread started. latency-test determines the maximum deviation (both larger and smaller)
+                  of this difference compared to the selected period, compares the absolute values of the two deviations,
+                  and reports the larger absolute value as the max jitter."
     maintainer:
         - mike.holmes@linaro.org
     os:
         - ubuntu
     devices:
         - arndale
+        - juno
     environment:
         - lava-test-shell
 install:
