@@ -1,7 +1,8 @@
 metadata:
     name: sd-mmc-ubuntu
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test SD MMC on Linux Linaro ubuntu"
+    description: "SD MMC test on Linux Linaro ubuntu. The test checks if SD card is available
+                  and no IO error is observed in dmesg output."
     maintainer:
         - botao.sun@linaro.org
     os:
@@ -12,6 +13,7 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
+        - juno
     environment:
         - lava-test-shell
 
