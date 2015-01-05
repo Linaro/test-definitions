@@ -1,7 +1,8 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: usb-test-basic
-    description: "Basic USB test for Linaro Ubuntu images"
+    description: "Basic USB test for Linaro Ubuntu images. The test examines all available USB devices
+                  and prints supported USB protocols and speed."
     maintainer:
         - chase.qi@linaro.org
     os:
@@ -16,6 +17,7 @@ metadata:
         - vexpress-tc2
         - beaglebone-black
         - d01
+        - juno
     environment:
         - lava-test-shell
 
