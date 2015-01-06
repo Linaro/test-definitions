@@ -1,7 +1,9 @@
 metadata:
     name: perf
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run performance tests (perf)"
+    description: "Perf is a profiler tool for Linux and is used to collect and analyze performance and trace data.
+                  This test runs following perf commands: record(record events for later reporting), report(break
+                  down events by process, function, etc), stat(obtain event counts) and test(Run sanity tests)."
     maintainer:
         - milosz.wasilewski@linaro.org
     os:
@@ -15,6 +17,7 @@ metadata:
         - vexpress-a9
         - beaglebone-black
         - ifc6410
+        - juno
 
 install:
     deps:
