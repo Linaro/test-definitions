@@ -1,7 +1,8 @@
 metadata:
     name: perf
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run performance tests (perf)"
+    description: "Run performance tests (perf). The perf tool offers a rich set of commands to
+                  collect and analyze performance and trace data."
     maintainer:
         - milosz.wasilewski@linaro.org
     os:
