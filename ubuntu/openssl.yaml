@@ -1,7 +1,10 @@
 metadata:
     name: openssl
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test case that measures openssl speed benchmark"
+    description: "OpenSSL is an open source tool for using the Secure Socket Layer (SSL) and
+                  Transport Layer Security (TLS) protocols for Web authentication and offers
+                  cryptographic functions to support SSL/TLS protocols. This test case measures
+                  openssl speed benchmark using md5, sha1, sha256 and sha512 as parameters."
     maintainer:
         - amit.khare@linaro.org
     os:
@@ -14,7 +17,8 @@ metadata:
         - highbank
         - arndale
         - origen
-        - vexpress 
+        - vexpress
+        - juno
     scope:
         - performance
 run:
