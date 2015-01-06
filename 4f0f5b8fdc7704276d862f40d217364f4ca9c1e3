@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_9b758b34",
+        "filename": "openembedded/ebizzy.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-06T16:25:24Z",
+      "side": 1,
+      "message": "Please change the pattern to double quotes and double escapes. This one will work, but might cause confusion comparing to other YAMLs.",
+      "revId": "4f0f5b8fdc7704276d862f40d217364f4ca9c1e3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_fb784f2d",
+        "filename": "ubuntu/ebizzy.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-06T16:25:24Z",
+      "side": 1,
+      "message": "I know this form of patter is correct, but please use the double quoted version with dual escapes. It\u0027s more common form in test definitions.",
+      "revId": "4f0f5b8fdc7704276d862f40d217364f4ca9c1e3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
