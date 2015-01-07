@@ -1,8 +1,10 @@
 metadata:
     name: sendme
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Send a signal from driver to user and measure time intervals"
+    description: "Sendme measure time intervals by sending a signal from driver to user. The test, sendme
+                  uses the backfire driver to send a signal from driver to user. It then reads the timestamp
+                  from the driver and calculates the time intervals to call the driver and to receive the
+                  signal from the driver."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -11,6 +13,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
