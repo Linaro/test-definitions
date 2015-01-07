@@ -1,9 +1,9 @@
 metadata:
     name: sigwaittest
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Start two threads or fork two processes and measure the latency between sending and
-         receiving a signal"
+    description: "Sigwaittest measure interthread signal latency. The  test sigwaittest starts two threads
+                  or, optionally, forks two processes that are synchonized via signals and measures the
+                  latency between sending a signal and returning from sigwait()."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -12,6 +12,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
