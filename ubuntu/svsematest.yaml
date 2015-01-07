@@ -1,8 +1,10 @@
 metadata:
     name: svsemantest
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Start two threads or fork two processes and measure the latency of SYSV semaphores"
+    description: "Svsematest measures interthread SystemV semaphore latency. The test svsematest
+                  starts two threads or, optionally, forks two processes that are synchronized via
+                  SYSV semaphores and measures the latency between releasing a semaphore on one
+                  side and getting it on the other side."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -11,6 +13,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
