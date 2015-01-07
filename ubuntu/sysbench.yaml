@@ -1,7 +1,7 @@
 metadata:
     name: sysbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:"SysBench is a modular, cross-platform and multi-threaded benchmark tool for evaluating
+    description: "SysBench is a modular, cross-platform and multi-threaded benchmark tool for evaluating
                  OS parameters that are important for a system running a database under intensive load.
                  The test runs sysbench test in loop and increase the number of thread after each iteration."
     maintainer:
