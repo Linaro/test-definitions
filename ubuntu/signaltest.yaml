@@ -1,8 +1,10 @@
 metadata:
     name: signaltest
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "RT signal roundtrip test software"
+    description: "Signaltest measures the round trip for a signal. The test creates N threads and
+                  measures the minimum, maximum and average time taken for any thread to recieve a
+                  signal after it sent one. The number of iterations to run is set to 1000 by default
+                  and can be changed via JSON file."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -11,6 +13,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
