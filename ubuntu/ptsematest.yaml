@@ -1,8 +1,10 @@
 metadata:
     name: ptsematest
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Start two threads and measure the latency of interprocess communication with POSIX mutex"
+    description: "Ptsematest measures the latency of interprocess communication with POSIX mutex. The test
+                  starts two threads that are synchronized via pthread_mutex_unlock()/pthread_mutex_lock()
+                  and measures the latency between releasing and getting the lock. The dafault iteration is
+                  set to 1000 which can be changed via JSON file."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -11,6 +13,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
