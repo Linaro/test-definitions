@@ -1,8 +1,8 @@
 metadata:
     name: rt-migrate-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Test to verify the RT threads scheduler balancing"
+    description: "RT-MIGRATE-TEST verifies the RT threads scheduler balancing. The number of iterations
+                  to run is set to 1000 by default and can be changed via JSON file."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -11,6 +11,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
