@@ -18,32 +18,26 @@ metadata:
     devices:
         - kvm
 
-install:
-    git-repos:
-        - http://git.linaro.org/git/lava/lava-android-test.git
-    steps:
-        - cd lava-android-test
-        - python setup.py install
-    deps:
-        - python-pip
-        - python-dev
-        - libyaml-dev
-        - unzip
-
 params:
     TEST_NAME: "busybox"
     TEST_PARAMS: ""
     JAVA_PACKAGE: "openjdk-6-jre-headless"
+    GIT_URL: "http://git.linaro.org/git/lava/lava-android-test.git"
 
 run:
     steps:
         - apt-add-repository -y http://ppa.launchpad.net/nilarimogard/webupd8/ubuntu
         - apt-get update -y
-        - apt-get install -y android-tools-adb android-tools-fastboot $JAVA_PACKAGE
+        - apt-get install -y android-tools-adb android-tools-fastboot $JAVA_PACKAGE python-pip python-dev libyaml-dev unzip git
         - lava-wait $TEST_NAME-${TEST_PARAMS// /_}-send-ip
         - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
         - adb connect $IPADDR
         - adb wait-for-device
+        - git clone "$GIT_URL" lava-android-test
+        - cd lava-android-test
+        - rm -fr build
+        - python setup.py install
+        - cd ..
         - lava-android-test install $TEST_NAME
         - if [[ $TEST_PARAMS != "" ]]; then lava-android-test run -o $TEST_NAME.results -O "$TEST_PARAMS" $TEST_NAME; fi
         - if [[ $TEST_PARAMS == "" ]]; then lava-android-test run -o $TEST_NAME.results $TEST_NAME; fi
