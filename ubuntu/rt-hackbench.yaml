@@ -1,7 +1,11 @@
 metadata:
     name: rt-hackbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run Hackbench Real Time Suite"
+    description: "Hackbench Real Time Suite. Hackbench is both a benchmark and a stress test for
+                  the Linux kernel scheduler. It's main job is to create a specified number of pairs
+                  of schedulable entities (either threads or traditional processes) which communicate
+                  via either sockets or pipes and time how long it takes for each pair to send data back
+                  and forth. This test suite focuses on background stress for the worst case in RT system."
     maintainer:
         - tyler.baker@linaro.org
     scope:
@@ -9,6 +13,7 @@ metadata:
         - preempt_rt
     devices:
         - arndale
+        - juno
     os:
         - ubuntu
 
