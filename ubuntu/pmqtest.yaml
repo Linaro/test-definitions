@@ -1,9 +1,10 @@
 metadata:
     name: pmqtest
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Start pairs of threads and measure the latency of interprocess
-         communication with POSIX messages queues"
+    description: "Pmqtest measures the latency of interprocess communication with POSIX messages queues.
+                  The test starts pairs of threads that are synchronized via mq_send/mw_receive() and
+                  measures the latency between sending and receiving the message. The default iteration
+                  is set to 1000 which can be changed via JSON file."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -12,6 +13,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
