@@ -1,7 +1,9 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: pi-stress-test
-    description: "Stress test for POSIX Priority Inheritance mutexes"
+    description: "PI-Stress-test for POSIX Priority Inheritance mutexes. It's a stress test that
+                  checks Priority Inheritence Mutexes and their ability to avoid Priority Inversion
+                  from occuring by running groups of threads that cause Priority Inversions."
     maintainer:
         - chase.qi@linaro.org
     os:
@@ -18,6 +20,7 @@ metadata:
         - beaglebone-black
         - d01
         - rtsm_fvp_base-aemv8a
+        - juno
     environment:
         - lava-test-shell
 
