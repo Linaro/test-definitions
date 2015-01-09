@@ -1,7 +1,8 @@
 metadata:
     name: rcutorture
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run RCU Torture test for Linux Kernel."
+    description: "RCU or Read-Copy Update Torture test for Linux Kernel. The default torture
+                  time is set to 600 which can be changed via JSON file."
     maintainer:
         - botao.sun@linaro.org
     os:
