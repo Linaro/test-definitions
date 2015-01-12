@@ -17,10 +17,11 @@ metadata:
 
 install:
     git-repos:
-        - git://git.linaro.org/power/pm-qa.git
+        - url: git://git.linaro.org/power/pm-qa.git
+          destination: pm-qa
+          branch: master
     steps:
         - "cd pm-qa"
-        - "git checkout $RELEASE"
         - "make -C utils"
 
 params:
