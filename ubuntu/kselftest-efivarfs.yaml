@@ -1,9 +1,10 @@
 metadata:
     name: kselftest-efivarfs
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
-         For running this test, git is required in the rootfs"
+    description: "The kernel contains a set of 'self tests' under the tools/testing/selftests/
+                  directory. These are intended to be small unit tests to exercise individual
+                  code paths. This test runs efivarfs(a (U)EFI variable filesystem). Variables
+                  can be created, deleted and modified with the efivarfs filesystem."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -12,6 +13,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - functional
 
