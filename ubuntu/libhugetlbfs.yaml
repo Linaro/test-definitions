@@ -1,7 +1,9 @@
 metadata:
     name: libhugetlbfs
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run through libhugetlbfs next branch tests"
+    description: "libhugetlbfs is a library that can back application text, data, malloc() and
+                  shared memory with hugepages. The test runs through libhugetlbfs next branch
+                  tests and currently supports 32bit ubuntu system."
     maintainer:
         - steve.capper@linaro.org
     os:
@@ -14,6 +16,7 @@ metadata:
         - arndale
         - vexpress-a9
         - vexpress-tc2
+        - juno
 
 install:
     git-repos:
