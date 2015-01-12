@@ -62,7 +62,7 @@ case ${ARCH} in
         ;;
     aarch64)
         hwpack=`uname -r|sed -e's,.*-,,'`
-        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=${hwpack},label=docker/lastSuccessfulBuild/buildNumber`
+        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=${hwpack},label=docker-utopic/lastSuccessfulBuild/buildNumber`
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm64.qcow2.gz
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
