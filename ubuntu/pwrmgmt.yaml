@@ -28,10 +28,11 @@ install:
         - build-essential
         - git
     git-repos:
-        - git://git.linaro.org/power/pm-qa.git
+        - url: git://git.linaro.org/power/pm-qa.git
+          destination: pm-qa
+          branch: $RELEASE
     steps:
         - "cd pm-qa"
-        - "git checkout $RELEASE"
         - "make -C utils"
 
 params:
