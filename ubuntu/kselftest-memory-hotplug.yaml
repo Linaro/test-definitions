@@ -1,9 +1,11 @@
 metadata:
     name: kselftest-memory-hotplug
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
-         For running this test, git is required in the rootfs"
+    description: "The kernel contains a set of "self tests" under the tools/testing/selftests/
+                  directory. These are intended to be small unit tests to exercise individual
+                  code paths in the kernel. This test runs memory-hotplug tests. Memory-hotplug
+                  allows to increase/decrease the amount of memory required by highly virtualized
+                  environments or required by hardware which supports memory power management."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -12,6 +14,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - functional
 
