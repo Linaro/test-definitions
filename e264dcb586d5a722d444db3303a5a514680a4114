@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_e4dc3077",
+        "filename": "openembedded/pwrmgmt.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-13T10:33:54Z",
+      "side": 1,
+      "message": "I thought default would be last release. Beside that, we have support for parameters in this section now, so I believe it should be\n\nbranch: $RELEASE\n\nDid you check if it works? Any example job?",
+      "revId": "e264dcb586d5a722d444db3303a5a514680a4114",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
