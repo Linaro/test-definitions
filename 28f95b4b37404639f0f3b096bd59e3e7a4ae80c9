@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_a4fb8846",
+        "filename": "ubuntu/phoronix.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-14T12:00:35Z",
+      "side": 1,
+      "message": "can we get it working on Juno? There is ubuntu rootfs for 64bit available.",
+      "revId": "28f95b4b37404639f0f3b096bd59e3e7a4ae80c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_04ffdc35",
+        "filename": "ubuntu/scripts/phoronix.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-14T12:00:35Z",
+      "side": 1,
+      "message": "this is good to start with. The final version should have the test list defined as parameter in YAML.",
+      "revId": "28f95b4b37404639f0f3b096bd59e3e7a4ae80c9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
