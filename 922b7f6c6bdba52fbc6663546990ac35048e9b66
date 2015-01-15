@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_cfd7cdec",
+        "filename": "openembedded/ltp-realtime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-15T14:15:58Z",
+      "side": 1,
+      "message": "maybe we should align it with LTP and name the parameter the same way: \"TST_CMDFILES\" ?",
+      "revId": "922b7f6c6bdba52fbc6663546990ac35048e9b66",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
