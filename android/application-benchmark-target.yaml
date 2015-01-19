@@ -1,0 +1,23 @@
+metadata:
+    name: target-stop
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Wrapper for notifying the host side that target side is ready,
+                  and waiting for the singal from host side to stop target."
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+
+run:
+    steps:
+        - lava-test-case step1-cat-build-info --shell cat /system/build.prop
+        - lava-test-case step2-get-adb --shell getprop service.adb.tcp.port
+        - lava-test-case step3-set-adb --shell setprop service.adb.tcp.port 5555
+        - lava-test-case step4-stop-adbd --shell stop adbd
+        - lava-test-case step5-start-adbd --shell start adbd
+        - lava-test-case step6-send-ip --shell lava-send application-benchmark-target-ready-send-ip ipaddr=$(getprop dhcp.eth0.ipaddress)
+        - lava-test-case step7-multinode-sync --shell lava-sync application-benchmark-stop-target

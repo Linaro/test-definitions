@@ -1,0 +1,47 @@
+metadata:
+    name: application-benchmark-host
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Wrapper for benchmarking application, will collect information
+                  like memory, cpu, starttime when start the activity. Some parameters
+                  can be specified for this test:
+                  BASE_URL: based url from where application apk files can be gotten.
+                      default is http://testdata.validation.linaro.org/apks/JavaBenchmark/pure-java-applications/
+                  APP_CONFIG_LIST: specify the application to be benchmarked in the form of
+                        APK_FILE_NAME,APP_PACKAGE/ACTIVITY_NAME,APP_NICKNAME
+                     we can sepcified multiple with space separated. If the application to be benchmarked
+                     is a system application, we can specified NULL in the APK_FILE_NAME placeholder
+                  LOOP_COUNT: specify the count we want to run for benchmarking. Default is 12.
+                     the average is calculated with maximum and minimum excluded.
+                  COLLECT_STREAMLINE: specify if streamline data will be collected. only false and true are available."
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - kvm
+
+params:
+    BASE_URL: "http://testdata.validation.linaro.org/apks/JavaBenchmark/pure-java-applications/"
+    APP_CONFIG_LIST: ""
+    LOOP_COUNT: 12
+    COLLECT_STREAMLINE: "false"
+
+run:
+    steps:
+        - apt-add-repository -y http://ppa.launchpad.net/nilarimogard/webupd8/ubuntu
+        - apt-get update -y
+        - apt-get install -y android-tools-adb android-tools-fastboot zip
+        - lava-wait application-benchmark-target-ready-send-ip
+        - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
+        - adb connect $IPADDR
+        - adb wait-for-device
+        - ./android/scripts/application-benchmark.sh --base-url "$BASE_URL" --loop-count "$LOOP_COUNT" --streamline "$COLLECT_STREAMLINE" $APP_CONFIG_LIST
+        - lava-test-run-attach rawdata.zip application/x-gzip
+        - lava-sync application-benchmark-stop-target
+
+parse:
+    pattern: "(?P<test_case_id>\\S+)(?P<result>=)(?P<measurement>[\\d\\.]+)"
+    fixupdict:
+        =: pass
