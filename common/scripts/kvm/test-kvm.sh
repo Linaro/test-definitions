@@ -85,6 +85,7 @@ if [ ! -r kvm.qcow2 ]; then
 fi
 
 qemu-nbd -c /dev/nbd0 kvm.qcow2
+sleep 2
 mount /dev/nbd0p2 /mnt/
 
 cp common/scripts/kvm/kvm-lava.conf  /mnt/etc/init/kvm-lava.conf
@@ -158,6 +159,7 @@ case ${ARCH} in
 esac
 
 qemu-nbd -c /dev/nbd0 kvm.qcow2
+sleep 2
 mount /dev/nbd0p2 /mnt/
 
 if ! grep -q "kvm-boot-1:" /mnt/root/guest.log
