@@ -1,9 +1,13 @@
 metadata:
     name: kselftest-vm
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
-         For running this test, git is required in the rootfs"
+    description: "The kernel contains a set of 'self tests' under the tools/testing/selftests/.
+                  These are intended to be small unit tests to exercise individual code paths
+                  in the kernel. kselftest-vm tests huge page memory in a user application using
+                  the mmap and Sys V shared memory system calls. It also tests selecting other
+                  page sizes for mmap/shmget and stress test for transparent huge pages, memory
+                  compaction and migration."
+"
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -12,6 +16,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - functional
 
