@@ -2,7 +2,9 @@ metadata:
     name: cyclictest
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 1.1
-    description: "Cyclictest Suite"
+    description: "Cyclictest Suite for Linaro OpenEmbedded builds. Cyclictest is a high-resolution
+                  test program for measuring the Linux kernel latencies. The MAX, AVG and RTIME
+                  is set to 15000, 50 and 7200 respectively by default which can chabged via JSON file."
     maintainer:
         - vincent.hsu@linaro.org
         - ciprian.barbu@linaro.org
@@ -14,6 +16,7 @@ metadata:
         - preempt-rt
     devices:
         - arndale
+        - juno
 
 # Parameters description
 #   MAX: Maximum latency bound.
