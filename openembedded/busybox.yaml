@@ -1,7 +1,8 @@
 metadata:
     name: busybox
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test busybox in OpenEmbedded."
+    description: "Busybox test for Linaro OpenEmbedded builds. BusyBox is software that
+                  provides several stripped-down Unix tools in a single executable file."
     maintainer:
         - senthil.kumaran@linaro.org
         - milosz.wasilewski@linaro.org
@@ -12,6 +13,7 @@ metadata:
         - functional
     devices:
         - rtsm_ve-armv8
+        - juno
 
 run:
     steps:
