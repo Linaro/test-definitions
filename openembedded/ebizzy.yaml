@@ -2,7 +2,10 @@ metadata:
     name: ebizzy
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Running ebizzy tool"
+    description: "Ebizzy test for Linaro OpenEmbedded builds. Ebizzy test is designed to generate
+                  a workload resembling common web application server workloads. It is highly
+                  threaded, has a large in-memory working set, and allocates and deallocates
+                  memory frequently."
     os:
         - openembedded
     devices:
