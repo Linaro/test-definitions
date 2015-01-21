@@ -42,8 +42,10 @@ run:
         - apt-get install -y android-tools-adb android-tools-fastboot $JAVA_PACKAGE
         - lava-wait $TEST_NAME-${TEST_PARAMS// /_}-send-ip
         - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
-        - adb root
         - adb connect $IPADDR
+        - adb root
+        - adb devices
+        - adb remount
         - adb wait-for-device
         - lava-android-test install $TEST_NAME
         - if [[ $TEST_PARAMS != "" ]]; then lava-android-test run -o $TEST_NAME.results -O "$TEST_PARAMS" $TEST_NAME; fi
