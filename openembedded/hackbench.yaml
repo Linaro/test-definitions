@@ -2,7 +2,8 @@ metadata:
     name: hackbench
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 1.0
-    description: "Hackbench Suite"
+    description: "Hackbench test for Linaro OpenEmbedded builds. Hackbench works by creating multiple
+                  pairs of threads or processes, that pass data between themselves over pipes or sockets."
     maintainer:
         - ciprian.barbu@linaro.org
         - anders.roxell@linaro.org
@@ -10,6 +11,7 @@ metadata:
         - openembedded
     devices:
         - arndale
+        - juno
     scope:
         - performance
         - preempt-rt
