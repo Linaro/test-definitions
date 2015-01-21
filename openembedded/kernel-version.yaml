@@ -1,7 +1,8 @@
 metadata:
     name: kernel-version
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test kernel version in OpenEmbedded."
+    description: "Kernel-version test for Linaro OpenEmbedded builds. The test verfies
+                  available kernel version."
     maintainer:
         - senthil.kumaran@linaro.org
         - milosz.wasilewski@linaro.org
@@ -12,6 +13,7 @@ metadata:
         - functional
     devices:
         - rtsm_ve-armv8
+        - juno
 
 run:
     steps:
