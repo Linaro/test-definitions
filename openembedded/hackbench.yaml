@@ -2,7 +2,11 @@ metadata:
     name: hackbench
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 1.0
-    description: "Hackbench Suite"
+    description: "Hackbench test for Linaro OpenEmbedded builds. Hackbench is both a benchmark
+                  and a stress test for the Linux kernel scheduler. It's main job is to create
+                  a specified number of pairs of schedulable entities (either threads or traditional
+                  processes) which communicate via either sockets or pipes and time, how long it takes
+                  for each pair to send data back and forth."
     maintainer:
         - ciprian.barbu@linaro.org
         - anders.roxell@linaro.org
@@ -10,6 +14,7 @@ metadata:
         - openembedded
     devices:
         - arndale
+        - juno
     scope:
         - performance
         - preempt-rt
