@@ -1,7 +1,7 @@
 metadata:
     name: toolchain
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test if we have toolchain installed in OpenEmbedded."
+    description: "Test to verify toolchain version installed in Linaro OpenEmbedded builds."
     maintainer:
         - senthil.kumaran@linaro.org
         - milosz.wasilewski@linaro.org
@@ -12,6 +12,7 @@ metadata:
         - functional
     devices:
         - rtsm_ve-armv8
+        - juno
 
 run:
     steps:
