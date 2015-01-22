@@ -2,7 +2,9 @@ metadata:
     name: lmbench
     format: "Lava-Test-Shell Test Definition 1.0"
     version: 1.0
-    description: "Lmbench Suite"
+    description: "Lmbench test Suite for Linaro OpenEmbedded builds. lmbench is a suite of
+                  simple, portable, ANSI/C microbenchmarks for UNIX/POSIX. In general, it
+                  measures two key features: latency and bandwidth."
     maintainer:
         - anders.roxell@linaro.org
 
@@ -10,6 +12,7 @@ metadata:
         - openembedded
     devices:
         - arndale
+        - juno
     scope:
         - performance
 
