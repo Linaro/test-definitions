@@ -1,9 +1,12 @@
 metadata:
     name: kselftest-ptrace
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "These test code were came from kernel source KERNEL_SRC/tools/testing/selftests/
-         For running this test, git is required in the rootfs"
+    description: "Linux kernel Kselftest-ptrace test for Linaro OpenEmbedded builds. The kernel contains
+                  a set of 'self tests' under the tools/testing/selftests/ directory. These are intended
+                  to be small unit tests to exercise individual code paths. kself-ptrace test uses ptrace
+                  or process trace system call that provides a means by which, one process can observe and
+                  control the execution of another process and examine and change the tracee's memory and
+                  registers."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -12,6 +15,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - functional
 
