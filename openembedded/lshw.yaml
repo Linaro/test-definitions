@@ -1,10 +1,14 @@
 metadata:
     name: lshw
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "lshw Test"
+    description: "Lshw Test for Linaro OpenEmbedded builds. lshw is a small tool to extract
+                  detailed information on the hardware configuration of the machine. It can
+                  report exact memory configuration, firmware version, mainboard configuration,
+                  CPU version and speed, cache configuration and bus speed etc."
     version: 1.0
     os:
         - openembedded
+        - juno
     scope:
         - functional
     devices:
