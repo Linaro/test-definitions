@@ -1,8 +1,10 @@
 metadata:
     name: sysbench
     format: "Lava-Test-Shell Test Definition 1.0"
-    description:
-        "Run sysbench test in loop and increase the number of thread after each iteration"
+    description: "Sysbench test for Linaro OpenEmbedded builds. SysBench is a modular, cross-platform
+                  and multi-threaded benchmark tool for evaluating OS parameters that are important for
+                  a system running a database under intensive load. The test runs sysbench test in loop
+                  and increases the number of threads after each iteration."
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -11,6 +13,7 @@ metadata:
         - arndale
         - beaglebone-black
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - performance
         - preempt-rt
