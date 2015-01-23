@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_b52e50a4",
+        "filename": "openembedded/toolchain.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-23T15:46:02Z",
+      "side": 0,
+      "message": "rtsm-ve-armv8 is no longer supported in LAVA. Please remove it. We also should test it on other supported devices.",
+      "revId": "fcd1d6802afbaa38a280b7720d0f5d0e16aa96ff",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
