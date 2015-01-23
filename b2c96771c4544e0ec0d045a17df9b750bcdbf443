@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_d08c4a82",
+        "filename": "openembedded/busybox.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-23T21:48:13Z",
+      "side": 1,
+      "message": "some description about what the test does would be handy here.",
+      "revId": "b2c96771c4544e0ec0d045a17df9b750bcdbf443",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}

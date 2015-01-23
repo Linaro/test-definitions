@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_70e9b619",
+        "filename": "openembedded/busybox.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-23T21:48:13Z",
+      "side": 0,
+      "message": "rtsm_ve-armv8 model is not supported any more",
+      "revId": "24c96ec10cadca2326942179fa591df6f3fe89da",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
