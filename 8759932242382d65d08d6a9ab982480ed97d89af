@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_f524d8c7",
+        "filename": "openembedded/lshw.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-01-23T15:44:51Z",
+      "side": 1,
+      "message": "juno is not OS - its device",
+      "revId": "8759932242382d65d08d6a9ab982480ed97d89af",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
