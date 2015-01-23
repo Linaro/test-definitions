@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_f5da98e8",
+        "filename": "android/lava-android-test-host.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2015-01-23T10:05:01Z",
+      "side": 1,
+      "message": "first, I am not sure why it\u0027s need the adb root for cts test, can we not do adb root here.\nsecond, In my opinion, adb root will disconnect the adb connection over tcpip, and we need to reconnect it again.\nI don\u0027t think the device will be listed in the adb devices output. but If you have tested for adb connection over tcpip, then maybe I am wrong some where.",
+      "revId": "c201c0965698c2f8f423c607a6d70f7b38f4be33",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
