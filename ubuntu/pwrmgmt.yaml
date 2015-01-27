@@ -30,14 +30,14 @@ install:
     git-repos:
         - url: git://git.linaro.org/power/pm-qa.git
           destination: pm-qa
-          branch: $RELEASE
+          branch: RELEASE
     steps:
         - "cd pm-qa"
         - "make -C utils"
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
-    RELEASE: 'tags/pm-qa-v0.4.15'
+    RELEASE: 'pm-qa-v0.4.15'
 
 run:
     steps:
