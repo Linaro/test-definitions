@@ -107,7 +107,7 @@ cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
     exec > /root/guest.log 2>&1
     echo "$KVM_BOOT 0 pc pass"
-    ping -W 4 -c 10 192.168.1.10 && echo "$KVM_GUEST_NET 0 pc pass" || echo "$KVM_GUEST_NET 0 pc fail"
+    ping -W 4 -c 10 10.0.0.1 && echo "$KVM_GUEST_NET 0 pc pass" || echo "$KVM_GUEST_NET 0 pc fail"
     sh $TEST_SCRIPT
 EOF
 chmod a+x /mnt/usr/bin/test-guest.sh
@@ -128,7 +128,7 @@ case ${ARCH} in
         udhcpc -t 10 -i br0
 esac
 
-ping -W 4 -c 10 192.168.1.10 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
+ping -W 4 -c 10 10.0.0.1 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
 
 case ${ARCH} in
     armv7l)
