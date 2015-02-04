@@ -1,0 +1,26 @@
+metadata:
+    name: gtest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run gtest based tests on Android"
+    maintainer:
+        - chase.qi@linaro.org
+        - milosz.wasilewski@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - juno
+        - vexpress-a9
+        - vexpress-tc2
+        - ifc6410
+
+params:
+    # Use absolute path and modify the TESTS parameter in JSON file to run other or 64bit test programs.
+    TESTS: '/data/nativetest/ion-unit-tests/ion-unit-tests /data/nativetest/backtrace_test/backtrace_test'
+
+run:
+    steps:
+        - ./android/scripts/gtest.sh "$TESTS"
