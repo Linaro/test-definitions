@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_d9e6b316",
+        "filename": "openembedded/sdkhelloc_static.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-02-04T13:14:15Z",
+      "side": 1,
+      "message": "I think the important bit is missing - this test works only on builds with this layer http://layers.openembedded.org/layerindex/recipe/3611/",
+      "revId": "cf7e0312b86d4d09a780dab145530c69200c3821",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
