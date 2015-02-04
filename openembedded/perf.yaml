@@ -1,13 +1,17 @@
 metadata:
     name: perf
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Performance tests in OpenEmbedded."
+    description: "Performance tests for Linaro OpenEmbedded builds. Perf is a profiler tool for Linux and is used
+                  to collect and analyze performance and trace data. This test runs following perf commands: record
+                  (record events for later reporting), report(break down events by process, function, etc), stat(obtain
+                  event counts) and test(Run sanity tests)."
     os:
         - openembedded
     scope:
         - performance
     devices:
-        - rtsm_ve-armv8
+        - rtsm_fvp_base-aemv8a
+        - juno
 
 install:
     bzr-repos:
