@@ -1,7 +1,9 @@
 metadata:
     name: pwrmgmt
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test power management. Test case documentation available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
+    description: "Test power management (PM-QA). Currently, the test runs cpufreq, cpuidle, cpuhotplug, thermal
+                  and cputopology by default and individual test can be run via JSON file too. Test case documentation
+                  available here wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
     maintainer:
         - sanjay.rawat@linaro.org
         - lisa.nguyen@linaro.org
@@ -14,6 +16,7 @@ metadata:
         - rtsm_ve-armv8
         - rtsm_fvp_base-aemv8a
         - rtsm_fvp_base_cortex-a57x4-a53x4
+        - juno
 
 install:
     git-repos:
