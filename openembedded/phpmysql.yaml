@@ -1,13 +1,14 @@
 metadata:
     name: phpmysql
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test for php/mysql in OpenEmbedded."
+    description: "Test for php/mysql in Linaro OpenEmbedded builds."
     os:
         - openembedded
     scope:
         - functional
     devices:
-        - rtsm_ve-armv8
+        - rtsm_fvp_base-aemv8a
+        - juno
 
 run:
     steps:
