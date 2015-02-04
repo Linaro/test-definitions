@@ -1,7 +1,8 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: tcpreplay-server-multinode
-    description: "Basic MultiNode tcpreplay test on server side"
+    description: "Basic MultiNode tcpreplay test on server side for Linaro OpenEmbedded builds.
+                  Please check replay-client-multinode for more info."
     maintainer:
         - weilong.chen@linaro.org
     os:
@@ -11,6 +12,7 @@ metadata:
     devices:
         - kvm
         - arndale
+        - juno
 params:
     ETH: eth0
 run:
