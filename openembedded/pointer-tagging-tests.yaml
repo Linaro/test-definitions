@@ -1,13 +1,15 @@
 metadata:
     name: pointer-tagging-tests
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Tagged pointer test"
+    description: "Tagged pointer test for Linaro OpenEmbedded builds. This test suite is
+                  designed to verify if AArch64 tagged-addressing feature is properly supported."
     maintainer:
         - arthur.she@linaro.org
     os:
         - openembedded
     devices:
         - rtsm_fvp_base-aemv8a
+        - juno
     scope:
         - functional
 
