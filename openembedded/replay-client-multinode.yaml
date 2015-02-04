@@ -1,7 +1,10 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: tcpreplay-client-multinode
-    description: "Basic MultiNode tcpreplay test on client side"
+    description: "Basic MultiNode tcpreplay test on client side for Linaro OpenEmbedded builds.
+                  The test replays packages to IP address at a given rate (packet/sec) and loops
+                  through the capture file 'REP' times. 'REP' is set to 100 by default which can be
+                  changed via JSON file."
     maintainer:
         - weilong.chen@linaro.org
     os:
@@ -11,6 +14,7 @@ metadata:
     devices:
         - kvm
         - arndale
+        - juno
 params:
     ETH: eth0
     REP: 100
