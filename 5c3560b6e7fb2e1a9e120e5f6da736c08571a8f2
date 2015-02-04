@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_1982eb00",
+        "filename": "openembedded/replay-server-multinode.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-02-04T13:50:54Z",
+      "side": 1,
+      "message": "I\u0027m missing something like \u0027check client part for more details\u0027",
+      "revId": "5c3560b6e7fb2e1a9e120e5f6da736c08571a8f2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
