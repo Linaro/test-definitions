@@ -1,13 +1,19 @@
 metadata:
     name: openvswitch-lng
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Build and run OVS testsuite."
+    description: "OVS test suite for Linaro OpenEmbedded builds. Open vSwitch is a multilayer software
+                  switch licensed under the open source Apache 2 license. Open vSwitch is well suited
+                  to function as a virtual switch in VM environments.  In addition to exposing standard
+                  control and visibility interfaces to the virtual networking layer, it was designed to
+                  support distribution across multiple physical servers.  Open vSwitch supports multiple
+                  Linux-based virtualization technologies including Xen/XenServer, KVM, and VirtualBox."
     maintainer:
         - zishen.lim@linaro.org
     os:
         - openembedded
     devices:
         - arndale
+        - juno
     scope:
         - functional
 
