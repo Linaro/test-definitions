@@ -1,7 +1,8 @@
 metadata:
   name: openjdk8-sanity
   format: "Lava-Test-Shell Test Definition 1.0"
-  description: "Validates that the OpenJDK 8 java binary can run and matches version 1.8"
+  description: "Openjdk8-sanity test for Linaro OpenEmbedded builds. The test validates that
+                the OpenJDK 8 java binary can run and matches version 1.8"
   version: 1.0
   maintainer:
     - andrew.mcdermott@linaro.org
@@ -10,7 +11,8 @@ metadata:
   scope:
     - functional
   devices:
-    - rtsm_ve-armv8
+    - rtsm_fvp_base-aemv8a
+    - juno
 
 run:
   steps:
