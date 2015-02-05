@@ -16,6 +16,24 @@
       "revId": "def849a250cd6b6aabae18926c71bb22b45643d6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_79c1a7e3",
+        "filename": "android/scripts/gtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-02-05T08:18:19Z",
+      "side": 1,
+      "message": "Milosz,\nI can enter the folder /home/testdata.validation.linaro.org/, but I don\u0027t have permission to do anything. Who can do that? Should I ask IT support to add permission for me?\n\n\nThanks,\nChase",
+      "parentUuid": "da7095c5_79bbe7c4",
+      "revId": "def849a250cd6b6aabae18926c71bb22b45643d6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
