@@ -2,13 +2,15 @@ metadata:
     name: odp_shm
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run odp-shm"
+    description: "ODP_SHM or Opendata plane shared memory test for Linaro OpenEmbedded builds.
+                  The test check Shared memory block info and tests shared data."
     maintainer:
         - mike.holmes@linaro.org
     os:
         - openembedded
     devices:
         - arndale
+        - juno
     environment:
         - lava-test-shell
 
