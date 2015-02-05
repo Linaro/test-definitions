@@ -55,7 +55,32 @@ echo "</session>" >> $EXTERNAL_STORAGE/session.xml
 
 ## Test case definitions
 
-# Check whether session.xml is available
+# Check whether gator module is installed and the daemon is running
+test_gator_module_exists_and_daemon_is_running(){
+    TEST="gator_module_exists_and_daemon_is_running"
+
+    lsmod | grep gator > /dev/null
+    if [ $? -ne 0]; then
+        fail_test "gator module does not seem to be installed in the rootfs"
+        return 1
+    fi
+
+    ps ax | grep gatord* > /dev/null
+    if [ $? -eq 0]; then
+        echo "Gator daemon is running"
+        return 0
+    fi
+
+    gatord &
+    if [ $? -ne 0]; then
+        fail_test "attempting to run the gator daemon manually failed - exiting the tests"
+        return 1
+    fi
+
+    pass_test
+}
+
+# Test the created session.xml file does not turn empty
 test_session_xml_not_empty() {
     TEST="session_xml_not_empty"
 
@@ -103,6 +128,7 @@ test_gator_data_streaming_result() {
 }
 
 # run the tests
+test_gator_module_exists_and_daemon_is_running
 test_session_xml_not_empty
 test_gator_data_streaming_cmd
 test_gator_data_streaming_result
