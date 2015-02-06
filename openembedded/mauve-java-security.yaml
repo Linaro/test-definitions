@@ -15,7 +15,10 @@
 metadata:
   name: mauve-java-security
   format: "Lava-Test-Shell Test Definition 1.0"
-  description: "Regression tests for the OpenJDK platform"
+  description: "Run Mauve test suite on Linaro OpenEmbedded builds. Mauve runs regression tests
+                for the OpenJDK platform. The Mauve Project is collaborative project whose goal
+                is to create a Free suite of functional, black box, tests for the core Java libraries.
+                More info here https://www.sourceware.org/mauve/"
   version: 1.0
   maintainer:
     - andrew.mcdermott@linaro.org
@@ -24,7 +27,8 @@ metadata:
   scope:
     - test
   devices:
-    - rtsm_ve-armv8
+    - rtsm_fvp_base-aemv8a
+    - juno
 params:
   JAVA_VM: -client
   JAVA_PRODUCT_BINARY: /usr/lib/jvm/java-8-openjdk/bin/java
