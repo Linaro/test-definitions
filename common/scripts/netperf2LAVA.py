@@ -2,13 +2,13 @@
 import re
 import sys
 
-#Parse netperf/ping/tcpreplay results looking for the data in the form of
-#line = "Actual: 113000 packets (7810000 bytes) sent in 4.75 seconds.		Rated: 1644210.5 bps, 12.54 Mbps, 23789.47 pps"
-#line = "rtt min/avg/max/mdev = 4.037/4.037/4.037/0.000 ms"
-#line = "87380 16384 2048 10.00 4289.48 51.12 51.12 3.905 3.905" ./netperf -l 10 -c -C -- -m 2048 -D
-#line = "180224    8192   10.00     1654855      0    10845.1     52.60    1.589" ./netperf -t UDP_STREAM -l 10 -c -C -- -m 8192 -D
-#line = "180224           10.00     1649348           10809.0     52.60    1.589" rcv side of UDP_STREAM
-#line = "16384  87380  1       1      10.00   47469.68  29.84  29.84  25.146  25.146" ./netperf -t TCP_RR -l 10 -c -C -- -r 1,1
+# Parse netperf/ping/tcpreplay results looking for the data in the form of
+# line = "Actual: 113000 packets (7810000 bytes) sent in 4.75 seconds.		Rated: 1644210.5 bps, 12.54 Mbps, 23789.47 pps"
+# line = "rtt min/avg/max/mdev = 4.037/4.037/4.037/0.000 ms"
+# line = "87380 16384 2048 10.00 4289.48 51.12 51.12 3.905 3.905" ./netperf -l 10 -c -C -- -m 2048 -D
+# line = "180224    8192   10.00     1654855      0    10845.1     52.60    1.589" ./netperf -t UDP_STREAM -l 10 -c -C -- -m 8192 -D
+# line = "180224           10.00     1649348           10809.0     52.60    1.589" rcv side of UDP_STREAM
+# line = "16384  87380  1       1      10.00   47469.68  29.84  29.84  25.146  25.146" ./netperf -t TCP_RR -l 10 -c -C -- -r 1,1
 
 found_result = "false"
 parser_replay = re.compile("Rated:\s+(?P<throughput1>\d+\.\d+)\s+\S+\s+(?P<throughput2>\d+\.\d+)\s+\S+\s+(?P<throughput3>\d+\.\d+)")

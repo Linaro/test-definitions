@@ -3,12 +3,12 @@
 import re
 import sys
 
-RESULT_MAP = { 'PAS': 'pass',
-               'FAL': 'fail',
-               'SKP': 'skip',
-               'ABT': 'fail',
-               'WRN': 'fail',
-               'ERR': 'fail' }
+RESULT_MAP = {'PAS': 'pass',
+              'FAL': 'fail',
+              'SKP': 'skip',
+              'ABT': 'fail',
+              'WRN': 'fail',
+              'ERR': 'fail'}
 line = re.compile("(?P<owner>[a-z_]+)\\s*-(?P<field>[A-Z]+):(?P<content>.*)")
 header = re.compile("(?P<gowner>[a-z]+):\\s(?P<group_name>[ ()a-zA-Z-_]+)")
 result = re.compile("(?P<r>.*):\\s(?P<test_name>Test [0-9]),\\s(?P<comment>.*)")

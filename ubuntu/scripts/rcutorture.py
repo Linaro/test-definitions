@@ -28,8 +28,10 @@ import subprocess
 
 # Result collection for LAVA
 debug_switcher = False
+
+
 def collect_result(testcase, result):
-    if debug_switcher == False:
+    if debug_switcher is False:
         subprocess.call(['lava-test-case', testcase, '--result', result])
     else:
         print ['lava-test-case', testcase, '--result', result]
@@ -57,7 +59,7 @@ else:
 lsmod_output = subprocess.check_output(['lsmod'])
 print lsmod_output
 lsmod_list = lsmod_output.split()
-torture_list = filter(lambda x:x.find('torture')!=-1, lsmod_list)
+torture_list = filter(lambda x: x.find('torture') != -1, lsmod_list)
 if torture_list == []:
     print 'Cannot find rcutorture module in lsmod, abort!'
     collect_result('rcutorture-module-check', 'fail')
