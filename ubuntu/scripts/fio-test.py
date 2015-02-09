@@ -34,6 +34,7 @@ print os.getcwd()
 commands.getstatusoutput("sudo fdisk -l > partition_layout.txt 2>&1")
 device_name = sys.argv[1]
 
+
 def fio_device_existence():
     testcase_name = "fio_target_device_existence"
     if sys.argv[1] == "":
@@ -54,6 +55,7 @@ def fio_device_existence():
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not locate " + sys.argv[1] + " on target board"
             sys.exit(1)
 
+
 def fio_existence():
     testcase_name = "fio_binary_existence"
     run_command = "which fio"
@@ -66,6 +68,7 @@ def fio_existence():
     else:
         print "The FIO binary location is: " + fio_binary_location[1]
         print testcase_name + ": PASS" + " 0" + " Inapplicable"
+
 
 def fio_read():
     testcase_name = "fio_bs4kread_iops"
@@ -97,6 +100,7 @@ def fio_read():
         logfile.close()
         print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
 
+
 def fio_randread():
     testcase_name = "fio_randread_iops"
     run_command = "sudo fio -filename=" + device_name + " -rw=randread -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randread > fio_randread.txt 2>&1"
@@ -126,6 +130,7 @@ def fio_randread():
 
         logfile.close()
         print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
+
 
 def fio_write():
     testcase_name = "fio_write_iops"
@@ -157,6 +162,7 @@ def fio_write():
         logfile.close()
         print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
 
+
 def fio_randwrite():
     testcase_name = "fio_randwrite_iops"
     run_command = "sudo fio -filename=" + device_name + " -rw=randwrite -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randwrite > fio_randwrite.txt 2>&1"
@@ -186,6 +192,7 @@ def fio_randwrite():
 
         logfile.close()
         print testcase_name + ": PASS" + " " + iops_result + " " + "IOPS"
+
 
 def fio_512k_write():
     testcase_name = "fio_512k_write_bandwidth"
@@ -217,6 +224,7 @@ def fio_512k_write():
 
         logfile.close()
         print testcase_name + ": PASS" + " " + bandwidth_number + " " + "KB/s"
+
 
 def fio_512k_read():
     testcase_name = "fio_512k_read_bandwidth"
