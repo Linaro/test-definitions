@@ -60,24 +60,24 @@ test_gator_module_exists_and_daemon_is_running(){
     TEST="gator_module_exists_and_daemon_is_running"
 
     lsmod | grep gator > /dev/null
-    if [ $? -ne 0]; then
+    if [ $? -ne 0 ]; then
         fail_test "gator module does not seem to be installed in the rootfs"
         return 1
     fi
 
-    ps ax | grep gatord* > /dev/null
-    if [ $? -eq 0]; then
-        echo "Gator daemon is running"
-        return 0
-    fi
-
-    gatord &
-    if [ $? -ne 0]; then
-        fail_test "attempting to run the gator daemon manually failed - exiting the tests"
+    ps | grep gatord* > /dev/null
+    if [ $? -ne 0 ]; then
+        echo "Gator daemon is not running - try to launch gator deamon manually"
+    else
+        gatord &
+        if [ $? -ne 0 ]; then
+            fail_test "attempting to run the gator daemon manually failed"
         return 1
+        fi
     fi
 
     pass_test
+
 }
 
 # Test the created session.xml file does not turn empty
