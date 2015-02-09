@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_7c30b556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-02-09T03:54:30Z",
+      "side": 1,
+      "message": "commit message should tell what the patch is about.",
+      "revId": "403f1f379378c676984b2de342581fa67dbb44d1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_5c2b71eb",
+        "filename": "ubuntu/scripts/gator-data-streaming-ubuntu.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-02-09T03:54:30Z",
+      "side": 1,
+      "message": "Please don\u0027t use tabs.",
+      "revId": "403f1f379378c676984b2de342581fa67dbb44d1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
