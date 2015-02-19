@@ -2,13 +2,15 @@ metadata:
     name: odp_example
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run odp-example"
+    description: "Run odp-example test on Linaro OpenEmbedded builds.
+                  NOTE: This test is deprecated from ODP and will be dropped soon."
     maintainer:
         - mike.holmes@linaro.org
     os:
         - openembedded
     devices:
         - arndale
+        - juno
     environment:
         - lava-test-shell
 
