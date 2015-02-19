@@ -2,13 +2,15 @@ metadata:
     name: odp_packet
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run odp-packet"
+    description: "ODP-PACKET or OpenDataPlane Packet test for Linaro OpenEmbedded builds. odp_packet
+                  is a basic packet IO loopback test application."
     maintainer:
         - mike.holmes@linaro.org
     os:
         - openembedded
     devices:
         - arndale
+        - juno
     environment:
         - lava-test-shell
 
