@@ -1,7 +1,9 @@
 metadata:
   name: dmidecode
   format: "Lava-Test-Shell Test Definition 1.0"
-  description: "DMI Decode Test"
+  description: "DMI Decode Test for Linaro Ubuntu & OpenEmbedded builds. Dmidecode
+                reports information about system's hardware from BIOS such as bios_version
+                dmi, id, bios_version and bios_date."
   version: 1.0
   os:
     - ubuntu
@@ -13,6 +15,7 @@ metadata:
     - beagle-xm
     - mx53loco
     - rtsm_fvp_base-aemv8a
+    - juno
   scope:
     - functional
 
