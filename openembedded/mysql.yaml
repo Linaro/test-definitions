@@ -1,7 +1,8 @@
 metadata:
     name: mysql
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test for mysql in OpenEmbedded."
+    description: "MYSQL test for Linaro OpenEmbedded builds. The test runs 'show databases'
+                  command to check for available databases."
     maintainer:
         - senthil.kumaran@linaro.org
         - milosz.wasilewski@linaro.org
@@ -11,7 +12,8 @@ metadata:
     scope:
         - functional
     devices:
-        - rtsm_ve-armv8
+        - rtsm_fvp_base-aemv8a
+        - juno
 
 run:
     steps:
