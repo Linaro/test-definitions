@@ -1,8 +1,8 @@
 metadata:
     format: "Lava-Test Test Definition 1.0"
     name: iks-smoke-test
-    description: "IKS-smoke-test
-        This test is to enable and disable big.LITTLE IKS switcher 100 times"
+    description: "Iks-Smoke-Test for Linaro Ubuntu & Android builds. The test runs iks-smoke-tests,
+                  enables and disables big.LITTLE IKS switcher 100 times."
     maintainer:
         - naresh.kamboju@linaro.org
     os:
