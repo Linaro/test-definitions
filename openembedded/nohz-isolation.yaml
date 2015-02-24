@@ -1,7 +1,12 @@
 metadata:
     name: NO_HZ_FULL
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Test CPU Isolation with NOHZ and CPUSETS on ubuntu."
+    description: "Test CPU Isolation with NOHZ and CPUSETS on Linaro Ubuntu and OpenEmbedded builds.
+                  The test can isolate upto (N-1) CPU's from list of N CPU's isolating it from other
+                  background kernel activities and runs task on the isolated CPU(s) and figures out if
+                  CPU's are isolated or not by s/run, task/run and user provided task (default 'stress')
+                  reading 'cat /proc/interrupts' for all interrupts. ISOL_CPU, ITERATIONS and ISOL_MIN are
+                  set to 1, 5 and 10 respectively by default which can be changed via JSON file."
     maintainer:
         - viresh.kumar@linaro.org
     os:
@@ -11,6 +16,7 @@ metadata:
         - functional
     devices:
         - arndale
+        - juno
 
 params:
     ISOL_CPU: 1
