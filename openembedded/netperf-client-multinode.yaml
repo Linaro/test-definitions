@@ -1,7 +1,9 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: netperf-client-multinode
-    description: "Basic MultiNode netperf/ping test on client side"
+    description: "Basic MultiNode netperf/ping test on client side for Linaro OpenEmbedded builds.
+                  This test measures the performance using netperf/ping/tcreplay for throughput and
+                  end-to-end latency."
     maintainer:
         - guoqing.zhu@linaro.org
         - weilong.chen@linaro.org
@@ -19,6 +21,7 @@ metadata:
         - beaglebone-black
         - beagle-xm
         - mx53loco
+        - juno
 params:
     CONNECTION: lngswitch
 
