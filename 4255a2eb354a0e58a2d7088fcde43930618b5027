@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_4873a7b1",
+        "filename": "openembedded/mysql.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-02-25T13:15:13Z",
+      "side": 1,
+      "message": "something went wrong here. Please check.",
+      "revId": "4255a2eb354a0e58a2d7088fcde43930618b5027",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
