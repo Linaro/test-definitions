@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_6d4a3d85",
+        "filename": "common/iks-smoke-test.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2015-02-25T09:10:29Z",
+      "side": 1,
+      "message": "IKS - Internal Kernel Switcher.\nso IKS should be in Capital letter.",
+      "revId": "54790e4c314eee713a567f6d4b49376ef729367a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
