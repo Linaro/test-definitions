@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_0d8621ba",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2015-02-25T03:40:10Z",
+      "side": 1,
+      "message": "It can isolate upto (N-1) CPUs from a list of N CPUs.",
+      "revId": "99226df2c7c0645f49a7d50374122de0ef66e87e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_ad9295f4",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2015-02-25T03:40:10Z",
+      "side": 1,
+      "message": "s/run task/run user provided task (default \u0027stress\u0027)",
+      "revId": "99226df2c7c0645f49a7d50374122de0ef66e87e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
