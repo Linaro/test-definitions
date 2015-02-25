@@ -22,6 +22,8 @@ install:
     git-repos:
         - http://git.linaro.org/git/lava/lava-android-test.git
     steps:
+        # workaround to outdated setuptools in 14.04 image
+        - pip install --upgrade setuptools
         - cd lava-android-test
         - python setup.py install
     deps:
