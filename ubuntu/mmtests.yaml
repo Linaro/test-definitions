@@ -1,0 +1,34 @@
+metadata:
+    name: mmtests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run mmtests suite on Ubuntu"
+    maintainer:
+        - chase.qi@linaro.org
+        - milosz.wasilewski@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - juno
+        - beaglebone-black
+
+install:
+    steps:
+        - 'VERSION=v0.16'
+        - 'wget https://github.com/gormanm/mmtests/archive/$VERSION.tar.gz'
+        - 'tar --strip-components=1 -zxf $VERSION.tar.gz'
+    deps:
+        - time
+
+params:
+    TESTS: 'dd dd-tmpfs ddsync ku-latency libmicro'
+
+run:
+    steps:
+        - ./common/scripts/mmtests.sh "$TESTS"
