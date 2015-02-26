@@ -1,9 +1,8 @@
 metadata:
     name: dt-selftests
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Device Tree Runtime self tests
-            kernel config required for this tests
-            CONFIG_OF_SELFTEST=y or CONFIG_OF_UNITTEST=y"
+    description: "Device Tree Runtime self tests for Linaro Ubuntu & OpenEmbedded builds. Kernel config
+                  required for this tests CONFIG_OF_SELFTEST=y or CONFIG_OF_UNITTEST=y"
     maintainer:
         - naresh.kamboju@linaro.org
     os:
@@ -21,6 +20,7 @@ metadata:
         - beaglebone-black
         - imx6q-wandboard
         - ifc6540
+        - juno
     environment:
         - lava-test-shell
 

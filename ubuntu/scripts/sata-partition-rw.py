@@ -36,6 +36,7 @@ print os.getcwd()
 test_case_list = ["sata_device_existence", "sata_mklabel_msdos", "sata_mklabel_gpt", "sata_first_ext2_partition", "sata_second_ext2_partition", "sata_ext3_format", "sata_ext4_format", "sata_ext4_mount", "sata_ext4_umount", "sata_ext4_file_fill", "sata_ext4_file_edit", "sata_ext4_dd_write", "sata_ext4_dd_read"]
 print "There are " + str(len(test_case_list)) + " test cases in this test suite."
 
+
 # All skipped - If test case sata_device_existence failed, then skip all the rest.
 def all_skipped():
     for element in test_case_list[1:]:
@@ -44,6 +45,7 @@ def all_skipped():
 # Save partition layout to a local file for reference
 commands.getstatusoutput("fdisk -l > partition_layout.txt 2>&1")
 device_name = sys.argv[1]
+
 
 def sata_device_existence():
     testcase_name = "sata_device_existence"
@@ -66,6 +68,7 @@ def sata_device_existence():
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not locate " + device_name + " on target board"
             all_skipped()
             sys.exit(1)
+
 
 def sata_mklabel_msdos():
     testcase_name = "sata_mklabel_msdos"
@@ -92,6 +95,7 @@ def sata_mklabel_msdos():
         else:
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not find partition table " + label_name + " on " + device_name
 
+
 def sata_mklabel_gpt():
     testcase_name = "sata_mklabel_gpt"
     label_name = "gpt"
@@ -116,6 +120,7 @@ def sata_mklabel_gpt():
             print testcase_name + ": PASS" + " 0" + " Inapplicable"
         else:
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not find partition table " + label_name + " on " + device_name
+
 
 def sata_first_ext2_partition():
     testcase_name = "sata_first_ext2_partition"
@@ -149,6 +154,7 @@ def sata_first_ext2_partition():
             else:
                 print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not find partition " + partition_name_first + " on " + device_name
 
+
 def sata_second_ext2_partition():
     testcase_name = "sata_second_ext2_partition"
     second_partition_creation = "parted -s " + device_name + " mkpart primary ext2 11% 20%"
@@ -173,6 +179,7 @@ def sata_second_ext2_partition():
             print testcase_name + ": PASS" + " 0" + " Inapplicable"
         else:
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not find partition " + partition_name_second + " on " + device_name
+
 
 def sata_ext3_format():
     testcase_name = "sata_ext3_format"
@@ -199,6 +206,7 @@ def sata_ext3_format():
         else:
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not find ext3 partition on " + device_name
 
+
 def sata_ext4_format():
     testcase_name = "sata_ext4_format"
     target_partition_name = device_name + "2"
@@ -223,6 +231,7 @@ def sata_ext4_format():
             print testcase_name + ": PASS" + " 0" + " Inapplicable"
         else:
             print testcase_name + ": FAIL" + " 0" + " Inapplicable" + " - Could not find ext4 partition on " + device_name
+
 
 def sata_ext4_mount_umount():
     testcase_mount = "sata_ext4_mount"
@@ -275,6 +284,7 @@ def sata_ext4_mount_umount():
             print testcase_umount + ": FAIL" + " 0" + " Inapplicable" + " - ext4 partition umount failed from " + mount_point
         else:
             print testcase_umount + ": PASS" + " 0" + " Inapplicable"
+
 
 def sata_ext4_file_fill_edit():
     testcase_filefill = "sata_ext4_file_fill"
@@ -334,6 +344,7 @@ def sata_ext4_file_fill_edit():
     commands.getstatusoutput(umount_clean)
     time.sleep(5)
     print "mount point cleaned!"
+
 
 def sata_ext4_dd_write_read():
     testcase_dd_write = "sata_ext4_dd_write"

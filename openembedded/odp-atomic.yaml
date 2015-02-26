@@ -2,13 +2,15 @@ metadata:
     name: odp_atomic
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run odp-atomic test"
+    description: "ODP-ATOMIC or OpenDataPlane Atomic test for Linaro OpenEmbedded builds. The test performs
+                  basic atomic operation like add/sub/increment/decrement operation."
     maintainer:
         - mike.holmes@linaro.org
     os:
         - openembedded
     devices:
         - arndale
+        - juno
     environment:
         - lava-test-shell
 

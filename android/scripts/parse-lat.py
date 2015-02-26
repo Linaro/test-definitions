@@ -11,9 +11,9 @@ if __name__ == '__main__':
     usage = "usage: %prog -f <results file> -t <test name>"
     parser = OptionParser(usage=usage)
     parser.add_option("-f", "--file", dest="filename",
-                  help="result file", metavar="FILE")
+                      help="result file", metavar="FILE")
     parser.add_option("-t", "--testcase", dest="testcase",
-                  help="lava-android-test test name")
+                      help="lava-android-test test name")
 
     (options, args) = parser.parse_args()
 

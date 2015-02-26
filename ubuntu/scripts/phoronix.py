@@ -32,17 +32,21 @@ print os.getcwd()
 
 # Result collection for LAVA
 debug_switcher = False
+
+
 def collect_result(testcase, result):
-    if debug_switcher == False:
+    if debug_switcher is False:
         call(['lava-test-case', testcase, '--result', result])
     else:
         print ['lava-test-case', testcase, '--result', result]
 
+
 def collect_score_with_measurement(testcase, result, score, unit):
-    if debug_switcher == False:
+    if debug_switcher is False:
         call(['lava-test-case', testcase, '--result', result, '--measurement', str(score), '--units', unit])
     else:
         print ['lava-test-case', testcase, '--result', result, '--measurement', str(score), '--units', unit]
+
 
 # Installation check
 def phoronix_install_check():
@@ -96,7 +100,7 @@ call(['cat', home_path + '/.phoronix-test-suite/user-config.xml'])
 
 # Get all Ethernet interface name
 # As the input is trusted, then call the function in this way
-eth_interface_list =  check_output("ifconfig -a | grep eth | awk '{print $1}'", shell=True).split('\n')
+eth_interface_list = check_output("ifconfig -a | grep eth | awk '{print $1}'", shell=True).split('\n')
 eth_interface_list = filter(None, eth_interface_list)
 print eth_interface_list
 
