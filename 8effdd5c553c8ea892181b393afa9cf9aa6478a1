@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_93eed421",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-02-26T09:04:54Z",
+      "side": 1,
+      "message": "second comment from Viresh is not addressed.",
+      "revId": "8effdd5c553c8ea892181b393afa9cf9aa6478a1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_73e9c019",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-02-26T09:04:54Z",
+      "side": 1,
+      "message": "which cconfigs do we need enabled in the kernel to run this test properly?",
+      "revId": "8effdd5c553c8ea892181b393afa9cf9aa6478a1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
