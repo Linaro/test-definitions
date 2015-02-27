@@ -33,6 +33,24 @@
       "revId": "8effdd5c553c8ea892181b393afa9cf9aa6478a1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_97f004cb",
+        "filename": "openembedded/nohz-isolation.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2015-02-27T07:42:25Z",
+      "side": 1,
+      "message": "+CONFIG_NO_HZ_FULL\u003dy\n+CONFIG_NO_HZ_FULL_ALL\u003dy\n+CONFIG_CGROUPS\u003dy\n+CONFIG_CPUSETS\u003dy",
+      "parentUuid": "da7095c5_73e9c019",
+      "revId": "8effdd5c553c8ea892181b393afa9cf9aa6478a1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
