@@ -15,7 +15,16 @@ LTP_PATH=/opt/ltp
 while getopts T:S:P: arg
     do case $arg in
         T) TST_CMDFILES="$OPTARG";;
-        S) SKIPFILE="-S $SCRIPTPATH/ltp/$OPTARG";;
+        S) OPT=`echo $OPTARG | grep "http"`
+           if [ -z $OPT ] ; then
+             SKIPFILE="-S $SCRIPTPATH/ltp/$OPTARG"
+           else
+             #wget http://people.linaro.org/~naresh.kamboju/skipfile
+             wget $OPTARG
+             SKIPFILE=`echo "${OPTARG##*/}"`
+             SKIPFILE="-S `pwd`/$SKIPFILE"
+           fi
+           ;;
         P) LTP_PATH=$OPTARG;;
     esac
 done
