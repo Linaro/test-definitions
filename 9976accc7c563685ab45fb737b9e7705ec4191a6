@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_fdf4bf88",
+        "filename": "common/scripts/ltpfixup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-03-04T12:37:10Z",
+      "side": 1,
+      "message": "please use curl to be on the safe side (wget from busybox will not work with https addresses)",
+      "revId": "9976accc7c563685ab45fb737b9e7705ec4191a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
