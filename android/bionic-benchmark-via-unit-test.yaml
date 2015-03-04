@@ -1,0 +1,20 @@
+metadata:
+    name: bionic-benchmark-via-units
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "use the gtest time information of bionic-unit-tests
+                  as benchmark data and analyse"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - juno
+
+params:
+    LOOP_TIMES: 1
+
+run:
+    steps:
+        - ./android/scripts/bionic-benchmark-via-units.sh $LOOP_TIMES
