@@ -32,9 +32,15 @@ install:
         - bison
         - build-essential
         - wget
+        - curl
 
 params:
     TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+    # SKIPFILE can be an URL or a filename from ../common/scripts/ltp/skipfile-lsk-juno
+    # SKIPFILE: "http://people.linaro.org/~naresh.kamboju/skipfile"
+    # or
+    # SKIPFILE: "skipfile-lsk-juno"
+    # "skipfile-lsk-juno" already present in ../common/scripts/ltp/skipfile-lsk-juno
     SKIPFILE: ""
 
 run:
