@@ -1,0 +1,19 @@
+metadata:
+    name: bionic-benchmarks
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "collect the bionic-benchmarks data and try to analyse"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+
+params:
+    LOOP_TIMES: 1
+
+run:
+    steps:
+        - ./android/scripts/bionic-benchmarks.sh $LOOP_TIMES
