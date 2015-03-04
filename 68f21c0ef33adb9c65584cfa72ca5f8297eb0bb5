@@ -69,6 +69,24 @@
       "revId": "68f21c0ef33adb9c65584cfa72ca5f8297eb0bb5",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_bd73a714",
+        "filename": "android/bionic-benchmark.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-03-04T14:30:58Z",
+      "side": 1,
+      "message": "it has a lot of meaning for me, so please don\u0027t remove it. It probably makes little sense to test on models, but testing on hardware is certainly something we\u0027re after.",
+      "parentUuid": "9a6a9dd7_7d7e6fe6",
+      "revId": "68f21c0ef33adb9c65584cfa72ca5f8297eb0bb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
