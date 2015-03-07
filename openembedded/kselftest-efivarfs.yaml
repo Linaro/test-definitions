@@ -19,10 +19,11 @@ metadata:
 
 install:
     git-repos:
-        - http://git.linaro.org/qa/kselftest.git
+        - url: http://git.linaro.org/qa/kselftest.git
+          branch: BRANCH
+
     steps:
         - 'cd kselftest'
-        - 'git checkout $BRANCH'
         - 'make -C efivarfs'
 
 params:

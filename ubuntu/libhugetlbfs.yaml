@@ -20,18 +20,20 @@ metadata:
 
 install:
     git-repos:
-        - git://libhugetlbfs.git.sourceforge.net/gitroot/libhugetlbfs/libhugetlbfs
+        - url: git://libhugetlbfs.git.sourceforge.net/gitroot/libhugetlbfs/libhugetlbfs
+          branch: BRANCH
     steps:
         - 'cd libhugetlbfs'
-        - 'git checkout origin/next -b next'
         - 'make'
         - 'mkdir -p /mnt/huge'
     deps:
-        - git
-        - git-core
         - build-essential
         - python
         - python2.7
+
+params:
+    BRANCH: next
+
 run:
     steps:
         - 'cd libhugetlbfs'
