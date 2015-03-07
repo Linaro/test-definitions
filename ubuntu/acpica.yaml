@@ -17,15 +17,12 @@ metadata:
 
 install:
     git-repos:
-        - git://git.linaro.org/leg/acpica/acpica.git
+        - url: git://git.linaro.org/leg/acpica/acpica.git
+          branch: BRANCH
     steps:
         - 'cd acpica'
-        - 'git branch linaro origin/linaro'
-        - 'git checkout linaro'
         - 'make all'
     deps:
-        - git
-        - git-core
         - bzip2
         - flex
         - bison
@@ -33,6 +30,7 @@ install:
 
 params:
     TESTMODE: n64
+    BRANCH: linaro
 
 run:
     steps:
