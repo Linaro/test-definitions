@@ -20,21 +20,30 @@ metadata:
 
 install:
     git-repos:
-        - git://libhugetlbfs.git.sourceforge.net/gitroot/libhugetlbfs/libhugetlbfs
+        - url: git://libhugetlbfs.git.sourceforge.net/gitroot/libhugetlbfs/libhugetlbfs
+          branch: BRANCH
     steps:
         - 'cd libhugetlbfs'
-        - 'git checkout origin/next -b next'
+        - 'find . | xargs touch'
         - 'make'
         - 'mkdir -p /mnt/huge'
     deps:
-        - git
-        - git-core
         - build-essential
         - python
         - python2.7
+
+params:
+    BRANCH: next
+
 run:
     steps:
         - 'cd libhugetlbfs'
         - 'echo 200 > /proc/sys/vm/nr_hugepages'
         - 'mount -t hugetlbfs hugetlbfs /mnt/huge'
         - 'make check'
+
+parse:
+    pattern: '^(?P<test_case_id>.+):\s+(?P<result>FAIL|PASS)'
+    fixupdict:
+        FAIL: fail
+        PASS: pass

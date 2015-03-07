@@ -15,11 +15,10 @@ metadata:
 
 install:
     git-repos:
-        - git://git.linaro.org/leg/acpica/acpica.git
+        - url: git://git.linaro.org/leg/acpica/acpica.git
+          branch: BRANCH
     steps:
         - 'cd acpica'
-        - 'git branch linaro origin/linaro'
-        - 'git checkout linaro'
         - 'make iasl'
         - 'cd tests/aapits && make all'
     deps:
@@ -28,7 +27,10 @@ install:
         - bison
         - build-essential
         - make
-        - git
+
+params:
+    BRANCH: linaro
+
 run:
     steps:
         - 'cd acpica/tests/aapits/bin'

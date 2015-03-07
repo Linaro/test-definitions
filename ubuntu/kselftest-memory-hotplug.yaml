@@ -20,12 +20,8 @@ metadata:
 
 install:
     git-repos:
-        - http://git.linaro.org/qa/kselftest.git
-    steps:
-        - 'cd kselftest'
-        - 'git checkout $BRANCH'
-    deps:
-        - git
+        - url: http://git.linaro.org/qa/kselftest.git
+          branch: BRANCH
 
 params:
     BRANCH: master
