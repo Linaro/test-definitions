@@ -5,7 +5,6 @@ metadata:
                   and cputopology by default and individual test can be run via JSON file too.
                   Test case documentation available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
     maintainer:
-        - sanjay.rawat@linaro.org
         - lisa.nguyen@linaro.org
     os:
         - ubuntu
@@ -37,7 +36,7 @@ install:
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
-    RELEASE: 'pm-qa-v0.4.15'
+    RELEASE: 'pm-qa-v0.5.0'
 
 run:
     steps:
