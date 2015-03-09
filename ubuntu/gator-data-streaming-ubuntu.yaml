@@ -7,8 +7,10 @@ metadata:
                   depending upon output of this command."
     maintainer:
         - botao.sun@linaro.org
+	- mahanth.gouda@linaro.org
     os:
         - ubuntu
+	- openembedded
     scope:
         - functional
     devices:

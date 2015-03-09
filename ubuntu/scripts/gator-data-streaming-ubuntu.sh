@@ -22,9 +22,12 @@
 
 . include/sh-test-lib
 
+# Creating a new directory called gator_files under tmp so that it can be uniformly used for both Ubuntu and OE instead of using root for session.xml file
+mkdir -p /tmp/gator_files
+
 # Location of XML template and data streaming result folder
-xml_template="/root/session.xml"
-data_streaming_result="/root/linaro-ubuntu-gator-data-streaming.apc"
+xml_template="/tmp/gator_files/session.xml"
+data_streaming_result="/tmp/gator_files/linaro-ubuntu-gator-data-streaming.apc"
 
 # Create sample XML file as a template
 echo "<?xml version=\"1.0\" encoding=\"US-ASCII\" ?> " > $xml_template
