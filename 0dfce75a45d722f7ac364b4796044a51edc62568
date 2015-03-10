@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_06c7e446",
+        "filename": "android/stringbench.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-03-10T11:10:27Z",
+      "side": 1,
+      "message": "typo here - should be --shell",
+      "revId": "0dfce75a45d722f7ac364b4796044a51edc62568",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
