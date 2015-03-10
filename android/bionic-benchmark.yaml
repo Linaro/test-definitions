@@ -12,8 +12,9 @@ metadata:
         - juno
 
 params:
-    LOOP_TIMES: 1
+    RECORD_RESULT_LOCAL: "FALSE"
+    LOOP_COUNT: "1"
 
 run:
     steps:
-        - ./android/scripts/bionic-benchmarks.sh $LOOP_TIMES
+        - ./android/scripts/bionic-benchmarks.sh --record-csv ${RECORD_RESULT_LOCAL} --loop-count ${LOOP_COUNT}
