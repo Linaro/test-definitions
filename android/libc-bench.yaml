@@ -1,0 +1,23 @@
+metadata:
+    name: libc-bench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run libc-bench command to benchmark the
+                  performance of bionic.
+                  The source is here now:
+                  git://android.git.linaro.org/platform/external/libc-bench"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - juno
+
+params:
+    RECORD_RESULT_LOCAL: "FALSE"
+    LOOP_COUNT: "1"
+
+run:
+    steps:
+        - ./android/scripts/libc-bench.sh --record-csv ${RECORD_RESULT_LOCAL} --loop-count ${LOOP_COUNT}
