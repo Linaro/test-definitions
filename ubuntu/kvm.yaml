@@ -14,6 +14,7 @@ metadata:
         - vexpress-tc2
         - mustang
         - midway
+        - juno
 
 install:
     deps:
@@ -24,15 +25,16 @@ install:
         - bridge-utils
         - udhcpc
         - wget
-        - build-essential
 
 run:
     steps:
         - 'sudo ./common/scripts/kvm/test-host.sh'
         - 'sudo ./common/scripts/kvm/test-kvm.sh'
         - 'sudo ./common/scripts/kvm/test-rt-parse.sh'
-        - 'lava-test-run-attach kvm-log.txt text/plain'
-        - 'lava-test-run-attach guest.log text/plain'
+        - 'lava-test-run-attach kvm-arm64.log'
+        - 'lava-test-run-attach aarch64-guest.log' 
+        - 'lava-test-run-attach kvm-arm32.log'
+        - 'lava-test-run-attach armv7l-guest.log' 
 
 parse:
     pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'

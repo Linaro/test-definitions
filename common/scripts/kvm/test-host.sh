@@ -18,7 +18,7 @@
 #
 # Maintainer: Riku Voipio <riku.voipio@linaro.org>
 
-echo "Compile hackbench"
+echo "Download hackbench"
 curl 2>/dev/null
 if [ $? = 2 ]; then
     DOWNLOAD_FILE="curl -SOk"
@@ -26,9 +26,12 @@ else
     DOWNLOAD_FILE="wget --progress=dot -e dotbytes=2M --no-check-certificate"
 fi
 
-$DOWNLOAD_FILE http://people.redhat.com/mingo/cfs-scheduler/tools/hackbench.c
-gcc -g -Wall -O2 -o hackbench hackbench.c -lpthread
-cp hackbench /usr/bin/
+# source http://people.redhat.com/mingo/cfs-scheduler/tools/hackbench.c
+$DOWNLOAD_FILE http://people.linaro.org/~riku.voipio/hackbench-armv7l
+$DOWNLOAD_FILE http://people.linaro.org/~riku.voipio/hackbench-aarch64
+chmod a+x hackbench*
+ARCH=`uname -m`
+cp hackbench-${ARCH} /usr/bin/hackbench
 
 echo "Test hackbench on host"
-sh ./common/scripts/kvm/test-rt-tests.sh
+sh ./common/scripts/kvm/test-rt-tests.sh host

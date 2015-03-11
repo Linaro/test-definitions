@@ -18,6 +18,92 @@
 #
 # Maintainer: Riku Voipio <riku.voipio@linaro.org>
 
+tamper_guest()
+{
+    guest=$1
+    prefix=$2
+    KVM_BOOT=${prefix}-$KVM_BOOT
+    KVM_GUEST_NET=${prefix}-$KVM_GUEST_NET
+
+    if [ ! -r $guest ]; then
+        echo "$KVM_HOST_NET 0 pc skip"
+        echo "$KVM_BOOT 0 pc skip"
+        echo "$KVM_GUEST_NET 0 pc skip"
+        exit 0
+    fi
+
+    qemu-nbd -c /dev/nbd0 $guest
+    sleep 2
+    mount /dev/nbd0p2 /mnt/
+
+    cp common/scripts/kvm/kvm-lava.conf  /mnt/etc/init/kvm-lava.conf
+
+    # Build up file test-guest.sh
+    if [ "x$1" = "xbenchmark" ]; then
+        cp /usr/bin/lat_ctx /mnt/usr/bin/lat_ctx
+        cp common/scripts/lmbench.sh /mnt/root/lmbench.sh
+        TEST_SCRIPT=/root/lmbench.sh
+    else
+        cp hackbench-${prefix} /mnt/usr/bin/hackbench
+        cp common/scripts/kvm/test-rt-tests.sh /mnt/root/test-rt-tests.sh
+        TEST_SCRIPT="/root/test-rt-tests.sh ${prefix}-guest"
+    fi
+
+    cat >> /mnt/usr/bin/test-guest.sh <<EOF
+#!/bin/sh
+    exec > /root/guest.log 2>&1
+    echo "$KVM_BOOT 0 pc pass"
+    ping -w 20 -c 10 10.0.0.1 && echo "$KVM_GUEST_NET 0 pc pass" || echo "$KVM_GUEST_NET 0 pc fail"
+    sh $TEST_SCRIPT
+EOF
+    chmod a+x /mnt/usr/bin/test-guest.sh
+
+    umount /mnt
+    sync
+    qemu-nbd -d /dev/nbd0
+}
+
+get_results()
+{
+    guest=$1
+    prefix=$2
+    qemu-nbd -c /dev/nbd0 $guest
+    sleep 2
+    mount /dev/nbd0p2 /mnt/
+
+    if ! grep -q "kvm-boot-1:" /mnt/root/guest.log
+    then
+        echo "${prefix}-${KVM_BOOT} 0 pc fail"
+    fi
+    echo ${prefix}-guest logs:
+    cp /mnt/*.txt .
+    cp /mnt/root/guest.log ./${prefix}-guest.log
+    cat ./${prefix}-guest.log
+    umount /mnt
+    sync
+    qemu-nbd -d /dev/nbd0
+}
+
+deadline() {
+    timeout=$1
+    binary=$2
+    set +o errexit
+    while [ true ]; do
+        pid=`pidof $binary`
+        if [ $? -ne 0 ]; then
+            break
+        fi
+        sleep 60
+        timeout=$((timeout - 1))
+        if [ $timeout -eq 0 ]; then
+            kill $pid
+            sleep 10
+            kill -9 $pid
+        break
+        fi
+    done
+}
+
 KVM_HOST_NET="kvm-host-net-1:"
 KVM_GUEST_NET="kvm-guest-net-1:"
 KVM_INIT="kvm-init-1:"
@@ -46,18 +132,18 @@ if [ $? = 2 ]; then
     DOWNLOAD_FILE="curl -SOk"
 else
     EXTRACT_BUILD_NUMBER="wget -q --no-check-certificate -O -"
-    DOWNLOAD_FILE="wget --progress=dot -e dotbytes=2M --no-check-certificate"
+    DOWNLOAD_FILE="wget --no-clobber --progress=dot -e dotbytes=2M --no-check-certificate"
 fi
 
 BUILD_NUMBER_GUEST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/kvm-guest-image/lastSuccessfulBuild/buildNumber`
 
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm32.qcow2.gz
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/zImage-vexpress
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/vexpress-v2p-ca15-tc1.dtb
+gunzip kvm-arm32.qcow2.gz
+
 case ${ARCH} in
     armv7l)
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm32.qcow2.gz
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/zImage-vexpress
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/vexpress-v2p-ca15-tc1.dtb
-        gunzip kvm-arm32.qcow2.gz
-        mv kvm-arm32.qcow2 kvm.qcow2
         modprobe nbd max_part=16
         ;;
     aarch64)
@@ -67,9 +153,9 @@ case ${ARCH} in
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
         gunzip kvm-arm64.qcow2.gz
-        mv kvm-arm64.qcow2 kvm.qcow2
         zcat nbd-${hwpack}.ko.gz > nbd.ko
         insmod nbd.ko max_part=16
+        tamper_guest kvm-arm64.qcow2 aarch64
         ;;
     *)
         echo unknown arch ${ARCH}
@@ -77,44 +163,10 @@ case ${ARCH} in
         ;;
 esac
 
-if [ ! -r kvm.qcow2 ]; then
-    echo "$KVM_HOST_NET 0 pc skip"
-    echo "$KVM_BOOT 0 pc skip"
-    echo "$KVM_GUEST_NET 0 pc skip"
-    exit 0
-fi
-
-qemu-nbd -c /dev/nbd0 kvm.qcow2
-sleep 2
-mount /dev/nbd0p2 /mnt/
-
-cp common/scripts/kvm/kvm-lava.conf  /mnt/etc/init/kvm-lava.conf
-
-# Build up file test-guest.sh
-if [ "x$1" = "xbenchmark" ]; then
-    cp /usr/bin/lat_ctx /mnt/usr/bin/lat_ctx
-    cp common/scripts/lmbench.sh /mnt/root/lmbench.sh
-    TEST_SCRIPT=/root/lmbench.sh
-else
-    cp /usr/bin/hackbench /mnt/usr/bin/hackbench
-    cp common/scripts/kvm/test-rt-tests.sh /mnt/root/test-rt-tests.sh
-    TEST_SCRIPT='/root/test-rt-tests.sh guest'
-fi
 
 echo 0 2000000 > /proc/sys/net/ipv4/ping_group_range
 
-cat >> /mnt/usr/bin/test-guest.sh <<EOF
-#!/bin/sh
-    exec > /root/guest.log 2>&1
-    echo "$KVM_BOOT 0 pc pass"
-    ping -W 4 -c 10 10.0.0.1 && echo "$KVM_GUEST_NET 0 pc pass" || echo "$KVM_GUEST_NET 0 pc fail"
-    sh $TEST_SCRIPT
-EOF
-chmod a+x /mnt/usr/bin/test-guest.sh
-
-umount /mnt
-sync
-qemu-nbd -d /dev/nbd0
+tamper_guest kvm-arm32.qcow2 armv7l
 
 case ${ARCH} in
     armv7l)
@@ -132,25 +184,37 @@ ping -W 4 -c 10 10.0.0.1 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NE
 
 case ${ARCH} in
     armv7l)
+        deadline 60 qemu-system-arm &
         qemu-system-arm --version
         qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
         -kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
         -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
-        -drive if=none,id=image,file=kvm.qcow2 \
+        -drive if=none,id=image,file=kvm-arm32.qcow2 \
         -netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
         -device virtio-net-device,netdev=tap0 \
         -device virtio-blk-device,drive=image \
-        -nographic -enable-kvm 2>&1|tee kvm-log.txt
+        -nographic -enable-kvm 2>&1|tee kvm-arm32.log
         ;;
     aarch64)
+        deadline 60 qemu-system-aarch64 &
         qemu-system-aarch64 --version
+        echo "64bit guest test"
         taskset -c 0,1,2,3 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
         -kernel ./Image-${hwpack} \
         -append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
-        -drive if=none,id=image,file=kvm.qcow2 \
+        -drive if=none,id=image,file=kvm-arm64.qcow2 \
         -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
         -device virtio-blk-device,drive=image \
-        -nographic -enable-kvm 2>&1|tee kvm-log.txt
+        -nographic -enable-kvm 2>&1|tee kvm-arm64.log
+        echo "32bit guest test"
+        taskset -c 4 qemu-system-aarch64 -m 1024 -cpu host,aarch64=off -M virt \
+        -kernel ./zImage-vexpress \
+        -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        -drive if=none,id=image,file=kvm-arm32.qcow2 \
+        -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
+        -device virtio-blk-device,drive=image \
+        -nographic -enable-kvm 2>&1|tee kvm-arm32.log
+        get_results kvm-arm64.qcow2 aarch64
         ;;
     *)
         echo unknown arch ${ARCH}
@@ -158,19 +222,7 @@ case ${ARCH} in
         ;;
 esac
 
-qemu-nbd -c /dev/nbd0 kvm.qcow2
-sleep 2
-mount /dev/nbd0p2 /mnt/
+get_results kvm-arm32.qcow2 armv7l
 
-if ! grep -q "kvm-boot-1:" /mnt/root/guest.log
-then
-    echo "$KVM_BOOT 0 pc fail"
-fi
-
-cat /mnt/root/guest.log
-cp /mnt/*.txt .
-cp /mnt/root/guest.log .
-
-umount /mnt
-sync
-qemu-nbd -d /dev/nbd0
+ls *log *txt
+rm -f md5sum.txt
