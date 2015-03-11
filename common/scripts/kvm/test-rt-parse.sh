@@ -28,5 +28,6 @@ fi
 
 for FILE in *.txt
 do
+    echo $FILE
     $PARSE_SCRIPT $FILE "Time:" "Seconds"
 done
