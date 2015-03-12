@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_0c10634d",
+        "filename": "common/scripts/kvm/test-host.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-03-12T10:51:55Z",
+      "side": 1,
+      "message": "I assume these don\u0027t change. Can we upload them to http://testdata.validation.linaro.org/tools/ (or some other dir on testdata)?",
+      "revId": "11428c870c9186c0f4954c83691c2a515d4fc27d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
