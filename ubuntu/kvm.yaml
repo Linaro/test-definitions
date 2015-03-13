@@ -25,6 +25,7 @@ install:
         - bridge-utils
         - udhcpc
         - wget
+        - hwloc-nox
 
 run:
     steps:
@@ -32,9 +33,9 @@ run:
         - 'sudo ./common/scripts/kvm/test-kvm.sh'
         - 'sudo ./common/scripts/kvm/test-rt-parse.sh'
         - 'lava-test-run-attach kvm-arm64.log'
-        - 'lava-test-run-attach aarch64-guest.log' 
         - 'lava-test-run-attach kvm-arm32.log'
-        - 'lava-test-run-attach armv7l-guest.log' 
+        - 'lava-test-run-attach armv7l-guest.log'
+        - 'lava-test-run-attach aarch64-guest.log'
 
 parse:
     pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'
