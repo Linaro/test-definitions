@@ -22,13 +22,12 @@ tamper_guest()
 {
     guest=$1
     prefix=$2
-    KVM_BOOT=${prefix}-$KVM_BOOT
-    KVM_GUEST_NET=${prefix}-$KVM_GUEST_NET
+    PREFIX_KVM_BOOT=${prefix}-$KVM_BOOT
+    PREFIX_KVM_GUEST_NET=${prefix}-$KVM_GUEST_NET
 
     if [ ! -r $guest ]; then
-        echo "$KVM_HOST_NET 0 pc skip"
-        echo "$KVM_BOOT 0 pc skip"
-        echo "$KVM_GUEST_NET 0 pc skip"
+        echo "$PREFIX_KVM_BOOT 0 pc skip"
+        echo "$PREFIX_KVM_GUEST_NET 0 pc skip"
         exit 0
     fi
 
@@ -52,8 +51,8 @@ tamper_guest()
     cat >> /mnt/usr/bin/test-guest.sh <<EOF
 #!/bin/sh
     exec > /root/guest.log 2>&1
-    echo "$KVM_BOOT 0 pc pass"
-    ping -w 20 -c 10 10.0.0.1 && echo "$KVM_GUEST_NET 0 pc pass" || echo "$KVM_GUEST_NET 0 pc fail"
+    echo "$PREFIX_KVM_BOOT 0 pc pass"
+    ping -w 20 -c 10 10.0.0.1 && echo "$PREFIX_KVM_GUEST_NET 0 pc pass" || echo "$PREFIX_KVM_GUEST_NET 0 pc fail"
     sh $TEST_SCRIPT
 EOF
     chmod a+x /mnt/usr/bin/test-guest.sh
@@ -196,10 +195,21 @@ case ${ARCH} in
         -nographic -enable-kvm 2>&1|tee kvm-arm32.log
         ;;
     aarch64)
+        # handle big.LITTLE
+        hwloc-ls
+        case ${hwpack} in
+            juno)
+                # run on a57 cluster
+                bind="hwloc-bind socket:1"
+                ;;
+            *)
+                bind=""
+                ;;
+        esac
         deadline 60 qemu-system-aarch64 &
         qemu-system-aarch64 --version
         echo "64bit guest test"
-        taskset -c 0,1,2,3 qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
+        $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
         -kernel ./Image-${hwpack} \
         -append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
         -drive if=none,id=image,file=kvm-arm64.qcow2 \
@@ -207,7 +217,7 @@ case ${ARCH} in
         -device virtio-blk-device,drive=image \
         -nographic -enable-kvm 2>&1|tee kvm-arm64.log
         echo "32bit guest test"
-        taskset -c 4 qemu-system-aarch64 -m 1024 -cpu host,aarch64=off -M virt \
+        $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host,aarch64=off -M virt \
         -kernel ./zImage-vexpress \
         -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
         -drive if=none,id=image,file=kvm-arm32.qcow2 \
