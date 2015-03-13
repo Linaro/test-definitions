@@ -34,6 +34,24 @@
       "revId": "236db7ef0e3546ec606d3871b19b56367087cf64",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a7fa997_d67be427",
+        "filename": "ubuntu/kvm.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-03-13T13:37:50Z",
+      "side": 1,
+      "message": "If the file doesn\u0027t exist lava-test-run-attach will fail. I guess it\u0027s enough to add \n\nif [ -f aarch64-guest.log ]; then lava-test-run-attach aarch64-guest.log; fi",
+      "parentUuid": "7a7fa997_56883422",
+      "revId": "236db7ef0e3546ec606d3871b19b56367087cf64",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
