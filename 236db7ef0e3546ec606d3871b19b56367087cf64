@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a7fa997_56ba74e2",
+        "filename": "ubuntu/kvm.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-03-13T12:48:15Z",
+      "side": 1,
+      "message": "do both of the files exist always?",
+      "revId": "236db7ef0e3546ec606d3871b19b56367087cf64",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
