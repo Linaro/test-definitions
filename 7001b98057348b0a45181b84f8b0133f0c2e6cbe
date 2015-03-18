@@ -16,6 +16,24 @@
       "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a7fa997_dc4a2527",
+        "filename": "android/scripts/gtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-03-18T13:38:47Z",
+      "side": 1,
+      "message": "do we assume all Linaro builds are rooted? I agree that it would be safer to move the files to location available on any system.",
+      "parentUuid": "7a7fa997_1ca5fd03",
+      "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
