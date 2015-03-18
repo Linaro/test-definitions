@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a7fa997_1ca5fd03",
+        "filename": "android/scripts/gtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2015-03-18T11:49:49Z",
+      "side": 1,
+      "message": "Please create file for dirs under /data/local/tmp, if the device is not rooted, you will not have permission to write files there.",
+      "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
