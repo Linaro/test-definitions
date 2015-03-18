@@ -18,9 +18,11 @@ metadata:
         - ifc6410
 
 params:
-    # Use absolute path and modify the TESTS parameter in JSON file to run other or 64bit test programs.
+    # Use absolute path and modify the TESTS parameter in test plan to run other or 64bit test programs.
     TESTS: '/data/nativetest/ion-unit-tests/ion-unit-tests /data/nativetest/backtrace_test/backtrace_test'
+    # Change the value of LOOPS parameter in test plan to run test program multiple times.
+    LOOPS: 1
 
 run:
     steps:
-        - ./android/scripts/gtest.sh "$TESTS"
+        - ./android/scripts/gtest.sh "$TESTS" $LOOPS
