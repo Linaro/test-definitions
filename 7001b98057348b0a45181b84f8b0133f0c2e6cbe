@@ -34,6 +34,24 @@
       "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a7fa997_1c0f3de3",
+        "filename": "android/scripts/gtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-03-18T14:23:14Z",
+      "side": 1,
+      "message": "Once the gparser.apk was installed, the \"org.linaro.gparser\" folder will be created, the \"files\" folder is the default location to read and save files, I didn\u0027t indicate any path in the apk. Even I don\u0027t create it manually, it will be created by the first run of the App.\n\nI think if we don\u0027t have permission to create, read and write files under the /data/data/ folder, the apk installation will fail, either. Basically, the assumption is the system under test is rooted.\n\nI could be wrong. Please let me know if we really need change the location.",
+      "parentUuid": "7a7fa997_dc4a2527",
+      "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
