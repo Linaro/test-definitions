@@ -70,6 +70,23 @@
       "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a7fa997_ff64b3e6",
+        "filename": "android/scripts/gtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2015-03-19T16:13:35Z",
+      "side": 1,
+      "message": "can we add a check for the file\u0027s existence here? just make it more perfect. There might be the case that something changed in the build but test plan has not been updated accordingly.",
+      "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
