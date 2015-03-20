@@ -32,7 +32,8 @@ params:
 
 run:
     steps:
-        - './common/scripts/kselftest-net.sh'
+        - 'cd kselftest/net'
+        - '../../common/scripts/kselftest-runner.sh net "make run_tests"'
 
 parse:
-    pattern: "^(?P<test_case_id>[a-z_]+):\\s(?P<result>pass|fail)"
+    pattern: "^(?P<test_case_id>[a-z_ ]+):\\s\\[(?P<result>PASS|FAIL|SKIP)\\]"
