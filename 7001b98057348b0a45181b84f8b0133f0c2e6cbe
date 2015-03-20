@@ -87,6 +87,24 @@
       "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a7fa997_7f3183a1",
+        "filename": "android/scripts/gtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-03-20T03:55:54Z",
+      "side": 1,
+      "message": "YQ,\nGood point! File existence check added.\nThanks for review.",
+      "parentUuid": "7a7fa997_ff64b3e6",
+      "revId": "7001b98057348b0a45181b84f8b0133f0c2e6cbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
