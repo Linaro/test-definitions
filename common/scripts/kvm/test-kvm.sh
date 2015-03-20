@@ -58,8 +58,21 @@ EOF
     chmod a+x /mnt/usr/bin/test-guest.sh
 
     umount /mnt
+    mount /dev/nbd0p1 /mnt/
+    case $prefix in
+        aarch64)
+            cp Image /mnt
+            echo 'FS0:\Image root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' > /mnt/startup.nsh
+            ;;
+        armv7l)
+            cp zImage-vexpress /mnt/zImage
+            echo 'FS0:\zImage root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' > /mnt/startup.nsh
+            ;;
+    esac
+    umount /mnt
     sync
     qemu-nbd -d /dev/nbd0
+
 }
 
 get_results()
@@ -135,11 +148,14 @@ else
 fi
 
 BUILD_NUMBER_GUEST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/kvm-guest-image/lastSuccessfulBuild/buildNumber`
+BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/lastSuccessfulBuild/buildNumber`
 
-$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm32.qcow2.gz
-$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/zImage-vexpress
-$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/vexpress-v2p-ca15-tc1.dtb
-gunzip kvm-arm32.qcow2.gz
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/armhf/kvm-armhf.qcow2.xz
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/zImage-armv7
+mv zImage-armv7 zImage-vexpress
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/vexpress-v2p-ca15-tc1.dtb
+
+xz -d kvm-armhf.qcow2.xz
 
 case ${ARCH} in
     armv7l)
@@ -147,13 +163,14 @@ case ${ARCH} in
         ;;
     aarch64)
         hwpack=`uname -r|sed -e's,.*-,,'`
-        BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/hwpack=${hwpack},label=docker-utopic/lastSuccessfulBuild/buildNumber`
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/kvm-arm64.qcow2.gz
+        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/arm64/kvm-arm64.qcow2.xz
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
-        gunzip kvm-arm64.qcow2.gz
+        $DOWNLOAD_FILE http://releases.linaro.org/15.01/components/kernel/uefi-linaro/release/qemu64-intelbds/QEMU_EFI.fd
+        xz -d kvm-arm64.qcow2.xz
         zcat nbd-${hwpack}.ko.gz > nbd.ko
         insmod nbd.ko max_part=16
+        mv Image-${hwpack} Image
         tamper_guest kvm-arm64.qcow2 aarch64
         ;;
     *)
@@ -165,7 +182,7 @@ esac
 
 echo 0 2000000 > /proc/sys/net/ipv4/ping_group_range
 
-tamper_guest kvm-arm32.qcow2 armv7l
+tamper_guest kvm-armhf.qcow2 armv7l
 
 case ${ARCH} in
     armv7l)
@@ -188,7 +205,7 @@ case ${ARCH} in
         qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
         -kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
         -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
-        -drive if=none,id=image,file=kvm-arm32.qcow2 \
+        -drive if=none,id=image,file=kvm-armhf.qcow2 \
         -netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
         -device virtio-net-device,netdev=tap0 \
         -device virtio-blk-device,drive=image \
@@ -199,8 +216,9 @@ case ${ARCH} in
         hwloc-ls
         case ${hwpack} in
             juno)
-                # run on a57 cluster
-                bind="hwloc-bind socket:1"
+                # run on a53 cluster
+                echo run on a53
+                bind="hwloc-bind socket:0"
                 ;;
             *)
                 bind=""
@@ -210,8 +228,7 @@ case ${ARCH} in
         qemu-system-aarch64 --version
         echo "64bit guest test"
         $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
-        -kernel ./Image-${hwpack} \
-        -append 'root=/dev/vda2 rw rootwait mem=1024M earlyprintk=pl011,0x9000000 console=ttyAMA0,38400n8' \
+        -bios QEMU_EFI.fd \
         -drive if=none,id=image,file=kvm-arm64.qcow2 \
         -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
         -device virtio-blk-device,drive=image \
@@ -220,7 +237,7 @@ case ${ARCH} in
         $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host,aarch64=off -M virt \
         -kernel ./zImage-vexpress \
         -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
-        -drive if=none,id=image,file=kvm-arm32.qcow2 \
+        -drive if=none,id=image,file=kvm-armhf.qcow2 \
         -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
         -device virtio-blk-device,drive=image \
         -nographic -enable-kvm 2>&1|tee kvm-arm32.log
@@ -232,7 +249,7 @@ case ${ARCH} in
         ;;
 esac
 
-get_results kvm-arm32.qcow2 armv7l
+get_results kvm-armhf.qcow2 armv7l
 
 ls *log *txt
 rm -f md5sum.txt
