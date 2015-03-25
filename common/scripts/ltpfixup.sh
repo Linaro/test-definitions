@@ -19,7 +19,6 @@ while getopts T:S:P: arg
            if [ -z $OPT ] ; then
              SKIPFILE="-S $SCRIPTPATH/ltp/$OPTARG"
            else
-             #wget http://people.linaro.org/~naresh.kamboju/skipfile
              wget $OPTARG
              SKIPFILE=`echo "${OPTARG##*/}"`
              SKIPFILE="-S `pwd`/$SKIPFILE"
@@ -42,7 +41,7 @@ if [ $? -ne 0 ]; then
     RESULT=fail
 fi
 lava-test-case LTP_$TST_CMDFILES --result $RESULT
-find $SCRIPTPATH -name "LTP_$TST_CMDFILES.log" -print0 |xargs -0 cat
+cat $SCRIPTPATH/LTP_*.log
 tar czfv $SCRIPTPATH/LTP_$TST_CMDFILES.tar.gz $SCRIPTPATH/LTP*
 lava-test-case-attach LTP_$TST_CMDFILES $SCRIPTPATH/LTP_$TST_CMDFILES.tar.gz
 exit 0
