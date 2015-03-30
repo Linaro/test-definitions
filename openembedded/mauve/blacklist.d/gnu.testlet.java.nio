@@ -1,3 +1,0 @@
-java.nio.channels.FileChannel.lock
-java.nio.charset.Charset.encode
-java.nio.charset.Charset.forName2

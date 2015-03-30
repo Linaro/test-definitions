@@ -1,5 +1,0 @@
-javax.imageio.ImageIO.ImageIOTest
-javax.imageio.plugins.jpeg.TestJPEGImageWriteParam
-javax.imageio.spi.ServiceRegistry.lookupProviders
-javax.imageio.spi.ServiceRegistry.setOrdering
-javax.imageio.stream.MemoryCacheImageInputStream.TestImageInputStreamImpl
