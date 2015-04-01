@@ -1,0 +1,24 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: coresight-test
+    description: "To validate coresight source to sink writes.
+     Coresight tracing support provides a kernel interface for the CoreSight
+     debug and trace drivers to register themselves with. It's intended to build
+     topological view of the CoreSight components based on a DT specification
+     and configure the right serie of components when a trace source gets
+     enabled. Required kernel configs
+     CONFIG_CORESIGHT=y
+     CONFIG_CORESIGHT_LINKS_AND_SINKS=y"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - openembedded
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - vexpress-tc2
+
+run:
+    steps:
+        - "common/scripts/coresight-test.sh"
