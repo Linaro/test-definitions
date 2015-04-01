@@ -1,0 +1,17 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: coresight-test
+    description: "To validate coresight source to sink writes"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - openembedded
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - vexpress-tc2
+
+run:
+    steps:
+        - "common/scripts/coresight-test.sh"
