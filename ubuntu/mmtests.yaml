@@ -1,7 +1,7 @@
 metadata:
     name: mmtests
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run mmtests suite on Ubuntu"
+    description: "Run tests from mmtests suite on Ubuntu"
     maintainer:
         - chase.qi@linaro.org
         - milosz.wasilewski@linaro.org
@@ -27,7 +27,12 @@ install:
         - time
 
 params:
-    TESTS: 'dd dd-tmpfs ddsync ku-latency libmicro'
+    # dd, dd-tmpfs, ddsync: loopdd bench.
+    # ku-latency: measure the latency in the Linux network stack between kernel and user space.
+    # libmicro: measure the performance of various system and library calls.
+    # vmscale: vm scalability test, measure spread of dd performance.
+    # timedalloc: time how long it takes to allocate a large buffer.
+    TESTS: 'dd dd-tmpfs ddsync ku-latency libmicro vmscale timedalloc'
 
 run:
     steps:
