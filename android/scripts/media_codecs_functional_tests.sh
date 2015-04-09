@@ -33,3 +33,6 @@ test_func(){
 }
 
 test_func
+
+# clean exit so that lava-test-shell can trust the results
+exit 0

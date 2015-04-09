@@ -55,3 +55,6 @@ test_func dmesg
 test_func grep service /init.rc
 
 rm -r /data/busybox 1>/dev/null 2>/dev/null
+
+# clean exit so that lava-test-shell can trust the results
+exit 0

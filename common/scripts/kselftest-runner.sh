@@ -22,3 +22,5 @@ do
     [ "${test}" -a "${result}" ] && echo "${test}: ${result}" && unset test && unset result
 done < ${LOG}
 
+# clean exit so that lava-test-shell can trust the results
+exit 0
