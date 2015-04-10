@@ -224,7 +224,7 @@ case ${ARCH} in
                 bind=""
                 ;;
         esac
-        deadline 60 qemu-system-aarch64 &
+        deadline 120 qemu-system-aarch64 &
         qemu-system-aarch64 --version
         echo "64bit guest test"
         $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
