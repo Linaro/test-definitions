@@ -13,6 +13,8 @@ if [ -n "`grep \"skip\" ${LOG}`" ]; then
     echo "${TEST_NAME}: [SKIP]";
 elif [ -z "`grep \"SKIP\|FAIL\" ${LOG}`" ]; then
     echo "${TEST_NAME}: [PASS]"
+elif [ -n "`grep \"FAIL\" ${LOG}`" ]; then
+    echo "${TEST_NAME}: [FAIL]"
 fi
 
 while read l;
