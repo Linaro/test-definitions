@@ -3,6 +3,8 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test for phpinfo() in Linaro OpenEmbedded builds.
                   NOTE: This test works only on OE builds with this layer http://layers.openembedded.org/layerindex/recipe/3611/"
+    maintainer:
+        - milosz.wasilewski@linaro.org
     os:
         - openembedded
     scope:
