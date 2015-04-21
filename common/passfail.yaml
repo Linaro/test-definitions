@@ -1,9 +1,0 @@
-metadata:
-    name: passfail
-    format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Pass/Fail test."
-
-run:
-    steps:
-        - "lava-test-case passtest --result pass"
-        - "lava-test-case failtest --result pass"
