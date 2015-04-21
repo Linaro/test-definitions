@@ -6,6 +6,8 @@ metadata:
                   a workload resembling common web application server workloads. It is highly
                   threaded, has a large in-memory working set, and allocates and deallocates
                   memory frequently."
+    maintainer:
+        - lisa.nguyen@linaro.org
     os:
         - openembedded
     devices:
