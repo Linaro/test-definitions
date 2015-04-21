@@ -2,6 +2,9 @@ metadata:
     name: gatortests
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Gatortest checks availability of gator daemon and module on target."
+    maintainer:
+        - botao.sun@linaro.org
+        - mahanth.gouda@linaro.org
     os:
         - ubuntu
     scope:
