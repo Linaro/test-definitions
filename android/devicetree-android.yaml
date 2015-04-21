@@ -3,6 +3,8 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "This test checks for Flattened Device Tree blob for Android builds. The test verifies that device-tree
                   is available and contains model name of the board."
+    maintainer:
+        - milosz.wasilewski@linaro.org
     os:
         - android
     devices:
