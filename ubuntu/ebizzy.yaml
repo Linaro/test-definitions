@@ -3,6 +3,8 @@ metadata:
     version: "1.0"
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Running ebizzy tool"
+    maintainer:
+        - lisa.nguyen@linaro.org
     os:
         - ubuntu
     devices:
