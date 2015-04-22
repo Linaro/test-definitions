@@ -1,0 +1,13 @@
+#!/usr/bin/expect
+set timeout -1
+
+spawn passwd eal
+expect "Enter new UNIX password:"
+send "admin12\n"
+expect "Retype new UNIX password:"
+send "admin12\n"
+spawn make run
+expect "Login user password:"
+send "admin12\n"
+interact
+exit
