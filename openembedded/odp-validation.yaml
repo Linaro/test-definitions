@@ -1,0 +1,27 @@
+metadata:
+    name: odp_validation
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run ODP API validation tests on Linaro OpenEmbedded builds.
+                  Note that this depends on both the odp and odp-ptest
+                  packages being installed in the target rootfs."
+    maintainer:
+        - stuart.haslam@linaro.org
+    os:
+        - openembedded
+    devices:
+        - juno
+    environment:
+        - lava-test-shell
+
+run:
+    steps:
+        - cd /usr/lib/odp/ptest
+        - lava-test-case odp_validation --shell ./run-ptest
+
+parse:
+    pattern: '^(?P<result>(PASS|FAIL|SKIP)):\s+(?P<test_case_id>[a-zA-Z0-9_]+)'
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+        SKIP: skip
