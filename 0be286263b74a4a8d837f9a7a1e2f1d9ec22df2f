@@ -16,6 +16,24 @@
       "revId": "0be286263b74a4a8d837f9a7a1e2f1d9ec22df2f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a79b1b5_6e60f335",
+        "filename": "openembedded/odp-validation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000069
+      },
+      "writtenOn": "2015-04-27T17:34:38Z",
+      "side": 1,
+      "message": "No, it requires the odp-ptest package to be installed. I\u0027ll add a note about that.",
+      "parentUuid": "3a79b1b5_ae760b05",
+      "revId": "0be286263b74a4a8d837f9a7a1e2f1d9ec22df2f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
