@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a79b1b5_d14523b4",
+        "filename": "common/pwrmgmt.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-11T19:28:32Z",
+      "side": 0,
+      "message": "A9 is still supported. Please leave it as is (I think).",
+      "revId": "b129f0d8e0b4352df8dc8d8e88efc64ab9e11dfc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a79b1b5_113cfb2e",
+        "filename": "common/pwrmgmt.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-11T19:28:32Z",
+      "side": 0,
+      "message": "we will still need these deps on ubuntu. They need to be skipped in JSON when using on OE.",
+      "revId": "b129f0d8e0b4352df8dc8d8e88efc64ab9e11dfc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a79b1b5_b148a7cd",
+        "filename": "common/pwrmgmt.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-11T19:28:32Z",
+      "side": 0,
+      "message": "removing git is OK. It\u0027s not needed any more.",
+      "revId": "b129f0d8e0b4352df8dc8d8e88efc64ab9e11dfc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
