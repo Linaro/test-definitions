@@ -2,18 +2,23 @@ metadata:
     name: pwrmgmt
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test power management (PM-QA). Currently, the test runs cpufreq, cpuidle, cpuhotplug, thermal
-                  and cputopology by default and individual test can be run via JSON file too. Test case documentation
-                  available here wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
+                  and cputopology by default and individual test can be run via JSON file too.
+                  Test case documentation available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
     maintainer:
         - lisa.nguyen@linaro.org
     os:
+        - ubuntu
         - openembedded
     scope:
         - functional
         - performance
     devices:
-        - rtsm_fvp_base-aemv8a
-        - rtsm_fvp_base_cortex-a57x4-a53x4
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-tc2
+        - beaglebone-black
+        - d01
         - juno
 
 install:
@@ -28,10 +33,10 @@ install:
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
     RELEASE: 'pm-qa-v0.5.0'
-    
+
 run:
     steps:
-        - cd pm-qa 
+        - cd pm-qa
         - for testset in $PWR_TESTARG; do make -C $testset check; done
 
 parse:
