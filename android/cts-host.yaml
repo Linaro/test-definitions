@@ -1,0 +1,47 @@
+metadata:
+    name: cts-host
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run CTS on Linaro android. Host side;
+                  To run the whole CTS test, set PACKAGES value to all;
+                  Otherwise specify the individual package(s), separated by comma.
+                  The value put in params section is default, user can overwrite it by specify it in JSON file."
+    maintainer:
+        -  botao.sun@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - kvm
+    scope:
+        - functional
+
+install:
+    git-repos:
+        - https://github.com/mwasilew/AndroidViewClient.git
+    steps:
+        - cd AndroidViewClient/
+        - python setup.py install
+    deps:
+        - git
+        - xz-utils
+        - python-lxml
+        - python-pil
+        - python-setuptools
+        - default-jdk
+        - default-jre
+
+params:
+    TEST_NAME: "android-cts-5.0-armv8"
+    CTS_URL: "http://testdata.validation.linaro.org/cts/android-cts-5.0-armv8.zip"
+    PACKAGES: "android.aadb"
+
+run:
+    steps:
+        - apt-add-repository -y http://ppa.launchpad.net/nilarimogard/webupd8/ubuntu
+        - apt-get update -y
+        - apt-get install -y android-tools-adb android-tools-fastboot zip
+        - lava-wait $TEST_NAME-send-ip
+        - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
+        - adb connect $IPADDR
+        - adb wait-for-device
+        - "./android/scripts/cts.py $CTS_URL $PACKAGES"
+        - lava-sync $TEST_NAME-finished
