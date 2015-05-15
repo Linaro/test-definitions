@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_d1e68416",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-15T13:20:34Z",
+      "side": 1,
+      "message": "parameters here should have sane defaults",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_d1cd2488",
+        "filename": "android/cts-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-15T13:20:34Z",
+      "side": 1,
+      "message": "parameter should contain a sane default.",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_11b40cf1",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-15T13:20:34Z",
+      "side": 1,
+      "message": "this block should be converted to getopt or better OptionParser.",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_f1e38803",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-15T13:20:34Z",
+      "side": 1,
+      "message": "I\u0027d rather see the params passed as before (like below: --plan CTS or --package \u003epackage name\u003c). That would be close to backward compatible. Otherwise we\u0027re creating another cryptic language of running CTS.",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_31b910ea",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-15T13:20:34Z",
+      "side": 1,
+      "message": "missing test result file means the test is failed and this result should be recorded. Maybe separate result with measurement (number of tests executed/passed/failed) as Jakub suggested?",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
