@@ -1,0 +1,40 @@
+metadata:
+    name: cts-host
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run CTS on Linaro android. Host side;
+                  Get user defined CTS test command from JSON and run;
+                  The value put in params section in this file is default, user can overwrite them by the values in JSON file."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - kvm
+    scope:
+        - functional
+
+install:
+    deps:
+        - git
+        - xz-utils
+        - python-lxml
+        - python-setuptools
+        - default-jdk
+        - default-jre
+
+params:
+    CTS_URL: "http://testdata.validation.linaro.org/cts/android-cts-5.0-armv8.zip"
+    TEST_NAME: "android-cts-5.0-armv8"
+    TEST_PARAMS: "run cts --package android.aadb --disable-reboot"
+
+run:
+    steps:
+        - apt-add-repository -y http://ppa.launchpad.net/nilarimogard/webupd8/ubuntu
+        - apt-get update -y
+        - apt-get install -y android-tools-adb android-tools-fastboot zip
+        - lava-wait $TEST_NAME-send-ip
+        - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
+        - adb connect $IPADDR
+        - adb wait-for-device
+        - "./android/scripts/cts.py $CTS_URL $TEST_PARAMS"
+        - lava-sync $TEST_NAME-finished
