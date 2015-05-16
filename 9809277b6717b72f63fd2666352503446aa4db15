@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_f122a800",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-16T06:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad5f5cf_d1e68416",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_d1cd2488",
         "filename": "android/cts-target.yaml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-15T13:20:34Z",
       "side": 1,
       "message": "parameter should contain a sane default.",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_911f9cb7",
+        "filename": "android/cts-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-16T06:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad5f5cf_d1cd2488",
       "revId": "9809277b6717b72f63fd2666352503446aa4db15",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_110c0c94",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-16T06:47:04Z",
+      "side": 1,
+      "message": "The parameter here should be maintained carefully by user to put a meaningful value, therefore I just check the length of input list. Agree getopt can provide a stronger feature to handle them, but let\u0027s leave it alone now, as the parameter here is quite simple. Actually if we want to make it perfect, the packages user given should be checked against the CTS.xml to see if it\u0027s valid. I have written a script to extract all package name from that CTS.xml, just didn\u0027t add to here.",
+      "parentUuid": "dad5f5cf_11b40cf1",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_f1e38803",
         "filename": "android/scripts/cts.py",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_311110ad",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-16T06:47:04Z",
+      "side": 1,
+      "message": "The command here comes from the CTS manual. If user wants to run all of them, simply put CTS after --plan would be a clear way to go with. By comparison if we only use --package then user has to list all of them in JSON. The other common usage is --class, though we currently don\u0027t have that requirement.",
+      "parentUuid": "dad5f5cf_f1e38803",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_31b910ea",
         "filename": "android/scripts/cts.py",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2015-05-15T13:20:34Z",
       "side": 1,
       "message": "missing test result file means the test is failed and this result should be recorded. Maybe separate result with measurement (number of tests executed/passed/failed) as Jakub suggested?",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_d125240b",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-16T06:47:04Z",
+      "side": 1,
+      "message": "Missing test file is a very rare situation, I put this condition check just in case some very strange thing happens. If we need to enhance this feature, in case of file missing, we need to read all test case name from the package it\u0027s running, then give then to lava-test-case. For this stage, I\u0027d say it\u0027s unnecessary.",
+      "parentUuid": "dad5f5cf_31b910ea",
       "revId": "9809277b6717b72f63fd2666352503446aa4db15",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
