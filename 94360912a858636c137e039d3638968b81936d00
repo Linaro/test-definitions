@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_317270e6",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-18T08:54:46Z",
+      "side": 1,
+      "message": "I have general comment about parameters. Currently we send the full CTS command line parameters via JSON:\nhttps://git.linaro.org/qa/test-plans.git/blob/HEAD:/android/armv8-android-juno-lsk/template-cts-32.json#l59\n\nlike this: \n\n--cts-pkg android-cts-5.1-armv8.zip --plan CTS --timeout 144000 --disable-reboot --force-abi 32\n\nIt\u0027s a bit confusing as some of these are CTS parameters and some are lava-android-test parameters. Nevertheless I would like to keep the very similar approach and let the user decide which parameters to send. That includes the decision whether to run a plan or a package test (or even a single test as it\u0027s possibe with --class and --method parameters).",
+      "revId": "94360912a858636c137e039d3638968b81936d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
