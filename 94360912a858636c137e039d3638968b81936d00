@@ -16,6 +16,24 @@
       "revId": "94360912a858636c137e039d3638968b81936d00",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_f43616e7",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-18T13:43:47Z",
+      "side": 1,
+      "message": "--timeout is not in the CTS manual, so it may come from lava-android-test, but anyway we set up this in JSON file. --force-abi in CTS manual is --abi, receive 32 or 64 as its value. The current way to handle it is: if user put CTS in PACKAGES part in JSON file, the script will trigger the whole plan; otherwise users need to specify the packages they want to run. I can add --abi, --class and --method though.",
+      "parentUuid": "dad5f5cf_317270e6",
+      "revId": "94360912a858636c137e039d3638968b81936d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
