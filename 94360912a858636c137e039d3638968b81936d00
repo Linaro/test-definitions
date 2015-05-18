@@ -52,6 +52,24 @@
       "revId": "94360912a858636c137e039d3638968b81936d00",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_f4ab76d4",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-18T15:44:40Z",
+      "side": 1,
+      "message": "Cool. I thought it was clear from the BP description. Apparently I was wrong. Sorry for that.",
+      "parentUuid": "dad5f5cf_14a5da03",
+      "revId": "94360912a858636c137e039d3638968b81936d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
