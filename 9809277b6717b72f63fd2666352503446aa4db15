@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_7168f8f5",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-18T08:44:06Z",
+      "side": 1,
+      "message": "If the script is going to be used only as part of LAVA test, this parameter check is unnecessary. The call is hardcoded and there will always be 2 parameters.",
+      "parentUuid": "dad5f5cf_110c0c94",
+      "revId": "9809277b6717b72f63fd2666352503446aa4db15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_f1e38803",
         "filename": "android/scripts/cts.py",
         "patchSetId": 1
