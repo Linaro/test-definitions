@@ -34,6 +34,24 @@
       "revId": "94360912a858636c137e039d3638968b81936d00",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_14a5da03",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-18T15:39:18Z",
+      "side": 1,
+      "message": "OK, now I understand the whole meaning of your idea: Let user to decide what to run, to put correct input parameter line in JSON, therefore in this script I just run it. I agree this is a more flexible idea, and actually after trying around to handle the different input parameters, conflicts between each other, I\u0027m realising that I\u0027m re-inventing the cts-tradefed interactive console... Will submit a new patch set soon, thanks.",
+      "parentUuid": "dad5f5cf_f43616e7",
+      "revId": "94360912a858636c137e039d3638968b81936d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
