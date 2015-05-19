@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_94022ab3",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:00:04Z",
+      "side": 1,
+      "message": "doesn\u0027t seem that git is required (I might be wrong here, not sure how KVMs work in LAVA)",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_34149ef4",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:00:04Z",
+      "side": 1,
+      "message": "does AVC depend on PIL?",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_f4f5b6cb",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:00:04Z",
+      "side": 1,
+      "message": "that should be parametrized as we have now with CTS. Some use cases require Java7 and some require Java8. Is it really necessary to have full SDK? Isn\u0027t JRE enough?",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_7431c6a1",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:00:04Z",
+      "side": 1,
+      "message": "https://docs.python.org/2/library/os.html#os.chmod",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_542cc24a",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:00:04Z",
+      "side": 1,
+      "message": "what happens if CTS dies in the middle of the run? We need to make sure that the script exits cleanly so the signalling between multinode nodes goes properly.",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_b4ff2eaa",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:00:04Z",
+      "side": 1,
+      "message": "please compress stdout and attach to the bundle. Same with cts-results.zip. I\u0027m not sure if we need other log files. That has to be checked with Android team.",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
