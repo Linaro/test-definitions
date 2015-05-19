@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_d4e67216",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:49:58Z",
+      "side": 1,
+      "message": "People were complaining about redundant dependencies (especially git). So this needs to be checked.",
+      "parentUuid": "dad5f5cf_9419ca24",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_34149ef4",
         "filename": "android/cts-host.yaml",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Not sure, and I don\u0027t even think the whole test has dependency of AVC.",
       "parentUuid": "dad5f5cf_34149ef4",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_94f0eaca",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:49:58Z",
+      "side": 1,
+      "message": "Don\u0027t we need to do some setup to browser etc. before executing CTS? I thought AVC was used for that.",
+      "parentUuid": "dad5f5cf_b4164ef0",
       "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_b4edeef1",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:49:58Z",
+      "side": 1,
+      "message": "yes, it needs to be there, but parametrized. Please check here:\nhttps://git.linaro.org/qa/test-definitions.git/blob/HEAD:/android/lava-android-test-host.yaml#l38\nand here:\nhttps://git.linaro.org/qa/test-plans.git/blob/HEAD:/android/armv8-android-juno-lsk/template-cts-32.json#l57",
+      "parentUuid": "dad5f5cf_54d36238",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_7431c6a1",
         "filename": "android/scripts/cts.py",
         "patchSetId": 4
@@ -136,6 +190,24 @@
       "side": 1,
       "message": "At the beginning I was using os.chmod(), the document now is saying it recommends subprocess all the time so I changed to this way.",
       "parentUuid": "dad5f5cf_7431c6a1",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_54ba82e2",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:49:58Z",
+      "side": 1,
+      "message": "which document?",
+      "parentUuid": "dad5f5cf_342b3e32",
       "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -177,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_74bf86d1",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:49:58Z",
+      "side": 1,
+      "message": "I rather meant checking some crash/hang. But maybe you\u0027re right.",
+      "parentUuid": "dad5f5cf_d41f5208",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_b4ff2eaa",
         "filename": "android/scripts/cts.py",
         "patchSetId": 4
@@ -206,6 +296,24 @@
       "side": 1,
       "message": "Actually we already have the stdout attached to LAVA, though it\u0027s a simplified version: https://staging.validation.linaro.org/dashboard/attachment/170291/view It comes from LAVA_SIGNAL_TESTCASE.",
       "parentUuid": "dad5f5cf_b4ff2eaa",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_14b4faf0",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-05-19T09:49:58Z",
+      "side": 1,
+      "message": "yep, I saw that. But compressed CTS stdout was one of the BP goals.",
+      "parentUuid": "dad5f5cf_f41cd615",
       "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
