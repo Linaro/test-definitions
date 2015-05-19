@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_94c78a64",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-19T10:12:27Z",
+      "side": 1,
+      "message": "Let me simply remove it to give it a try. By the way the jobs I submitted to staging validation server today all failed by boot failure on target side.",
+      "parentUuid": "dad5f5cf_d4e67216",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_34149ef4",
         "filename": "android/cts-host.yaml",
         "patchSetId": 4
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Don\u0027t we need to do some setup to browser etc. before executing CTS? I thought AVC was used for that.",
       "parentUuid": "dad5f5cf_b4164ef0",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_d4cd1288",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-19T10:12:27Z",
+      "side": 1,
+      "message": "Surprisingly no, for this CTS job, just run, no pre-settings needed: https://staging.validation.linaro.org/scheduler/job/126641.0",
+      "parentUuid": "dad5f5cf_94f0eaca",
       "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -161,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "dad5f5cf_f4ca966d",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-19T10:12:27Z",
+      "side": 1,
+      "message": "OK, will put it to the steps section in parameter.",
+      "parentUuid": "dad5f5cf_b4edeef1",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad5f5cf_7431c6a1",
         "filename": "android/scripts/cts.py",
         "patchSetId": 4
@@ -208,6 +262,24 @@
       "side": 1,
       "message": "which document?",
       "parentUuid": "dad5f5cf_342b3e32",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_54a122a8",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-19T10:12:27Z",
+      "side": 1,
+      "message": "https://docs.python.org/2/library/subprocess.html Ah, it says: os.system not os.chmod()! I thought it\u0027s os.system(\u0027chmod xxxxx\u0027).",
+      "parentUuid": "dad5f5cf_54ba82e2",
       "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -314,6 +386,24 @@
       "side": 1,
       "message": "yep, I saw that. But compressed CTS stdout was one of the BP goals.",
       "parentUuid": "dad5f5cf_f41cd615",
+      "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_34b01ef4",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000045
+      },
+      "writtenOn": "2015-05-19T10:12:27Z",
+      "side": 1,
+      "message": "I guess I can use lava-test-run-attach to attach files to the bundle.",
+      "parentUuid": "dad5f5cf_14b4faf0",
       "revId": "45f0477117d7cbcc29c1a7eccb242274244ecdb3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
