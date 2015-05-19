@@ -6,7 +6,8 @@ metadata:
                   performance and the compression ratio obtained when compressing the test image as a JPEG image
                   and then decompressing the JPEG image back to its original, uncompressed form."
     maintainer:
-        - harigopal.gollamudi@linaro.org
+        - botao.sun@linaro.org
+        - yongqin.liu@linaro.org
     os:
         - android
     scope:
@@ -19,10 +20,10 @@ metadata:
         - vexpress-tc2
         - juno
 
+params:
+    RECORD_RESULT_LOCAL: "FALSE"
+    LOOP_COUNT: "1"
+
 run:
     steps:
-        - "disablesuspend.sh"
-        - "./android/scripts/tjbench/tjbenchstart.sh"
-
-parse:
-    pattern: "^(?P<test_case_id>\\S+)\\s+(?P<result>\\S+)\\s+(?P<measurement>[\\d.]+)\\s+(?P<units>\\S+)$"
+        - ./android/scripts/tjbench.sh --record-csv ${RECORD_RESULT_LOCAL} --loop-count ${LOOP_COUNT}
