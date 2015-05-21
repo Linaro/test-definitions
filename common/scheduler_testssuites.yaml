@@ -1,0 +1,47 @@
+metadata:
+    name: big.LITTLE_Scheduler_tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "big.LITTLE Scheduler tests: This test suite generates
+                  synthetic loads to validate the scheduler task placements
+                  functionality on big and little cores according to the load
+                  of the task."
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - android
+        - ubuntu
+        - openembedded
+    devices:
+        - vexpress-tc2
+        - juno
+    scope:
+        - functional
+
+params:
+    TEST_SUITE: "sched_tests-android-tc2.tar.gz"
+
+install:
+    steps:
+        - 'echo 0 > /sys/kernel/bL_switcher/active || true'
+        - 'mkdir /data/local/schedtest'
+        - 'cd /data/local/schedtest'
+        - 'wget http://testdata.validation.linaro.org/tests/$TEST_SUITE'
+        - 'tar -xvzf $TEST_SUITE'
+
+run:
+    steps:
+        - 'mount -o rw,remount /'
+        - 'mkdir -p /bin'
+        - 'cp /system/bin/sh /bin/sh'
+        - 'cd /data/local/schedtest'
+        - 'pwd'
+        - './schedtest-run'
+        - 'tar -zcvf sched_results.tar.gz suites'
+        - 'lava-test-run-attach sched_results.tar.gz application/x-gtar'
+
+parse:
+    pattern: "^(?P<test_case_id>\\S+).+(?P<result>(succeeded|failed|deprecated|pass|fail))$"
+    fixupdict:
+        succeeded: pass
+        failed: fail
+        deprecated: skip
