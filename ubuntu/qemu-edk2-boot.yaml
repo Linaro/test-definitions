@@ -24,15 +24,15 @@ install:
     deps:
         - wget
         - expect
-
-run:
     steps:
         # Put the flash image in /home with the disk image provided files
         # for QEMU to keep them all together.
-        - pushd /home
+        - cd /home
         - wget -O QEMU_EFI.fd ${EDK2_BIN}
         # Pad to 64 MBytes as required for QEMU flash images
         - dd if=QEMU_EFI.fd of=flash0.img ibs=64M conv=sync
-        - popd
+
+run:
+    steps:
         - export QEMU_BIN QEMU_ARGS TEST_NAME
         - ubuntu/scripts/qemu-edk2-boot.sh
