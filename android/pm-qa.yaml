@@ -5,7 +5,7 @@ metadata:
 
 run:
     steps:
-        - './common/scripts/pm-qa.sh'
+        - './android/scripts/pm-qa.sh'
 
 parse:
     pattern: "^(?P<test_case_id>[a-z0-9_]+):\\s+(?P<result>pass|fail|skip)"
