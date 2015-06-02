@@ -1,0 +1,39 @@
+metadata:
+    name: lkp
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run LKP test suite on Ubuntu"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - riku.voipio@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - mustang
+
+install:
+    steps:
+        - 'git clone https://github.com/suihkulokki/lkp-tests.git'
+    deps:
+        - bc
+        - build-essential
+        - gawk
+        - git
+        - kmod
+        - linux-tools
+        - lsb-release
+        - ruby
+        - ruby-gnuplot
+        - sysstat
+        - time
+        - xz-utils
+
+params:
+    JOBS: ebizzy
+
+run:
+    steps:
+        - 'sudo ./common/scripts/lkp.sh -J $JOBS -P $(readlink -f lkp-tests) -L $(which lava-test-case)'
+        - 'lava-test-run-attach lkp-tests/lkp-$JOBS.tar.xz'
+
