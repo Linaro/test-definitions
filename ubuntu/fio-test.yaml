@@ -10,10 +10,7 @@ metadata:
         - ubuntu
     devices:
         - d01
-        - panda
-        - panda-es
-        - arndale
-        - vexpress-a9
+        - mustang
         - vexpress-tc2
     environment:
         - lava-test-shell
