@@ -1,0 +1,9 @@
+Code-Review+1: lava-bot <lava-bot@linaro.org>
+Code-Review+1: Botao Sun <botao.sun@linaro.org>
+Code-Review+1: Kevin Hilman <kevin.hilman@linaro.org>
+Code-Review+2: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Submitted-by: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Submitted-at: Tue, 09 Jun 2015 07:43:30 +0000
+Reviewed-on: https://review.linaro.org/6319
+Project: qa/test-definitions
+Branch: refs/heads/master
