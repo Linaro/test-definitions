@@ -23,12 +23,14 @@ params:
     # "skipfile-lsk-juno" is a known file present in dir ../common/scripts/ltp/
     # or
     # SKIPFILE: "http://people.linaro.org/~naresh.kamboju/skipfile"
+    # PATTERNS is used only for LTP-DDT tests
     # NOTE: busybox wget may not work with https link so pefer to use http
     SKIPFILE: ""
+    PATTERNS: ""
 
 run:
     steps:
-        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -S $SKIPFILE'
+        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -S $SKIPFILE $PATTERNS'
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
