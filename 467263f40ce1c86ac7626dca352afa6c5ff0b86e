@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_a2f044ca",
+        "filename": "common/scripts/gator-data-streaming.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-10T14:14:47Z",
+      "side": 1,
+      "message": "please copy the sh-test-lib to common. Once it\u0027s done we can change the path in both ubuntu and OE dirs.",
+      "revId": "467263f40ce1c86ac7626dca352afa6c5ff0b86e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
