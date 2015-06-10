@@ -20,7 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 
-. include/sh-test-lib
+. ../../ubuntu/scripts/include/sh-test-lib
 
 # Creating a new directory called gator_files under tmp so that it can be uniformly used for both Ubuntu and OE instead of using root for session.xml file
 mkdir -p /tmp/gator_files
