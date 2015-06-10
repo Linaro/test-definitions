@@ -1,0 +1,42 @@
+metadata:
+    name: gator-data-streaming-ubuntu
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Gator Data Streaming Test checks DS5 profiling feature for Ubuntu builds. The test
+                  creates a sample session XML file called 'session.xml', this file is passed as a
+                  parameter to the gatord command to do a local capture and test results are generated
+                  depending upon output of this command."
+    maintainer:
+        - botao.sun@linaro.org
+        - mahanth.gouda@linaro.org
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - arndale
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - juno
+
+install:
+    git-repos:
+        - url: https://git.linaro.org/arm/ds5/gator.git
+    steps:
+        - 'if [ -f "/usr/sbin/gatord" ]; then mv /usr/sbin/gatord /usr/sbin/gatord.bak; fi'
+        - 'cd gator/daemon'
+        - 'make all'
+        - 'cp gatord /usr/sbin'
+
+run:
+    steps:
+        - "cd common/scripts; ./gator-data-streaming.sh"
+
+parse:
+    pattern: "(?P<test_case_id>[a-zA-Z0-9_-]+):\\s(?P<result>\\w+)"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
