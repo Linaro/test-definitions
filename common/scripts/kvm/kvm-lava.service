@@ -1,0 +1,10 @@
+[Unit]
+Description=KVM guest tests
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/test-guest.sh
+ExecStop=/sbin/poweroff
+
+[Install]
+WantedBy=multi-user.target

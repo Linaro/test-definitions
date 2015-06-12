@@ -35,7 +35,13 @@ tamper_guest()
     sleep 2
     mount /dev/nbd0p2 /mnt/
 
-    cp common/scripts/kvm/kvm-lava.conf  /mnt/etc/init/kvm-lava.conf
+    if [ -x /lib/systemd/systemd ]
+    then
+        cp common/scripts/kvm/kvm-lava.service /mnt/etc/systemd/system/kvm-lava.service
+        chroot /mnt systemctl enable kvm-lava.service
+    else
+        cp common/scripts/kvm/kvm-lava.conf  /mnt/etc/init/kvm-lava.conf
+    fi
 
     # Build up file test-guest.sh
     if [ "x$1" = "xbenchmark" ]; then
@@ -184,8 +190,7 @@ echo 0 2000000 > /proc/sys/net/ipv4/ping_group_range
 
 tamper_guest kvm-armhf.qcow2 armv7l
 
-case ${ARCH} in
-    armv7l)
+if ! grep -q root=/dev/nfs /proc/cmdline
         echo "setting up and testing networking bridge for guest"
         brctl addbr br0
         tunctl -u root
@@ -194,7 +199,10 @@ case ${ARCH} in
         brctl addif br0 eth0
         brctl addif br0 tap0
         udhcpc -t 10 -i br0
-esac
+        netparams="-device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0"
+else
+        netparams="-netdev user,id=user0 -device virtio-net-device,netdev=user0"
+fi
 
 ping -W 4 -c 10 10.0.0.1 && echo "$KVM_HOST_NET 0 pc pass" || echo "$KVM_HOST_NET 0 pc fail"
 
@@ -205,9 +213,8 @@ case ${ARCH} in
         qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
         -kernel ./zImage-vexpress -dtb ./vexpress-v2p-ca15-tc1.dtb \
         -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        $netparams \
         -drive if=none,id=image,file=kvm-armhf.qcow2 \
-        -netdev tap,id=tap0,script=no,downscript=no,ifname="tap0" \
-        -device virtio-net-device,netdev=tap0 \
         -device virtio-blk-device,drive=image \
         -nographic -enable-kvm 2>&1|tee kvm-arm32.log
         ;;
@@ -230,16 +237,14 @@ case ${ARCH} in
         $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
         -bios QEMU_EFI.fd \
         -drive if=none,id=image,file=kvm-arm64.qcow2 \
-        -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
-        -device virtio-blk-device,drive=image \
+        $netparams \
         -nographic -enable-kvm 2>&1|tee kvm-arm64.log
         echo "32bit guest test"
         $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host,aarch64=off -M virt \
         -kernel ./zImage-vexpress \
         -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
         -drive if=none,id=image,file=kvm-armhf.qcow2 \
-        -netdev user,id=user0 -device virtio-net-device,netdev=user0 \
-        -device virtio-blk-device,drive=image \
+        $netparams \
         -nographic -enable-kvm 2>&1|tee kvm-arm32.log
         get_results kvm-arm64.qcow2 aarch64
         ;;
