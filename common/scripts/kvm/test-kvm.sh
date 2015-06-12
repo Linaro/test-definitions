@@ -35,7 +35,7 @@ tamper_guest()
     sleep 2
     mount /dev/nbd0p2 /mnt/
 
-    if [ -x /lib/systemd/systemd ]
+    if [ -x /mnt/lib/systemd/systemd ]
     then
         cp common/scripts/kvm/kvm-lava.service /mnt/etc/systemd/system/kvm-lava.service
         chroot /mnt systemctl enable kvm-lava.service
@@ -191,6 +191,7 @@ echo 0 2000000 > /proc/sys/net/ipv4/ping_group_range
 tamper_guest kvm-armhf.qcow2 armv7l
 
 if ! grep -q root=/dev/nfs /proc/cmdline
+then
         echo "setting up and testing networking bridge for guest"
         brctl addbr br0
         tunctl -u root
@@ -236,6 +237,7 @@ case ${ARCH} in
         echo "64bit guest test"
         $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
         -bios QEMU_EFI.fd \
+        -device virtio-blk-device,drive=image \
         -drive if=none,id=image,file=kvm-arm64.qcow2 \
         $netparams \
         -nographic -enable-kvm 2>&1|tee kvm-arm64.log
@@ -243,6 +245,7 @@ case ${ARCH} in
         $bind qemu-system-aarch64 -smp 2 -m 1024 -cpu host,aarch64=off -M virt \
         -kernel ./zImage-vexpress \
         -append 'root=/dev/vda2 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        -device virtio-blk-device,drive=image \
         -drive if=none,id=image,file=kvm-armhf.qcow2 \
         $netparams \
         -nographic -enable-kvm 2>&1|tee kvm-arm32.log
