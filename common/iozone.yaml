@@ -1,0 +1,33 @@
+metadata:
+    name: iozone
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "IOzone is a filesystem benchmark tool. The benchmark generates and measures a variety of file operations."
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+    scope:
+        - performance
+
+install:
+    steps:
+        - 'if [ -f "/etc/apt/sources.list" ]; then sed -i "s/\(^deb .*\)/\1 multiverse/" /etc/apt/sources.list; apt-get update ; apt-get install iozone3; fi'
+
+params:
+    OPTIONS: -az -i0 -i1 -s 20m -y 128k -q 4m -I -e
+
+run:
+    steps:
+        - 'iozone $OPTIONS -f iozone.tmp | tee result.log'
+        - 'log_file_size=`du -b result.log|cut -f1`'
+        - 'lava-test-case iozone --shell test ${log_file_size} -gt 0'
+        - 'lava-test-case-attach iozone result.log'
+        - 'sed -n "/^ *[0-9]/p" result.log | common/scripts/iozone.sh'
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z0-9-]+):\\s(?P<measurement>\\d+)\\s(?P<result>pass)"
