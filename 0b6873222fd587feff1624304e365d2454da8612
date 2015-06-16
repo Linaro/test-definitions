@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fab9d9a7_0a57fb03",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2015-06-16T15:58:49Z",
+      "side": 1,
+      "message": "The parameter is suggested by Andy.\nThere\u0027s no loop parameter for iozone and we specify the size of the file to test (-s 20m), it should takes the similar effect of loop.",
+      "parentUuid": "1acb0d3e_0e6e2bca",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1acb0d3e_6e79ef92",
         "filename": "openembedded/iozone.yaml",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "fab9d9a7_2a5c3f25",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2015-06-16T15:58:49Z",
+      "side": 1,
+      "message": "I\u0027ll remove it, that\u0027s for debugging.",
+      "parentUuid": "1acb0d3e_6e79ef92",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1acb0d3e_ce67c3e9",
         "filename": "openembedded/iozone.yaml",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2015-06-16T08:10:37Z",
       "side": 1,
       "message": "Is there a way to get rid of python?",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_ea3dc7bc",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000020
+      },
+      "writtenOn": "2015-06-16T15:58:49Z",
+      "side": 1,
+      "message": "I can try.\nIs there any particular reason for that?",
+      "parentUuid": "1acb0d3e_ce67c3e9",
       "revId": "0b6873222fd587feff1624304e365d2454da8612",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
