@@ -1,0 +1,69 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ovs-odp-server-multinode
+    description: "netmap pkt-gen for use with ODP-OVS"
+    maintainer:
+        - ciprian.barbu@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - x86
+
+
+params:
+    LINUX_SRC: "/usr/src/linux-source"
+    NIC_PATTERN: "82599"
+    TEST_TIME: "360"
+
+run:
+    steps:
+        - set -x
+        - echo 'INSTALLING required pkgs'
+        - apt-get update
+        - apt-get install -y git binutils gcc make patch pciutils python-numpy
+        - echo 'INSTALLING linux-headers'
+        - for deb in $(echo "$LINUX_HEADERS_DEBS"); do lava-test-case install-linux-headers --shell dpkg -i "$deb"; done
+        - echo 'BUILDING netmap'
+        - pushd /root
+        - test -e netmap || git clone http://code.google.com/p/netmap/
+        - cd netmap/LINUX
+        - lava-test-case configure-netmap --shell "./configure --kernel-dir=/lib/modules/`uname -r`/build --kernel-sources=$LINUX_SRC"
+        - lava-test-case build-netmap --shell make
+        - echo 'BUILDING pkt-gen'
+        - cd /root/netmap/examples
+        - lava-test-case build-pkt-gen --shell make pkt-gen
+        - popd
+        - echo 'INSERTING modules'
+        - rmmod ixgbe || true
+        - lava-test-case insmod-netmap --shell insmod /root/netmap/LINUX/netmap.ko
+        - lava-test-case insmod-mdio --shell "lsmod | grep mdio || insmod /lib/modules/`uname -r`/kernel/drivers/net/mdio.ko"
+        - lava-test-case rmmod-ixgbe --shell "lsmod | grep ixgbe && rmmod ixgbe || true"
+        - lava-test-case insmod-ixgbe --shell insmod /root/netmap/LINUX/ixgbe/ixgbe.ko
+        - echo 'BRINGING UP interfaces'
+        - lava-test-case find-nics --shell common/scripts/netmap-pkt-gen/find_nics.sh $NIC_PATTERN
+        - export IF_0=$(cat ifs | sed -n 1p)
+        - export IF_1=$(cat ifs | sed -n 2p)
+        - echo "IF_0=$IF_0 IF_1=$IF_1"
+        - ifconfig $IF_0 up promisc
+        - ifconfig $IF_1 up promisc
+        - echo 'RUNNING netmap for 360 seconds'
+        - lava-sync ready
+        - lava-test-case start-pkt-gen --shell common/scripts/netmap-pkt-gen/start-pkt-gen.sh $IF_0 $IF_1
+        - pgrep pkt-gen
+        - sleep $TEST_TIME
+        - echo 'KILLING pkt-gen'
+        - kill -9 $(ps -ef | grep pkt-gen | grep rx | awk '{print $2}')
+        - kill -9 $(ps -ef | grep pkt-gen | grep tx | awk '{print $2}')
+        - cat /root/pkt-gen-tx.txt
+        - cat /root/pkt-gen-rx.txt
+        - lava-sync l2fwd-done
+        - echo 'PARSING results'
+        - lava-test-case parse-rx --shell common/scripts/netmap-pkt-gen/parse-rx.sh /root/pkt-gen-rx.txt rx_thr
+        - lava-test-case parse-tx --shell common/scripts/netmap-pkt-gen/parse-tx.sh /root/pkt-gen-tx.txt tx_thr
+        - ./common/scripts/min_max_avg_parse.py rx_thr "rx_throughput:" "pps"
+        - ./common/scripts/min_max_avg_parse.py tx_thr "tx_throughput:" "pps"
+
+parse:
+    pattern: '^(?P<test_case_id>(rx|tx)_thr.*):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'
