@@ -1,0 +1,39 @@
+metadata:
+    name: lkp
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run LKP test suite on Linaro Ubuntu"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - riku.voipio@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - mustang
+
+install:
+    git-repos:
+        - url: https://github.com/suihkulokki/lkp-tests.git
+    deps:
+        - bc
+        - build-essential
+        - gawk
+        - git
+        - kmod
+        - linux-tools
+        - lsb-release
+        - ruby
+        - ruby-gnuplot
+        - sysstat
+        - time
+        - xz-utils
+
+params:
+    LOOPS: 1
+    JOB: 'unixbench'
+
+run:
+    steps:
+        - './common/scripts/lkp.py $(readlink -f lkp-tests) $(pwd) $LOOPS $JOB'
