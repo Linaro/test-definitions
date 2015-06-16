@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1acb0d3e_2e73e7b2",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-16T08:10:37Z",
+      "side": 1,
+      "message": "Please remove trailing whitespace. It might cause problems in LAVA.",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_0e6e2bca",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-16T08:10:37Z",
+      "side": 1,
+      "message": "Do we need a repetition parameter (loop)?",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_6e79ef92",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-16T08:10:37Z",
+      "side": 1,
+      "message": "Please change to lava-test-run-attach. Also please compress the logfile. The size of the result bundle needs to be under control",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_ce67c3e9",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-16T08:10:37Z",
+      "side": 1,
+      "message": "Is there a way to get rid of python?",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
