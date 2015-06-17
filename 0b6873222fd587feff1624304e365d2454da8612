@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fab9d9a7_2a88bfe6",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T15:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fab9d9a7_0a57fb03",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1acb0d3e_6e79ef92",
         "filename": "openembedded/iozone.yaml",
         "patchSetId": 1
@@ -89,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fab9d9a7_ca6c8339",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T15:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fab9d9a7_2a5c3f25",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1acb0d3e_ce67c3e9",
         "filename": "openembedded/iozone.yaml",
         "patchSetId": 1
@@ -118,6 +154,24 @@
       "side": 1,
       "message": "I can try.\nIs there any particular reason for that?",
       "parentUuid": "1acb0d3e_ce67c3e9",
+      "revId": "0b6873222fd587feff1624304e365d2454da8612",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_0a837bcd",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T15:46:45Z",
+      "side": 1,
+      "message": "the less dependencies the better. Without python the test can be run on fairly minimal rootfs. But if that results in some awkward bash script, let\u0027s stick to python.",
+      "parentUuid": "fab9d9a7_ea3dc7bc",
       "revId": "0b6873222fd587feff1624304e365d2454da8612",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
