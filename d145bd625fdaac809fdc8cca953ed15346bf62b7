@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab9d9a7_4a609335",
+        "filename": "ubuntu/netmap-pkt-gen-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T16:02:01Z",
+      "side": 1,
+      "message": "Please add some more verbose description. This field is used to generate test docs: http://releases.linaro.org/15.05/components/platform/linaro-test-suites/linaro-testsuites-2015.05.pdf",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_6a655744",
+        "filename": "ubuntu/netmap-pkt-gen-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T16:02:01Z",
+      "side": 1,
+      "message": "in the meta section you specify OS as OpenEmbedded. dpkg doesn\u0027t work on OE. If you\u0027re running on Ubuntu/Debian, please update OS section and move the dependencies to install section. Where does $LINUX_HEADERS_DEBS come from?",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_0a5a9b83",
+        "filename": "ubuntu/netmap-pkt-gen-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T16:02:01Z",
+      "side": 1,
+      "message": "it looks to me like the above section belongs to \u0027install\u0027 rather than a test case. Do I understand correctly that if any of the above fails, the test should be aborted?",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_ca53236b",
+        "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T16:02:01Z",
+      "side": 1,
+      "message": "does this test require some specific rootfs? Please update the description in metadata to specify such \u0027hidden\u0027 dependencies.",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_2a5f5f74",
+        "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T16:02:01Z",
+      "side": 1,
+      "message": "no apt-get on OE. Please fix the os section in metadata.",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_ea506760",
+        "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T16:02:01Z",
+      "side": 1,
+      "message": "where does boot.sh come from?",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_8a4d2bc7",
+        "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-17T16:02:01Z",
+      "side": 1,
+      "message": "I guess all the above belogs rather to install section.",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
