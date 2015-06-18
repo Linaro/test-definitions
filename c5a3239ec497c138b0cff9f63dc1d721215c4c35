@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab9d9a7_6da011f5",
+        "filename": "openembedded/iozone.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-18T09:34:13Z",
+      "side": 1,
+      "message": "there is still trailing white space.",
+      "revId": "c5a3239ec497c138b0cff9f63dc1d721215c4c35",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_0da5d503",
+        "filename": "ubuntu/iozone.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-18T09:34:13Z",
+      "side": 1,
+      "message": "isn\u0027t it available by default? If not, please move the installation to \u0027install\u0027 section of the yaml. This way it might be possible to unify the Ubuntu and OE flavours of the test.",
+      "revId": "c5a3239ec497c138b0cff9f63dc1d721215c4c35",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
