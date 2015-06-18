@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fab9d9a7_6d2b3183",
+        "filename": "ubuntu/netmap-pkt-gen-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2015-06-18T08:49:02Z",
+      "side": 1,
+      "message": "I agree about first comment, I didn\u0027t know about the install section.\n\nI added a general comment where I pointed to a job running this testcase: https://validation.linaro.org/scheduler/job/388880/multinode_definition\n\nUnfortunately I couldn\u0027t use any of the kernels we build for x86, because linux-headers were not supplied. What I use in the job here are kernel image and headers straight from Ubuntu repositories.",
+      "parentUuid": "fab9d9a7_6a655744",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fab9d9a7_0a5a9b83",
         "filename": "ubuntu/netmap-pkt-gen-multinode.yaml",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "fab9d9a7_0d20759a",
+        "filename": "ubuntu/netmap-pkt-gen-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2015-06-18T08:49:02Z",
+      "side": 1,
+      "message": "Yes, netmap must build successfully. But I also need to compile it, how do you suggest I would change this?",
+      "parentUuid": "fab9d9a7_0a5a9b83",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fab9d9a7_ca53236b",
         "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2015-06-17T16:02:01Z",
       "side": 1,
       "message": "does this test require some specific rootfs? Please update the description in metadata to specify such \u0027hidden\u0027 dependencies.",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_2d2539ab",
+        "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2015-06-18T08:49:02Z",
+      "side": 1,
+      "message": "Yes, again sorry about openembedded. I run with a minimal ubuntu precise rootfs, the linux headers are supplied as overlays. See general comments where I pointed to a job running this.",
+      "parentUuid": "fab9d9a7_ca53236b",
       "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "fab9d9a7_cd39fdd9",
+        "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2015-06-18T08:49:02Z",
+      "side": 1,
+      "message": "https://git.linaro.org/lng/odp-ovs.git/blob/refs/heads/odp-v0:/boot.sh",
+      "parentUuid": "fab9d9a7_ea506760",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fab9d9a7_8a4d2bc7",
         "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
         "patchSetId": 1
@@ -115,6 +187,24 @@
       "writtenOn": "2015-06-17T16:02:01Z",
       "side": 1,
       "message": "I guess all the above belogs rather to install section.",
+      "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_8d3305f6",
+        "filename": "ubuntu/ovs-odp-dpdk-server-multinode.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000036
+      },
+      "writtenOn": "2015-06-18T08:49:02Z",
+      "side": 1,
+      "message": "Again, my minimal knowledge on how to write yaml files. Will send new version.",
+      "parentUuid": "fab9d9a7_8a4d2bc7",
       "revId": "d145bd625fdaac809fdc8cca953ed15346bf62b7",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
