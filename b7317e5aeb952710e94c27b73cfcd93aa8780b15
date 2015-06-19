@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab9d9a7_0d9f1505",
+        "filename": "common/iozone.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-19T11:41:01Z",
+      "side": 1,
+      "message": "nice! This way we don\u0027t need to skip install on OE :)",
+      "revId": "b7317e5aeb952710e94c27b73cfcd93aa8780b15",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
