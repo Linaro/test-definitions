@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab9d9a7_adf8494a",
+        "filename": "common/scripts/lkp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-19T11:39:02Z",
+      "side": 1,
+      "message": "is multiverse part of sources.list?",
+      "revId": "76d8d4ddd34a42ff72b28bef0d6a4e9d2c7d6609",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fab9d9a7_4d950de3",
+        "filename": "ubuntu/lkp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-19T11:39:02Z",
+      "side": 1,
+      "message": "please move it to git-repos section",
+      "revId": "76d8d4ddd34a42ff72b28bef0d6a4e9d2c7d6609",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
