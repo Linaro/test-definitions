@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dabed58f_ac512bda",
+        "filename": "common/scripts/lkp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-06-23T12:00:52Z",
+      "side": 1,
+      "message": "I checked the sources.list in this rootfs  https://snapshots.linaro.org/ubuntu/images/developer-arm64/105/linaro-vivid-developer-20150618-105.tar.gz, no, it is not included.",
+      "parentUuid": "fab9d9a7_adf8494a",
+      "revId": "76d8d4ddd34a42ff72b28bef0d6a4e9d2c7d6609",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fab9d9a7_4d950de3",
         "filename": "ubuntu/lkp.yaml",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-06-19T11:39:02Z",
       "side": 1,
       "message": "please move it to git-repos section",
+      "revId": "76d8d4ddd34a42ff72b28bef0d6a4e9d2c7d6609",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_ec47231c",
+        "filename": "ubuntu/lkp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-06-23T12:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fab9d9a7_4d950de3",
       "revId": "76d8d4ddd34a42ff72b28bef0d6a4e9d2c7d6609",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
