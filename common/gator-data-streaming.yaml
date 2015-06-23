@@ -1,5 +1,5 @@
 metadata:
-    name: gator-data-streaming-ubuntu
+    name: gator-data-streaming
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Gator Data Streaming Test checks DS5 profiling feature for Ubuntu builds. The test
                   creates a sample session XML file called 'session.xml', this file is passed as a
