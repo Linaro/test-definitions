@@ -3,7 +3,7 @@
 LOG=$1
 
 # Find the last line number which starting with control character
-N=`grep -Pn "\x1b" ${LOG} | tail -n1 | cut -d':' -f1`
+N=`grep -n "#0:" ${LOG} | tail -n1 | cut -d':' -f1`
 # The rest of lines from #N is the final test result we want
 sed -i "s/\x1b\[[0-9]A//" ${LOG}    # Remove the control code
 sed -n "${N},$ p" ${LOG} > tmp.log
