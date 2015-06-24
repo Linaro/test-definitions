@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_ef6e3596",
+        "filename": "common/scripts/netmap-pkt-gen/find_nics.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-06-24T08:58:56Z",
+      "side": 1,
+      "message": "! missing from shebang line",
+      "revId": "bff4184d6e0924ab466abac88b82c2ccdccb47ae",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
