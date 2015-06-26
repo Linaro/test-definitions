@@ -23,6 +23,8 @@ metadata:
         - juno
 
 install:
+    deps:
+        - build-essential
     git-repos:
         - url: https://git.linaro.org/arm/ds5/gator.git
     steps:
