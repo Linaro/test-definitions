@@ -51,7 +51,8 @@ if start_return != 0:
     collect_result('rcutorture-end', 'skip')
     sys.exit(1)
 else:
-    print 'RCU Torture test started. Test time is ' + str(rcutorture_time) + ' Seconds.'
+    print('RCU Torture test started. Test time is %s seconds'
+          % (rcutorture_time))
     collect_result('rcutorture-start', 'pass')
     time.sleep(int(rcutorture_time))
 
@@ -60,22 +61,17 @@ lsmod_output = subprocess.check_output(['lsmod'])
 print lsmod_output
 lsmod_list = lsmod_output.split()
 torture_list = filter(lambda x: x.find('torture') != -1, lsmod_list)
-if torture_list == []:
+if len(torture_list) == 0:
     print 'Cannot find rcutorture module in lsmod, abort!'
     collect_result('rcutorture-module-check', 'fail')
     collect_result('rcutorture-end', 'skip')
     sys.exit(1)
-elif len(torture_list) == 1:
-    rcutorture_end = 'rmmod ' + torture_list[0]
+else:
     collect_result('rcutorture-module-check', 'pass')
-elif len(torture_list) > 1:
-    print 'More than one item with torture in name, please check it manually.'
-    collect_result('rcutorture-module-check', 'fail')
-    collect_result('rcutorture-end', 'skip')
-    sys.exit(1)
 
 # RCU Torture result check
 end_keyword = 'rcu-torture:--- End of test'
+rcutorture_end = 'modprobe -r rcutorture'
 end_return = subprocess.call(shlex.split(rcutorture_end))
 if end_return != 0:
     print 'RCU Torture terminate command ran failed.'
