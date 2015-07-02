@@ -19,21 +19,20 @@ metadata:
 
 params:
     TEST_SUITE: "sched_tests-android-tc2.tar.gz"
+    TEST_PATH: "/data/local/schedtest"
 
 install:
     steps:
         - 'echo 0 > /sys/kernel/bL_switcher/active || true'
-        - 'mkdir /data/local/schedtest'
-        - 'cd /data/local/schedtest'
+        - 'mkdir -p $TEST_PATH'
+        - 'cd $TEST_PATH'
         - 'wget http://testdata.validation.linaro.org/tests/$TEST_SUITE'
         - 'tar -xvzf $TEST_SUITE'
 
 run:
     steps:
-        - 'mount -o rw,remount /'
-        - 'mkdir -p /bin'
-        - 'cp /system/bin/sh /bin/sh'
-        - 'cd /data/local/schedtest'
+        - './common/scripts/scheduler-test-android-setup.sh'
+        - 'cd $TEST_PATH'
         - 'pwd'
         - './schedtest-run'
         - 'tar -zcvf sched_results.tar.gz suites'
