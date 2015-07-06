@@ -28,7 +28,7 @@ params:
 run:
     steps:
         - 'pmqtest -l ${LOOPS} -S | tee result.log'
-        - './ubuntu/scripts/rt-tests-parser.sh result.log'
+        - './ubuntu/scripts/rt-tests-parser.sh pmqtest result.log'
         - 'lava-test-run-attach result.log'
 
 parse:

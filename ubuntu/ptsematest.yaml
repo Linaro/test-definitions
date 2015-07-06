@@ -28,7 +28,7 @@ params:
 run:
     steps:
         - 'ptsematest -l ${LOOPS} -t | tee result.log'
-        - './ubuntu/scripts/rt-tests-parser.sh result.log'
+        - './ubuntu/scripts/rt-tests-parser.sh ptsematest result.log'
         - 'lava-test-run-attach result.log'
 
 parse:
