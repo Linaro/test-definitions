@@ -1,0 +1,28 @@
+metadata:
+    name: overlayfs
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run overlay filesystem test from unionmount testsuite on
+                  Linaro Ubuntu and OpenEmbedded"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+        - mustang
+        - panda
+        - juno
+
+install:
+    git-repos:
+        - url: http://git.linaro.org/qa/unionmount-testsuite.git
+
+run:
+    steps:
+        - './common/scripts/overlayfs.py $(readlink -f unionmount-testsuite)'
