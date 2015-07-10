@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aade967_8f2e9da4",
+        "filename": "common/scripts/overlayfs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-07-10T11:57:44Z",
+      "side": 1,
+      "message": "maybe it would be a good idea to have this list as a test parameter (passed from JSON)? I\u0027m fine with the current approach. We can think about the changes later.",
+      "revId": "f5bae31140cedda73cbb692d0a040ecafcf332e5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
