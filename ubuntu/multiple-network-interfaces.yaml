@@ -1,0 +1,20 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: multiple-network-interfaces-test
+    description: "multiple network interfaces test for Linaro Ubuntu images"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - d01
+    environment:
+        - lava-test-shell
+params:
+    GATEWAY: 10.0.0.1
+
+run:
+    steps:
+        - './ubuntu/scripts/multiple-network-interfaces-test.sh $GATEWAY' 
