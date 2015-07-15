@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7aade967_20b456f1",
+        "filename": "ubuntu/multiple-network-interfaces.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-07-15T10:33:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aade967_e0715e78",
+      "revId": "80b306b48bdf6a9d4dadac2befc63c3424843f98",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7aade967_a06b6684",
         "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-07-15T09:24:35Z",
       "side": 1,
       "message": "I guess this should only be executed if the IP address is defined. Otherwise it will not work. So this block should be moved to line 62 IMHO",
+      "revId": "80b306b48bdf6a9d4dadac2befc63c3424843f98",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_60056ec1",
+        "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-07-15T10:33:22Z",
+      "side": 1,
+      "message": "I made this a little bit complicated. If the IP is empty, then obtain-ip-address will fail (line 57, 65), then the \"continue\" command will be executed, it go to the next loop directly, the following all sentences, including \"ping\" test will be skipped. This is exactly what happened on d01. https://validation.linaro.org/dashboard/streams/anonymous/chase-qi/bundles/5e26fc95d1945cb91662903ff1b02925c5775119/337f3076-1afd-4b4f-aa95-d35d62530d85/\n\neth0 will get IP address during booting, and it might be used for nfs mount. \u0027dhclient eth0\u0027 may disconnect it. So \u0027dhclient ethx\u0027 should only be executed on the interface that don\u0027t have IP yet. To work around this, the script check the IP first, if IP not found, execute \u0027dhclient ethx\u0027, then check iP again. So there are two IP check sentences in the script. If we move the \u0027ping\u0027 test under line 62, that works for eth1, eth1 and other ports. Then we also need copy the \u0027ping\u0027 sentence under line 71, which is for eth0\n\nThat is the reason that I choose the current approach.",
+      "parentUuid": "7aade967_a06b6684",
       "revId": "80b306b48bdf6a9d4dadac2befc63c3424843f98",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
