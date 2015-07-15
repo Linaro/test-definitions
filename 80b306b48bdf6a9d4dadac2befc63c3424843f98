@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aade967_e0715e78",
+        "filename": "ubuntu/multiple-network-interfaces.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-07-15T09:24:35Z",
+      "side": 1,
+      "message": "This needs to be updated to be more verbose. Please describe briefly what the test does.",
+      "revId": "80b306b48bdf6a9d4dadac2befc63c3424843f98",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_a06b6684",
+        "filename": "ubuntu/scripts/multiple-network-interfaces-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-07-15T09:24:35Z",
+      "side": 1,
+      "message": "I guess this should only be executed if the IP address is defined. Otherwise it will not work. So this block should be moved to line 62 IMHO",
+      "revId": "80b306b48bdf6a9d4dadac2befc63c3424843f98",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
