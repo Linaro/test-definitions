@@ -23,16 +23,15 @@ install:
         - openssh-server
         - expect
         - xz-utils
+        - git
 
     steps:
         - 'cat /proc/version'
         - 'ls -l /lib/modules/`uname -r`/build/'
         - 'cd /usr/src/'
-        - 'wget --no-check-certificate  https://fedorahosted.org/releases/e/l/elfutils/0.159/elfutils-0.159.tar.bz2'
-        - 'tar -xvf elfutils-0.159.tar.bz2'
-        - 'wget --no-check-certificate https://sourceware.org/systemtap/ftp/releases/systemtap-2.5.tar.gz'
-        - 'tar -xvf systemtap-2.5.tar.gz'
-        - 'cd systemtap-2.5'
+        - 'git clone git://git.fedorahosted.org/git/elfutils.git'
+        - 'git clone git://sourceware.org/git/systemtap.git'
+        - 'cd systemtap'
         - 'cp /usr/share/dejagnu/* . -a'
         - 'echo "skip tests which are known to hang"'
         - 'mv testsuite/systemtap.base/poll_map.exp testsuite/systemtap.base/poll_map.exp.back'
@@ -43,13 +42,14 @@ install:
         - 'mv testsuite/systemtap.base/sdt_global_var.exp testsuite/systemtap.base/sdt_global_var.exp.back'
         - 'mv testsuite/systemtap.base/target_set_thread.exp testsuite/systemtap.base/target_set_thread.exp.back'
         - 'mv testsuite/systemtap.unprivileged/unprivileged_myproc.exp testsuite/systemtap.unprivileged/unprivileged_myproc.exp.back'
-        - './configure --prefix=/usr/local/ --with-elfutils=../elfutils-0.159'
+        - './configure --prefix=/usr/local/ --with-elfutils=../elfutils'
         - 'make all'
         - 'make install'
+        - 'make clean'
 run:
     steps:
         - 'lava-test-case systemtap-make-install --result pass'
-        - 'cd /usr/src/systemtap-2.5'
+        - 'cd /usr/src/systemtap'
         - 'make installcheck'
         - 'lava-test-case systemtap-make-installcheck --result pass'
         - 'cat testsuite/systemtap.sum'
