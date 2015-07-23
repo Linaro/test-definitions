@@ -24,6 +24,7 @@ install:
         - expect
         - xz-utils
         - git
+        - automake
 
     steps:
         - 'cat /proc/version'
@@ -31,7 +32,9 @@ install:
         - 'cd /usr/src/'
         - 'git clone git://git.fedorahosted.org/git/elfutils.git'
         - 'git clone git://sourceware.org/git/systemtap.git'
-        - 'cd systemtap'
+        - 'cd elfutils'
+        - 'autoreconf -vfi'
+        - 'cd ../systemtap'
         - 'cp /usr/share/dejagnu/* . -a'
         - 'echo "skip tests which are known to hang"'
         - 'mv testsuite/systemtap.base/poll_map.exp testsuite/systemtap.base/poll_map.exp.back'
