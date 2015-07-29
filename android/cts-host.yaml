@@ -30,7 +30,7 @@ run:
     steps:
         - apt-add-repository -y http://ppa.launchpad.net/nilarimogard/webupd8/ubuntu
         - apt-get update -y
-        - apt-get install -y android-tools-adb android-tools-fastboot zip $JDK $JRE
+        - apt-get install -y android-tools-adb android-tools-fastboot zip $JDK $JRE libc6:i386 libncurses5:i386 libstdc++6:i386
         - lava-wait $TEST_NAME-send-ip
         - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
         - adb connect $IPADDR
