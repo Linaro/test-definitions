@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Test if the SD/MMC cards are properly registered by kernel"
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - ubuntu
         - openembedded
@@ -15,14 +15,16 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
-        - ifc6410 
+        - ifc6410
+        - hikey
     environment:
         - manual-test
 
 run:
     steps:
-        - "Power on the board until boot successfully"
-        - "In serial console, run:
-           # dmesg | grep error"
+        - Power on the board until boot successfully
+        - In serial console, run
+        - "$ dmesg | grep error"
+
     expected:
-        - "There should be no \"I/O\" error shows in std output"
+        - "There should be no 'I/O' error shown in std output."
