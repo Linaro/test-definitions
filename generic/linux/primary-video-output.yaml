@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Test the primary video output on hardware board."
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - ubuntu
         - openembedded
@@ -13,13 +13,19 @@ metadata:
         - panda
         - panda-es
         - arndale
+        - hikey
     environment:
         - manual-test
 
 run:
     steps:
-        - "Using HDMI cable to connect the hardware board to a display device, usually an external monitor."
-        - "Power on the board until boot up successfully."
-        - "For TI Panda 4430 and 4460, the primary video output is the HDMI port."
+        - Note: For board which come with LCD module, Primary Video Output means that LCD display.
+        - Plug in HDMI cable between the board and HDMI Monitor or HDMI TV.
+        - Power on the HDMI Monitor or HDMI TV, switch input source to HDMI.
+        - Boot the board.
+        - If HDMI video ouput works well, Plug out HDMI cable.
+        - Plug in HDMI cable again.
+
     expected:
         - "The video output should show up on that display device, for example, the boot log and command prompt can be seen on screen."
+        - "After HDMI cable plugged out, display should be gone from monitor or TV. When plugged in HDMI cable again, display should be back to work as normal."
