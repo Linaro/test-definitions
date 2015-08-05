@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Test if the SD/MMC cards are properly registered by kernel"
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - android
     scope:
@@ -12,15 +12,17 @@ metadata:
         - panda
         - panda-es
         - arndale
+        - hikey
     environment:
         - manual-test
 
 run:
     steps:
-        - "Boot the board until main desktop screen shows up"
-        - "In serial or ADB console, run:
-           # echo $EXTERNAL_STORAGE
-           # df"
+        - Boot the board until main desktop screen shows up.
+        - In serial or ADB console, run these commands.
+        - "$echo $EXTERNAL_STORAGE"
+        - "df"
+        - For HiKey board, test with SD,SDHC and SDXC cards with all classes (2, 4, 6 and 10).
 
     expected:
-        - "The return string of \"echo $EXTERNAL_STORAGE\" should be in output of \"df\""
+        - "The return string of 'echo $EXTERNAL_STORAGE' should be in output of 'df' command."
