@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Test if Bluetooth module works well"
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - android
     scope:
@@ -11,23 +11,40 @@ metadata:
     devices:
         - panda
         - panda-es
+        - hikey
     environment:
         - manual-test
 
 run:
     steps:
-        - "After the board booted successfully, enable Bluetooth by click Settings -> Wireless and Networks -> Bluetooth"
-        - "After Bluetooth turned ON and surround devices (if any) showed up, turn Bluetooth OFF"
-        - "Do above ON and OFF procedures again"
-        - "If the Bluetooth can be enabled successfully, try to pair it to another Bluetooth, for example, a Bluetooth enabled mobile phone or laptop"
-        - "If the pair can be done successfully, send a picture from another Bluetooth to the board"
-        - "Send a picture from the board to another Bluetooth device (mobile phone or laptop)"
-        - "View the picture on both devices"
+        - After the board booted successfully, enable Bluetooth by click Settings -> Wireless and Networks -> Bluetooth.
+        - After Bluetooth turned ON and surround devices (if any) showed up, turn Bluetooth OFF.
+        - Perform above ON and OFF procedures again.
+        - If the Bluetooth can be enabled successfully, try to pair it to another Bluetooth, for example, a Bluetooth enabled mobile phone or laptop.
+        - If the pair can be done successfully, send a picture from another Bluetooth to the board.
+        - Send a picture from the board to another Bluetooth device (mobile phone or laptop).
+        - View the picture on both devices.
+        - For Hikey board, if UI is not available to perform above steps. Run following commands on console.
+        - To scan BT devices.
+        - "$ sudo su
+           # bluetoothctl -a
+           [bluetooth]# pairable on
+           [bluetooth]# scan on
+           [bluetooth]# quit"
+        - To pair BT devices.
+        - "$ sudo su
+           # bluetoothctl -a
+           [bluetooth]# default-agent
+           [bluetooth]# pairable on
+           [bluetooth]# scan on
+           [bluetooth]# pair <mac_address>
+           [bluetooth]# trust <mac_address>
+           [bluetooth]# quit"
 
     expected:
         - "Bluetooth feature should can be continuously enabled and disabled at least twice without any error"
         - "If there is any other Bluetooth enabled device surround and searchable, those devices should be shown in the discoveried device list on the board"
-        - "\"Pair\" should be done successfully"
+        - "Pairing should be done successfully"
         - "Picture file should can be transfered from the board to another paired Bluetooth device"
         - "Picture file should can be transfered from another Bluetooth enabled device to the board"
         - "Picture file should be shown successfully on both paired devices"
