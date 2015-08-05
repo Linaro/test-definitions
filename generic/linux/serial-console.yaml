@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Test if the serial connection to the board works"
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - ubuntu
         - openembedded
@@ -15,24 +15,23 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
-        - ifc6410 
+        - ifc6410
+        - hikey
     environment:
         - manual-test
 
 run:
     steps:
-        - "Connect the Serial Cable"
-        - "Launch \"minicom\" in terminal of host PC:
-           $ minicom -D /dev/ttyUSB0 -w -C minicom_log.txt
-           $ sudo screen /dev/ttyUSB0 115200"
-        - "Boot the board" 
-        - "After boot sequence is complete type \"ls -l\""
+        - Connect the Serial Cable.
+        - Launch minicom in terminal of host PC.
+        - "$ minicom -D /dev/ttyUSB0 -w -C minicom_log.txt"
+        - "$ sudo screen /dev/ttyUSB0 115200"
+        - Boot the board.
+        - After boot sequence is complete run
+        - "$ ls -l"
 
     expected:
         - "Boot log should be shown in serial console after powering the board"
-        - "The boot log and command line prompt at the end should look like this:
-           Welcome to Linaro 13.09 (GNU/Linux 3.12.0-1-linaro-omap armv7l)
-           Documentation:  https://wiki.linaro.org/
-           root@linaro-developer:~#"
+        - "The boot log and command line prompt at the end should look like this: root@linaro-developer:~#"
         - "Input by keyboard in serial console should work and characters should be echoed back and displayed in minicom"
 
