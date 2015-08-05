@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Check 'Power OFF' function on hardware board."
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - ubuntu
         - openembedded
@@ -13,14 +13,16 @@ metadata:
         - panda
         - panda-es
         - arndale
+        - hikey
     environment:
         - manual-test
 
 run:
     steps:
-        - "Power on the board until boot up successfully."
-        - "After command line prompt shows in serial console, type 'poweroff' then click enter key."
-        - "For OpenEmbedded alip image on ARM Versatile Express A9, using graphic button to test power off."
+        - Power on the board.
+        - Wait until board boots up successfully to UI.
+        - Shutdown the board using UI power-off option.
+
     expected:
         - "The board should can be shut down successfully, no display shows and no activity in serial console."
         - "No Kernel panic, crash, hang or any other serve error observed."
