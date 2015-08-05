@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Test if ADB over USB works well"
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - android
     scope:
@@ -14,6 +14,7 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
+        - hikey
     environment:
         - manual-test
 
@@ -31,8 +32,8 @@ run:
            $ sudo adb install <apk_file_on_host_pc>"
 
     expected:
-        - "ADB shell should be launched successfully, output of \"ls\" should look good"
-        - "ADB push, pull and install should work well"
-        - "After apk installation, the app icon should be found on UI and should be launched successfully"
-        - "No hang, kernel panic or crash observed during the whole process"
+        - "ADB shell should be launched successfully and output of 'ls' command should look good."
+        - "ADB push, pull and install should work well."
+        - "After apk installation, the app icon should be found on UI and should be launched successfully."
+        - "No hang, kernel panic or crash observed during the whole process."
 
