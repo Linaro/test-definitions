@@ -3,7 +3,7 @@ metadata:
     format: "Manual Test Definition 1.0"
     description: "Test if HDMI audio works well"
     maintainer:
-        - botao.sun@linaro.org
+        - amit.khare@linaro.org
     os:
         - android
     scope:
@@ -14,16 +14,17 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
+        - hikey
     environment:
         - manual-test
 
 run:
     steps:
-        - "Plug out headset and microphone from the board if applicable"
-        - "Plug in HDMI cable to connect the board with a monitor or TV which contains speakers"
-        - "Download a music file from \"http://samplemedia.linaro.org/Audio/\" and then transfer it to SD card"
-        - "Launch \"Music\" app to play that music file"
+        - Plug out headset and microphone from the board if applicable.
+        - Plug in HDMI cable to connect the board with a monitor or TV which comes with speakers.
+        - Download a music file from "http://samplemedia.linaro.org/Audio/" and then transfer it to SD card.
+        - Launch "Music" app to play that music file.
 
     expected:
-        - "Sound of music should be heard clearly from monitor or TV speakers" 
-        - "No hang, kernel panic and crash during the whole test process"
+        - "Sound of music should be heard clearly from monitor or TV speakers."
+        - "No hang, kernel panic and crash during the whole test process."
