@@ -1,0 +1,40 @@
+metadata:
+    name: linux-bluetooth-audio
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth audio works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - After the board booted successfully, connect BT audio device.
+        - "$ sudo bluetoothctl -a"
+        - "[bluetooth]# connect <mac_id>"
+        - "[bluetooth]# quit"
+        - Use paplay to play .WAV file. Run
+        - "$ pactl list"
+        - If the active profile isn't A2DP, then set it or else skip.
+        - "$ pactl set-card-profile 0 a2dp"
+        - Play sound and should be able to hear on speaker.
+        - "$ paplay \ -d bluez_sink.A0_E9_DB_5C_FA_67 \ /usr/share/sounds/alsa/Front_Center.wav"
+        - Play .MP3/.OGG file via xmms. Start xmms2, add files to the default playlist and play.
+        - "$ xmms2"
+        - "xmms2> add file.mp3"
+        - "xmms2> add file.ogg"
+        - "xmms2> play"
+        - Set volume via xmms2
+        - "xmms2> server volume [0..100]"
+
+    expected:
+        - "Should be able to connect to Bluetooth audio device."
+        - "Sound can be heard from audio device when .mp3/ogg file is played."
+        - "Setting volume should work and playback can be toggeled on/off."
