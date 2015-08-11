@@ -20,8 +20,8 @@ metadata:
 run:
     steps:
         - Power on the board until boot up successfully.
-        - After command line prompt shows in serial console, run
-        - "$ sudo reboot"
+        - Reboot the board from terminal. Run
+        - "$ sudo shutdown -r now"
 
     expected:
-        - "Reboot should be done successfully, without kernel panic, crash, hang or any other serve error observed."
+        - "Reboot should be done successfully from terminal, without kernel panic, crash, hang or any other serve error observed."
