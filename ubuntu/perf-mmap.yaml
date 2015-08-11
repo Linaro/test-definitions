@@ -1,0 +1,35 @@
+metadata:
+    name: perf-mmap-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Perf-mmap-test is testsuite for showing benchmarks for accessing perf hw counters from userspace with traditional way by using read syscall, and mmap way"
+    maintainer:
+        - yogesh.tillu@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - performance
+    devices:
+        - juno
+
+install:
+    deps:
+        - build-essential
+        - git
+        - linux-libc-dev
+    git-repos:
+        - url: https://git.linaro.org/people/yogesh.tillu/perfcounter_access_test.git
+          destination: perfcounter_access_test
+    steps:
+        - "cd perfcounter_access_test"
+        - "make MAX_DELAY=1"
+        - "make install"
+params:
+     BUSYLOOP: 64
+     COUNTER: "0 1 2 3 5 9"
+     CPU: "0 1"
+run:
+    steps:
+        -  './common/scripts/perf-mmaptest.sh ${BUSYLOOP} "$COUNTER" "$CPU"'
+
+parse:
+    pattern: "^(?P<test_case_id>[\\w\\s\\'\\,\\:\\*\\&\\>\\-]+)\\s:\\s(?P<result>pass|fail|skip)$"
