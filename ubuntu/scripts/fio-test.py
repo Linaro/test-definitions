@@ -31,7 +31,7 @@ os.chdir(home_path)
 print os.getcwd()
 
 # Save partition layout to a local file for reference
-commands.getstatusoutput("sudo fdisk -l > partition_layout.txt 2>&1")
+commands.getstatusoutput("fdisk -l > partition_layout.txt 2>&1")
 device_name = sys.argv[1]
 
 
@@ -72,7 +72,7 @@ def fio_existence():
 
 def fio_read():
     testcase_name = "fio_bs4kread_iops"
-    run_command = "sudo fio -filename=" + device_name + " -rw=read -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_read > fio_read.txt 2>&1"
+    run_command = "fio -filename=" + device_name + " -rw=read -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_read > fio_read.txt 2>&1"
     print run_command
 
     fio_read_return = commands.getstatusoutput(run_command)
@@ -103,7 +103,7 @@ def fio_read():
 
 def fio_randread():
     testcase_name = "fio_randread_iops"
-    run_command = "sudo fio -filename=" + device_name + " -rw=randread -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randread > fio_randread.txt 2>&1"
+    run_command = "fio -filename=" + device_name + " -rw=randread -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randread > fio_randread.txt 2>&1"
     print run_command
 
     fio_randread_return = commands.getstatusoutput(run_command)
@@ -134,7 +134,7 @@ def fio_randread():
 
 def fio_write():
     testcase_name = "fio_write_iops"
-    run_command = "sudo fio -filename=" + device_name + " -rw=write -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_write > fio_write.txt 2>&1"
+    run_command = "fio -filename=" + device_name + " -rw=write -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_write > fio_write.txt 2>&1"
     print run_command
 
     fio_write_return = commands.getstatusoutput(run_command)
@@ -165,7 +165,7 @@ def fio_write():
 
 def fio_randwrite():
     testcase_name = "fio_randwrite_iops"
-    run_command = "sudo fio -filename=" + device_name + " -rw=randwrite -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randwrite > fio_randwrite.txt 2>&1"
+    run_command = "fio -filename=" + device_name + " -rw=randwrite -direct=1 -iodepth 1 -thread -ioengine=psync -bs=4k -numjobs=1 -runtime=10 -group_reporting -name=fio_randwrite > fio_randwrite.txt 2>&1"
     print run_command
 
     fio_randwrite_return = commands.getstatusoutput(run_command)
@@ -196,7 +196,7 @@ def fio_randwrite():
 
 def fio_512k_write():
     testcase_name = "fio_512k_write_bandwidth"
-    run_command = "sudo fio -filename=" + device_name + " -rw=write -direct=1 -iodepth 1 -thread -ioengine=psync -bs=512k -numjobs=1 -runtime=10 -group_reporting -name=fio_512k_write > fio_512k_write.txt 2>&1"
+    run_command = "fio -filename=" + device_name + " -rw=write -direct=1 -iodepth 1 -thread -ioengine=psync -bs=512k -numjobs=1 -runtime=10 -group_reporting -name=fio_512k_write > fio_512k_write.txt 2>&1"
     print run_command
 
     fio_512k_write_return = commands.getstatusoutput(run_command)
@@ -228,7 +228,7 @@ def fio_512k_write():
 
 def fio_512k_read():
     testcase_name = "fio_512k_read_bandwidth"
-    run_command = "sudo fio -filename=" + device_name + " -rw=read -direct=1 -iodepth 1 -thread -ioengine=psync -bs=512k -numjobs=1 -runtime=10 -group_reporting -name=fio_512k_read > fio_512k_read.txt 2>&1"
+    run_command = "fio -filename=" + device_name + " -rw=read -direct=1 -iodepth 1 -thread -ioengine=psync -bs=512k -numjobs=1 -runtime=10 -group_reporting -name=fio_512k_read > fio_512k_read.txt 2>&1"
     print run_command
 
     fio_512k_read_return = commands.getstatusoutput(run_command)
