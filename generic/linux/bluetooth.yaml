@@ -1,0 +1,37 @@
+metadata:
+    name: linux-bluetooth-scan
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth scan and pairing works."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - After the board booted successfully, scan for BT devices.
+        - "$ sudo su"
+        - "# bluetoothctl -a"
+        - "[bluetooth]# pairable on"
+        - "[bluetooth]# scan on"
+        - "[bluetooth]# quit"
+        - Note MAC-ID of desired device to Connect.
+        - "$ sudo su"
+        - "# bluetoothctl -a"
+        - "[bluetooth]# default-agent"
+	- "[bluetooth]# pairable on"
+	- "[bluetooth]# scan on"
+	- "[bluetooth]# pair <MAC-ID>"
+	- "[bluetooth]# trust <MAC-ID>"
+	- "[bluetooth]# quit"
+
+    expected:
+        - "Should be able to connect to Bluetooth device."
+        - "BT pairing with other device should work."
