@@ -19,13 +19,17 @@ metadata:
 
 install:
     steps:
-        - 'VERSION=20150119'
+        - 'VERSION=20150420'
+        - 'test -d /opt/ltp/ && rm -rf /opt/ltp'
+        - 'mkdir -p /opt/ltp'
+        - 'cd /opt/ltp'
         - 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-$VERSION/ltp-full-$VERSION.tar.xz'
         - 'tar --strip-components=1 -Jxf ltp-full-$VERSION.tar.xz'
         - 'mkdir build'
         - './configure --prefix=$(readlink -f build)'
         - 'make all'
         - 'make SKIP_IDCHECK=1 install'
+        - 'cd -'
     deps:
         - bzip2
         - flex
@@ -46,7 +50,7 @@ params:
 
 run:
     steps:
-        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -P $(readlink -f build) -S $SKIPFILE'
+        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -P /opt/ltp/build -S $SKIPFILE'
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
