@@ -9,7 +9,7 @@ echo "Script path is: $SCRIPTPATH"
 TST_CMDFILES=""
 # List of test cases to be skipped
 SKIPFILE=""
-# Used only for ltp-ddt tests. Only run test cases which match PATTERNS. Patterns are 
+# Used only for ltp-ddt tests. Only run test cases which match PATTERNS. Patterns are
 # seperated by a comma
 PATTERNS=""
 
@@ -17,7 +17,7 @@ LTP_PATH=/opt/ltp
 
 while getopts T:S:P:s: arg
     do case $arg in
-        T) 
+        T)
             TST_CMDFILES="$OPTARG"
             LOG_FILE=`echo $OPTARG| sed 's,\/,_,'`;;
         S) OPT=`echo $OPTARG | grep "http"`
