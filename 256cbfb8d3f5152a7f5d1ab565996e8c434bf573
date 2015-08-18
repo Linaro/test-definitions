@@ -16,6 +16,24 @@
       "revId": "256cbfb8d3f5152a7f5d1ab565996e8c434bf573",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_5db051dd",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-08-18T15:18:01Z",
+      "side": 1,
+      "message": "I guess the reason is we should use a dedicated patch for version upgrade. Once some thing wrong in the new version, it is easy to roll back.\n\nI have downgraded the version and submitted two lava jobs to test it. If test result looks fine, I will submit patch3.\nhttps://validation.linaro.org/scheduler/job/484200 , https://validation.linaro.org/scheduler/job/484201",
+      "parentUuid": "7aade967_fded7df0",
+      "revId": "256cbfb8d3f5152a7f5d1ab565996e8c434bf573",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
