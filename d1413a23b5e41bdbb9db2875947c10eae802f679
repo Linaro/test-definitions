@@ -105,6 +105,24 @@
       "revId": "d1413a23b5e41bdbb9db2875947c10eae802f679",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_3d86b5ba",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-08-19T12:41:17Z",
+      "side": 1,
+      "message": "Just tested in lava, you are right. Thanks.",
+      "parentUuid": "7aade967_dde441ae",
+      "revId": "d1413a23b5e41bdbb9db2875947c10eae802f679",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
