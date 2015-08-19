@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7aade967_bdcce536",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-08-19T10:52:50Z",
+      "side": 1,
+      "message": "Thanks for review. It is true that \u0027rm -rf\u0027 always return 0, I though that is just a bit rough ;). I will remove the existence check part.",
+      "parentUuid": "7aade967_3d51d562",
+      "revId": "d1413a23b5e41bdbb9db2875947c10eae802f679",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7aade967_fd1c9dc3",
         "filename": "ubuntu/ltp.yaml",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2015-08-19T09:28:07Z",
       "side": 1,
       "message": "I guess this is not needed.",
+      "revId": "d1413a23b5e41bdbb9db2875947c10eae802f679",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_1d541953",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-08-19T10:52:50Z",
+      "side": 1,
+      "message": "It is used to ensure the execution of \u0027./common/scripts/ltpfixup.sh\u0027 is successful.",
+      "parentUuid": "7aade967_fd1c9dc3",
       "revId": "d1413a23b5e41bdbb9db2875947c10eae802f679",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
