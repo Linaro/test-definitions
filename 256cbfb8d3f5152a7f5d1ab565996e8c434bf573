@@ -34,6 +34,24 @@
       "revId": "256cbfb8d3f5152a7f5d1ab565996e8c434bf573",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_5d0cd194",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-08-19T05:47:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aade967_fded7df0",
+      "revId": "256cbfb8d3f5152a7f5d1ab565996e8c434bf573",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
