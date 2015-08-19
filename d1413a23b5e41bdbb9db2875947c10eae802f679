@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aade967_5d8371cc",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2015-08-19T09:28:07Z",
+      "side": 1,
+      "message": "If you want to delete, just delete the folder.\ntest -d /opt/ltp not required.\n\nrm -rf /opt/ltp - always returns true (return 0). so no chance of LAVA test shell failures.\nso you may not need \"test -d /opt/ltp \u0026\u0026\"",
+      "revId": "d1413a23b5e41bdbb9db2875947c10eae802f679",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_fd1c9dc3",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2015-08-19T09:28:07Z",
+      "side": 1,
+      "message": "I guess this is not needed.",
+      "revId": "d1413a23b5e41bdbb9db2875947c10eae802f679",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
