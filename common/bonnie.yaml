@@ -1,0 +1,45 @@
+metadata:
+    name: bonnie_benchmark_test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Bonnie++ is a benchmark suite that is aimed at performing
+                  a number of simple tests of hard drive and file system performance.
+                  If a test completes in less than 500ms then the output will be displayed as '++++'.
+                  This is because such a test result can't be calculated accurately due to rounding errors
+                  and I would rather display no result than a wrong result."
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - performance
+    devices:
+        - arndale
+        - beaglebone-black
+        - juno
+
+install:
+    git-repos:
+        - url: https://git.linaro.org/qa/bonnie.git
+    deps:
+        - build-essential
+    steps:
+        - 'cd bonnie'
+        - './configure prefix=/usr ; make all install ; cd ..'
+
+params:
+    SCRATCH_DIR: /tmp
+    SIZE: 500
+    NUM_TO_STAT: 50
+    RAM_SIZE: 200
+
+run:
+    steps:
+        - 'OPT="-u 0:0 -d $SCRATCH_DIR -s $SIZE -n $NUM_TO_STAT -r $RAM_SIZE"'
+        - '/usr/sbin/bonnie++ $OPT | tee bonnie++.log'
+        - 'log_file_size=`du -b bonnie++.log | cut -f1`'
+        - 'if [ ${log_file_size} -gt 0 ]; then'
+        - 'lava-test-case run-bonnie++ --result pass'
+        - 'lava-test-case-attach run-bonnie++ bonnie++.log'
+        - './common/scripts/bonnie.sh bonnie++.log'
+        - 'else lava-test-case run-bonnie++ --result fail ; fi'
