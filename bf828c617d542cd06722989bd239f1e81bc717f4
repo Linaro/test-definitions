@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa7f18b_ca8807c9",
+        "filename": "common/bonnie++.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-08-27T10:03:46Z",
+      "side": 1,
+      "message": "Please remove Mahanth from maintainer list.",
+      "revId": "bf828c617d542cd06722989bd239f1e81bc717f4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa7f18b_ea85c3ad",
+        "filename": "common/bonnie++.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-08-27T10:03:46Z",
+      "side": 1,
+      "message": "the device list should be filled in with LAVA device type names.",
+      "revId": "bf828c617d542cd06722989bd239f1e81bc717f4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa7f18b_8a920ff5",
+        "filename": "common/bonnie++.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-08-27T10:03:46Z",
+      "side": 1,
+      "message": "the repository doesn\u0027t exist. I can push it to qa/bonnie.git. Please send me the sources or the path to the existing repository.",
+      "revId": "bf828c617d542cd06722989bd239f1e81bc717f4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa7f18b_aa8fcbcb",
+        "filename": "common/bonnie++.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-08-27T10:03:46Z",
+      "side": 1,
+      "message": "if the log file doesn\u0027t exist this and the following steps will fail.",
+      "revId": "bf828c617d542cd06722989bd239f1e81bc717f4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
