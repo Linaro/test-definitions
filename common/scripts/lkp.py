@@ -16,8 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
-# USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # Author: Chase Qi <chase.qi@linaro.org>
 #
@@ -30,31 +29,32 @@ import pwd
 import shutil
 from subprocess import call
 
-LKPPath = str(sys.argv[1])
-print 'LKP test suite path: %s' % (LKPPath)
-WD = str(sys.argv[2])
-print 'Working directory: %s' % (WD)
-LOOPS = int(sys.argv[3])
-JOB = str(sys.argv[4])
-print 'Going to run %s %s times' % (JOB, LOOPS)
-HostName = platform.node()
-KernelVersion = platform.release()
-DIST = str.lower(platform.dist()[0])
+LKP_PATH = sys.argv[1]
+WD = sys.argv[2]
+JOB = sys.argv[3]
+COMMIT = sys.argv[4]
+LOOPS = int(sys.argv[5])
+MONITORS = sys.argv[6]
+HOSTNAME = platform.node()
+ROOTFS = str.lower(platform.dist()[0])
 CONFIG = 'defconfig'
+COMPILER = os.readlink('/usr/bin/gcc')
+print 'Working directory: %s' % (WD)
+print 'LKP test suite path: %s' % (LKP_PATH)
+print 'About to run %s %s times' % (JOB, LOOPS)
 
 
-def test_result(TestCommand, TestCaseID):
+def test_result(test_command, test_case_id):
     # For each step of test run, print pass or fail to test log.
-    if call(TestCommand) == 0:
-        print '%s pass' % (TestCaseID)
+    if call(test_command) == 0:
+        print '%s pass' % (test_case_id)
         return True
     else:
-        print '%s fail' % (TestCaseID)
+        print '%s fail' % (test_case_id)
         return False
 
 
 def find_user(name):
-    # Create user 'lkp' if it doesn't exist.
     try:
         return pwd.getpwnam(name)
     except KeyError:
@@ -69,8 +69,7 @@ else:
     print 'User lkp already exists.'
 
 if not os.path.exists('/home/lkp'):
-    call(['mkdir', '-p', '/home/lkp'])
-
+    os.makedirs('/home/lkp')
 call(['chown', '-R', 'lkp:lkp', '/home/lkp'])
 
 f = open('/etc/apt/sources.list.d/multiverse.list', 'w')
@@ -78,90 +77,93 @@ f.write('deb http://ports.ubuntu.com/ubuntu-ports/ vivid multiverse\n')
 f.close()
 call(['apt-get', 'update'])
 
+# Setup test job.
+SETUP_JOB = [LKP_PATH + '/bin/setup-local',
+             LKP_PATH + '/jobs/' + JOB + '.yaml']
+print 'Setup %s test with command: %s' % (JOB, SETUP_JOB)
+if not test_result(SETUP_JOB, 'setup-' + JOB):
+    sys.exit(1)
+
 # Split test job.
 if not os.path.exists(WD + '/' + JOB):
     os.makedirs(WD + '/' + JOB)
-SplitJob = [LKPPath + '/sbin/split-job', '--output', WD + '/' + JOB,
-            LKPPath + '/jobs/' + JOB + '.yaml']
-print 'Splitting job %s with command: %s' % (JOB, SplitJob)
-if not test_result(SplitJob, 'split-job-' + JOB):
+if MONITORS == 'default':
+    MONITORS = ''
+SPLIT_JOB = [LKP_PATH + '/sbin/split-job', MONITORS, '--kernel', COMMIT,
+             '--output', WD + '/' + JOB, LKP_PATH + '/jobs/' + JOB + '.yaml']
+print 'Splitting job %s with command: %s' % (JOB, SPLIT_JOB)
+if not test_result(SPLIT_JOB, 'split-job-' + JOB):
     sys.exit(1)
 
-# Setup test job.
-SubTests = glob.glob(WD + '/' + JOB + '/*.yaml')
-print 'Sub-tests of %s: %s' % (JOB, SubTests)
-SetupLocal = [LKPPath + '/bin/setup-local', SubTests[0]]
-print 'Set up %s test with command: %s' % (JOB, SetupLocal)
-if not test_result(SetupLocal, 'setup-local-' + JOB):
-    sys.exit(1)
-
-# Delete test results from last lava-test-shell-run.
+# Clean result root directory.
 if os.path.exists('/result/'):
     shutil.rmtree('/result/', ignore_errors=True)
 
 # Run tests.
-for SubTest in SubTests:
-    COUNT = 1
-    DONE = True
-    SubTestCaseID = os.path.basename(SubTest)[:-5]
-    ResultRoot = str('/'.join(['/result', JOB,
-                               SubTestCaseID[int(len(JOB) + 1):], HostName,
-                               DIST, CONFIG, KernelVersion]))
-    while (COUNT <= LOOPS):
-        # Use suffix for mutiple runs.
+SUB_TESTS = glob.glob(WD + '/' + JOB + '/*.yaml')
+for sub_test in SUB_TESTS:
+    count = 1
+    done = True
+    sub_test_case_id = os.path.basename(sub_test)[:-46]
+    result_root = '/'.join(['/result', JOB,
+                            sub_test_case_id[int(len(JOB) + 1):],
+                            HOSTNAME, ROOTFS, CONFIG, COMPILER, COMMIT])
+    while count <= LOOPS:
+        # Set suffix for mutiple runs.
         if LOOPS > 1:
-            SUFFIX = '-run' + str(COUNT)
+            suffix = '-run' + str(count)
         else:
-            SUFFIX = ''
+            suffix = ''
 
-        RunLocal = [LKPPath + '/bin/run-local', SubTest]
-        print 'Running test %s%s with command: %s' % (SubTestCaseID, SUFFIX,
-                                                      RunLocal)
-        if not test_result(RunLocal, 'run-local-' + SubTestCaseID + SUFFIX):
-            DONE = False
+        lkp_run = [LKP_PATH + '/bin/run-local',
+                   '--set', 'compiler: ' + COMPILER, sub_test]
+        print 'Running test %s%s with command: %s' % (sub_test_case_id,
+                                                      suffix, lkp_run)
+        if not test_result(lkp_run, 'run-' + sub_test_case_id + suffix):
+            done = False
             break
 
         # For each run, decode JOB.json to pick up the scores produced by the
         # benchmark itself.
-        ResultFile = ResultRoot + '/' + str(COUNT - 1) + '/' + JOB + '.json'
-        if not os.path.isfile(ResultFile):
-            print '%s not found' % (ResultFile)
+        result_file = result_root + '/' + str(count - 1) + '/' + JOB + '.json'
+        if not os.path.isfile(result_file):
+            print '%s not found' % (result_file)
         else:
-            JsonData = open(ResultFile)
-            DICT = json.load(JsonData)
-            for item in DICT:
-                call(['lava-test-case', SubTestCaseID + '-' + item + SUFFIX,
-                      '--result', 'pass', '--measurement', str(DICT[item][0])])
-            JsonData.close()
+            json_data = open(result_file)
+            dict = json.load(json_data)
+            for item in dict:
+                call(['lava-test-case', sub_test_case_id + '-' + item + suffix,
+                      '--result', 'pass', '--measurement', str(dict[item][0])])
+            json_data.close()
 
-        COUNT = COUNT + 1
+        count = count + 1
 
     # For mutiple runs, if all runs are completed and results found, decode
     # avg.json.
-    if LOOPS > 1 and DONE:
-        AvgFile = ResultRoot + '/' + 'avg.json'
-        if not os.path.isfile(ResultFile):
-            print '%s not found' % (ResultFile)
-        elif not os.path.isfile(AvgFile):
-            print '%s not found' % (AvgFile)
+    if LOOPS > 1 and done:
+        avg_file = result_root + '/' + 'avg.json'
+        if not os.path.isfile(result_file):
+            print '%s not found' % (result_file)
+        elif not os.path.isfile(avg_file):
+            print '%s not found' % (avg_file)
         else:
-            JsonData = open(ResultFile)
-            AvgJsonData = open(AvgFile)
-            DICT = json.load(JsonData)
-            AvgDict = json.load(AvgJsonData)
-            for item in DICT:
-                if item in AvgDict:
+            json_data = open(result_file)
+            avg_json_data = open(avg_file)
+            dict = json.load(json_data)
+            avg_dict = json.load(avg_json_data)
+            for item in dict:
+                if item in avg_dict:
                     call(['lava-test-case',
-                          SubTestCaseID + '-' + item + '-avg', '--result',
-                          'pass', '--measurement', str(AvgDict[item])])
-            JsonData.close()
-            AvgJsonData.close()
+                          sub_test_case_id + '-' + item + '-avg', '--result',
+                          'pass', '--measurement', str(avg_dict[item])])
+            json_data.close()
+            avg_json_data.close()
 
     # Compress and attach raw data.
     call(['tar', 'caf', 'lkp-result-' + JOB + '.tar.xz', '/result/' + JOB])
     call(['lava-test-run-attach', 'lkp-result-' + JOB + '.tar.xz'])
 
-if not DONE:
+if not done:
     sys.exit(1)
 else:
     sys.exit(0)

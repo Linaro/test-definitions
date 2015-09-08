@@ -12,6 +12,7 @@ metadata:
         - functional
     devices:
         - mustang
+        - juno
 
 install:
     git-repos:
@@ -31,9 +32,16 @@ install:
         - xz-utils
 
 params:
+    # Used to specify jobs located in 'lkp-tests/jobs/'.
+    JOB: 'hackbench'
+    # Used to specify all 40 commit hash characters.
+    COMMIT: 'commit'
+    # Set LOOPS to the times to run in the same lava_test_shell.
     LOOPS: 1
-    JOB: 'unixbench'
+    # Set MONITORS to '--no-defaults' to disable the default monitors.
+    MONITORS: 'default'
 
 run:
     steps:
-        - './common/scripts/lkp.py $(readlink -f lkp-tests) $(pwd) $LOOPS $JOB'
+        - './common/scripts/lkp.py $(readlink -f lkp-tests) $(pwd)
+           $JOB $COMMIT $LOOPS $MONITORS'
