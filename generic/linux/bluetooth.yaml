@@ -1,7 +1,7 @@
 metadata:
     name: linux-bluetooth-scan
     format: "Manual Test Definition 1.0"
-    description: "Test if Bluetooth scan and pairing works."
+    description: "Test if Bluetooth scan, pairing and file transfer works."
     maintainer:
         - amit.khare@linaro.org
     os:
@@ -31,7 +31,11 @@ run:
 	- "[bluetooth]# pair <MAC-ID>"
 	- "[bluetooth]# trust <MAC-ID>"
 	- "[bluetooth]# quit"
+        - To copy file, mount the newly paired device(obex ftp server) to a folder.
+        - "$ obexfs -b MAC_ID_OF_PAIRED_DEVICE your_folder/"
+        - Copy the file from connected BT device "$ feh pic_filename"
 
     expected:
         - "Should be able to connect to Bluetooth device."
         - "BT pairing with other device should work."
+        - "File transfer should work."
