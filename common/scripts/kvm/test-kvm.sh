@@ -157,9 +157,9 @@ BUILD_NUMBER_GUEST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/kvm-
 BUILD_NUMBER_HOST=`$(echo $EXTRACT_BUILD_NUMBER) https://ci.linaro.org/job/linux-kvm/lastSuccessfulBuild/buildNumber`
 
 $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/armhf/kvm-armhf.qcow2.xz
-$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/zImage-armv7
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/arndale/$BUILD_NUMBER_HOST/zImage-armv7
 mv zImage-armv7 zImage-vexpress
-$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/vexpress-v2p-ca15-tc1.dtb
+$DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/arndale/$BUILD_NUMBER_HOST/vexpress-v2p-ca15-tc1.dtb
 
 xz -d kvm-armhf.qcow2.xz
 
@@ -170,8 +170,8 @@ case ${ARCH} in
     aarch64)
         hwpack=`uname -r|sed -e's,.*-,,'`
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/arm64/kvm-arm64.qcow2.xz
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/Image-${hwpack}
-        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
+        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$hwpack/$BUILD_NUMBER_HOST/Image-${hwpack}
+        $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$hwpack/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
         $DOWNLOAD_FILE http://releases.linaro.org/15.01/components/kernel/uefi-linaro/release/qemu64-intelbds/QEMU_EFI.fd
         xz -d kvm-arm64.qcow2.xz
         zcat nbd-${hwpack}.ko.gz > nbd.ko
