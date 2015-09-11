@@ -49,7 +49,7 @@ test_func(){
             echo "Device read timings: $c_read MB/sec"
         else
             echo "test_case_id:device_read_perf-$test_cmd units:none measurement:0 result:fail"
-            exit 0
+            return
         fi
         t_read=`echo $t_read $c_read | awk '{print $1+$2}'`
     done
