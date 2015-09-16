@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a42497e_47ff0402",
+        "filename": "ubuntu/perf-mmap.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-09-16T07:59:54Z",
+      "side": 1,
+      "message": "This should be moved to some more \u0027official\u0027 location. I\u0027m happy to host it in git.linaro.org/qa/ path.",
+      "revId": "36c68c37365f04b64cb0a5f2a3f82316910c10b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a42497e_27047814",
+        "filename": "ubuntu/perf-mmap.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-09-16T07:59:54Z",
+      "side": 1,
+      "message": "I would prefer this line to be split so it\u0027s easier to read.",
+      "revId": "36c68c37365f04b64cb0a5f2a3f82316910c10b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
