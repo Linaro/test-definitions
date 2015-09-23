@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a42497e_b278c82c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-09-23T16:13:19Z",
+      "side": 1,
+      "message": "It would be nice to add what the test does.",
+      "revId": "0e1cbcd6f1d3a161042c521cdb384ad1c052ac85",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a42497e_d27bd427",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-09-23T16:13:19Z",
+      "side": 1,
+      "message": "Please remove references to LAVA jobs from commit message. Post them as review comments instead.",
+      "revId": "0e1cbcd6f1d3a161042c521cdb384ad1c052ac85",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a42497e_1276dc3e",
+        "filename": "ubuntu/perf-mmap.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-09-23T16:13:19Z",
+      "side": 1,
+      "message": "why do you need git dependency? If git is not used in install or run sections, LAVA will do the clone/checkout for you.",
+      "revId": "0e1cbcd6f1d3a161042c521cdb384ad1c052ac85",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a42497e_528fc423",
+        "filename": "ubuntu/perf-mmap.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-09-23T16:13:19Z",
+      "side": 1,
+      "message": "I think we moved this repo to qa/perfcounter_access_test.git. Please use this repository. I think you already have commit access there. You can also commit the code through gerrit.",
+      "revId": "0e1cbcd6f1d3a161042c521cdb384ad1c052ac85",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a42497e_f2725048",
+        "filename": "ubuntu/perf-mmap.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-09-23T16:13:19Z",
+      "side": 1,
+      "message": "I don\u0027t think destination is necessary if you\u0027re not changing the directory name. Please remove.",
+      "revId": "0e1cbcd6f1d3a161042c521cdb384ad1c052ac85",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
