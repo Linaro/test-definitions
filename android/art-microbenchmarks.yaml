@@ -1,0 +1,24 @@
+metadata:
+    name: art-microbenchmarks
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "The script configures the nexus9 for low variance and runs the test"
+    maintainer:
+        - vishal.bhoj@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - kvm
+    scope:
+        - benchmarks
+
+run:
+    steps:
+        - apt-get update -y
+        - apt-get install -y android-tools-adb android-tools-fastboot
+        - wget http://mirrors.kernel.org/ubuntu/pool/multiverse/g/google-android-build-tools-installer/google-android-build-tools-installer_20.0.0.2_i386.deb
+        - dpkg -i google-android-build-tools-installer_20.0.0.2_i386.deb
+        - lava-sync art-test-start
+        - ./android/scripts/configure-nexus9-for-benchmarks.sh
+        - ./android/scripts/art-microbenchmarks.sh
+        - lava-sync art-test-finished
+

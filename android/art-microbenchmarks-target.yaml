@@ -1,0 +1,20 @@
+metadata:
+    name: microbenchmarks-target
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "waits for microbenchmarks execution to finish on host"
+    maintainer:
+        -  vishal.bhoj@linaro.org
+    os:
+        - android
+    devices:
+        - mn-nexus9
+    scope:
+        - functional
+
+params:
+    TEST_NAME: "art-target-microbenchmarks-wait"
+
+run:
+    steps:
+        - lava-sync art-test-start
+        - lava-sync art-test-finished
