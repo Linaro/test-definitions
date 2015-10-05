@@ -1,0 +1,47 @@
+metadata:
+    name: art-microbenchmarks
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "The script configures the nexus9 for low variance and runs the test"
+    maintainer:
+        - vishal.bhoj@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - kvm
+    scope:
+        - perfomance
+
+install:
+    git-repos:
+        - http://android-git.linaro.org/git/linaro/art-testing.git
+    deps:
+        - android-tools-adb
+        - android-tools-fastboot
+        - libc6:i386
+        - libncurses5:i386
+        - libstdc++6:i386
+    steps:
+        - wget http://mirrors.kernel.org/ubuntu/pool/multiverse/g/google-android-build-tools-installer/google-android-build-tools-installer_20.0.0.2_i386.deb
+        - dpkg -i google-android-build-tools-installer_20.0.0.2_i386.deb
+
+params:
+    TEST_NAME: "art-test"
+    TARGET_DEVICE: "nexus9"
+    ITERATIONS: 10
+    MODE: 64
+
+run:
+    steps:
+        - lava-wait $TEST_NAME-send-ip
+        - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
+        - if [ $IPADDR != "_MISSING_" ]
+        - then
+        - ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh
+        - cd art-testing/benchmarking/java-ubenchs
+        - ./run.py -t  --iterations $ITERATIONS --mode $MODE
+        - lava-test-run-attach res.*.pkl
+        - echo "processes running"
+        - ps
+        - fi
+        - lava-sync $TEST_NAME-finished
+
