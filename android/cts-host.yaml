@@ -24,6 +24,10 @@ install:
         - libc6:i386
         - libncurses5:i386
         - libstdc++6:i386
+        - android-tools-adb
+        - android-tools-fastboot
+    steps:
+        - apt-get install -y $JDK $JRE
 
 params:
     JDK: "default-jdk"
@@ -34,15 +38,19 @@ params:
 
 run:
     steps:
-        - apt-get install -y $JDK $JRE
         - lava-wait $TEST_NAME-send-ip
         - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
-        - export REGEX="([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
-        - echo $IPADDR | grep -P $REGEX
-        - if [ $? -eq 0 ]; then adb connect $IPADDR; IPADDR=$IPADDR:5555; fi
+        - if [ $IPADDR != "_MISSING_" ]
+        - then
+        - ". ./android/scripts/adb_connect.sh $IPADDR"
+        - echo $CTS_URL
+        - echo $IPADDR
+        - echo $TEST_PARAMS
+        - adb devices
         - adb -s $IPADDR wait-for-device
         - "./android/scripts/cts.py $CTS_URL $IPADDR $TEST_PARAMS"
         - echo "processes running"
         - ps
+        - fi
         - lava-sync $TEST_NAME-finished
 
