@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_26311ca3",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-10-09T15:27:34Z",
+      "side": 1,
+      "message": "repository layout changed and run.py is now located in art-testing dir.",
+      "revId": "5b23da4e5e7373e8743336aca5dcbb85452b793a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_662b2431",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-10-09T15:27:34Z",
+      "side": 1,
+      "message": "-t needs to be executed with $IPADDR, but this requires https://android-review.linaro.org/#/c/16175/3 to be merged.",
+      "revId": "5b23da4e5e7373e8743336aca5dcbb85452b793a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_86263067",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-10-09T15:27:34Z",
+      "side": 1,
+      "message": "run.py is located in art-testing dir, so the path here should be changed",
+      "revId": "5b23da4e5e7373e8743336aca5dcbb85452b793a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
