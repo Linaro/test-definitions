@@ -40,8 +40,8 @@ run:
         - if [ $IPADDR != "_MISSING_" ]
         - then
         - ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh
-        - cd art-testing/benchmarking/java-ubenchs
-        - ./run.py -t  --iterations $ITERATIONS --mode $MODE
+        - ./art-testing/run.py -t $IPADDR --iterations $ITERATIONS --mode $MODE | tee logs.txt
+        - ./android/scripts/parse-ubenchmarks-results.sh art-testing/benchmarking/java-ubenchs/logs.txt
         - lava-test-run-attach res.*.pkl
         - echo "processes running"
         - ps
