@@ -41,7 +41,9 @@ run:
         - then
         - ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh
         - cd art-testing/benchmarking/java-ubenchs
-        - ./run.py -t  --iterations $ITERATIONS --mode $MODE
+        - ./run.py -t  --iterations $ITERATIONS --mode $MODE | tee logs.txt
+        - cd -
+        - ./android/scripts/parse-ubenchmarks-results.sh art-testing/benchmarking/java-ubenchs/logs.txt
         - lava-test-run-attach res.*.pkl
         - echo "processes running"
         - ps
