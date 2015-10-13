@@ -37,11 +37,14 @@ run:
         - lava-test-case step2-get-adb --shell getprop service.adb.tcp.port
         - lava-test-case step3-set-adb --shell setprop service.adb.tcp.port 5555
         - lava-test-case step4-set-adb-root --shell setprop service.adb.root 1
-        - lava-test-case step5-stop-adbd --shell stop adbd
-        - lava-test-case step6-start-adbd --shell start adbd
+        - lava-test-case step5-capture-kmsg-levels --shell 'cat /proc/sys/kernel/printk > /data/local/tmp/kmsg_levels'
+        - lava-test-case step6-disable-kmsg --shell echo '1 1 1 1' > /proc/sys/kernel/printk
+        - lava-test-case step7-stop-adbd --shell stop adbd
+        - lava-test-case step8-start-adbd --shell start adbd
         - else
         # if there is no serial number or IP address available, _MISSING_ is passed to the host
         - IPADDR="_MISSING_"
         - fi
-        - lava-test-case step7-send-ip --shell lava-send $TEST_NAME-send-ip ipaddr=$IPADDR
-        - lava-test-case step8-multinode-sync --shell lava-sync $TEST_NAME-finished
+        - lava-test-case step9-send-ip --shell lava-send $TEST_NAME-send-ip ipaddr=$IPADDR
+        - lava-test-case step10-enable-kmsg --shell 'cat /data/local/tmp/kmsg_levels > /proc/sys/kernel/printk'
+        - lava-test-case step11-multinode-sync --shell lava-sync $TEST_NAME-finished
