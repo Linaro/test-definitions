@@ -39,7 +39,7 @@ run:
         - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
         - if [ $IPADDR != "_MISSING_" ]
         - then
-        - ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh
+        - . ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh
         - ./art-testing/run.py -t $IPADDR --iterations $ITERATIONS --mode $MODE | tee logs.txt
         - ./android/scripts/parse-ubenchmarks-results.sh art-testing/benchmarking/java-ubenchs/logs.txt
         - lava-test-run-attach res.*.pkl
