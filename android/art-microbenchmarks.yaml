@@ -36,7 +36,7 @@ params:
 run:
     steps:
         - lava-wait $TEST_NAME-send-ip
-        - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
+        - export IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
         - if [ $IPADDR != "_MISSING_" ]
         - then
         - ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh
