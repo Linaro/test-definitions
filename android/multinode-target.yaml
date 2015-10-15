@@ -28,10 +28,14 @@ params:
 
 run:
     steps:
-        - lava-test-case step1-cat-build-info --shell cat /system/build.prop
+        - lava-test-case step1a-cat-build-info --shell cat /system/build.prop
+        - lava-test-case step1b-$SIGNAL_PREFIX-getprop --shell getprop
         - SERIALNO=$(getprop ro.serialno)
         - IPADDR=$(getprop dhcp.eth0.ipaddress)
-        - if [ $ADB_LINK != "ETH" ] && [ ! -z $SERIALNO ]; then IPADDR=$SERIALNO; fi
+        - if [ $ADB_LINK != "ETH" ] && [ ! -z $SERIALNO ]
+        - then
+        - IPADDR=$SERIALNO
+        - fi
         - if [ $ADB_LINK = "ETH" ] && [ ! -z $IPADDR ]
         - then
         - lava-test-case step2-get-adb --shell getprop service.adb.tcp.port
@@ -41,7 +45,9 @@ run:
         - lava-test-case step6-disable-kmsg --shell echo '1 1 1 1' > /proc/sys/kernel/printk
         - lava-test-case step7-stop-adbd --shell stop adbd
         - lava-test-case step8-start-adbd --shell start adbd
-        - else
+        - fi
+        - if [ -z $SERIALNO ] && [ -z $IPADDR ]
+        - then
         # if there is no serial number or IP address available, _MISSING_ is passed to the host
         - IPADDR="_MISSING_"
         - fi
