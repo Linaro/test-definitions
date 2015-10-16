@@ -12,14 +12,17 @@ SKIPFILE=""
 # Used only for ltp-ddt tests. Only run test cases which match PATTERNS. Patterns are
 # seperated by a comma
 PATTERNS=""
+PLATFORM=""
+IS_DDT=""
 
 LTP_PATH=/opt/ltp
 
-while getopts T:S:P:s: arg
+while getopts T:S:P:p:s: arg
     do case $arg in
         T)
             TST_CMDFILES="$OPTARG"
-            LOG_FILE=`echo $OPTARG| sed 's,\/,_,'`;;
+            LOG_FILE=`echo $OPTARG| sed 's,\/,_,'`
+            echo "$OPTARGS" | grep -q "ddt" && IS_DDT="Yes" || echo "";;
         S) OPT=`echo $OPTARG | grep "http"`
            if [ -z $OPT ] ; then
              SKIPFILE="-S $SCRIPTPATH/ltp/$OPTARG"
@@ -29,7 +32,8 @@ while getopts T:S:P:s: arg
              SKIPFILE="-S `pwd`/$SKIPFILE"
            fi
            ;;
-        P) LTP_PATH=$OPTARG;;
+        p) LTP_PATH=$OPTARG;;
+        P) PLATFORM="-P $OPTARG";;
         s) PATTERNS="-s $OPTARG";;
     esac
 done
@@ -38,7 +42,7 @@ cd $LTP_PATH
 RESULT=pass
 
 exec 4>&1
-error_statuses="`((./runltp -p -q -f $TST_CMDFILES -l $SCRIPTPATH/LTP_$LOG_FILE.log -C $SCRIPTPATH/LTP_$LOG_FILE.failed $SKIPFILE $PATTERNS ||  echo "0:$?" >&3) |
+error_statuses="`((./runltp -p -q -f $TST_CMDFILES $PLATFORM $PATTERNS -l $SCRIPTPATH/LTP_$LOG_FILE.log -C $SCRIPTPATH/LTP_$LOG_FILE.failed $SKIPFILE ||  echo "0:$?" >&3) |
         (tee $SCRIPTPATH/LTP_$LOG_FILE.out ||  echo "1:$?" >&3)) 3>&1 >&4`"
 exec 4>&-
 
@@ -47,7 +51,9 @@ if [ $? -ne 0 ]; then
     RESULT=fail
 fi
 lava-test-case LTP_$LOG_FILE --result $RESULT
-cat $SCRIPTPATH/LTP_*.log
+if [ $IS_DDT != "Yes" ]; then
+    cat $SCRIPTPATH/LTP_*.log
+fi
 tar czfv $SCRIPTPATH/LTP_$LOG_FILE.tar.gz $SCRIPTPATH/LTP*
 lava-test-case-attach LTP_$LOG_FILE $SCRIPTPATH/LTP_$LOG_FILE.tar.gz
 exit 0

@@ -26,11 +26,10 @@ params:
     # PATTERNS is used only for LTP-DDT tests
     # NOTE: busybox wget may not work with https link so pefer to use http
     SKIPFILE: ""
-    PATTERNS: ""
 
 run:
     steps:
-        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -S $SKIPFILE $PATTERNS'
+        - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -P $PLATFORM -s $PATTERNS -S $SKIPFILE'
 
 parse:
     pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
