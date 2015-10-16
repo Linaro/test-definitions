@@ -20,13 +20,15 @@ while getopts T:S:P:s: arg
         T)
             TST_CMDFILES="$OPTARG"
             LOG_FILE=`echo $OPTARG| sed 's,\/,_,'`;;
-        S) OPT=`echo $OPTARG | grep "http"`
-           if [ -z $OPT ] ; then
-             SKIPFILE="-S $SCRIPTPATH/ltp/$OPTARG"
-           else
-             wget $OPTARG
-             SKIPFILE=`echo "${OPTARG##*/}"`
-             SKIPFILE="-S `pwd`/$SKIPFILE"
+        S) if [ -n "$OPTARG" ]; then
+             OPT=`echo $OPTARG | grep "http"`
+             if [ -z $OPT ] ; then
+               SKIPFILE="-S $SCRIPTPATH/ltp/$OPTARG"
+             else
+               wget $OPTARG
+               SKIPFILE=`echo "${OPTARG##*/}"`
+               SKIPFILE="-S `pwd`/$SKIPFILE"
+             fi
            fi
            ;;
         P) LTP_PATH=$OPTARG;;
