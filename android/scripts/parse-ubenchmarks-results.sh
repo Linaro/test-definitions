@@ -1,4 +1,5 @@
-grep -i "benchmark" $1 > results.txt
+sed -n '/-----------------/,$p' $1  > results.txt
+grep -i "benchmark" results.txt > res.txt
 while IFS= read -r score; do
 for i in 1 2 3 4 5 6
 do
@@ -9,4 +10,4 @@ lava-test-case $param_1.max --result pass --measurement $param_3
 lava-test-case $param_1.mean --result pass --measurement $param_4
 lava-test-case $param_1.stdev --result pass --measurement $param_5
 lava-test-case $param_1.stdev% --result pass --measurement $param_6
-done <  results.txt
+done <  res.txt
