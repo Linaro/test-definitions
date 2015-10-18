@@ -1,5 +1,7 @@
 sed -n '/-----------------/,$p' $1  > results.txt
 grep -i "benchmark" results.txt > res.txt
+sed -i "s/benchmarks\/micro\///g"  res.txt
+sed -i "s/\./-/" res.txt
 while IFS= read -r score; do
 for i in 1 2 3 4 5 6
 do
