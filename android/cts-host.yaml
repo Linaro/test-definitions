@@ -24,8 +24,9 @@ install:
         - libc6:i386
         - libncurses5:i386
         - libstdc++6:i386
-        - android-tools-adb
-        - android-tools-fastboot
+        - lib32z1-dev
+        - libc6-dev-i386
+        - lib32gcc1
     steps:
         - apt-get install -y $JDK $JRE
 
@@ -38,6 +39,11 @@ params:
 
 run:
     steps:
+        - wget http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz
+        - tar zxvf build-tools.tar.gz
+        - AAPT_HOME=`pwd`/build-tools
+        - PATH=${AAPT_HOME}/build-tools/android-4.4/:${PATH}
+        - export PATH
         - lava-wait $TEST_NAME-send-ip
         - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
         - if [ $IPADDR != "_MISSING_" ]
@@ -48,7 +54,7 @@ run:
         - echo $TEST_PARAMS
         - adb devices
         - adb -s $IPADDR wait-for-device
-        - "./android/scripts/cts.py $CTS_URL $IPADDR $TEST_PARAMS"
+        - ./android/scripts/cts.py $CTS_URL $IPADDR $TEST_PARAMS
         - echo "processes running"
         - ps
         - fi
