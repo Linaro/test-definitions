@@ -18,14 +18,13 @@ install:
         - xz-utils
         - python-lxml
         - python-setuptools
-        - android-tools-adb
-        - android-tools-fastboot
         - zip
         - libc6:i386
         - libncurses5:i386
         - libstdc++6:i386
-        - android-tools-adb
-        - android-tools-fastboot
+        - lib32z1-dev
+        - libc6-dev-i386
+        - lib32gcc1
     steps:
         - apt-get install -y $JDK $JRE
 
@@ -38,6 +37,14 @@ params:
 
 run:
     steps:
+        - wget http://people.linaro.org/~yongqin.liu/cts/android-sdk-linaro.tgz
+        - tar zxvf android-sdk-linaro.tgz
+        - SDK_HOME=`pwd`/android-sdk-linux
+        - echo SDK_HOME=${SDK_HOME}
+        - PATH=${SDK_HOME}/platform-tools/:${SDK_HOME}/build-tools/23.0.1/:${PATH}
+        - export PATH
+        - echo PATH=${PATH}
+        - which aapt
         - lava-wait $TEST_NAME-send-ip
         - IPADDR=`awk -F '=' '{print $2}' /tmp/lava_multi_node_cache.txt`
         - if [ $IPADDR != "_MISSING_" ]
@@ -48,7 +55,7 @@ run:
         - echo $TEST_PARAMS
         - adb devices
         - adb -s $IPADDR wait-for-device
-        - "./android/scripts/cts.py $CTS_URL $IPADDR $TEST_PARAMS"
+        - ./android/scripts/cts.py $CTS_URL $IPADDR $TEST_PARAMS
         - echo "processes running"
         - ps
         - fi
