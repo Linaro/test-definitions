@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_aba5e805",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2015-10-27T07:42:12Z",
+      "side": 1,
+      "message": "Should we move this sdk zip file to a private location?",
+      "range": {
+        "startLine": 40,
+        "startChar": 76,
+        "endLine": 40,
+        "endChar": 79
+      },
+      "revId": "c92786e647f0a6f0252e232d9c38e2f796f982e4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}

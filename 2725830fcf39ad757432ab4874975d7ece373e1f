@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_8baaacd2",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2015-10-27T07:42:12Z",
+      "side": 0,
+      "message": "change to use the adb and fastboot from android SDK.",
+      "range": {
+        "startLine": 28,
+        "startChar": 24,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "2725830fcf39ad757432ab4874975d7ece373e1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
