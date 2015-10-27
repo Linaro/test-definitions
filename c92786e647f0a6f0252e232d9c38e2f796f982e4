@@ -22,6 +22,30 @@
       "revId": "c92786e647f0a6f0252e232d9c38e2f796f982e4",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_0be4dc39",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-10-27T10:11:50Z",
+      "side": 1,
+      "message": "It\u0027s already available for WA:\nhttp://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz\nPlease check with Naresh how to unify the tools. We can\u0027t redistribute them so they can\u0027t be placed in the publicly available location.",
+      "parentUuid": "5a3f45e8_aba5e805",
+      "range": {
+        "startLine": 40,
+        "startChar": 76,
+        "endLine": 40,
+        "endChar": 79
+      },
+      "revId": "c92786e647f0a6f0252e232d9c38e2f796f982e4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
