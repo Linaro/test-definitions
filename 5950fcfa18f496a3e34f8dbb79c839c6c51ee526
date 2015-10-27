@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_2b9398fb",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-10-27T21:56:09Z",
+      "side": 1,
+      "message": "Please add step to remove build-tools tarball and directory. This is needed for running on NUC with Nexus9. Alternatively build tools installation might be moved to \u0027install-steps\u0027 section. But then setting proper PATH will be a problem if install steps are skipped.",
+      "revId": "5950fcfa18f496a3e34f8dbb79c839c6c51ee526",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
