@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_6e2bed82",
+        "filename": "android/scripts/gatortest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000186
+      },
+      "writtenOn": "2015-10-29T08:52:41Z",
+      "side": 1,
+      "message": "Are there any scripts which parse this output that will behave differently now that the \u0027d\u0027 has been added to the output? BTW, that \u0027d\u0027 is a bit superfluous as the \u0027d\u0027 in gatord stands for daemon, so it\u0027s like saying \"gator daemon daemon passes\" :-)",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 29
+      },
+      "revId": "f76c42585dffd27134ae38721fa90e1217a6c0bc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
