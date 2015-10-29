@@ -22,17 +22,9 @@
 # owner: harigopal.gollamudi@linaro.org
 #
 ###############################################################################
-
-if lsmod | grep "gator"
+if ps | grep "gatord"
 then
-  echo "gator_daemon_check=pass"
+    echo "gatord_daemon_check=pass"
 else
- echo "gator_daemon_check=fail"
-fi
-
-if ps | grep "gator"
-then
-  echo "gator_module_check=pass"
-else
- echo "gator_module_check=fail"
+    echo "gatord_daemon_check=fail"
 fi
