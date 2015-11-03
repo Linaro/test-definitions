@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_f4ab50d4",
+        "filename": "common/scripts/ltpfixup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-03T11:01:35Z",
+      "side": 1,
+      "message": "This will brake ubuntu/ltp.yaml",
+      "revId": "e9a0ab2c6caacb0d3c369ccf636a0669cc02b835",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_d4a57405",
+        "filename": "common/scripts/ltpfixup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-03T11:01:35Z",
+      "side": 1,
+      "message": "Where is this value set?",
+      "revId": "e9a0ab2c6caacb0d3c369ccf636a0669cc02b835",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_345f7810",
+        "filename": "openembedded/ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-03T11:01:35Z",
+      "side": 1,
+      "message": "any reason for removing PATTERNS which is later used in the ltpfixup.sh call?",
+      "revId": "e9a0ab2c6caacb0d3c369ccf636a0669cc02b835",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_546204d9",
+        "filename": "openembedded/ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-03T11:01:35Z",
+      "side": 1,
+      "message": "There are 2 not existing variables used in this call. Is that intentional?",
+      "revId": "e9a0ab2c6caacb0d3c369ccf636a0669cc02b835",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
