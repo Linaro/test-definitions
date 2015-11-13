@@ -34,6 +34,24 @@
       "revId": "e2fb3aabe3e62d7f2213713eb6580ceedfc9b8e1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_5774c1fc",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-13T08:37:19Z",
+      "side": 1,
+      "message": "I\u0027d say it\u0027s legitimate result on Juno as it crashed:\nhttps://validation.linaro.org/scheduler/job/594418/log_file#L_65_54",
+      "parentUuid": "5a3f45e8_176a391a",
+      "revId": "e2fb3aabe3e62d7f2213713eb6580ceedfc9b8e1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
