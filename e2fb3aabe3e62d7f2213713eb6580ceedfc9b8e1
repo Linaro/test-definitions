@@ -16,6 +16,24 @@
       "revId": "e2fb3aabe3e62d7f2213713eb6580ceedfc9b8e1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_176a391a",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-11-13T08:34:13Z",
+      "side": 1,
+      "message": "Not just Models, it is also failing on Juno occasionally. This job https://validation.linaro.org/scheduler/job/594417/log_file#L_7_82 for example, you can see that it actually started running, but failed during test run.",
+      "parentUuid": "5a3f45e8_d788d1e9",
+      "revId": "e2fb3aabe3e62d7f2213713eb6580ceedfc9b8e1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
