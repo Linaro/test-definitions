@@ -52,6 +52,24 @@
       "revId": "e2fb3aabe3e62d7f2213713eb6580ceedfc9b8e1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_9765a947",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2015-11-13T08:48:32Z",
+      "side": 1,
+      "message": "Sorry that I didn\u0027t check test long on the juno device side, that might be the reason.  \n\nIt fails at the very beginning on models. So, yeah, at least it is required by models.",
+      "parentUuid": "5a3f45e8_5774c1fc",
+      "revId": "e2fb3aabe3e62d7f2213713eb6580ceedfc9b8e1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
