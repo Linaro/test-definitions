@@ -80,7 +80,7 @@ class Heartbeat(threading.Thread):
     def run(self):
         while 1:
             if self._finished.isSet(): return
-            return_code = self.adb_ping.run(timeout=1)
+            return_code = self.adb_ping.run(timeout=10)
             if return_code != 0:
                 # terminate the test as adb connection is lost
                 print "terminating CTS for %s" % self.serial
