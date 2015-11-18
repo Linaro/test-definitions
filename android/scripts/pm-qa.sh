@@ -7,20 +7,9 @@ test_func(){
        exit
    fi
 
-   bin_dir="/data/bin"
-
-   if [ ! -d $bin_dir ]; then
-        mkdir $bin_dir
-   fi
-
-   cd ${bin_dir}
-
-   export PATH=${bin_dir}:$PATH
-
    cd "${scripts_dir}"
 
    pwd_dir=$PWD
-   echo $pwd
    tests_dirs="cpuidle cpufreq cpuhotplug cputopology thermal"
 
    for dir in $tests_dirs; do
@@ -32,22 +21,30 @@ test_func(){
            continue
        fi
 
-       echo `pwd`
-
        /system/bin/sh $var
        if [ $? -ne 1 ]; then
            continue
        fi
 
-       for file in `find . -name "*.sh" | sort`; do
+       filelist=$(find . -name "*.sh" | sort)
+       for file in $filelist; do
            path=$file
-           echo $path
            /system/bin/sh $path
        done
        cd ..
+   done
+
+   # Find instances of cpuidle_killer and kill
+   # all pids associated with it until a better
+   # solution comes up.
+   pids=$(pidof "cpuidle_killer")
+
+   for pid in $pids; do
+        kill -9 $pid
    done
 
    echo "pm-qa=pass"
 }
 
 test_func
+exit
