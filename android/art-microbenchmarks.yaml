@@ -13,7 +13,7 @@ metadata:
 
 install:
     git-repos:
-        - http://android-git.linaro.org/git/linaro/art-testing.git
+        - https://android-git.linaro.org/git/linaro/art-testing.git
 
 params:
     JDK: "default-jdk"
