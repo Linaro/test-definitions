@@ -12,10 +12,13 @@ metadata:
         - perfomance
 
 install:
+    steps:
+        - ./common/scripts/install-deps.sh $DEPENDENCIES $JDK $JRE
     git-repos:
         - https://android-git.linaro.org/git/linaro/art-testing.git
 
 params:
+    DEPENDENCIES: "android-tools-adb android-tools-fastboot libc6:i386 libncurses5:i386 libstdc++6:i386"
     JDK: "default-jdk"
     JRE: "default-jre"
     TEST_NAME: "art-test"
