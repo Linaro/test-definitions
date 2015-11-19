@@ -32,7 +32,8 @@ run:
         - . ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh
         - ./art-testing/run.py -t $IPADDR --iterations $ITERATIONS --mode $MODE | tee logs.txt
         - . ./android/scripts/parse-ubenchmarks-results.sh logs.txt
-        - lava-test-run-attach ./art-testing/pkl/res.*.pkl
+        - if [ -f ./art-testing/pkl/*.pkl ]; then lava-test-run-attach ./art-testing/pkl/*.pkl; fi
+        - if [ -f ./art-testing/json/*.json ]; then lava-test-run-attach ./art-testing/json/*.json; fi
         - echo "processes running"
         - ps
         - fi
