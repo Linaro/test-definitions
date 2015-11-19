@@ -12,10 +12,17 @@ metadata:
         - perfomance
 
 install:
+    steps:
+        - ./android/scripts/art-install-deps.sh $ADB $FASTBOOT $LIBC6 $LIBNCURSES5 $LIBSTDC++6 $JDK $JRE
     git-repos:
         - https://android-git.linaro.org/git/linaro/art-testing.git
 
 params:
+    ADB: "android-tools-adb"
+    FASTBOOT: "android-tools-fastboot"
+    LIBC6: "libc6:i386"
+    LIBNCURSES5: "libncurses5:i386"
+    LIBSTDC++6: "libstdc++6:i386"
     JDK: "default-jdk"
     JRE: "default-jre"
     TEST_NAME: "art-test"
