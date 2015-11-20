@@ -1,7 +1,7 @@
 metadata:
     name: art-microbenchmarks
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "The script configures the nexus9 for low variance and runs the test"
+    description: "The script configures the Nexus 9 and 5X for low variance and runs the test"
     maintainer:
         - vishal.bhoj@linaro.org
     os:
