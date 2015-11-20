@@ -51,6 +51,24 @@
       "revId": "1577e55647b249bea7b979f10463b97014a6fedf",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_7e655244",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-20T12:42:46Z",
+      "side": 1,
+      "message": "current solution doesn\u0027t scale at all as you hardcoded list of deps. Having option to change the list of deps gives better flexibility.",
+      "parentUuid": "5a3f45e8_9e793eff",
+      "revId": "1577e55647b249bea7b979f10463b97014a6fedf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
