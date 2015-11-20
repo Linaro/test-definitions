@@ -33,6 +33,24 @@
       "revId": "1577e55647b249bea7b979f10463b97014a6fedf",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_9e793eff",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2015-11-20T12:38:11Z",
+      "side": 1,
+      "message": "How this is gonna scale ? if someone want to submit as a parameter from json.\nI prefer each dependency as a package name. not all in one.",
+      "parentUuid": "5a3f45e8_3ec10a2f",
+      "revId": "1577e55647b249bea7b979f10463b97014a6fedf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
