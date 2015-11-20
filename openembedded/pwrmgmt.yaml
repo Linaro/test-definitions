@@ -27,11 +27,11 @@ install:
 
 params:
     PWR_TESTARG: cpufreq cpuidle cpuhotplug thermal cputopology
-    RELEASE: 'pm-qa-v0.5.0'
-    
+    RELEASE: 'pm-qa-v0.5.1'
+
 run:
     steps:
-        - cd pm-qa 
+        - cd pm-qa
         - for testset in $PWR_TESTARG; do make -C $testset check; done
 
 parse:
