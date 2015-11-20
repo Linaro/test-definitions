@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_5ee5f6a6",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-20T12:49:33Z",
+      "side": 1,
+      "message": "I think we can also move JDK and JRE to DEPENDENCIES. Is it used in any of the job templates?",
+      "revId": "d6306dab0c093b4be864a739ff38c3601ae3c1bd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
