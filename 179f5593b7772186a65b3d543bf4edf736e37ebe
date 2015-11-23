@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_59db501b",
+        "filename": "openembedded/pwrmgmt.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-23T09:06:30Z",
+      "side": 1,
+      "message": "Could you please remove these whitespaces?",
+      "revId": "179f5593b7772186a65b3d543bf4edf736e37ebe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_39d8041d",
+        "filename": "openembedded/pwrmgmt.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-23T09:06:30Z",
+      "side": 1,
+      "message": "Could you please remove the trailing whitespaces?",
+      "revId": "179f5593b7772186a65b3d543bf4edf736e37ebe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
