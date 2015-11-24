@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a4c51b2_9ce32505",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2015-11-24T10:12:33Z",
+      "side": 1,
+      "message": "we also need android/scripts/configure-nexus5x-for-benchmarks.sh for making it work on Nexus 5X.",
+      "revId": "cd5560c6c7524a4bb0d05bd2980d0ddf8b1dd8cb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
