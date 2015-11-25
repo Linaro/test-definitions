@@ -1,0 +1,23 @@
+metadata:
+    name: shell
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Easier way to run shell commands"
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - arndale
+        - panda
+        - vexpress-a9
+        - vexpress-tc2
+        - juno
+    maintainer:
+        - vishal.bhoj@linaro.org
+
+params:
+    CMD: ls
+
+run:
+    steps:
+        - $CMD
