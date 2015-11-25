@@ -20,6 +20,7 @@
 #
 # Author: Botao Sun <botao.sun@linaro.org>
 # Author: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+# Author: Chase Qi <chase.qi@linaro.org>
 
 import datetime
 import gzip
@@ -32,9 +33,12 @@ import threading
 import urllib
 import xml.etree.ElementTree as ET
 import zipfile
+import pexpect
+import time
 
 CTS_STDOUT = "cts_stdout.txt"
 CTS_LOGCAT = "cts_logcat.txt"
+
 
 class Command(object):
     def __init__(self, cmd):
@@ -96,15 +100,16 @@ class Heartbeat(threading.Thread):
 
 # Switch to home path of current user to avoid any permission issue
 home_path = os.environ['HOME']
-#os.chdir(home_path)
+# os.chdir(home_path)
 print os.getcwd()
 
 debug_switcher = False
-#def collect_result(testcase_id, result):
+# def collect_result(testcase_id, result):
 #    if debug_switcher is False:
 #        subprocess.call(['lava-test-case', testcase_id, '--result', result])
 #    else:
 #        print ['lava-test-case', testcase_id, '--result', result]
+
 
 def result_parser(xml_file):
     tree = ET.parse(xml_file)
@@ -113,7 +118,7 @@ def result_parser(xml_file):
         ET.dump(tree)
     root = tree.getroot()
     print 'There are ' + str(len(root.findall('TestPackage'))) + ' Test Packages in this test result file: ' + xml_file
-    #testcase_counter = 0
+    # testcase_counter = 0
     for elem in root.findall('TestPackage'):
         # Naming: Package Name + Test Case Name + Test Name
         if 'abi' in elem.attrib.keys():
@@ -139,7 +144,7 @@ def result_parser(xml_file):
     #            testcase_id = '.'.join([package_name, testcase_name, test_name])
     #            result = test.attrib['result']
     #            collect_result(testcase_id, result)
-    #print 'There are ' + str(testcase_counter) + ' test cases in this test result file: ' + xml_file
+    # print 'There are ' + str(testcase_counter) + ' test cases in this test result file: ' + xml_file
 
 # download and extract the CTS zip package
 ctsurl = sys.argv[1]
@@ -159,23 +164,57 @@ target_device = sys.argv[2]
 cts_stdout = open(CTS_STDOUT, 'w')
 command = 'android-cts/tools/cts-tradefed ' + ' '.join([str(para) for para in sys.argv[3:]])
 print command
-return_check = subprocess.Popen(shlex.split(command), stdout=cts_stdout)
 cts_logcat_out = open(CTS_LOGCAT, 'w')
 cts_logcat_command = "adb logcat"
 cts_logcat = subprocess.Popen(shlex.split(cts_logcat_command), stdout=cts_logcat_out)
-# start heartbeat process
-heartbeat = Heartbeat(target_device, [return_check, cts_logcat])
-heartbeat.daemon=True
-heartbeat.start()
-if return_check.wait() != 0:
-    # even though the whole command may not run successfully, continue to submit the existing result anyway
-    # add test case CTS-Command-Check to indicate this incident
-    print 'CTS command: ' + command + ' run failed!'
-    #collect_result(testcase_id='CTS-Command-Check', result='fail')
-    subprocess.call(['lava-test-case', 'CTS-Command-Check', '--result', 'fail'])
-heartbeat.shutdown()
-cts_stdout.close()
+
+if 'fvp' in open('/tmp/lava_multi_node_cache.txt').read():
+    # On Fast Models, CTS test will exit abnormally when pipe used(Bug 1904), use
+    # pexpect here as a work around.
+    child = pexpect.spawn(command, logfile=cts_stdout)
+    print 'Starting CTS %s test...' % command.split(' ')[4]
+    print 'Start time: %s' % datetime.datetime.now()
+    # Since fvp is slow, give it some time to start the test.
+    time.sleep(120)
+    # Send exit command to cts-tf shell, so that TF will exit when remaining
+    # tests complete.
+    try:
+        if not child.expect('cts-tf >'):
+            child.sendline('exit')
+    except pexpect.TIMEOUT:
+        subprocess.call(['lava-test-case', 'CTS-Command-Check', '--result', 'fail'])
+        print 'Failed to launch CTS shell, exiting...'
+        sys.exit(1)
+    while child.isalive():
+        # When expect([pexpect.EOF]) returns 0, isalive() will be set to Flase.
+        fvp_adb_check = subprocess.Popen(['adb', '-s', target_device, 'shell', 'echo', 'OK'])
+        if fvp_adb_check.wait() != 0:
+            print 'Terminating CTS test as adb connection is lost'
+            child.terminate(force=True)
+            subprocess.call(['lava-test-case', 'CTS-Command-Check', '--result', 'fail'])
+            break
+        try:
+            child.expect([pexpect.EOF], timeout=60)
+        except pexpect.TIMEOUT:
+            print '%s is running...' % command.split(' ')[4]
+    print 'End time: %s' % datetime.datetime.now()
+    cts_logcat.kill()
+else:
+    return_check = subprocess.Popen(shlex.split(command), stdout=cts_stdout)
+    # start heartbeat process
+    heartbeat = Heartbeat(target_device, [return_check, cts_logcat])
+    heartbeat.daemon = True
+    heartbeat.start()
+    if return_check.wait() != 0:
+        # even though the whole command may not run successfully, continue to submit the existing result anyway
+        # add test case CTS-Command-Check to indicate this incident
+        print 'CTS command: ' + command + ' run failed!'
+        # collect_result(testcase_id='CTS-Command-Check', result='fail')
+        subprocess.call(['lava-test-case', 'CTS-Command-Check', '--result', 'fail'])
+    heartbeat.shutdown()
+
 cts_logcat_out.close()
+cts_stdout.close()
 
 # compress then attach the CTS stdout file to LAVA bundle
 with open(CTS_STDOUT, 'rb') as f_in, gzip.open(CTS_STDOUT + '.gz', 'wb') as f_out:

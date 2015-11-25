@@ -18,6 +18,7 @@ install:
         - xz-utils
         - python-lxml
         - python-setuptools
+        - python-pexpect
         - android-tools-adb
         - android-tools-fastboot
         - zip
