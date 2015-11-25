@@ -18,7 +18,7 @@ install:
         - ./common/scripts/install-deps.sh $DEPENDENCIES $JDK $JRE
 
 params:
-    DEPENDENCIES: "xz-utils python-lxml python-setuptools android-tools-adb android-tools-fastboot zip libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1-dev libc6-dev-i386 lib32gcc1"
+    DEPENDENCIES: "xz-utils python-lxml python-setuptools python-pexpect android-tools-adb android-tools-fastboot zip libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1-dev libc6-dev-i386 lib32gcc1"
     JDK: "default-jdk"
     JRE: "default-jre"
     CTS_URL: "http://testdata.validation.linaro.org/cts/android-cts-5.0-armv8.zip"
