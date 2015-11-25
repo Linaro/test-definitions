@@ -52,5 +52,8 @@ run:
         - IPADDR="_MISSING_"
         - fi
         - lava-test-case step9-send-ip --shell lava-send $TEST_NAME-send-ip ipaddr=$IPADDR
+        - if [ -f /data/local/tmp/kmsg_levels ]
+        - then
         - lava-test-case step10-enable-kmsg --shell 'cat /data/local/tmp/kmsg_levels > /proc/sys/kernel/printk'
+        - fi
         - lava-test-case step11-multinode-sync --shell lava-sync $TEST_NAME-finished
