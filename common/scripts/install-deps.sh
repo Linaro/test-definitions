@@ -29,7 +29,7 @@ do
     else
         wait_for_unlock_apt
         echo "==== Install $pkg package ===="
-        apt-get install $pkg
+        apt-get install -y $pkg
     fi
 done
 exit 0
