@@ -14,6 +14,8 @@ metadata:
         - functional
 
 install:
+    deps:
+        - git
     git-repos:
         - git://git.linaro.org/qa/pointer-tagging-tests.git
     steps:
