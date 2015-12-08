@@ -1,0 +1,29 @@
+metadata:
+    name: hdmi-input-switching
+    format: "Manual Test Definition 1.0"
+    description: "Test input switching from Monitor."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Connect the output HDMI cable to Monitor/TV.
+        - Make sure Monitor/TV has display input from at least one other source too.
+        - Boot the board to UI.
+        - Switch input display from Monitor/TV to board and other input source.
+        - Repeat the process few times.
+
+    expected:
+        - "Switching HDMI resolutions from UI should work well."
+        - "No Kernel panic, crash, hang or any other severe error observed while switching input."
