@@ -1,0 +1,28 @@
+metadata:
+    name: display-blanking
+    format: "Manual Test Definition 1.0"
+    description: "Test display blanking on Debian."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash any UI enabled Xfce based build, power on the board until boot up successfully.
+        - Make sure mouse and/or keyboard is connected to the board.
+        - Open "Brightness & lock" from system settings.
+        - Change "Turn screen off when inactive for" setting to 1 minute.
+        - Wait for screen to go blank.
+        - Move mouse/keywboard to get display back.
+
+    expected:
+        - "Blanking and un-blanking should work fine."
+        - "No kernel panic or severe error observed."
