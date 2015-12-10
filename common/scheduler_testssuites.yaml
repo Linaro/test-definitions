@@ -18,7 +18,7 @@ metadata:
         - functional
 
 params:
-    TEST_SUITE: "sched_tests-android-tc2.tar.gz"
+    TEST_SUITE: "http://testdata.validation.linaro.org/tests/sched-tests-juno.tar.gz"
     TEST_PATH: "/data/local/schedtest"
 
 install:
@@ -26,8 +26,8 @@ install:
         - 'echo 0 > /sys/kernel/bL_switcher/active || true'
         - 'mkdir -p $TEST_PATH'
         - 'cd $TEST_PATH'
-        - 'wget http://testdata.validation.linaro.org/tests/$TEST_SUITE'
-        - 'tar -xvzf $TEST_SUITE'
+        - 'wget -O scheduler-testsuite.tar.gz $TEST_SUITE'
+        - 'tar -xvzf scheduler-testsuite.tar.gz'
 
 run:
     steps:
