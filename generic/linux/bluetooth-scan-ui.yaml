@@ -1,0 +1,27 @@
+metadata:
+    name: bluetooth-scan-ui
+    format: "Manual Test Definition 1.0"
+    description: "Test Bluetooth scanning feature on Debian."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash any UI enabled Xfce based build, power on the board until boot up successfully.
+        - Make sure mouse is connected to the board.
+        - Make sure some bluetooth device (mouse, keyboard, speaker) is turned on and within the range.
+        - Click the BT icon and select "setup a new device" option.
+        - Click on continue to search for available bluetooth devices.
+
+    expected:
+        - Bluetooth can be enabled and devices show up when scanned.
+        - No kernel ir driver crash occurs
