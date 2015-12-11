@@ -1,0 +1,29 @@
+metadata:
+    name: bluetooth-pair-ui
+    format: "Manual Test Definition 1.0"
+    description: "Test bluetooth pairing from UI on Debian."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash any UI enabled Xfce based build, power on the board until boot up successfully.
+        - Make sure mouse and keyboard is connected to the board.
+        - Make sure some bluetooth keyboard is turned on and within the range.
+        - Click on BT icon and select "Setup a new device" and continue to scan device.
+        - Select the device from device list to connect and click continue.
+        - Host machine will show a pin number to pair.
+        # some devices don't require PIN to be connected
+        - Enter the pin number on the BT device (keyboard) to connect.
+
+    expected:
+        - Bluetooth device is connected and pairing is successful.
