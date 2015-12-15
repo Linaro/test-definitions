@@ -1,0 +1,34 @@
+metadata:
+    name: android-bluetooth-ftp
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth file transfer works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - After the board booted successfully, enable Bluetooth by click Settings -> Wireless and Networks -> Bluetooth.
+        - After Bluetooth turned ON and surround devices (if any) showed up, turn Bluetooth OFF.
+        - Perform above ON and OFF procedures again.
+        - Make sure BT enabled device (mobile phone, laptop) is in the radio range and in discovery mode
+        - Pair the nearby device (enter PIN if needed)
+        - Send a picture from the board to another Bluetooth device (mobile phone or laptop).
+        - Send another picture from supporting device to the board under test.
+        - View the picture on both devices.
+    expected:
+        - Bluetooth feature should can be continuously enabled and disabled at least twice without any error
+        - Nearby devices should be shown in the discoveried device list on the board
+        - Pairing should be done successfully
+        - Picture file should can be transfered from the board to another paired Bluetooth device
+        - Picture file should can be transfered from another Bluetooth enabled device to the board under test
+        - Picture file should be displayed successfully on both paired devices
