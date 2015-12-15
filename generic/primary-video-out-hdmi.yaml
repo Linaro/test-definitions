@@ -1,10 +1,11 @@
 metadata:
-    name: primary-video-out
+    name: primary-video-out-hdmi
     format: "Manual Test Definition 1.0"
-    description: "Test the primary video output on hardware board."
+    description: "Test if HDMI video output works well"
     maintainer:
         - amit.khare@linaro.org
     os:
+        - android
         - ubuntu
         - openembedded
     scope:
@@ -12,20 +13,22 @@ metadata:
     devices:
         - panda
         - panda-es
+        - vexpress-a9
+        - vexpress-tc2
         - arndale
-        - hikey
+        - hi6220-hikey
+        - apq8016-sbc
     environment:
         - manual-test
 
 run:
     steps:
-        - Note: For board which come with LCD module, Primary Video Output means that LCD display.
         - Plug in HDMI cable between the board and HDMI Monitor or HDMI TV.
         - Power on the HDMI Monitor or HDMI TV, switch input source to HDMI.
         - Boot the board.
         - If HDMI video ouput works well, Plug out HDMI cable.
         - Plug in HDMI cable again.
-
     expected:
-        - "The video output should show up on that display device, for example, the boot log and command prompt can be seen on screen."
-        - "After HDMI cable plugged out, display should be gone from monitor or TV. When plugged in HDMI cable again, display should be back to work as normal."
+        - Display is displayed well on HDMI monitor or HDMI TV.
+        - After plugged out HDMI cable no kernel/driver errors are observed on board under test
+        - When plugged in HDMI cable again, display is back to work as normal
