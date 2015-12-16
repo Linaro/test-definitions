@@ -1,0 +1,41 @@
+metadata:
+    name: serial-console
+    format: "Manual Test Definition 1.0"
+    description: "Test if the serial connection to the board works"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - juno
+        - arndale
+        - ifc6410
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        # depending on the board, the serial cable might be UART or symmetric serial
+        - Connect the serial cable to the device under test
+        - Launch minicom in terminal of host PC.
+        # correct tty should be used. /dev/ttyUSB0 is just an example
+        - "$ minicom -D /dev/ttyUSB0 -w -C minicom_log.txt"
+        - Power the device under test
+        - After boot sequence is complete run the following command in the console
+        - "$ ls -l"
+
+    expected:
+        - Boot log is displayed in minicom after powering the device under test
+        - Command line prompt is displayed after successful boot.
+        - Input by keyboard in works and characters are echoed back and displayed in minicom
+
