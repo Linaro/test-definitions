@@ -5,6 +5,7 @@ metadata:
     maintainer:
         - amit.khare@linaro.org
     os:
+        - android
         - ubuntu
         - openembedded
         - debian
@@ -18,12 +19,12 @@ metadata:
 
 run:
     steps:
-        - Connect the output HDMI cable to Monitor/TV.
+        - Connect the device under test HDMI output cable to Monitor/TV.
         - Make sure Monitor/TV has display input from at least one other source too.
-        - Boot the board to UI.
+        - Boot the device under test to UI.
         - Switch input display from Monitor/TV to board and other input source.
         - Repeat the process few times.
 
     expected:
-        - "Switching HDMI resolutions from UI should work well."
-        - "No Kernel panic, crash, hang or any other severe error observed while switching input."
+        - Switching HDMI input works well and doesn't trigger kernel/driver errors on device under test
+        - Switching back to input from device under test works well and UI is displayed on the screen
