@@ -14,7 +14,7 @@ metadata:
         - vexpress-a9
         - vexpress-tc2
         - arndale
-        - hikey
+        - hi6220-hikey
     environment:
         - manual-test
 

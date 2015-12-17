@@ -12,6 +12,12 @@ metadata:
     scope:
         - functional
     devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - ifc6410
         - hi6220-hikey
         - apq8016-sbc
     environment:

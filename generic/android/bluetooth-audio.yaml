@@ -9,7 +9,7 @@ metadata:
     scope:
         - functional
     devices:
-        - hikey
+        - hi6220-hikey
     environment:
         - manual-test
 

@@ -16,7 +16,8 @@ metadata:
         - vexpress-tc2
         - arndale
         - ifc6410
-        - hikey
+        - hi6220-hikey
+        - apq8016-sbc
     environment:
         - manual-test
 

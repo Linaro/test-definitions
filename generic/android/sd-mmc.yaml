@@ -12,7 +12,7 @@ metadata:
         - panda
         - panda-es
         - arndale
-        - hikey
+        - hi6220-hikey
     environment:
         - manual-test
 

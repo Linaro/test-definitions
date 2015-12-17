@@ -13,6 +13,8 @@ metadata:
         - panda
         - panda-es
         - arndale
+        - hi6220-hikey
+        - apq8016-sbc
     environment:
         - manual-test
 

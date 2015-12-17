@@ -11,7 +11,7 @@ metadata:
     devices:
         - panda
         - panda-es
-        - hikey
+        - hi6220-hikey
     environment:
         - manual-test
 

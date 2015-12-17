@@ -16,6 +16,8 @@ metadata:
         - arndale
         - vexpress-a9
         - vexpress-tc2
+        - hi6220-hikey
+        - apq8016-sbc
     environment:
         - manual-test
 
