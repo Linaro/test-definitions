@@ -9,6 +9,12 @@ metadata:
     scope:
         - functional
     devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - juno
         - hi6220-hikey
         - apq8016-sbc
     environment:
@@ -24,5 +30,5 @@ run:
         - Move connected mouse or press any key on keyboard to get the display back.
 
     expected:
-        - "Diplay blanking and un-blanking works well."
-        - "No Kernel panic, crash, hang or any other severe error observed when display is back."
+        - Diplay blanking and un-blanking works well.
+        - No Kernel panic, crash, hang or any other severe error observed when display is back.
