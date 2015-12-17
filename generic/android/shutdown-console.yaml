@@ -1,0 +1,27 @@
+metadata:
+    name: android-shutdown-console
+    format: "Manual Test Definition 1.0"
+    description: "Check 'Power OFF' feature from console."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on the board until boot up successfully.
+        - After command line prompt shows in serial console, run
+        - "$ reboot -p"
+
+    expected:
+        - The board is shut down successfully, no display shows and no activity in serial console.
+        - No Kernel panic, crash, hang or any other severe error observed.
