@@ -6,6 +6,8 @@ metadata:
                   report exact memory configuration, firmware version, mainboard configuration,
                   CPU version and speed, cache configuration and bus speed etc."
     version: 1.0
+    maintainer:
+        - milosz.wasilewski@linaro.org
     os:
         - openembedded
     scope:
