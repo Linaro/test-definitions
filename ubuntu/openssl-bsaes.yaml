@@ -1,7 +1,17 @@
 metadata:
-  name: openssl-bsaes
-  format: "Lava-Test-Shell Test Definition 1.0"
-  description: "Test to verify correctness of the NEON bit sliced AES code in OpenSSL"
+    name: openssl-bsaes
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test to verify correctness of the NEON bit sliced AES code in OpenSSL"
+
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    scope:
+        - functional
+    os:
+        - ubuntu
+    devices:
+        - vexpress-tc2
+        - juno
 
 install:
     deps:
