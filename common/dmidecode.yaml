@@ -5,6 +5,8 @@ metadata:
                 reports information about system's hardware from BIOS such as bios_version
                 dmi, id, bios_version and bios_date."
   version: 1.0
+  maintainer:
+        - milosz.wasilewski@linaro.org
   os:
     - ubuntu
     - openembedded
