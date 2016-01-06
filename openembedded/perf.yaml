@@ -5,6 +5,8 @@ metadata:
                   to collect and analyze performance and trace data. This test runs following perf commands: record
                   (record events for later reporting), report(break down events by process, function, etc), stat(obtain
                   event counts) and test(Run sanity tests)."
+    maintainer:
+        - milosz.wasilewski@linaro.org
     os:
         - openembedded
     scope:
