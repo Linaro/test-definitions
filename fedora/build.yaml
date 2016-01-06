@@ -2,7 +2,14 @@ metadata:
     name: fedora-build
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Fedora builds."
-
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    scope:
+        - functional
+    os:
+        - fedora
+    devices:
+        - juno
 install:
     steps:
         - 'echo nameserver 8.8.8.8 > /etc/resolv.conf'
