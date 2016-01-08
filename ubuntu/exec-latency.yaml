@@ -9,6 +9,8 @@ metadata:
         - ubuntu
     devices:
         - arndale
+    scope:
+        - functional
     environment:
         - lava-test-shell
 install:

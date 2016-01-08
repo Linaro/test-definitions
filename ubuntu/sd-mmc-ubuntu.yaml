@@ -7,6 +7,8 @@ metadata:
         - botao.sun@linaro.org
     os:
         - ubuntu
+    scope:
+        - functional
     devices:
         - panda
         - panda-es

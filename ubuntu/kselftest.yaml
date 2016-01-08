@@ -7,6 +7,8 @@ metadata:
         - arthur.she@linaro.org
     os:
         - ubuntu
+    scope:
+        - functional
     devices:
         - all
 

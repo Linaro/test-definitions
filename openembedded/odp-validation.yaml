@@ -11,6 +11,8 @@ metadata:
         - openembedded
     devices:
         - juno
+    scope:
+        - functional
     environment:
         - lava-test-shell
 

@@ -9,6 +9,8 @@ metadata:
     devices:
         - panda
         - panda-es
+    scope:
+        - functional
     environment:
         - lava-test-shell
 
