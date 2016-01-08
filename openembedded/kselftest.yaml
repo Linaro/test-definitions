@@ -5,7 +5,9 @@ metadata:
     maintainer:
         - arthur.she@linaro.org
     os:
-        - openembedded 
+        - openembedded
+    scope:
+        - functional 
     devices:
         - all
 

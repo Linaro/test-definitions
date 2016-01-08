@@ -19,6 +19,8 @@ metadata:
         - rtsm_fvp_base-aemv8a
         - juno
         - beaglebone-black
+    scope:
+        - functional
     environment:
         - lava-test-shell
 

@@ -11,6 +11,8 @@ metadata:
     devices:
         - arndale
         - juno
+    scope:
+        - functional
     environment:
         - lava-test-shell
 

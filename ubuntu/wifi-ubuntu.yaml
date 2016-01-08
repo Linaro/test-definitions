@@ -8,6 +8,8 @@ metadata:
         - ubuntu
     devices:
         - panda-es
+    scope:
+        - functional
     environment:
         - lava-test-shell
 params:

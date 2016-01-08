@@ -12,6 +12,8 @@ metadata:
         - d01
         - mustang
         - vexpress-tc2
+    scope:
+        - functional
     environment:
         - lava-test-shell
 
