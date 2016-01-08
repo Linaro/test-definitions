@@ -4,7 +4,7 @@ metadata:
     description: "Device tree test to check the folder structure. The test verifies that device-tree
                   is available and contains model name of the board."
     maintainer:
-        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
         - openembedded

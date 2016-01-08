@@ -4,7 +4,7 @@ metadata:
     description: "Basic system test command for Linaro Ubuntu images. The test runs basic commands
                   like pwd, uname, vmstat, ifconfig, lscpu, lsusb and lsb_release."
     maintainer:
-        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
     scope:

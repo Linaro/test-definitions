@@ -4,7 +4,7 @@ metadata:
     description: "Ethernet test for Linaro Android build.
     This test verifies if Ethernet is enabled and checks ping and packet loss."
     maintainer:
-        -  botao.sun@linaro.org
+        -  milosz.wasilewski@linaro.org
     os:
         - android
     devices:

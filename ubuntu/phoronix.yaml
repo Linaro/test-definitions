@@ -3,12 +3,14 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Run a sub-set of phoronix test suite on Linux Linaro ubuntu"
     maintainer:
-        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
     devices:
         - panda
         - panda-es
+    scope:
+        - functional
     environment:
         - lava-test-shell
 

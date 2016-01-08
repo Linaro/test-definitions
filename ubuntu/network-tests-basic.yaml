@@ -3,7 +3,6 @@ metadata:
     name: network-tests-basic
     description: "Basic network test commands for Linaro Ubuntu images"
     maintainer:
-        - botao.sun@linaro.org
         - milosz.wasilewski@linaro.org
     os:
         - ubuntu

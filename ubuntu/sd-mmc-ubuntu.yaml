@@ -4,9 +4,11 @@ metadata:
     description: "SD MMC test on Linux Linaro ubuntu. The test checks if SD card is available
                   and no IO error is observed in dmesg output."
     maintainer:
-        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
+    scope:
+        - functional
     devices:
         - panda
         - panda-es

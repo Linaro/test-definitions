@@ -4,7 +4,7 @@ metadata:
     description: "Test SD MMC on Linaro Android. The test checks for availability of external
                   storage device, runs df command to check partition and tries to write on sd card."
     maintainer:
-        -  botao.sun@linaro.org
+        -  milosz.wasilewski@linaro.org
     os:
         - android
     devices:
