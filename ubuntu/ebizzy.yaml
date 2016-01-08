@@ -7,6 +7,8 @@ metadata:
         - lisa.nguyen@linaro.org
     os:
         - ubuntu
+    scope:
+        - functional
     devices:
         - beaglebone-black
         - panda
@@ -48,4 +50,4 @@ run:
         - $CURRENT_DIR/common/scripts/min_max_avg_parse.py ebizzy-sys.log "sys"  "Second"
 
 parse:
-    pattern: "^(?P<test_case_id>\\w+):\\s*(?P<measurement>[0-9\\.]+)\\s+(?P<units>\\w+)\\s+(?P<result>\\w+)" 
+    pattern: "^(?P<test_case_id>\\w+):\\s*(?P<measurement>[0-9\\.]+)\\s+(?P<units>\\w+)\\s+(?P<result>\\w+)"

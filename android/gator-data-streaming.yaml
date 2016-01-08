@@ -6,7 +6,7 @@ metadata:
                   as a parameter to the gatord command to do a local capture and then depending upon
                   the output of this command, test results are generated."
     maintainer:
-        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - android
     scope:

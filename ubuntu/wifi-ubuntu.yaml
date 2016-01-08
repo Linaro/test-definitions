@@ -3,11 +3,13 @@ metadata:
     format: "Lava-Test-Shell Test Definition 1.0"
     description: "Test WiFi on Linux Linaro ubuntu. SSID and PASSWORD are possible to be set in JSON."
     maintainer:
-        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
     devices:
         - panda-es
+    scope:
+        - functional
     environment:
         - lava-test-shell
 params:

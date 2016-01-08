@@ -4,7 +4,7 @@ metadata:
     description: "RCU or Read-Copy Update Torture test for Linux Kernel. The default torture
                   time is set to 600 which can be changed via JSON file."
     maintainer:
-        - botao.sun@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - ubuntu
         - openembedded
@@ -19,6 +19,8 @@ metadata:
         - rtsm_fvp_base-aemv8a
         - juno
         - beaglebone-black
+    scope:
+        - functional
     environment:
         - lava-test-shell
 

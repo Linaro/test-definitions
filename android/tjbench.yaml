@@ -6,7 +6,6 @@ metadata:
                   performance and the compression ratio obtained when compressing the test image as a JPEG image
                   and then decompressing the JPEG image back to its original, uncompressed form."
     maintainer:
-        - botao.sun@linaro.org
         - yongqin.liu@linaro.org
     os:
         - android

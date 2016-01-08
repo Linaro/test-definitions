@@ -6,8 +6,6 @@ metadata:
                   parameter to the gatord command to do a local capture and test results are generated
                   depending upon output of this command."
     maintainer:
-        - botao.sun@linaro.org
-        - mahanth.gouda@linaro.org
         - arthur.she@linaro.org
     os:
         - ubuntu
