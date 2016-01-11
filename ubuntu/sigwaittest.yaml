@@ -27,7 +27,7 @@ params:
 run:
     steps:
         - 'sigwaittest -l ${LOOPS} -t | tee result.log'
-        - './ubuntu/scripts/rt-tests-parser.sh sigwaittest result.log'
+        - './common/scripts/rt-tests-parser.sh sigwaittest result.log'
         - 'lava-test-run-attach result.log'
 
 parse:

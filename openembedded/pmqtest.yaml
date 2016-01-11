@@ -7,20 +7,16 @@ metadata:
                   is set to 1000 which can be changed via JSON file."
     maintainer:
         - arthur.she@linaro.org
+        - ravineet.singh@linaro.org
     os:
-        - ubuntu
+        - openembedded
     devices:
         - arndale
-        - beaglebone-black
-        - rtsm_fvp_base-aemv8a
         - juno
+        - x86
     scope:
         - performance
         - preempt-rt
-
-install:
-    deps:
-        - rt-tests
 
 params:
     LOOPS: 1000
