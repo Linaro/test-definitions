@@ -7,14 +7,42 @@ metadata:
                   packages being installed in the target rootfs."
     maintainer:
         - stuart.haslam@linaro.org
+        - anders.roxell@linaro.org
     os:
         - openembedded
+        - debian/ubuntu
     devices:
         - juno
+        - arndale
+        - x86
     scope:
         - functional
     environment:
         - lava-test-shell
+
+install:
+    deps:
+        - build-essential
+        - automake
+        - autoconf
+        - libtool
+        - libssl-dev
+        - libcunit1-dev
+    git-repos:
+        - url: git://git.linaro.org/lng/odp.git
+          destination: odp
+          branch: ${ODP_BRANCH}
+    steps:
+        - cd odp
+        - ./bootstrap
+        - autoreconf -i
+        - ./configure --enable-test-vald --enable-test-perf --with-testdir=/usr/lib/odp/ptest/test
+        - make install
+        - cd /usr/lib/odp/ptest
+        - ln -s test/run-test run-ptest
+
+params:
+    ODP_BRANCH: master
 
 run:
     steps:
