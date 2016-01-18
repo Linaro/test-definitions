@@ -18,7 +18,7 @@ install:
         - https://android-git.linaro.org/git/linaro/art-testing.git
 
 params:
-    DEPENDENCIES: "android-tools-adb android-tools-fastboot libc6:i386 libncurses5:i386 libstdc++6:i386 python3"
+    DEPENDENCIES: "android-tools-adb android-tools-fastboot libc6:i386 libncurses5:i386 libstdc++6:i386 python3 binutils"
     JDK: "default-jdk"
     JRE: "default-jre"
     TEST_NAME: "art-test"
