@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 echo "configuring Nexus9 on: $IPADDR"
 adb -s $IPADDR wait-for-device
 adb -s $IPADDR shell stop
