@@ -1,0 +1,21 @@
+metadata:
+    name: meminfo
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Collect the information in /proc/meminfo after boot."
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno, hikey
+
+run:
+    steps:
+        - sleep 300
+        - cat /proc/meminfo
+parse:
+    pattern: "^(?P<test_case_id>\\w+)\\s*(?P<result>:)\\s+(?P<measurement>\\d+)\\s+(?P<units>\\w+)$"
+    fixupdict:
+        :: pass
