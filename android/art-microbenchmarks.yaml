@@ -43,6 +43,8 @@ run:
         - echo "processes running"
         - ps
         - fi
+        - adb -s $IPADDR shell start
+        - sleep 30
         - adb -s $IPADDR shell dumpsys battery
         - lava-sync $TEST_NAME-finished
 
