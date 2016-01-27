@@ -1,0 +1,37 @@
+metadata:
+    name: sdcard-speed-test
+    format: "Manual Test Definition 1.0"
+    description: "Measure sdcard read/write speed with dd command."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - android
+        - debian
+    scope:
+        - benchmark
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+        - db410c
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Enter the root directory of the sdcard under test.
+        - On android, run the following command to test write speed.
+        - "# dd if=/dev/zero of=dd.img bs=1048576 count=2000"
+        - On debian, flag conv=fsync is needed, which tells dd to write to disk.
+        - "# dd if=/dev/zero of=dd.img bs=1048576 count=2000 conv=fsync"
+        - Before read speed test, clear the memory cache to ensure that the file is actually read from drive.
+        - "# sync; echo 3 > /proc/sys/vm/drop_caches"
+        - Run dd read speed test.
+        - "# dd if=dd.img of=/dev/null bs=1048576"
+        - Remove dd.img.
+        - "# rm dd.img"
+
+    expected:
+        - dd commands finish successfully
+        - read/write speeds are printed to screen.
