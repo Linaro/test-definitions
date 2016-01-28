@@ -1,0 +1,29 @@
+metadata:
+    name: android-ui-auto-mount
+    format: "Manual Test Definition 1.0"
+    description: "Test if SD card can mounted automatically."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - apq8016-sbc
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board.
+        - Insert SD card in SD card slot on the board.
+        - From Android UI, got to Settings--> Storage&USB.
+        - Storage&USB has two options "Internal Storage" & "Portable Storage".
+        - Click on "Internal Storage" and it will show memory usage. Click on "Explore" at the bottom.
+        - Under "Portable Storage", The SD card will already be mounted. Click on it to unmount.
+        - Mount and unmount SD card couple of times.
+
+    expected:
+        - Clicking on settings--> storage&usb--> Internal storage--> Explore works fine and no crash is observed.
+        - SD card is auto mounted and can be unmounted and re-mounted from UI.
