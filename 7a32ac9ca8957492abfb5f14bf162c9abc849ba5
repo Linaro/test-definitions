@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_f54a3854",
+        "filename": "android/meminfo.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-02-02T09:38:44Z",
+      "side": 1,
+      "message": "make sure that file exists. Otherwise lava-test-shell will exit with error.",
+      "revId": "7a32ac9ca8957492abfb5f14bf162c9abc849ba5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
