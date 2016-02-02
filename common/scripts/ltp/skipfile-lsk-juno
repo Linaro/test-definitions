@@ -49,6 +49,6 @@ cron_dirs_checks01 cron_dirs_checks01
 # External package cron not installed on rootfs.
 # This test case comes under admin_tools, which is not critical for us
 
-acl_test01 export TCbin=$LTPROOT/testcases/bin;acl_test01
+acl_test01 acl_test01
 # acl test cases comes under admin_tools
 # setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
