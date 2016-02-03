@@ -1,0 +1,24 @@
+metadata:
+    name: wifi-large-downlaod
+    format: "Manual Test Definition 1.0"
+    description: "Test if large file can be downloaded via WiFi."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board successfully to UI.
+        - Check available wireless network and connect.
+        - Open browser and download this file "http://samplemedia.linaro.org/H264/tears_of_steel_1080p_H264_24fps.mov"
+
+    expected:
+        - Downloading tears_of_steel_1080p_H264_24fps.mov file completes without any issues.
