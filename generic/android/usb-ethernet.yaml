@@ -1,0 +1,33 @@
+metadata:
+    name: usb-ethernet
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB Ethernet works on Android"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Login as root and plug in your USB Ethernet gadget.
+        - Run "dmesg" to find the device ID. Take "eth0" for example.
+        - Run "getprop dhcp.eth0.ipaddress" to check if IP address assigned. If not, run "dhcpcd eth0" to get an IP address.
+        - Open web broswer and type "http://testdata.validation.linaro.org/media_codec/vpx_streams/" and press enter.
+        - Click "vp90-2-tos_1280x534_tile_1x4_1306kbps.webm" to download it to local storage.
+
+    expected:
+        - USB Ethernet obtains an IP address successfully
+        - File download test is successful
+        - No crash observed.

@@ -1,0 +1,33 @@
+metadata:
+    name: usb-ethernet
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB Ethernet works on Linux"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - linux
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Login as root and plug in your USB Ethernet gadget.
+        - Run "dmesg" to find the device ID. Take "eth0" for example.
+        - Run "ifconfig eht0" to check if IP address assigned by DHCP server. If not, run "dhclient eth0" to get an IP address.
+        - "ping www.google.com"
+        - "wget http://testdata.validation.linaro.org/media_codec/vpx_streams/vp90-2-tos_1280x534_tile_1x4_1306kbps.webm"
+
+    expected:
+        - USB Ethernet obtains an IP address successfully.
+        - ping and file download tests are successful.
+        - No crash observed from serial console.
