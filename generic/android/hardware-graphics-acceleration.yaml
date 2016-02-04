@@ -25,5 +25,5 @@ run:
         - Touch Linaro logo in the app to check if hardware graphics acceleration is enabled.
 
     expected:
-        - "Should be able to install hwgfx.apk on the board."
-        - "APK should work well and gives either "True" or "False" after touching linaro logo."
+        - hwgfx.apk is installed successfully on the board.
+        - APK is launched and gives either "True" or "False" after touching linaro logo.
