@@ -1,0 +1,29 @@
+metadata:
+    name: bluetooth-file-transfer-ui
+    format: "Manual Test Definition 1.0"
+    description: "Test Bluetooth file transfer on Debian."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash any UI enabled Xfce based build, power on the board until boot up successfully.
+        - Make sure mouse is connected to the board.
+        - Make sure some bluetooth device (laptop, phone, tablet) is turned on, within the range and supports BT FTP profile.
+        - Click the BT icon, turn on bluetooth and select "send files to device" option.
+        - Select the device to transfer file to and click ok (some devices need to be paired before sending files).
+        - Select the file to transfer and click send.
+        - The receiving device has to accept incoming file transfer.
+
+    expected:
+        - Bluetooth file transfer can be performed successfully.
+        - No kernel or driver crash occurs.
