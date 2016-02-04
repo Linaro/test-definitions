@@ -1,0 +1,30 @@
+metadata:
+    name: hikey-user-led
+    format: "Manual Test Definition 1.0"
+    description: "Test if user LED working on Hikey board."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board successfuly.
+        - There are four user LEDs on board user_led1, user_led2, user_led3 and user_led4.
+        - To turn on specific LED, run "echo 1 > /sys/class/leds/<led_dir>/brightness"
+        - To turn off specific LED, run "echo 0 > /sys/class/leds/<led_dir>/brightness"
+        - Run "cat /sys/class/leds/<led_dir>/trigger" to show all the triggers available for a particular LED.
+        - To assign a trigger to any LED, run "echo trigger_name > /sys/class/leds/<led_dir>/trigger"
+        - example: to assign "heartbeat" trigger to user_led3, run "echo heartbeat > /sys/class/leds/user_led3/trigger"
+        - To remove trigger for any LED, run "echo none > /sys/class/leds/<led_dir>/trigger"
+
+    expected:
+        - LEDs can be turned on and off.
+        - Triggers can be assigned/removed to/from any LEDs.
