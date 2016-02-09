@@ -1,0 +1,31 @@
+metadata:
+    name: dragon410c-user-led
+    format: "Manual Test Definition 1.0"
+    description: "Test if user LED working on Dragonboard 410c."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - debian
+    scope:
+        - functional
+    devices:
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board successfuly.
+        - The four user LEDs on board are apq8016-sbc:green:user0, apq8016-sbc:green:user1, apq8016-sbc:green:user2 and apq8016-sbc:green:user3.
+        - To turn on specific LED, run "echo 1 > /sys/class/leds/<led_dir>/brightness"
+        - To turn off specific LED, run "echo 0 > /sys/class/leds/<led_dir>/brightness"
+        - Run "cat /sys/class/leds/<led_dir>/trigger" to show all the triggers available for a particular LED.
+        - To assign a trigger to any LED, run "echo trigger_name > /sys/class/leds/<led_dir>/trigger"
+        - example: to assign "heartbeat" trigger to apq8016-sbc:green:user3
+        - run "echo heartbeat > /sys/class/leds/apq8016-sbc\:green\:user3/trigger"
+        - To remove trigger for any LED, run "echo none > /sys/class/leds/<led_dir>/trigger"
+
+    expected:
+        - LEDs can be turned on and off.
+        - Triggers can be assigned/removed to/from any LEDs.
