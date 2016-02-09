@@ -1,0 +1,25 @@
+metadata:
+    name: status-led-wifi
+    format: "Manual Test Definition 1.0"
+    description: "Test if WiFi staus LED works on 96board."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board successfuly to UI.
+        - Connect the board to available WiFi.
+        - Tansfer files to another device or open browser and download small file from "http://samplemedia.linaro.org/"
+
+    expected:
+        - Yellow WiFi light blinks on the board while transfering files or downloading.
