@@ -1,0 +1,34 @@
+metadata:
+    name: multi-nic-download
+    format: "Manual Test Definition 1.0"
+    description: "Test if download can be performed by selecting an interface from multiple available interfaces."
+    maintainer:
+        - amit.khare@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash the board and boot succesfully.
+        - Make sure "curl" and "iftop" utilities are installed, and at least two interfaces are configured and connected to the board.
+        - Run, "sudo su" to become root.
+        - Run, "ifconfig" to check both interfaces (going to be used for this test) are connected and IP address is assigned.
+        - Run the following two commands to make sure that rp_filter is set to 0.
+        - "echo 0 > /proc/sys/net/ipv4/conf/all/rp_filter"
+        - "echo 0 > /proc/sys/net/ipv4/conf/default/rp_filter"
+        - Run, "sysctl -a |grep rp_filter" to check arp setting.
+        - Run, "curl -O --interface interface-1-ip http://samplemedia.linaro.org/MPEG4/big_buck_bunny_1080p_MPEG4_MP3_25fps_7600K_short.AVI"
+        - Run, "curl -O --interface interface-2-ip http://samplemedia.linaro.org/MPEG4/big_buck_bunny_1080p_MPEG4_MP3_25fps_7600K_short.AVI"
+        - Use "iftop" to verify that Curl is using the correct interface to download file in both cases.
+
+    expected:
+        - File can be successfully downloaded with both interfaces.
+        - The correct interface was used to download file.
