@@ -135,7 +135,7 @@ fi
 
 ARCH=`uname -m`
 
-dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || \
+[ -c /dev/kvm ] && echo "$KVM_INIT 0 pc pass" || \
 {
     echo "$KVM_INIT 0 pc fail"
     echo "$KVM_HOST_NET 0 pc skip"
@@ -147,7 +147,7 @@ dmesg|grep 'Hyp mode initialized successfully' && echo "$KVM_INIT 0 pc pass" || 
 curl 2>/dev/null
 if [ $? = 2 ]; then
     EXTRACT_BUILD_NUMBER="curl -sk"
-    DOWNLOAD_FILE="curl -SOk"
+    DOWNLOAD_FILE="curl -SOkL -# "
 else
     EXTRACT_BUILD_NUMBER="wget -q --no-check-certificate -O -"
     DOWNLOAD_FILE="wget --no-clobber --progress=dot -e dotbytes=2M --no-check-certificate"
@@ -172,7 +172,7 @@ case ${ARCH} in
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm-guest/$BUILD_NUMBER_GUEST/arm64/kvm-arm64.qcow2.xz
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$hwpack/$BUILD_NUMBER_HOST/Image-${hwpack}
         $DOWNLOAD_FILE http://snapshots.linaro.org/ubuntu/images/kvm/$hwpack/$BUILD_NUMBER_HOST/nbd-${hwpack}.ko.gz
-        $DOWNLOAD_FILE http://releases.linaro.org/15.01/components/kernel/uefi-linaro/release/qemu64-intelbds/QEMU_EFI.fd
+        $DOWNLOAD_FILE http://releases.linaro.org/components/kernel/uefi-linaro/15.12/release/qemu64/QEMU_EFI.fd
         xz -d kvm-arm64.qcow2.xz
         zcat nbd-${hwpack}.ko.gz > nbd.ko
         insmod nbd.ko max_part=16
