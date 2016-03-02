@@ -18,9 +18,9 @@ run:
         - "./android/scripts/boot_time.sh"
         - "dmesg > dmesg.log"
         - lava-test-run-attach dmesg.log text/plain
-        - "logcat -d *:V > logcat_all.log"
+        - "logcat -d *:V -v time> logcat_all.log"
         - lava-test-run-attach logcat_all.log text/plain
-        - "logcat -d -b events > logcat_events.log"
+        - "logcat -d -b events -v time > logcat_events.log"
         - lava-test-run-attach logcat_events.log text/plain
 
 parse:
