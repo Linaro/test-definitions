@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_08fcf33d",
+        "filename": "android/art-microbenchmarks.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-03-18T07:26:23Z",
+      "side": 1,
+      "message": "I see you have created new file for nexus5x.\nTARGET_DEVICE: nexus9 or nexus5x ?\n\nconfigure-nexus5x-for-benchmarks.sh",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "457378c37fef6fe33d4a4f8ddb8239bf5ce2c0be",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
