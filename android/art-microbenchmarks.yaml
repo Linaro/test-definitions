@@ -25,6 +25,7 @@ params:
     TARGET_DEVICE: "nexus9"
     ITERATIONS: 10
     MODE: 64
+    CORE: "default"
 
 run:
     steps:
@@ -34,7 +35,7 @@ run:
         - then
         - if [ -f ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh ]
         - then
-        - . ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh || true
+        - . ./android/scripts/configure-$TARGET_DEVICE-for-benchmarks.sh $CORE || true
         - fi
         - ./art-testing/run.py -t $IPADDR --iterations $ITERATIONS --mode $MODE --output-pkl $PWD/art-microbenchmarks.pkl --output-json $PWD/art-microbenchmarks.json | tee logs.txt
         - . ./android/scripts/parse-ubenchmarks-results.sh logs.txt
