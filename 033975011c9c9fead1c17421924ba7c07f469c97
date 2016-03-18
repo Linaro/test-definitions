@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_48eeeb8c",
+        "filename": "android/scripts/configure-nexus5x-for-benchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2016-03-18T07:21:35Z",
+      "side": 1,
+      "message": "Printing which core is online is not relevant for now. The device is booted and then run the test which means all the cores are online.",
+      "parentUuid": "1a622d24_c8dafbe8",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "033975011c9c9fead1c17421924ba7c07f469c97",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_68d647c7",
         "filename": "android/scripts/configure-nexus5x-for-benchmarks.sh",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-03-18T07:16:19Z",
       "side": 1,
       "message": "For CPU numbers {1..5} or {0..5} ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "033975011c9c9fead1c17421924ba7c07f469c97",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_28f3af74",
+        "filename": "android/scripts/configure-nexus5x-for-benchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2016-03-18T07:21:35Z",
+      "side": 1,
+      "message": "thanks it should be 0 to 5",
+      "parentUuid": "1a622d24_68d647c7",
       "range": {
         "startLine": 54,
         "startChar": 0,
