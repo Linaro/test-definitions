@@ -9,9 +9,6 @@ echo "Script path is: $SCRIPTPATH"
 TST_CMDFILES=""
 # List of test cases to be skipped
 SKIPFILE=""
-# Used only for ltp-ddt tests. Only run test cases which match PATTERNS. Patterns are
-# seperated by a comma
-PATTERNS=""
 
 LTP_PATH=/opt/ltp
 
