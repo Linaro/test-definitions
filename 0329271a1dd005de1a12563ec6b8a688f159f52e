@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_28bba50f",
+        "filename": "ubuntu/odp-validation.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-08T07:32:18Z",
+      "side": 1,
+      "message": "deps apply only to ubuntu/debian builds. On OE we would have to have opkg repos configured which isn\u0027t currently the case. If the test works on both OE and ubuntu builds, please move it to \u0027common\u0027 directory.",
+      "revId": "0329271a1dd005de1a12563ec6b8a688f159f52e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_883759b0",
+        "filename": "ubuntu/odp-validation.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-08T07:32:18Z",
+      "side": 1,
+      "message": "please move to \u0027git-repos\u0027. LAVA will do the download for you. This allows to remove \u0027git\u0027 dependency. The steps below might change a bit after this is done.",
+      "revId": "0329271a1dd005de1a12563ec6b8a688f159f52e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_084b492c",
+        "filename": "ubuntu/odp-validation.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-08T07:32:18Z",
+      "side": 1,
+      "message": "does this work well with TESTDIR_PATH?",
+      "revId": "0329271a1dd005de1a12563ec6b8a688f159f52e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_e847ed1b",
+        "filename": "ubuntu/odp-validation.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-08T07:32:18Z",
+      "side": 1,
+      "message": "do you plan to use this test with different scripts?",
+      "revId": "0329271a1dd005de1a12563ec6b8a688f159f52e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
