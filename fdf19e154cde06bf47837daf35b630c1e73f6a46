@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_2beeffec",
+        "filename": "common/odp-validation.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-11T10:47:59Z",
+      "side": 1,
+      "message": "please add debian/ubuntu here (depending what OS are you actually using). This field is used when generating docs.",
+      "revId": "fdf19e154cde06bf47837daf35b630c1e73f6a46",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_8bbab3df",
+        "filename": "common/odp-validation.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-11T10:47:59Z",
+      "side": 1,
+      "message": "is git still needed as dependency?",
+      "revId": "fdf19e154cde06bf47837daf35b630c1e73f6a46",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_6bbf57d1",
+        "filename": "common/odp-validation.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-11T10:47:59Z",
+      "side": 1,
+      "message": "branch can be customized with parameter and changed from JSON. Example: https://git.linaro.org/qa/test-definitions.git/blob/HEAD:/ubuntu/pwrmgmt.yaml#l32",
+      "revId": "fdf19e154cde06bf47837daf35b630c1e73f6a46",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
