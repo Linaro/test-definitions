@@ -1,0 +1,32 @@
+metadata:
+    name: thptest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "thptest measures instruction TLB miss rate for an 4k aligned application..
+                  If the application is running in a huge page, the rate will be low,
+                  i.e. execution spped of the application will be faster."
+    maintainer:
+        - ravineet.singh@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - x86
+        - juno
+    scope:
+        - performance
+
+install:
+    deps:
+        - gcc
+        - python
+        - linux-tools-common
+        - libhugetlbfs-dev
+        - libhugetlbfs0
+        - git
+    git-repos:
+        - url: git://git.linaro.org/qa/thp.git
+          destination: thp
+          branch: master
+run:
+    steps:
+        - './thp/text/run.sh -v'
+        - 'lava-test-run-attach result.log'
