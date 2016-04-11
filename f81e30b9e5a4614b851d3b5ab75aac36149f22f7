@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_2b1d5fbe",
+        "filename": "ubuntu/thptest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-04-11T16:18:24Z",
+      "side": 1,
+      "message": "should we add \"params\" so we can change a threshold value for whats a failure or not?",
+      "revId": "f81e30b9e5a4614b851d3b5ab75aac36149f22f7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_4b209bf7",
+        "filename": "ubuntu/thptest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-04-11T16:18:24Z",
+      "side": 1,
+      "message": "should we add a pattern parse to get PASS/FAIL/SKIP result?",
+      "range": {
+        "startLine": 32,
+        "startChar": 42,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "f81e30b9e5a4614b851d3b5ab75aac36149f22f7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
