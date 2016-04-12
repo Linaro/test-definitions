@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a622d24_4b937bfa",
+        "filename": "ubuntu/thptest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-12T09:35:14Z",
+      "side": 1,
+      "message": "please change to http or https. I\u0027m not sure if LAVA handles git protocol properly.",
+      "revId": "f81e30b9e5a4614b851d3b5ab75aac36149f22f7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_2b1d5fbe",
         "filename": "ubuntu/thptest.yaml",
         "patchSetId": 1
@@ -19,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_8bbc736e",
+        "filename": "ubuntu/thptest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-12T09:35:14Z",
+      "side": 1,
+      "message": "and maybe a param to checkout different branch (in case you have any)",
+      "parentUuid": "1a622d24_2b1d5fbe",
+      "revId": "f81e30b9e5a4614b851d3b5ab75aac36149f22f7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_4b209bf7",
         "filename": "ubuntu/thptest.yaml",
         "patchSetId": 1
@@ -30,6 +65,30 @@
       "writtenOn": "2016-04-11T16:18:24Z",
       "side": 1,
       "message": "should we add a pattern parse to get PASS/FAIL/SKIP result?",
+      "range": {
+        "startLine": 32,
+        "startChar": 42,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "f81e30b9e5a4614b851d3b5ab75aac36149f22f7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_0b8983ca",
+        "filename": "ubuntu/thptest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-12T09:35:14Z",
+      "side": 1,
+      "message": "+1.\nIt\u0027s a good practice to at least have one lava-test-case in the YAML. This way we know if the result is good or bad. If the test only generates measurements it\u0027s also good to record them as test results in LAVA with status \u0027pass\u0027",
+      "parentUuid": "1a622d24_4b209bf7",
       "range": {
         "startLine": 32,
         "startChar": 42,
