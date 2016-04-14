@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_bff36509",
+        "filename": "common/odp-validation.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-04-14T11:00:54Z",
+      "side": 1,
+      "message": "please split to 2 rows.",
+      "revId": "9e76c5e74677171d957e96833ed80b115c191d07",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
