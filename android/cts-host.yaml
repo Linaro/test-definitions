@@ -43,6 +43,8 @@ run:
         - echo $TEST_PARAMS
         - adb -s $IPADDR wait-for-device
         - adb devices
+        # increase the heap size. KVM devices in LAVA default to ~250M of heap
+        - export _JAVA_OPTIONS="-Xmx350M"
         - ./android/scripts/cts.py $CTS_URL $IPADDR $TEST_PARAMS
         - echo "processes running"
         - ps
