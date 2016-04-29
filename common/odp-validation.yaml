@@ -37,7 +37,7 @@ install:
         - cd odp
         - ./bootstrap
         - autoreconf -i
-        - ./configure --enable-test-cpp --enable-test-example --enable-test-vald --enable-test-perf --with-testdir=/usr/lib/odp/ptest/test
+        - ./configure --enable-test-cpp --enable-test-example --enable-test-helper --enable-test-vald --enable-test-perf --with-testdir=/usr/lib/odp/ptest/test
         - make install
         - cd /usr/lib/odp/ptest
         - ln -s test/run-test run-ptest
