@@ -32,7 +32,7 @@ install:
     git-repos:
         - url: git://git.linaro.org/lng/odp.git
           destination: odp
-          branch: ${ODP_BRANCH}
+          branch: ODP_BRANCH
     steps:
         - cd odp
         - ./bootstrap
