@@ -1,0 +1,47 @@
+metadata:
+    name: kvm
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Start KVM for secondary testing"
+    maintainer:
+        - riku.voipio@linaro.org
+    scope:
+        - functional
+        - virtualization
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - vexpress-tc2
+        - mustang
+        - midway
+        - juno
+
+params:
+    GUEST_ARCH: 'aarch64'
+    # guest architecture for constructing qemu command line
+    GUEST_IMAGE: 'none'
+    # URL to cloud-init enabled guest image
+
+
+install:
+    deps:
+        - qemu-system
+        - qemu-utils
+        - bridge-utils
+        - uml-utilities
+        - curl
+        - hwloc-nox
+        - cloud-utils
+        - genisoimage
+
+run:
+    steps:
+        - 'lava-test-case kvm-init --shell [ -c /dev/kvm ]'
+        - 'sudo ./common/scripts/kvm-cloud/start-kvm.sh $GUEST_ARCH $GUEST_IMAGE'
+        - 'lava-send ipv4 ipaddr=$(./common/scripts/kvm-cloud/wait-ip.py)'
+        - lava-send lava_start
+        - lava-sync clients
+        - 'cat *.txt'
+
+parse:
+    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'
