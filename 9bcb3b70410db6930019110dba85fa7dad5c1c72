@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_322b30ed",
+        "filename": "ubuntu/odp-tests.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-03T08:36:02Z",
+      "side": 1,
+      "message": "It would be good to have some more verbose description here. It is used to auto-generate the docs. Can be added later.",
+      "revId": "9bcb3b70410db6930019110dba85fa7dad5c1c72",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
