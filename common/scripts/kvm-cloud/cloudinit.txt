@@ -1,0 +1,16 @@
+#cloud-config
+
+users:
+  - name: linaro
+    ssh-authorized-keys:
+      - LAVA_KEY
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+    shell: /bin/bash
+
+runcmd:
+ - cp /home/linaro/.ssh/authorized_keys /root/.ssh/authorized_keys
+ - chown root:root /root/.ssh/authorized_keys
+
+phone_home:
+  url: http://LOCALIP:8080/
