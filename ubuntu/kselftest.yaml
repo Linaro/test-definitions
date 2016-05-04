@@ -5,29 +5,48 @@ metadata:
     maintainer:
         - tyler.baker@linaro.org
         - arthur.she@linaro.org
+        - naresh.kamboju@linaro.org
     os:
         - ubuntu
     scope:
         - functional
     devices:
-        - all
+        - arndale
+        - beaglebone-black
+        - highbank
+        - juno
+        - mustang
+        - mx53loco
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
 
 params:
     TESTPROG: kselftest_armhf.tar.gz
+    KSELFTESTS_PATH: /usr/lib/kselftests
 
+# Skip install deps and steps on minimal rootfs from LAVA test
+# Example:
+# "skip_install": "all"
 install:
     deps:
         - libpopt-dev
         - libcap-dev
         - binutils-dev
         - perl
+        - wget
+        - tar
+    steps:
+        - 'echo "Downloading kselftests"'
+        - 'mkdir -p $KSELFTESTS_PATH'
+        - 'cd $KSELFTESTS_PATH'
+        - 'wget http://testdata.validation.linaro.org/tests/kselftest/$TESTPROG -O kselftest.tar.gz'
+        - 'tar --strip-components=1 -xaf kselftest.tar.gz'
 
 run:
     steps:
-        - 'cd /tmp'
-        - 'wget http://testdata.validation.linaro.org/tests/kselftest/$TESTPROG -O kselftest.tar.gz'
-        - 'tar -xaf kselftest.tar.gz'
-        - 'cd kselftest'
+        - 'cd $KSELFTESTS_PATH'
         - './run_kselftest.sh'
 
 parse:
