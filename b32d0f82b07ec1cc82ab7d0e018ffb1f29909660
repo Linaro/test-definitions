@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_b8cd4189",
+        "filename": "ubuntu/kselftest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-05T08:58:03Z",
+      "side": 1,
+      "message": "please don\u0027t change the test ID.",
+      "revId": "b32d0f82b07ec1cc82ab7d0e018ffb1f29909660",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_58b9b5e8",
+        "filename": "ubuntu/kselftest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-05T08:58:03Z",
+      "side": 1,
+      "message": "this needs to be updated with list of supported devices",
+      "revId": "b32d0f82b07ec1cc82ab7d0e018ffb1f29909660",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
