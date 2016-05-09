@@ -1,0 +1,35 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: NGiNX-OFP-httperf
+    description: "Configures a node to run httperf performance tests against a node that has been setup with nginx_ofp_setup.yaml"
+    maintainer:
+        - christian.ziethen@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - x86
+        - arndale
+params:
+    request_rate: 1000
+    local_iface: eth2
+    local_ip: 192.168.129.5
+install:
+    deps:
+        - httperf
+run:
+    steps:
+        - lava-wait nginx_server_installed
+        - server_ip=$(cat /tmp/lava_multi_node_cache.txt | cut -d = -f 2)
+        - ifconfig $local_iface $local_ip up
+        - sleep 5
+        - "httperf --server $server_ip --port 80 --uri /index.html --rate $request_rate --num-conn 50000 --send-buffer=128 --recv-buffer=16384 --num-call 1 --timeout 1 --hog 2>/dev/null > httperf_output"
+        - "cat httperf_output | ./common/scripts/httperf.py $request_rate"
+        - lava-send client-done
+parse:
+    pattern: "^test_case_id:(?P<test_case_id>.+)\\s+measurement:(?P<measurement>\\d+\\.\\d+)\\s+units:(?P<units>.+)\\s+result:(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+        SKIP: skip
