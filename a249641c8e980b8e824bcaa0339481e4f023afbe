@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_fb050315",
+        "filename": "ubuntu/httperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-09T15:22:04Z",
+      "side": 1,
+      "message": "Please update description so it\u0027s clear what the test does. The description in the commit message looks much more clear.",
+      "revId": "a249641c8e980b8e824bcaa0339481e4f023afbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_26048e14",
+        "filename": "ubuntu/httperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-09T15:22:04Z",
+      "side": 1,
+      "message": "commit message suggests that test check performance rather than features.",
+      "revId": "a249641c8e980b8e824bcaa0339481e4f023afbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_db02bf0a",
+        "filename": "ubuntu/httperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-09T15:22:04Z",
+      "side": 1,
+      "message": "just x86?",
+      "revId": "a249641c8e980b8e824bcaa0339481e4f023afbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_660e9636",
+        "filename": "ubuntu/httperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-09T15:22:04Z",
+      "side": 1,
+      "message": "the list of deps looks suspiciously long. If the httperf.sh comes from this review https://review.linaro.org/#/c/11846/1/ (btw, please merge it to single review), than only httperf should be in the list.",
+      "revId": "a249641c8e980b8e824bcaa0339481e4f023afbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_9b08372f",
+        "filename": "ubuntu/httperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-09T15:22:04Z",
+      "side": 1,
+      "message": "this looks like a multinode job and you\u0027re hardcoding IP address. Doesn\u0027t sound correct unless I\u0027m missing some context here.",
+      "revId": "a249641c8e980b8e824bcaa0339481e4f023afbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_c612e257",
+        "filename": "ubuntu/httperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-09T15:22:04Z",
+      "side": 1,
+      "message": "please try to use \u0027ip\u0027 instead of \u0027ifconfig\u0027. I\u0027m trying to get rid of ifconfig which is deprecated.",
+      "revId": "a249641c8e980b8e824bcaa0339481e4f023afbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_8609fa2e",
+        "filename": "ubuntu/httperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-09T15:22:04Z",
+      "side": 1,
+      "message": "where can I find this script? Seems to be missing from the patch.",
+      "revId": "a249641c8e980b8e824bcaa0339481e4f023afbe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
