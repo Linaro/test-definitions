@@ -1,0 +1,42 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: Running-httperf-to-test-ofp
+    description: "Running httperf traffic generator"
+    maintainer:
+        - christian.ziethen@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - x86
+params:
+    request_rate: 3000
+    local_iface: eth2
+    local_ip: 192.168.129.5
+install:
+    deps:
+        - binutils
+        - httperf
+        - libpcap-dev
+        - libssl-dev
+        - make
+        - openssl
+        - openssh-server
+        - python-numpy
+        - python-argparse
+        - uuid-runtime
+run:
+    steps:
+        - lava-wait nginx_server_installed
+        - server_ip=$(cat /tmp/lava_multi_node_cache.txt | cut -d = -f 2)
+        - ifconfig $local_iface $local_ip up
+        - sleep 5
+        - './common/scripts/httperf.sh $server_ip $request_rate'
+        - lava-send client-done
+parse:
+    pattern: "^test_case_id:(?P<test_case_id>.+)\\s+measurement:(?P<measurement>\\d+\\.\\d+)\\s+units:(?P<units>.+)\\s+result:(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+        SKIP: skip
