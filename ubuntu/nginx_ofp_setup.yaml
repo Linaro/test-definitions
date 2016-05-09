@@ -1,0 +1,90 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ofp-nginx-setup
+    description: "Running OFP-NGiNX"
+    maintainer:
+        - balakrishna.garapati@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+        - performance
+    devices:
+        - x86
+
+params:
+    ODP_GIT: "https://git.linaro.org/lng/odp.git"
+    OFP_GIT: "http://github.com/OpenFastPath/ofp.git"
+    NGINX_GIT: "https://git.linaro.org/people/balakrishna.garapati/nginx_ofp.git"
+    OFP_CONF_PATCH: "https://git.linaro.org/people/balakrishna.garapati/nginx_multicore_patchs.git"
+    OFP_DIR: "/root"
+    IFACE: "eth2"
+    IP: "192.168.129.4"
+    ODP_VERSION: "v1.7.0.0"
+    OFP_COMMIT: "d10ef83fac250b92c8edeb23d9e8eb15f9e4f8d6"
+
+install:
+    deps:
+        - automake
+        - autoconf
+        - binutils
+        - ca-certificates
+        - g++
+        - git
+        - iptables
+        - libssl-dev
+        - libtool
+        - make
+        - openssl
+        - openssh-server
+        - python-numpy
+        - python-argparse
+        - pkg-config
+        - patch
+        - psmisc
+        - uuid-runtime
+        - wget
+    steps:
+        - cd $OFP_DIR
+        - git clone $ODP_GIT
+        - git clone $OFP_GIT
+        - git clone $NGINX_GIT
+        - git clone $OFP_CONF_PATCH
+        - cd $OFP_DIR/odp
+        - git checkout $ODP_VERSION
+        - cd $OFP_DIR/ofp
+        - git checkout $OFP_COMMIT
+run:
+    steps:
+        - echo "Enable hugepages"
+        - sudo sysctl -w vm.nr_hugepages=1024
+        - cd $OFP_DIR/odp
+        - ./bootstrap
+        - ./configure --prefix=/usr
+        - make
+        - make install
+        - cd $OFP_DIR/ofp
+        - git apply /root/nginx_multicore_patchs/patches-290416/ofp/0001-Changes-in-OFP-for-NGiNX.patch
+        - ./bootstrap
+        - ./configure --prefix=/usr
+        - make
+        - make install
+        - export OFP_PATH=/usr
+        - export OFP_ODP=/usr
+        - cd $OFP_DIR/nginx_ofp
+        - git apply /root/nginx_multicore_patchs/NGiNX\ changes/0001-event-modules-support-odp-1.7.patch
+        - ./configure --sbin-path=/usr/local/nginx/nginx --conf-path=/usr/local/nginx/nginx.conf --pid-path=/usr/local/nginx/nginx.pid --with-http_ssl_module --with-debug --with-select_module --without-http_rewrite_module --with-cc-opt="-I $OFP_DIR/ofp/include/api/"
+        - sed -i 's/-Werror//g' objs/Makefile
+         # Replace hardcoded eth0 in ngx_ofp_module.c
+        - sed -i "s/eth0/$IFACE/g" src/event/modules/ngx_ofp_module.c
+        - sed -i "s/192.168.1.4/$IP/g" conf/ofp.conf
+        - ifconfig eth2 $IP up
+        - make install
+        - sudo taskset 0xf sh start_nginx.sh $IFACE &
+        - sleep 1
+        - lava-send nginx_server_installed ip=$IP
+        - lava-wait client-done
+        - sed -i "s/eth0/$IFACE/g" stop_nginx.sh
+        - sed -i "s/192.168.1.4/$IP/g" stop_nginx.sh
+        - sudo sh stop_nginx.sh $IFACE
+        - cd /
