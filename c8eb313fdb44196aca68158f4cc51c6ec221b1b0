@@ -141,6 +141,24 @@
       "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_a7acf836",
+        "filename": "android/scripts/wait_via_ping.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-16T09:51:55Z",
+      "side": 1,
+      "message": "Couple of places:\nhttps://en.wikipedia.org/wiki/Ifconfig\nhttps://lists.debian.org/debian-devel/2009/03/msg00780.html\nhttps://dougvitale.wordpress.com/2011/12/21/deprecated-linux-networking-commands-and-their-replacements/\n\nand probably a couple more.\n\nOK, let\u0027s leave it here as there is no alternative.",
+      "parentUuid": "fafc7978_47bc2c6d",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
