@@ -25,6 +25,8 @@ params:
     # identification to the host side. Default is ETH
     # which means adb-over-ethernet is used
     ADB_LINK: "ETH"
+    # timeout value to wait until the ip ia available for ping LAVA_SERVER_IP
+    PING_TIMEOUT: 10
 
 run:
     steps:
@@ -45,6 +47,7 @@ run:
         - lava-test-case step6-disable-kmsg --shell echo '1 1 1 1' > /proc/sys/kernel/printk
         - lava-test-case step7-stop-adbd --shell stop adbd
         - lava-test-case step8-start-adbd --shell start adbd
+        - ./android/scripts/wait_via_ping.sh ${LAVA_SERVER_IP} ${PING_TIMEOUT}
         - fi
         - if [ -z $SERIALNO ] && [ -z $IPADDR ]
         - then
