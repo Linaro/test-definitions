@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fafc7978_a78518af",
+        "filename": "android/multinode-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-16T09:30:23Z",
+      "side": 1,
+      "message": "You\u0027re right. Lack of indentation doesn\u0027t help here :)\n\nOne more thing that worries me a bit is the address itself. I already saw examples of different IP being assigned after requesting for new lease. Should we add \"IPADDR\u003d$(getprop dhcp.eth0.ipaddress)\" after this script is executed?",
+      "parentUuid": "fafc7978_a7feb836",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafc7978_2765a845",
         "filename": "android/scripts/wait_via_ping.sh",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "either is OK I think, here just for debug information, to ensure the ip addr is there, and we can check if there is other adb connection problem or network problem between host side and target side when the adb connect command failed on the host side. Do you have more goals with netcfg?",
       "parentUuid": "fafc7978_2765a845",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_079344fb",
+        "filename": "android/scripts/wait_via_ping.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-16T09:30:23Z",
+      "side": 1,
+      "message": "I\u0027m trying to get rid of ifconfig which is deprecated. If you don\u0027t mind, I\u0027d like to change this.",
+      "parentUuid": "fafc7978_879f3403",
       "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
