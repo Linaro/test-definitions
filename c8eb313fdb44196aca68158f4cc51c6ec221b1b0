@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "fafc7978_27c128e5",
+        "filename": "android/multinode-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-05-16T09:39:28Z",
+      "side": 1,
+      "message": "I agree with you here, not sure if lava team has any comments there.",
+      "parentUuid": "fafc7978_a78518af",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafc7978_2765a845",
         "filename": "android/scripts/wait_via_ping.sh",
         "patchSetId": 1
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "I\u0027m trying to get rid of ifconfig which is deprecated. If you don\u0027t mind, I\u0027d like to change this.",
       "parentUuid": "fafc7978_879f3403",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_47bc2c6d",
+        "filename": "android/scripts/wait_via_ping.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-05-16T09:39:28Z",
+      "side": 1,
+      "message": "Just tried with HiKey member build#145, there is no netcfg command. and ifconfig if a link of toybox, I think it should be there for a long time.\n\nBut where you get the information \"ifconfig which is deprecated.\"?",
+      "parentUuid": "fafc7978_079344fb",
       "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
