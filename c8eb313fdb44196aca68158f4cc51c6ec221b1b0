@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fafc7978_a7feb836",
+        "filename": "android/multinode-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-05-16T09:23:23Z",
+      "side": 1,
+      "message": "This is under the condition of L41:\n- if [ $ADB_LINK \u003d \"ETH\" ] \u0026\u0026 [ ! -z $IPADDR ]\n\nwhich is for switching to adb over tcpip",
+      "parentUuid": "fafc7978_8783b4cb",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafc7978_2765a845",
         "filename": "android/scripts/wait_via_ping.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-16T08:17:50Z",
       "side": 1,
       "message": "netcfg?",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_879f3403",
+        "filename": "android/scripts/wait_via_ping.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-05-16T09:23:23Z",
+      "side": 1,
+      "message": "either is OK I think, here just for debug information, to ensure the ip addr is there, and we can check if there is other adb connection problem or network problem between host side and target side when the adb connect command failed on the host side. Do you have more goals with netcfg?",
+      "parentUuid": "fafc7978_2765a845",
       "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
