@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_8783b4cb",
+        "filename": "android/multinode-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-16T08:17:50Z",
+      "side": 1,
+      "message": "This should only be attempted if ADB_LINK \u003d\u003d \"ETH\"",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_2765a845",
+        "filename": "android/scripts/wait_via_ping.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-05-16T08:17:50Z",
+      "side": 1,
+      "message": "netcfg?",
+      "revId": "c8eb313fdb44196aca68158f4cc51c6ec221b1b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
