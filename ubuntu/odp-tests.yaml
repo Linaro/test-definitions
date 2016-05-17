@@ -19,6 +19,7 @@ metadata:
 
 install:
     deps:
+        - git
         - build-essential
         - automake
         - autoconf
