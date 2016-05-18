@@ -51,6 +51,7 @@ adb -s $IPADDR wait-for-device
 adb -s $IPADDR root
 adb -s $IPADDR wait-for-device
 adb -s $IPADDR shell stop
+adb -s $IPADDR wait-for-device
 for n in {0..5}; do
   adb -s $IPADDR shell "echo userspace > /sys/devices/system/cpu/cpu$n/cpufreq/scaling_governor"
   adb -s $IPADDR shell "echo 1000000 > /sys/devices/system/cpu/cpu$n/cpufreq/scaling_min_freq"
