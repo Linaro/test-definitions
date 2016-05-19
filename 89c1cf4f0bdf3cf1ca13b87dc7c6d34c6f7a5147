@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "fafc7978_affe8e36",
+        "filename": "common/scripts/kvm-cloud/start-kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-05-19T14:00:23Z",
+      "side": 1,
+      "message": "Please add a comment about where cloud.img is coming from ? is it a standard name always ?\nI see from LAVA job definition as\nGUEST_IMAGE: \u0027https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img\u0027",
+      "range": {
+        "startLine": 116,
+        "startChar": 42,
+        "endLine": 116,
+        "endChar": 51
+      },
+      "revId": "89c1cf4f0bdf3cf1ca13b87dc7c6d34c6f7a5147",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_ef8ff6ca",
+        "filename": "common/scripts/kvm-cloud/start-kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-05-19T14:00:23Z",
+      "side": 1,
+      "message": "Do you want to clean any files (cloud.img)?",
+      "revId": "89c1cf4f0bdf3cf1ca13b87dc7c6d34c6f7a5147",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafc7978_4fee028d",
         "filename": "ubuntu/start-kvm.yaml",
         "patchSetId": 1
