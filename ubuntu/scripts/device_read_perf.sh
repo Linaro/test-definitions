@@ -74,7 +74,10 @@ fi
 # Test device timings for all devices
 for i in `lsblk | grep 'disk' | awk -v col1=1 '{print $col1}'`
 do
-    test_func $i
+    case "$i" in
+        mmcblk*boot*| mmcblk*rpmb) echo "Skipping $i";;
+        *) test_func $i;;
+    esac
 done
 
 # Clean exit so lava-test can trust the results
