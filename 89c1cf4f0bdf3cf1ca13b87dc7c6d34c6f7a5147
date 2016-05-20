@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fafc7978_b278b52c",
+        "filename": "common/scripts/kvm-cloud/start-kvm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000030
+      },
+      "writtenOn": "2016-05-20T11:06:27Z",
+      "side": 1,
+      "message": "It\u0027s generated in the function configure_guest() above",
+      "parentUuid": "fafc7978_affe8e36",
+      "range": {
+        "startLine": 116,
+        "startChar": 42,
+        "endLine": 116,
+        "endChar": 51
+      },
+      "revId": "89c1cf4f0bdf3cf1ca13b87dc7c6d34c6f7a5147",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafc7978_ef8ff6ca",
         "filename": "common/scripts/kvm-cloud/start-kvm.sh",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2016-05-19T12:53:00Z",
       "side": 1,
       "message": "there is no check for the validity of GUEST_IMAGE variable. I propose to set it to sth \u0027proper\u0027 for aarch64 rather than \u0027none\u0027.",
+      "revId": "89c1cf4f0bdf3cf1ca13b87dc7c6d34c6f7a5147",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_d27bb927",
+        "filename": "ubuntu/start-kvm.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000030
+      },
+      "writtenOn": "2016-05-20T11:06:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fafc7978_4fee028d",
       "revId": "89c1cf4f0bdf3cf1ca13b87dc7c6d34c6f7a5147",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
