@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "da01753e_65884ee8",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-06-06T09:50:24Z",
+      "side": 1,
+      "message": "\"curl --interface IP_address\" is enough on Debian, but not enough on Ubuntu, the reason isn\u0027t clear. On Ubuntu, we have to change the routing table to set the interface as default,  in this case, --interface isn\u0027t needed. It doesn\u0027t harm though.",
+      "parentUuid": "da01753e_850c5296",
+      "revId": "b930183b67068aba0476e6f790ccf18880fd04ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da01753e_b4670eea",
         "filename": "ubuntu/scripts/wlan-download-test.sh",
         "patchSetId": 1
