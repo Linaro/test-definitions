@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "da01753e_850c5296",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-06-06T09:06:24Z",
+      "side": 1,
+      "message": "Apparently --interface isn\u0027t taken into consideration always. y short research showed that interface metric is usually prevailing. This means that --interface is probably redundant here and only the routing table should be changed. This only happens in case both interfaces are on the same subnet.",
+      "parentUuid": "da01753e_f44a3654",
+      "revId": "b930183b67068aba0476e6f790ccf18880fd04ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da01753e_b4670eea",
         "filename": "ubuntu/scripts/wlan-download-test.sh",
         "patchSetId": 1
