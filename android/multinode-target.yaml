@@ -56,4 +56,6 @@ run:
         - then
         - lava-test-case step10-enable-kmsg --shell 'cat /data/local/tmp/kmsg_levels > /proc/sys/kernel/printk'
         - fi
+        # sleep here to allow for output of kernel messages
+        - sleep 10
         - lava-test-case step11-multinode-sync --shell lava-sync $TEST_NAME-finished
