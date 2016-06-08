@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da01753e_0bdb511c",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-08T19:04:07Z",
+      "side": 1,
+      "message": "are you assuming that the wireless interface will be the last one listed by `ip addr`? that doesn\u0027t look right",
+      "revId": "06a8787797e164674a2231cc030881e7e6f47538",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
