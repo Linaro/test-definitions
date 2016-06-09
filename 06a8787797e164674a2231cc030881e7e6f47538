@@ -34,6 +34,24 @@
       "revId": "06a8787797e164674a2231cc030881e7e6f47538",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_26876c63",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-09T12:55:59Z",
+      "side": 1,
+      "message": "yeah, you can\u0027t make that assumption. after some testing I achieved this which is away of listing wireless interfaces that does not depend on having any special tool (like the ones from the wireless-tools package):\n\n$ ls -1d /sys/class/net/*/wireless | xargs dirname | xargs basename \n\nthis should list *all* wireless interfaces. if you want to make the test generic enough to also work with multiple interfaces you could loop over the lines output by that command, testing a wireless download for every available interface. or, if it\u0027s safe to assume that there will always be only one, you can just take the first (head -1) or the last (tail -1).",
+      "parentUuid": "da01753e_8be8e17d",
+      "revId": "06a8787797e164674a2231cc030881e7e6f47538",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
