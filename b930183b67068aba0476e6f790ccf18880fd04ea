@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "da01753e_2bf3b574",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-06-09T06:36:47Z",
+      "side": 1,
+      "message": "Yes.\nDid i miss anything here ?\n\nIf you look at my latest patch,\n--interface is not taken into consideration.\nhere is the new curl command arguments\ncurl -# --connect-timeout 1800 $URL \u003e $OUTPUT_FILE_NAME",
+      "parentUuid": "da01753e_ebd7edeb",
+      "revId": "b930183b67068aba0476e6f790ccf18880fd04ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da01753e_b4670eea",
         "filename": "ubuntu/scripts/wlan-download-test.sh",
         "patchSetId": 1
