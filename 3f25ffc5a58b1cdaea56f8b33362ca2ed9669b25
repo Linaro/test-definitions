@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da01753e_c63e6029",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-09T19:02:32Z",
+      "side": 1,
+      "message": "if you don\u0027t take exactly one interface here (head -1 or tail -1), what comes after might break in weird ways *if* there is more than one.",
+      "revId": "3f25ffc5a58b1cdaea56f8b33362ca2ed9669b25",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_26176ca5",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-09T19:02:32Z",
+      "side": 1,
+      "message": "this does not work",
+      "revId": "3f25ffc5a58b1cdaea56f8b33362ca2ed9669b25",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_e64564b4",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-09T19:02:32Z",
+      "side": 1,
+      "message": "this does not work",
+      "revId": "3f25ffc5a58b1cdaea56f8b33362ca2ed9669b25",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_461270b5",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-09T19:02:32Z",
+      "side": 1,
+      "message": "this does not work",
+      "revId": "3f25ffc5a58b1cdaea56f8b33362ca2ed9669b25",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
