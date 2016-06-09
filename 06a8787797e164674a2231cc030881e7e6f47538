@@ -16,6 +16,24 @@
       "revId": "06a8787797e164674a2231cc030881e7e6f47538",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_8be8e17d",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-06-09T06:36:47Z",
+      "side": 1,
+      "message": "Yes. It is pure assumption that, wireless interface will be the last one in the ip addr list. But i know this is not true in all cases. Please guide me a better way to do this. Thanks in advance.",
+      "parentUuid": "da01753e_0bdb511c",
+      "revId": "06a8787797e164674a2231cc030881e7e6f47538",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
