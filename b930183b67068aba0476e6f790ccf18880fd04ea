@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "da01753e_46827053",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-09T12:55:59Z",
+      "side": 1,
+      "message": "Ah no, I got confused. They said that --interface is not taken into consideration so you kept the routing table manipulation, that\u0027s OK I guess",
+      "parentUuid": "da01753e_2bf3b574",
+      "revId": "b930183b67068aba0476e6f790ccf18880fd04ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da01753e_b4670eea",
         "filename": "ubuntu/scripts/wlan-download-test.sh",
         "patchSetId": 1
