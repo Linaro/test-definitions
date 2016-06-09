@@ -52,6 +52,24 @@
       "revId": "06a8787797e164674a2231cc030881e7e6f47538",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_e68c4482",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-09T13:02:55Z",
+      "side": 1,
+      "message": "or, if you will\n\nls -1d /sys/class/net/*/wireless | awk -F / \u0027{print($5)}\u0027",
+      "parentUuid": "da01753e_26876c63",
+      "revId": "06a8787797e164674a2231cc030881e7e6f47538",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
