@@ -70,6 +70,24 @@
       "revId": "06a8787797e164674a2231cc030881e7e6f47538",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_2b4f3594",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-06-10T10:05:47Z",
+      "side": 1,
+      "message": "If we\u0027re targetting ubuntu, maybe using nmcli would help? \u0027nmcli d\u0027 tells you which device uses which interface.",
+      "parentUuid": "da01753e_8be8e17d",
+      "revId": "06a8787797e164674a2231cc030881e7e6f47538",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
