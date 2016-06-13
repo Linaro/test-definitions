@@ -47,7 +47,10 @@ run:
         - lava-test-case step6-disable-kmsg --shell echo '1 1 1 1' > /proc/sys/kernel/printk
         - lava-test-case step7-stop-adbd --shell stop adbd
         - lava-test-case step8-start-adbd --shell start adbd
-        - ./android/scripts/wait_via_ping.sh ${LAVA_SERVER_IP} ${PING_TIMEOUT}
+        - ping_count=0
+        - while ! LC_ALL=C ping -W1 -c1 ${LAVA_SERVER_IP} ; do
+        - sleep 1; ping_count=$((ping_count + 1)); [ ${ping_count} -ge ${PING_TIMEOUT} ] && exit 1
+        - done
         - fi
         - if [ -z $SERIALNO ] && [ -z $IPADDR ]
         - then
