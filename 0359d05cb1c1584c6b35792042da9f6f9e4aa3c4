@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da01753e_906e4dc8",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-06-14T17:51:23Z",
+      "side": 1,
+      "message": "what exactly is the target system for this? have NetworkManager can be quite a heavy requirement ... but if the images you will be testing definitively have it, I have no problem with that.\n\nalso if you are going to use NetworkManager, the second column of `nmcli device` actually tells you exactly what type of device that is, so instead of assuming that wifi interfaces are called w* (and that _only_ wifi interfaces are called w*) you can test the content of that column, i.e.\n\n$ nmcli device | awk \u0027{if ($2 \u003d\u003d \"wifi\") {print($1)}}\u0027",
+      "revId": "0359d05cb1c1584c6b35792042da9f6f9e4aa3c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
