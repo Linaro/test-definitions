@@ -34,6 +34,42 @@
       "revId": "0359d05cb1c1584c6b35792042da9f6f9e4aa3c4",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_f0ed19f1",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-06-15T11:47:23Z",
+      "side": 1,
+      "message": "I will add `head -1`\nThanks",
+      "parentUuid": "da01753e_d06735e9",
+      "revId": "0359d05cb1c1584c6b35792042da9f6f9e4aa3c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_10f1bdcd",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-06-15T11:47:23Z",
+      "side": 1,
+      "message": "No. It is not wifi always.\nnmcli device\nDEVICE     TYPE              STATE        \nwlan0      802-11-wireless   connected    \neth0       802-3-ethernet    unavailable",
+      "parentUuid": "da01753e_906e4dc8",
+      "revId": "0359d05cb1c1584c6b35792042da9f6f9e4aa3c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
