@@ -88,6 +88,24 @@
       "revId": "06a8787797e164674a2231cc030881e7e6f47538",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_1a939cfb",
+        "filename": "ubuntu/scripts/wlan-download-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-06-15T11:47:23Z",
+      "side": 1,
+      "message": "Problem with this cmd is\nls -1d /sys/class/net/*/wireless | awk -F / \u0027{print($5)}\u0027\n\nIt finds wireless interface name without being checking the state of it. I could see interface name when it is DOWN also.",
+      "parentUuid": "da01753e_e68c4482",
+      "revId": "06a8787797e164674a2231cc030881e7e6f47538",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
