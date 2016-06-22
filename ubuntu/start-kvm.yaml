@@ -25,6 +25,10 @@ params:
     GUEST_FIRMWARE: https://releases.linaro.org/components/kernel/uefi-linaro/15.12/release/qemu64/QEMU_EFI.fd
     # kernel for platforms that are booted without firmware
     GUEST_KERNEL: none
+    # how many cores to allocate to guest
+    GUEST_CORES: "2"
+    # how much RAM allocate to guest
+    GUEST_RAM: "1024"
 
 install:
     deps:
@@ -40,7 +44,7 @@ install:
 run:
     steps:
         - 'lava-test-case kvm-init --shell [ -c /dev/kvm ]'
-        - 'sudo ./common/scripts/kvm-cloud/start-kvm.sh $GUEST_ARCH $GUEST_IMAGE $GUEST_FIRMWARE $GUEST_KERNEL'
+        - 'sudo ./common/scripts/kvm-cloud/start-kvm.sh $GUEST_ARCH $GUEST_IMAGE $GUEST_FIRMWARE $GUEST_KERNEL $GUEST_CORES $GUEST_RAM'
         - 'lava-send ipv4 ipaddr=$(./common/scripts/kvm-cloud/wait-ip.py)'
         - lava-send lava_start
         - lava-sync clients

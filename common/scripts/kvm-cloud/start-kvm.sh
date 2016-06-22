@@ -41,7 +41,7 @@ download_file()
             >&2 echo "Error, url for $_outvar not set!"
             exit 2
         fi
-        if ! curl --retry 3 -SOL -# $url
+        if ! curl --retry 3 -SsOL $url
         then
             >&2 echo "Error downloading $url for $_outvar"
             exit 3
@@ -53,15 +53,15 @@ download_file()
 start_qemu_x86_64_aarch64()
 {
     image=$1
-    configimage=$2
     download_file efi $GUEST_FIRMWARE
 
-    qemu-system-aarch64 -smp 2 -m 1024 -cpu cortex-a57 -M virt \
+    set -x
+    qemu-system-aarch64 -smp $GUEST_CORES -m ${GUEST_RAM} -cpu cortex-a57 -M virt \
         -bios $efi \
         -device virtio-blk-device,drive=image \
         -drive if=none,id=image,file=$image \
         -device virtio-blk-device,drive=cloud \
-        -drive if=none,id=cloud,file=$configimage \
+        -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -display vnc=none \
         -serial file:qemu_aarch64.txt
@@ -70,15 +70,15 @@ start_qemu_x86_64_aarch64()
 start_qemu_aarch64_aarch64()
 {
     image=$1
-    configimage=$2
     download_file efi $GUEST_FIRMWARE
 
-    qemu-system-aarch64 -smp 2 -m 1024 -cpu host -M virt \
+    set -x
+    qemu-system-aarch64 -smp $GUEST_CORES -m ${GUEST_RAM} -cpu host -M virt \
         -bios $efi \
         -device virtio-blk-device,drive=image \
         -drive if=none,id=image,file=$image \
         -device virtio-blk-device,drive=cloud \
-        -drive if=none,id=cloud,file=$configimage \
+        -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
         -serial file:kvm-aarch64_aarch64.txt
@@ -87,16 +87,16 @@ start_qemu_aarch64_aarch64()
 start_qemu_x86_64_armv7l()
 {
     image=$1
-    configimage=$2
     download_file kernel $GUEST_KERNEL
 
-    qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M virt \
+    set -x
+    qemu-system-arm -smp $GUEST_CORES -m ${GUEST_RAM} -cpu cortex-a15 -M virt \
         -kernel $kernel \
-        -append 'root=/dev/vdb1 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        -append "root=/dev/vdb1 rw rootwait mem=${GUEST_RAM}M console=ttyAMA0,38400n8" \
         -device virtio-blk-device,drive=image \
         -drive if=none,id=image,file=$image \
         -device virtio-blk-device,drive=cloud \
-        -drive if=none,id=cloud,file=$configimage \
+        -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -display vnc=none \
         -serial file:qemu_armv7l.txt
@@ -105,16 +105,16 @@ start_qemu_x86_64_armv7l()
 start_qemu_aarch64_armv7l()
 {
     image=$1
-    configimage=$2
     download_file kernel $GUEST_KERNEL
 
-    qemu-system-aarch64 -smp 2 -m 1024 -cpu host,aarch64=off -M virt \
+    set -x
+    qemu-system-aarch64 -smp $GUEST_CORES -m ${GUEST_RAM} -cpu host,aarch64=off -M virt \
         -kernel $kernel \
-        -append 'root=/dev/vdb1 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        -append "root=/dev/vdb1 rw rootwait mem=${GUEST_RAM}M console=ttyAMA0,38400n8" \
         -device virtio-blk-device,drive=image \
         -drive if=none,id=image,file=$image \
         -device virtio-blk-device,drive=cloud \
-        -drive if=none,id=cloud,file=$configimage \
+        -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
         -serial file:kvm-aarch64_armv7l.txt
@@ -123,16 +123,16 @@ start_qemu_aarch64_armv7l()
 start_qemu_armv7l_armv7l()
 {
     image=$1
-    configimage=$2
     download_file kernel $GUEST_KERNEL
 
-    qemu-system-arm -smp 2 -m 1024 -cpu cortex-a15 -M vexpress-a15 \
+    set -x
+    qemu-system-arm -smp $GUEST_CORES -m ${GUEST_RAM} -cpu cortex-a15 -M vexpress-a15 \
         -kernel $kernel \
-        -append 'root=/dev/vdb1 rw rootwait mem=1024M console=ttyAMA0,38400n8' \
+        -append "root=/dev/vdb1 rw rootwait mem=${GUEST_RAM}M console=ttyAMA0,38400n8" \
         -device virtio-blk-device,drive=image \
         -drive if=none,id=image,file=$image \
         -device virtio-blk-device,drive=cloud \
-        -drive if=none,id=cloud,file=$configimage \
+        -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
         -serial file:kvm-armv7l_armv7l.txt
@@ -148,10 +148,18 @@ GUEST_ARCH=$1
 GUEST_IMAGE=$2
 GUEST_FIRMWARE=$3
 GUEST_KERNEL=$4
+GUEST_CORES=${5:-2}
+GUEST_RAM=${6:-1024}
 
 download_file IMAGE $GUEST_IMAGE
 configure_guest
 
-start_qemu_${ARCH}_${GUEST_ARCH} ${IMAGE} cloud.img
+if grep -q Juno /proc/device-tree/model
+then
+    echo "Juno detected, forcing a53 cluster"
+    hwloc-bind socket:0 --pid $$
+fi
+
+start_qemu_${ARCH}_${GUEST_ARCH} ${IMAGE}
 sleep 10
 tail *.txt
