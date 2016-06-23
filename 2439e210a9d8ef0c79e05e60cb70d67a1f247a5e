@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da01753e_64184785",
+        "filename": "android/multinode-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-06-23T11:05:38Z",
+      "side": 1,
+      "message": "Do you mind updating the step counter?",
+      "revId": "2439e210a9d8ef0c79e05e60cb70d67a1f247a5e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
