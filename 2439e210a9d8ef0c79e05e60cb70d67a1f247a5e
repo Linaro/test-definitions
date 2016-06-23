@@ -16,6 +16,24 @@
       "revId": "2439e210a9d8ef0c79e05e60cb70d67a1f247a5e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_9f265667",
+        "filename": "android/multinode-target.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-06-23T14:42:29Z",
+      "side": 1,
+      "message": "updated.",
+      "parentUuid": "da01753e_64184785",
+      "revId": "2439e210a9d8ef0c79e05e60cb70d67a1f247a5e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
