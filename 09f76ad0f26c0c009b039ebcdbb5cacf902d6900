@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da01753e_c209222e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-06-28T12:19:48Z",
+      "side": 1,
+      "message": "please fix the typo s/dump/bump",
+      "revId": "09f76ad0f26c0c009b039ebcdbb5cacf902d6900",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
