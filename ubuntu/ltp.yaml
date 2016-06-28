@@ -19,18 +19,19 @@ metadata:
 
 install:
     steps:
-        - 'VERSION=20150420'
+        - 'VERSION=20160510'
         - 'rm -rf /opt/ltp'
         - 'mkdir -p /opt/ltp'
         - 'cd /opt/ltp'
-        - 'wget http://sourceforge.net/projects/ltp/files/LTP%20Source/ltp-$VERSION/ltp-full-$VERSION.tar.xz'
-        - 'tar --strip-components=1 -Jxf ltp-full-$VERSION.tar.xz'
+        - 'wget https://github.com/linux-test-project/ltp/archive/$VERSION.zip'
+        - 'unzip $VERSION.zip'
+        - 'cd ltp-$VERSION'
         - 'mkdir build'
         - './configure --prefix=$(readlink -f build)'
         - 'make all'
         - 'make SKIP_IDCHECK=1 install'
     deps:
-        - bzip2
+        - unzip
         - flex
         - bison
         - build-essential
