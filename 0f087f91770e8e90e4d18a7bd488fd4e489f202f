@@ -22,6 +22,30 @@
       "revId": "0f087f91770e8e90e4d18a7bd488fd4e489f202f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_96d92c86",
+        "filename": "android/installapk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-06T15:38:04Z",
+      "side": 1,
+      "message": "When using -n, quotes are needed on variables, seems \u0027! -z\u0027 is more compatible.",
+      "parentUuid": "ba068154_16eedc22",
+      "range": {
+        "startLine": 32,
+        "startChar": 17,
+        "endLine": 32,
+        "endChar": 18
+      },
+      "revId": "0f087f91770e8e90e4d18a7bd488fd4e489f202f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
