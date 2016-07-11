@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_645fb273",
+        "filename": "android/scripts/optee-xtest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-11T10:42:46Z",
+      "side": 1,
+      "message": "I think it is a false alarm here, it is not echo statement,  backslash plus single quotes works well within awk statements.  Quote awk statements that contain variable with double quotes causes issues as variable get replaced before awk is called.",
+      "parentUuid": "ba068154_d98f67cb",
+      "revId": "fb9514a4ef542783f7368e6760618855fe937146",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_39bcb36c",
         "filename": "android/scripts/optee-xtest.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-08T10:30:21Z",
       "side": 1,
       "message": "please use the {} consistently",
+      "revId": "fb9514a4ef542783f7368e6760618855fe937146",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_c453fe6a",
+        "filename": "android/scripts/optee-xtest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-11T10:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_39bcb36c",
       "revId": "fb9514a4ef542783f7368e6760618855fe937146",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
