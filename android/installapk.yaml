@@ -34,5 +34,6 @@ run:
         -   lava-test-case download-apk --shell wget -O test.apk $DOWNLOAD_URL
         -   lava-test-case install-apk --shell adb -s $IPADDR install test.apk
         -   fi
+        - adb disconnect
         - fi
         - lava-sync $TEST_NAME-finished
