@@ -46,6 +46,30 @@
       "revId": "e0774d7e27d7e15521ea0a8f743dd236912f86be",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_a547d41c",
+        "filename": "android/installapk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-07-13T12:17:06Z",
+      "side": 1,
+      "message": "sorry, I meant there is no \"adb -s host:port disconnect\", it\u0027s \"adb disconnect host:port\".",
+      "parentUuid": "ba068154_454d4872",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "e0774d7e27d7e15521ea0a8f743dd236912f86be",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
