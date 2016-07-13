@@ -22,6 +22,30 @@
       "revId": "e0774d7e27d7e15521ea0a8f743dd236912f86be",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_454d4872",
+        "filename": "android/installapk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-07-13T11:53:10Z",
+      "side": 1,
+      "message": "? the $IPADDR holds either xxx.xxx.xxx.xxx:5555 or adb ID for nexusX devices. It\u0027s set here: https://git.linaro.org/qa/test-definitions.git/blob/HEAD:/android/scripts/adb_connect.sh#l7",
+      "parentUuid": "ba068154_4526e8bb",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 35
+      },
+      "revId": "e0774d7e27d7e15521ea0a8f743dd236912f86be",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
