@@ -22,6 +22,30 @@
       "revId": "dfdc94d1349bebfb61d083fbc7c7157f193bc998",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_a56eb494",
+        "filename": "android/scripts/xtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-13T12:31:22Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. \n\n@Milosz, should I changed it to 2016?",
+      "parentUuid": "ba068154_d91c87c4",
+      "range": {
+        "startLine": 5,
+        "startChar": 23,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "dfdc94d1349bebfb61d083fbc7c7157f193bc998",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
