@@ -16,6 +16,24 @@
       "revId": "76733e7664b4a67641a47250749adf31fdbe14fc",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b0ab8dd5",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-21T15:05:27Z",
+      "side": 1,
+      "message": "xz-utils is needed. I didn\u0027t notice it is missing. This patch basically roll back and bump version to 20160510. I will add xz-utils to deps.",
+      "parentUuid": "ba068154_d040d137",
+      "revId": "76733e7664b4a67641a47250749adf31fdbe14fc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
