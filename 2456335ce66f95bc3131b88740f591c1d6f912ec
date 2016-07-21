@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_105539c6",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-07-21T17:02:14Z",
+      "side": 1,
+      "message": "OK, but why do we need bzip2?",
+      "revId": "2456335ce66f95bc3131b88740f591c1d6f912ec",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
