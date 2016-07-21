@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_d040d137",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-07-21T14:09:47Z",
+      "side": 1,
+      "message": "hmm, is bzip2 enough to uncompress tar.xz? Shouldn\u0027t it be xz-utils?",
+      "revId": "76733e7664b4a67641a47250749adf31fdbe14fc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
