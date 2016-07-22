@@ -34,6 +34,24 @@
       "revId": "2456335ce66f95bc3131b88740f591c1d6f912ec",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_50dd0114",
+        "filename": "ubuntu/ltp.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-22T09:48:01Z",
+      "side": 1,
+      "message": "Verified on my local machine, bzip2 isn\u0027t needed anywhere.",
+      "parentUuid": "ba068154_106c199c",
+      "revId": "2456335ce66f95bc3131b88740f591c1d6f912ec",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
