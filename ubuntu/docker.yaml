@@ -1,0 +1,24 @@
+metadata:
+    name: docker
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Ensure that Docker can be used"
+    maintainer:
+        - nicolas.dechesne@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+install:
+    deps:
+        - docker-engine
+params:
+    IMAGE: "aarch64/ubuntu"
+
+run:
+    steps:
+        - "sudo service docker start"
+        - "sudo docker run -it ${IMAGE} /bin/echo test_case_id:docker-hello result:PASS || /bin/echo test_case_id:docker-hello result:FAIL"
+parse:
+    pattern: "^test_case_id:(?P<test_case_id>.*-*.+) result:(?P<result>\\w+)"
