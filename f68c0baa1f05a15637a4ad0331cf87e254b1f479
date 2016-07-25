@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_2b4bb25a",
+        "filename": "android/scripts/optee-xtest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-07-25T06:37:47Z",
+      "side": 1,
+      "message": "What is this line for?",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "f68c0baa1f05a15637a4ad0331cf87e254b1f479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_0b486e5a",
+        "filename": "android/scripts/optee-xtest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-07-25T06:37:47Z",
+      "side": 1,
+      "message": "Better to add the units(points and percentage) for these test cases, though not have much meaning here, might be useful when we use the data for trends/graphics generation.",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 47
+      },
+      "revId": "f68c0baa1f05a15637a4ad0331cf87e254b1f479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
