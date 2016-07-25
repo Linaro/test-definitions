@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba068154_cbd94685",
+        "filename": "android/scripts/optee-xtest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-25T09:23:36Z",
+      "side": 1,
+      "message": "Hi Yongqin, thanks for your review.\n\nIt is used to fixup string format for the usage in lava-test-cas-id. In xtest test output, I see \"test cases\" and related \"subtests\", in LAVA test-case-id, we can use the string \"subtests\" directly, for \"test cases\", we either use \"test-cases\" or use \"tests\". I choose \"tests\", then we have \"tests\" and \"subtests\" in result bundle.",
+      "parentUuid": "ba068154_2b4bb25a",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "f68c0baa1f05a15637a4ad0331cf87e254b1f479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_0b486e5a",
         "filename": "android/scripts/optee-xtest.sh",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-25T06:37:47Z",
       "side": 1,
       "message": "Better to add the units(points and percentage) for these test cases, though not have much meaning here, might be useful when we use the data for trends/graphics generation.",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 47
+      },
+      "revId": "f68c0baa1f05a15637a4ad0331cf87e254b1f479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_2be73242",
+        "filename": "android/scripts/optee-xtest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-07-25T09:23:36Z",
+      "side": 1,
+      "message": "We can use percentage for fail rate. \n\n@Milosz, What units we should use for the number of passes and fails? any idea?",
+      "parentUuid": "ba068154_0b486e5a",
       "range": {
         "startLine": 85,
         "startChar": 8,
