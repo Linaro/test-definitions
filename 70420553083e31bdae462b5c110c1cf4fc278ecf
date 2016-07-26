@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_46bf0bd1",
+        "filename": "ubuntu/docker.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-07-26T08:34:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure if installing docker using LAVA is the right thing to do in this case. The failed job doesn\u0027t even go to test steps. Maybe install part should be moved to test steps as \napt-get update\napt-get install docker-engine\n\nThis way we would record the same number of steps for passed and failed condition. the docker-hello should result in SKIP in case installation fails.",
+      "revId": "70420553083e31bdae462b5c110c1cf4fc278ecf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_2603e7b9",
+        "filename": "ubuntu/docker.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-07-26T08:34:42Z",
+      "side": 1,
+      "message": "I think you need \\\\s between test_case_id group and \u0027result\u0027. Also (?P\u003cresult\u003ePASS|FAIL) would reduce the number of possible false matches.",
+      "revId": "70420553083e31bdae462b5c110c1cf4fc278ecf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
