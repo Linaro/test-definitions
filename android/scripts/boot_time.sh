@@ -27,7 +27,7 @@
 # to the moment rootfs is mounted.
 # The test requires dc to be available in rootfs
 
-CONSOLE_SECONDS_START=`dmesg | awk '{print $2}' | awk '{FS="]"; print $1}' | grep -v "^0.0" | head -n 1`
+CONSOLE_SECONDS_START=`dmesg | awk '{print $2}' | awk -F "]" '{print $1}' | grep -v "^0.0" | head -n 1`
 CONSOLE_SECONDS_END=`dmesg | grep "Freeing unused kernel memory" | tail -n 1 | tr -s " " | cut -d [ -f 2 | cut -d ] -f 1`
 echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p"
 CONSOLE_SECONDS=`echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p" | dc`
