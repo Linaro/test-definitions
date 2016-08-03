@@ -33,7 +33,8 @@ run:
         - './common/scripts/ltpfixup.sh -T $TST_CMDFILES -S $SKIPFILE $PATTERNS'
 
 parse:
-    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>\\w+)\\s+\\d$"
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>PASS|FAIL|CONF)\\s+\\d+"
     fixupdict:
         FAIL: fail
         PASS: pass
+        CONF: skip
