@@ -1,0 +1,33 @@
+metadata:
+    name: dd-speed-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "dd write/read speed test."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - fedora
+    devices:
+        - mustang
+        - hi6220-hikey
+        - apq8016-sbc
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+
+params:
+    # The currenty working directory will be used by default.
+    # Use '-p' specify partition that used for dd test.
+    # Example: /dev/sdb1
+    PARTITION: ""
+    # CAUTION: if FS_TYPE not equal to the existing fs type of the partition
+    # specified with '-p', the partition will be formatted.
+    FS_TYPE: ""
+    # You may need to run dd test 4-5 times for an accurate evaluation.
+    ITERATION: "5"
+
+run:
+    steps:
+        - ./common/scripts/dd-speed-test.sh -p "${PARTITION}" -t "${FS_TYPE}" -i "${ITERATION}"
+        - ./common/scripts/send-to-lava.sh "result.txt"
