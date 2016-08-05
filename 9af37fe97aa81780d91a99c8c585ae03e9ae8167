@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_2bef2bb2",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-05T14:01:39Z",
+      "side": 1,
+      "message": "you should probably do  `export LANG\u003dC` at the top of the script because the output of dd is localizable. I.e. here I get the units with , as a decimal separator, who knows what else can change on other locales.",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_8bdd7717",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-05T14:01:39Z",
+      "side": 1,
+      "message": "if there is only 1 iteration you get not results at all? seems like the time waiting for dd was wasted :)",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_0bf8677b",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-05T14:01:39Z",
+      "side": 1,
+      "message": "maybe you should convert to a single unit? what happens if one dd call says 1022 MB/s and the next says 1 GB/s ?",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_6b301357",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-05T14:01:39Z",
+      "side": 1,
+      "message": "for me here $8 is the total time, $10 is the measurement, and $11 is the units. maybe the version of dd you are using is different? I don\u0027t see a way of controlling the output of dd, maybe it\u0027s not the right tool for the job?\n\n$ for i in $(seq 1 5); do LANG\u003dC dd if\u003dIMG of\u003d/dev/null bs\u003d1048576 count\u003d1 2\u003e\u00261 | awk \u0027/(M|G)B\\/s/ {print($8, $10, $11)}\u0027; done\n\n0.00113371 925 MB/s\n\n0.000792339 1.3 GB/s\n\n0.00106531 984 MB/s\n\n0.000738858 1.4 GB/s\n\n0.000820591 1.3 GB/s\n\nnote also how you can get the results in different units!",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
