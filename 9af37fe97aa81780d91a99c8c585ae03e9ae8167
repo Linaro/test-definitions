@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba068154_6bbf73d1",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-05T15:00:19Z",
+      "side": 1,
+      "message": "There is an extra space on the following block, I will fix it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 9,
+        "endLine": 73,
+        "endChar": 10
+      },
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_2bef2bb2",
         "filename": "common/scripts/dd-speed-test.sh",
         "patchSetId": 1
@@ -13,6 +36,24 @@
       "writtenOn": "2016-08-05T14:01:39Z",
       "side": 1,
       "message": "you should probably do  `export LANG\u003dC` at the top of the script because the output of dd is localizable. I.e. here I get the units with , as a decimal separator, who knows what else can change on other locales.",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_2b460bc0",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-05T15:00:19Z",
+      "side": 1,
+      "message": "Thanks for you review. \n\nThis is indeed good point. Met this kind of issue before. Will add this line.",
+      "parentUuid": "ba068154_2bef2bb2",
       "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -36,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_8b1297b2",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-05T15:00:19Z",
+      "side": 1,
+      "message": "line #128 adds test result of each iteration to result.txt. \n\nWhen iteration greater then 1, this block calculate the min, max and mean value and add them to result.txt.\n\nSo when there is only 1 iteration, only the raw result of this iteration will be saved to result file, no min, max and mean values.",
+      "parentUuid": "ba068154_8bdd7717",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_0bf8677b",
         "filename": "common/scripts/dd-speed-test.sh",
         "patchSetId": 1
@@ -53,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_6b1773a4",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-05T15:00:19Z",
+      "side": 1,
+      "message": "The pattern I using here \"(M|G)B\\/s\" is trying to cover MB/s and GB/s, but I missed the case when a machine hit the margin and MB and GB appears in the same test log.\n\nIt is tricky one. I need a fix here, so that the min, max and mean values are valid.",
+      "parentUuid": "ba068154_0bf8677b",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_6b301357",
         "filename": "common/scripts/dd-speed-test.sh",
         "patchSetId": 1
@@ -64,6 +141,24 @@
       "writtenOn": "2016-08-05T14:01:39Z",
       "side": 1,
       "message": "for me here $8 is the total time, $10 is the measurement, and $11 is the units. maybe the version of dd you are using is different? I don\u0027t see a way of controlling the output of dd, maybe it\u0027s not the right tool for the job?\n\n$ for i in $(seq 1 5); do LANG\u003dC dd if\u003dIMG of\u003d/dev/null bs\u003d1048576 count\u003d1 2\u003e\u00261 | awk \u0027/(M|G)B\\/s/ {print($8, $10, $11)}\u0027; done\n\n0.00113371 925 MB/s\n\n0.000792339 1.3 GB/s\n\n0.00106531 984 MB/s\n\n0.000738858 1.4 GB/s\n\n0.000820591 1.3 GB/s\n\nnote also how you can get the results in different units!",
+      "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_cb0c9f97",
+        "filename": "common/scripts/dd-speed-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-05T15:00:19Z",
+      "side": 1,
+      "message": "dd is requested by someone. I think we can use $(NF-1) and $NF for measurement and units respectively to solve the field number issue here. \n\nThe different units is a problem that I need to solve.\n\nI guess you probably tested buffer-cache read speed, otherwise, you storage is super fast.  Yeah, test buffer-cache speed can be a good use case for margin test.\n\nThanks again for your review, very helpful!",
+      "parentUuid": "ba068154_6b301357",
       "revId": "9af37fe97aa81780d91a99c8c585ae03e9ae8167",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
