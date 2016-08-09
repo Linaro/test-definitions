@@ -75,8 +75,10 @@ check_return() {
 
     if [ "${exit_code}" -ne 0 ]; then
         echo "${test} fail" | tee -a "${RESULT_FILE}"
+        return 1
     else
         echo "${test} pass" | tee -a "${RESULT_FILE}"
+        return 0
     fi
 }
 

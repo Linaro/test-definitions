@@ -1,0 +1,30 @@
+metadata:
+    name: disk-partitioning-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Disk partitioning test."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - fedora
+    devices:
+        - mustang
+        - hi6220-hikey
+        - apq8016-sbc
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+
+params:
+    # The existing disk label on the device will be destroyed,
+    # and all data on this disk will be lost.
+    DEVICE: ""
+    # Supported labels: msdos and gpt
+    DISKLABEL: "gpt"
+    FILESYSTEM: "ext4"
+
+run:
+    steps:
+        - ./common/scripts/disk-partitioning-test.sh -d "${DEVICE}" -l "${DISKLABEL}" -f "${FILESYSTEM}" -r "result.txt"
+        - ./common/scripts/send-to-lava.sh "result.txt"
