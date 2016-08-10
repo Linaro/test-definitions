@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_51bfbcd0",
+        "filename": "common/disk-partitioning-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-10T12:28:38Z",
+      "side": 1,
+      "message": "That is a risk indeed. I will add one more option in test script to specify result file name with \"test-case-name\" as default. Different file name might be useful for local run in the same folder.\n\nThen I will update dd-speed-test with the same approach.",
+      "parentUuid": "ba068154_f1e6b015",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_71d3e038",
         "filename": "common/scripts/disk-partitioning-test.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-10T11:37:16Z",
       "side": 1,
       "message": "you can also just assign the defaults before processing the command line arguments, instead of checking if they are empty after that.",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_11eed4ec",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-10T12:28:38Z",
+      "side": 1,
+      "message": "+1, that sounds more straightforward.",
+      "parentUuid": "ba068154_71d3e038",
       "revId": "3585924e56850354917655777c05e2c90c45b3c6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_31f158ce",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-10T12:28:38Z",
+      "side": 1,
+      "message": "There is a typo on line #104, should be parted, not gparted, it depends on parted though. I will fix it.",
+      "parentUuid": "ba068154_51d85c53",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_b1dd4845",
         "filename": "common/scripts/disk-partitioning-test.sh",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-10T11:37:16Z",
       "side": 1,
       "message": "can\u0027t you use sync instead of sleeping? maybe 5s is not enough in some cases (think a very large partition)?",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_71bac0e2",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-10T12:28:38Z",
+      "side": 1,
+      "message": "Yeah, sleep isn\u0027t a good choose as not easy to predict the duration. sync should be better for disk tests. I will run \u0027sync\u0027 command in related functions.",
+      "parentUuid": "ba068154_b1dd4845",
       "revId": "3585924e56850354917655777c05e2c90c45b3c6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
