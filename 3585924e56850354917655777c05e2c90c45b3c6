@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba068154_f1e6b015",
+        "filename": "common/disk-partitioning-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-10T11:40:21Z",
+      "side": 1,
+      "message": "I think you should pass result.txt expliticly in the first command so that on the second you are 100% sure that the results are there, otherwise a change in disk-partitioning-test.sh could break this test definition.",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_71d3e038",
         "filename": "common/scripts/disk-partitioning-test.sh",
         "patchSetId": 2
