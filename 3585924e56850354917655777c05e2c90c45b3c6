@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_71d3e038",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-10T11:37:16Z",
+      "side": 1,
+      "message": "you can also just assign the defaults before processing the command line arguments, instead of checking if they are empty after that.",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_51d85c53",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-10T11:37:16Z",
+      "side": 1,
+      "message": "is having parted installed a reasonable assumption? I didn\u0027t see anything explicitly stating the dependency",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b1dd4845",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-10T11:37:16Z",
+      "side": 1,
+      "message": "can\u0027t you use sync instead of sleeping? maybe 5s is not enough in some cases (think a very large partition)?",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
