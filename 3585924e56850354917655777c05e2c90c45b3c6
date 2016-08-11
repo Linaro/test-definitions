@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_d1fe0c38",
+        "filename": "common/disk-partitioning-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-11T08:01:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_51bfbcd0",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_71d3e038",
         "filename": "common/scripts/disk-partitioning-test.sh",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "+1, that sounds more straightforward.",
       "parentUuid": "ba068154_71d3e038",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_31fcb83e",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-11T08:01:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_11eed4ec",
       "revId": "3585924e56850354917655777c05e2c90c45b3c6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_11f9b44d",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-11T08:01:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_31f158ce",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_b1dd4845",
         "filename": "common/scripts/disk-partitioning-test.sh",
         "patchSetId": 2
@@ -135,6 +189,24 @@
       "writtenOn": "2016-08-10T12:28:38Z",
       "side": 1,
       "message": "Yeah, sleep isn\u0027t a good choose as not easy to predict the duration. sync should be better for disk tests. I will run \u0027sync\u0027 command in related functions.",
+      "parentUuid": "ba068154_b1dd4845",
+      "revId": "3585924e56850354917655777c05e2c90c45b3c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_f1da30e8",
+        "filename": "common/scripts/disk-partitioning-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-11T08:01:26Z",
+      "side": 1,
+      "message": "Although \u0027sync\u0027 command executed after partitioning, without a force 5 seconds wait, the below error occurred. \n\nThe file /dev/sdc1 does not exist and no size was specified.\n\nI added \u0027sync\u0027 and increased sleep time to 10 seconds.",
       "parentUuid": "ba068154_b1dd4845",
       "revId": "3585924e56850354917655777c05e2c90c45b3c6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
