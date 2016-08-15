@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_1cd8ab1c",
+        "filename": "common/scripts/include/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-15T13:22:40Z",
+      "side": 1,
+      "message": "shouldn\u0027t we return ${exit_code} here?",
+      "revId": "74da641c0eec6cd4a29af5cc944fb60525c02a04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
