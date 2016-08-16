@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ba068154_d71c3c16",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-16T14:58:26Z",
+      "side": 1,
+      "message": "No, time that is reported in dmesg as 0.0 comes before kernel initializes timers or \u0027clock sources\u0027 (https://validation.linaro.org/scheduler/job/1066079/log_file#L_211_49). So kernel can\u0027t tell if the time is passing and in which rate as there is nothing to measure it. This can\u0027t be fixed from within running system. Only external measurement can tell the \u0027real boot time\u0027. But I guess the current approach is good enough for this use case.",
+      "parentUuid": "ba068154_772c704b",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 21
+      },
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_1731a4ec",
         "filename": "android/scripts/boot_time.sh",
         "patchSetId": 1
