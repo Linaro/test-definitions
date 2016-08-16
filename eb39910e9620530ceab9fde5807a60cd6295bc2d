@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ba068154_772c704b",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-08-16T14:31:21Z",
+      "side": 1,
+      "message": "do you mean the following 2 lines \nhttps://validation.linaro.org/scheduler/job/1066079/log_file#L_211_68\nhttps://validation.linaro.org/scheduler/job/1066079/log_file#L_211_69\nhave different base for the time?\n\nAnd the first non-zero line is here:\nhttps://validation.linaro.org/scheduler/job/1066079/log_file#L_211_49\n\nThese time information looks good to me, is there any problem?\n\nThe juno side is similar here:\nhttps://validation.linaro.org/scheduler/job/1066075/log_file#L_433_51",
+      "parentUuid": "ba068154_b720989c",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 21
+      },
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_1731a4ec",
         "filename": "android/scripts/boot_time.sh",
         "patchSetId": 1
@@ -66,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_57316ca1",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-08-16T14:31:21Z",
+      "side": 1,
+      "message": "updated",
+      "parentUuid": "ba068154_1731a4ec",
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_774d9072",
         "filename": "android/scripts/boot_time.sh",
         "patchSetId": 1
@@ -77,6 +119,24 @@
       "writtenOn": "2016-08-16T10:47:56Z",
       "side": 1,
       "message": "Please change to BOOTANIM_TIME",
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b726d866",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-08-16T14:31:21Z",
+      "side": 1,
+      "message": "updated",
+      "parentUuid": "ba068154_774d9072",
       "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
