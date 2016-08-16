@@ -22,6 +22,64 @@
       "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b720989c",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-16T10:47:56Z",
+      "side": 1,
+      "message": "dmesg starts before all timers are initialized, so kernel reports time as 0.0. I guess we can\u0027t work around this without external time metering.",
+      "parentUuid": "ba068154_5c36b304",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 21
+      },
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_1731a4ec",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-16T10:47:56Z",
+      "side": 1,
+      "message": "Please change to FS_MOUNT_TIME to be in line with convention used in other measurements",
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_774d9072",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-16T10:47:56Z",
+      "side": 1,
+      "message": "Please change to BOOTANIM_TIME",
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
