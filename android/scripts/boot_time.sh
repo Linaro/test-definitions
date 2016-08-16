@@ -27,34 +27,85 @@
 # to the moment rootfs is mounted.
 # The test requires dc to be available in rootfs
 
-CONSOLE_SECONDS_START=`dmesg | awk '{print $2}' | awk '{FS="]"; print $1}' | grep -v "^0.0" | head -n 1`
-CONSOLE_SECONDS_END=`dmesg | grep "Freeing unused kernel memory" | tail -n 1 | tr -s " " | cut -d [ -f 2 | cut -d ] -f 1`
-echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p"
-CONSOLE_SECONDS=`echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p" | dc`
+local_file_path="$0"
+local_file_parent=$(cd $(dirname ${local_file_path}); pwd)
+. ${local_file_parent}/common.sh
+G_VERBOSE_OUTPUT=TRUE
 
-echo "TEST KERNEL_BOOT_TIME: pass $CONSOLE_SECONDS s"
+# so that we could run this script without lava environment
+# like pushing this script and the common.sh to /data/local/tmp,
+# then we can run this script via adb shell
+cd /data/local/tmp
+
+LOG_DMESG="dmesg.log"
+dmesg > ${LOG_DMESG}
+
+# dmeg line example
+# [    7.410422] init: Starting service 'logd'...
+getTime(){
+    local key=$1
+    if [ -z "${key}" ]; then
+        return
+    fi
+
+    local key_line=$(grep "${key}" ${LOG_DMESG})
+    if [ -n "${key_line}" ]; then
+        local timestamp=$(echo "${key_line}"|awk '{print $2}' | awk -F "]" '{print $1}')
+        echo "${timestamp}"
+    fi
+}
+
+# dmesg starts before all timers are initialized, so kernel reports time as 0.0.
+# we can't work around this without external time metering.
+# here we presume kernel message starts from 0
+CONSOLE_SECONDS_START=0
+CONSOLE_SECONDS_END=$(getTime "Freeing unused kernel memory")
+CONSOLE_SECONDS=`echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p" | dc`
+output_test_result "KERNEL_BOOT_TIME" "pass" "${CONSOLE_SECONDS}" "s"
+
+POINT_FS_MOUNT_START=$(getTime "init: /dev/hw_random not found"|tail -n1)
+POINT_FS_MOUNT_END=$(getTime "init: Starting service 'logd'...")
+FS_MOUNT_TIME=`echo "${POINT_FS_MOUNT_END} ${POINT_FS_MOUNT_START} - p" | dc`
+output_test_result "FS_MOUNT_TIME" "pass" "${FS_MOUNT_TIME}" "s"
+
+POINT_SERVICE_BOOTANIM_START=$(getTime "init: Starting service \'bootanim\'...")
+POINT_SERVICE_BOOTANIM_END=$(getTime "init: Service 'bootanim'.* exited with status")
+BOOTANIM_TIME=`echo "${POINT_SERVICE_BOOTANIM_END} ${POINT_SERVICE_BOOTANIM_START} - p" | dc`
+output_test_result "BOOTANIM_TIME" "pass" "${BOOTANIM_TIME}" "s"
 
 TIME_INFO=$(logcat -d -s SurfaceFlinger:I|grep "Boot is finished")
 if [ -z "${TIME_INFO}" ]; then
-    echo "TEST ANDROID_BOOT_TIME: fail -1 ms"
+    output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "ms"
 else
     while echo "${TIME_INFO}"|grep -q "("; do
         TIME_INFO=$(echo "${TIME_INFO}"|cut -d\( -f2-)
     done
     TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\  -f1)
-    echo "TEST ANDROID_BOOT_TIME: pass ${TIME_VALUE} ms"
+    output_test_result "ANDROID_BOOT_TIME" "pass" "${TIME_VALUE}" "ms"
 fi
 
 SERVICE_START_TIME_INFO=$(dmesg |grep "healthd:"|head -n 1)
 SERVICE_START_TIME_END=$(echo "$SERVICE_START_TIME_INFO"|cut -d] -f 1|cut -d[ -f2| tr -d " ")
 if [ -z "${SERVICE_START_TIME_END}" ]; then
-    echo "TEST ANDROID_SERVICE_START_TIME: fail -1 s"
+    output_test_result "ANDROID_SERVICE_START_TIME" "fail" "-1" "s"
 else
     SERVICE_START_TIME=`echo "$SERVICE_START_TIME_END $CONSOLE_SECONDS_START - p" | dc`
-    echo "TEST ANDROID_SERVICE_START_TIME: pass ${SERVICE_START_TIME} s"
+    output_test_result "ANDROID_SERVICE_START_TIME" "pass" "${SERVICE_START_TIME}" "s"
 fi
 
 echo "$CONSOLE_SECONDS $TIME_VALUE 1000 / + p"
 TOTAL_SECONDS=`echo "$CONSOLE_SECONDS $TIME_VALUE 1000 / + p" | dc`
-echo "TEST TOTAL_BOOT_TIME: pass $TOTAL_SECONDS s"
+output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
+
+# attach dmesg and logcat
+if [ -n "$(which lava-test-run-attach)" ]; then
+    lava-test-run-attach ${LOG_DMESG} text/plain
+
+    logcat -d -v time *:V > logcat_all.log
+    lava-test-run-attach logcat_all.log text/plain
+
+    logcat -d -b events -v time > logcat_events.log
+    lava-test-run-attach logcat_events.log text/plain
+fi
+
 exit 0
