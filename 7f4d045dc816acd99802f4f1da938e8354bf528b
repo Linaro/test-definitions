@@ -22,6 +22,30 @@
       "revId": "7f4d045dc816acd99802f4f1da938e8354bf528b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_1c554b1d",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-08-16T09:07:21Z",
+      "side": 1,
+      "message": "Can not remember why lines start with \"0.0\" are excluded.\n\nAnyway, I submitted a new change here:\nhttps://review.linaro.org/#/c/13724/",
+      "parentUuid": "ba068154_9c72dbe3",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 103
+      },
+      "revId": "7f4d045dc816acd99802f4f1da938e8354bf528b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
