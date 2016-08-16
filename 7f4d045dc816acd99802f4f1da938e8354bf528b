@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_9c72dbe3",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-08-16T02:59:51Z",
+      "side": 1,
+      "message": "I think we can use CONSOLE_SECONDS_START as 0 default,\nAs the dmesg attached here: https://validation.linaro.org/dashboard/attachment/3188378/view\n\nthe lines start with \"[ 0.000000]\" like here: https://validation.linaro.org/scheduler/job/1061227/log_file#L_251_1 are not displayed.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 103
+      },
+      "revId": "7f4d045dc816acd99802f4f1da938e8354bf528b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
