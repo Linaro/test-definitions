@@ -16,6 +16,24 @@
       "revId": "74da641c0eec6cd4a29af5cc944fb60525c02a04",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_5c6873f5",
+        "filename": "common/scripts/include/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-16T01:56:04Z",
+      "side": 1,
+      "message": "Return ${exit_code} seems to make the most sense. I will update it in following patches.",
+      "parentUuid": "ba068154_1cd8ab1c",
+      "revId": "74da641c0eec6cd4a29af5cc944fb60525c02a04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
