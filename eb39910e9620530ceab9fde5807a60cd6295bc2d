@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_5c36b304",
+        "filename": "android/scripts/boot_time.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-08-16T09:10:55Z",
+      "side": 1,
+      "message": "use 0 here, can not remember why we exclude the lines start with 0.0:(\nIf there is a good reason, let\u0027s update here again.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 21
+      },
+      "revId": "eb39910e9620530ceab9fde5807a60cd6295bc2d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
