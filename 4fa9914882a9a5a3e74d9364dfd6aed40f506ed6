@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_892bbc81",
+        "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-17T13:32:30Z",
+      "side": 1,
+      "message": "Please check if we have enough parameters here. The assumption is we can run the scripts locally also.",
+      "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_293a90cd",
+        "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-17T13:32:30Z",
+      "side": 1,
+      "message": "All of these should go to test-definitions. Is there a reason to keep them separate?",
+      "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
