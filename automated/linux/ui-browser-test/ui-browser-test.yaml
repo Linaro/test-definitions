@@ -1,0 +1,25 @@
+metadata:
+    name: ui-browser-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ui browser tests by using robot frame work
+                  Test runs chromium, chrome and firefox browser test cases."
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+
+params:
+    # Default user is linaro
+    TESTUSER: "linaro"
+    # Install deps packages
+    SKIP_INSTALL: "False"
+run:
+    steps:
+        - cd ./automated/linux/ui-browser-test/
+        - ./ui-browser-test.sh -u "${TESTUSER}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/ui-browser-test-results.txt
