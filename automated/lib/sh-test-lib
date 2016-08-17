@@ -114,3 +114,22 @@ install_deps() {
         esac
     fi
 }
+
+validate_check_sum() {
+    if [ "$#" -ne 2 ]; then
+        warn_msg "The number of parameters should be 2"
+        error_msg "Usage: validate_check_sum filename known_sha256sum"
+        return 1
+    fi
+    OUTPUT_FILE_NAME=$1
+    SHA256SUM_CHECK=$2
+    # Get sha256sum of output_file
+    GET_SHA256SUM=`sha256sum $OUTPUT_FILE_NAME | awk '{print $1}'`
+    echo "GET_SHA256SUM is $GET_SHA256SUM"
+    if [ "$SHA256SUM_CHECK" = $GET_SHA256SUM ] ; then
+        return 0
+    else
+        echo "checksum did not match"
+        return 1
+    fi
+}
