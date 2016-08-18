@@ -1,0 +1,121 @@
+#!/bin/sh
+
+LANG=C
+export LANG
+
+error_msg() {
+    local msg="$1"
+    test -z "${msg}" && msg="Unknown error"
+    printf "ERROR: %s\n" "${msg}" >&2
+    exit 1
+}
+
+warn_msg() {
+    local msg="$1"
+    test -z "${msg}" && msg="Unknown error"
+    printf "WARNING: %s\n" "${msg}" >&2
+}
+
+info_msg() {
+    local msg="$1"
+    test -z "${msg}" && msg="Unknown info"
+    printf "INFO: %s\n" "${msg}" >&1
+}
+
+check_return_fail() {
+    if [ $? -ne 0 ]; then
+        fail_test "$1"
+        return 0
+    else
+        return 1
+    fi
+}
+
+fail_test() {
+    local reason="$1"
+    echo "${test}: fail - ${reason}"
+}
+
+pass_test() {
+    echo "${test}: pass"
+}
+
+check_root() {
+    if [ "$(id -ru)" -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+check_return() {
+    local exit_code="$?"
+    local test="$1"
+
+    test -z "${test}" && warn_msg "Test name is empty"
+
+    if [ "${exit_code}" -ne 0 ]; then
+        echo "${test} fail" | tee -a "${RESULT_FILE}"
+        return "${exit_code}"
+    else
+        echo "${test} pass" | tee -a "${RESULT_FILE}"
+        return 0
+    fi
+}
+
+add_metric() {
+    local test="$1"
+    local measurement="$2"
+    local units="$3"
+
+    test -z "${test}" && warn_msg "Test name is empty"
+    test -z "${measurement}" && warn_msg "Test measurement is empty"
+    test -z "${units}" && warn_msg "Test units is empty"
+
+    echo "${test} pass ${measurement} ${units}" | tee -a "${RESULT_FILE}"
+}
+
+dist_name() {
+    if [ -x /usr/bin/lsb_release ]; then
+        dist="$(lsb_release -si)"
+    elif [ -f /etc/lsb-release ]; then
+        . /etc/lsb-release
+        dist="${DISTRIB_ID}"
+    elif [ -f /etc/debian_version ]; then
+        dist="Debian"
+    elif [ -f /etc/fedora-release ]; then
+        dist="Fedora"
+    elif [ -f /etc/centos-release ]; then
+        dist="CentOS"
+    else
+        dist="Unknown"
+        warn_msg "Unsupported distro: cannot determine distribution name"
+    fi
+}
+
+install_deps() {
+    local pkgs="$1"
+    local skip_install="$2"
+
+    if [ "${skip_install}" = "True" ] || [ "${skip_install}" = "true" ]; then
+        info_msg "install_deps skipped"
+    else
+        info_msg "Installing ${pkgs}"
+        dist_name
+        case "${dist}" in
+          Debian|Ubuntu)
+            apt-get update
+            apt-get install -y -q ${pkgs}
+            ;;
+          CentOS)
+            yum -e 0 -y install ${pkgs}
+            ;;
+          Fedora)
+            dnf -e 0 -y install ${pkgs}
+            ;;
+          Unknown)
+            warn_msg "Unsupported distro: package install skipped"
+            ;;
+        esac
+    fi
+}
