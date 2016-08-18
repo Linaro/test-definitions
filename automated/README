@@ -1,0 +1,56 @@
+Getting started
+===============
+    git clone https://git.linaro.org/qa/test-definitions.git
+    cd ./test-definitions
+    . ./automated/bin/setenv.sh
+    test-runner -h
+
+Running test
+============
+Both test script and corresponding test definition files provided in the same
+folder that named with the test case name.
+
+Test script can be run independently, you may need to specify parameters
+manually as needed.
+
+Test definition file in YAML format created for each test to
+  - Define default test parameters
+  - Run test with local test-runner, which supports to run a set of tests
+    defined in agenda file, customized parameters are supported as well.
+  - Run test in LAVA(Linaro Automation and Validation Architecture)
+
+Running test script
+------------------
+linux:
+    cd ./automated/linux/smoke/
+    ./smoke.sh
+    # skip package installation.
+    ./smoke.sh -s true
+
+android:
+    cd ./automated/android/dd-wr-speed/
+    ./dd-wr-speed.sh
+    # Specify SN when more than one device connected.
+    ./dd-wr-speed.sh -s "serial_no"
+    # Specify other params.
+    ./dd-wr-speed.sh -i "10" -p "/dev/block/mmcblk1p1"
+
+Using test-runner
+----------------
+single test run:
+    test-runner -d ./automated/linux/smoke/smoke.yaml
+    # skip package install
+    test-runner -d ./automated/linux/smoke/smoke.yaml -s
+
+running test plan:
+    # Run a set of tests defined in agenda file.
+    test-runner -a ./plans/linux-example.yaml
+
+Collecting result
+=================
+Please find test results in the following locations.
+ - ${OUTPUT} and ${RESULT_FILE} for each test are defined in the test case.
+ - test-runner parse stdout.log and save result to ${test_path}
+ - test-runner combines results of executed tests and save them in
+   ${OUTPUT}/results.csv,
+ - ${OUTPUT} path of test-runner can be modified with '-o'

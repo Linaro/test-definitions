@@ -1,0 +1,58 @@
+#!/bin/sh
+
+initialize_adb() {
+    if [ -z "${SN}" ]; then
+        local number="$(adb devices | grep -wc 'device')"
+        if [ "${number}" -gt 1 ]; then
+            warn_msg "Device not specified; define SN or use '-s'"
+            error_msg "More than one device or emulator found"
+        elif [ "${number}" -eq 1 ]; then
+            SN="$(adb devices | grep -w 'device' | awk '{print $1}')"
+            export SN
+        else
+            error_msg "Device NOT found"
+        fi
+    fi
+
+    adb -s "${SN}" shell ls / > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        info_msg "Connected to device ${SN} successfully"
+    else
+        error_msg "Unable to connect to device ${SN}"
+    fi
+}
+
+detect_abi() {
+    # "| tr -d '\r'" is needed here, refer to the below issue.
+    # https://code.google.com/p/android/issues/detail?id=2482
+    abi="$(adb -s "${SN}" shell uname -m | tr -d '\r')"
+    case $abi in
+      armv7|armv7l|armv7el|armv7lh) abi="armeabi" ;;
+      arm64|armv8|arm64-v8a|aarch64) abi="arm64" ;;
+      *) error_msg "Unknown architecture" ;;
+    esac
+    info_msg "ABI: ${abi}"
+}
+
+install() {
+    local file_path="$1"
+    local file_name="$(basename "${file_path}")"
+
+    if adb -s "${SN}" shell mount | grep system | grep -q ro; then
+        # Remounts the /system partition on the device read-write
+        info_msg "/system partition is read-only, remounting it read-write..."
+        adb -s "${SN}" remount
+    fi
+
+    info_msg "Installing ${file_name}"
+    adb -s "${SN}" push "${file_path}"  "/system/bin/"
+    adb -s "${SN}" shell chmod 755  "/system/bin/${file_name}"
+}
+
+pull_output() {
+    local device_output="$1"
+    local host_output="$2"
+
+    info_msg "Pulling output from devcie ${SN}"
+    adb -s "${SN}" pull "${device_output}" "${host_output}"
+}

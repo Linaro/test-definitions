@@ -1,0 +1,19 @@
+metadata:
+  name: linux-test-plan-example
+  os: debian
+  devices:
+    - hi6220-hikey
+
+requirements:
+  name: my 1st requirement
+  owner: first.last@linaro.org
+  tests:
+    manual:
+      - path: linux/test1.yaml
+    automated:
+        - path: linux/smoke/smoke.yaml
+          timeout: 1800
+        - path: linux/smoke/smoke.yaml
+          timeout: 1800
+          params:
+              SKIP_INSTALL: True
