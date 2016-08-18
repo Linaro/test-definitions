@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "ba068154_e999a86f",
+        "filename": "automated/agendas/android-agenda-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "I guess the sanity check script needs to be updated to reflect new assumptions. However I\u0027m not sure the agenda files are correct approach here. We\u0027ll have the \u0027test plans\u0027 dir. Maybe agenda files should be converted to \u0027test plan\u0027 format (with requirements and tests listed)? I would like to avoid fragmentation in the area of test execution planning.",
+      "parentUuid": "ba068154_29957040",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_a9632019",
+        "filename": "automated/android/dd-wr-speed/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "If we allow to execute the script \u0027standalone\u0027 (without YAML file) there should be a check for number of parameters.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_c9b024f7",
         "filename": "automated/bin/arm64/busybox",
         "patchSetId": 1
@@ -30,6 +65,41 @@
       "writtenOn": "2016-08-18T06:18:06Z",
       "side": 1,
       "message": "Can we possible host a few very common binaries like busybox?",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_c99e6456",
+        "filename": "automated/bin/arm64/busybox",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "I think we can as long as the license allows. It shouldn\u0027t be a problem in case of busybox.",
+      "parentUuid": "ba068154_c9b024f7",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_09ad0c32",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "Is this also true in our case?",
       "revId": "4441936c7da2801e03803eba226578a3e130cd40",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -82,6 +152,23 @@
     },
     {
       "key": {
+        "uuid": "ba068154_29b0d08a",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "2016?",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_499c346a",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 1
@@ -93,6 +180,91 @@
       "writtenOn": "2016-08-18T06:18:06Z",
       "side": 1,
       "message": "test-runner has been updated, notes:\n- Removed the dependence on lava-test-shell\n- Only lava-test-case in required\n- It basically converts yaml file to run.sh and run \u0027run.sh\u0027 directory\n- It saves output from test to stdout.log and obtain result from there and save results in json and csv.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_0986acb9",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "could you order the imports in alphabetical way? It makes it easier to read.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_6993f8fa",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "either I\u0027m missing something or test_path and test_def are undeclared here. Same story with skip_install and test_parameters below.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_4990b4ec",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "test_path, test_uuid and test_timeout are not declared.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_a9bcc06d",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "OUTPUT, test_path, test_name test_uuid are not declared.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_c9bb0471",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-18T12:23:14Z",
+      "side": 1,
+      "message": "The part below should be enclosed in a function to avoid global variable declarations (which backfire in the classes above).",
       "revId": "4441936c7da2801e03803eba226578a3e130cd40",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
