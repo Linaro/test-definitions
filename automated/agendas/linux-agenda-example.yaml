@@ -1,0 +1,11 @@
+definitions:
+  - path: linux/smoke/smoke.yaml
+    timeout: 1800
+  - path: linux/dd-wr-speed/dd-wr-speed.yaml
+    timeout: 3600
+    params:
+      ITERATION: 3
+  - path: linux/dd-wr-speed/dd-wr-speed.yaml
+    timeout: 3600
+    params:
+      SKIP_INSTALL: true

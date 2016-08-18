@@ -1,0 +1,7 @@
+definitions:
+  - path: android/dd-wr-speed/dd-wr-speed.yaml
+    timeout: 3600
+  - path: android/dd-wr-speed/dd-wr-speed.yaml
+    timeout: 3600
+    params:
+      ITERATION: 3
