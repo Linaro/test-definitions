@@ -1,0 +1,21 @@
+metadata:
+    name: linux-test-planexample
+    os:
+        - debian
+        - fedora
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+
+requirments:
+
+tests:
+    manual:
+
+    automated:
+        - path: linux/smoke/smoke.yaml
+          timeout: 1800
+        - path: linux/smoke/smoke.yaml
+          timeout: 1800
+          params:
+              SKIP_INSTALL: True
