@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_29957040",
+        "filename": "automated/agendas/android-agenda-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-18T06:18:06Z",
+      "side": 1,
+      "message": "lava-bot complains that metadata is missing in the agenda files, I can add metadata to define agenda name, test device, etc.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_c9b024f7",
+        "filename": "automated/bin/arm64/busybox",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-18T06:18:06Z",
+      "side": 1,
+      "message": "Can we possible host a few very common binaries like busybox?",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_499c346a",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-18T06:18:06Z",
+      "side": 1,
+      "message": "test-runner has been updated, notes:\n- Removed the dependence on lava-test-shell\n- Only lava-test-case in required\n- It basically converts yaml file to run.sh and run \u0027run.sh\u0027 directory\n- It saves output from test to stdout.log and obtain result from there and save results in json and csv.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
