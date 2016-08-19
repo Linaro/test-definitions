@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_8c0aaad0",
+        "filename": "automated/agendas/android-agenda-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T05:01:11Z",
+      "side": 1,
+      "message": "You are right, instead of the agenda file, run test plan is the final goal. The agenda folder isn\u0027t needed.\n\nThe format of the agenda examples is more or less the same as LAVA V2 job definition. Once the format of test plan is determined, I will do a few modifications in the test-runner to make it able to run test plan.",
+      "parentUuid": "ba068154_e999a86f",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_a9632019",
         "filename": "automated/android/dd-wr-speed/device-script.sh",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2016-08-18T12:23:14Z",
       "side": 1,
       "message": "If we allow to execute the script \u0027standalone\u0027 (without YAML file) there should be a check for number of parameters.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_ec0ff6df",
+        "filename": "automated/android/dd-wr-speed/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T05:01:11Z",
+      "side": 1,
+      "message": "You mean check if the $1 $2 specified?  I can add a sentence to check if they are empty and do related actions.\n\nBy the way, this is a supporting script, dd-wr-speed.sh is the main test script, it defines the params and push the device-script.sh to android device and run it via adb shell. The device-script.sh can be executed independently as well.",
+      "parentUuid": "ba068154_a9632019",
       "revId": "4441936c7da2801e03803eba226578a3e130cd40",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -106,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_cc14b2f7",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T05:01:11Z",
+      "side": 1,
+      "message": "No, except lava-test-case, we don\u0027t need anything else from lava-test-shell. \n\nExcept result_dir(line #60), I didn\u0027t modify other lines of lava-test-case. I can delete these misleading lines.",
+      "parentUuid": "ba068154_09ad0c32",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_898d7c34",
         "filename": "automated/doc/README",
         "patchSetId": 1
@@ -152,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "ba068154_2cf9fec8",
+        "filename": "automated/doc/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T05:01:11Z",
+      "side": 1,
+      "message": "Thanks Naresh! I will fix them.",
+      "parentUuid": "ba068154_e98248ff",
+      "range": {
+        "startLine": 52,
+        "startChar": 19,
+        "endLine": 52,
+        "endChar": 32
+      },
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_29b0d08a",
         "filename": "automated/lib/sh-test-lib",
         "patchSetId": 1
@@ -163,6 +241,24 @@
       "writtenOn": "2016-08-18T12:23:14Z",
       "side": 1,
       "message": "2016?",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_0cf6bad7",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T05:01:11Z",
+      "side": 1,
+      "message": "Regarding license, do we still need this paragraph in each script? \n\nCan we just have one file like COPYRIGHT or LICENSE in the repository and say all of our program distributed under this license?",
+      "parentUuid": "ba068154_29b0d08a",
       "revId": "4441936c7da2801e03803eba226578a3e130cd40",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -197,6 +293,24 @@
       "writtenOn": "2016-08-18T12:23:14Z",
       "side": 1,
       "message": "could you order the imports in alphabetical way? It makes it easier to read.",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_2c20de48",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T05:01:11Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "ba068154_0986acb9",
       "revId": "4441936c7da2801e03803eba226578a3e130cd40",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -265,6 +379,24 @@
       "writtenOn": "2016-08-18T12:23:14Z",
       "side": 1,
       "message": "The part below should be enclosed in a function to avoid global variable declarations (which backfire in the classes above).",
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_cc2b122f",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T05:01:11Z",
+      "side": 1,
+      "message": "I will fixed this.\n\nUsing global variables is a bad practice, I though I should create TestConfig or Context class, but haven\u0027t figured a proper way.",
+      "parentUuid": "ba068154_c9bb0471",
       "revId": "4441936c7da2801e03803eba226578a3e130cd40",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
