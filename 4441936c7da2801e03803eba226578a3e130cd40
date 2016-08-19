@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba068154_8ca62ac0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-19T08:16:23Z",
+      "side": 1,
+      "message": "I guess it is mainly for local usage. We don\u0027t have the local tool yet. \n\nI see qa/art-reports obtain results from automated tests in LAVA and then do comparison. So it already has the comparison tool working.\n\nIf we really need to upload local test results, I guess we should simple upload them and leave the comparison to qa/art-reports",
+      "parentUuid": "ba068154_4cc5625a",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_29957040",
         "filename": "automated/agendas/android-agenda-example.yaml",
         "patchSetId": 1
