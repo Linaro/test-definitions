@@ -75,13 +75,14 @@ output_test_result "BOOTANIM_TIME" "pass" "${BOOTANIM_TIME}" "s"
 
 TIME_INFO=$(logcat -d -s SurfaceFlinger:I|grep "Boot is finished")
 if [ -z "${TIME_INFO}" ]; then
-    output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "ms"
+    output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "s"
 else
     while echo "${TIME_INFO}"|grep -q "("; do
         TIME_INFO=$(echo "${TIME_INFO}"|cut -d\( -f2-)
     done
     TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\  -f1)
-    output_test_result "ANDROID_BOOT_TIME" "pass" "${TIME_VALUE}" "ms"
+    ANDROID_BOOT_TIME=`echo $TIME_VALUE 1000 / p | dc"
+    output_test_result "ANDROID_BOOT_TIME" "pass" "${ANDROID_BOOT_TIME}" "s"
 fi
 
 SERVICE_START_TIME_INFO=$(dmesg |grep "healthd:"|head -n 1)
