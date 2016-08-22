@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ba068154_9f376ab0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-22T13:46:35Z",
+      "side": 1,
+      "message": "This is a separate case. reporting dashboard is represented here by REST/HTTP API. Once the API is known, some helper script can be added to upload the results.",
+      "parentUuid": "ba068154_4cc5625a",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "4441936c7da2801e03803eba226578a3e130cd40",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_29957040",
         "filename": "automated/agendas/android-agenda-example.yaml",
         "patchSetId": 1
