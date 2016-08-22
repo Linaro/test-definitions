@@ -63,10 +63,15 @@ CONSOLE_SECONDS_END=$(getTime "Freeing unused kernel memory")
 CONSOLE_SECONDS=`echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p" | dc`
 output_test_result "KERNEL_BOOT_TIME" "pass" "${CONSOLE_SECONDS}" "s"
 
-POINT_FS_MOUNT_START=$(getTime "init: /dev/hw_random not found"|tail -n1)
+POINT_FS_MOUNT_START=$(getTime "Freeing unused kernel memory:"|tail -n1)
 POINT_FS_MOUNT_END=$(getTime "init: Starting service 'logd'...")
 FS_MOUNT_TIME=`echo "${POINT_FS_MOUNT_END} ${POINT_FS_MOUNT_START} - p" | dc`
 output_test_result "FS_MOUNT_TIME" "pass" "${FS_MOUNT_TIME}" "s"
+
+POINT_FS_DURATION_START=$(getTime "init: /dev/hw_random not found"|tail -n1)
+POINT_FS_DURATION_END=$(getTime "init: Starting service 'logd'...")
+FS_MOUNT_DURATION=`echo "${POINT_FS_DURATION_END} ${POINT_FS_DURATION_START} - p" | dc`
+output_test_result "FS_MOUNT_DURATION" "pass" "${FS_MOUNT_DURATION}" "s"
 
 POINT_SERVICE_BOOTANIM_START=$(getTime "init: Starting service \'bootanim\'...")
 POINT_SERVICE_BOOTANIM_END=$(getTime "init: Service 'bootanim'.* exited with status")
