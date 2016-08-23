@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_09650ce1",
+        "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T12:10:22Z",
+      "side": 1,
+      "message": "If you call the script without any params it won\u0027t work. Please check if the param is  there.",
+      "parentUuid": "ba068154_093eacb8",
+      "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_293a90cd",
         "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "It is like wa2-lava.git.\nEasy to manage robot-framework-tests.git if it is maintained separately.",
       "parentUuid": "ba068154_293a90cd",
+      "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_6962d8d9",
+        "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T12:10:22Z",
+      "side": 1,
+      "message": "We\u0027re getting rid of that entirely.",
+      "parentUuid": "ba068154_694bf859",
       "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
