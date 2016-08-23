@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_1fdb7aee",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T09:52:08Z",
+      "side": 1,
+      "message": "how about android one?",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_ffd796bd",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T09:52:08Z",
+      "side": 1,
+      "message": "how about android?",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_dfd1f2ce",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T09:52:08Z",
+      "side": 1,
+      "message": "having a common test plan for 2 OSes might not work. The simplest example is OS installer testing. Test will be different for Debian and CentOS. So I\u0027m not sure if keeping a list here makes sense.",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_7fcc4636",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T09:52:08Z",
+      "side": 1,
+      "message": "I guess a general approach should be 1 test plan for 1 device. However there might be exceptions, so it\u0027s good to keep this as a list",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_3f747efc",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T09:52:08Z",
+      "side": 1,
+      "message": "\u0027e\u0027 missing beetween \u0027r\u0027 and \u0027m\u0027",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_bf5fce71",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T09:52:08Z",
+      "side": 1,
+      "message": "tests should be nested below requirements. In other words, there should be no tests without requirements. The structure looks like this:\nrequirements:\n  name: my 1st requirement\n  owner: some.email@linaro.org\n  tests:\n    manual:\n      - path: manual/test1.yaml\n    automated:\n      - path: automated/test2.yaml\n        timeout: 100\n        parameters:\n          FOO: BAR",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
