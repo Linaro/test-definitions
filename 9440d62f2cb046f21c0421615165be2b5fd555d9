@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_bf722ee3",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T11:45:09Z",
+      "side": 1,
+      "message": "The problem is we cannot get rid of lava-test-case, it is the most reliable way to send result to LAVA.\n\nIf it is a test run with the yaml file, \u0027lava-test-case\u0027 needs to be there. Simply print \u0027result.txt\u0027 to stdout, LAVA will not be able to catch the results.\n\nYes, it is a good idea to add a logic in send-to-lava.sh so that it at least print result.txt to stdout when lava-test-case isn\u0027t there for some reasons. Plus a warning msg. I will add this feature.",
+      "parentUuid": "ba068154_3fa75e51",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_ffd796bd",
         "filename": "automated/lib/sh-test-lib",
         "patchSetId": 2
