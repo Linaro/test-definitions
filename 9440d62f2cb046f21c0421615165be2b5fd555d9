@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_ffacb637",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T11:00:45Z",
+      "side": 1,
+      "message": "More info on this:\n\nI am not using lava-test-case in our test script. \n\nsend-to-lava.sh is the only script uses lava-test-case. \n\nThe last line of each yaml file uses send-to-lava.sh to send result.txt produced by test scripts to LAVA.\n\ntest-runner able to run yaml files, but user will  need to execute \u0027. ./bin/setenv\u0027 first, otherwise, test-runner will exit with a prompt.",
+      "parentUuid": "ba068154_bfbb4e71",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_ffd796bd",
         "filename": "automated/lib/sh-test-lib",
         "patchSetId": 2
