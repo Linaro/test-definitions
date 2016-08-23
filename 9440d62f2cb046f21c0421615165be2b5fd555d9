@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_3ff91e4e",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T10:47:57Z",
+      "side": 1,
+      "message": "We are not going to run lava-test-case on android device, we pull output back to host and do result parsing on host.",
+      "parentUuid": "ba068154_1fdb7aee",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_ffd796bd",
         "filename": "automated/lib/sh-test-lib",
         "patchSetId": 2
@@ -30,6 +48,41 @@
       "writtenOn": "2016-08-23T09:52:08Z",
       "side": 1,
       "message": "how about android?",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_9f95aae6",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T10:47:57Z",
+      "side": 1,
+      "message": "For android test cases, we run the main script on the host which uses /bin/sh as well, this lib can be included.\n\nRegarding device-script.sh that will be pushed to android device, I am not using the libraries. \n\nIf we want to use libraries in device-script.sh, that makes the story more complicated.",
+      "parentUuid": "ba068154_ffd796bd",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_1f025a3e",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T10:47:57Z",
+      "side": 1,
+      "message": "I am using the example to test test-runner. I have moved the test plan folder to upper directory. If it still is not the proper place, I can delete it.",
       "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_fffe7637",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_dfd1f2ce",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_7fcc4636",
         "filename": "automated/test-plan/linux-example.yaml",
         "patchSetId": 2
@@ -64,6 +135,24 @@
       "writtenOn": "2016-08-23T09:52:08Z",
       "side": 1,
       "message": "I guess a general approach should be 1 test plan for 1 device. However there might be exceptions, so it\u0027s good to keep this as a list",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_5ffce23e",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_7fcc4636",
       "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -87,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_9fee4a8a",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T10:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_3f747efc",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_bf5fce71",
         "filename": "automated/test-plan/linux-example.yaml",
         "patchSetId": 2
@@ -98,6 +205,24 @@
       "writtenOn": "2016-08-23T09:52:08Z",
       "side": 1,
       "message": "tests should be nested below requirements. In other words, there should be no tests without requirements. The structure looks like this:\nrequirements:\n  name: my 1st requirement\n  owner: some.email@linaro.org\n  tests:\n    manual:\n      - path: manual/test1.yaml\n    automated:\n      - path: automated/test2.yaml\n        timeout: 100\n        parameters:\n          FOO: BAR",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_bfed0e8e",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-23T10:47:57Z",
+      "side": 1,
+      "message": "Looks good to me. I have updated test-runner to support this scheme.",
+      "parentUuid": "ba068154_bf5fce71",
       "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
