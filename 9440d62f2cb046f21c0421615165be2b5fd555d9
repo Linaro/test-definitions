@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_bfbb4e71",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T10:53:02Z",
+      "side": 1,
+      "message": "OK, sounds sane. But in this case we probably should only do the following:\n - check if lava-test-case is in the path\n - if so, call lava-test-case with $@\n - if not, use the local code to report results.",
+      "parentUuid": "ba068154_3ff91e4e",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_ffd796bd",
         "filename": "automated/lib/sh-test-lib",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "For android test cases, we run the main script on the host which uses /bin/sh as well, this lib can be included.\n\nRegarding device-script.sh that will be pushed to android device, I am not using the libraries. \n\nIf we want to use libraries in device-script.sh, that makes the story more complicated.",
       "parentUuid": "ba068154_ffd796bd",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_9fbc8a6e",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T10:53:02Z",
+      "side": 1,
+      "message": "OK, sounds sane.",
+      "parentUuid": "ba068154_9f95aae6",
       "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -223,6 +259,24 @@
       "side": 1,
       "message": "Looks good to me. I have updated test-runner to support this scheme.",
       "parentUuid": "ba068154_bf5fce71",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_3f90feeb",
+        "filename": "automated/test-plan/linux-example.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T10:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_bfed0e8e",
       "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
