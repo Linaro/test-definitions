@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_3fa75e51",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-23T11:09:09Z",
+      "side": 1,
+      "message": "So maybe get rid of lava-test-case entirely and use some logic in send-to-lava.sh? If there is no \u0027lava-test-case\u0027 in the path, just report results to stdout?",
+      "parentUuid": "ba068154_ffacb637",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_ffd796bd",
         "filename": "automated/lib/sh-test-lib",
         "patchSetId": 2
