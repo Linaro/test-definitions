@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_c21119ae",
+        "filename": "automated/bin/lava-test-case",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-24T08:29:29Z",
+      "side": 1,
+      "message": "I have removed lava-test-case from our repository. If it is not exist on the SUT(system under test), send-to-lava.sh will print a similar line to stdout like\n\u003cTEST_CASE_ID\u003dlsb_release RESULT\u003dpass\u003e\n\nNormally, lava-test-case output looks like\n\u003cLAVA_SIGNAL_TESTCASE  TEST_CASE_ID\u003dlsb_release RESULT\u003dpass\u003e\n\nSo the only difference is I removed LAVA_SIGNAL_TESTCASE  string. The similar outputs make it possible to use the same parser in test-runner to parse stdout. \n\nIn test-runner, instead of parsing stdout.log, I considered to use \u0027result.txt\u0027 directly, but the problem is test-runner doesn\u0027t know the exactly location of file, it is defined in test script.",
+      "parentUuid": "ba068154_bf722ee3",
+      "revId": "9440d62f2cb046f21c0421615165be2b5fd555d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_ffd796bd",
         "filename": "automated/lib/sh-test-lib",
         "patchSetId": 2
