@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba068154_e2837dca",
+        "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-24T09:04:48Z",
+      "side": 1,
+      "message": "It isn\u0027t a problem here. \n\nJust letting you know that I have moved these two lines to sh-test-lib in v2.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 11
+      },
+      "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_892bbc81",
         "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
         "patchSetId": 1
@@ -102,6 +125,41 @@
       "side": 1,
       "message": "We\u0027re getting rid of that entirely.",
       "parentUuid": "ba068154_694bf859",
+      "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_424b69b0",
+        "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-24T09:04:48Z",
+      "side": 1,
+      "message": "@Naresh, we are planing to move all of our test cases, include ported 3rd test suites like wa2 to qa/test-definition, even manual tests.",
+      "parentUuid": "ba068154_6962d8d9",
+      "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_427409fd",
+        "filename": "ubuntu/scripts/run-ui-browser-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-24T09:04:48Z",
+      "side": 1,
+      "message": "As Milosz mentioned above, you probably need to check if ${TESTUSER} is empty and exists.\n\nTypically for test script local run(sending command from serial \nconsole might be the case...),  tester may forget to specify $1.\n\noops, In patch set 3, I see this has been fixed.",
       "revId": "4fa9914882a9a5a3e74d9364dfd6aed40f506ed6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
