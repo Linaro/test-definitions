@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_9dddb217",
+        "filename": "automated/linux/smoke/smoke.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-25T06:18:49Z",
+      "side": 1,
+      "message": "oops, we have a problem here. In LAVA, the right relative path is\n- cd ./automated/linux/smoke\n\nLAVA uses \u0027test-definitions\u0027 as the relative root, I will update \u0027setenv.sh\u0027 and README files to use the same.",
+      "revId": "ad18efea79d56a24da2c96368ec6652270436947",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
