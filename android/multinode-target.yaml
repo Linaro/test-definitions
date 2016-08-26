@@ -34,6 +34,11 @@ run:
         - getprop
         - SERIALNO=$(getprop ro.serialno)
         - IPADDR=$(getprop dhcp.eth0.ipaddress)
+        - if [ -z "${IPADDR}" ]; then
+        - IPADDR=$(ifconfig eth0|grep "inet addr:")
+        - IPADDR=${IPADDR#*:}
+        - IPADDR=${IPADDR%% *}
+        - fi
         - if [ $ADB_LINK != "ETH" ] && [ ! -z $SERIALNO ]
         - then
         - IPADDR=$SERIALNO
