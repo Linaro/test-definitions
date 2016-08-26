@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_589358fa",
+        "filename": "automated/linux/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-26T14:06:32Z",
+      "side": 1,
+      "message": "looks like typing mistake.",
+      "revId": "ec59ef3e1418e61b3356344d807045338992ae51",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_18b0b08a",
+        "filename": "automated/linux/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-26T14:06:32Z",
+      "side": 1,
+      "message": "how about awk, grep? Do we use the ones from busybox?",
+      "revId": "ec59ef3e1418e61b3356344d807045338992ae51",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
