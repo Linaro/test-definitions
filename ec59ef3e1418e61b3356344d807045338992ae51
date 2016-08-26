@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_d86d8806",
+        "filename": "automated/linux/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-26T14:29:26Z",
+      "side": 1,
+      "message": "oops, I will fix it.",
+      "parentUuid": "ba068154_589358fa",
+      "revId": "ec59ef3e1418e61b3356344d807045338992ae51",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_18b0b08a",
         "filename": "automated/linux/dd-wr-speed/dd-wr-speed.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-26T14:06:32Z",
       "side": 1,
       "message": "how about awk, grep? Do we use the ones from busybox?",
+      "revId": "ec59ef3e1418e61b3356344d807045338992ae51",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_f8732ce5",
+        "filename": "automated/linux/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-26T14:29:26Z",
+      "side": 1,
+      "message": "Not using busybox, it is mainly for android.\n\nIt might be a bad practice. I assume awk and grep are pre installed on debian or fedora. \n\nOn non-embedded linux systems, maybe we can assume the commands listed in this table are pre-installed. \nhttp://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/command.html#CMDUTIL",
+      "parentUuid": "ba068154_18b0b08a",
       "revId": "ec59ef3e1418e61b3356344d807045338992ae51",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
