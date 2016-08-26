@@ -5,39 +5,21 @@ export LANG
 
 error_msg() {
     local msg="$1"
-    test -z "${msg}" && msg="Unknown error"
+    [ -z "${msg}" ] && msg="Unknown error"
     printf "ERROR: %s\n" "${msg}" >&2
     exit 1
 }
 
 warn_msg() {
     local msg="$1"
-    test -z "${msg}" && msg="Unknown error"
+    [ -z "${msg}" ] && msg="Unknown error"
     printf "WARNING: %s\n" "${msg}" >&2
 }
 
 info_msg() {
     local msg="$1"
-    test -z "${msg}" && msg="Unknown info"
+    [ -z "${msg}" ] && msg="Unknown info"
     printf "INFO: %s\n" "${msg}" >&1
-}
-
-check_return_fail() {
-    if [ $? -ne 0 ]; then
-        fail_test "$1"
-        return 0
-    else
-        return 1
-    fi
-}
-
-fail_test() {
-    local reason="$1"
-    echo "${test}: fail - ${reason}"
-}
-
-pass_test() {
-    echo "${test}: pass"
 }
 
 check_root() {
@@ -48,11 +30,21 @@ check_root() {
     fi
 }
 
-check_return() {
+exit_on_fail() {
     local exit_code="$?"
+    [ "$#" -ne 1 ] && error_msg "Usage: exit_on_fail test"
     local test="$1"
 
-    test -z "${test}" && warn_msg "Test name is empty"
+    if [ "${exit_code}" -ne 0 ]; then
+        echo "${test} fail" | tee -a "${RESULT_FILE}"
+        exit 1
+    fi
+}
+
+check_return() {
+    local exit_code="$?"
+    [ "$#" -ne 1 ] && error_msg "Usage: check_return test"
+    local test="$1"
 
     if [ "${exit_code}" -ne 0 ]; then
         echo "${test} fail" | tee -a "${RESULT_FILE}"
@@ -64,15 +56,16 @@ check_return() {
 }
 
 add_metric() {
+    if [ "$#" -ne 4 ]; then
+        warn_msg "The number of parameters less then 4"
+        error_msg "Usage: add_metric test result measurement units"
+    fi
     local test="$1"
-    local measurement="$2"
-    local units="$3"
+    local result="$2"
+    local measurement="$3"
+    local units="$4"
 
-    test -z "${test}" && warn_msg "Test name is empty"
-    test -z "${measurement}" && warn_msg "Test measurement is empty"
-    test -z "${units}" && warn_msg "Test units is empty"
-
-    echo "${test} pass ${measurement} ${units}" | tee -a "${RESULT_FILE}"
+    echo "${test} ${result} ${measurement} ${units}" | tee -a "${RESULT_FILE}"
 }
 
 dist_name() {
@@ -95,6 +88,8 @@ dist_name() {
 
 install_deps() {
     local pkgs="$1"
+    [ -z "${pkgs}" ] && error_msg "Usage: install_deps pkgs"
+    # skip_install parmater is optional.
     local skip_install="$2"
 
     if [ "${skip_install}" = "True" ] || [ "${skip_install}" = "true" ]; then

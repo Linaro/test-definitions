@@ -21,3 +21,10 @@ requirements:
         timeout: 1800
         params:
           SKIP_INSTALL: True
+      - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
+        timeout: 1800
+      - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
+        timeout: 1800
+        params:
+          SKIP_INSTALL: True
+          ITERATION: 3
