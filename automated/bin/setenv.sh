@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/sh -eu
 
-export REPO_PATH="$(pwd)"
+REPO_PATH="$(pwd)"
+export REPO_PATH
 echo "REPO_PATH: ${REPO_PATH}"
 
 if ! [ -d "${REPO_PATH}/automated/bin" ]; then
@@ -9,5 +10,19 @@ if ! [ -d "${REPO_PATH}/automated/bin" ]; then
     exit 1
 fi
 
-export PATH="${REPO_PATH}/automated/bin":"${PATH}"
+PATH="${REPO_PATH}/automated/bin:${PATH}"
+export PATH
 echo "BIN_PATH: ${PATH}"
+
+# Install test-runner deps.
+. "${REPO_PATH}"/automated/lib/sh-test-lib
+info_msg "Checking if python-pip installed..."
+! command -v pip && install_deps "python-pip"
+
+info_msg "Checking if pexpect and pyyaml module installed..."
+for pkg in pexpect pyyaml; do
+    if ! pip list | grep -i "${pkg}"; then
+        info_msg "Installing ${pkg}"
+        pip install "${pkg}"
+    fi
+done
