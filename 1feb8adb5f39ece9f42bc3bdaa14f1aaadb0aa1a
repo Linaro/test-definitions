@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_933761b0",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-29T10:58:18Z",
+      "side": 1,
+      "message": "Tested on LAVA\nhttps://validation.linaro.org/scheduler/job/1085791\n\nExpected to fail firefox test - because firefox is not installed on hikey or db410c.",
+      "parentUuid": "ba068154_d3f3a908",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_f3922d9e",
         "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2016-08-29T10:29:18Z",
       "side": 1,
       "message": "The comment line probably should align with ‘s)’ vertically, there are 3 additional spaces here. \nThe same for line #40.",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_733c7d94",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-29T10:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_f3922d9e",
       "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_d341e90c",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-29T10:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_338dd57c",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_1396d194",
         "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
         "patchSetId": 4
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_b346e521",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-29T10:58:18Z",
+      "side": 1,
+      "message": "I will fix line break and indentation.\n\nAgree.\nbut in this case we have a problem with permissions.\nIf the output dir created by root. then normal user do not have permission to write to it. That is the reason test executing /tmp dir.",
+      "parentUuid": "ba068154_1396d194",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_b381c54c",
         "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
         "patchSetId": 4
@@ -98,6 +170,24 @@
       "writtenOn": "2016-08-29T10:29:18Z",
       "side": 1,
       "message": "user linaro may don\u0027t have the permission to run \"${WD}/run-robot-tests.sh\", if \"${WD}\" or \"run-robot-tests.sh\" owned by root.\n\nI hit this issue when running from /root/ui, have to do \"chown -R linaro:linaro ui\" manually",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_134b712c",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-29T10:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_b381c54c",
       "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
