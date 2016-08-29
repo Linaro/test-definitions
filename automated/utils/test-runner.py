@@ -4,13 +4,21 @@ import csv
 import json
 import logging
 import os
-import pexpect
 import re
 import shutil
 import sys
 import time
-import yaml
 from uuid import uuid4
+
+
+try:
+    import pexpect
+    import yaml
+except ImportError as e:
+    print(e)
+    print('Please run the below command to install modules required')
+    print('pip install -r ${REPO_PATH}/automated/utils/requirements.txt')
+    sys.exit(1)
 
 
 class TestPlan(object):
