@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_3373154f",
+        "filename": "automated/linux/ui-browser-test/README.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-29T17:59:01Z",
+      "side": 1,
+      "message": "not sure why our tests should carry this notice unless we were distributing robot itself.",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_938f6123",
+        "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-29T17:59:01Z",
+      "side": 1,
+      "message": "downloading random stuff from the internet without any verification and then running it as root is very dangerous. if someone spoofs your DNS and points chromedriver.storage.googleapis.com to downloads.evil.com they can own you. You should at least use https *and* verify the download the sha256 hash of a known good file\n\nBTW this seems to be already available in Debian:\nhttps://packages.debian.org/chromedriver",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_73947d37",
+        "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-29T17:59:01Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_d399e96f",
+        "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-29T17:59:01Z",
+      "side": 1,
+      "message": "the previuos call could fail for a multitude of reasons. if you want to really test for a unsupported architecture, use type:\n\n$ foo_a() { echo hello; }\n$ variant\u003da\n$ type foo_\"$variant\"\nfoo_a is a function\nfoo_a () \n{ \n    echo hello\n}\n$ variant\u003db\n$ type foo_\"$variant\"\nbash: type: foo_b: not found\n\nthe second call exits with 1 (i.e. fails)",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b39ee554",
+        "filename": "automated/linux/ui-browser-test/run-robot-tests.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-29T17:59:01Z",
+      "side": 1,
+      "message": "this is technically not correct, unless you started writing this code a loooong time ago :)",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
