@@ -2,9 +2,7 @@
 
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
-mkdir -p "${OUTPUT}"
 RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
 
 usage() {
     echo "Usage: $0 [-s <true|false>]" 1>&2
@@ -38,8 +36,8 @@ run() {
 }
 
 # Test run.
-[ -f "${OUTPUT}" ] && \
-mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
+[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
+mkdir -p "${OUTPUT}"
 
 install
 run "pwd"
