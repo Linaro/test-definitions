@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_33e4b53a",
+        "filename": "automated/linux/ui-browser-test/robot-results-parser.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-29T10:29:18Z",
+      "side": 1,
+      "message": "I am not sure if these lines are still required as we already have the \u0027COPYING\u0027 file in \u0027automated\u0027 folder. \n\n@Milosz, what is your opinion?",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_d3f3a908",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-29T10:29:18Z",
+      "side": 1,
+      "message": "Do you have a job example? Are we able to test it in LAVA now?\n\nI tried on my db410c board.  The first time, test hangs. After reboot, the second time, tests finished successfully. It looks awesome!\n\nExcept chromium,  I see it tried to test firefox as well, is that expected? test failed as firefox not installed.",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_f3922d9e",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-29T10:29:18Z",
+      "side": 1,
+      "message": "The comment line probably should align with ‘s)’ vertically, there are 3 additional spaces here. \nThe same for line #40.",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_338dd57c",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-29T10:29:18Z",
+      "side": 1,
+      "message": "I am not sure, but we probably should use the same coding style within the same block. If I were you, I will use the below line here.\nu) TESTUSER\u003d\"${OPTARG}\" \u0026\u0026 id ${TESTUSER} ;;",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_1396d194",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-29T10:29:18Z",
+      "side": 1,
+      "message": "I have fixed in my code, when using \\ for line break, you\u0027d better use indentation(4 spaces) in the beginning of the following lines.\n\nIf you have multiple output files, you may want to create \u0027output\u0027 folder to collect all logs and results. Using a dedicated \u0027output\u0027 folder also is useful to distinguish test script and test output, typically for local run.",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b381c54c",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-29T10:29:18Z",
+      "side": 1,
+      "message": "user linaro may don\u0027t have the permission to run \"${WD}/run-robot-tests.sh\", if \"${WD}\" or \"run-robot-tests.sh\" owned by root.\n\nI hit this issue when running from /root/ui, have to do \"chown -R linaro:linaro ui\" manually",
+      "revId": "1feb8adb5f39ece9f42bc3bdaa14f1aaadb0aa1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
