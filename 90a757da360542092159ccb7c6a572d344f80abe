@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_739abd15",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-30T11:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_b35f0572",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_b311c5ae",
         "filename": "automated/bin/setenv.sh",
         "patchSetId": 2
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Does this also fall into \u0027skip_install\u0027 bit in case someone tries to run it locally?",
       "parentUuid": "ba068154_73659d44",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_1389b1ca",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-30T11:03:31Z",
+      "side": 1,
+      "message": "I hesitated to add this feature to setenv.sh, the script supposes to be simple.  If you really think it is needed, I can add parameter support.\n\nsetenv.sh is for local test only, it is used to setup environment for test runner, we run it with the below command\n. ./automated/bin/setenv.sh",
+      "parentUuid": "ba068154_13541153",
       "revId": "90a757da360542092159ccb7c6a572d344f80abe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
