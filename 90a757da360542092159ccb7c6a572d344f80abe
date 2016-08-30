@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_b35f0572",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-30T10:49:12Z",
+      "side": 1,
+      "message": "Versions are optional (should anything bad happen with new version when we know old one is working)",
+      "parentUuid": "ba068154_93600137",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_b311c5ae",
         "filename": "automated/bin/setenv.sh",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Yeah, install_deps also requires admin access. I will add root_check.",
       "parentUuid": "ba068154_b311c5ae",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_13541153",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-30T10:49:12Z",
+      "side": 1,
+      "message": "Does this also fall into \u0027skip_install\u0027 bit in case someone tries to run it locally?",
+      "parentUuid": "ba068154_73659d44",
       "revId": "90a757da360542092159ccb7c6a572d344f80abe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
