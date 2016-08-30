@@ -159,6 +159,24 @@
       "revId": "90a757da360542092159ccb7c6a572d344f80abe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_d36d6906",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-30T12:12:42Z",
+      "side": 1,
+      "message": "We don\u0027t run setenv.sh or test-runner on android as there is no python. \n\nSo for android, we run setenv.sh and test-runner on host system. Why that is a problem?",
+      "parentUuid": "ba068154_539339fa",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
