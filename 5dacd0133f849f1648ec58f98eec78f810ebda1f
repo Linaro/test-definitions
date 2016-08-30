@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_0e722a7c",
+        "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-08-30T17:44:50Z",
+      "side": 1,
+      "message": "right but you are not actually calling install_chromedriver_* here :)",
+      "parentUuid": "ba068154_53db391b",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_b39ee554",
         "filename": "automated/linux/ui-browser-test/run-robot-tests.sh",
         "patchSetId": 7
