@@ -141,6 +141,24 @@
       "revId": "90a757da360542092159ccb7c6a572d344f80abe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_539339fa",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-30T11:16:51Z",
+      "side": 1,
+      "message": "As long as we\u0027re running on the test board this is OK. When we start running on the host system (for android tests) this isn\u0027t OK. Should the setenv.sh be different for android?",
+      "parentUuid": "ba068154_1389b1ca",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
