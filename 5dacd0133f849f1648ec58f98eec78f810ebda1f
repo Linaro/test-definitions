@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_b3b545cf",
+        "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-30T08:01:08Z",
+      "side": 1,
+      "message": "sudo apt-get install chromedriver\nDoes not work on (x86_64) - trusty and wily.\nWorks on (x86_64) - Debian GNU/Linux stable-updates (sid)\n\nDebian package installation is not the generic solution and changed the way to installation from zip files.\n\ndo i need to add or update source.list for installing chromedriver ?\n\nI totally agree that we have to use https for downloading purpose. these download links works with http and https.\nI will check md5sum of the zip file before unzip and install.",
+      "parentUuid": "ba068154_938f6123",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_73947d37",
         "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
         "patchSetId": 7
@@ -47,6 +65,24 @@
       "writtenOn": "2016-08-29T17:59:01Z",
       "side": 1,
       "message": "ditto",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_53c4d93f",
+        "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-30T08:01:08Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "ba068154_73947d37",
       "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_53db391b",
+        "filename": "automated/linux/ui-browser-test/install-on-debian.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-30T08:01:08Z",
+      "side": 1,
+      "message": "I will update my patch with type",
+      "parentUuid": "ba068154_d399e96f",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_b39ee554",
         "filename": "automated/linux/ui-browser-test/run-robot-tests.sh",
         "patchSetId": 7
@@ -81,6 +135,24 @@
       "writtenOn": "2016-08-29T17:59:01Z",
       "side": 1,
       "message": "this is technically not correct, unless you started writing this code a loooong time ago :)",
+      "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_73091d95",
+        "filename": "automated/linux/ui-browser-test/run-robot-tests.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-30T08:01:08Z",
+      "side": 1,
+      "message": "Copyright © 2016 Linaro Limited\nwould be the right one.\ncopied from your squad repo :)\n\nhttps://github.com/Linaro/squad/blob/master/README.md#license",
+      "parentUuid": "ba068154_b39ee554",
       "revId": "5dacd0133f849f1648ec58f98eec78f810ebda1f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
