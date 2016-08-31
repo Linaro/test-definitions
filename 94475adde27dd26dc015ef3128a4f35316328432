@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_ee5a464f",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-31T11:08:16Z",
+      "side": 1,
+      "message": "Double quote to prevent globbing and word splitting.\n\nSeems you missed the variable inside the subshell.",
+      "range": {
+        "startLine": 127,
+        "startChar": 30,
+        "endLine": 127,
+        "endChar": 49
+      },
+      "revId": "94475adde27dd26dc015ef3128a4f35316328432",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
