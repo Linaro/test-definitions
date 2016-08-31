@@ -177,6 +177,24 @@
       "revId": "90a757da360542092159ccb7c6a572d344f80abe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_8ea1faab",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-31T03:41:53Z",
+      "side": 1,
+      "message": "How about we just provide the \u0027requirements.txt\u0027 file and leave the installation to user?",
+      "parentUuid": "ba068154_d36d6906",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
