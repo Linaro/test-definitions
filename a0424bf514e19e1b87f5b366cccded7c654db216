@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_6e9ad615",
+        "filename": "automated/android/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-31T10:14:18Z",
+      "side": 1,
+      "message": "\u0027/sdcard\u0027 could be a better choice. I can change it to sth like \"/sdcard/tests/dd-wr-speed\", should I pass it to \u0027device-script.sh\u0027 as parameter?",
+      "parentUuid": "ba068154_4edb921b",
+      "revId": "a0424bf514e19e1b87f5b366cccded7c654db216",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_aeecbec8",
         "filename": "automated/android/dd-wr-speed/device-script.sh",
         "patchSetId": 1
