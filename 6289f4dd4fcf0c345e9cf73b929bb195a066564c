@@ -45,6 +45,29 @@
       "revId": "6289f4dd4fcf0c345e9cf73b929bb195a066564c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_cc4dcb74",
+        "filename": "automated/android/dd-wr-speed/dd-wr-speed.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-31T11:56:59Z",
+      "side": 1,
+      "message": "Typo ?\nthen -\u003e than",
+      "range": {
+        "startLine": 24,
+        "startChar": 62,
+        "endLine": 24,
+        "endChar": 66
+      },
+      "revId": "6289f4dd4fcf0c345e9cf73b929bb195a066564c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
