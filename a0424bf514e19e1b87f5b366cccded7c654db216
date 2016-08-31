@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_4edb921b",
+        "filename": "automated/android/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-31T08:31:03Z",
+      "side": 1,
+      "message": "should be consistent with the output directory on device (if we decide to change it). See my comment in device-script.sh",
+      "revId": "a0424bf514e19e1b87f5b366cccded7c654db216",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_aeecbec8",
+        "filename": "automated/android/dd-wr-speed/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-31T08:31:03Z",
+      "side": 1,
+      "message": "workload automation saves results to /sdcard/wa-working. Maybe we also should use this location. /data might not have write permissions always.",
+      "revId": "a0424bf514e19e1b87f5b366cccded7c654db216",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_cee782e3",
+        "filename": "automated/android/dd-wr-speed/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-08-31T08:31:03Z",
+      "side": 1,
+      "message": "typo, should be \u0027write\u0027",
+      "revId": "a0424bf514e19e1b87f5b366cccded7c654db216",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
