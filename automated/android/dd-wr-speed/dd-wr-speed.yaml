@@ -1,0 +1,32 @@
+metadata:
+    name: dd-speed-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "dd write/read speed test."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - android
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+        - local-test-runner
+
+params:
+    # /data partition will be tested by default.
+    # Use '-p' specify partition. Example "/dev/block/mmcblk1p1"
+    PARTITION: ""
+    # You may need to run dd test 4-5 times for an accurate evaluation.
+    ITERATION: "5"
+    # Specify device serial number for adb connection if more then one device
+    # connected.
+    SN: ""
+
+run:
+    steps:
+        - cd ./automated/android/dd-wr-speed
+        - ./dd-wr-speed.sh -p "${PARTITION}" -i "${ITERATION}" -s "${SN}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
