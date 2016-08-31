@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_0e7cea1f",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-08-31T06:59:46Z",
+      "side": 1,
+      "message": "shellcheck returns the below warnings\n\nIn sh-test-lib line 127:\n    GET_SHA256SUM\u003d`sha256sum $OUTPUT_FILE_NAME | awk \u0027{print $1}\u0027`\n                  ^-- SC2006: Use $(..) instead of deprecated `..`\n                             ^-- SC2086: Double quote to prevent globbing and word splitting.\n\n\nIn sh-test-lib line 129:\n    if [ \"$SHA256SUM_CHECK\" \u003d $GET_SHA256SUM ] ; then\n                              ^-- SC2086: Double quote to prevent globbing and word splitting.",
+      "revId": "eb8f0a29a1f0c71b8452ade75d79564ae7d89e79",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
