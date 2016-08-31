@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_2e03ae10",
+        "filename": "automated/android/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-31T11:33:28Z",
+      "side": 1,
+      "message": "Typo ?\nformattet -\u003e formatted",
+      "range": {
+        "startLine": 17,
+        "startChar": 58,
+        "endLine": 17,
+        "endChar": 67
+      },
+      "revId": "6289f4dd4fcf0c345e9cf73b929bb195a066564c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
