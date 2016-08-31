@@ -22,6 +22,30 @@
       "revId": "94475adde27dd26dc015ef3128a4f35316328432",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_0e250ac2",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-08-31T11:12:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_ee5a464f",
+      "range": {
+        "startLine": 127,
+        "startChar": 30,
+        "endLine": 127,
+        "endChar": 49
+      },
+      "revId": "94475adde27dd26dc015ef3128a4f35316328432",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
