@@ -86,7 +86,7 @@ else
         TIME_INFO=$(echo "${TIME_INFO}"|cut -d\( -f2-)
     done
     TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\  -f1)
-    ANDROID_BOOT_TIME=`echo $TIME_VALUE 1000 / p | dc"
+    ANDROID_BOOT_TIME=`echo $TIME_VALUE 1000 / p | dc`
     output_test_result "ANDROID_BOOT_TIME" "pass" "${ANDROID_BOOT_TIME}" "s"
 fi
 
