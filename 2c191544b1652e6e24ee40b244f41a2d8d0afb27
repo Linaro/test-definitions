@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_326f8c94",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "On OSes built using OpenEmbedded, that don\u0027t support installing additional packages,...\n\nSome OSes built with OE support package repos. We don\u0027t. But OE is a build system, not distribution.",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_926c789e",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "Please remove \u0027in the build\u0027.",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_7269148b",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "use \u0027image\u0027 or \u0027OS\u0027 instead of \u0027build\u0027",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_d20560c3",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "install_deps",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b20a5cd0",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "test-case-id",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_12108800",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "wasn\u0027t instead of hasn\u0027t",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_f214e4f6",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "s/tet/test/",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_52f970c7",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "can be written",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_9203d8b7",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "We\u0027ll need the list of options for these tools. Some support exclusions. For example \u0027too long lines\u0027 is not a grave bug in this case and can be accepted. The sanity checks should only check for unacceptable mistakes.",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_32f66cd8",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T10:35:31Z",
+      "side": 1,
+      "message": "I think this step might be optional.",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
