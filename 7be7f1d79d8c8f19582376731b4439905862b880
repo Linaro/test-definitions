@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ba068154_12ffe868",
+        "filename": "automated/linux/ui-browser-test/run-robot-tests.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-02T12:30:23Z",
+      "side": 1,
+      "message": "yeah, we can use -d ${output}\npython -m robot -d ${output} robot-test-scripts/",
+      "parentUuid": "ba068154_92c8f875",
+      "revId": "7be7f1d79d8c8f19582376731b4439905862b880",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_32cb0c74",
         "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
         "patchSetId": 10
@@ -47,6 +65,24 @@
       "writtenOn": "2016-09-02T11:10:25Z",
       "side": 1,
       "message": "it would be better to save output files to separate directory",
+      "revId": "7be7f1d79d8c8f19582376731b4439905862b880",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_b209bc97",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-02T12:30:23Z",
+      "side": 1,
+      "message": "I wish i should.\nthe problem here is, the test run by linaro user.\nand if you create the a dir what would be owned by root.\nthen we may have to do some more steps like\nmkdir -p ${OUTPUT}\nchown linaro:linaro ${OUTPUT}\nrobot -d ${OUTPUT} test-case.robot",
+      "parentUuid": "ba068154_32cb0c74",
       "revId": "7be7f1d79d8c8f19582376731b4439905862b880",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
