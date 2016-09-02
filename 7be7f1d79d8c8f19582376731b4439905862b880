@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba068154_52ce9084",
+        "filename": "automated/linux/ui-browser-test/README.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T11:10:25Z",
+      "side": 1,
+      "message": "Please use\n\u003d\u003d\u003d\u003d\nText\n\u003d\u003d\u003d\u003d\n\nfor 1st level heading.",
+      "revId": "7be7f1d79d8c8f19582376731b4439905862b880",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_92c8f875",
+        "filename": "automated/linux/ui-browser-test/run-robot-tests.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T11:10:25Z",
+      "side": 1,
+      "message": "is it possible to save output to separate directory?",
+      "revId": "7be7f1d79d8c8f19582376731b4439905862b880",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_32cb0c74",
+        "filename": "automated/linux/ui-browser-test/ui-browser-test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T11:10:25Z",
+      "side": 1,
+      "message": "it would be better to save output files to separate directory",
+      "revId": "7be7f1d79d8c8f19582376731b4439905862b880",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
