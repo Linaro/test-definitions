@@ -195,6 +195,24 @@
       "revId": "90a757da360542092159ccb7c6a572d344f80abe",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba068154_1377f1d5",
+        "filename": "automated/bin/setenv.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-02T08:40:54Z",
+      "side": 1,
+      "message": "The problem is the assumption that the scripts are run as \u0027root\u0027. For android tests (that run over adb) that should not be required.",
+      "parentUuid": "ba068154_d36d6906",
+      "revId": "90a757da360542092159ccb7c6a572d344f80abe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
