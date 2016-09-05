@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_2fd3c939",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_326f8c94",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_926c789e",
         "filename": "automated/doc/test-writting-guidelines.rst",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-02T10:35:31Z",
       "side": 1,
       "message": "Please remove \u0027in the build\u0027.",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_0fd88552",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_926c789e",
       "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_6fddd142",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_7269148b",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_d20560c3",
         "filename": "automated/doc/test-writting-guidelines.rst",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-02T10:35:31Z",
       "side": 1,
       "message": "install_deps",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_4fe28d04",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_d20560c3",
       "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_afe69914",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_b20a5cd0",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_12108800",
         "filename": "automated/doc/test-writting-guidelines.rst",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-02T10:35:31Z",
       "side": 1,
       "message": "wasn\u0027t instead of hasn\u0027t",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_8fe3d504",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_12108800",
       "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -155,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_0fbfe5d1",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "I added \"line length rule relaxed\" in this line for the short term.\n\nIn the long term, we may need to write more wrappers and put them to \u0027./utils\u0027 for manually or automated sanity check, and skip the acceptable warnings.",
+      "parentUuid": "ba068154_9203d8b7",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba068154_32f66cd8",
         "filename": "automated/doc/test-writting-guidelines.rst",
         "patchSetId": 1
@@ -166,6 +292,24 @@
       "writtenOn": "2016-09-02T10:35:31Z",
       "side": 1,
       "message": "I think this step might be optional.",
+      "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_2fbaa9e1",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-05T02:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba068154_32f66cd8",
       "revId": "2c191544b1652e6e24ee40b244f41a2d8d0afb27",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
