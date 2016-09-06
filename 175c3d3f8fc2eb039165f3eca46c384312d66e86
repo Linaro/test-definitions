@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_b5c38889",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-06T15:02:51Z",
+      "side": 1,
+      "message": "This reference is not rendered correctly - gives local link.",
+      "range": {
+        "startLine": 51,
+        "startChar": 44,
+        "endLine": 51,
+        "endChar": 63
+      },
+      "revId": "175c3d3f8fc2eb039165f3eca46c384312d66e86",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_55cfbcb0",
+        "filename": "automated/doc/test-writting-guidelines.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-06T15:02:51Z",
+      "side": 1,
+      "message": "This indentation is reported as incompliant with rst. Adding newline before this line fixes the issue.",
+      "revId": "175c3d3f8fc2eb039165f3eca46c384312d66e86",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
