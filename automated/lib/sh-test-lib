@@ -99,8 +99,9 @@ install_deps() {
         dist_name
         case "${dist}" in
           Debian|Ubuntu)
-            apt-get update
-            apt-get install -y -q ${pkgs}
+            # Use the default answers for all questions.
+            DEBIAN_FRONTEND=noninteractive apt-get update -q -y
+            DEBIAN_FRONTEND=noninteractive apt-get install -q -y ${pkgs}
             ;;
           CentOS)
             yum -e 0 -y install ${pkgs}
