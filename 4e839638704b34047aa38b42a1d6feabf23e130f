@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_f5da3016",
+        "filename": "automated/linux/lamp/lamp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-07T05:20:04Z",
+      "side": 1,
+      "message": "Yes, admin permission is required. Will add a checker here.",
+      "parentUuid": "9a0b7d60_92081a2f",
+      "revId": "4e839638704b34047aa38b42a1d6feabf23e130f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b7d60_f2052615",
         "filename": "automated/linux/lamp/lamp.sh",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-09-06T11:09:07Z",
       "side": 1,
       "message": "Do you want to check systemctl command present or not ? before running it ?\nor\ndo you want to install required packages ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "4e839638704b34047aa38b42a1d6feabf23e130f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_95cda460",
+        "filename": "automated/linux/lamp/lamp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-07T05:20:04Z",
+      "side": 1,
+      "message": "I checked on latest debian, ubuntu,centos and fedora release, all of them using systemd as service manager. And yes, ubuntu 14.04 isn\u0027t, it is using upstart, so no systemctl. It is a bad idea to install systemd for it. \n\nIf we really want to support old releases, I can add a checker in the code to use \u0027service\u0027 when \u0027systemctl\u0027 is not available.",
+      "parentUuid": "9a0b7d60_f2052615",
       "range": {
         "startLine": 17,
         "startChar": 4,
