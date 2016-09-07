@@ -55,6 +55,25 @@ check_return() {
     fi
 }
 
+report_pass() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_pass test"
+    local test="$1"
+    echo "${test} pass" | tee -a "${RESULT_FILE}"
+}
+
+report_fail() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_fail test"
+    local test="$1"
+    echo "${test} fail" | tee -a "${RESULT_FILE}"
+}
+
+increment_return_status() {
+    local exit_code="$?"
+    [ "$#" -ne 1 ] && error_msg "Usage: increment_return_status value"
+    local value="$1"
+    return $(expr "${exit_code}" + "${value}")
+}
+
 add_metric() {
     if [ "$#" -ne 4 ]; then
         warn_msg "The number of parameters less then 4"
