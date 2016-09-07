@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_18a0c9f3",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T14:36:35Z",
+      "side": 1,
+      "message": "what happens if that exits with error?",
+      "revId": "6a71dfb45f3315eff25e831c2a154518ce9e557c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
