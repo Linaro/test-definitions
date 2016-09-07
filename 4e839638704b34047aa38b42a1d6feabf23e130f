@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_95f48488",
+        "filename": "automated/linux/lamp/lamp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-07T06:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a0b7d60_f5da3016",
+      "revId": "4e839638704b34047aa38b42a1d6feabf23e130f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b7d60_f2052615",
         "filename": "automated/linux/lamp/lamp.sh",
         "patchSetId": 1
