@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_f54d10c6",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "is the name the same on ubuntu/debian/centos/fedora?",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_35c79814",
+        "filename": "automated/linux/usb/usb-test-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "please add Naresh as maintainer :)",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_d54a8cab",
+        "filename": "automated/linux/usb/usb-test-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "please add support for debian, fedora and centos",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_b553886b",
+        "filename": "automated/linux/usb/usb-test-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "how about hikey, db410c",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_15653445",
+        "filename": "automated/linux/usb/usb-test-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "we don\u0027t support ve-a9 any more. Please remove",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_755ac084",
+        "filename": "automated/linux/usb/usb-test-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "tc2 will be retired soon. Not sure if this should stay.",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_35603835",
+        "filename": "automated/linux/usb/usb-test-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "we don\u0027t support d01 any more. Please remove",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_95500460",
+        "filename": "automated/linux/usb/usb-test-basic.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:57:15Z",
+      "side": 1,
+      "message": "we don\u0027t use deps any more. Please install deps in the test script.",
+      "revId": "173e4958b4ab7c4731ef47503980e455afd34a9b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
