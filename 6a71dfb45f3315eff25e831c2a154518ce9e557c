@@ -16,6 +16,24 @@
       "revId": "6a71dfb45f3315eff25e831c2a154518ce9e557c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_f80225b3",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-07T16:15:59Z",
+      "side": 1,
+      "message": "We can not ignore exit status. And not a good idea to print each exit status every time for each device.\n\nSo Introduced new function \nincrement_return_status ()\n\nThis will keeps on increment the return status in the loop. and validate return status after the loop.",
+      "parentUuid": "9a0b7d60_18a0c9f3",
+      "revId": "6a71dfb45f3315eff25e831c2a154518ce9e557c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
