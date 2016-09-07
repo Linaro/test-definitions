@@ -99,6 +99,47 @@
       "revId": "4e839638704b34047aa38b42a1d6feabf23e130f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_f51fd0b5",
+        "filename": "automated/linux/lamp/lamp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:38:40Z",
+      "side": 1,
+      "message": "I think a word of explanation which OSes are supported is necessary. Should be enough to mention we rely on systemd here.",
+      "parentUuid": "9a0b7d60_95cda460",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "4e839638704b34047aa38b42a1d6feabf23e130f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_d51c4cc4",
+        "filename": "automated/linux/lamp/lamp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-07T07:38:40Z",
+      "side": 1,
+      "message": "We\u0027re missing the full stack testing - getting apache to serve a webpage that connects to mysql db and does some simple thing (like insert, select, delete operations).",
+      "revId": "4e839638704b34047aa38b42a1d6feabf23e130f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
