@@ -1,0 +1,37 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: usb-test-basic
+    description: "Basic USB test for Linaro Ubuntu images. The test examines all available USB devices
+                  and prints supported USB protocols and speed."
+    maintainer:
+        - chase.qi@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-tc2
+        - beaglebone-black
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - overdrive
+        - d02
+        - d03
+
+params:
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/usb-smoke
+        - ./usb-smoke-test.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
