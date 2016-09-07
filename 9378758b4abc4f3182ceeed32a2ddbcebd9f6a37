@@ -16,6 +16,24 @@
       "revId": "9378758b4abc4f3182ceeed32a2ddbcebd9f6a37",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_f86185d4",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-07T16:15:59Z",
+      "side": 1,
+      "message": "Agree.\nJust printing onto stdout.\nSince it is basic test case, we can go with this approach.",
+      "parentUuid": "9a0b7d60_d819217b",
+      "revId": "9378758b4abc4f3182ceeed32a2ddbcebd9f6a37",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
