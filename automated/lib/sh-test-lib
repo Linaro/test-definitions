@@ -55,6 +55,13 @@ check_return() {
     fi
 }
 
+increment_return_status() {
+    local exit_code="$?"
+    [ "$#" -ne 1 ] && error_msg "Usage: increment_return_status value"
+    local value="$1"
+    return $(expr "${exit_code}" + "${value}")
+}
+
 add_metric() {
     if [ "$#" -ne 4 ]; then
         warn_msg "The number of parameters less then 4"
