@@ -15,6 +15,7 @@ metadata:
 
 install:
     steps:
+        - apt-get update
         - ./common/scripts/install-deps.sh $DEPENDENCIES $JDK $JRE
 
 params:
@@ -25,9 +26,15 @@ params:
     BUILD_TOOLS_URL: "http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz"
     TEST_NAME: "android-cts-5.0-armv8"
     TEST_PARAMS: "run cts --package android.aadb --disable-reboot"
+    URL_OPEN_JRE_HEADLESS: "http://archive.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre-headless_8u45-b14-1_amd64.deb"
+    URL_OPEN_JRE: "http://archive.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre_8u45-b14-1_amd64.deb"
+    URL_OPEN_JDK: "http://archive.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jdk_8u45-b14-1_amd64.deb"
 
 run:
     steps:
+        - wget ${URL_OPEN_JRE_HEADLESS} -O openjdk-8-jre-headless_8u45-b14-1_amd64.deb && dpkg -i openjdk-8-jre-headless_8u45-b14-1_amd64.deb
+        - wget ${URL_OPEN_JRE} -O openjdk-8-jre_8u45-b14-1_amd64.deb && dpkg -i openjdk-8-jre_8u45-b14-1_amd64.deb
+        - wget ${URL_OPEN_JDK} -O openjdk-8-jdk_8u45-b14-1_amd64.deb && dpkg -i openjdk-8-jdk_8u45-b14-1_amd64.deb
         - wget $BUILD_TOOLS_URL -O build-tools.tar.gz
         - tar zxvf build-tools.tar.gz
         - AAPT_HOME=`pwd`/build-tools
