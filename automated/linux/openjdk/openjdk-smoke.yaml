@@ -1,0 +1,33 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: openjdk-smoke-test
+    description: "Install openjdk, compile and run HelloWorld."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - d02
+        - d03
+        - overdrive
+
+params:
+    # Specify JDK vesion.
+    VERSION: 8
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/openjdk/
+        - ./openjdk-smoke.sh -v "${VERSION}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
