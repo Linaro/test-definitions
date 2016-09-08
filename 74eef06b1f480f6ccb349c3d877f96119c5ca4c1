@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_d8f8014c",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-08T11:38:41Z",
+      "side": 1,
+      "message": "This is a basic usb test cases.\nthe advance usb test cases development is planned on other story https://projects.linaro.org/browse/QA-1493",
+      "parentUuid": "9a0b7d60_b86c1d38",
+      "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b7d60_f876a505",
         "filename": "automated/linux/usb/usb-test-basic.sh",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-08T10:13:12Z",
       "side": 1,
       "message": "Just two lines will do the job.\n\nlsusb\n\nexit_on_fail \"lsusb\"",
+      "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_3895cde4",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-08T11:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a0b7d60_f876a505",
       "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_189a8914",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-08T11:38:41Z",
+      "side": 1,
+      "message": "Agree for end results format should be same for all test cases.But in this case, every test generates different format of output, when you running multiple sub tests it is good to print info_msg and keeping \u003d\u003d\u003d kind of line would give better ending points for each sub tests.\n\nHowever, I have deleted that format now.",
+      "parentUuid": "9a0b7d60_98695928",
+      "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b7d60_18656945",
         "filename": "automated/linux/usb/usb-test-basic.sh",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-08T10:13:12Z",
       "side": 1,
       "message": "For this case, I have another idea.\n\nstatus\u003d\"0\"\nfor bus in...\n    for device in ...\n        lsusb -D ....\n        exit_code\u003d\"$?\"\n        [ \"${exit_code}\" -ne 0 ] \u0026\u0026 status\u003d\"${exit_code}\"\n\ncheck_return function use \u0027$?\u0027 directly, so it is not suitable for this case. Probably we should write a new function to test the code passed to it and print pass/fail. sth like\n\ncheck_code \"${status}\" \"test-case-id\"",
+      "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_789f5504",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-08T11:38:41Z",
+      "side": 1,
+      "message": "I am going with my idea this time.",
+      "parentUuid": "9a0b7d60_18656945",
       "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_58a41157",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-08T11:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a0b7d60_f84d05c6",
+      "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b7d60_d84ac1ab",
         "filename": "automated/linux/usb/usb-test-basic.sh",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-08T10:13:12Z",
       "side": 1,
       "message": "To be consistent, please use \u0027-\u0027 to connect words in test case id.",
+      "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_b8889dc7",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-08T11:38:41Z",
+      "side": 1,
+      "message": "you are right.\nSince we can not use \u0027-\u0027 in functions. i have been using _ for function names and continued same name while printing it as test case.\n\nHowever, for better reading i changed to \u0027-\u0027.",
+      "parentUuid": "9a0b7d60_d84ac1ab",
       "revId": "74eef06b1f480f6ccb349c3d877f96119c5ca4c1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
