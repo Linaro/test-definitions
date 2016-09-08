@@ -37,7 +37,12 @@ exit_on_fail() {
 
     if [ "${exit_code}" -ne 0 ]; then
         echo "${test} fail" | tee -a "${RESULT_FILE}"
-        exit 1
+        # Exit normally to continue to run the following steps defined in test
+        # definition file.
+        exit 0
+    else
+        echo "${test} pass" | tee -a "${RESULT_FILE}"
+        return 0
     fi
 }
 
@@ -99,8 +104,9 @@ install_deps() {
         dist_name
         case "${dist}" in
           Debian|Ubuntu)
-            apt-get update
-            apt-get install -y -q ${pkgs}
+            # Use the default answers for all questions.
+            DEBIAN_FRONTEND=noninteractive apt-get update -q -y
+            DEBIAN_FRONTEND=noninteractive apt-get install -q -y ${pkgs}
             ;;
           CentOS)
             yum -e 0 -y install ${pkgs}
