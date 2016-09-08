@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_d8d761ec",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-08T09:01:58Z",
+      "side": 1,
+      "message": "When LAVA convert yaml file to run.sh, \u0027set -e\u0027 will be added.\n\nIn our yaml files, after test script execution line, we have line \u0027send-to-lava.sh output\u0027.  If test script exit with non-zero, it causes run.sh exit from there, and \"send-to-lava output\" line wouldn\u0027t be executed, which causes result missing from LAVA.\n\nI see a couple of solutions. \n1) Run \u0027send-to-lava.sh output_file\u0027 in the background as a daemon to monitor output_file and send new lines to LAVA immediately. One concern here, if the daemon not ended properly, LAVA may hangs.\n\n2) Add \"unset -e\" in the beginning of run-steps section, which basically do the opposite on LAVA, sounds odd...\n\n3) Exit with zero to let LAVA continue to run the following steps.\n\nI am using the third solution as it is simpler and reliable. Would you please share your idea? Which one you prefer? any better solution?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 14
+      },
+      "revId": "2c29711b6dc2bad8f2b6415aa8bf9a5825709d86",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
