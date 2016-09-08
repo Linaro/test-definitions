@@ -34,6 +34,24 @@
       "revId": "6a71dfb45f3315eff25e831c2a154518ce9e557c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_1830c955",
+        "filename": "automated/linux/usb/usb-test-basic.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-08T09:21:05Z",
+      "side": 1,
+      "message": "Sounds like a plan.",
+      "parentUuid": "9a0b7d60_f80225b3",
+      "revId": "6a71dfb45f3315eff25e831c2a154518ce9e557c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
