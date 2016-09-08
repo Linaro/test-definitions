@@ -22,6 +22,30 @@
       "revId": "2c29711b6dc2bad8f2b6415aa8bf9a5825709d86",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_f8e4e5ad",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-08T10:20:34Z",
+      "side": 1,
+      "message": "3 sounds sane. Similar approach is used in LTP if I remember correctly. The exit status of LTP test is saved to env variable and than used to report LTP_\u003cpackage\u003e_run \"lava test\" value.",
+      "parentUuid": "9a0b7d60_d8d761ec",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 14
+      },
+      "revId": "2c29711b6dc2bad8f2b6415aa8bf9a5825709d86",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
