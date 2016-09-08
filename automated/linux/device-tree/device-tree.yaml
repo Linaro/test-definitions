@@ -1,0 +1,30 @@
+metadata:
+    name: device-tree
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Device tree test to check the folder structure. The test verifies that device-tree
+                  is available and contains model name of the board."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-tc2
+        - beaglebone-black
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+
+run:
+    steps:
+        - cd automated/linux/device-tree
+        - ./device-tree.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
