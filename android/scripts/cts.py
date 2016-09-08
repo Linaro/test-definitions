@@ -119,12 +119,12 @@ def result_parser(xml_file):
     root = tree.getroot()
     print 'There are ' + str(len(root.findall('TestPackage'))) + ' Test Packages in this test result file: ' + xml_file
     # testcase_counter = 0
-    for elem in root.findall('TestPackage'):
+    for elem in root.findall('Module'):
         # Naming: Package Name + Test Case Name + Test Name
         if 'abi' in elem.attrib.keys():
-            package_name = '.'.join([elem.attrib['abi'], elem.attrib['appPackageName']])
+            package_name = '.'.join([elem.attrib['abi'], elem.attrib['name']])
         else:
-            package_name = elem.attrib['appPackageName']
+            package_name = elem.attrib['name']
         tests_executed = len(elem.findall('.//Test'))
         tests_passed = len(elem.findall('.//Test[@result="pass"]'))
         tests_failed = len(elem.findall('.//Test[@result="fail"]'))
@@ -225,8 +225,8 @@ subprocess.call(['lava-test-run-attach', CTS_STDOUT + '.gz'])
 subprocess.call(['lava-test-run-attach', CTS_LOGCAT + '.gz'])
 
 # locate and parse the test result
-result_dir = 'android-cts/repository/results'
-test_result = 'testResult.xml'
+result_dir = 'android-cts/results'
+test_result = 'test_result.xml'
 if os.path.exists(result_dir) and os.path.isdir(result_dir):
     for root, dirs, files in os.walk(result_dir):
         for name in files:
