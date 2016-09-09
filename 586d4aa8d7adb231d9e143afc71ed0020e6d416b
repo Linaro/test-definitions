@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_43ba66e2",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-09T03:07:49Z",
+      "side": 1,
+      "message": "exit_on_fail and check_return from test library should be able to help you reduce code duplication.\n\nIf you think these functions are not well designed or not easy to use, lets try to improve or re-write them.",
+      "revId": "586d4aa8d7adb231d9e143afc71ed0020e6d416b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_c3e65616",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-09T03:07:49Z",
+      "side": 1,
+      "message": "test -d \"${DEVICE_TREE}\"\n\nexit_on_fail \u0027device-tree-exists\u0027",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "586d4aa8d7adb231d9e143afc71ed0020e6d416b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_a3e35204",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-09T03:07:49Z",
+      "side": 1,
+      "message": "Although it doesn\u0027t do any harm, I am not sure if we really need this line.\n\nReasons:\n\n* Within the same script file, test writer can see $1 is needed when he call the function.\n* No user interactive.",
+      "revId": "586d4aa8d7adb231d9e143afc71ed0020e6d416b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_03f17ecd",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-09T03:07:49Z",
+      "side": 1,
+      "message": "test -n \"${DATA}\"\n\ncheck_return \"device-tree-${test}\"",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 6
+      },
+      "revId": "586d4aa8d7adb231d9e143afc71ed0020e6d416b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_e3ed5af1",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-09T03:07:49Z",
+      "side": 1,
+      "message": "I suggest we report \u0027pass\u0027 if the configs enabled, and report \u0027fail\u0027 if it is not, and then exit with 0.\n\nexit_on_fail function is designed for this kind of use case. So\n\n[ \"${CONFIG_PROC_FS}\" \u003d \"CONFIG_PROC_FS\u003dy\" ] \\\n\u0026\u0026 [ \"${CONFIG_OF}\" \u003d \"CONFIG_OF\u003dy\" ] \\\n\u0026\u0026 [ -d \"${SYSFS_DEVICE_TREE}\" ]\n\nexit_on_fail \u0027check-if-config-enabled\u0027\n\ndevice_tree\ndevice_tree_property \"${MODEL}\"\ndevice_tree_property \"${COMPATIBLE}\"",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 2
+      },
+      "revId": "586d4aa8d7adb231d9e143afc71ed0020e6d416b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
