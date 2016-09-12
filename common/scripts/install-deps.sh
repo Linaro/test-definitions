@@ -18,6 +18,9 @@ wait_for_unlock_apt () {
     done
 }
 
+# update source list first
+apt-get update
+
 # Read each package name from command line arguments
 for pkg in ${@}
 do
