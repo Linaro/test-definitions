@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_feaccd8e",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-12T12:40:46Z",
+      "side": 1,
+      "message": "If CTS works with 16.04 I\u0027m for it. We\u0027re trying this with Dave here: https://validation.linaro.org/scheduler/job/1113608.0. No luck so far.",
+      "parentUuid": "9a0b7d60_5e9eb957",
+      "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b7d60_3ed3f539",
         "filename": "android/scripts/cts.py",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "Yes, and other things like what are changed for this script.",
       "parentUuid": "9a0b7d60_3ed3f539",
+      "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_dea9097d",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-12T12:40:46Z",
+      "side": 1,
+      "message": "long live backward compatibility :) Could you split this patch into 2, so we fix the CTS parsing issue separately and address the Java 8 in some other way?",
+      "parentUuid": "9a0b7d60_bea24598",
       "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
