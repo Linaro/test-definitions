@@ -16,6 +16,24 @@
       "revId": "c3cd9c2fbe442329f521e14283009a13b2cb4dab",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_1e871163",
+        "filename": "automated/linux/lamp/lamp.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-12T02:24:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a0b7d60_03db3e1c",
+      "revId": "c3cd9c2fbe442329f521e14283009a13b2cb4dab",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
