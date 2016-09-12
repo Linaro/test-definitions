@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_be71a579",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-12T10:14:42Z",
+      "side": 1,
+      "message": "Even in test script, it is just one line code like\n\ntest \u003c-f|-z|....\u003e \"file or DIR\"\n\nor \n\n[ \u003c-f|-z|...\u003e \"file or DIR\" ]\n\nBefore I ask do we really need this function, I wonder why we need this function, reasons?",
+      "revId": "ea96ea8aadbbf77ce48257b68bd7ce39dd1f5c11",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
