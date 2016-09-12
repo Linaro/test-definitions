@@ -60,6 +60,18 @@ check_return() {
     fi
 }
 
+report_pass() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_pass test"
+    local test="$1"
+    echo "${test} pass" | tee -a "${RESULT_FILE}"
+}
+
+report_fail() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_fail test"
+    local test="$1"
+    echo "${test} fail" | tee -a "${RESULT_FILE}"
+}
+
 add_metric() {
     if [ "$#" -ne 4 ]; then
         warn_msg "The number of parameters less then 4"
