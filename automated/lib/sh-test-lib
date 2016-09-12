@@ -55,6 +55,18 @@ check_return() {
     fi
 }
 
+report_pass() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_pass test"
+    local test="$1"
+    echo "${test} pass" | tee -a "${RESULT_FILE}"
+}
+
+report_fail() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_fail test"
+    local test="$1"
+    echo "${test} fail" | tee -a "${RESULT_FILE}"
+}
+
 add_metric() {
     if [ "$#" -ne 4 ]; then
         warn_msg "The number of parameters less then 4"
@@ -112,6 +124,24 @@ install_deps() {
             warn_msg "Unsupported distro: package install skipped"
             ;;
         esac
+    fi
+}
+
+# TODO: -ne -gt -lt -eq -nt -ot -ef not supported yet
+# Validate the data by given option
+# To avoid repeated if else conditions in test code
+# test_if() function implemented
+test_if() {
+    if [ "$#" -ne 2 ]; then
+        warn_msg "The number of parameters should be 2"
+        error_msg "Usage: test_if [options -f/-z/-n/-d/... ] [data]"
+    fi
+    OPTION="$1"
+    DATA=$2
+    if [ "${OPTION}" "${DATA}" ]; then
+        return 0
+    else
+        return 1
     fi
 }
 
