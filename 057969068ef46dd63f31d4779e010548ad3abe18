@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_fe196d23",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-12T10:47:59Z",
+      "side": 1,
+      "message": "I guess this should go to install_deps.sh",
+      "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_5e2b5930",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-12T10:47:59Z",
+      "side": 1,
+      "message": "I very much dislike this approach. Can\u0027t we add some PPA and install OpenJDK from there using params (even move default params to proper values).",
+      "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_3ed3f539",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-12T10:47:59Z",
+      "side": 1,
+      "message": "Did Google change their XML structure? (argh!)",
+      "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
