@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9a0b7d60_5e9eb957",
+        "filename": "android/cts-host.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-09-12T11:49:00Z",
+      "side": 1,
+      "message": "I did not check it, but from the information here:\nhttp://source.android.com/source/initializing.html#installing-the-jdk, I guess there is no other better workaround.\n\nMaybe a better workaround is to update the kvm to use 16.04 ubuntu.",
+      "parentUuid": "9a0b7d60_5e2b5930",
+      "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a0b7d60_3ed3f539",
         "filename": "android/scripts/cts.py",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2016-09-12T10:47:59Z",
       "side": 1,
       "message": "Did Google change their XML structure? (argh!)",
+      "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_bea24598",
+        "filename": "android/scripts/cts.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-09-12T11:49:00Z",
+      "side": 1,
+      "message": "Yes, and other things like what are changed for this script.",
+      "parentUuid": "9a0b7d60_3ed3f539",
       "revId": "057969068ef46dd63f31d4779e010548ad3abe18",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
