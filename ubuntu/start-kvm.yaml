@@ -50,5 +50,3 @@ run:
         - lava-sync clients
         - 'cat *.txt'
 
-parse:
-    pattern: '^(?P<test_case_id>[^:]+):\s*(?P<measurement>[0-9.]+)\s+(?P<units>\w+)\s+(?P<result>\w+)'

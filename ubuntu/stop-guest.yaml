@@ -1,0 +1,22 @@
+metadata:
+    name: guest-complete
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Signal tests inside guest complete"
+    maintainer:
+        - riku.voipio@linaro.org
+    scope:
+        - functional
+        - virtualization
+    os:
+        - ubuntu
+    devices:
+        - arndale
+        - vexpress-tc2
+        - mustang
+        - midway
+        - juno
+
+run:
+    steps:
+        - lava-sync clients
+
