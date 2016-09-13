@@ -1,0 +1,30 @@
+metadata:
+    name: opengl-fps
+    format: "Manual Test Definition 1.0"
+    description: "Measure OpenGL FPS with glxgears and Tux Racer."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+    scope:
+        - benchmark
+    devices:
+        - hi6220-hikey
+        - db410c
+        - Bubblegum
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Install glxgears and Tux Racer with the following command.
+        - "# apt-get install mesa-utils extremetuxracer"
+        - Run glxgears with the following command and record FPS.
+        - "# glxgears"
+        - "Start Tux Racer by clicking 'Games' -> 'Extreme Tux Racer' in system application menu."
+        - "Display FPS in Tux Racer by selecting 'Configuration' -> 'Graphics' -> 'Display FSP'."
+        - Play Tux Racer and record FPS.
+
+    expected:
+        - glxgears and Tux Racer works.
+        - glxgears and Tux Racer print FPS numbers.
