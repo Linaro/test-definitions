@@ -15,6 +15,8 @@ metadata:
 
 install:
     steps:
+        - dpkg --add-architecture i386
+        - apt-get update
         - ./common/scripts/install-deps.sh $DEPENDENCIES $JDK $JRE
 
 params:
@@ -45,6 +47,7 @@ run:
         - adb devices
         # increase the heap size. KVM devices in LAVA default to ~250M of heap
         - export _JAVA_OPTIONS="-Xmx350M"
+        - java -version
         - ./android/scripts/cts.py $CTS_URL $IPADDR $TEST_PARAMS
         - echo "processes running"
         - ps
