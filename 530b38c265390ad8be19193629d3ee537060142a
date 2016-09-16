@@ -16,6 +16,24 @@
       "revId": "530b38c265390ad8be19193629d3ee537060142a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_dbf8f6c6",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-16T14:37:35Z",
+      "side": 1,
+      "message": "if the config not enabled.\ndevice-tree-Kconfig   fail\nand exit 0\n\nwe do not option here,\ndevice_tree           skip\ndevice_tree_property  skip\ndevice_tree_property  skip\n\nIt is good to have list of test cases skipped.\nbut that is not required here since it is basic tests.",
+      "parentUuid": "9a0b7d60_5b37e6b0",
+      "revId": "530b38c265390ad8be19193629d3ee537060142a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
