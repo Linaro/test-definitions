@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0b7d60_5b37e6b0",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-16T13:36:56Z",
+      "side": 1,
+      "message": "can we have the remaining tests \u0027skipped\u0027?",
+      "revId": "530b38c265390ad8be19193629d3ee537060142a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
