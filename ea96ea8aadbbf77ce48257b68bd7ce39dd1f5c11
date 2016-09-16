@@ -16,6 +16,24 @@
       "revId": "ea96ea8aadbbf77ce48257b68bd7ce39dd1f5c11",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_dec0e92c",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-16T14:30:36Z",
+      "side": 1,
+      "message": "no need of this function.\nin-built function test will do the job.",
+      "parentUuid": "9a0b7d60_be71a579",
+      "revId": "ea96ea8aadbbf77ce48257b68bd7ce39dd1f5c11",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
