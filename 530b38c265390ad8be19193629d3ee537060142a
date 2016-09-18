@@ -52,6 +52,24 @@
       "revId": "530b38c265390ad8be19193629d3ee537060142a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_7b110aac",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-18T10:59:36Z",
+      "side": 1,
+      "message": "when there are many tests that have prerequisite, I guess we will need to maintain a skip_list, and amend it for the current test. \n\nI added a new optional parameter in exit_on_fail function. Would you please give it a review?https://review.linaro.org/#/c/14384/1/automated/lib/sh-test-lib",
+      "parentUuid": "9a0b7d60_3b3142a3",
+      "revId": "530b38c265390ad8be19193629d3ee537060142a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
