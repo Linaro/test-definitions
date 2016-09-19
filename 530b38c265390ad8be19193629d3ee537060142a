@@ -70,6 +70,24 @@
       "revId": "530b38c265390ad8be19193629d3ee537060142a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0b7d60_2ed8e252",
+        "filename": "automated/linux/device-tree/device-tree.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-09-19T16:33:10Z",
+      "side": 1,
+      "message": "thanks Chase. It\u0027s easier to track test results trend when there is a constant number of results and no results are missing should some option be unavailable. Let\u0027s try the skip_list here.",
+      "parentUuid": "9a0b7d60_7b110aac",
+      "revId": "530b38c265390ad8be19193629d3ee537060142a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
