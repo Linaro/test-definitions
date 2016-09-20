@@ -1,0 +1,57 @@
+# Blacklist or skip tests list
+
+chdir01A symlink01 -T chdir01
+fork13 fork13 -i 1000000
+msgctl10 msgctl10
+msgctl11 msgctl11
+# chdir01 is failed due to the way LAVA mounted /tmp file system
+
+sysfs01 sysfs01
+sysfs02 sysfs02
+sysfs03 sysfs03
+sysfs04 sysfs04
+sysfs05 sysfs05
+sysfs06 sysfs06
+# sysfs01 sysfs02 sysfs03 sysfs04 sysfs05 and sysfs06 no more valid.
+# sysfs system call is obsolete; don't use it.
+# This test can only run on kernels that support the sysfs system call
+
+syslog01 syslog01
+syslog02 syslog02
+syslog03 syslog03
+syslog04 syslog04
+syslog05 syslog05
+syslog06 syslog06
+syslog07 syslog07
+syslog08 syslog08
+syslog09 syslog09
+syslog10 syslog10
+# The syslog tests are not valuable for us
+
+ustat01 ustat01
+ustat02 ustat02
+# ustat01 and ustat02 failed only on Juno, because this syscall not implemented on arm-64 architecture.
+# ustat(2) failed and setthe errno to 38 : Function not implemented
+
+overcommit_memory02 overcommit_memory -R 0
+# The testcase seems to be broken unless you have big enough swap so that
+# CommitLimit (which depends on size of the swap) is greater than
+# Commit_AS. In your case the swap size was not big enough to be greater
+# than the amount of currently overcommited memory (Commit_AS).
+
+# The test should be changed to skip the particular testcase and give a
+# beteter message if there is no room to alloace any memory in this case.
+# https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19476.html
+# https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19551.html
+
+cron02 cron02
+cron_deny01 cron_deny01
+cron_allow01 cron_allow01
+cron_dirs_checks01 cron_dirs_checks01
+# crontab: command not found
+# External package cron not installed on rootfs.
+# This test case comes under admin_tools, which is not critical for us
+
+acl_test01 acl_test01
+# acl test cases comes under admin_tools
+# setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
