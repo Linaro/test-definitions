@@ -1,0 +1,42 @@
+metadata:
+    name: ltp
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run LTP test suite on Ubuntu"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - fathi.boudra@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - ifc6410
+params:
+    TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+    # TST_CMDFILES: math,timers
+    # SKIPFILE can be a filename from dir ./automated/linux/ltp/ or an open URL
+    # SKIPFILE: "skipfile-lsk-juno"
+    # "skipfile-lsk-juno" is a known file present in dir ./automated/linux/ltp/
+    # or
+    # SKIPFILE: "http://people.linaro.org/~naresh.kamboju/skipfile"
+    # NOTE: busybox wget may not work with https link so pefer to use http
+    # SKIPFILE: ""
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/ltp/
+        - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>PASS|FAIL|CONF)\\s+\\d+"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+        CONF: skip
