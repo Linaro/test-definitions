@@ -6,16 +6,11 @@ local_file_parent=$(cd $(dirname ${local_file_path}); pwd)
 
 test_bionic_benchmark(){
     local arch=$1
-    local cmd=""
-    if [ "X$arch" != "X32" ]; then
-        cmd="/data/benchmarktest/bionic-benchmarks/bionic-benchmarks32"
-    elif [ "X$arch" != "X64" ]; then
-        cmd="/data/benchmarktest64/bionic-benchmarks/bionic-benchmarks64"
-    else
+    if [ "X$arch" != "X32" ] && [ "X$arch" != "X64" ]; then
         echo "The specified $arch is not specified!"
         return
     fi
-    chmod +x ${cmd}
+    local cmd="bionic-benchmarks${arch}"
     if [ -n "$(which ${cmd})" ]; then
         for  res_line in $(${cmd}|grep "BM_"|tr -s ' '|tr ' ' ','); do
             local key=$(echo $res_line|cut -d, -f1|tr '/' '_')
