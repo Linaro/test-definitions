@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_8ef59bcd",
+        "filename": "android/scripts/bionic-benchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-29T02:02:04Z",
+      "side": 1,
+      "message": "\"\u003d\u003d\" can be used for matching, but it is not portable.  \"\u003d\"  probably is a better choice for string comparison.\n\n\"man test\" shows\n\nSTRING1 \u003d STRING2\n              the strings are equal",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "89ebaccb13cb4110951b7216cfdebf7c1800037c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
