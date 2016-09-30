@@ -1,0 +1,35 @@
+metadata:
+    name: monkey-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "monkey test."
+    maintainer:
+        - erin.liu@linaro.org
+    os:
+        - android
+    devices:
+        - whale2
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+        - local-test-runner
+
+    params:
+        # Specify device serial number for adb connection if more than one device
+        # connected.
+        SN: ""
+        # Applist which will not run
+        BLACKLIST: "setting,camera"
+        # Basic monkey comand parameter
+        MONKEYPARA: "--ignore-timeouts --ignore-security-exceptions --kill-process-after-error -v -v -v"
+        # The number of monkey event
+        EVENTNUM: "1000"
+        # The interval of monkey event
+        THROTTLE: "200"
+
+    run:
+        steps:
+            - cd ./automated/android/monkey-test
+            - ./monkey.sh -s "${SN}" -b "${BLACKLIST}" -p "${MONKEYPARA}" -e "${EVEVTNUM}" -t "${THROTTLE}"
+            - ../../utils/send-to-lava.sh ./output/result.txt
+
