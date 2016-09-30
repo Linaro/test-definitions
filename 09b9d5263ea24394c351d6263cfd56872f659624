@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_f11c026d",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "please remove white spaces.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 1
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_d119067b",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "exit 0 is better than exit 1.\nPlease use exit 0 here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_31268abb",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 29
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_91365ee6",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "Good to source these files at start of the file.\nMay line on line number 3.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 28
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_112b8e83",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 2
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_7120129c",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 1
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_512516aa",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 9
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_f13362f4",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 4
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_d130e6ea",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 1
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_b1127a56",
+        "filename": "android/scripts/monkey-test/monkey.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "please remove white spaces",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 3
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_910f7e2e",
+        "filename": "android/scripts/monkey-test/monkey.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "please keep a space between # and char\n# Applist",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_510eb635",
+        "filename": "android/scripts/monkey-test/monkey.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-09-30T01:39:43Z",
+      "side": 1,
+      "message": "please remove white spaces",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 7
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
