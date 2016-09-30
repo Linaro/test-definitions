@@ -1,0 +1,42 @@
+metadata:
+    name: monkey
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Monkey performs stress testing for stability using monkey
+                  command which generates pesudo-random streams of user events
+                  such as clicks, touches, or gestures as well as some system
+                  level events."
+    maintainer:
+        - erin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - juno
+    scope:
+        - functional
+        - performance
+    environment:
+        - lava-test-shell
+        - local-test-runner
+
+params:
+    # Specify device serial no. when more than one device connected.
+    ANDROID_SERIAL: ""
+    # Specify timeout in seconds for wait_boot_completed.
+    BOOT_TIMEOUT: "300"
+    # Blacklist packages known to crash.
+    BLACKLIST: "com.android.development_settings com.android.music com.android.deskclock"
+    # Basic monkey comand parameters.
+    MONKEY_PARAMS: "-s 1 --pct-touch 10 --pct-motion 20 --pct-nav 20 --pct-majornav 30 --pct-appswitch 20"
+    # The number of monkey event.
+    EVENT_COUNT: "1000"
+    # The interval of monkey event.
+    THROTTLE: "200"
+
+run:
+    steps:
+        - cd ./automated/android/monkey
+        - ./monkey.sh -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -b "${BLACKLIST}" -p "${MONKEY_PARAMS}" -e "${EVENT_COUNT}" -T "${THROTTLE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
