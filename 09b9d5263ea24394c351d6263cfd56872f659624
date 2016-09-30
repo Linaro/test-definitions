@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_71577203",
+        "filename": "android/scripts/monkey-test/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-09-30T01:56:38Z",
+      "side": 1,
+      "message": "If string \"Monkey finished\" existence check in output is all you need, then the following two lines will do the job.\n\n\ngrep \"Monkey finished\" \"${HOST_OUTPUT}/monkey-test-output.txt\"\ncheck_return \"monkey-test\"\n\n\nRefer to sh-test-lib for check_return",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "09b9d5263ea24394c351d6263cfd56872f659624",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_112b8e83",
         "filename": "android/scripts/monkey-test/monkey.sh",
         "patchSetId": 1
