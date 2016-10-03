@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_d1c46661",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-03T10:01:30Z",
+      "side": 1,
+      "message": "should be:\nautomated: android: add monkey test case",
+      "revId": "9a85dd7ebd66faa430110ffc6157b6d7d5595b3e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_11a6eec1",
+        "filename": "automated/android/monkey/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-03T10:01:30Z",
+      "side": 1,
+      "message": "some variables don\u0027t have sane defaults. So it\u0027s not possible to run this script without LAVA. Please add the defaults.",
+      "revId": "9a85dd7ebd66faa430110ffc6157b6d7d5595b3e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_31a16aaa",
+        "filename": "automated/android/monkey/monkey.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-03T10:01:30Z",
+      "side": 1,
+      "message": "is it really necessary? Monkey is built into the rootfs. It\u0027s probably better to check if it\u0027s available rather than assume it\u0027s always there. ABI doesn\u0027t change anything here.",
+      "revId": "9a85dd7ebd66faa430110ffc6157b6d7d5595b3e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_f1c7e262",
+        "filename": "automated/android/monkey/monkey.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-03T10:01:30Z",
+      "side": 1,
+      "message": "please make the description a bit more verbose.",
+      "revId": "9a85dd7ebd66faa430110ffc6157b6d7d5595b3e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_b1cd5a89",
+        "filename": "automated/android/monkey/monkey.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-03T10:01:30Z",
+      "side": 1,
+      "message": "We don\u0027t have this device type in Cambridge lab.",
+      "revId": "9a85dd7ebd66faa430110ffc6157b6d7d5595b3e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_91cade6c",
+        "filename": "automated/android/monkey/monkey.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-03T10:01:30Z",
+      "side": 1,
+      "message": "monkey is a functional test",
+      "revId": "9a85dd7ebd66faa430110ffc6157b6d7d5595b3e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
