@@ -18,7 +18,7 @@ metadata:
         - ifc6410
 params:
     # LTP version
-    LTP_VERSION: 20160510
+    LTP_VERSION: 20160920
     TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
     # TST_CMDFILES: math,timers
     # SKIPFILE can be a filename from dir ./automated/linux/ltp/ or an open URL
