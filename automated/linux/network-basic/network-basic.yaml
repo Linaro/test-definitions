@@ -1,0 +1,30 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: network-tests-basic
+    description: "Basic network test commands for Linaro Ubuntu images"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-tc2
+        - juno
+
+params:
+    INTERFACE: eth0
+    GATEWAY: 10.0.0.1
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/network-basic/
+        - ./network-basic.sh -s "${SKIP_INSTALL}" -g "${GATEWAY}" -i "${INTERFACE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
