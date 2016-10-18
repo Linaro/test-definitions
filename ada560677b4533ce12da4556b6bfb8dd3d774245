@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_b88536af",
+        "filename": "automated/linux/network-basic/network-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-18T00:25:40Z",
+      "side": 1,
+      "message": "The same as line #44, we should use ip command for interface up/down test. ifconfig will be repalced by ip eventually. Refer to https://tty1.net/blog/2010/ifconfig-ip-comparison_en.html",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "ada560677b4533ce12da4556b6bfb8dd3d774245",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
