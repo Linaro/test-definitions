@@ -17,7 +17,7 @@ test_bionic_benchmark(){
     fi
     chmod +x ${cmd}
     if [ -n "$(which ${cmd})" ]; then
-        for  res_line in $(${cmd}|grep "BM_"|tr -s ' '|tr ' ' ','); do
+        for  res_line in $(${cmd} --color_print=false |grep "BM_"|tr -s ' '|tr ' ' ','); do
             local key=$(echo $res_line|cut -d, -f1|tr '/' '_')
             local iterations=$(echo $res_line|cut -d, -f2)
             local ns_time=$(echo $res_line|cut -d, -f3)
