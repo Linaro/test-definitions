@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_4e3728b1",
+        "filename": "automated/linux/optee/optee-xtest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-19T03:15:11Z",
+      "side": 1,
+      "message": "I only have openembedded listed here at the moment. The test case itself should just works on Debian, but xtest is missing there. I will check if it is possible to build xtest on hikey RPB.",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "a58b7f17589dcf7e0634c68a0b8a46da2948e980",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
