@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_899e2a55",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-19T13:36:39Z",
+      "side": 1,
+      "message": "we need build-essential to do this step.",
+      "revId": "c0c8afbe3767013e70af6db5583dac9d6ffb478a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_c99f924f",
+        "filename": "automated/linux/fio-test/fio-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-19T13:36:39Z",
+      "side": 1,
+      "message": "I guess it\u0027s OK to run it on hikey and db410c as well.",
+      "revId": "c0c8afbe3767013e70af6db5583dac9d6ffb478a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
