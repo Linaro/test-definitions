@@ -143,6 +143,20 @@ install_deps() {
     fi
 }
 
+# Return the exit code of the first command when using pipe.
+pipe0_status() {
+    [ "$#" -ne 2 ] && error_msg "Usage: pipe0_status cmd1 cmd2"
+    local cmd1="$1"
+    local cmd2="$2"
+
+    exec 4>&1
+    ret_val=$({ { eval "${cmd1}" 3>&-; echo "$?" 1>&3; } 4>&- \
+                | eval "${cmd2}" 1>&4; } 3>&1)
+    exec 4>&-
+
+    return "${ret_val}"
+}
+
 validate_check_sum() {
     if [ "$#" -ne 2 ]; then
         warn_msg "The number of parameters should be 2"
@@ -152,8 +166,8 @@ validate_check_sum() {
     OUTPUT_FILE_NAME="$1"
     SHA256SUM_CHECK="$2"
     # Get sha256sum of output_file
-    GET_SHA256SUM=$(sha256sum ${OUTPUT_FILE_NAME} | awk '{print $1}')
-    echo "GET_SHA256SUM is "${GET_SHA256SUM}""
+    GET_SHA256SUM=$(sha256sum "${OUTPUT_FILE_NAME}" | awk '{print $1}')
+    echo "GET_SHA256SUM is ${GET_SHA256SUM}"
     if [ "${SHA256SUM_CHECK}" = "${GET_SHA256SUM}" ] ; then
         return 0
     else
