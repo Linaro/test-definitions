@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_ee737413",
+        "filename": "automated/linux/disk/disk-partitioning.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-10-19T09:00:18Z",
+      "side": 1,
+      "message": "umoun -\u003e umount",
+      "range": {
+        "startLine": 67,
+        "startChar": 24,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "38d9fcae98fdf3f1d9b7ded5d640f03f1f0e679e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_4e60c835",
+        "filename": "automated/linux/disk/disk-partitioning.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-10-19T09:00:18Z",
+      "side": 1,
+      "message": "can we use -b instead of -z ?\nSince ${DEVICE} expects block device right ?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 18
+      },
+      "revId": "38d9fcae98fdf3f1d9b7ded5d640f03f1f0e679e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
