@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_29c4563f",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-19T13:42:49Z",
+      "side": 1,
+      "message": "please move it to separate commit.",
+      "revId": "f83943bc86c0f361bc922ba00ea1f4a42d214774",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
