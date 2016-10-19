@@ -1,0 +1,27 @@
+metadata:
+    name: optee-xtest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "OP-TEE sanity test suite"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - openembedded
+        - debian
+    scope:
+        - functional
+        - performance
+    devices:
+        - juno
+        - hi6220-hikey
+
+params:
+    # Test suite level: [0-15]
+    TEST_LEVEL: "0"
+    # Available test suite: regression, benchmark
+    TEST_SUITE: "regression"
+
+run:
+    steps:
+        - cd ./automated/linux/optee/
+        - ./optee-xtest.sh -l "${TEST_LEVEL}" -t "${TEST_SUITE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
