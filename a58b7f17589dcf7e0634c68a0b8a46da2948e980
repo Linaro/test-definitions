@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7af0899e_ce8838c9",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-10-19T09:37:01Z",
+      "side": 1,
+      "message": "please add more indentation after \\",
+      "range": {
+        "startLine": 154,
+        "startChar": 8,
+        "endLine": 154,
+        "endChar": 38
+      },
+      "revId": "a58b7f17589dcf7e0634c68a0b8a46da2948e980",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_ae85ecae",
+        "filename": "automated/linux/optee/optee-xtest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-10-19T09:37:01Z",
+      "side": 1,
+      "message": "to get the easy reading and identification please change,\nexit_on_fail xtest-existence-check\nexit_on_fail \"xtest-existence-check\"",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 34
+      },
+      "revId": "a58b7f17589dcf7e0634c68a0b8a46da2948e980",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_4e3728b1",
         "filename": "automated/linux/optee/optee-xtest.yaml",
         "patchSetId": 1
