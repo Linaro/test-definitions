@@ -116,6 +116,30 @@
       "revId": "a58b7f17589dcf7e0634c68a0b8a46da2948e980",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_a90fa6e0",
+        "filename": "automated/linux/optee/optee-xtest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-19T11:18:56Z",
+      "side": 1,
+      "message": "Added Debian in patch set #3. \n\nPer the discussion in https://projects.linaro.org/browse/QA-1293. We need xtest pre-installed or available from package repo. For the second case, once the package available, I will unblock https://projects.linaro.org/browse/QA-1383 and add package install steps.",
+      "parentUuid": "7af0899e_4e3728b1",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "a58b7f17589dcf7e0634c68a0b8a46da2948e980",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
