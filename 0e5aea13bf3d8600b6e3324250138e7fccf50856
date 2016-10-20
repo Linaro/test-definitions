@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_9f0c9c96",
+        "filename": "common/scripts/vland/get_vland_interface.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-10-20T15:02:00Z",
+      "side": 1,
+      "message": "can this return zero?\nsafer to use [ ... -ne 1 ] perhaps?",
+      "range": {
+        "startLine": 46,
+        "startChar": 5,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "0e5aea13bf3d8600b6e3324250138e7fccf50856",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_5f1234b5",
+        "filename": "common/scripts/vland/get_vland_mac.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-10-20T15:02:00Z",
+      "side": 1,
+      "message": "Wouldn\u0027t just \"cat\" do here?\ncat /sys/class/net/${iface}/address",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "0e5aea13bf3d8600b6e3324250138e7fccf50856",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
