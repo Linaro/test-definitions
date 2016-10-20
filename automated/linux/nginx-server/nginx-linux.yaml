@@ -1,0 +1,36 @@
+metadata:
+    name: httperf-nginx-linux-ip
+    format: Lava-Test-Shell Test Definition 1.0
+    description: Server running plain NGiNX, no acceleration
+    environment:
+        - lava-test-shell
+    maintainer:
+        - josep.puigdemont@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - x86
+
+install:
+    deps:
+        - bash
+        - ethtool
+        - procps
+        - sysstat
+
+params:
+    CONFIG_TYPE: linux-ip
+    MAX_CORES: 0
+    VLAND_NAME: vlan_one
+
+run:
+    steps:
+        - echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
+        - apt-get update
+        - apt-get install -y -t jessie-backports nginx
+        - export CONFIG_TYPE
+        - export MAX_CORES
+        - export VLAND_NAME
+        - echo $CONFIG_TYPE, $MAX_CORES, $VLAND_NAME
+        - lava-test-case httperf-nginx-server --shell ./automated/linux/nginx-server/nginx-server.sh
