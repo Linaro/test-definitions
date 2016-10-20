@@ -24,8 +24,9 @@ pkgs="openssl"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 # Record openssl vesion as it has a big impact on test reuslt.
-openssl_version="$(openssl version | awk '{print $2}')"
-add_metric "openssl-version" "pass" "${openssl_version}" "version"
+openssl version \
+  | awk '{printf("openssl-version pass %s %s\n", substr($2, 1, 5), substr($2, 6))}' \
+  | tee -a "${RESULT_FILE}"
 
 # Test run.
 cipher_commands="md5 sha1 sha256 sha512 des des-ede3 aes-128-cbc aes-192-cbc \
