@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_5f04f47d",
+        "filename": "common/scripts/vland/get_vland_interface.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-10-20T14:44:46Z",
+      "side": 1,
+      "message": "nitpick: no need for quotations with -n (same below)",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "d4b7671bec30be0c08465b3ee38130a0bebe9628",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_9ffe5c6a",
+        "filename": "common/scripts/vland/get_vland_interface.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-10-20T14:44:46Z",
+      "side": 1,
+      "message": "We need to catch the else branch here, because the user requested info about $vland_name, but we didn\u0027t find it. If we don\u0027t, we will return the first value available.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "d4b7671bec30be0c08465b3ee38130a0bebe9628",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
