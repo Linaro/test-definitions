@@ -53,8 +53,8 @@ fi
 cp ./html/* /var/www/html/
 
 # Test Apache.
-curl -o "${OUPUT}/index.html" "http://localhost/index.html"
-grep "Test Page for the Apache HTTP Server" "${OUPUT}/index.html"
+curl -o "${OUTPUT}/index.html" "http://localhost/index.html"
+grep "Test Page for the Apache HTTP Server" "${OUTPUT}/index.html"
 check_return "apache2-test-page"
 
 # Test MySQL.
