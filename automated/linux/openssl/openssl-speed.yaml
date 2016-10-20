@@ -1,0 +1,30 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: openssl-speed
+    description: "Use openssl speed command to test the performance of
+                  cryptographic algorithms"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    devices:
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - d03
+        - d05
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/openssl/
+        - ./openssl-speed.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
