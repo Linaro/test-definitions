@@ -16,6 +16,24 @@
       "revId": "f83943bc86c0f361bc922ba00ea1f4a42d214774",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_e45d534a",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-20T02:24:50Z",
+      "side": 1,
+      "message": "Moved to https://review.linaro.org/#/c/14913/",
+      "parentUuid": "7af0899e_29c4563f",
+      "revId": "f83943bc86c0f361bc922ba00ea1f4a42d214774",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
