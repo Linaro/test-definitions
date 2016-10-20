@@ -1,0 +1,22 @@
+metadata:
+    name: httperf-runner
+    format: Lava-Test-Shell Test Definition 1.0
+    description: Run httperf against a web webserver to measure performance
+    environment:
+        - lava-test-shell
+
+install:
+    deps:
+        - bash
+        - ethtool
+        - httperf
+        - python-argparse
+        - wget
+
+run:
+    steps:
+        - export VLAND_NAME
+        - export INITIAL_RATE
+        - export INITIAL_STEP
+        - echo $VLAND_NAME, $INITIAL_RATE, $INITIAL_STEP
+        - lava-test-case httperf-client --shell ./common/scripts/httperf-client.sh
