@@ -1,0 +1,37 @@
+metadata:
+    name: httperf-runner
+    format: Lava-Test-Shell Test Definition 1.0
+    description: Run httperf against a web webserver to measure performance
+    environment:
+        - lava-test-shell
+    maintainer:
+        - josep.puigdemont@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    devices:
+        - x86
+
+install:
+    deps:
+        - bash
+        - ethtool
+        - httperf
+        - python-argparse
+        - wget
+
+params:
+        INITIAL_RATE: 10000
+        INITIAL_STEP: 10000
+        MY_IP: 192.168.1.1
+        SERVER_IP: 192.168.1.4
+
+run:
+    steps:
+        - export VLAND_NAME
+        - export INITIAL_RATE INITIAL_STEP
+        - export SERVER_IP MY_IP
+        - echo $VLAND_NAME, $INITIAL_RATE, $INITIAL_STEP
+        - lava-test-case httperf-client --shell ./automated/linux/httperf-client/httperf-client.sh
