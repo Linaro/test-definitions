@@ -1,0 +1,44 @@
+metadata:
+    name: sdcard-cold-boot
+    format: "Manual Test Definition 1.0"
+    description: "Test sd-card cold boot on Debian."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash debian build.
+        - Power on the board until boot up successfully.
+        - Plug SD card into the slot on board after after boot is complete.
+        - On terminal/serial console run:
+        - lsblk
+        - Check the name of SD card and mount it.
+        - sudo mount /dev/mmcblk0 /media/
+        - cd /media
+        - ls
+        - cd ..
+        - umount /media
+
+    expected:
+        - Output of "lsblk" should be similar to this.
+          NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+          sda           8:0    0 465.8G  0 disk
+          ├─sda1        8:1    0   1.5G  0 part
+          ├─sda2        8:2    0   116G  0 part
+          ├─sda4        8:4    0     1K  0 part
+          ├─sda5        8:5    0    38G  0 part [SWAP]
+          └─sda6        8:6    0 176.2G  0 part /
+          sr0          11:0    1 601.5M  0 rom
+          mmcblk0     179:0    0   7.5G  0 disk
+          └─mmcblk0p1 179:1    0   7.5G  0 part /media/40F0-07C2
+        - SD card is mounted/unmounted and content of SD card shows up with "ls" command.
+        - No kernel panic or crash is observed on serial console.

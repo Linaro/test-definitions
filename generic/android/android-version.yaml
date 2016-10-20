@@ -1,0 +1,28 @@
+metadata:
+    name: android-android-version
+    format: "Manual Test Definition 1.0"
+    description: "Test if the kernel version is correct"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "From UI application goto Settings"
+        - "Select 'About tablet' feature from the last options of settings"
+        - "Check Android version"
+
+    expected:
+        - "Validate the Android version matches the current tag version"
+

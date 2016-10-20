@@ -1,0 +1,30 @@
+metadata:
+    name: hikey-power-button
+    format: "Manual Test Definition 1.0"
+    description: "Test if the behaviour of hikey power button follows the definition in hardware user guide."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - android
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power off the board and remove Auto Power Jumper(link 1-2) if it is installed.
+        - Press power button and hold more a second to see if it can power on the board.
+        - Boot to OS, press and release power button to see if it can power off the board.
+        - Boot to OS, press and hold power buttion for >4 seconds to see if it can reset the board.
+
+    expected:
+        # Please find Hikey hardware user guide on the below page
+        # https://github.com/96boards/documentation/wiki/HiKeyGettingStarted#96boards-hikey
+        - Test result should match the following behaviours defined in hardware user guide.
+        - A press and hold will power on the board if the Auto Power Jumper is not installed.
+        - A press and release will then power off the board.
+        - A press and hold for >4 seconds will reset the board.

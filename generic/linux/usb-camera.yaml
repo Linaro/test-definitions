@@ -1,0 +1,34 @@
+metadata:
+    name: usb-camera
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB camera works on Linux"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - linux
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Login as root and plug in your USB camera.
+        - Run "apt-get install cheese" to install Cheese.
+        - Open Cheese, go to its preference and select your USB camera.
+        - Take a photo and a video.
+        - Open the photo and play the video.
+
+    expected:
+        - In Cheese preference, USB camera appears in the device list.
+        - Photo and video taking are successful.
+        - The photo and the video look good.
+        - No crash observed.

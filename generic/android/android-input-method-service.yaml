@@ -1,0 +1,32 @@
+metadata:
+    name: android-input-method-service
+    format: "Manual Test Definition 1.0"
+    description: "Test if Android input method service works"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen"
+        - "On host PC, in terminal, run:
+           # lava-android-test install ime
+           # lava-android-test run ime"
+        - "Power OFF and power ON the board again to boot into Android main screen"
+        - "In serial console, run:
+           # /system/bin/ime list -a"
+
+    expected:
+        - "LAVA test should pass"
+        - "Input method service should be shown in output of command \"/system/bin/ime list -a\""

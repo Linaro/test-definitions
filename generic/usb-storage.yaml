@@ -1,0 +1,36 @@
+metadata:
+    name: usb-storage
+    format: "Manual Test Definition 1.0"
+    description: "Basic test for USB keyboard functionality"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - android
+        - linux
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Login in as root and plug in your USB storage device.
+        - Run "demsg" to find the device ID. Take "sda1" for example.
+        - Run the following command to mount the disk. Modify the disk format as needed.
+        - On Linux, run  "mount /dev/sda1 /mnt/"
+        - On Android, run "mount -t vfat /dev/block/sda1 /mnt/"
+        - Copy a file to /mnt and then delete the file.
+        - Execute "umount /mnt" to umount the device.
+
+    expected:
+        - Disk mount and umount tests are successful.
+        - File copying is successful and the file can be deleted.
+        - No crash is observed from serial console.

@@ -1,0 +1,31 @@
+metadata:
+    name: sd-mmc
+    format: "Manual Test Definition 1.0"
+    description: "Test if the SD/MMC cards are properly registered by kernel"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - ifc6410
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on the board until boot successfully
+        - In serial console, run
+        - "$ dmesg | grep error"
+
+    expected:
+        - "There should be no 'I/O' error shown in std output."

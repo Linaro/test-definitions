@@ -1,0 +1,28 @@
+metadata:
+    name: andriod-powerdebug
+    format: "Manual Test Definition 1.0"
+    description: "Test if Powerdebug utility works"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Simply run \"powerdebug\" in a ADB shell"
+        - "Then go through those 4 tabs by clicking \"Tab\" key"
+        - "Click \"Q\" to exit"
+
+    expected:
+        - "You can collect this information on all boards you test"
+        - "Releated bug: https://bugs.launchpad.net/linaro-powerdebug/+bug/1229658"

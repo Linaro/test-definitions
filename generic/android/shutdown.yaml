@@ -1,0 +1,29 @@
+metadata:
+    name: android-shutdwon
+    format: "Manual Test Definition 1.0"
+    description: "Check 'Power OFF' feature from UI"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Make sure the board is connected to the display
+        - Power on the board until boot up successfully.
+        - Press and release "Power" button
+        - Tap/click "Shutdown" on the on-screen menu
+
+    expected:
+        - On-screen "Shutdown" meny is displayed
+        - The board is shut down successfully, no display shows and no activity in serial console.
+        - No Kernel panic, crash, hang or any other severe error observed.

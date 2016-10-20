@@ -1,0 +1,25 @@
+metadata:
+    name: small-wifi-file-transfer
+    format: "Manual Test Definition 1.0"
+    description: "Small file transfer over WiFi."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash android build, power on the board until boot up successfully.
+        - Connect WiFi to an access point. Steps to connect https://git.linaro.org/qa/manual-test-definitions.git/blob/HEAD:/generic/android/wifi.yaml
+        - Open browser from menu and type this link "http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K_short.AVI"
+        - The file is 1.8MB in size and should start downloading automatically.
+
+    expected:
+        - "Downloading full AVI file completes without any error."

@@ -1,0 +1,46 @@
+metadata:
+    name: linux-bluetooth-audio
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth audio works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board to console
+        - Make sure at least one BT A2DP (speaker, headset) device is available in the radio range and in discoverable mode.
+        - "$ sudo bluetoothctl -a"
+        - "[bluetooth]# pairable on"
+        - "[bluetooth]# scan on"
+        - "[bluetooth]# connect <mac_id>"
+        - "[bluetooth]# quit"
+        - Use paplay to play .WAV file. Run
+        - "$ pactl list"
+        - If the active profile isn't A2DP, then set it or else skip.
+        - "$ pactl set-card-profile 0 a2dp"
+        - Play sound and should be able to hear on speaker.
+        - "$ paplay -d bluez_sink.<mac_id> /usr/share/sounds/alsa/Front_Center.wav"
+        - Play .MP3/.OGG file via xmms. Start xmms2, add files to the default playlist and play.
+        - "$ xmms2"
+        - "xmms2> add file.mp3"
+        - "xmms2> add file.ogg"
+        - "xmms2> play"
+        - Set volume via xmms2
+        - "xmms2> server volume [0..100]"
+
+    expected:
+        - Scanning works and device MAC addresses are displayed
+        - It is possible to connect to audio device
+        - Playback works well with no bad sound artifacts
+        - Setting volume works well
+        - No kernel errors crashes occur

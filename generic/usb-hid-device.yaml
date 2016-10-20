@@ -1,0 +1,35 @@
+metadata:
+    name: usb-hid-device
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB HID device can be detected and works properly"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - android
+        - linux
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Connect USB keyboard and mouse to the device.
+        - Boot the board.
+        - Open an editor and press keyboard keys to check if it works properly.
+        - Check mouse buttons by opening some applications.
+        - Reconnect USB keyboard and mouse and do the previous two steps.
+
+    expected:
+        - USB keyboard and mouse should be detected successfully.
+        - USB keyboard and mouse should work properly.
+        - USB keyboard and mouse should work properly after hotplug.
+        - No crash is observed from serial console.

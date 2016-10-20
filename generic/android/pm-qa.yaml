@@ -1,0 +1,159 @@
+metadata:
+    name: andriod-pm-qa
+    format: "Manual Test Definition 1.0"
+    description: "Power Management QA"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen"
+        - "lp:~kejun-zhou/lava-android-test/pm-qa"
+        - "Power off and power on the board again to boot into Android main screen"
+        - "Ensure there is at least one active network connection on the board"
+        - "In serial console, run:
+           # cd /sdcard
+           # wget http://bazaar.launchpad.net/~linaro-validation/lava-android-test/trunk/view/head:/lava_android_test/test_definitions/pm-qa/pm-qa.sh
+           # ./pm-qa.sh"
+
+    expected:
+        - "The test result of \"cpuidle\" suite in pm-qa should look like this:
+           root@android:/ # pm-qa.sh
+           /system/xbin/pm-qa
+           /system/xbin/pm-qa/cpuidle
+           ./cpuidle_01.sh
+           cpuidle_01.0: checking 'current_driver' exists...                           pass
+           cpuidle_01.1: checking 'current_governor_ro' exists...                      pass
+           cpuidle_01.0/cpu0: checking 'desc' exists...                                pass
+           cpuidle_01.1/cpu0: checking 'latency' exists...                             pass
+           cpuidle_01.2/cpu0: checking 'name' exists...                                pass
+           cpuidle_01.3/cpu0: checking 'power' exists...                               pass
+           cpuidle_01.4/cpu0: checking 'time' exists...                                pass
+           cpuidle_01.5/cpu0: checking 'usage' exists...                               pass
+           cpuidle_01.6/cpu0: checking 'desc' exists...                                pass
+           cpuidle_01.7/cpu0: checking 'latency' exists...                             pass
+           cpuidle_01.8/cpu0: checking 'name' exists...                                pass
+           cpuidle_01.9/cpu0: checking 'power' exists...                               pass
+           cpuidle_01.10/cpu0: checking 'time' exists...                               pass
+           cpuidle_01.11/cpu0: checking 'usage' exists...                              pass
+           cpuidle_01.0/cpu1: checking 'desc' exists...                                pass
+           cpuidle_01.1/cpu1: checking 'latency' exists...                             pass
+           cpuidle_01.2/cpu1: checking 'name' exists...                                pass
+           cpuidle_01.3/cpu1: checking 'power' exists...                               pass
+           cpuidle_01.4/cpu1: checking 'time' exists...                                pass
+           cpuidle_01.5/cpu1: checking 'usage' exists...                               pass
+           cpuidle_01.6/cpu1: checking 'desc' exists...                                pass
+           ..."
+        - "The test result of \"cpufreq\" suite in pm-qa should look like this:
+           /system/xbin/pm-qa/cpufreq
+           ./cpufreq_06.sh
+           ./cpufreq_06.sh[107]: [: gid=1007(log): unexpected operator/operand
+           cpufreq_06.0/cpu0: checking deviation for frequency 200.0 MHz...            pass
+           cpufreq_06.1/cpu0: checking deviation for frequency 400.0 MHz...            pass
+           cpufreq_06.2/cpu0: checking deviation for frequency 800.0 MHz...            pass
+           cpufreq_06.3/cpu0: checking deviation for frequency 1000.0 MHz...           fail
+           cpufreq_06.0/cpu1: checking deviation for frequency 200.0 MHz...            pass
+           cpufreq_06.1/cpu1: checking deviation for frequency 400.0 MHz...            pass
+           cpufreq_06.2/cpu1: checking deviation for frequency 800.0 MHz...            pass
+           cpufreq_06.3/cpu1: checking deviation for frequency 1000.0 MHz...           fail
+           ./cpufreq_08.sh
+           ./cpufreq_08.sh[72]: [: gid=1007(log): unexpected operator/operand
+           cpufreq_08.0/cpu0: checking 'userspace' 200.0 MHz is fixed...               pass
+           cpufreq_08.1/cpu0: checking 'userspace' 400.0 MHz is fixed...               pass
+           cpufreq_08.2/cpu0: checking 'userspace' 800.0 MHz is fixed...               pass
+           cpufreq_08.3/cpu0: checking 'userspace' 1000.0 MHz is fixed...              pass
+           cpufreq_08.0/cpu1: checking 'userspace' 200.0 MHz is fixed...               pass
+           ..."
+        - "The test result of \"cpuhotplug\" suite in pm-qa should look like this:
+           /system/xbin/pm-qa/cpuhotplug
+           ./cpuhotplug_05.sh
+           [  340.828277] [sched_delayed] process 2310 (cpuidle_killer) no longer affine to cpu1
+           [  340.828308] CPU1: shutdown
+           [  340.828308] CPU1: shutdown
+           cpuhotplug_05.0/cpu1: checking offline processor not found in cpuinfo...    pass
+           [  341.087402] CPU1: Booted secondary processor
+           ./cpuhotplug_06.sh
+           [  341.199829] CPU1: shutdown
+           [  341.199859] CPU1: shutdown
+           cpuhotplug_06.0/cpu1: checking offline processor not found in interrupts... pass
+           [  341.347381] CPU1: Booted secondary processor
+           ./cpuhotplug_01.sh
+           cpuhotplug_01.0: checking 'online' exists...                                pass
+           cpuhotplug_01.1: checking 'offline' exists...                               pass
+           cpuhotplug_01.2: checking 'possible' exists...                              pass
+           cpuhotplug_01.3: checking 'present' exists...                               pass
+           ..."
+        - "The test result of \"sched_mc\" suite in pm-qa should look like this:
+           /system/xbin/pm-qa/sched_mc
+           ./sched_01.sh
+           sched_01.0: checking 'sched_mc_power_savings' exists...                     pass
+           ./sched_03.sh
+           sched_03.0/cpu0: checking 'core_id' exists...                               pass
+           sched_03.1/cpu0: checking 'core_siblings' exists...                         pass
+           sched_03.2/cpu0: checking 'core_siblings_list' exists...                    pass
+           sched_03.3/cpu0: checking 'physical_package_id' exists...                   pass
+           sched_03.4/cpu0: checking 'thread_siblings' exists...                       pass
+           sched_03.5/cpu0: checking 'thread_siblings_list' exists...                  pass
+           sched_03.0/cpu1: checking 'core_id' exists...                               pass
+           sched_03.1/cpu1: checking 'core_siblings' exists...                         pass
+           sched_03.2/cpu1: checking 'core_siblings_list' exists...                    pass
+           sched_03.3/cpu1: checking 'physical_package_id' exists...                   pass
+           sched_03.4/cpu1: checking 'thread_siblings' exists...                       pass
+           sched_03.5/cpu1: checking 'thread_siblings_list' exists...                  pass
+           ./sched_04.sh
+           ./sched_04.sh[67]: [: gid=1007(log): unexpected operator/operand
+           sched_04.0: checking setting value to 0...                                  pass
+           sched_04.1: checking setting value to 1...                                  pass
+           sched_04.2: checking setting value to 2...                                  pass
+           sched_04.3: checking setting invalid value to 3...                          pass
+           sched_04.4: checking setting invalid value to -1...                         pass
+           ./sched_02.sh
+           sched_02.0/cpu0: checking topology is enabled...                            pass
+           sched_02.0/cpu1: checking topology is enabled...                            pass
+           ..."
+        - "The test result of \"suspend\" suite in pm-qa should look like this:
+           /system/xbin/pm-qa/suspend
+           ./suspend_06.sh
+           ./suspend_06.sh: ../include/suspend.sh[301]: uid=0(root) gid=1007(log): unexpected '('
+           *** machine will suspend for 20 seconds
+           Suspend iteration 1 of 5
+           suspend_06.0: checking iteration suspend/resume stress test...              test-suspend SUSPEND FAILED, did not go to sleep
+           fail
+           wait for 10 seconds...
+           Suspend iteration 2 of 5
+           suspend_06.1: checking iteration suspend/resume stress test...              test-suspend SUSPEND FAILED, did not go to sleep
+           fail
+           wait for 10 seconds...
+           Suspend iteration 3 of 5
+           suspend_06.2: checking iteration suspend/resume stress test...              test-suspend SUSPEND FAILED, did not go to sleep
+           fail
+           wait for 10 seconds...
+           Suspend iteration 4 of 5
+           suspend_06.3: checking iteration suspend/resume stress test...              test-suspend SUSPEND FAILED, did not go to sleep
+           fail
+           wait for 10 seconds...
+           Suspend iteration 5 of 5
+           suspend_06.4: checking iteration suspend/resume stress test...              test-suspend SUSPEND FAILED, did not go to sleep
+           fail
+           wait for 10 seconds...
+           ./suspend_01.sh
+           ./suspend_01.sh: ../include/suspend.sh[301]: uid=0(root) gid=1007(log): unexpected '('
+           *** no primary user (via sudo) dbus tests skipped ...
+           ./suspend_05.sh
+           ./suspend_05.sh: ../include/suspend.sh[301]: uid=0(root) gid=1007(log): unexpected '('
+           *** machine will suspend for 20 seconds
+           suspend_05.0: checking iteration variable delay suspend/resume...           test-suspend SUSPEND FAILED, did not go to sleep
+           fail
+           wait for 20 seconds..."

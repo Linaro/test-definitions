@@ -1,0 +1,29 @@
+metadata:
+    name: power-off
+    format: "Manual Test Definition 1.0"
+    description: "Check 'Re-boot' function from UI."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on the board.
+        - Wait until board boots up successfully to UI.
+        - Reboot the board using UI reboot option.
+
+    expected:
+        - "The board should can be rebooted successfully."
+        - "No Kernel panic, crash, hang or any other severe error observed."

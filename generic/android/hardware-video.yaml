@@ -1,0 +1,30 @@
+metadata:
+    name: andriod-hardware-video
+    format: "Manual Test Definition 1.0"
+    description: "Test if hardware accelerated video works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Download \"big_buck_bunny_480p_H264_AAC_25fps_1800K.MP4\" video file from the below link and transfer it to SD card:
+           http://samplemedia.linaro.org/H264/big_buck_bunny_480p_H264_AAC_25fps_1800K.MP4"
+        - "Download \"big_buck_bunny_1080p_H264_AAC_25fps_7200K.MP4\" video file from the below link and transfer it to SD card:
+           http://samplemedia.linaro.org/H264/big_buck_bunny_1080p_H264_AAC_25fps_7200K.MP4"
+        - "After the board booted successfully, launch \"Gallery\" app to play above two video clips"
+
+    expected:
+        - "480p video should be played successfully with good quality"
+        - "1080p video should be played successfully with good quality"

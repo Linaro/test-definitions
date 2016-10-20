@@ -1,0 +1,29 @@
+metadata:
+    name: linux-bluetooth-scan
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth scan, pairing and file transfer works."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board to console
+        - Make sure at least one BT device is available in the radio range and in discoverable mode.
+        - "$ sudo su"
+        - "# bluetoothctl -a"
+        - "[bluetooth]# pairable on"
+        - "[bluetooth]# scan on"
+        - "[bluetooth]# quit"
+    expected:
+        - Scanning works and device MAC addresses are displayed
+        - No kernel errors crashes occur

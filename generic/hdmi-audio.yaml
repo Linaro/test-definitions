@@ -1,0 +1,35 @@
+metadata:
+    name: andriod-audio-hdmi
+    format: "Manual Test Definition 1.0"
+    description: "Test if HDMI audio works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - ubuntu
+        - openembedded
+        - debian
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - ifc6410
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Plug out headset and microphone from the board if applicable.
+        - Plug in HDMI cable to connect the board with a monitor or TV which comes with speakers (supports HDMI audio)
+        - Download a music file from "http://samplemedia.linaro.org/Audio/" and then transfer it to storage media on device under test
+        - Play back music file using some media player (different players on different OSes)
+
+    expected:
+        - Sound of music is played back clearly from monitor or TV speakers.
+        - No hang, kernel panic and crash during the whole test process.

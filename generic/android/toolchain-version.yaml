@@ -1,0 +1,27 @@
+metadata:
+    name: android-toolchain-version
+    format: "Manual Test Definition 1.0"
+    description: "Test if the toolchain version is correct"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "dmesg | busybox grep gcc > /sdcard/log.txt 2>&1 &"
+        - "Check the log.txt for toolchain version matches the version displayed on the build page"
+
+    expected:
+        - "Toolchain version matches the version on build page"
+

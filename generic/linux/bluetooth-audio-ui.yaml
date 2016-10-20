@@ -1,0 +1,31 @@
+metadata:
+    name: bluetooth-audio-ui
+    format: "Manual Test Definition 1.0"
+    description: "Test bluetooth audio streaming from UI on Debian."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash any UI enabled Xfce based build, power on the board until boot up successfully.
+        - Make sure mouse and/or keyboard is connected to the board.
+        - Make sure some bluetooth audio device (speaker, headset) is turned on and within the range.
+        - Click on BT icon an select "Setup a new device" option. Click continue to search devices.
+        - Change "Device type" to "Headphones, headsets and other audio devices" to only display audio devices.
+        - Select the audio device and pair it.
+        - Download audio file "http://samplemedia.linaro.org/Audio/big_buck_bunny_MP3_2Channel_44.1k_128K_short.MP3"
+        - Open sound option and select output as the conected BT audio device.
+        - Play the audio file.
+
+    expected:
+        - Audio device can be connected and paired.
+        - Proper sound can be heard from audio device when music file is played.

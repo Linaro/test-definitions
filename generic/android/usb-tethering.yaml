@@ -1,0 +1,46 @@
+metadata:
+    name: andriod-usb-tethering
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB tethering works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Ensure there is no active network connection on host PC, plug out Ethernet cable or disable wireless adapter (if any)"
+        - "Plug in USB cable to USB OTG port on the board, then plug the other side to host PC"
+        - "Power on the board to boot into Android main screen"
+        - "Ensure network works well, in serial console, run:
+           # busybox ping www.google.com"
+        - "Click Settings->More->USB Tethering-> Enable (If \"USB Tethering\" exists)"
+        - "In serial console, run:
+           # busybox ifconfig -a"
+        - "On host PC, in terminal, run:
+           $ ifconfig -a
+           $ ping <Board_IP_Address>"
+        - "Terminate the ping command on host PC by press \"Ctrl+C\""
+        - "In serial console, run:
+           # busybox ping <Host_PC_IP_Address>"
+        - "Terminate the ping command in serial console by press \"Ctrl+C\""
+        - "On host PC, launch browser, access www.google.com"
+
+    expected:
+        - "\"USB Tethering\" item should exist"
+        - "The network should work well before tethering enable, no data loss in \"ping\" test"
+        - "In serial console, a new network interface should be shown in output of \"busybox ifconfig -a\", the board should get a sub network IP address successfully on that interface after tethering enabled. This sub network IP address should be different with the one which the board got before tethering enable."
+        - "In terminal on host PC, a new network interface should be shown in output of \"ifconfig -a\", the host PC should get a sub network IP address successfully on that interface after the tethering enabled on the board. This sub network IP address should be in the same network segment as the board's"
+        - "\"ping\" test from host PC to the board should be done successfully, no data loss"
+        - "\"ping\" test from the board to host PC should be done successfully, no data loss"
+        - "The host PC now can access Internet, Google main page should be shown well"

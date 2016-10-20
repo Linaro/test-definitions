@@ -1,0 +1,25 @@
+metadata:
+    name: android-bluetooth-audio
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth audio works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on Bluetooth audio device (A2DP supported) and set it as "discoverable".
+        - Power on the board, after it booted successfully, turn on the Bluetooth from UI.
+        - Pair the board and Bluetooth audio device and set it as the audio output device.
+        - Play a music file from the board.
+
+    expected:
+        - "The Bluetooth audio device should can be paired with the board successfully."
+        - "The music file can be played successfully, and the sound can be heard from Bluetooth audio device smoothly."

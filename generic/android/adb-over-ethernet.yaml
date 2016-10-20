@@ -1,0 +1,37 @@
+metadata:
+    name: andriod-adb-over-ethernet
+    format: "Manual Test Definition 1.0"
+    description: "Test if ADB over ethernet works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Configure ADB over Ethernet by follow the instruction on the below webpage:
+           https://wiki.linaro.org/Platform/Android/SetupAdbOverTcp"
+        - "Run following commands(Replace the content in <> to yours):
+           $ sudo adb shell
+           $ ls
+           $ exit
+           $ sudo adb push <file_on_host_pc> /sdcard
+           $ sudo adb pull /sdcard/<file_on_host_pc> ./
+           $ sudo adb install <apk_file_on_host_pc>"
+
+    expected:
+        - "ADB shell should be launched successfully, output of \"ls\" should look good"
+        - "ADB push, pull and install should work well"
+        - "After apk installation, the app icon should be found on UI and should be launched successfully"
+        - "No hang, kernel panic or crash observed during the whole process"
+

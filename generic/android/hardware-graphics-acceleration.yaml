@@ -1,0 +1,29 @@
+metadata:
+    name: hardware-graphics-acceleration
+    format: "Manual Test Definition 1.0"
+    description: "Test if hardware graphics acceleration is enabled."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - apq8016-sbc
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board.
+        - Setup ADB on host machine.
+        - Details to configure ADB "https://git.linaro.org/qa/manual-test-definitions.git/blob/HEAD:/generic/android/adb-over-usb.yaml"
+        - Download "http://testdata.validation.linaro.org/tools/hwgfx.apk"
+        - Run "adb install hwgfx.apk".
+        - Open hwgfx application on board via UI."
+        - Touch Linaro logo in the app to check if hardware graphics acceleration is enabled.
+
+    expected:
+        - hwgfx.apk is installed successfully on the board.
+        - APK is launched and gives either "True" or "False" after touching linaro logo.

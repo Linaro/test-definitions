@@ -1,0 +1,42 @@
+metadata:
+    name: andriod-perf
+    format: "Manual Test Definition 1.0"
+    description: "Test if perf utility works"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen"
+        - "In serial console, run:
+           # perf stat ls"
+
+    expected:
+        - "The output of command \"perf stat ls\" should look like this:
+           Performance counter stats for 'ls':
+
+            0.659622 task-clock                #    0.665 CPUs utilized          
+                  24 context-switches          #    0.036 M/sec                  
+                   0 CPU-migrations            #    0.000 K/sec                  
+                 273 page-faults               #    0.414 M/sec                  
+           1'996'348 cycles                    #    3.027 GHz                     [78.98%]
+           1'274'167 stalled-cycles-frontend   #   63.82% frontend cycles idle   
+           1'005'419 stalled-cycles-backend    #   50.36% backend  cycles idle   
+           1'397'625 instructions              #    0.70  insns per cycle        
+                                               #    0.91  stalled cycles per insn
+             277'755 branches                  #  421.082 M/sec                  
+               7'689 branch-misses             #    2.77% of all branches         [28.76%]
+
+           0.000992095 seconds time elapsed"

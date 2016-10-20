@@ -1,0 +1,26 @@
+metadata:
+    name: andriod-linaro-kernel-build-command
+    format: "Manual Test Definition 1.0"
+    description: "Test if Linaro kernel build script works properly"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "On host PC, download \"linaro_kernel_build_cmds.sh\" script from the build site which you will test"
+        - "TBD"
+
+    expected:
+        - "TBD"

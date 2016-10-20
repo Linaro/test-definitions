@@ -1,0 +1,34 @@
+metadata:
+    name: primary-video-out-hdmi
+    format: "Manual Test Definition 1.0"
+    description: "Test if HDMI video output works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Plug in HDMI cable between the board and HDMI Monitor or HDMI TV.
+        - Power on the HDMI Monitor or HDMI TV, switch input source to HDMI.
+        - Boot the board.
+        - If HDMI video ouput works well, Plug out HDMI cable.
+        - Plug in HDMI cable again.
+    expected:
+        - Display is displayed well on HDMI monitor or HDMI TV.
+        - After plugged out HDMI cable no kernel/driver errors are observed on board under test
+        - When plugged in HDMI cable again, display is back to work as normal

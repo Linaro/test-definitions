@@ -1,0 +1,24 @@
+metadata:
+    name: installation-instructions
+    format: "Manual Test Definition 1.0"
+    description: "Validate Installation Instructions."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Follow the installation instructions explicitly as it shows in \"Using the pre-built images\" section on build page"
+    expected:
+        - "Make sure that there are no missed or incorrect procedures on instructions"

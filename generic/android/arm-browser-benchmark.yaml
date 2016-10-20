@@ -1,0 +1,44 @@
+metadata:
+    name: andriod-arm-browser-benchmark
+    format: "Manual Test Definition 1.0"
+    description: "ARM browser benchmark test"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen"
+        - "Ensure there is at least one active network connection on the board"
+        - "On host PC, ensure \"lava-android-test\" exists with the latest version"
+        - "Assume host PC IP address is 192.168.1.10"
+        - "On host PC, in terminal, run:
+           /* Install methanol test on target board*/
+           $ lava-android-test install methanol -s <dev_serial_no>
+           /* Run fire.html on stock browser */
+           $ lava-android-test run methanol -O \"-b DEFAULT -d 192.168.1.10\" -O result.json -s <dev_serial_no>
+           /* Run fire-svg.html on stock browser */
+           $ lava-android-test run methanol -O \"-t svg -b DEFAULT -d 192.168.1.10\" -O result.json -s <dev_serial_no>
+           /* Run fire-smp.html on stock browser */
+           $ lava-android-test run methanol -O \"-t smp -b DEFAULT -d 192.168.1.10\" -O result.json -s <dev_serial_no>
+           /* Run fire.html on chrome browser */
+           $ lava-android-test run methanol -O \"-b CHROME -d 192.168.1.10\" -O result.json -s <dev_serial_no>
+           /* Run fire-svg.html on chrome browser */
+           $ lava-android-test run methanol -O \"-t svg -b CHROME -d 192.168.1.10\" -O result.json -s <dev_serial_no>
+           /* Run fire-smp.html on chrome browser */
+           $ lava-android-test run methanol -O \"-t smp -b CHROME -d 192.168.1.10\" -O result.json -s <dev_serial_no>"
+
+    expected:
+        - "Test can be triggered and performed successfully"
+        - "The benchmark tools runs successfully and collect the profiling data"

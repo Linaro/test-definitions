@@ -1,0 +1,28 @@
+metadata:
+    name: andriod-device-tree
+    format: "Manual Test Definition 1.0"
+    description: "Device tree test"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board until boot succeeded"
+        - "In serial console, run:
+           # cat /proc/device-tree/model"
+
+    expected:
+        - "The string \"Flattened Device Tree blob\" should be shown in boot log"
+        - "Board model name should be shown after the command ran"

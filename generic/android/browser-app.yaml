@@ -1,0 +1,28 @@
+metadata:
+    name: andriod-browser-app
+    format: "Manual Test Definition 1.0"
+    description: "Test if Browser App works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Browser app should be available and shown after the board booted successfully"
+        - "Launch Browser app"
+        - "Type \"www.google.com\" in address bar and press \"Enter\" key"
+
+    expected:
+        - "Browser app should can be launched successfully"
+        - "Google main page should be shown successfully"

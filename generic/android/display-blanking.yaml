@@ -1,0 +1,34 @@
+metadata:
+    name: display-blanking
+    format: "Manual Test Definition 1.0"
+    description: "Test display blanking."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board with android and meake sure mouse and/or keyboard is connected.
+        - Go to "settings->About phone" and click 3 times on "build Number" to activate "Developer options".
+        - Go to "settings->developer options->stay awake" and disable it.
+        - Go to "settings->Display" and select minimum time(usually 15 sec).
+        - Wait till display goes blank.
+        - Move connected mouse or press any key on keyboard to get the display back.
+
+    expected:
+        - Diplay blanking and un-blanking works well.
+        - No Kernel panic, crash, hang or any other severe error observed when display is back.

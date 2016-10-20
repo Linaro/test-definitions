@@ -1,0 +1,25 @@
+metadata:
+    name: status-led-bluetooth
+    format: "Manual Test Definition 1.0"
+    description: "Test if BT status LED works on 96board."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board successfuly to UI.
+        - Connect the board to another BT device.
+        - Stream music or transfer files from board to the connected device.
+
+    expected:
+        - Blue BT light blinks on the board while streaming music or transfering files.

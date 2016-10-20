@@ -1,0 +1,28 @@
+metadata:
+    name: android-bluetooth-pair
+    format: "Manual Test Definition 1.0"
+    description: "Test if Bluetooth pairing works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - After the board booted successfully, enable Bluetooth by click Settings -> Wireless and Networks -> Bluetooth.
+        - After Bluetooth turned ON and surround devices (if any) showed up, turn Bluetooth OFF.
+        - Perform above ON and OFF procedures again.
+        - Make sure BT enabled device is in the radio range and in discovery mode
+        - Pair the nearby device (enter PIN if needed)
+    expected:
+        - Bluetooth feature should can be continuously enabled and disabled at least twice without any error
+        - Nearby devices should be shown in the discoveried device list on the board
+        - Pairing should be done successfully

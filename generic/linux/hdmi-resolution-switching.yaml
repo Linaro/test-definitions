@@ -1,0 +1,32 @@
+metadata:
+    name: hdmi-resolution-switching
+    format: "Manual Test Definition 1.0"
+    description: "Check if switching HDMI resolution on monitor works."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on the board.
+        - Wait until board boots up successfully.
+        - To switch HDMI resolution from UI, open Displays from system settings.
+        - Select 'HDMI Display' from Displays option.
+        - Select a different resolution available from drop-down menu.
+        - Repeat switching resolutions couple of times.
+
+    expected:
+        - "Switching HDMI resolutions from UI should work well."
+        - "No Kernel panic, crash, hang or any other severe error observed."

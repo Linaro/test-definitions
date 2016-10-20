@@ -1,0 +1,31 @@
+metadata:
+    name: linux-wifi-terminal
+    format: "Manual Test Definition 1.0"
+    description: "Test if WiFi works well from Terminal"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on the board and wait till it boots succesfully.
+        - To scan for WiFi, run "$ iwlist wlan0 scan"
+        - Note ESSID of the access point to connect.
+        - If the network is open, run "$ iwconfig wlan0 essid NAME_OF_ACCESS_POINT"
+        - If network requires password, run "$ iwconfig wlan0 essid NAME_OF_ACCESS_POINT key PASSWORD"
+        - To accquire IP address, run "$ dhclient wlan0"
+        - To check if IP address is assigned, run "$ ifconfig wlan0"
+        - To check WiFi connection, run "ping www.google.com"
+
+    expected:
+        - "Should be able to connect to available WiFi network."
+        - "Ping command works and should not show any data loss."

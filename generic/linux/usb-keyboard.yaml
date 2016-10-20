@@ -1,0 +1,30 @@
+metadata:
+    name: usb-keyboard
+    format: "Manual Test Definition 1.0"
+    description: "Basic test for USB keyboard functionality"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Plug USB keyboard into an on-board USB slot."
+        - "Power on the board until boot up successfully."
+        - "After command line prompt shows in serial console, type 'ls -l' then click enter key."
+    expected:
+        - "String 'ls -l' should show up in serial console, after click enter key, files with detail should be listed."

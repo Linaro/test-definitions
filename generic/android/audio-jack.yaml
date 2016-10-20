@@ -1,0 +1,32 @@
+metadata:
+    name: andriod-audio-jack
+    format: "Manual Test Definition 1.0"
+    description: "Test if audio through jack port works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "After the board booted up successfully, plug in the headset and microphone"
+        - "Open browser and click a \"YouTube\" clip to listen the sound from headset"
+        - "Install \"Angry Birds\" and start to play the game, listen the sound from headset"
+        - "Click \"Messaging -> New Message -> Attach -> Record Audio\""
+        - "Play the recorded audio clip"
+
+    expected:
+        - "Sounds from YouTube clips and \"Angry Birds\" game should be heard clearly"
+        - "Sound record should be done successfully and should be heard clearly as original"
+        - "No hang, kernel panic and crash during the whole test process"
+

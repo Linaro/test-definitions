@@ -1,0 +1,76 @@
+metadata:
+    name: usb-storage
+    format: "Manual Test Definition 1.0"
+    description: "Basic test for USB keyboard functionality"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Plug an external USB storage device into an on-board USB 2.0 slot."
+        - "Power on the board until boot up successfully."
+        - "In serial console, run:
+        # fdisk -l
+        # mount /dev/sda1 /media
+        # cd /media
+        # ls -l
+        # lsusb
+        # lsusb -t
+        # cd ..
+        # umount /media"
+    expected:
+        - "the output of command line 'fdisk -l' should look like this:
+        # fdisk -l
+        Disk /dev/mmcblk0: 3965 MB, 3965190144 bytes
+        128 heads, 32 sectors/track, 1890 cylinders, total 7744512 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0x00000000
+
+            Device Boot      Start         End      Blocks   Id  System
+        /dev/mmcblk0p1               1        8191        4095+  da  Non-FS data
+        /dev/mmcblk0p2   *        8192      114687       53248    c  W95 FAT32 (LBA)
+        /dev/mmcblk0p3          114688     2097151      991232   83  Linux
+
+        Disk /dev/sda: 7973 MB, 7973371904 bytes
+        246 heads, 62 sectors/track, 1021 cylinders, total 15572992 sectors
+        Units = sectors of 1 * 512 = 512 bytes
+        Sector size (logical/physical): 512 bytes / 512 bytes
+        I/O size (minimum/optimal): 512 bytes / 512 bytes
+        Disk identifier: 0x0005c5d3
+
+        Device Boot      Start         End      Blocks   Id  System
+        /dev/sda1              62    15572291     7786115    c  W95 FAT32 (LBA)"
+        - "command line 'mount /dev/sda1 /media' should be executed successfully, the contents on USB external storage device should be shown after run 'ls -l'"
+        - "the output of 'lsusb' and 'lsusb -t' should look like this:
+        # lsusb
+            Bus 001 Device 002: ID 05e3:0608 Genesys Logic, Inc. USB-2.0 4-Port HUB
+            Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+            Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+            Bus 001 Device 004: ID 05ac:1402 Apple, Inc. Ethernet Adapter [A1277]
+            Bus 001 Device 005: ID 046d:c31d Logitech, Inc.
+            Bus 001 Device 008: ID 05e3:0717 Genesys Logic, Inc. All-in-1 Card Reader
+
+        # lsusb -t
+            /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=exynos-ohci/3p, 12M
+            /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=s5p-ehci/3p, 480M
+            |__ Port 1: Dev 2, If 0, Class=hub, Driver=hub/4p, 480M
+                |__ Port 2: Dev 4, If 0, Class=vend., Driver=asix, 480M
+                |__ Port 3: Dev 5, If 0, Class=HID, Driver=usbhid, 1.5M
+                |__ Port 3: Dev 5, If 1, Class=HID, Driver=usbhid, 1.5M
+                |__ Port 4: Dev 8, If 0, Class=stor., Driver=usb-storage, 480M"
+        - "Command 'umount /media' should be executed successfully"

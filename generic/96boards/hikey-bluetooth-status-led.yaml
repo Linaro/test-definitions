@@ -1,0 +1,24 @@
+metadata:
+    name: hikey-bluetooth-status-led
+    format: "Manual Test Definition 1.0"
+    description: "Test if staus LED working on Hikey board."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - debian
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board successfuly to UI.
+        - Connect the board to another BT device.
+        - Stream music or transfer files from board to the connected device.
+
+    expected:
+        - Blue BT light blinks on the board while streaming music or transfering files.

@@ -1,0 +1,27 @@
+metadata:
+    name: linux-wifi-ui
+    format: "Manual Test Definition 1.0"
+    description: "Test if WiFi works well from UI"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board successfully to UI.
+        - Check available wireless network from UI.
+        - Connect to available SSID(Open, WEP, WPA2).
+        - Open 'www.google.com' in browser to check WiFi connection.
+
+    expected:
+        - "Should be able to connect to available WiFi network from UI and Terminal."
+        - "Google main page should be shown up successfully."

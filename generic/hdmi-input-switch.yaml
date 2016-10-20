@@ -1,0 +1,36 @@
+metadata:
+    name: hdmi-input-switching
+    format: "Manual Test Definition 1.0"
+    description: "Test input switching from Monitor."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+        - ubuntu
+        - openembedded
+        - debian
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - ifc6410
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Connect the device under test HDMI output cable to Monitor/TV.
+        - Make sure Monitor/TV has display input from at least one other source too.
+        - Boot the device under test to UI.
+        - Switch input display from Monitor/TV to board and other input source.
+        - Repeat the process few times.
+
+    expected:
+        - Switching HDMI input works well and doesn't trigger kernel/driver errors on device under test
+        - Switching back to input from device under test works well and UI is displayed on the screen

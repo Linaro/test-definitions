@@ -1,0 +1,29 @@
+metadata:
+    name: power-off
+    format: "Manual Test Definition 1.0"
+    description: "Check 'Power OFF' function on hardware board."
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on the board.
+        - Wait until board boots up successfully to UI.
+        - Shutdown the board using UI power-off option.
+
+    expected:
+        - "The board should can be shut down successfully, no display shows and no activity in serial console."
+        - "No Kernel panic, crash, hang or any other serve error observed."

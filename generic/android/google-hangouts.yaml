@@ -1,0 +1,34 @@
+metadata:
+    name: andriod-google-hangouts
+    format: "Manual Test Definition 1.0"
+    description: "Test if Google Hangouts works well"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Power on the board to boot into Android main screen"
+        - "\"Google+\" or \"Hangouts\" app should be pre-installed"
+        - "Ensure there is at least one active network on the board"
+        - "Login with \"test01\" Gmail account on the board"
+        - "Login with \"test02\" Gmail account on host PC"
+        - "From host PC, start a Google Hangout session and invite \"test01\""
+        - "After a notification shows on the board, click it to join in the Hangout session"
+        - "Check the audio and video on both host PC and board"
+
+    expected:
+        - "\"Google+\" or \"Hangouts\" app should exist"
+        - "The board can join in the Hangout session successfully"
+        - "Audio and video work well during the Hangout session"

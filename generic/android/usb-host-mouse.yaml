@@ -1,0 +1,28 @@
+metadata:
+    name: andriod-usb-host-mouse
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB mouse can be detected and works properly"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Connect USB mouse to USB OTG port on device and boot"
+        - "Click \"Calculator\" app"
+        - "Click right button of the mouse"
+
+    expected:
+        - "USB Mouse should be detected successfully"
+        - "Navigation and app selection via USB Mouse should work well"

@@ -1,0 +1,25 @@
+metadata:
+    name: secondary-video-out
+    format: "Manual Test Definition 1.0"
+    description: "Test the secondary video output on hardware board."
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Using HDMI cable to connect the hardware board to a display device, usually an external monitor."
+        - "Power on the board until boot up successfully."
+        - "For TI Panda 4430 and 4460, the secondary video output is the DVI-D port."
+    expected:
+        - "The video output should show up on that display device, for example, the boot log and command prompt can be seen on screen."

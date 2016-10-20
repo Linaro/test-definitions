@@ -1,0 +1,33 @@
+metadata:
+    name: andriod-usb-camera-record
+    format: "Manual Test Definition 1.0"
+    description: "Test if USB camera record feature works properly"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Note: This test is not applicable for Android Jelly Bean"
+        - "Plug in external USB camera"
+        - "Power on the board, Camera App should be pre-installed"
+        - "Launch Camera App, switch to the video record mode"
+        - "Start to record an video clip and stop"
+        - "Play the video in Gallery App"
+
+    expected:
+        - "Camera App should exist"
+        - "Camera App can be launched successfully with the view mode of USB camera"
+        - "Video clip can be recorded and saved successfully"
+        - "Video clip can be played in Gallery App successfully"

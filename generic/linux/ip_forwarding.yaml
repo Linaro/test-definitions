@@ -1,0 +1,49 @@
+metadata:
+    name: IP forwarding
+    format: "Manual Test Definition 1.0"
+    description: "Test if Kernel IP forwarding works."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - centos
+    scope:
+        - functional
+    devices:
+        - d02
+        - overdrive
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - SUT(system under test) should has at least two Ethernet ports. Assume you use SUT_eth0 and SUT_eth1 here.
+        - Make sure iptables package installed on SUT.
+        - Boot SUT and test client to OS.
+        - Run "sudo su -" to switch to root user.
+        - Run "ip addr show" to check if the ports used for testing are detected.
+        - Do the following steps on SUT to set test environment and enable ip_forward.
+        - Connect SUT_eth1 to router0 that connected to internet. Assume the gateway IP is 10.0.0.1.
+        - Connect SUT_eth0 to router1 that used for private network.
+        - Execute "dhclient eth1" to get a IP address or set IP for it manually.
+        - Execute "ping -I eth1 10.0.0.1" and "ping -I eth1 8.8.8.8" to check if eth1 is set properly.
+        - "ip link set eth0 down"
+        - "ip addr add 192.168.1.1/24 dev eth0"
+        - "ip link set eth0 up"
+        # Enable ip_forward from Linux Kernel.
+        - "echo 1 > /proc/sys/net/ipv4/conf/all/forwarding"
+        # Enable NAT(network address translation)
+        - "iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE"
+        - "iptables -A FORWARD -i eth0 -j ACCEPT"
+        - Do the following steps on test client to test if Kernel IP forwarding works.
+        - Connect test client eth0 port to the private route1.
+        - "ip link set eth0 down"
+        - "ip addr add 192.168.1.2/24 dev eth0"
+        - "ip link set eth0 up"
+        - "ip route add default via 192.168.1.1"
+        - "ping 10.0.0.1"
+        - "ping 8.8.8.8"
+
+    expected:
+        - ip_forward and NAT can be enabled successfully.
+        - ping tests from test client to router0 and Google DNS server are successful.

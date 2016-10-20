@@ -1,0 +1,28 @@
+metadata:
+    name: reboot
+    format: "Manual Test Definition 1.0"
+    description: "Check the board can be rebooted or not"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Power on the board until boot up successfully.
+        - Reboot the board from terminal. Run
+        - "$ sudo shutdown -r now"
+
+    expected:
+        - "Reboot should be done successfully from terminal, without kernel panic, crash, hang or any other serve error observed."

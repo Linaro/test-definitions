@@ -1,0 +1,46 @@
+metadata:
+    name: andriod-open-accessory
+    format: "Manual Test Definition 1.0"
+    description: "Open accesory validation"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Execute the following commands to setup test environment on host PC
+           # apt-get source libusb
+           # apt-get install libusb-dev
+           # apt-get install libusb-1.0-0-dev"
+        - "Follow instructions on the below webpage to set up a device for development and install Android Eclipse:
+           http://developer.android.com/sdk/index.html#ExistingIDE
+           http://developer.android.com/tools/building/building-eclipse.html"
+        - "Download the accessory applications C code as a template from the below link:
+           http://android.serverbox.ch/wp-content/simplectrl.c"
+        - "Identify device PID and VID no using 'lsusb' command"
+        - "Change into the code (siplectrl.c)the VID & PID into the device appropriate VID & PID"
+        - "Connect the device using USB mini A to USB with host"
+        - "Cloning the openaccessory project from here:
+           http://staging.git.linaro.org/people/soumya.basak/accessory.git"
+        - "Run eclipse goto File > Import Select Android and Existing Android Code into Workplace > Next"
+        - "Browse the root directory"
+        - "Select the Project root directory 'Right Click' and Run As > Android Application"
+        - "It will automatically install & Launch the app into device"
+        - "Run gcc simplectrl.c -I/usr/include/ -o simplectrl -lusb-1.0 -I/usr/include/ -I/usr/include/libusb-1.0"
+
+    expected:
+        - "ADB over USB works well"
+        - "Successfully install and launch the openaccessory app into the device"
+        - "From Host run gcc simplectrl.c -I/usr/include/ -o simplectrl -lusb-1.0 -I/usr/include/ -I/usr/include/libusb-1.0 will successfully open the app into device"
+        - "From Eclipse go to Run and open Debug mode, make sure that the Bi-directional data transfer from Device to Host successfully"

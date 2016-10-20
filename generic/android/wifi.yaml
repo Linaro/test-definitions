@@ -1,0 +1,31 @@
+metadata:
+    name: andriod-wifi
+    format: "Manual Test Definition 1.0"
+    description: "Test if wifi module works well"
+    maintainer:
+        - amit.khare@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - hi6220-hikey
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Plug out Ethernet cable if any, boot the board.
+        - After the board booted successfully, enable WiFi via "Settings -> Wireless and Networks -> WiFi"
+        - Connect to an access point(Open,WEP,WPA2).
+        - To check if IP address is assigned(ADB should be connected), run "$ adb shell ifconfig wlan0"
+        - To check ping command, run "$ adb shell ping www.google.com"
+        - Launch web browser, access "www.google.com"
+
+    expected:
+        - "WiFi should be enabled successfully."
+        - "IP address should be shown successfully in output of 'ifconfig wlan0' command."
+        - "Ping test should work fine and should not show any data loss."
+        - "Google main page should be open successfully in browser."

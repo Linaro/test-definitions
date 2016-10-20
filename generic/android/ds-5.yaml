@@ -1,0 +1,39 @@
+metadata:
+    name: andriod-ds-5
+    format: "Manual Test Definition 1.0"
+    description: "DS-5 gatord test"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Install ARM DS-5 on host PC"
+        - "Power on the board until it booted successfully"
+        - "In serial console, run:
+           # lsmod
+           # ps | busybox grep gatord"
+        - "Check the Ethernet or wireless connection, ensure the board can get IP address"
+        - "On host PC, launch ARM DS-5 by run (Replace \"ds5_installation_path\" to yours):
+           $ cd /ds5_installation_path/bin
+           $ ./eclipse"
+        - "After set up work space, then on eclipse main screen, from menu bar, click Window -> Show View -> Other"
+        - "Then click DS-5 -> Streamline Data -> OK"
+        - "Put the board IP address in \"Address\" filed, click \"Start Capture\""
+        - "Let the data capture running for 10 seconds, then click \"Stop\""
+
+    expected:
+        - "\"gator\" should be shown in output of \"lsmod\""
+        - "\"gatord\" should be shown in output of \"ps | busybox grep gatord\""
+        - "After clicked \"Stop\", a statistics data graph should be shown"

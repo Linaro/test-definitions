@@ -1,0 +1,32 @@
+metadata:
+    name: linux-kernel-version
+    format: "Manual Test Definition 1.0"
+    description: "Test if the kernel version is correct"
+    maintainer:
+        - botao.sun@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+        - android
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - vexpress-a9
+        - vexpress-tc2
+        - arndale
+        - ifc6410
+        - hi6220-hikey
+        - apq8016-sbc
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "uname -a"
+        - "Check the output of the kernel version matches the version displayed on the build page"
+
+    expected:
+        - "Kernel version matches the version on build page"
+
