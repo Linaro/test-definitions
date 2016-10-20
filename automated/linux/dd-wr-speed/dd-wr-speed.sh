@@ -65,7 +65,7 @@ prepare_partition() {
              mount_point="/mnt"
              mount "${PARTITION}" "${mount_point}"
              if [ $? -ne 0 ]; then
-                 error_msg "Unable to mount ${PARTITIOIN}"
+                 error_msg "Unable to mount ${PARTITION}"
              else
                  info_msg "${PARTITION} mounted to ${mount_point}"
              fi
