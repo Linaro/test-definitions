@@ -1,0 +1,30 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: device-read-perf
+    description: "Use 'hdparm -t' to perform timings of block device reads for
+                  benchmark and comparison purposes."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    devices:
+        - mustang
+        - d03
+        - d05
+        - ifc6410
+
+params:
+    # Specify test device. For example: sda
+    DEVICE: ""
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/device-read-perf/
+        - ./device-read-perf.sh -d "${DEVICE}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
