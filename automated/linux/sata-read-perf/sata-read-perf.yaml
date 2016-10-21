@@ -1,0 +1,29 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: sata-read-perf
+    description: "Use 'hdparm -t' to perform timings of SATA/IDE device reads
+                  for benchmark and comparison purposes. All block devices
+                  except for emmc will be tested in this test."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    devices:
+        - mustang
+        - d03
+        - d05
+        - ifc6410
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/sata-read-perf/
+        - ./sata-read-perf.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
