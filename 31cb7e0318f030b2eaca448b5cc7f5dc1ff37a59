@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_1ae71a42",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-21T09:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af0899e_1f58ac55",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "31cb7e0318f030b2eaca448b5cc7f5dc1ff37a59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_3f364804",
         "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_5ad08253",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-21T09:19:05Z",
+      "side": 1,
+      "message": "On my laptop, I checked with \u0027hdparm -T\u0027 which reads the cache.\n\n$ sudo hdparm -T /dev/sda\n\n/dev/sda:\n Timing cached reads:   19712 MB in  2.00 seconds \u003d 9864.15 MB/sec\n\nSo, I don\u0027t have a mean to verify if hdparm always use MB/sec. That is a potential risk. Currently, using MB/sec seems safe.  Read speed of the SDD on my laptop is around 500 MB/sec.",
+      "parentUuid": "7af0899e_3f364804",
+      "range": {
+        "startLine": 44,
+        "startChar": 42,
+        "endLine": 44,
+        "endChar": 48
+      },
+      "revId": "31cb7e0318f030b2eaca448b5cc7f5dc1ff37a59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_df2464c8",
         "filename": "automated/linux/sata-read-perf/sata-read-perf.yaml",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-10-21T08:18:03Z",
       "side": 1,
       "message": "functional -\u003e performance ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "31cb7e0318f030b2eaca448b5cc7f5dc1ff37a59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_fae32e31",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-21T09:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af0899e_df2464c8",
       "range": {
         "startLine": 12,
         "startChar": 10,
