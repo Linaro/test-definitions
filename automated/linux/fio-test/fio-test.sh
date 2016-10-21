@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # FIO test cases for Linux
 #

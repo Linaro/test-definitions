@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Device Tree test cases
 #
@@ -45,7 +45,7 @@ device_tree_property() {
 
     DATA="$(cat "${DEVICE_TREE}/${test}")"
     [ -n "${DATA}" ]
-    check_return "device-tree-"${test}""
+    check_return "device-tree-${test}"
 }
 
 # Test run.
