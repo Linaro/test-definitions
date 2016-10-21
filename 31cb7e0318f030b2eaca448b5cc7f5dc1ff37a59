@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_1f58ac55",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-10-21T08:18:03Z",
+      "side": 1,
+      "message": "v not used.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "31cb7e0318f030b2eaca448b5cc7f5dc1ff37a59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_3f364804",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-10-21T08:18:03Z",
+      "side": 1,
+      "message": "Any chance MB/sec may go to GB/s or TB/s ?\nor\nhdparm always print speed in MB/sec ?",
+      "range": {
+        "startLine": 44,
+        "startChar": 42,
+        "endLine": 44,
+        "endChar": 48
+      },
+      "revId": "31cb7e0318f030b2eaca448b5cc7f5dc1ff37a59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_df2464c8",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-10-21T08:18:03Z",
+      "side": 1,
+      "message": "functional -\u003e performance ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "31cb7e0318f030b2eaca448b5cc7f5dc1ff37a59",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
