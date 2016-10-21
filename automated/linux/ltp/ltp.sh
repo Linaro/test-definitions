@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
