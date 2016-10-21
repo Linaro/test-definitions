@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # USB smoke test cases
 #
@@ -43,7 +43,7 @@ increment_return_status() {
     local exit_code="$?"
     [ "$#" -ne 1 ] && error_msg "Usage: increment_return_status value"
     local value="$1"
-    return $(expr "${exit_code}" + "${value}")
+    return "$(cal "${exit_code}" + "${value}")"
 }
 
 # Get the usb devices/hubs list
@@ -60,7 +60,7 @@ examine_all_usb_devices() {
     if [ -d "${USB_BUS}" ]; then
         for bus in $(ls "${USB_BUS}"); do
             for device in $(ls "${USB_BUS}""${bus}"/); do
-                info_msg "USB Bus "${bus}", device "${device}""
+                info_msg "USB Bus ${bus}, device ${device}"
                 lsusb -D "${USB_BUS}""${bus}"/"${device}"
                 increment_return_status "${STATUS}"
                 STATUS=$?

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # ui browser tests by using Robot framework
 #

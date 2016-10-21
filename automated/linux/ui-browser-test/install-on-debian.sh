@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Install robotframework and chromedriver
 # Copyright (C) 2016 Linaro Limited
