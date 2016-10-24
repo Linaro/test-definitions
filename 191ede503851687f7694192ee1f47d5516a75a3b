@@ -16,6 +16,24 @@
       "revId": "191ede503851687f7694192ee1f47d5516a75a3b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_fcdccb76",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-24T10:09:54Z",
+      "side": 1,
+      "message": "It is safe as the sentence is already quoted. No globbing and word splitting risk.\n\nQuoting variable in a sentence that already quoted is a bad practice, shellcheck will show an error because it actually unquoted the variable, like the below one.\n\n\"Installing \"${pkgs}\"\"",
+      "parentUuid": "7af0899e_fc404b37",
+      "revId": "191ede503851687f7694192ee1f47d5516a75a3b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
