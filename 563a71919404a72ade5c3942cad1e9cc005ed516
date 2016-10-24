@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_5ceebf23",
+        "filename": "automated/linux/openssl/openssl-speed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-24T10:08:22Z",
+      "side": 1,
+      "message": "this might be fragile. substr isn\u0027t available on all awk implementations. It might be only an issue of busybox, but I\u0027m not 100% sure about that.",
+      "revId": "563a71919404a72ade5c3942cad1e9cc005ed516",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
