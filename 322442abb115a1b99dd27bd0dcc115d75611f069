@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_3cf2d39a",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-10-24T13:03:44Z",
+      "side": 1,
+      "message": "this script looks like one that could use a `set -e`. actually IMO we should always use `set -e`, and document why when there is a good reason not to.",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_fc3e8b28",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-10-24T13:03:44Z",
+      "side": 1,
+      "message": "if this variable is only used here, I would remove it and just hardcode `install_deps hdparm`",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_dcf46f89",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-10-24T13:03:44Z",
+      "side": 1,
+      "message": "you probably want to make this a single grep call",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_7c129bb5",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-10-24T13:03:44Z",
+      "side": 1,
+      "message": "at this point I think we should probably have a function to do these conversions; I\u0027m pretty sure I already saw something similar with other tests?\n\nfor example when the time comes that we will need to also support TB/s, there will be a single place to change! (no idea how close to that we are though)",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
