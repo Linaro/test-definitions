@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_5c099f94",
+        "filename": "automated/utils/vland/get_vland_interface.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-10-24T12:54:32Z",
+      "side": 1,
+      "message": "lava-vland-names (missing an s)",
+      "range": {
+        "startLine": 36,
+        "startChar": 17,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "7d3cffc8616698c745486029724d52702d96bab8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
