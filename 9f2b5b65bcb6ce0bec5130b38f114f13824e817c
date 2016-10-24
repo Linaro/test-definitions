@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_1c5f1710",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-24T10:02:57Z",
+      "side": 1,
+      "message": "There is a function in the library that does exactly that. Could you move the code to use this function? This should also silence shellcheck",
+      "revId": "9f2b5b65bcb6ce0bec5130b38f114f13824e817c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
