@@ -128,12 +128,15 @@ install_deps() {
           Debian|Ubuntu)
             # Use the default answers for all questions.
             DEBIAN_FRONTEND=noninteractive apt-get update -q -y
+            # shellcheck disable=SC2086
             DEBIAN_FRONTEND=noninteractive apt-get install -q -y ${pkgs}
             ;;
           CentOS)
+            # shellcheck disable=SC2086
             yum -e 0 -y install ${pkgs}
             ;;
           Fedora)
+            # shellcheck disable=SC2086
             dnf -e 0 -y install ${pkgs}
             ;;
           Unknown)
