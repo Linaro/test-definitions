@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_fc404b37",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-24T09:56:11Z",
+      "side": 1,
+      "message": "how about this line? Isn\u0027t shellcheck also complaining about this variable?",
+      "revId": "191ede503851687f7694192ee1f47d5516a75a3b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
