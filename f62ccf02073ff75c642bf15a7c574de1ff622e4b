@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_5cbb5fc4",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-24T12:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af0899e_7ca1fba8",
+      "revId": "f62ccf02073ff75c642bf15a7c574de1ff622e4b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_5ca6bfc2",
         "filename": "automated/linux/sata-read-perf/sata-read-perf.yaml",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-24T12:24:15Z",
       "side": 1,
       "message": "ifc6410 can also be used when connected to extenral SATA drive.",
+      "revId": "f62ccf02073ff75c642bf15a7c574de1ff622e4b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_7cb61bde",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-24T12:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af0899e_5ca6bfc2",
       "revId": "f62ccf02073ff75c642bf15a7c574de1ff622e4b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
