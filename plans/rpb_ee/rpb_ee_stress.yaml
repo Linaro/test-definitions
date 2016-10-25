@@ -1,0 +1,42 @@
+metadata:
+  name: rpb-ee-1612-common
+  description: Test plan for EE RPB. Common features across all boards
+  os: CentOS
+  devices:
+    - d03
+    - d05
+    - thunderX
+    - moonshot
+    - mustang
+    - overdrive
+  maintainer:
+    - milosz.wasilewski@linaro.org
+  approver:
+    - alan.benett@linaro.org
+  format: Linaro Test Plan v1
+
+requirements:
+  - name: System robustness
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+      automated:
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_ng
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_oom
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_network
+              INTERFACE: eth0 # might be different for each platform with systemd
+        # memory errors (using SoC counters) when CPU runs at full capacity
+        #   for a long time
+        # network bandwith/latency stability with system running at high load
