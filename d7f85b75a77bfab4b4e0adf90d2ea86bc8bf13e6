@@ -16,6 +16,24 @@
       "revId": "d7f85b75a77bfab4b4e0adf90d2ea86bc8bf13e6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_bfb075de",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-25T10:01:36Z",
+      "side": 1,
+      "message": "A quick search gives the below solution. Added to the patch.\n\nif echo \"$1\" | egrep -q \u0027^[0-9.]+$\u0027; then\n\nThere are other means, but they are not portable.",
+      "parentUuid": "7af0899e_3fada589",
+      "revId": "d7f85b75a77bfab4b4e0adf90d2ea86bc8bf13e6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
