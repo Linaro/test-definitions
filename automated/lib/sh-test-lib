@@ -178,3 +178,22 @@ validate_check_sum() {
         return 1
     fi
 }
+
+convert_to_mb() {
+    [ "$#" -ne 2 ] && error_msg "Usage: convert_to_mb value units"
+    if ! echo "$1" | egrep -q "^[0-9.]+$"; then
+        error_msg "The first argument isn't a number"
+    fi
+    local value="$1"
+    local units="$2"
+
+    case "${units}" in
+      KB|kb) value=$(echo "${value}" | awk '{print $1/1024}') ;;
+      MB|mb) ;;
+      GB|gb) value=$(echo "${value}" | awk '{print $1*1024}') ;;
+      TB|tb) value=$(echo "${value}" | awk '{print $1*1024*1024}') ;;
+      *) error_msg "Unsupported units" ;;
+    esac
+
+    echo "${value}"
+}
