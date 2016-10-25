@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_3fada589",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-25T09:40:30Z",
+      "side": 1,
+      "message": "can we check that the value is numeric?",
+      "revId": "d7f85b75a77bfab4b4e0adf90d2ea86bc8bf13e6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
