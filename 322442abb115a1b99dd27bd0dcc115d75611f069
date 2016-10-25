@@ -139,6 +139,24 @@
       "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_5fe231d6",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-25T10:17:07Z",
+      "side": 1,
+      "message": "merged now. You can use the function here.",
+      "parentUuid": "7af0899e_dff581cc",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
