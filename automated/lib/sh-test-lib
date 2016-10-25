@@ -178,3 +178,60 @@ validate_check_sum() {
         return 1
     fi
 }
+
+dist_info() {
+    if ! command -v lsb_release > /dev/null; then
+        dist_name
+        case "${dist}" in
+          Debian|Ubuntu) install_deps "lsb-release" ;;
+          CentOS|Fedora) install_deps "redhat-lsb-core" ;;
+          *) error_msg "Unsupported distro: dist_info skipped"
+        esac
+    fi
+
+    # shellcheck disable=SC2034
+    Release=$(lsb_release -r | awk '{print $2}')
+    Codename=$(lsb_release -c | awk '{print $2}')
+}
+
+
+add_key() {
+    [ "$#" -ne 1 ] && error_msg "Usage: add_key url"
+    local url="$1"
+
+    dist_name
+    case "${dist}" in
+      Debian|Ubuntu) wget -O - "${url}" | apt-key add - ;;
+      CentOS|Fedora) infor_msg "add_key isn't needed on ${dist}" ;;
+      *) error_msg "Unsupported distro: add_key skipped"
+    esac
+}
+
+add_repo() {
+    [ "$#" -lt 1 ] && error_msg "Usage: add_repo <url> [backports]"
+    local url="$1"
+
+    dist_name
+    case "${dist}" in
+      # Detect Debian/Ubuntu codename and add repo automatically. The same url
+      # should work on all distributions supported by the repo.
+      Debian|Ubuntu)
+        dist_info
+        if [ "$2" != "backports" ]; then
+            echo "deb ${url} ${Codename} main" \
+                >> "/etc/apt/sources.list.d/3rd-party-repo.list"
+        else
+            echo "deb ${url} ${Codename}-backports main" \
+                >> "/etc/apt/sources.list.d/3rd-party-repo.list"
+        fi
+        ;;
+      # It is not easy to amend url with distro version as its format may vary
+      # by repo. Test definition/plan should provide a correct repo url.
+      CentOS|Fedora)
+        wget -O - "${url}" >> "/etc/yum.repos.d/3rd-party.repo"
+        ;;
+      *)
+        error_msg "Unsupported distro: add_repo skipped"
+        ;;
+   esac
+}
