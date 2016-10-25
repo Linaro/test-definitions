@@ -1,0 +1,245 @@
+metadata:
+  name: rpb-ee-1612-common
+  description: Test plan for EE RPB. Common features across all boards
+  os: CentOS
+  devices:
+    - d03
+    - thunderX
+    - moonshot
+    - mustang
+  maintainer:
+    - milosz.wasilewski@linaro.org
+  approver:
+    - alan.benett@linaro.org
+  format: Linaro Test Plan v1
+
+requirements:
+  - name: SBBR compliance
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        - path: manual/generic/linux/luvos.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: PXE boot
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        - path: manual/generic/linux/pxe_boot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/os_installer.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            installer: debian
+        - path: manual/generic/linux/os_installer.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            installer: centos
+  - name: boot from disk
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        - path: manual/generic/linux/boot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Linux kernel
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+      automated:
+        - path: automated/linux/smoke/smoke.yaml
+          timeout: 1800
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+        - path: automated/linux/ltp/ltp.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          parameters:
+              TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+          mandatory: True
+  - name: UART console
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        - path: manual/generic/serial-console.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Toolchain
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        # linked compilation
+        # static compilation
+        # linux kernel compilation (?)
+  - name: SATA drive support
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/disk/disk-partitioning.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            DEVICE: /dev/sdb
+        - path: automated/linux/disk/disk-partitioning.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            DEVICE: /dev/sdb
+            FILESYSTEM: fat32
+            SKIP_INSTALL: True
+  - name: RAID support
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        #  corrupt one disk and check if the other still works
+        - path: automated/linux/raid/raid.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: onboard ethernet support
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/network-basic/network-basic.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+      manual:
+        - path: manual/generic/linux/multi-nic-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        - path: manual/generic/linux/eth-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/eth-bonding.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+  - name: PCIe support
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/network-basic/network-basic.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+      manual:
+        - path: manual/generic/linux/multi-nic-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/eth-bonding.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        - path: manual/generic/linux/ip_forwarding.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+  - name: software shutdown
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        - path: manual/generic/linux/power-off-cmd.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: software reboot
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        - path: manual/generic/linux/reboot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: KVM system emulation
+    owner: martin.stadtler@linaro.org
+    tests:
+      manual:
+        - path: manual/generic/linux/kvm-arm32-guest-on-arm64-host.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # compare IO (fio) for host and guest *
+        # compare network performance (netperf) for host and guest
+        # compare hackbench for host and guest
+  - name: Docker
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: OpenJDK
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/openjdk/openjdk-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: MySQL database
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: Apache webserver
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/lamp/lamp.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: NGiNX webserver
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: Webserver performance
+    owner: martin.stadtler@linaro.org
+    tests:
+        # apache bench with apache
+        # apache bench with nginx
+        # apache bench with tomcat
+  - name: OpenSSH
+  - name: OpenSSL
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/openssl/openssl-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # functional tests from openssl repository
+  - name: OpenStack (Core)
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: Ceph
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: Hadoop
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: Spark
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: HAProxy
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: Networking performance
+    owner: martin.stadtler@linaro.org
+    tests:
+  - name: Memory performance
+    owner: martin.stadtler@linaro.org
+    tests:
+        # lmbench
+        # stream
+  - name: Disk performance
+    owner: martin.stadtler@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/fio-test/fio-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # hdparm
+  - name: CPU performance
+    owner: martin.stadtler@linaro.org
+    tests:
+        # blogbench
+        # linpack
+        # lapac
+  - name: System robustness
+    owner: martin.stadtler@linaro.org
+    tests:
+        # memory errors (using SoC counters) when CPU runs at full capacity
+        #   for a long time
+        # network bandwith/latency stability with system running at high load
+        # 24h stress test from Chase
