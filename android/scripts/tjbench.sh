@@ -25,7 +25,7 @@ func_tjbench(){
             compPerf=$(echo $line|cut -d, -f7)
             compRatio=$(echo $line|cut -d, -f8)
             decompPerf=$(echo $line|cut -d, -f9)
-            key="${key}_${cmd}_${img}_95_rgb"
+            key="${cmd}_${key}_${img}_95_rgb"
             if [ -n "$*" ]; then
                 key="${key}_$*"
             fi
