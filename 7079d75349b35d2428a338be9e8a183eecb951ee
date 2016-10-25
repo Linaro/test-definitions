@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_9f3ad934",
+        "filename": "automated/utils/vland/get_vland_interface.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-25T10:52:57Z",
+      "side": 1,
+      "message": "In automated/utils/vland/get_vland_interface.sh line 5:\nrootdir\u003d$(readlink -f $(dirname $0))\n^-- SC2034: rootdir appears unused. Verify it or export it.\n                      ^-- SC2046: Quote this to prevent word splitting.",
+      "revId": "7079d75349b35d2428a338be9e8a183eecb951ee",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_7f2badeb",
+        "filename": "automated/utils/vland/get_vland_interface.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-25T10:52:57Z",
+      "side": 1,
+      "message": "In automated/utils/vland/get_vland_interface.sh line 41:\nif [ -n ${vland_name} ]; then\n        ^-- SC2070: Always true because you failed to quote.",
+      "revId": "7079d75349b35d2428a338be9e8a183eecb951ee",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_5f307156",
+        "filename": "automated/utils/vland/get_vland_interface.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-25T10:52:57Z",
+      "side": 1,
+      "message": "In automated/utils/vland/get_vland_interface.sh line 57:\n    get_vland_interface $(get_vland_names)\n                        ^-- SC2046: Quote this to prevent word splitting.",
+      "revId": "7079d75349b35d2428a338be9e8a183eecb951ee",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_bf351548",
+        "filename": "automated/utils/vland/get_vland_mac.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-25T10:52:57Z",
+      "side": 1,
+      "message": "In automated/utils/vland/get_vland_interface.sh line 57:\n    get_vland_interface $(get_vland_names)\n                        ^-- SC2046: Quote this to prevent word splitting.",
+      "revId": "7079d75349b35d2428a338be9e8a183eecb951ee",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
