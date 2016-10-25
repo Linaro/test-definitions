@@ -1,0 +1,175 @@
+metadata:
+  name: rpb-ee-1612-common
+  description: Test plan for EE RPB. Common features across all boards
+  os: CentOS
+  devices:
+    - d03
+    - d05
+    - thunderX
+    - moonshot
+    - mustang
+    - overdrive
+  maintainer:
+    - milosz.wasilewski@linaro.org
+  approver:
+    - alan.benett@linaro.org
+  format: Linaro Test Plan v1
+
+requirements:
+  - name: SBBR compliance
+    owner: alan.bennett@linaro.org
+    category: Bootloader
+    tests:
+      manual:
+        - path: manual/generic/linux/luvos.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: PXE boot
+    owner: alan.bennett@linaro.org
+    category: Bootloader
+    tests:
+      manual:
+        - path: manual/generic/linux/pxe-boot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: boot from the installed hard drive media
+    owner: alan.bennett@linaro.org
+    category: Bootloader
+    tests:
+      manual:
+        - path: manual/generic/linux/disk-boot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Linux kernel
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      manual:
+      automated:
+        - path: automated/linux/smoke/smoke.yaml
+          timeout: 1800
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+        - path: automated/linux/ltp/ltp.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          parameters:
+              TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+          mandatory: True
+        - path: automated/linux/libhugetlbfs/libhugetlbfs.yaml
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+  - name: UART console
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      manual:
+        - path: manual/generic/serial-console.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Toolchain
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      manual:
+      # linux kernel compilation (?)
+      automated:
+        - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              STATIC: True
+        - path: automated/linux/pointer-tagging/pointer-tagging-tests.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: SATA drive support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        - path: automated/linux/disk/disk-partitioning.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            DEVICE: /dev/sdb
+        - path: automated/linux/disk/disk-partitioning.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            DEVICE: /dev/sdb
+            FILESYSTEM: fat32
+            SKIP_INSTALL: True
+  - name: RAID support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      manual:
+        - path: manual/generic/linux/software-raid0.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        - path: manual/generic/linux/software-raid1.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        - path: manual/generic/linux/software-raid5.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+  - name: onboard ethernet support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        - path: automated/linux/network-basic/network-basic.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+      manual:
+        - path: manual/generic/linux/multi-nic-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+  - name: PCIe support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        - path: automated/linux/network-basic/network-basic.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+      manual:
+        - path: manual/generic/linux/multi-nic-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/ip-forwarding.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        # 1,4,8,16 lane card with SSD, partitioning and FIO/read write tests
+  - name: software shutdown
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      manual:
+        - path: manual/generic/linux/power-off-cmd.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: software reboot
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      manual:
+        - path: manual/generic/linux/reboot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: KVM system emulation
+    owner: alan.bennett@linaro.org
+    category: Virtualization
+    tests:
+      manual:
+        - path: manual/generic/linux/kvm-arm32-guest-on-arm64-host.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # compare IO (fio) for host and guest *
+        # compare network performance (netperf) for host and guest
+        # network bandwith/latency stability with system running at high load

@@ -1,0 +1,112 @@
+metadata:
+  name: rpb-ee-1612-common
+  description: Test plan for EE RPB. Common features across all boards
+  os: CentOS
+  devices:
+    - d03
+    - d05
+    - thunderX
+    - moonshot
+    - mustang
+    - overdrive
+  maintainer:
+    - milosz.wasilewski@linaro.org
+  approver:
+    - alan.benett@linaro.org
+  format: Linaro Test Plan v1
+
+requirements:
+  - name: Linux kernel
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      manual:
+      automated:
+        - path: automated/linux/hackbench/hackbench.yaml
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+  - name: KVM system emulation
+    owner: alan.bennett@linaro.org
+    category: Virtualization
+    tests:
+      automated:
+          # hackbench should be executed inside KVM guest
+        - path: automated/linux/hackbench/hackbench.yaml
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+          parameters:
+              TARGET: guest
+  - name: OpenSSL
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      automated:
+        - path: automated/linux/openssl/openssl-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Networking performance
+    owner: alan.bennett@linaro.org
+    tests:
+      automated:
+        - path: automated/linux/iperf/iperf.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Memory performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/lmbench/lmbench-memory.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/stream/stream-uniprocessor.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Disk performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+      automated:
+        - path: automated/linux/fio-test/fio-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/device-read-perf/device-read-perf.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/blogbench/blogbench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: CPU performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/linpack/linpack.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # lapac
+  - name: Apache webserver performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/apache-apache-bench/apache-bench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              NUMBER: 10000
+              CONCURENT: 500
+  - name: NGiNX webserver performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/nginx-apache-bench/apache-bench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              NUMBER: 10000
+              CONCURENT: 500
