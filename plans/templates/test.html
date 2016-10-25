@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <h1>{{ obj.metadata.name }}</h1>
+            <h3>Metadata</h3>
+            <table class="table table-striped">
+                <tbody>
+                    {% for key,value in obj.metadata.items() %}
+                        {% if key != 'name' %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>
+                            {% if value is sequence and value is not string %}
+                                <ul>
+                                {% for item in value %}
+                                    <li>{{ item }}
+                                {% endfor %}
+                                </ul>
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if 'params' in obj %}
+                <h3>Parameters</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        {% for key,value in obj.params.items() %}
+                            {% if key != 'name' %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>
+                                {% if value is mapping %}
+                                    {% for subkey,subvalue in value.items() %}
+                                    <strong>{{ subkey }}</strong>: {{ subvalue }}<br/>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% if 'install' in obj %}
+                <h3>Installation</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        {% for value in obj.install.steps %}
+                            <tr>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            <h3>Run</h3>
+            <table class="table table-striped">
+                <tbody>
+                    {% for value in obj.run.steps %}
+                        <tr>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if 'expected' in obj.run %}
+                <h3>Expected</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        {% for value in obj.run.expected %}
+                            <tr>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </body>
+</html>

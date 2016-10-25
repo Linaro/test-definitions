@@ -1,0 +1,22 @@
+<table class="table table-striped">
+    {% if 'filename' in test and test.filename != "" %}
+    <h4><a href="{{ test.filename }}">details</a></h4>
+    {% endif %}
+    <tbody>
+        {% for key,value in test.items() %}
+            {% if key != 'missing' and key != 'filename' %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>
+                {% if value is mapping %}
+                    {% for subkey,subvalue in value.items() %}
+                    <strong>{{ subkey }}</strong>: {{ subvalue }}<br/>
+                    {% endfor %}
+                {% else %}
+                    {{ value }}
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
