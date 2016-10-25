@@ -25,6 +25,7 @@ params:
     # identification to the host side. Default is ETH
     # which means adb-over-ethernet is used
     ADB_LINK: "ETH"
+    ETH_IFACE: "eth0"
     # timeout value to wait until the ip ia available for ping LAVA_SERVER_IP
     PING_TIMEOUT: 10
 
@@ -33,9 +34,9 @@ run:
         - cat /system/build.prop
         - getprop
         - SERIALNO=$(getprop ro.serialno)
-        - IPADDR=$(getprop dhcp.eth0.ipaddress)
+        - IPADDR=$(getprop dhcp.$ETH_IFACE.ipaddress)
         - if [ -z "${IPADDR}" ]; then
-        - IPADDR=$(ifconfig eth0|grep "inet addr:")
+        - IPADDR=$(ifconfig $ETH_IFACE|grep "inet addr:")
         - IPADDR=${IPADDR#*:}
         - IPADDR=${IPADDR%% *}
         - fi
