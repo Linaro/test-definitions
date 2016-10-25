@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_bf5a3581",
+        "filename": "android/scripts/tjbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-10-25T12:52:26Z",
+      "side": 1,
+      "message": "RGB_TD_420_95_3136_2352_tjbench64_nightshot_iso_100.ppm_95_rgb_scale_12_CompRatio will become tjbench64_RGB_TD_420_95_3136_2352_nightshot_iso_100.ppm_95_rgb_scale_12_CompRatio",
+      "range": {
+        "startLine": 28,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "c50a99ebb5835501181f4e34417e38fc819a6280",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
