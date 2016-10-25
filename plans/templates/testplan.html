@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/main.css" rel="stylesheet" media="screen">
+        <script src="js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div id="metadata">
+                <h1>Metadata</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key,value in obj.metadata.items() %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>
+                                {% if value is sequence and value is not string %}
+                                    <ul>
+                                    {% for item in value %}
+                                        <li>{{ item }}
+                                    {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="requirements">
+                <h1>Requirements</h1>
+                {% for req in obj.requirements %}
+                    {% set outer_loop = loop %}
+                    <div {% if req.covered %}class="covered"{% else %}class="alert alert-danger"{% endif %}>
+                    <h2>{{ loop.index}} {{ req.name }}</h2>
+                    <h4>Owner: {{ req.owner }}</h4>
+                    {% if req.tests %}
+                        {% if req.tests.manual is defined and req.tests.manual is not none %}
+                        <h3>Manual tests</h3>
+                            {% for test in req.tests.manual %}
+                            <div {% if test.missing %}class="alert alert-danger"{% endif %}>
+                            <h5>{{ outer_loop.index }}.{{ loop.index }}</h5>
+                            {% include "_test_details.html" %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if req.tests.automated is defined and req.tests.automated is not none %}
+                        <h3>Automated tests</h3>
+                            {% for test in req.tests.automated %}
+                            <div {% if test.missing %}class="alert alert-danger"{% endif %}>
+                            <h5>{{ outer_loop.index }}.{{ loop.index }}</h5>
+                            {% include "_test_details.html" %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>

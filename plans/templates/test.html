@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/main.css" rel="stylesheet" media="screen">
+        <script src="js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>{{ obj.metadata.name }}</h1>
+            <h3>Metadata</h3>
+            <table class="table table-striped">
+                <tbody>
+                    {% for key,value in obj.metadata.items() %}
+                        {% if key != 'name' %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>
+                            {% if value is sequence and value is not string %}
+                                <ul>
+                                {% for item in value %}
+                                    <li>{{ item }}
+                                {% endfor %}
+                                </ul>
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if 'params' in obj %}
+                <h3>Parameters</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        {% for key,value in obj.params.items() %}
+                            {% if key != 'name' %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>
+                                {% if value is mapping %}
+                                    {% for subkey,subvalue in value.items() %}
+                                    <strong>{{ subkey }}</strong>: {{ subvalue }}<br/>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% if 'install' in obj %}
+                <h3>Installation</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        {% for value in obj.install.steps %}
+                            <tr>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            <h3>Run</h3>
+            <table class="table table-striped">
+                <tbody>
+                    {% for value in obj.run.steps %}
+                        <tr>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if 'expected' in obj.run %}
+                <h3>Expected</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        {% for value in obj.run.expected %}
+                            <tr>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </body>
+</html>
