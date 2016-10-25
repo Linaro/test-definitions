@@ -1,0 +1,362 @@
+metadata:
+  name: rpb-ee-1612-common
+  description: Test plan for EE RPB. Common features across all boards
+  os: CentOS
+  devices:
+    - d03
+    - d05
+    - thunderX
+    - moonshot
+    - mustang
+  maintainer:
+    - milosz.wasilewski@linaro.org
+  approver:
+    - alan.benett@linaro.org
+  format: Linaro Test Plan v1
+
+requirements:
+  - name: SBBR compliance
+    owner: alan.bennett@linaro.org
+    category: Bootloader
+    tests:
+      manual:
+        - path: manual/generic/linux/luvos.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: PXE boot
+    owner: alan.bennett@linaro.org
+    category: Bootloader
+    tests:
+      manual:
+        - path: manual/generic/linux/pxe_boot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/os_installer.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            installer: debian
+        - path: manual/generic/linux/os_installer.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            installer: centos
+  - name: boot from the installed hard drive media
+    owner: alan.bennett@linaro.org
+    category: Bootloader
+    tests:
+      manual:
+        - path: manual/generic/linux/boot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Linux kernel
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      manual:
+      automated:
+        - path: automated/linux/smoke/smoke.yaml
+          timeout: 1800
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+        - path: automated/linux/ltp/ltp.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          parameters:
+              TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+          mandatory: True
+        - path: automated/linux/hackbench/hackbench.yaml
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+  - name: UART console
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      manual:
+        - path: manual/generic/serial-console.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Toolchain
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      manual:
+      # linux kernel compilation (?)
+      automated:
+        - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              STATIC: True
+  - name: SATA drive support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        - path: automated/linux/disk/disk-partitioning.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            DEVICE: /dev/sdb
+        - path: automated/linux/disk/disk-partitioning.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+            DEVICE: /dev/sdb
+            FILESYSTEM: fat32
+            SKIP_INSTALL: True
+  - name: RAID support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        #  corrupt one disk and check if the other still works
+        - path: automated/linux/raid/raid.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: onboard ethernet support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        - path: automated/linux/network-basic/network-basic.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+      manual:
+        - path: manual/generic/linux/multi-nic-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        - path: manual/generic/linux/eth-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/eth-bonding.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+  - name: PCIe support
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        - path: automated/linux/network-basic/network-basic.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+      manual:
+        - path: manual/generic/linux/multi-nic-download.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/eth-bonding.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        - path: manual/generic/linux/ip_forwarding.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: False
+        # 1,4,8,16 lane card with SSD, partitioning and FIO/read write tests
+  - name: software shutdown
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      manual:
+        - path: manual/generic/linux/power-off-cmd.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: software reboot
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      manual:
+        - path: manual/generic/linux/reboot.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: KVM system emulation
+    owner: alan.bennett@linaro.org
+    category: Virtualization
+    tests:
+      manual:
+        - path: manual/generic/linux/kvm-arm32-guest-on-arm64-host.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # compare IO (fio) for host and guest *
+        # compare network performance (netperf) for host and guest
+      automated:
+          # hackbench should be executed inside KVM guest
+        - path: automated/linux/hackbench/hackbench.yaml
+          mandatory: True
+          repository: https://git.linaro.org/qa/test-definitions.git
+          parameters:
+              TARGET: guest
+  - name: Docker
+    owner: alan.bennett@linaro.org
+    category: Virtualization
+    tests:
+      automated:
+        - path: automated/linux/docker/docker.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: OpenJDK
+    owner: martin.stadtler@linaro.org
+    category: Enterprise
+    tests:
+      automated:
+        - path: automated/linux/openjdk/openjdk-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: MySQL database
+    owner: alan.bennett@linaro.org
+    category: Enterprise
+    tests:
+      automated:
+        - path: automated/linux/lamp/lamp.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Apache webserver
+    owner: alan.bennett@linaro.org
+    category: Enterprise
+    tests:
+      automated:
+        - path: automated/linux/lamp/lamp.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: NGiNX webserver
+    owner: alan.bennett@linaro.org
+    category: Enterprise
+    tests:
+  - name: Tomcat webserver
+    owner: alan.bennett@linaro.org
+    category: Enterprise
+    tests:
+  - name: OpenSSH
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      manual:
+        - path: manual/generic/linux/openssh-centos.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+      automated:
+  - name: OpenSSL
+    owner: alan.bennett@linaro.org
+    category: Base OS
+    tests:
+      automated:
+        - path: automated/linux/openssl/openssl-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # functional tests from openssl repository
+  - name: OpenStack (Core)
+    owner: martin.stadtler@linaro.org
+    category: Enterprise
+    tests:
+      manual:
+        - path: manual/enterprise/openstack-ceph.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Ceph
+    owner: martin.stadtler@linaro.org
+    category: Enterprise
+    tests:
+      manual:
+        - path: manual/enterprise/openstack-ceph.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Hadoop
+    owner: martin.stadtler@linaro.org
+    category: Enterprise
+    tests:
+  - name: Spark
+    owner: martin.stadtler@linaro.org
+    category: Enterprise
+    tests:
+  - name: HAProxy
+    owner: martin.stadtler@linaro.org
+    category: Enterprise
+    tests:
+  - name: Networking performance
+    owner: alan.bennett@linaro.org
+    tests:
+  - name: Memory performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/lmbench/lmbench-memory.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/stream/stream-uniprocessor.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: Disk performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+      automated:
+        - path: automated/linux/fio-test/fio-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/device-read-perf/device-read-perf.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        - path: automated/linux/blogbench/blogbench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+  - name: CPU performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/linpack/linpack.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+        # lapac
+  - name: Apache webserver performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/apache-apache-bench/apache-bench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              NUMBER: 10000
+              CONCURENT: 500
+  - name: NGiNX webserver performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+        # apache bench with nginx
+  - name: Tomcat webserver performance
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+        # apache bench with tomcat
+  - name: System robustness
+    owner: alan.bennett@linaro.org
+    category: Performance
+    tests:
+      automated:
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_ng
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_oom
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_network
+              INTERFACE: eth0 # might be different for each platform with systemd
+        # memory errors (using SoC counters) when CPU runs at full capacity
+        #   for a long time
+        # network bandwith/latency stability with system running at high load
