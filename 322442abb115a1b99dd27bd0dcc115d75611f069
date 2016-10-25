@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_9f5db9ec",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-25T03:44:54Z",
+      "side": 1,
+      "message": "I am not using \u0027set -e\u0027 for the below reasons.\n\n* Since it is not easy to predict how \u0027set -e\u0027 works,  I want to handle the non-zero exits myself. Seems I am the fuddy-duddy mentioned in this page ;( http://mywiki.wooledge.org/BashFAQ/105\n\n* Some test tool exit with non-zero like ltp or optee-xtest when any sub-test fails, it keep running, but exit with non-zero. In this case, if we have \u0027set -e\u0027 in our script, then we have no chance to parse test log. And we may also want to handle the non-zero exit code in if...else blocks to print \"test pass\" or \"test fail\" respectively.\n\n* When LAVA convert test-caes.yaml to run.sh, \u0027set -e\u0027 will be added. If our test script exit with non-zero, we get no chance to run the following steps like \u0027send-to-lava.sh\u0027 for result collection. Take this test as an example, if we use \"set -e\", and sda test is pass and sdb test is fail, then we will lost sda test result too.",
+      "parentUuid": "7af0899e_3cf2d39a",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_fc3e8b28",
         "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-24T13:03:44Z",
       "side": 1,
       "message": "if this variable is only used here, I would remove it and just hardcode `install_deps hdparm`",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_ff715d78",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-25T03:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af0899e_fc3e8b28",
       "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_df6e2196",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-25T03:44:54Z",
+      "side": 1,
+      "message": "I need to include the lines contain \u0027disk\u0027 and exclude the lines contain \u0027mmcblk\u0027.\n\nI guess doing this with a single grep call will need to use a pattern like \"^sda.*disk\"",
+      "parentUuid": "7af0899e_dcf46f89",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_7c129bb5",
         "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2016-10-24T13:03:44Z",
       "side": 1,
       "message": "at this point I think we should probably have a function to do these conversions; I\u0027m pretty sure I already saw something similar with other tests?\n\nfor example when the time comes that we will need to also support TB/s, there will be a single place to change! (no idea how close to that we are though)",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_dff581cc",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-25T03:44:54Z",
+      "side": 1,
+      "message": "Sounds great! Added convert_to_me function in sh-test-lib.\nhttps://review.linaro.org/#/c/15011/2",
+      "parentUuid": "7af0899e_7c129bb5",
       "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
