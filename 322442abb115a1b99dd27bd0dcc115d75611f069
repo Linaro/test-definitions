@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_e28540ae",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-10-26T19:03:49Z",
+      "side": 1,
+      "message": "that page looks like very bad advice, and I don\u0027t buy any of those arguments. one of the guys even says \"use `set -e`, just study the corner cases\" (at the very bottom).\n\nin the cases of commands that you *know* might return non-zero, then you need to handle those explicitly (e.g. with `|| true`, or with `|| rc\u003d$?` etc), just like you would handle possible exceptions in a Python program for example.",
+      "parentUuid": "7af0899e_9f5db9ec",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_fc3e8b28",
         "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
         "patchSetId": 7
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I need to include the lines contain \u0027disk\u0027 and exclude the lines contain \u0027mmcblk\u0027.\n\nI guess doing this with a single grep call will need to use a pattern like \"^sda.*disk\"",
       "parentUuid": "7af0899e_dcf46f89",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_429374fa",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-10-26T19:03:49Z",
+      "side": 1,
+      "message": "ah right I guess I missed the -v in the first call. nevermind",
+      "parentUuid": "7af0899e_df6e2196",
       "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
