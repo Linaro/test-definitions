@@ -22,6 +22,30 @@
       "revId": "fe6af636c68c621714422423dcc9b9110337a9b0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_02720c7c",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-26T09:34:50Z",
+      "side": 1,
+      "message": "you\u0027re right. The package name is with -. This is confusing as executable name is with _.",
+      "parentUuid": "7af0899e_82371cb0",
+      "range": {
+        "startLine": 186,
+        "startChar": 39,
+        "endLine": 186,
+        "endChar": 50
+      },
+      "revId": "fe6af636c68c621714422423dcc9b9110337a9b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
