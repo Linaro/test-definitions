@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_82371cb0",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-10-26T09:24:07Z",
+      "side": 1,
+      "message": "isn\u0027t it lsb-release with \"-\" and not\"_\"?",
+      "range": {
+        "startLine": 186,
+        "startChar": 39,
+        "endLine": 186,
+        "endChar": 50
+      },
+      "revId": "fe6af636c68c621714422423dcc9b9110337a9b0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
