@@ -16,6 +16,24 @@
       "revId": "38ea4d3f88337fe36d83e8b61d7496eedcba7d25",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_653cba94",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-27T10:52:45Z",
+      "side": 1,
+      "message": "we can support x86, the question is do we want to host x86 binaries? If not, test script will fail because of binary missing.\n\nThe story on x86 is simple, we just need to support x86_64.",
+      "parentUuid": "7af0899e_c5cacea0",
+      "revId": "38ea4d3f88337fe36d83e8b61d7496eedcba7d25",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
