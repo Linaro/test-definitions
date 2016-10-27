@@ -1,0 +1,6 @@
+The binaries are provided under the terms of the GNU General Public License,
+Version 2, consistent with lmbench's additional restrictions. Refer to COPYING
+and COPYING-2 files for details.
+
+The binaries were built from lmbench-3.0-a9 source code. The source can be
+viewed here: http://sourceforge.net/projects/lmbench/
