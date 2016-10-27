@@ -16,6 +16,24 @@
       "revId": "252d6d106a2a59a3c1ce4b6bcf8aa793d9e197bd",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_25c5925b",
+        "filename": "automated/linux/lmbench/lmbench-memory.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2016-10-27T12:13:54Z",
+      "side": 1,
+      "message": "fwiw, lmbench isn\u0027t packaged for centos aarch64. Still it\u0027s unfortunate we embed pre-built binaries.",
+      "parentUuid": "7af0899e_e5ca6a6d",
+      "revId": "252d6d106a2a59a3c1ce4b6bcf8aa793d9e197bd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
