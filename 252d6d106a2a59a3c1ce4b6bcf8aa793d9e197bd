@@ -34,6 +34,24 @@
       "revId": "252d6d106a2a59a3c1ce4b6bcf8aa793d9e197bd",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_65a67ac3",
+        "filename": "automated/linux/lmbench/lmbench-memory.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-27T12:28:56Z",
+      "side": 1,
+      "message": "I didn\u0027t know it is packaged in Debian. Just checked on CentOS and Fedora, it is not packaged there.\n\nThe binaries are compiled with static link, it should work everywhere so that we don\u0027t have to compile it every time, typically on builds that don\u0027t have toolchain, like OpenEmbedded.",
+      "parentUuid": "7af0899e_25c5925b",
+      "revId": "252d6d106a2a59a3c1ce4b6bcf8aa793d9e197bd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
