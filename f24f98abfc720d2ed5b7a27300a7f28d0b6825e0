@@ -46,6 +46,30 @@
       "revId": "f24f98abfc720d2ed5b7a27300a7f28d0b6825e0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_a59ea254",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-27T14:18:15Z",
+      "side": 1,
+      "message": "Looks better. Updated.",
+      "parentUuid": "7af0899e_e578aa2d",
+      "range": {
+        "startLine": 247,
+        "startChar": 36,
+        "endLine": 247,
+        "endChar": 40
+      },
+      "revId": "f24f98abfc720d2ed5b7a27300a7f28d0b6825e0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
