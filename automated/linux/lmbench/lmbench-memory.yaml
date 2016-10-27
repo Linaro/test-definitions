@@ -1,0 +1,26 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: lmbench-memory
+    description: "Run lmbench memory bandwidth and latency tests."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+run:
+    steps:
+        - cd ./automated/linux/lmbench/
+        - ./lmbench-memory.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
