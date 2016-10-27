@@ -70,6 +70,30 @@ check_return() {
     fi
 }
 
+# When shell argument "-e" set in test script, check_return and exit_on_fail
+# would NOT work. run_test_case should be used instead.
+run_test_case() {
+    [ "$#" -lt 2 ] && error_msg "Usage: run_test_case <test_command> <test_case_id> [skip_list]"
+    local test_command="$1"
+    local test_case_id="$2"
+    local skip_list="$3"
+
+    if eval "${test_command}"; then
+        echo "${test_case_id} pass" | tee -a "${RESULT_FILE}"
+    else
+        echo "${test_case_id} fail" | tee -a "${RESULT_FILE}"
+        # When skip_list isn't empty, skip the tests and exit.
+        if [ -n "${skip_list}" ]; then
+            for i in ${skip_list}; do
+                echo "$i skip" | tee -a "${RESULT_FILE}"
+            done
+            exit 0
+        fi
+    fi
+
+    return 0
+}
+
 report_pass() {
     [ "$#" -ne 1 ] && error_msg "Usage: report_pass test"
     local test="$1"
