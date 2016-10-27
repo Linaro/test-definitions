@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_8231dc0d",
+        "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-10-27T02:50:47Z",
+      "side": 1,
+      "message": "In these use cases, I need to give pass/fail or exit according exit code. check_return or exit_on_fail wouldn\u0027t help. So I created run_test_case, would you please give it a review?\nhttps://review.linaro.org/#/c/15060/1\n\nI am about to update this patch to set \u0027-e\u0027",
+      "parentUuid": "7af0899e_e28540ae",
+      "revId": "322442abb115a1b99dd27bd0dcc115d75611f069",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_fc3e8b28",
         "filename": "automated/linux/sata-read-perf/sata-read-perf.sh",
         "patchSetId": 7
