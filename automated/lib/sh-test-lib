@@ -95,6 +95,15 @@ add_metric() {
     echo "${test} ${result} ${measurement} ${units}" | tee -a "${RESULT_FILE}"
 }
 
+detect_abi() {
+    abi=$(uname -m)
+    case "${abi}" in
+      armv7|armv7l|armv7el|armv7lh) abi="armeabi" ;;
+      arm64|armv8|arm64-v8a|aarch64) abi="arm64" ;;
+      *) error_msg "Unknown architecture: ${abi}" ;;
+    esac
+}
+
 dist_name() {
     if [ -x /usr/bin/lsb_release ]; then
         dist="$(lsb_release -si)"
