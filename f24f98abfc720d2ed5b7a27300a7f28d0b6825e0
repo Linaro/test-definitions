@@ -22,6 +22,30 @@
       "revId": "f24f98abfc720d2ed5b7a27300a7f28d0b6825e0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_e578aa2d",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-10-27T14:04:29Z",
+      "side": 1,
+      "message": "would something like this work?\n\nif [ -z \"$2\" ]; then\n    backports\u003d\"\"\nelif [ \"$2\" \u003d\u003d \"backports\" ]; then\n    backports\u003d\"-${2}\"\nelse\n    error_msg \"$2 is not a supported argument, should be \u0027backports\u0027\"\nfi\n\necho \"deb ${url} ${Codename}${backports} main\" \\\n    \u003e\u003e \"/etc/apt/sources.list.d/3rd-party-repo.list\"",
+      "parentUuid": "7af0899e_658dda31",
+      "range": {
+        "startLine": 247,
+        "startChar": 36,
+        "endLine": 247,
+        "endChar": 40
+      },
+      "revId": "f24f98abfc720d2ed5b7a27300a7f28d0b6825e0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
