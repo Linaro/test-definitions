@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_e5ca6a6d",
+        "filename": "automated/linux/lmbench/lmbench-memory.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-10-27T12:07:23Z",
+      "side": 1,
+      "message": "lmbench seems to be packaged in Debian, I would also expect it to be on Centos/Fedora etc. Is there a good reason to embed those precompiled binaries in the repository?",
+      "revId": "252d6d106a2a59a3c1ce4b6bcf8aa793d9e197bd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
