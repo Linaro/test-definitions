@@ -1,0 +1,4 @@
+The binaries are provided under the terms listed in LICENSE.txt file.
+
+The binaries were built from STREAM V5.10 source code, with gcc option -O3. The
+source can be viewed here: https://www.cs.virginia.edu/stream/FTP/Code/stream.c
