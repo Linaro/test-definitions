@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_e55a6a4f",
+        "filename": "automated/android/monkey/monkey.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-10-28T10:44:47Z",
+      "side": 1,
+      "message": "by default SN is not set. This will break the test. In LAVA the default is 1 device for each LXC container which means adb can be run without parameters. Please allow for running without SN set and check for the parameter existence [ -z ] to be sure which command line to use",
+      "revId": "807226a2aa25b26f92bb2d209877677afa1d33cb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
