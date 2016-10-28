@@ -1,0 +1,29 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: stream-uniprocessor
+    description: "STREAM benchmark is a simple synthetic benchmark program that
+                  measures sustainable memory bandwidth (in MB/s). This test
+                  case run STREAM on a single processor."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - d03
+        - d05
+        - moonshot
+        - thunderX
+
+run:
+    steps:
+        - cd ./automated/linux/stream/
+        - ./stream-uniprocessor.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
