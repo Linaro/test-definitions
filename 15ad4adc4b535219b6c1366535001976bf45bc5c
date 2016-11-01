@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_7341380b",
+        "filename": "validate.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T18:17:22Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "5aed85c8_b3c3a089",
+      "revId": "15ad4adc4b535219b6c1366535001976bf45bc5c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_93c0247e",
         "filename": "validate.py",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-11-01T18:10:04Z",
       "side": 1,
       "message": "this will not work if the intermediate exitcodes sum up to multiples of 256 because exit codes are 8-bit unsigned numbers so they will wrap at 256.\n\n$ python -c \u0027exit(256)\u0027; echo $?\n\u003d\u003e 0\n\nI think you should exit with 0 on no errors, or 1 if anything failed.",
+      "revId": "15ad4adc4b535219b6c1366535001976bf45bc5c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_5346bc24",
+        "filename": "validate.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T18:17:22Z",
+      "side": 1,
+      "message": "OK, will try sth else. The only use case for using the sum is when the single file is validated more than once (currently only yaml). Others are just pass/fail cases.",
+      "parentUuid": "5aed85c8_f3bd2804",
       "revId": "15ad4adc4b535219b6c1366535001976bf45bc5c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
