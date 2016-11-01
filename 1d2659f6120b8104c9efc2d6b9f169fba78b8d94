@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_30604635",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T11:34:14Z",
+      "side": 1,
+      "message": "Can the EE boards be booted with ISO images? If so, I think we need a separate test for this.",
+      "parentUuid": "5aed85c8_50f872e5",
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_b0dc3676",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-10-31T18:45:25Z",
       "side": 1,
       "message": "Booting the installed system from disk? Might be good to be more specific here, since disk can also mean a lot of things :-)",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_90501a60",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T11:34:14Z",
+      "side": 1,
+      "message": "Yeah, a detailed requirement document would be nice to have :) Than I can refer to it. Right now the requirements are sort of excerpt from here: https://mwasilew.github.io/rpbspec/ with a bit of \u0027common sense\u0027 added. Having a requirement coverage without approved requirements is a hard thing to do.\n\nIn this case, boot from disk means after installer finished, boot from hard drive.",
+      "parentUuid": "5aed85c8_b0dc3676",
       "range": {
         "startLine": 41,
         "startChar": 15,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_f04d1ec6",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T11:34:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure I want to run the whole dejagnu here. The idea is to check whether the toolchain installed on the target (from packages) can build something useful. So first 2 tests are just \u0027hello world\u0027 compilation. I added kernel as something a bit more complex.",
+      "parentUuid": "5aed85c8_90d93a86",
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_f0e6be43",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 2
@@ -70,6 +130,30 @@
       "writtenOn": "2016-10-31T18:45:25Z",
       "side": 1,
       "message": "Why sdb?",
+      "range": {
+        "startLine": 84,
+        "startChar": 25,
+        "endLine": 84,
+        "endChar": 28
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_30c7a614",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T11:34:14Z",
+      "side": 1,
+      "message": "system should be on sda, sdb should be a \u0027sacrificial\u0027 disk to run tests on. The partitioning test removes everything from the disk",
+      "parentUuid": "5aed85c8_f0e6be43",
       "range": {
         "startLine": 84,
         "startChar": 25,
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_10cc2a35",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T11:34:14Z",
+      "side": 1,
+      "message": "system should be on sda, sdb should be a \u0027sacrificial\u0027 disk to run tests on. The partitioning test removes everything from the disk. This is the same as above just with different filesystem (fat instead of ext4).",
+      "parentUuid": "5aed85c8_d0e3c231",
+      "range": {
+        "startLine": 89,
+        "startChar": 24,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_30d04653",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 2
@@ -116,6 +224,30 @@
       "writtenOn": "2016-10-31T18:45:25Z",
       "side": 1,
       "message": "Move it down together with the other performance related tests.",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 8
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_50d6b2c6",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-01T11:34:14Z",
+      "side": 1,
+      "message": "We agreed with Alan, that each webserver should have it\u0027s own requirements - one functional, one performance. So this will be split into 3 parts (apache, nginx, tomcat).",
+      "parentUuid": "5aed85c8_30d04653",
       "range": {
         "startLine": 184,
         "startChar": 4,
