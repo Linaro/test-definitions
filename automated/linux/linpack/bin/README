@@ -1,0 +1,5 @@
+The source can be viewed here: http://www.netlib.org/benchmark/linpackc.new
+
+The binaries included here are compiled with the following commands:
+# mv linpackc.new linpack.c
+# gcc -O3 -static -o linpack linpack.c -lm
