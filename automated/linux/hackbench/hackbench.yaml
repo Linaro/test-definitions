@@ -1,0 +1,54 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: hackbench
+    description: "Hackbench is both a benchmark and a stress test for the Linux
+                  kernel scheduler. It's main job is to create a specified
+                  number of pairs of schedulable entities (either threads or
+                  traditional processes) which communicate via either sockets or
+                  pipes and time how long it takes for each pair to send data
+                  back and forth."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+        - virtualization
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    ITERATION: "1000"
+    TARGET: "host"
+    # Sets the amount of data to send in each message
+    DATASIZE: "100"
+    # How many messages each sender/receiver pair should send
+    LOOPS: "100"
+    # Defines how many groups of senders and receivers should be started
+    GRPS: "10"
+    # Defines how many file descriptors each child should use.  Note that the
+    # effective number will be twice the amount you set here, as the sender
+    # and receiver children will each open the given amount of file descriptors.
+    FDS: "20"
+    # Sends the data via a pipe instead of the socket (default)
+    PIPE: "false"
+    # Each sender/receiver child will be a POSIX thread of the parent.
+    # The default is to run in process mode (-P)
+    THREADS: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/hackbench/
+        - "./hackbench.sh -i ${ITERATION} -t ${TARGET} -s ${DATASIZE}
+           -l ${LOOPS} -g ${GRPS} -f ${FDS} -p ${PIPE} -T ${THREADS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
