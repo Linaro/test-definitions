@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_36a15eaa",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-02T23:24:21Z",
+      "side": 1,
+      "message": "In order to do that I need a physical access to the hardware, right? Do you know if I can run LUV live image same way (sorry for offtopic).",
+      "parentUuid": "5aed85c8_13d8b452",
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_b0dc3676",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 2
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "Yeah, changing to boot from the installed hard drive media or similar would already be more than enough for now.",
       "parentUuid": "5aed85c8_90501a60",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_16a6e2c1",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-02T23:24:21Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "5aed85c8_73ddb842",
       "range": {
         "startLine": 41,
         "startChar": 15,
@@ -238,6 +280,30 @@
       "side": 1,
       "message": "But then we will require the server to have 2 disks, right?",
       "parentUuid": "5aed85c8_30c7a614",
+      "range": {
+        "startLine": 84,
+        "startChar": 25,
+        "endLine": 84,
+        "endChar": 28
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_76abe689",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-02T23:24:21Z",
+      "side": 1,
+      "message": "Yes. I think it\u0027s the same story as with booting installer from USB/hard drive - physical access to the hardware is needed.",
+      "parentUuid": "5aed85c8_b3e60015",
       "range": {
         "startLine": 84,
         "startChar": 25,
