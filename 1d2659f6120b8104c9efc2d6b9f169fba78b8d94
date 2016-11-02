@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_13d8b452",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2016-11-02T02:11:13Z",
+      "side": 1,
+      "message": "Yes, you can boot the ISO from an external device, such as cd-rom, usb-disk, normal hd (with iso flashed), etc.",
+      "parentUuid": "5aed85c8_30604635",
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_b0dc3676",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 2
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_73ddb842",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2016-11-02T02:11:13Z",
+      "side": 1,
+      "message": "Yeah, changing to boot from the installed hard drive media or similar would already be more than enough for now.",
+      "parentUuid": "5aed85c8_90501a60",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_90d93a86",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 2
@@ -113,6 +155,24 @@
       "side": 1,
       "message": "I\u0027m not sure I want to run the whole dejagnu here. The idea is to check whether the toolchain installed on the target (from packages) can build something useful. So first 2 tests are just \u0027hello world\u0027 compilation. I added kernel as something a bit more complex.",
       "parentUuid": "5aed85c8_90d93a86",
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_53e23c04",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2016-11-02T02:11:13Z",
+      "side": 1,
+      "message": "Right, that would indeed be the best target for a more complex use case.",
+      "parentUuid": "5aed85c8_f04d1ec6",
       "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -154,6 +214,30 @@
       "side": 1,
       "message": "system should be on sda, sdb should be a \u0027sacrificial\u0027 disk to run tests on. The partitioning test removes everything from the disk",
       "parentUuid": "5aed85c8_f0e6be43",
+      "range": {
+        "startLine": 84,
+        "startChar": 25,
+        "endLine": 84,
+        "endChar": 28
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_b3e60015",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2016-11-02T02:11:13Z",
+      "side": 1,
+      "message": "But then we will require the server to have 2 disks, right?",
+      "parentUuid": "5aed85c8_30c7a614",
       "range": {
         "startLine": 84,
         "startChar": 25,
@@ -248,6 +332,30 @@
       "side": 1,
       "message": "We agreed with Alan, that each webserver should have it\u0027s own requirements - one functional, one performance. So this will be split into 3 parts (apache, nginx, tomcat).",
       "parentUuid": "5aed85c8_30d04653",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 8
+      },
+      "revId": "1d2659f6120b8104c9efc2d6b9f169fba78b8d94",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_93e30405",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2016-11-02T02:11:13Z",
+      "side": 1,
+      "message": "Got it, thanks.",
+      "parentUuid": "5aed85c8_50d6b2c6",
       "range": {
         "startLine": 184,
         "startChar": 4,
