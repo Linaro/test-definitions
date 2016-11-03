@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_3612feb4",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-03T10:29:14Z",
+      "side": 1,
+      "message": "I think we can automate the following 3 tests.",
+      "revId": "f95c9bcc23cd44d880f2c897f0b78f6bb82b923d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_161702a5",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-03T10:29:14Z",
+      "side": 1,
+      "message": "I have submitted a patch to migrate the old one to v2. On debian, I see docker-engine is provided by linaro-overlay repo. Not sure about the condition on CentOS yet.",
+      "revId": "f95c9bcc23cd44d880f2c897f0b78f6bb82b923d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_563a2a37",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-03T10:29:14Z",
+      "side": 1,
+      "message": "We have it automated on Ubuntu/Debian before. I will migrate it to v2.",
+      "revId": "f95c9bcc23cd44d880f2c897f0b78f6bb82b923d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
