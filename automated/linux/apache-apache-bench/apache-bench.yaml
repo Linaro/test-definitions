@@ -1,0 +1,33 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: apache-apache-bench
+    description: "Apachebench is a benchmark created to measure
+                  the webserver performance on HTTP protocol. This
+                  test runs apachebench against apache webserver"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - mustang
+        - overdrive
+        - d02
+        - d03
+
+params:
+    SKIP_INSTALL: "False"
+    # Number of requests to perform
+    NUMBER: 1000
+    # Number of multiple requests to make at a time
+    CONCURENT: 100
+
+run:
+    steps:
+        - cd ./automated/linux/apache-apache-bench/
+        - ./apache-bench.sh -s "${SKIP_INSTALL}" -n "${NUMBER}" -c "${CONCURENT}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
