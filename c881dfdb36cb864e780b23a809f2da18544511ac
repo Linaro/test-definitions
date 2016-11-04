@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_9c5af14e",
+        "filename": "manual/generic/linux/openssh.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-04T18:28:47Z",
+      "side": 1,
+      "message": "yeah. ok",
+      "parentUuid": "5aed85c8_9c7311e7",
+      "revId": "c881dfdb36cb864e780b23a809f2da18544511ac",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_fc80558d",
         "filename": "manual/generic/linux/openssh.yaml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-04T18:15:13Z",
       "side": 1,
       "message": "is this a separate step or part of previous step?",
+      "revId": "c881dfdb36cb864e780b23a809f2da18544511ac",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_bc5d2d4b",
+        "filename": "manual/generic/linux/openssh.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-04T18:28:47Z",
+      "side": 1,
+      "message": "separate step.\nadded double quotes for commands.",
+      "parentUuid": "5aed85c8_fc80558d",
       "revId": "c881dfdb36cb864e780b23a809f2da18544511ac",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
