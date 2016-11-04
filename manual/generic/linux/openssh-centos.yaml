@@ -1,0 +1,40 @@
+metadata:
+    name: openssh-centos
+    format: "Manual Test Definition 1.0"
+    description: "Normal OpenSSH development produces a very small, secure,
+        and easy to maintain version for the OpenBSD project.
+        The OpenSSH Portability Team takes that pure version and adds
+        portability code so that OpenSSH can run on many other operating systems
+        More details in wiki: http://www.openssh.com/portable.html"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - login as root and edit sudoers file
+        - setup wheel group users without a password
+        - uncomment this line "%wheel  ALL=(ALL)       NOPASSWD: ALL"
+        - sudoedit /etc/sudoers
+        - save and exit
+        - logout and login as normal user ex: linaro
+        - ensure linaro user exit and belong to wheel group
+        - run openssh-centos.sh
+        - ./openssh-centos.sh
+        - run takes around 10 minutes
+
+    expected:
+        - all tests should pass
+        - get results from output/result.txt
+        - if any openssh test fails please report bugs
