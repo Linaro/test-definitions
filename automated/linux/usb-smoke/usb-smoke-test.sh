@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # USB smoke test cases
 #
@@ -22,9 +22,11 @@
 # Author: Naresh Kamboju <naresh.kamboju@linaro.org>
 #
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 STATUS=0
 
 usage() {
@@ -40,10 +42,10 @@ while getopts "s:" o; do
 done
 
 increment_return_status() {
-    local exit_code="$?"
+    exit_code="$?"
     [ "$#" -ne 1 ] && error_msg "Usage: increment_return_status value"
-    local value="$1"
-    return $(expr "${exit_code}" + "${value}")
+    value="$1"
+    return "$((exit_code+value))"
 }
 
 # Get the usb devices/hubs list
@@ -58,9 +60,11 @@ examine_all_usb_devices() {
     info_msg "Running examine_all_usb_devices test..."
     USB_BUS="/dev/bus/usb/"
     if [ -d "${USB_BUS}" ]; then
+	# shellcheck disable=SC2045
         for bus in $(ls "${USB_BUS}"); do
+	    # shellcheck disable=SC2045
             for device in $(ls "${USB_BUS}""${bus}"/); do
-                info_msg "USB Bus "${bus}", device "${device}""
+                info_msg "USB Bus ${bus}, device ${device}"
                 lsusb -D "${USB_BUS}""${bus}"/"${device}"
                 increment_return_status "${STATUS}"
                 STATUS=$?
