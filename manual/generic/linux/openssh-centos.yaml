@@ -1,0 +1,30 @@
+metadata:
+    name: openssh-centos
+    format: "Manual Test Definition 1.0"
+    description: "Normal OpenSSH development produces a very small, secure,
+        and easy to maintain version for the OpenBSD project.
+        The OpenSSH Portability Team takes that pure version and adds
+        portability code so that OpenSSH can run on many other operating systems
+        More details in wiki: http://www.openssh.com/portable.html"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Run each step manually from openssh-centos.sh
+
+    expected:
+        - all tests should pass
+        - if any openssh test fails please report bugs
