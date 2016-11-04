@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Device Tree test cases
 #
@@ -25,6 +25,8 @@
 
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
+
 SYSFS_DEVICE_TREE="/sys/firmware/devicetree/base/"
 DEVICE_TREE="/proc/device-tree"
 MODEL="model"
@@ -45,7 +47,7 @@ device_tree_property() {
 
     DATA="$(cat "${DEVICE_TREE}/${test}")"
     [ -n "${DATA}" ]
-    check_return "device-tree-"${test}""
+    check_return "device-tree-${test}"
 }
 
 # Test run.
