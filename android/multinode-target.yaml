@@ -53,6 +53,7 @@ run:
         - setprop service.adb.root 1
         - stop adbd
         - start adbd
+        - sleep 5
         - ping_count=0
         - while ! LC_ALL=C ping -W1 -c1 ${LAVA_SERVER_IP} ; do
         - sleep 1; ping_count=$((ping_count + 1)); [ ${ping_count} -ge ${PING_TIMEOUT} ] && exit 1
