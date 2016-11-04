@@ -1,0 +1,32 @@
+metadata:
+    name: LuvOS
+    format: "Manual Test Definition 1.0"
+    description: "Execute all tests included in LuvOS. LuvOS is a distribution
+        based on OpenEmbedded build system. It includes UEFI and ACPI test
+        suites. More details in wiki:
+        https://wiki.linaro.org/LEG/Engineering/LUV"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - luvOS
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Download latest LuvOS stable live image
+          http://snapshots.linaro.org/openembedded/pre-built/luvos/
+        - Mount the image on local host and change the kernel to the one
+          supporting tested hardware platform.
+        - Boot the board using the LuvOS live image
+
+    expected:
+        - All tests are executed upon boot
+        - There are no failed tests
