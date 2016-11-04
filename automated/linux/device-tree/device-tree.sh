@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Device Tree test cases
 #
@@ -21,10 +21,13 @@
 # Author: Ricardo Salveti <rsalveti@linaro.org>
 # Maintainer: Naresh Kamboju <naresh.kamboju@linaro.org>
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
+
 SYSFS_DEVICE_TREE="/sys/firmware/devicetree/base/"
 DEVICE_TREE="/proc/device-tree"
 MODEL="model"
@@ -41,11 +44,11 @@ device_tree() {
 # Check device tree property
 device_tree_property() {
     [ "$#" -ne 1 ] && error_msg "Usage: device_tree_property test"
-    local test="$1"
+    test="$1"
 
     DATA="$(cat "${DEVICE_TREE}/${test}")"
     [ -n "${DATA}" ]
-    check_return "device-tree-"${test}""
+    check_return "device-tree-${test}"
 }
 
 # Test run.
