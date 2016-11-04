@@ -1,0 +1,34 @@
+metadata:
+    name: blogbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Blogbench is a portable filesystem benchmark that tries to
+                  reproduce the load of a real-world busy file server."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    devices:
+        - mustang
+        - overdrive
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Blogbench run 30 iterations by default.
+    ITERATION: 30
+    # Specify a local disk partition for nfsrootfs boot.
+    # For example: /dev/sda1
+    PARTITION: ''
+
+run:
+    steps:
+        - cd ./automated/linux/blogbench/
+        - ./blogbench.sh -i "${ITERATION}" -p "${PARTITION}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
