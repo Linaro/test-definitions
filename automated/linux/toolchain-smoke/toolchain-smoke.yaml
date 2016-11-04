@@ -1,0 +1,30 @@
+metadata:
+    name: toolchain-smoke
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Simple test that checks whether gcc compilation works"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+    devices:
+        - mustang
+        - overdrive
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    STATIC: false
+    SKIP_INSTALL: false
+
+run:
+    steps:
+        - cd ./automated/linux/toolchain-smoke/
+        - ./toolchain-smoke.sh -s ${SKIP_INSTALL} -t ${STATIC}
+        - ../../utils/send-to-lava.sh ./output/result.txt
