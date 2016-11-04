@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_474d5272",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-04T21:08:28Z",
+      "side": 1,
+      "message": "Yeah, doing that right now :)",
+      "parentUuid": "5aed85c8_3612feb4",
+      "revId": "f95c9bcc23cd44d880f2c897f0b78f6bb82b923d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_161702a5",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_2752c613",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-04T21:08:28Z",
+      "side": 1,
+      "message": "I remember an email, but somehow it wasn\u0027t showing in gerrig UI so I thought it wasn\u0027t there (too little sleep recently). Now got it: https://review.linaro.org/#/c/15194/. I\u0027ll update this plan once it\u0027s merged.",
+      "parentUuid": "5aed85c8_161702a5",
+      "revId": "f95c9bcc23cd44d880f2c897f0b78f6bb82b923d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_563a2a37",
         "filename": "plans/rpb_ee_common.yaml",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-11-03T10:29:14Z",
       "side": 1,
       "message": "We have it automated on Ubuntu/Debian before. I will migrate it to v2.",
+      "revId": "f95c9bcc23cd44d880f2c897f0b78f6bb82b923d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_87573a02",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-04T21:08:28Z",
+      "side": 1,
+      "message": "I think I updated it already, but didn\u0027t push the patch yet.",
+      "parentUuid": "5aed85c8_563a2a37",
       "revId": "f95c9bcc23cd44d880f2c897f0b78f6bb82b923d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
