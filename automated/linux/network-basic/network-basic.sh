@@ -1,8 +1,10 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 INTERFACE="eth0"
 GATEWAY="10.0.0.1"
 
@@ -26,7 +28,7 @@ install() {
 }
 
 run() {
-    local test="$1"
+    test="$1"
     test_case_id="$2"
     echo
     info_msg "Running ${test_case_id} test..."
