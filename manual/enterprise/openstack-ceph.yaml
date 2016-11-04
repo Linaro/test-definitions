@@ -1,0 +1,37 @@
+metadata:
+    name: openstack-ceph-cloud
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of cloud instance"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - CentOS
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Any test cloud for will have at least 6 nodes.
+          3 controllers and 3 compute nodes. The three controllers
+          will have Ceph monitors installed, the 3 compute nodes
+          will have Ceph OSDs.
+        - Install CentOS on all nodes
+        - Deploy OpenStack + Ceph on all the nodes using the Reference
+          Architecture.
+        - Bootstrap the cloud with the services and users required
+          (a script will be provided).
+        - Create a test tenant and spin a VM to be able to run tempest from it.
+        - Use RefStack to run the 2016.08 guideline. Guideline can be obtained
+          here - https://refstack.openstack.org/#/guidelines
+
+    expected:
+        - It is possible to bootstap a VM
+        - All tempest tests pass
