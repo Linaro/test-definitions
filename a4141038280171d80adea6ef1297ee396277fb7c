@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_a19fc64f",
+        "filename": "automated/linux/apache-apache-bench/apache-bench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-04T01:15:10Z",
+      "side": 1,
+      "message": "We probably want to see test results both on stdout and in log file. | tee \"${LOGFILE}\" can do that.",
+      "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_e1a9ce7c",
+        "filename": "automated/linux/apache-apache-bench/apache-bench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-04T01:15:10Z",
+      "side": 1,
+      "message": "I remember, in somewhere,  LAVA doc shows it dislike \"_\" in test case ID. So I am using \"-\". We probably want to unify the style.",
+      "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_01adfa88",
+        "filename": "automated/linux/apache-apache-bench/apache-bench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-04T01:15:10Z",
+      "side": 1,
+      "message": "I didn\u0027t see a better way, either. Yeah, we can go with the current approach.",
+      "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_41b6e2dd",
+        "filename": "automated/linux/apache-apache-bench/apache-bench.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-04T01:15:10Z",
+      "side": 1,
+      "message": "Why apache-apache? the file name is apche-bench.[yaml|sh]\nThe same question to the folder name.",
+      "range": {
+        "startLine": 3,
+        "startChar": 10,
+        "endLine": 3,
+        "endChar": 29
+      },
+      "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
