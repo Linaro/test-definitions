@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_27ee4623",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-05T05:50:26Z",
+      "side": 1,
+      "message": "non package manager distributions like OE could hit his case.",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_a7d99685",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-05T05:50:26Z",
+      "side": 1,
+      "message": "\"SKIP_INSTALL\" please send parameter from yaml and add it in getopts.",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_67f84ee6",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-05T05:50:26Z",
+      "side": 1,
+      "message": "JDK -\u003e gcc ?",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_87f3ba09",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-05T05:50:26Z",
+      "side": 1,
+      "message": "tee would be better here.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 46
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_c7dca277",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-05T05:50:26Z",
+      "side": 1,
+      "message": "performance -\u003e functional ?",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
