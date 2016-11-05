@@ -1,0 +1,31 @@
+metadata:
+    name: openssh-debian
+    format: "Manual Test Definition 1.0"
+    description: "Normal OpenSSH development produces a very small, secure,
+        and easy to maintain version for the OpenBSD project.
+        The OpenSSH Portability Team takes that pure version and adds
+        portability code so that OpenSSH can run on many other operating systems
+        More details in wiki: http://www.openssh.com/portable.html"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+    environment:
+        - lava-test-shell
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/openssh
+        - ./openssh-debian.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
