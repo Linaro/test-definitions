@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_f64a31ab",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_22659445",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_27ee4623",
         "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
         "patchSetId": 1
@@ -60,6 +84,54 @@
       "side": 1,
       "message": "This is fine as \"install\" function only will be executed in the else black, refer to line #42.",
       "parentUuid": "5aed85c8_27ee4623",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_164eddc1",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_27ee4623",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_b650a95f",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_c253f06a",
       "range": {
         "startLine": 32,
         "startChar": 9,
@@ -119,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_d653b56a",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_a250645f",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_67f84ee6",
         "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
         "patchSetId": 1
@@ -130,6 +226,30 @@
       "writtenOn": "2016-11-05T05:50:26Z",
       "side": 1,
       "message": "JDK -\u003e gcc ?",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_765f6173",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_67f84ee6",
       "range": {
         "startLine": 41,
         "startChar": 14,
@@ -159,6 +279,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_965acd81",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_62d67cc7",
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_87f3ba09",
         "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
         "patchSetId": 1
@@ -170,6 +308,30 @@
       "writtenOn": "2016-11-05T05:50:26Z",
       "side": 1,
       "message": "tee would be better here.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 46
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_56c7c512",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_87f3ba09",
       "range": {
         "startLine": 53,
         "startChar": 4,
@@ -205,6 +367,30 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_36ccb935",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_c7dca277",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_c2dad0e8",
         "filename": "automated/linux/toolchain-smoke/toolchain-smoke.yaml",
         "patchSetId": 1
@@ -216,6 +402,24 @@
       "writtenOn": "2016-11-07T09:07:53Z",
       "side": 1,
       "message": "You may need SKIP_INSTALL",
+      "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_96d12dd0",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T19:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_c2dad0e8",
       "revId": "91be1ea24263b0b601c46d1d73b40c1623bfe377",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
