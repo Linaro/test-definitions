@@ -58,12 +58,13 @@ def pep8_check(filepath, ignore_options=None):
         print_stderr(message)
     return 0
 
+
 def metadata_check(filepath):
     if filepath.lower().endswith("yaml"):
         with open(filepath, "r") as f:
             result_message_list = []
             y = yaml.load(f.read())
-            if not 'metadata' in y.keys():
+            if 'metadata' not in y.keys():
                 result_message_list.append("* METADATA [FAILED]: " + filepath)
                 result_message_list.append("\tmetadata section missing")
                 publish_result(result_message_list)
@@ -78,10 +79,10 @@ def metadata_check(filepath):
                 'devices'])
             if not mandatory_keys.issubset(set(metadata_dict.keys())):
                 result_message_list.append("* METADATA [FAILED]: " + filepath)
-                result_message_list.append("\tmandatory keys missing: %s" % \
-                        mandatory_keys.difference(set(metadata_dict.keys())))
-                result_message_list.append("\tactual keys present: %s" % \
-                        metadata_dict.keys())
+                result_message_list.append("\tmandatory keys missing: %s" %
+                                           mandatory_keys.difference(set(metadata_dict.keys())))
+                result_message_list.append("\tactual keys present: %s" %
+                                           metadata_dict.keys())
                 publish_result(result_message_list)
                 return 1
             for key in mandatory_keys:
@@ -93,6 +94,7 @@ def metadata_check(filepath):
             result_message_list.append("* METADATA [PASSED]: " + filepath)
             publish_result(result_message_list)
     return 0
+
 
 def validate_yaml(filename):
     with open(filename, "r") as f:
@@ -192,28 +194,28 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-p",
-        "--pep8-ignore",
-        nargs="*",
-        default="E501",
-        help="Space separated list of pep8 exclusions",
-        dest="pep8_ignore")
+                        "--pep8-ignore",
+                        nargs="*",
+                        default="E501",
+                        help="Space separated list of pep8 exclusions",
+                        dest="pep8_ignore")
     parser.add_argument("-s",
-        "--shellcheck-ignore",
-        nargs="*",
-        help="Space separated list of shellcheck exclusions",
-        dest="shellcheck_ignore")
+                        "--shellcheck-ignore",
+                        nargs="*",
+                        help="Space separated list of shellcheck exclusions",
+                        dest="shellcheck_ignore")
     parser.add_argument("-g",
-        "--git-latest",
-        action="store_true",
-        default=False,
-        help="If set, the script will try to evaluate files in last git \
-            commit instead of the whole repository",
-        dest="git_latest")
+                        "--git-latest",
+                        action="store_true",
+                        default=False,
+                        help="If set, the script will try to evaluate files in last git \
+                            commit instead of the whole repository",
+                        dest="git_latest")
     parser.add_argument("-f",
-        "--file-path",
-        default="",
-        help="Path to the file that should be checked",
-        dest="file_path")
+                        "--file-path",
+                        default="",
+                        help="Path to the file that should be checked",
+                        dest="file_path")
 
     args = parser.parse_args()
     main(args)
