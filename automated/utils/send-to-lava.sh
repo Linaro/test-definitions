@@ -16,7 +16,7 @@ if [ -f "${RESULT_FILE}" ]; then
             else
                 echo "<TEST_CASE_ID=${test} RESULT=${result}>"
             fi
-        elif echo "${line}" | egrep -iq ".* +(pass|fail|skip) +[0-9.E-]+ [A-Za-z./]+$"; then
+        elif echo "${line}" | egrep -iq ".*+ (pass|fail|skip)+ .*+ .*"; then
             test="$(echo "${line}" | awk '{print $1}')"
             result="$(echo "${line}" | awk '{print $2}')"
             measurement="$(echo "${line}" | awk '{print $3}')"
