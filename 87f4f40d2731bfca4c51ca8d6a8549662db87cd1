@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_16f25d9a",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T16:39:00Z",
+      "side": 1,
+      "message": "we\u0027re missing the parameters here. That might bring a lot of ambiguity if (when) we\u0027re running same tests with different params. OK for now, but need to be updated somehow pretty quickly. It won\u0027t be that uncommon to run the same fio on different drives (or with Ceph).",
+      "revId": "87f4f40d2731bfca4c51ca8d6a8549662db87cd1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
