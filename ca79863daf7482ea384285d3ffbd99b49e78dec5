@@ -22,6 +22,30 @@
       "revId": "ca79863daf7482ea384285d3ffbd99b49e78dec5",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_561225b5",
+        "filename": "manual/enterprise/openstack-ceph.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T17:14:13Z",
+      "side": 1,
+      "message": "Thanks! done",
+      "parentUuid": "5aed85c8_e719de7a",
+      "range": {
+        "startLine": 32,
+        "startChar": 53,
+        "endLine": 32,
+        "endChar": 62
+      },
+      "revId": "ca79863daf7482ea384285d3ffbd99b49e78dec5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
