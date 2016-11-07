@@ -235,6 +235,7 @@ class ResultParser(object):
         self.results = {}
         self.results['test'] = self.test_name
         self.results['id'] = self.test_uuid
+        self.results['params'] = test.get('params')
         self.logger = logging.getLogger('RUNNER.ResultParser')
 
     def run(self):
@@ -268,22 +269,42 @@ class ResultParser(object):
         self.results['metrics'] = self.metrics
 
     def dict_to_json(self):
+        # Save test results to output/test_id/result.json
         with open('%s/result.json' % self.result_path, 'w') as f:
-            json.dump(self.results, f, indent=4)
+            json.dump([self.results], f, indent=4)
+
+        # Collect test results of all tests in output/result.json
+        feeds = []
+        if os.path.isfile('%s/result.json' % self.output):
+            with open('%s/result.json' % self.output, 'r') as f:
+                feeds = json.load(f)
+
+        feeds.append(self.results)
+        with open('%s/result.json' % self.output, 'w') as f:
+            json.dump(feeds, f, indent=4)
 
     def dict_to_csv(self):
+        # Save test results to output/test_id/result.csv
         with open('%s/result.csv' % self.result_path, 'w') as f:
-            fieldnames = ['test_case_id', 'result', 'measurement', 'units']
+            fieldnames = ['test', 'test_case_id', 'result', 'measurement', 'units']
             writer = csv.DictWriter(f, fieldnames=fieldnames)
 
             writer.writeheader()
             for metric in self.results['metrics']:
+                metric['test'] = self.results['test']
                 writer.writerow(metric)
+
+        # Collect test results of all tests in ouptut/result.csv
+        if not os.path.isfile('%s/result.csv' % self.output):
+            with open('%s/result.csv' % self.output, 'w') as f:
+                fieldnames = ['test', 'test_case_id', 'result', 'measurement', 'units']
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
 
         with open('%s/result.csv' % self.output, 'a') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
-
             for metric in self.results['metrics']:
+                metric['test'] = self.results['test']
                 writer.writerow(metric)
 
 
