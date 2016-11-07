@@ -156,8 +156,9 @@ def validate_file(args, path):
         exitcode = pep8_check(path, args.pep8_ignore)
     elif path.endswith(".php"):
         exitcode = validate_php(path)
-    else:
-        # try shellcheck by default
+    elif path.endswith(".sh") or \
+            path.endswith("sh-test-lib") or \
+            path.endswith("android-test-lib"):
         exitcode = validate_shell(path, args.shellcheck_ignore)
     return exitcode
 
@@ -166,14 +167,18 @@ def run_unit_tests(args, filelist=None):
     exitcode = 0
     if filelist is not None:
         for filename in filelist:
-            exitcode = validate_file(args, filename)
+            tmp_exitcode = validate_file(args, filename)
+            if tmp_exitcode != 0:
+                exitcode = 1
     else:
         for root, dirs, files in os.walk('.'):
             if not root.startswith("./.git"):
                 for name in files:
-                    exitcode = validate_file(
+                    tmp_exitcode = validate_file(
                         args,
                         root + "/" + name)
+                    if tmp_exitcode != 0:
+                        exitcode = 1
     return exitcode
 
 
