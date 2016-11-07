@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_96b00ddf",
+        "filename": "manual/generic/linux/openssh-centos.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-07T16:06:03Z",
+      "side": 1,
+      "message": "Editing spec file is needed here.\nThe reasons i created this script file is,\n1. not a good idea to write 60 shell commands in yaml\n2. validating yaml file failed.\n3. shell script will allow user to identify command and comment.\n4. Not expecting this should run automatically.\n5. I can avoid edit file by using editor. instead \"sed\" will do the job.",
+      "parentUuid": "5aed85c8_f6723148",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_568fc523",
         "filename": "manual/generic/linux/openssh-centos.yaml",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-07T15:47:57Z",
       "side": 1,
       "message": "http://photos1.blogger.com/blogger/537/1594/1600/loop.jpg",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_56dd0514",
+        "filename": "manual/generic/linux/openssh-centos.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-07T16:06:03Z",
+      "side": 1,
+      "message": "hehehe.\nSince it is manual test i do not care much now.\nI have a plan to automate this soon.",
+      "parentUuid": "5aed85c8_568fc523",
       "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
