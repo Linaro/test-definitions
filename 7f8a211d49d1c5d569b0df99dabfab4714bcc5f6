@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_f6723148",
+        "filename": "manual/generic/linux/openssh-centos.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T15:47:57Z",
+      "side": 1,
+      "message": "hmm, the script stops here. http://stackoverflow.com/questions/22575125/vim-how-to-insert-text-save-and-exit-from-bash\n\nBut I think we should get rid of this script and rewrite all steps in YAML file.",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_568fc523",
+        "filename": "manual/generic/linux/openssh-centos.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T15:47:57Z",
+      "side": 1,
+      "message": "http://photos1.blogger.com/blogger/537/1594/1600/loop.jpg",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
