@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5aed85c8_c26c9039",
+        "filename": "automated/linux/apache-apache-bench/apache-bench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-07T08:41:00Z",
+      "side": 1,
+      "message": "\":\" after c is needed, otherwise, variable CONCURENT get nothing. So\n\nn:c:s:\n\n  n)\n  c)\n  s)",
+      "range": {
+        "startLine": 16,
+        "startChar": 14,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_61b5decc",
+        "filename": "automated/linux/apache-apache-bench/apache-bench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-07T08:41:00Z",
+      "side": 1,
+      "message": "The keyword should be \"n\" and \"c\" respectively.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_a19fc64f",
         "filename": "automated/linux/apache-apache-bench/apache-bench.sh",
         "patchSetId": 1
@@ -30,6 +76,29 @@
       "writtenOn": "2016-11-04T01:15:10Z",
       "side": 1,
       "message": "I remember, in somewhere,  LAVA doc shows it dislike \"_\" in test case ID. So I am using \"-\". We probably want to unify the style.",
+      "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_a2698427",
+        "filename": "automated/linux/apache-apache-bench/apache-bench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-07T08:41:00Z",
+      "side": 1,
+      "message": "I have updated send-to-lava.sh so that it able to catch any character in result measurement and units fields. \n\nhttps://review.linaro.org/#/c/15323/",
+      "range": {
+        "startLine": 70,
+        "startChar": 89,
+        "endLine": 70,
+        "endChar": 92
+      },
       "revId": "a4141038280171d80adea6ef1297ee396277fb7c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
