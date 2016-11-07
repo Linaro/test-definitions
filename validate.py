@@ -29,7 +29,7 @@ def publish_result(result_message_list):
     print_stderr(result_message)
 
 
-def pep8_check(filepath, ignore_options=None):
+def pep8_check(filepath, ignore_options=[]):
     _fmt = "%(row)d:%(col)d: %(code)s %(text)s"
     options = {
         'ignore': ignore_options,
@@ -118,7 +118,7 @@ def validate_yaml(filename):
 def validate_shell(filename, ignore_options):
     ignore_string = ""
     if ignore_options is not None:
-        ignore_string = "-e %s" % ignore_options
+        ignore_string = "-e %s" % " ".join(ignore_options)
     cmd = 'shellcheck %s' % ignore_string
     return validate_external(cmd, filename, "SHELLCHECK")
 
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     parser.add_argument("-p",
                         "--pep8-ignore",
                         nargs="*",
-                        default="E501",
+                        default=["E501"],
                         help="Space separated list of pep8 exclusions",
                         dest="pep8_ignore")
     parser.add_argument("-s",
