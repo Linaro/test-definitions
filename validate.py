@@ -11,7 +11,7 @@ try:
     import pep8
     run_pep8 = True
 except:
-    print("PEP8 is not available")
+    print("PEP8 is not available!")
 
 
 def print_stderr(message):
