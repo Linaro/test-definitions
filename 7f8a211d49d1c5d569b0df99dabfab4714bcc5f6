@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_763ac137",
+        "filename": "manual/generic/linux/openssh-centos.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T17:08:57Z",
+      "side": 1,
+      "message": "re 1. why? I don\u0027t see any problem with that\nre 2. because it was malformed. There is no problem in formatting it properly\nre 3. The shell script doesn\u0027t work. It stops on vim edit.\nre 4. so why the script then?\nre 5. ok, but I would prefer a properly formatted manual test.",
+      "parentUuid": "5aed85c8_96b00ddf",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_568fc523",
         "filename": "manual/generic/linux/openssh-centos.yaml",
         "patchSetId": 9
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "hehehe.\nSince it is manual test i do not care much now.\nI have a plan to automate this soon.",
       "parentUuid": "5aed85c8_568fc523",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_d63e1529",
+        "filename": "manual/generic/linux/openssh-centos.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-07T17:08:57Z",
+      "side": 1,
+      "message": "I do care as I need this test _now_ (as in today). So please format it properly as manual test and we\u0027re work on automation later.",
+      "parentUuid": "5aed85c8_56dd0514",
       "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
