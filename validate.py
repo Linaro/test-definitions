@@ -21,11 +21,14 @@ def print_stderr(message):
 
 def publish_result(result_message_list):
     result_message = '\n'.join(result_message_list)
-    f = open('build-error.txt', 'a')
-    f.write("\n\n")
-    f.write(result_message)
-    f.write("\n\n")
-    f.close()
+    try:
+        f = open('../build-error.txt', 'a')
+        f.write("\n\n")
+        f.write(result_message)
+        f.write("\n\n")
+        f.close()
+    except IOError as e:
+        print_stderr("Cannot write to result file")
     print_stderr(result_message)
 
 
