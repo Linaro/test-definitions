@@ -1,10 +1,16 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
 TEST_LOG="${OUTPUT}/test_log.txt"
+
+usage() {
+    echo "Usage: $0 [-s <true|false>]" 1>&2
+    exit 1
+}
 
 parse_output() {
     egrep "^failed|^ok" "${TEST_LOG}"  2>&1 | tee -a "${RESULT_LOG}"
