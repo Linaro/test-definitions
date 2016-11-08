@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_d9948646",
+        "filename": "manual/generic/linux/openssh-centos.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-08T13:18:11Z",
+      "side": 1,
+      "message": "Doesn\u0027t work for me. In this place the directory is empty. Any hints?",
+      "revId": "dd75195f70265e1803dac351945d9f24fe11592a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
