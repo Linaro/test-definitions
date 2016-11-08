@@ -52,6 +52,24 @@
       "revId": "87f4f40d2731bfca4c51ca8d6a8549662db87cd1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_d9e64616",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-08T12:27:36Z",
+      "side": 1,
+      "message": "I would go for a simpler solution - 1 column \"parameters\". For each test you write PARAM_1_NAME\u003d\u0027param 1 value\u0027;PARAM_2_NAME\u003d\u0027param 2 value\u0027;\n\nThis way the list of headers is constant.",
+      "parentUuid": "5aed85c8_d67615d8",
+      "revId": "87f4f40d2731bfca4c51ca8d6a8549662db87cd1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
