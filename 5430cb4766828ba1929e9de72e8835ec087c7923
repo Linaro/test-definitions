@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_d953e66a",
+        "filename": "android/get-adb-serial.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2016-11-08T15:23:10Z",
+      "side": 1,
+      "message": "I think it would be better if this could call a script in the same location which checks to see if the output \u003d\u003d \u0027unknown\u0027 and exits -1 in that situation. This would more easily identify failures.",
+      "revId": "5430cb4766828ba1929e9de72e8835ec087c7923",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
