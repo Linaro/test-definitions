@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_1681bd8f",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-08T06:57:47Z",
+      "side": 1,
+      "message": "static compiling fails on d03-centos\n\n/usr/bin/ld: cannot find -lc\ncollect2: error: ld returned 1 exit status\ngcc-static fail\nexecute_binary skip\n\nSearched online, package \"glibc-static\"  is needed.",
+      "revId": "c0076476399c98808d8234db1a75048934e6ae14",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
