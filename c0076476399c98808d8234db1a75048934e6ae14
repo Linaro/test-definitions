@@ -34,6 +34,24 @@
       "revId": "c0076476399c98808d8234db1a75048934e6ae14",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_39bf8ad2",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-08T12:33:55Z",
+      "side": 1,
+      "message": "I hit the same issue on docker container but I thought it was the container issue. Adding glibc-static solves the problem.",
+      "parentUuid": "5aed85c8_3904aa14",
+      "revId": "c0076476399c98808d8234db1a75048934e6ae14",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
