@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_79cf52b1",
+        "filename": "manual/generic/linux/openssh-centos.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-08T11:21:40Z",
+      "side": 1,
+      "message": "ACK.\nYaml file with instructions and non-interactive openssh-centos.sh",
+      "parentUuid": "5aed85c8_763ac137",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_568fc523",
         "filename": "manual/generic/linux/openssh-centos.yaml",
         "patchSetId": 9
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "I do care as I need this test _now_ (as in today). So please format it properly as manual test and we\u0027re work on automation later.",
       "parentUuid": "5aed85c8_56dd0514",
+      "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_d9c3e688",
+        "filename": "manual/generic/linux/openssh-centos.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-08T11:21:40Z",
+      "side": 1,
+      "message": "my apology for delay.",
+      "parentUuid": "5aed85c8_d63e1529",
       "revId": "7f8a211d49d1c5d569b0df99dabfab4714bcc5f6",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
