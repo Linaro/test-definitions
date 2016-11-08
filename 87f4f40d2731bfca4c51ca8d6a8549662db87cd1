@@ -16,6 +16,24 @@
       "revId": "87f4f40d2731bfca4c51ca8d6a8549662db87cd1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_966dad07",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-08T03:29:57Z",
+      "side": 1,
+      "message": "Params has been added to result dictionary(line #238), and it also will be saved to result.json as json.dump() able to convert the dictionary directly.\n\nFor result.csv, test name added, but I haven\u0027t figured out how to handle test params properly. Different test case may have different params, so csv header may vary.  \n\nIf it is really needed in CSV file, I think we can detect the key of parms and append it to csv header(fieldnames), the final csv header could be sth like\n[\u0027test\u0027, \u0027test_case_id\u0027, \u0027result\u0027, \u0027measurement\u0027, \u0027units\u0027, \u0027param_skip_install\u0027, \u0027param_iteration\u0027, \u0027param_device\u0027, \u0027param_*\u0027]",
+      "parentUuid": "5aed85c8_16f25d9a",
+      "revId": "87f4f40d2731bfca4c51ca8d6a8549662db87cd1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
