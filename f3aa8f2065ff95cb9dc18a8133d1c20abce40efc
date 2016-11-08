@@ -22,6 +22,30 @@
       "revId": "f3aa8f2065ff95cb9dc18a8133d1c20abce40efc",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_99b4bef3",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-08T12:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aed85c8_16589d55",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "f3aa8f2065ff95cb9dc18a8133d1c20abce40efc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
