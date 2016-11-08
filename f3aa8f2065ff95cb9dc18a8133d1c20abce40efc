@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_16589d55",
+        "filename": "automated/linux/toolchain-smoke/toolchain-smoke.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-08T06:46:09Z",
+      "side": 1,
+      "message": "echo \"Usage: $0 [-s \u003ctrue|flase\u003e] [-t \u003ctrue|flase\u003e]\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "f3aa8f2065ff95cb9dc18a8133d1c20abce40efc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
