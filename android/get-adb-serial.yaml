@@ -1,0 +1,23 @@
+metadata:
+    name: get-adb-serial-number
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Gets the adb serial number"
+    maintainer:
+        - senthil.kumaran@linaro.org
+    os:
+        - debian
+    devices:
+        - lxc
+    scope:
+        - functional
+
+install:
+    deps:
+        - android-tools-adb
+        - android-tools-fastboot
+
+run:
+    steps:
+        - adb devices
+        - lava-test-case adb-sno --shell "adb get-serialno"
+        - adb get-serialno
