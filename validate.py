@@ -19,20 +19,23 @@ def print_stderr(message):
     sys.stderr.write("\n")
 
 
-def publish_result(result_message_list):
+def publish_result(result_message_list, args):
     result_message = '\n'.join(result_message_list)
-    f = open('build-error.txt', 'a')
-    f.write("\n\n")
-    f.write(result_message)
-    f.write("\n\n")
-    f.close()
+    try:
+        f = open(args.result_file, 'a')
+        f.write("\n\n")
+        f.write(result_message)
+        f.write("\n\n")
+        f.close()
+    except IOError as e:
+        print_stderr("Cannot write to result file: %s" % args.result_file)
     print_stderr(result_message)
 
 
-def pep8_check(filepath, ignore_options=[]):
+def pep8_check(filepath, args):
     _fmt = "%(row)d:%(col)d: %(code)s %(text)s"
     options = {
-        'ignore': ignore_options,
+        'ignore': args.pep8_ignore,
         "show_source": True}
     pep8_checker = pep8.StyleGuide(options)
     fchecker = pep8_checker.checker_class(
@@ -51,7 +54,7 @@ def pep8_check(filepath, ignore_options=[]):
                     'col': offset + 1,
                     'code': code, 'text': text,
                 })
-        publish_result(result_message_list)
+        publish_result(result_message_list, args)
         return 1
     else:
         message = "* PEP8: [PASSED]: " + filepath
@@ -59,7 +62,7 @@ def pep8_check(filepath, ignore_options=[]):
     return 0
 
 
-def metadata_check(filepath):
+def metadata_check(filepath, args):
     if filepath.lower().endswith("yaml"):
         with open(filepath, "r") as f:
             result_message_list = []
@@ -67,7 +70,7 @@ def metadata_check(filepath):
             if 'metadata' not in y.keys():
                 result_message_list.append("* METADATA [FAILED]: " + filepath)
                 result_message_list.append("\tmetadata section missing")
-                publish_result(result_message_list)
+                publish_result(result_message_list, args)
                 exit(1)
             metadata_dict = y['metadata']
             mandatory_keys = set([
@@ -83,20 +86,20 @@ def metadata_check(filepath):
                                            mandatory_keys.difference(set(metadata_dict.keys())))
                 result_message_list.append("\tactual keys present: %s" %
                                            metadata_dict.keys())
-                publish_result(result_message_list)
+                publish_result(result_message_list, args)
                 return 1
             for key in mandatory_keys:
                 if len(metadata_dict[key]) == 0:
                     result_message_list.append("* METADATA [FAILED]: " + filepath)
                     result_message_list.append("\t%s has no content" % key)
-                    publish_result(result_message_list)
+                    publish_result(result_message_list, args)
                     return 1
             result_message_list.append("* METADATA [PASSED]: " + filepath)
-            publish_result(result_message_list)
+            publish_result(result_message_list, args)
     return 0
 
 
-def validate_yaml(filename):
+def validate_yaml(filename, args):
     with open(filename, "r") as f:
         try:
             y = yaml.load(f.read())
@@ -110,27 +113,27 @@ def validate_yaml(filename):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             for line in traceback.format_exception_only(exc_type, exc_value):
                 result_message_list.append(' ' + line)
-            publish_result(result_message_list)
+            publish_result(result_message_list, args)
             return 1
     return 0
 
 
 def validate_shell(filename, ignore_options):
     ignore_string = ""
-    if ignore_options is not None:
-        ignore_string = "-e %s" % " ".join(ignore_options)
+    if args.shellcheck_ignore is not None:
+        ignore_string = "-e %s" % " ".join(args.shellcheck_ignore)
     if len(ignore_string) < 4:  # contains only "-e "
         ignore_string = ""
     cmd = 'shellcheck %s' % ignore_string
-    return validate_external(cmd, filename, "SHELLCHECK")
+    return validate_external(cmd, filename, "SHELLCHECK", args)
 
 
-def validate_php(filename):
+def validate_php(filename, args):
     cmd = 'php -l'
-    return validate_external(cmd, filename, "PHPLINT")
+    return validate_external(cmd, filename, "PHPLINT", args)
 
 
-def validate_external(cmd, filename, prefix):
+def validate_external(cmd, filename, prefix, args):
     final_cmd = "%s %s 2>&1" % (cmd, filename)
     status, output = subprocess.getstatusoutput(final_cmd)
     if status == 0:
@@ -142,7 +145,7 @@ def validate_external(cmd, filename, prefix):
         result_message_list.append('* %s: [OUTPUT]:' % prefix)
         for line in output.splitlines():
             result_message_list.append(' ' + line)
-        publish_result(result_message_list)
+        publish_result(result_message_list, args)
         return 1
     return 0
 
@@ -150,16 +153,16 @@ def validate_external(cmd, filename, prefix):
 def validate_file(args, path):
     exitcode = 0
     if path.endswith(".yaml"):
-        exitcode = exitcode + validate_yaml(path)
-        exitcode = exitcode + metadata_check(path)
+        exitcode = exitcode + validate_yaml(path, args)
+        exitcode = exitcode + metadata_check(path, args)
     elif run_pep8 and path.endswith(".py"):
-        exitcode = pep8_check(path, args.pep8_ignore)
+        exitcode = pep8_check(path, args)
     elif path.endswith(".php"):
-        exitcode = validate_php(path)
+        exitcode = validate_php(path, args)
     elif path.endswith(".sh") or \
             path.endswith("sh-test-lib") or \
             path.endswith("android-test-lib"):
-        exitcode = validate_shell(path, args.shellcheck_ignore)
+        exitcode = validate_shell(path, args)
     return exitcode
 
 
@@ -223,6 +226,11 @@ if __name__ == '__main__':
                         default="",
                         help="Path to the file that should be checked",
                         dest="file_path")
+    parser.add_argument("-r",
+                        "--result-file",
+                        default="build-error.txt",
+                        help="Path to the file that contains results in case of failure",
+                        dest="result_file")
 
     args = parser.parse_args()
     main(args)
