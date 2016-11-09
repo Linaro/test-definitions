@@ -200,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "5aed85c8_8c5aba81",
+        "filename": "automated/linux/lemp/lemp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:37:02Z",
+      "side": 1,
+      "message": "this is what I mean. you mv file into an existing directory. It will not replace html dir, it will be moved to html dir.",
+      "parentUuid": "5aed85c8_0c77ea03",
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_4c1292b5",
         "filename": "automated/linux/lemp/lemp.yaml",
         "patchSetId": 1
