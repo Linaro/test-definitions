@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5aed85c8_6c114eac",
+        "filename": "automated/linux/lemp/lemp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:24:27Z",
+      "side": 1,
+      "message": "stop nginx?",
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_cc25e20b",
+        "filename": "automated/linux/lemp/lemp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:24:27Z",
+      "side": 1,
+      "message": "what if apache is not installed?",
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_ac3b3637",
         "filename": "automated/linux/lemp/lemp.sh",
         "patchSetId": 1
@@ -19,6 +53,91 @@
         "endLine": 43,
         "endChar": 78
       },
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_8c0c7a96",
+        "filename": "automated/linux/lemp/lemp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:24:27Z",
+      "side": 1,
+      "message": "stop nginx server?",
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_ac2216ff",
+        "filename": "automated/linux/lemp/lemp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:24:27Z",
+      "side": 1,
+      "message": "httpd is apache, isn\u0027t it? what if it\u0027s not installed?",
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_ec1c1ec4",
+        "filename": "automated/linux/lemp/lemp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:24:27Z",
+      "side": 1,
+      "message": "remove the html direcotry first?",
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_4c1292b5",
+        "filename": "automated/linux/lemp/lemp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:24:27Z",
+      "side": 1,
+      "message": "I would call it LNMP, but I guess we\u0027ll stick to what is considered a \u0027standard\u0027 :)",
+      "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_2c1746a5",
+        "filename": "automated/linux/lemp/lemp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T11:24:27Z",
+      "side": 1,
+      "message": "how about ubuntu?",
       "revId": "5261888ed331a1e728073cc8160dbbc048e544c4",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
