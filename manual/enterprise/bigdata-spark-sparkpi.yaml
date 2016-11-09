@@ -1,0 +1,37 @@
+metadata:
+    name: sparkpi
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of Spark - sparkpi"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - ganesh.raju@linaro.org
+    os:
+        - centos
+        - debian
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Make sure OpenJDK8 is installed by typing:
+          $ java -version
+          NOTE: If this step fails, then fail the test"
+        - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/Installing_Hadoop_2_7_2_Spark_2_0_Hive_2_1_0'"
+        - "Verify apache spark installation by testing spark shell. By typing:
+          $ SPARK_HOME/bin/spark-shell --master local[*]"
+        - "Run sparkpi example workload. By typing:
+          $ SPARK_HOME/bin/run-example SparkPi 100"
+        - "Run the following command to quit from spark-shell
+          $ exit() "
+    expected:
+        - "'$ java --version' should display OpenJDK8 as JDK version"
+        - "'Verify apache spark installation' step should create a new Spark shell session successfully."
+        - "'Run sparkpi example' step should start a job and complete without error. The job output should list the estimate value of pi to the number of characters specified."
