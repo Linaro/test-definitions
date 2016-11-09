@@ -16,6 +16,24 @@
       "revId": "eff0c7beaecc78591a0ca7da462b8d87dcd3abfb",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_2ce2a6d5",
+        "filename": "validate.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-09T10:54:54Z",
+      "side": 1,
+      "message": "hmm, right. I assume it was relative to current location. Will fix that. Basically it should output to the parent of this script\u0027s directory. If there is no access right - default to stderr. I guess this part is OK.",
+      "parentUuid": "5aed85c8_0cad2a89",
+      "revId": "eff0c7beaecc78591a0ca7da462b8d87dcd3abfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
