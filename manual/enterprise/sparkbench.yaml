@@ -1,0 +1,39 @@
+metadata:
+    name: sparkpi
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of Spark - SparkBench"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - CentOS
+    scope:
+        - performance
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Make sure OpenJDK8 is installed by typing:
+          $ java -version
+          It should display 1.8"
+        - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/ODPi_Setup_Config_Run#Setting_up_ODPi_Hadoop_on_Single_Node'"
+        - "Verify apache spark installation by testing spark shell. By typing:
+          $ $SPARK_HOME/bin/spark-shell --master local[*]  "
+        - "Run the gen-data.sh script
+          $ <SPARK_BENCH_HOME>/SQL/bin/gen_data.sh"
+        - "Check if sample data sets are created in /SparkBench/sql/Input
+          in HDFS. If not, then there is a bug in spark bench scripts that
+          needs to be fixed using the following steps"
+        - "Run the run.sh script
+          $ <SPARK_BENCH_HOME>/SQL/bin/run.sh"
+        - "After running this, check <SPARK_BENCH_HOME>/num/bench-report.dat
+          to see if the run was successful."
+    expected:
+        - HDFS is populated by gen-data.sh script
+        - bench-report.dat contains proper data
