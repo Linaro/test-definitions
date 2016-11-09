@@ -1,0 +1,39 @@
+metadata:
+    name: openssl-centos
+    format: "Manual Test Definition 1.0"
+    description: "OpenSSL is an open source project that provides a robust,
+            commercial-grade, and full-featured toolkit for the Transport Layer
+            Security (TLS) and Secure Sockets Layer (SSL) protocols.
+            It is also a general-purpose cryptography library
+            ref: https://www.openssl.org"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - login as root and edit sudoers file
+        - setup wheel group users without a password
+        - uncomment this line "%wheel  ALL=(ALL)       NOPASSWD: ALL"
+        - sudoedit /etc/sudoers
+        - save and exit
+        - logout and login as normal user ex: linaro
+        - ensure linaro user exit and belong to wheel group
+        - run openssl-centos.sh
+        - ./openssl-centos.sh
+        - run takes around 10 minutes
+
+    expected:
+        - all tests should pass
+        - if any openssl test fails please report bugs
