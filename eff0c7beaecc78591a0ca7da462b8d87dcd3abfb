@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_0cad2a89",
+        "filename": "validate.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2016-11-09T10:28:59Z",
+      "side": 1,
+      "message": "this (as well as the previous code) assumes that the program is being called from some specific directory. what happens if it\u0027s not? shouldn\u0027t you use a path relative to the script location, for example?",
+      "revId": "eff0c7beaecc78591a0ca7da462b8d87dcd3abfb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
