@@ -1,0 +1,28 @@
+metadata:
+    name: hadoop-terasort
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of hadoop"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - CentOS
+    scope:
+        - performance
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Follow steps in ‘Setting up ODPi Hadoop in Single node’ following link to
+          install and configure Hadoop, Spark and Hive: https://wiki.linaro.org/LEG/Engineering/BigData/ODPi%20BigTop%20Hadoop%20Installation,%20setup%20and%20running"
+        - "Make sure Hadoop is running.
+          Note: This can be done by following the steps under ‘Validating Hadoop’ in the above link"
+        - "Once Hadoop is installed and validated, run the steps under ‘Run Terasort, Teragen and Teravalidate’" in the above link
+    expected:
+        - The job is successfully run and statistics is displayed.
