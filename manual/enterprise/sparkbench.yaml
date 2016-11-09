@@ -1,0 +1,42 @@
+metadata:
+    name: sparkbench
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of Spark bench"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - CentOS
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "git clone https://github.com/SparkTC/spark-bench.git"
+        - "Follow steps in Getting Started guide on the following link to
+          install and configure spark-bench: https://github.com/SparkTC/spark-bench/"
+        - "Make sure Hadoop and Spark are installed and running.
+          Note: ODPi Hadoop won't work as it's file structure is different and
+          not compatible with traditional Hadoop. Also, make sure jblas lib is
+          included in Spark as it is needed for Matrix Factorization."
+        - "Once Hadoop and Spark are up and running and Spark-Bench is
+          installed, try out SQL benchmark"
+        - "Run the gen-data.sh script
+          $ <SPARK_BENCH_HOME>/SQL/bin/gen_data.sh"
+        - "Check if sample data sets are created in /SparkBench/sql/Input
+          in HDFS. If not, then there is a bug in spark bench scripts that
+          needs to be fixed using the following steps"
+        - "Run the run.sh script
+          $ <SPARK_BENCH_HOME>/SQL/bin/run.sh"
+        - "After running this, check <SPARK_BENCH_HOME>/num/bench-report.dat
+          to see if the run was successful."
+    expected:
+        - HDFS is populated bu gen-data.sh script
+        - bench-report.dat contains proper data
