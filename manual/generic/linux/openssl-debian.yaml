@@ -1,0 +1,39 @@
+metadata:
+    name: openssl-debian
+    format: "Manual Test Definition 1.0"
+    description: "OpenSSL is an open source project that provides a robust,
+            commercial-grade, and full-featured toolkit for the Transport Layer
+            Security (TLS) and Secure Sockets Layer (SSL) protocols.
+            It is also a general-purpose cryptography library
+            ref: https://www.openssl.org"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - apt-get update
+        - apt-get -y install build-essential
+        - apt-get -y install openssl
+        - apt-get source openssl
+        - VERSION=$(dpkg -l | grep " openssl " |awk '{print $3}'|cut -d- -f 1 | cut -d: -f2)
+        - cd openssl-"${VERSION}"
+        - ./config
+        - make -j8
+        - make install
+        - make test
+        - run takes around 5 minutes
+    expected:
+        - all tests should pass, look for "ALL TESTS SUCCESSFUL"
+        - if any openssl test fails please report bugs
