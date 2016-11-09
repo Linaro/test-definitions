@@ -1,0 +1,26 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: lemp
+    description: "LEMP stack is a group of open source software to get web
+                  server up and running. The acronym stands for Linux, nginx,
+                  MySQL and PHP."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - centos
+    scope:
+        - functional
+    devices:
+        - mustang
+        - overdrive
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+run:
+    steps:
+        - cd ./automated/linux/lemp/
+        - ./lemp.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
