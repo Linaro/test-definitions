@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_2a1d6667",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-10T11:06:32Z",
+      "side": 1,
+      "message": "dict is a python keyword. Please change this variable name.",
+      "revId": "99fad5210bcf1688e1211cbf9ae3bb0d27be6d89",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_4a527214",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-10T11:06:32Z",
+      "side": 1,
+      "message": "can we get the test_params as last (most on the right) field? In most cases it\u0027s empty.",
+      "revId": "99fad5210bcf1688e1211cbf9ae3bb0d27be6d89",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
