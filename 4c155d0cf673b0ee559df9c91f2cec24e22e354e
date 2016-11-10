@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_8aaa9ad2",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-10T11:32:42Z",
+      "side": 1,
+      "message": "somehow more natural seems:\n\ntest_params \u003d \"None\"\nif self.results[\u0027params\u0027]:\n ...\n\nno else line.",
+      "revId": "4c155d0cf673b0ee559df9c91f2cec24e22e354e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
