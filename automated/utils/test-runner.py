@@ -284,27 +284,34 @@ class ResultParser(object):
             json.dump(feeds, f, indent=4)
 
     def dict_to_csv(self):
-        # Save test results to output/test_id/result.csv
-        with open('%s/result.csv' % self.result_path, 'w') as f:
-            fieldnames = ['test', 'test_case_id', 'result', 'measurement', 'units']
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
+        # Convert dict self.results['params'] to a string.
+        if self.results['params']:
+            dict=self.results['params']
+            test_params = ';'.join(['%s=%s' % (k,v) for k,v in dict.iteritems()])
+        else:
+            test_params = 'None'
 
+        for metric in self.results['metrics']:
+            metric['test'] = self.results['test']
+            metric['test_params'] = test_params
+
+        # Save test results to output/test_id/result.csv
+        fieldnames = ['test', 'test_params', 'test_case_id', 'result', 'measurement', 'units']
+        with open('%s/result.csv' % self.result_path, 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             for metric in self.results['metrics']:
-                metric['test'] = self.results['test']
                 writer.writerow(metric)
 
         # Collect test results of all tests in output/result.csv
         if not os.path.isfile('%s/result.csv' % self.output):
             with open('%s/result.csv' % self.output, 'w') as f:
-                fieldnames = ['test', 'test_case_id', 'result', 'measurement', 'units']
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
                 writer.writeheader()
 
         with open('%s/result.csv' % self.output, 'a') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             for metric in self.results['metrics']:
-                metric['test'] = self.results['test']
                 writer.writerow(metric)
 
 
