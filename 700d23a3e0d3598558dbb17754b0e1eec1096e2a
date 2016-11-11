@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_452b8582",
+        "filename": "automated/linux/dsdbench/dsdbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-11T09:12:34Z",
+      "side": 1,
+      "message": "Question: \n\ndo we want to show result of test run, sth like\n\ndsdbench-benchmark pass/fail\n\nor we just want to see performance data. In this way, it is easier for data post-processing. However, when test execution fails, we see nothing in results.",
+      "revId": "700d23a3e0d3598558dbb17754b0e1eec1096e2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
