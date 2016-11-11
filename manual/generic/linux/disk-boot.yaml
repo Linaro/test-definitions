@@ -1,0 +1,52 @@
+metadata:
+    name: disk-boot
+    format: "Manual Test Definition 1.0"
+    description: "Boot Linux operating system from pre-installed hard disk and mount rootfs"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - After successful installation, reboot the board
+        - UEFI should take the control to default boot like below
+          "Press Enter to boot OS immediately."
+          "Press any other key in 10 seconds to stop automatical booting..."
+        - Do not interrupt this, let it boot automatically
+        - Linux kernel should start booting
+        - Watch kernel boot log it should detect sda/sdb or hda/hdb
+          [   15.362985]  sda: sda1 sda2 sda3
+          [   15.363433] sd 1:0:0:0: [sda] Attached SCSI disk
+          [   15.651309] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null)
+        - Boots to shell or it should ask for username and password (provide credentials for login)
+
+    expected:
+        - Should boot to shell
+        - Run "df -h" command
+          should report file system disk space usage
+          Filesystem      Size  Used Avail Use% Mounted on
+          udev            252G  8.0K  252G   1% /dev
+          tmpfs            51G  2.0M   51G   1% /run
+          /dev/sda1        92G   83G  4.4G  96% /
+          none            4.0K     0  4.0K   0% /sys/fs/cgroup
+          none            5.0M  4.0K  5.0M   1% /run/lock
+          none            252G  144K  252G   1% /run/shm
+          none            100M   36K  100M   1% /run/user
+          /dev/sda6       450G   70M  427G   1% /opt
+          /dev/sdb1       2.0T  291G  1.6T  16% /home
+        - No kernel panic
+        - Not to boot to initramfs shell or minimal shell
