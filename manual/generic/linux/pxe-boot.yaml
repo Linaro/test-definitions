@@ -1,0 +1,56 @@
+metadata:
+    name: PXE-boot
+    format: "Manual Test Definition 1.0"
+    description: "The Preboot eXecution Environment specification describes as
+        standardized client-server environment that boots a software assembly,
+        retrieved from a network, on PXE-enabled clients. More details in wiki:
+        https://en.wikipedia.org/wiki/Preboot_Execution_Environment"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - In order to have a working PXE environment, a DHCP and TFTP server is required
+        - Setup the DHCP and TFTP Server on your host machine
+          https://github.com/Linaro/documentation/blob/master/Reference-Platform/EECommon/DHCP-TFTP-Server-UEFI.md
+        - /srv/tftp would be your tftp root directory
+        - "cd /srv/tftp/"
+        - Download latest CentOS/Debian image from build link
+          some example links
+          https://builds.96boards.org/releases/reference-platform/components/centos-installer/
+          https://builds.96boards.org/releases/reference-platform/components/debian-installer/
+          http://snapshots.linaro.org/components/metis-centos-installer/latest/
+          http://snapshots.linaro.org/components/metis-centos-installer/${Build}/
+        - consider the case with CentOS installation
+        - Download BOOTAA64.EFI and grubaa64.efi files
+        - "wget http://snapshots.linaro.org/components/metis-centos-installer/latest/EFI/BOOT/BOOTAA64.EFI"
+        - "wget http://snapshots.linaro.org/components/metis-centos-installer/latest/EFI/BOOT/grubaa64.efi"
+        - Downloading the installer images
+        - "mkdir /srv/tftp/centos-linaro"
+        - "cd /srv/tftp/centos-linaro"
+        - "wget http://snapshots.linaro.org/components/metis-centos-installer/22/images/pxeboot/vmlinuz"
+        - "wget http://snapshots.linaro.org/components/metis-centos-installer/22/images/pxeboot/initrd.img"
+        - Creating the Grub 2 config file grub.cfg
+        - Boot the target board
+          reference link
+          https://github.com/Linaro/documentation/blob/master/Reference-Platform/EECommon/Install-CentOS-7.md
+        - After successful installation reboot the system
+
+    expected:
+        - Installer should install given OS
+        - Should boot to shell
