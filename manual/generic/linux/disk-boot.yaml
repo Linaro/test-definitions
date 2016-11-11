@@ -1,0 +1,37 @@
+metadata:
+    name: disk-boot
+    format: "Manual Test Definition 1.0"
+    description: "Boot Linux operating system from pre-installed hard disk and mount rootfs"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - After successful installation, reboot the board
+        - UEFI should take the control to default boot
+        - Do not interrupt this, let it boot automatically
+
+    expected:
+        - Linux kernel should start booting
+        - Watch kernel boot log it should detect sda/sdb or hda/hdb
+          [   15.362985]  sda sda1 sda2 sda3
+          [   15.363433] sd 1 0 0 0 [sda] Attached SCSI disk
+          [   15.651309] EXT4-fs (sda1) mounted filesystem with ordered data mode. Opts (null)
+        - Linux should boot to shell, without kernel panic, crash, hang or any other serve error observed
+        - The Linux shell should not boot to initramfs shell or minimal shell
+        - Linux should boot default shell or it should ask for username and password (provide credentials for login)
