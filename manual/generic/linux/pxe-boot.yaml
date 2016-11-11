@@ -1,0 +1,42 @@
+metadata:
+    name: PXE-boot
+    format: "Manual Test Definition 1.0"
+    description: "The Preboot eXecution Environment specification describes as
+        standardized client-server environment that boots a software assembly,
+        retrieved from a network, on PXE-enabled clients. More details in wiki:
+        https://en.wikipedia.org/wiki/Preboot_Execution_Environment"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+        - thunderX
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - In order to have a working PXE environment, DHCP and TFTP server is required
+        - Setup the DHCP and TFTP Server on your host machine
+          https://github.com/Linaro/documentation/blob/master/Reference-Platform/EECommon/DHCP-TFTP-Server-UEFI.md
+        - Provision TFTP with latest CentOS/Debian installer
+        - Create the Grub2 config file pointing to new installer build files
+        - On target board make sure to select network boot
+        - Reboot the target board
+
+    expected:
+        - Target board boots and starts downloading OS installer from TFTP
+        - Installer should install given OS successfully, without kernel panic, crash, hang or any other serve error observed
+        - After successful installation target board reboots
+        - The OS should boot to Linux shell prompt
+        - The Linux shell should not boot to initramfs shell or minimal shell
