@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import argparse
 import csv
+import cmd
 import json
 import logging
 import os
@@ -34,7 +35,7 @@ class TestPlan(object):
         self.skip_install = args.skip_install
         self.logger = logging.getLogger('RUNNER.TestPlan')
 
-    def test_list(self):
+    def test_list(self, kind="automated"):
         if self.test_def:
             if not os.path.exists(self.test_def):
                 self.logger.error(' %s NOT found, exiting...' % self.test_def)
@@ -52,7 +53,7 @@ class TestPlan(object):
             with open(self.test_plan, 'r') as f:
                 test_plan = yaml.safe_load(f)
             try:
-                test_list = test_plan['requirements']['tests']['automated']
+                test_list = test_plan['requirements']['tests'][kind]
                 for test in test_list:
                     test['uuid'] = str(uuid4())
             except KeyError as e:
@@ -109,6 +110,8 @@ class TestDefinition(object):
     """
 
     def __init__(self, test, args):
+        self.test = test
+        self.args = args
         self.output = os.path.realpath(args.output)
         self.test_def = test['path']
         self.test_name = os.path.splitext(self.test_def.split('/')[-1])[0]
@@ -116,6 +119,7 @@ class TestDefinition(object):
         self.test_path = os.path.join(self.output, self.test_uuid)
         self.logger = logging.getLogger('RUNNER.TestDef')
         self.skip_install = args.skip_install
+        self.is_manual = False
         if 'skip_install' in test:
             self.skip_install = test['skip_install']
         self.custom_params = None
@@ -125,6 +129,8 @@ class TestDefinition(object):
             self.custom_params = test['params']
         with open(self.test_def, 'r') as f:
             self.testdef = yaml.safe_load(f)
+            if self.testdef['metadata']['format'].startswith("Manual Test Definition"):
+                self.is_manual = True
 
     def definition(self):
         with open('%s/testdef.yaml' % self.test_path, 'w') as f:
@@ -135,28 +141,34 @@ class TestDefinition(object):
             f.write(yaml.dump(self.testdef['metadata'], encoding='utf-8', allow_unicode=True))
 
     def run(self):
-        with open('%s/run.sh' % self.test_path, 'a') as f:
-            f.write('#!/bin/sh\n')
+        if not self.is_manual:
+            with open('%s/run.sh' % self.test_path, 'a') as f:
+                f.write('#!/bin/sh\n')
 
-            self.parameters = self.handle_parameters()
-            if self.parameters:
-                for line in self.parameters:
-                    f.write(line)
+                self.parameters = self.handle_parameters()
+                if self.parameters:
+                    for line in self.parameters:
+                        f.write(line)
 
-            f.write('set -e\n')
-            f.write('export TESTRUN_ID=%s\n' % self.testdef['metadata']['name'])
-            f.write('cd %s\n' % self.test_path)
-            f.write('UUID=`cat uuid`\n')
-            f.write('echo "<STARTRUN $TESTRUN_ID $UUID>"\n')
-            steps = self.testdef['run'].get('steps', [])
-            if steps:
-                for cmd in steps:
-                    if '--cmd' in cmd or '--shell' in cmd:
-                        cmd = re.sub(r'\$(\d+)\b', r'\\$\1', cmd)
-                    f.write('%s\n' % cmd)
-            f.write('echo "<ENDRUN $TESTRUN_ID $UUID>"\n')
+                f.write('set -e\n')
+                f.write('export TESTRUN_ID=%s\n' % self.testdef['metadata']['name'])
+                f.write('cd %s\n' % self.test_path)
+                f.write('UUID=`cat uuid`\n')
+                f.write('echo "<STARTRUN $TESTRUN_ID $UUID>"\n')
+                steps = self.testdef['run'].get('steps', [])
+                if steps:
+                    for cmd in steps:
+                        if '--cmd' in cmd or '--shell' in cmd:
+                            cmd = re.sub(r'\$(\d+)\b', r'\\$\1', cmd)
+                        f.write('%s\n' % cmd)
+                f.write('echo "<ENDRUN $TESTRUN_ID $UUID>"\n')
 
-        os.chmod('%s/run.sh' % self.test_path, 0755)
+            os.chmod('%s/run.sh' % self.test_path, 0755)
+
+    def get_test_run(self):
+        if self.is_manual:
+            return ManualTestRun(self.test, self.args)
+        return AutomatedTestRun(self.test, self.args)
 
     def handle_parameters(self):
         ret_val = ['###default parameters from test definition###\n']
@@ -197,15 +209,25 @@ class TestRun(object):
         self.test_name = os.path.splitext(test['path'].split('/')[-1])[0]
         self.test_uuid = self.test_name + '_' + test['uuid']
         self.test_path = os.path.join(self.output, self.test_uuid)
+        self.logger = logging.getLogger('RUNNER.TestRun')
         self.test_timeout = args.timeout
         if 'timeout' in test:
             self.test_timeout = test['timeout']
-        self.logger = logging.getLogger('RUNNER.TestRun')
+
+    def run(self):
+        raise NotImplementedError
+
+    def check_result(self):
+        raise NotImplementedError
+
+
+class AutomatedTestRun(TestRun):
+    def run(self):
         self.logger.info('Executing %s/run.sh' % self.test_path)
         shell_cmd = '%s/run.sh 2>&1 | tee %s/stdout.log' % (self.test_path, self.test_path)
         self.child = pexpect.spawn('/bin/sh', ['-c', shell_cmd])
 
-    def check_output(self):
+    def check_result(self):
         if self.test_timeout:
             self.logger.info('Test timeout: %s' % self.test_timeout)
             test_end = time.time() + self.test_timeout
@@ -223,6 +245,107 @@ class TestRun(object):
             except pexpect.EOF:
                 self.logger.info('%s test finished.\n' % self.test_uuid)
                 break
+
+
+class ManualTestShell(cmd.Cmd):
+    def __init__(self, test_dict, result_path):
+        cmd.Cmd.__init__(self)
+        self.test_dict = test_dict
+        self.result_path = result_path
+        self.current_step_index = 0
+        self.steps = self.test_dict['run']['steps']
+        self.expected = self.test_dict['run']['expected']
+        self.prompt = "%s > " % self.test_dict['metadata']['name']
+        self.result = None
+
+
+    def do_quit(self, line):
+        """
+        Exit test execution
+        """
+        if self.result is not None or line.find("-f") >= 0:
+            return True
+        print "Test result not recorded. Use -f to force"
+
+    do_EOF = do_quit
+
+    def do_description(self, line):
+        """
+        Prints current test overall description
+        """
+        print self.test_dict['metadata']['description']
+
+    def do_steps(self, line):
+        """
+        Prints all steps of the current test case
+        """
+        for index, step in enumerate(self.steps):
+            print "%s. %s" % (index, step)
+
+    def do_expected(self, line):
+        """
+        Prints all expected results of the current test case
+        """
+        for index, expected in enumerate(self.expected):
+            print "%s. %s" % (index, expected)
+
+    def do_current(self, line):
+        """
+        Prints current test step
+        """
+        self._print_step()
+
+    do_start = do_current
+
+    def do_next(self, line):
+        """
+        Prints next test step
+        """
+        if len(self.steps) > self.current_step_index + 1:
+            self.current_step_index += 1
+            self._print_step()
+
+    def _print_step(self):
+        print "%s. %s" % (self.current_step_index, self.steps[self.current_step_index])
+
+    def _record_result(self, result):
+        print "Recording %s in %s/stdout.log" % (result, self.result_path)
+        with open("%s/stdout.log" % self.result_path, "a") as f:
+            f.write("<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=%s>" %
+                    (self.test_dict['metadata']['name'], result))
+
+    def do_pass(self, line):
+        """
+        Records PASS as test result
+        """
+        self.result = "pass"
+        self._record_result(self.result)
+
+    def do_fail(self, line):
+        """
+        Records FAIL as test result
+        """
+        self.result = "fail"
+        self._record_result(self.result)
+
+    def do_skip(self, line):
+        """
+        Records SKIP as test result
+        """
+        self.result = "skip"
+        self._record_result(self.result)
+
+
+class ManualTestRun(TestRun, cmd.Cmd):
+    def run(self):
+        print self.test_name
+        with open('%s/testdef.yaml' % self.test_path, 'r') as f:
+            self.testdef = yaml.safe_load(f)
+
+        ManualTestShell(self.testdef, self.test_path).cmdloop()
+
+    def check_result(self):
+        pass
 
 
 class ResultParser(object):
@@ -332,6 +455,12 @@ def get_args():
                         path to the test definition to run.
                         Format example: "ubuntu/smoke-tests-basic.yaml"
                         ''')
+    parser.add_argument('-k', '--kind', default="automated", dest='kind',
+                        choices=['automated', 'manual']
+                        help='''
+                        Selects type of tests to be executed from the test plan.
+                        Possible options: automated, manual
+                        ''')
     parser.add_argument('-t', '--timeout', type=int, default=None,
                         dest='timeout', help='Specify test timeout')
     parser.add_argument('-s', '--skip_install', dest='skip_install',
@@ -351,12 +480,13 @@ def main():
     ch.setFormatter(formatter)
     logger.addHandler(ch)
 
-    if os.geteuid() != 0:
-        logger.error("Sorry, you need to run this as root")
-        sys.exit(1)
+    args = get_args()
+    if args.kind != "manual":
+        if os.geteuid() != 0:
+            logger.error("Sorry, you need to run this as root")
+            sys.exit(1)
 
     # Generate test plan.
-    args = get_args()
     test_plan = TestPlan(args)
     test_list = test_plan.test_list()
     logger.info('Tests to run:')
@@ -378,8 +508,9 @@ def main():
         test_def.run()
 
         # Run test.
-        test_run = TestRun(test, args)
-        test_run.check_output()
+        test_run = test_def.get_test_run()
+        test_run.run()
+        test_run.check_result()
 
         # Parse test output, save results in json and csv format.
         result_parser = ResultParser(test, args)
