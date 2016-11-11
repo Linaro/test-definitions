@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aed85c8_45526514",
+        "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-11-11T10:05:28Z",
+      "side": 1,
+      "message": "There are now functions to add a new key \"add_key\" and to add a new deb repo \"add_repo\" in automated/lib/sh-test-lib",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 112
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_a557c901",
+        "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-11-11T10:05:28Z",
+      "side": 1,
+      "message": "we shouldn\u0027t use headers/kernels or anything from people.linaro.org... we need to create CI jobs for it if we need it. So we can pull it from snapshots.linaro.org/... so we know what we are using and how to reproduce the builds.",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 109
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_855c4d27",
+        "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-11-11T10:05:28Z",
+      "side": 1,
+      "message": "The same goes for this.\nAnd why is this to a different directory than the above linux-headers path?",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_e540b137",
+        "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-11-11T10:05:28Z",
+      "side": 1,
+      "message": "I wonder if newer versions of dpdk pulls in this automatically, I know that the accepted the patch I sent for that at least.\nWe need to check that and maybe just re-trigger DPDKs CI job that we have.",
+      "range": {
+        "startLine": 38,
+        "startChar": 52,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_253479dd",
+        "filename": "automated/linux/nginx-server/nginx-server.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-11-11T10:05:28Z",
+      "side": 1,
+      "message": "if this is packages we need we should create a CI job that generates them and publish them to the correct location.\n\nand by having them at the correct location we just need to do add_key and add_repo then apt-get update \u0026\u0026 apt-get install \u003cpackage name\u003e",
+      "range": {
+        "startLine": 27,
+        "startChar": 26,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
