@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_2cd3d339",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T13:07:45Z",
+      "side": 1,
+      "message": "it is created by fio. Depends on how many jobs started, named with test_name.0.x, like read.0.0, read.0.1, etc.\n\nWe need to delete them in time to avoid out of space issue. Added a comment.",
+      "parentUuid": "3afa9182_6c267b6a",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 18
+      },
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_6cb4bbf2",
         "filename": "automated/linux/fio-test/fio-test.sh",
         "patchSetId": 1
@@ -213,6 +237,30 @@
       "writtenOn": "2016-11-14T11:07:50Z",
       "side": 1,
       "message": "white space.",
+      "range": {
+        "startLine": 31,
+        "startChar": 47,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_4cb0dff4",
+        "filename": "automated/linux/fio-test/fio-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T13:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_0c31b7a2",
       "range": {
         "startLine": 31,
         "startChar": 47,
