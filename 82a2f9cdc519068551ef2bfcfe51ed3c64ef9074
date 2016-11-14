@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0c8d3732",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "fio use 4k by default. Lets use 4k as well.",
+      "parentUuid": "3afa9182_ccedeff1",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_2cbab3e1",
         "filename": "automated/linux/fio-test/fio-test.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-14T13:07:42Z",
       "side": 1,
       "message": "Please remove the block_size from test name. It should be enough to have the variable saved in parameters.",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2c2bd3ec",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_2cbab3e1",
       "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -124,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0c309755",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_6cb4bbf2",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_0cbff7d1",
         "filename": "automated/linux/fio-test/fio-test.sh",
         "patchSetId": 1
@@ -135,6 +189,24 @@
       "writtenOn": "2016-11-14T13:07:42Z",
       "side": 1,
       "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_6c35db45",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_0cbff7d1",
       "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -158,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_4c3a9f37",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_4cb9ffe8",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_accd0389",
         "filename": "automated/linux/fio-test/fio-test.sh",
         "patchSetId": 1
@@ -169,6 +259,24 @@
       "writtenOn": "2016-11-14T13:07:42Z",
       "side": 1,
       "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ac3ea327",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_accd0389",
       "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -192,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_8c3be737",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_8ccac76c",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_ecc70b63",
         "filename": "automated/linux/fio-test/fio-test.sh",
         "patchSetId": 1
@@ -209,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_ec48abce",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_ecc70b63",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_ccc4cf61",
         "filename": "automated/linux/fio-test/fio-test.sh",
         "patchSetId": 1
@@ -220,6 +364,24 @@
       "writtenOn": "2016-11-14T13:07:42Z",
       "side": 1,
       "message": "if partition is mounted elsewhere this will fail, right?",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_cc9b2f71",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T14:15:26Z",
+      "side": 1,
+      "message": "Right. \n\nWe can check if it is mounted, if yes, get the mount point, and use it; if not, mount it to /media/fio.",
+      "parentUuid": "3afa9182_ccc4cf61",
       "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
