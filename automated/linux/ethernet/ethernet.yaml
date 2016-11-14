@@ -1,0 +1,37 @@
+metadata:
+    name: ethernet
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "This test checks if Ethernet is up and prints IP address."
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - beaglebone-black
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+        - d03
+        - d05
+        - overdrive
+        - mustang
+        - moonshot
+        - thunderX
+
+params:
+    SKIP_INSTALL: "False"
+    INTERFACE: "eth0"
+
+run:
+    steps:
+        - cd automated/linux/ethernet
+        - ./ethernet.sh -s "${SKIP_INSTALL}" -i "${INTERFACE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
