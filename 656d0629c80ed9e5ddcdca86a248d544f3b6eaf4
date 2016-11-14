@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_ec9eeb62",
+        "filename": "automated/linux/ethernet/ethernet.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:14:28Z",
+      "side": 1,
+      "message": "ip addr show \"${INTERFACE}\" doesn\u0027t work for me. And why are we trying to ping own address? Maybe better to ping the default gateway?",
+      "revId": "656d0629c80ed9e5ddcdca86a248d544f3b6eaf4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
