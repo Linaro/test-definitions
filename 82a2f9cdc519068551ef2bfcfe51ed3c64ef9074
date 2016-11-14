@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "3afa9182_ccedeff1",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "Let\u0027s have just one option. Than it\u0027s easier to compare/parse results.",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2cbab3e1",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "Please remove the block_size from test name. It should be enough to have the variable saved in parameters.",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_6c267b6a",
         "filename": "automated/linux/fio-test/fio-test.sh",
         "patchSetId": 1
@@ -19,6 +53,149 @@
         "endLine": 78,
         "endChar": 18
       },
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ecf0abcb",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "I think it\u0027s in /mnt. Check line #132. Alternatively it\u0027s current dir (line 141)",
+      "parentUuid": "3afa9182_6c267b6a",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 18
+      },
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_6cb4bbf2",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_0cbff7d1",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_4cb9ffe8",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_accd0389",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_8ccac76c",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ecc70b63",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "as above, please remove block_size from test name",
+      "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ccc4cf61",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-14T13:07:42Z",
+      "side": 1,
+      "message": "if partition is mounted elsewhere this will fail, right?",
       "revId": "82a2f9cdc519068551ef2bfcfe51ed3c64ef9074",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
