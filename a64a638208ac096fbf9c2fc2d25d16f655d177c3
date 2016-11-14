@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_4ca45f57",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-14T15:24:24Z",
+      "side": 1,
+      "message": "More testing exposes more issues...\n\nrw and randrw tests actually produce two metrics, read and write, so, the parser needs to be fixed. Please don\u0027t merge the patch yet...\n\nI will fix it.",
+      "revId": "a64a638208ac096fbf9c2fc2d25d16f655d177c3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
