@@ -1,10 +1,11 @@
 metadata:
     name: fio-test
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "FIO or Flexible IO is a versatile IO workload generator Test on Linux.
-                  The target block device partition required to run this test to be set as '/dev/sdbX'"
+    description: "FIO or Flexible IO is a versatile IO workload generator test
+                  on Linux."
     maintainer:
         - naresh.kamboju@linaro.org
+        - chase.qi@linaro.org
     os:
         - debian
         - ubuntu
@@ -13,8 +14,10 @@ metadata:
     devices:
         - mustang
         - overdrive
-        - d02
+        - d05
         - d03
+        - moonshot
+        - thunderX
         - hi6220-hikey
         - apq8016-sbc
     scope:
@@ -23,14 +26,17 @@ metadata:
         - lava-test-shell
 
 params:
+    # Specify block device partition that used for fio test. Example: /dev/sdb1
+    # Use disk-partitioning.yaml to create and format partition, as needed.
     # The currenty working directory will be used by default.
-    # Use '-p' specify block device partition that used for fio test.
-    # Example: /dev/sdb1
-    BLK_DEV_PARTITION: ""
+    PARTITION: ""
+    # Available IO engines: sync, psync, libaio
+    IOENGINE: "sync"
+    BLOCK_SIZE: "4k"
     SKIP_INSTALL: "False"
 
 run:
     steps:
         - cd ./automated/linux/fio-test/
-        - ./fio-test.sh -p "${BLK_DEV_PARTITION}" -s "${SKIP_INSTALL}"
+        - ./fio-test.sh -p "${PARTITION}" -i "${IOENGINE}" -b "${BS_LIST}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
