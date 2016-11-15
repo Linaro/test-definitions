@@ -16,6 +16,24 @@
       "revId": "700d23a3e0d3598558dbb17754b0e1eec1096e2a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aed85c8_c53655e7",
+        "filename": "automated/linux/dsdbench/dsdbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-15T19:00:40Z",
+      "side": 1,
+      "message": "As we discussed in our sync, let\u0027s leave this feature to LAVA. When executing locally in semi-automated way, missing results mean sth went wrong and we need to investigate anyway. I don\u0027t think we need to invest time in implementing this feature.",
+      "parentUuid": "5aed85c8_452b8582",
+      "revId": "700d23a3e0d3598558dbb17754b0e1eec1096e2a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
