@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_6f12ed63",
+        "filename": "manual/generic/linux/disk-boot.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-15T12:27:36Z",
+      "side": 1,
+      "message": "s/boots/boot/",
+      "revId": "47c40b210a1cc5807b9c8ac11f098ea9412e8fe4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
