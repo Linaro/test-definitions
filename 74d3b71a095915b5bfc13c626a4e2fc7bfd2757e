@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_2fdd8515",
+        "filename": "automated/linux/fio-test/fio-test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-15T07:09:10Z",
+      "side": 1,
+      "message": "Size 1G and runtime 300 works for EE boards.\nDo you think 1G read or write could finish in 300 sec on CE boards (Hikey, db410c) ?",
+      "range": {
+        "startLine": 68,
+        "startChar": 54,
+        "endLine": 68,
+        "endChar": 75
+      },
+      "revId": "74d3b71a095915b5bfc13c626a4e2fc7bfd2757e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
