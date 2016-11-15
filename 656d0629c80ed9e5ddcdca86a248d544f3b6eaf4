@@ -16,6 +16,47 @@
       "revId": "656d0629c80ed9e5ddcdca86a248d544f3b6eaf4",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_6fd14dcd",
+        "filename": "automated/linux/ethernet/ethernet.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-15T09:20:27Z",
+      "side": 1,
+      "message": "Milosz,\n\nSince ifconfig is deprecated i should use \"ip\" command.\n\"ip\" command is a part of \"net-tools\" package.\nlet me update test case with dependency package.\n\nThanks for the review.\nFYI,\nHowever, in some instances (e.g., Ubuntu Docker container), the net-tools suite isn’t installed by default. This means the ifconfig command isn’t available. Although you can install net-tools with the command\n\nsudo apt-get install net-tools",
+      "parentUuid": "3afa9182_ec9eeb62",
+      "revId": "656d0629c80ed9e5ddcdca86a248d544f3b6eaf4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_efe41dae",
+        "filename": "automated/linux/ethernet/ethernet.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-15T09:20:27Z",
+      "side": 1,
+      "message": "Reason for ping own address is to validate.\n${IP_ADDR} is a real IP address.\n\nWe are getting ${IP_ADDR} from Line:39 should be a valid IP address (Not a junk string or empty string)",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 29
+      },
+      "revId": "656d0629c80ed9e5ddcdca86a248d544f3b6eaf4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
