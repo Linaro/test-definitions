@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_123c2c93",
+        "filename": "automated/linux/ethernet/ethernet.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-15T18:37:20Z",
+      "side": 1,
+      "message": "with systemd running interface name can be as strange as enp0s20u2u5u3. Maybe this help should not limit the user to eth/wlan ifaces.",
+      "revId": "c9e7aac348b4b26ee4e351f55334bd6285743902",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_7241300b",
+        "filename": "automated/linux/ethernet/ethernet.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-15T18:37:20Z",
+      "side": 1,
+      "message": "please don\u0027t use the variable in the test case name.",
+      "revId": "c9e7aac348b4b26ee4e351f55334bd6285743902",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_5246b424",
+        "filename": "automated/linux/ethernet/ethernet.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-15T18:37:20Z",
+      "side": 1,
+      "message": "as above, please remove variables from test name.",
+      "revId": "c9e7aac348b4b26ee4e351f55334bd6285743902",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
