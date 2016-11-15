@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_921c9c15",
+        "filename": "manual/generic/linux/openssl-debian.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-15T19:03:42Z",
+      "side": 1,
+      "message": "AFAIR install is not supported in manual tests (might be changed if really needed). Please move these steps to run/steps",
+      "revId": "03877b2449c07929bcef6b81cfa5d9b9eb26b359",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
