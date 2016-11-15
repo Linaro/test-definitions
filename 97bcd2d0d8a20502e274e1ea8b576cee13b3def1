@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_cf732114",
+        "filename": "manual/generic/linux/disk-boot.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-15T08:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_0cbb77c5",
+      "revId": "97bcd2d0d8a20502e274e1ea8b576cee13b3def1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_6cb03bde",
         "filename": "manual/generic/linux/disk-boot.yaml",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-14T13:28:40Z",
       "side": 1,
       "message": "Move this to \u0027expected\u0027 section",
+      "revId": "97bcd2d0d8a20502e274e1ea8b576cee13b3def1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2f60e534",
+        "filename": "manual/generic/linux/disk-boot.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-15T08:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_6cb03bde",
       "revId": "97bcd2d0d8a20502e274e1ea8b576cee13b3def1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_0f652945",
+        "filename": "manual/generic/linux/disk-boot.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-15T08:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_4cb57fcc",
+      "revId": "97bcd2d0d8a20502e274e1ea8b576cee13b3def1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_acc9835c",
         "filename": "manual/generic/linux/disk-boot.yaml",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-14T13:28:40Z",
       "side": 1,
       "message": "Please do not mix \u0027steps\u0027 and \u0027expected\u0027 sections. If this is really needed (IMHO it\u0027s not), please move it to \u0027steps\u0027 section",
+      "revId": "97bcd2d0d8a20502e274e1ea8b576cee13b3def1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_6f5aed84",
+        "filename": "manual/generic/linux/disk-boot.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-15T08:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_acc9835c",
       "revId": "97bcd2d0d8a20502e274e1ea8b576cee13b3def1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
