@@ -1,0 +1,38 @@
+metadata:
+    name: dsdbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "dsdbench runs benchmarks and tests for storage driver
+                  configurations to help figure out how the configuration will
+                  perform and which known issues the daemon may be affected by
+                  in this configuration."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+        - functional
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Available test suite: BENCHMARKS, TESTS
+    TEST_SUITE: "BENCHMARKS"
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/dsdbench/
+        - ./dsdbench.sh -t "${TEST_SUITE}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
