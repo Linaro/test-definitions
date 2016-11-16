@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_953646e6",
+        "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-11-16T15:21:20Z",
+      "side": 1,
+      "message": "Could you point to working images we could use?\nI\u0027d rather not depend on any build job or anything, there are no big requirements for the kernel used on these tests, it just needs to have support for uio, and eventually vfio and builtin mmio_intel support.",
+      "parentUuid": "5aed85c8_a557c901",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 109
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_855c4d27",
         "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
         "patchSetId": 8
@@ -59,6 +83,30 @@
       "writtenOn": "2016-11-11T10:05:28Z",
       "side": 1,
       "message": "The same goes for this.\nAnd why is this to a different directory than the above linux-headers path?",
+      "range": {
+        "startLine": 33,
+        "startChar": 22,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f5334af4",
+        "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-11-16T15:21:20Z",
+      "side": 1,
+      "message": "I copied it from one of your jobs, this worked, it was all I needed. See if you can provide me with pointers as per above comment, so I can change that, I myself don\u0027t feel very confortable with the current sources either.",
+      "parentUuid": "5aed85c8_855c4d27",
       "range": {
         "startLine": 33,
         "startChar": 22,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_d530ceea",
+        "filename": "automated/linux/nginx-server/nginx-odp-dpdk.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-11-16T15:21:20Z",
+      "side": 1,
+      "message": "Well, I should remove it anyway, it\u0027s included in \"install\" \"deps\" dictionary already.",
+      "parentUuid": "5aed85c8_e540b137",
+      "range": {
+        "startLine": 38,
+        "startChar": 52,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aed85c8_253479dd",
         "filename": "automated/linux/nginx-server/nginx-server.sh",
         "patchSetId": 8
@@ -105,6 +177,30 @@
       "writtenOn": "2016-11-11T10:05:28Z",
       "side": 1,
       "message": "if this is packages we need we should create a CI job that generates them and publish them to the correct location.\n\nand by having them at the correct location we just need to do add_key and add_repo then apt-get update \u0026\u0026 apt-get install \u003cpackage name\u003e",
+      "range": {
+        "startLine": 27,
+        "startChar": 26,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "5ffffb77e4e6dec79fb10496e3edcedbd0f9dabc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_354dd273",
+        "filename": "automated/linux/nginx-server/nginx-server.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000250
+      },
+      "writtenOn": "2016-11-16T15:21:20Z",
+      "side": 1,
+      "message": "Yes, this is a configurable environment variable that the CI job should set accordingly.",
+      "parentUuid": "5aed85c8_253479dd",
       "range": {
         "startLine": 27,
         "startChar": 26,
