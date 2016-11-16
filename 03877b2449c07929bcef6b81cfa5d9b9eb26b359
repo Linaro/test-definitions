@@ -16,6 +16,24 @@
       "revId": "03877b2449c07929bcef6b81cfa5d9b9eb26b359",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_b2d0b8f8",
+        "filename": "manual/generic/linux/openssl-debian.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-16T07:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_921c9c15",
+      "revId": "03877b2449c07929bcef6b81cfa5d9b9eb26b359",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
