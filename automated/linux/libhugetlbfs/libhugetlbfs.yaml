@@ -1,0 +1,38 @@
+metadata:
+    name: libhugetlbfs
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build and run libhugetlbfs tests.
+                  Runs through $WORD_SIZE bit libhugetlbfs on target system.
+                  The default WORD_SIZE is 64 bit to accomodate 64 bit systems
+                  but for 32 bit systems the WORD_SIZE value should be set to
+                  32 from the json file passed to the scheduler.
+                  One needs to run with a kernel that supports huge pages"
+    maintainer:
+        - steve.capper@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - rtsm_ve-armv8
+        - arndale
+        - mustang
+        - overdrive
+        - d05
+        - d03
+        - hi6220-hikey
+        - apq8016-sbc
+
+params:
+    WORD_SIZE: "64"
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/libhugetlbfs/
+        - ./libhugetlbfs.sh -b "${WORD_SIZE}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
