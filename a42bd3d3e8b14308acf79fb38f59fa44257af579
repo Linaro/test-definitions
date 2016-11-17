@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_8041e60d",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-17T11:27:53Z",
+      "side": 1,
+      "message": "lapac is a low priority for now. Netperf is high. If it\u0027s just one case, I guess we can live with manual editing. I\u0027ll try to hack a bit on that today. The problem as you noted is that they don\u0027t produce a single number. It gets complicated when we have to report more than 1 thing in manual testing.\n\nOn the other hand we might report pass/fail step by step. But than it would require expected result for each step separately. I did that before and there is little to none benefit from this approach. So I\u0027d rather not go this route again.",
+      "parentUuid": "3afa9182_c095ae89",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_156896f4",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "From my point of view\n\n* TestPlan validate test plan and returns test_list\n* TestDefinition convert testdef to run.sh\n* TestRun run \u0027run.sh\u0027 and produce stdout.log. \u0027run.sh\u0027 existence check is missing here.\n* TestParser parse \u0027stdout.log\u0027. \u0027stdout.log\u0027 existence check also is missing.\n\nI am a junior in python coding. If you think your approach make the most sense, we can do a bit refactoring.",
       "parentUuid": "3afa9182_807c4674",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_e0ba6a09",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-17T11:27:53Z",
+      "side": 1,
+      "message": "That all can be done as you write with a bit more modular approach as I proposed. Anyway, it works now and we need it working for the release. We can refactor after the sprint.\n\np.s. I don\u0027t consider myself a senior in this area :)",
+      "parentUuid": "3afa9182_e08c2a82",
       "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
