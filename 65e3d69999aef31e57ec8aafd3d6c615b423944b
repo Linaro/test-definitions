@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_a0cd0260",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-17T17:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_f5c7ca62",
+      "revId": "65e3d69999aef31e57ec8aafd3d6c615b423944b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_95912655",
         "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_00db361c",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-17T17:05:04Z",
+      "side": 1,
+      "message": "no need of aptitude.\nchanged to \"binutils gcc make sed tar wget\"",
+      "parentUuid": "3afa9182_95912655",
+      "revId": "65e3d69999aef31e57ec8aafd3d6c615b423944b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_f59eaa62",
         "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-11-16T21:44:57Z",
       "side": 1,
       "message": "I\u0027d rather say \u0027skip\u0027 here if the kernel config is missing.",
+      "revId": "65e3d69999aef31e57ec8aafd3d6c615b423944b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_e0d70aec",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-17T17:05:04Z",
+      "side": 1,
+      "message": "exit_on_skip introduced,\nhttps://review.linaro.org/#/c/15626/",
+      "parentUuid": "3afa9182_f59eaa62",
       "revId": "65e3d69999aef31e57ec8aafd3d6c615b423944b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
