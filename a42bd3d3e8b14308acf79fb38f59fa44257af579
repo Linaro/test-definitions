@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_d5544e23",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-17T09:51:19Z",
+      "side": 1,
+      "message": "Is it possible to add support for manual performance test result? I guess it is a tricky one.\n\nThe same test definition may produce multiple metrics. For these cases, we cannot use the test-name as test-case-name directly. And we need a mean to record \"test pass/fail measurement units\"\n\nTheoretically, all perf test can be automated. We should just leave it for now, just don\u0027t bother.",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_156896f4",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-17T09:51:19Z",
+      "side": 1,
+      "message": "Good point. Should we also print a warning if test_def doesn\u0027t exits? It happens when \n\n* test_def path in invalid(typo)\n* test_def not added to this repository yet(like 24h-stress-test)\n\nIn the current approach, test runner only support run tests located in this repository.",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f5806a8d",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-17T09:51:19Z",
+      "side": 1,
+      "message": "I don\u0027t know if it is a good idea to initiate TestRun class from TestDefinition class. If we try the below approach and remove get_test_run from TestDefinition class, will it look more straight forward?\n\nif args.kind \u003d\u003d \u0027manual\u0027:\n    test_run \u003d ManualTestRun(test, args)\nelif args.kind \u003d\u003d \u0027automated\u0027:\n    test_run \u003d AutomatedTestRun(test, args)\n\ntest_run.run()",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
