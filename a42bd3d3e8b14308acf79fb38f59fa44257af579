@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_c0f80ec7",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-17T11:50:16Z",
+      "side": 1,
+      "message": "Then don\u0027t bother for the time being. I will try to automate netperf test. It may request a test client which should be setup before we run test on test target. \n\nOn the test target, should be not hard to automate netperf.",
+      "parentUuid": "3afa9182_8041e60d",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_156896f4",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "That all can be done as you write with a bit more modular approach as I proposed. Anyway, it works now and we need it working for the release. We can refactor after the sprint.\n\np.s. I don\u0027t consider myself a senior in this area :)",
       "parentUuid": "3afa9182_e08c2a82",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a0f502cd",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-17T11:50:16Z",
+      "side": 1,
+      "message": "+1, lets leave it for now.",
+      "parentUuid": "3afa9182_e0ba6a09",
       "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
