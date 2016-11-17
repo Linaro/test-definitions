@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_c095ae89",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-17T10:56:00Z",
+      "side": 1,
+      "message": "network perf and lapack would be the ones? I am afraid. Not sure if we can automate them. Should be possible, at least on the test target side.",
+      "parentUuid": "3afa9182_a0ab42d5",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_156896f4",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I think the whole approach is a bit weird here. I would do it differently with one entry point to the test plan (TestPlan class) that generates other bits (TestDefinition-\u003eTestRun-\u003eTestResults). Right now there are plenty potential points of failure. For example if TestRun fails to generate the output, ResultParser will fail. \n\nI would do it this way (pseudo code)\ntestplan \u003d TestPlan (args)\ntestdefs \u003d testplan.get_test_definitions()\nfor testdef in testdefs:\n    testrun \u003d testdef.get_test_run()\n    result \u003d testrun.execute()\n    if result.is_complete():\n         parser \u003d result.get_parser()\n         parser.parse_results()\n\nSeems we have contradicting approaches here :)",
       "parentUuid": "3afa9182_f5806a8d",
+      "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_e08c2a82",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-17T10:56:00Z",
+      "side": 1,
+      "message": "From my point of view\n\n* TestPlan validate test plan and returns test_list\n* TestDefinition convert testdef to run.sh\n* TestRun run \u0027run.sh\u0027 and produce stdout.log. \u0027run.sh\u0027 existence check is missing here.\n* TestParser parse \u0027stdout.log\u0027. \u0027stdout.log\u0027 existence check also is missing.\n\nI am a junior in python coding. If you think your approach make the most sense, we can do a bit refactoring.",
+      "parentUuid": "3afa9182_807c4674",
       "revId": "a42bd3d3e8b14308acf79fb38f59fa44257af579",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
