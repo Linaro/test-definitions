@@ -1,0 +1,33 @@
+metadata:
+    name: pointer-tagging-tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "This test suite is designed to verify that the AArch64
+            tagged-addressing feature is properly supported. Tagged addressing
+            is guaranteed to be available in the ARMv8 architecture"
+
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - juno
+        - overdrive
+        - d05
+        - d03
+        - hi6220-hikey
+        - apq8016-sbc
+        - rtsm_fvp_base-aemv8a
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/pointer-tagging/
+        - ./pointer-tagging-tests.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
