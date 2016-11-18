@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/sh -e
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 ITERATION="5"
 UNITS="MB/s"
 
@@ -51,11 +53,7 @@ prepare_partition() {
                     echo "y" | mkfs -t "${FS_TYPE}" "${PARTITION}"
                 fi
 
-                if [ $? -ne 0 ]; then
-                    error_msg "unable to format ${PARTITION}"
-                else
-                    info_msg "${PARTITION} formatted to ${FS_TYPE}"
-                fi
+                info_msg "${PARTITION} formatted to ${FS_TYPE}"
             fi
         fi
 
@@ -64,11 +62,7 @@ prepare_partition() {
          if [ -z "${mount_point}" ]; then
              mount_point="/mnt"
              mount "${PARTITION}" "${mount_point}"
-             if [ $? -ne 0 ]; then
-                 error_msg "Unable to mount ${PARTITION}"
-             else
-                 info_msg "${PARTITION} mounted to ${mount_point}"
-             fi
+             info_msg "${PARTITION} mounted to ${mount_point}"
          fi
          cd "${mount_point}"
     fi
@@ -101,41 +95,28 @@ dd_read() {
 }
 
 parse_output() {
-    local test="$1"
-    local test_case_id="${test}"
-    if ! [ -f "${OUTPUT}/${test}-output.txt" ]; then
-        warn_msg "output file is missing"
+    test_case_id="$1"
+    if ! [ -f "${OUTPUT}/${test_case_id}-output.txt" ]; then
+        warn_msg "${test_case_id} output file is missing"
         return 1
     fi
 
-    # Fixup test-case-id with filesystem type and partion name.
-    [ -n "${FS_TYPE}" ] && test_case_id="${FS_TYPE}-${test_case_id}"
-    if [ -n "${PARTITION}" ]; then
-        partition_no="$(echo "${PARTITION}" |awk -F '/' '{print $NF}')"
-        test_case_id="${partition_no}-${test_case_id}"
-    fi
-
     itr=1
-    while read line; do
+    while read -r line; do
         if echo "${line}" | egrep -q "(M|G)B/s"; then
             measurement="$(echo "${line}" | awk '{print $(NF-1)}')"
-            units="$(echo "${line}" | awk '{print $NF}')"
+            units="$(echo "${line}" | awk '{print substr($NF,1,2)}')"
+            result=$(convert_to_mb "${measurement}" "${units}")
 
-            if [ "${units}" = "GB/s" ]; then
-                measurement=$(( measurement * 1024 ))
-            elif [ "${units}" = "KB/s" ]; then
-                measurement=$(( measurement / 1024 ))
-            fi
-
-            add_metric "${test_case_id}-itr${itr}" "pass" "${measurement}" "${UNITS}"
+            add_metric "${test_case_id}-itr${itr}" "pass" "${result}" "${UNITS}"
             itr=$(( itr + 1 ))
         fi
-    done < "${OUTPUT}/${test}-output.txt"
+    done < "${OUTPUT}/${test_case_id}-output.txt"
 
     # For mutiple times dd test, calculate the mean, min and max values.
     # Save them to result.txt.
     if [ "${ITERATION}" -gt 1 ]; then
-        eval "$(grep "${test}" "${OUTPUT}"/result.txt \
+        eval "$(grep "${test_case_id}" "${OUTPUT}"/result.txt \
             | awk '{
                        if(min=="") {min=max=$3};
                        if($3>max) {max=$3};
@@ -146,8 +127,11 @@ parse_output() {
                        print "mean="total/count, "min="min, "max="max;
                    }')"
 
+        # shellcheck disable=SC2154
         add_metric "${test_case_id}-mean"  "pass" "${mean}" "${UNITS}"
+        # shellcheck disable=SC2154
         add_metric "${test_case_id}-min" "pass" "${min}" "${UNITS}"
+        # shellcheck disable=SC2154
         add_metric "${test_case_id}-max" "pass" "${max}" "${UNITS}"
     fi
 }
