@@ -4,20 +4,20 @@ LANG=C
 export LANG
 
 error_msg() {
-    local msg="$1"
+    msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
     printf "ERROR: %s\n" "${msg}" >&2
     exit 0
 }
 
 warn_msg() {
-    local msg="$1"
+    msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
     printf "WARNING: %s\n" "${msg}" >&2
 }
 
 info_msg() {
-    local msg="$1"
+    msg="$1"
     [ -z "${msg}" ] && msg="Unknown info"
     printf "INFO: %s\n" "${msg}" >&1
 }
@@ -31,13 +31,13 @@ check_root() {
 }
 
 exit_on_fail() {
-    local exit_code="$?"
-    [ "$#" -lt 1 ] && error_msg "Usage: exit_on_fail test [skip_list]"
-    local test="$1"
-    local skip_list="$2"
+    exit_code="$?"
+    [ "$#" -lt 1 ] && error_msg "Usage: exit_on_fail test_case [skip_list]"
+    test_case="$1"
+    skip_list="$2"
 
     if [ "${exit_code}" -ne 0 ]; then
-        echo "${test} fail" | tee -a "${RESULT_FILE}"
+        echo "${test_case} fail" | tee -a "${RESULT_FILE}"
 
         # skip_list is a list of tests sepereated by space. This might be
         # useful when exiting on prerequisite not met.
@@ -51,21 +51,21 @@ exit_on_fail() {
         # definition file.
         exit 0
     else
-        echo "${test} pass" | tee -a "${RESULT_FILE}"
+        echo "${test_case} pass" | tee -a "${RESULT_FILE}"
         return 0
     fi
 }
 
 check_return() {
-    local exit_code="$?"
-    [ "$#" -ne 1 ] && error_msg "Usage: check_return test"
-    local test="$1"
+    exit_code="$?"
+    [ "$#" -ne 1 ] && error_msg "Usage: check_return test_case"
+    test_case="$1"
 
     if [ "${exit_code}" -ne 0 ]; then
-        echo "${test} fail" | tee -a "${RESULT_FILE}"
+        echo "${test_case} fail" | tee -a "${RESULT_FILE}"
         return "${exit_code}"
     else
-        echo "${test} pass" | tee -a "${RESULT_FILE}"
+        echo "${test_case} pass" | tee -a "${RESULT_FILE}"
         return 0
     fi
 }
@@ -74,9 +74,9 @@ check_return() {
 # would NOT work. run_test_case should be used instead.
 run_test_case() {
     [ "$#" -lt 2 ] && error_msg "Usage: run_test_case <test_command> <test_case_id> [skip_list]"
-    local test_command="$1"
-    local test_case_id="$2"
-    local skip_list="$3"
+    test_command="$1"
+    test_case_id="$2"
+    skip_list="$3"
 
     if eval "${test_command}"; then
         echo "${test_case_id} pass" | tee -a "${RESULT_FILE}"
@@ -95,28 +95,28 @@ run_test_case() {
 }
 
 report_pass() {
-    [ "$#" -ne 1 ] && error_msg "Usage: report_pass test"
-    local test="$1"
-    echo "${test} pass" | tee -a "${RESULT_FILE}"
+    [ "$#" -ne 1 ] && error_msg "Usage: report_pass test_case"
+    test_case="$1"
+    echo "${test_case} pass" | tee -a "${RESULT_FILE}"
 }
 
 report_fail() {
-    [ "$#" -ne 1 ] && error_msg "Usage: report_fail test"
-    local test="$1"
-    echo "${test} fail" | tee -a "${RESULT_FILE}"
+    [ "$#" -ne 1 ] && error_msg "Usage: report_fail test_case"
+    test_case="$1"
+    echo "${test_case} fail" | tee -a "${RESULT_FILE}"
 }
 
 add_metric() {
     if [ "$#" -ne 4 ]; then
         warn_msg "The number of parameters less then 4"
-        error_msg "Usage: add_metric test result measurement units"
+        error_msg "Usage: add_metric test_case result measurement units"
     fi
-    local test="$1"
-    local result="$2"
-    local measurement="$3"
-    local units="$4"
+    test_case="$1"
+    result="$2"
+    measurement="$3"
+    units="$4"
 
-    echo "${test} ${result} ${measurement} ${units}" | tee -a "${RESULT_FILE}"
+    echo "${test_case} ${result} ${measurement} ${units}" | tee -a "${RESULT_FILE}"
 }
 
 detect_abi() {
@@ -147,10 +147,10 @@ dist_name() {
 }
 
 install_deps() {
-    local pkgs="$1"
+    pkgs="$1"
     [ -z "${pkgs}" ] && error_msg "Usage: install_deps pkgs"
     # skip_install parmater is optional.
-    local skip_install="$2"
+    skip_install="$2"
 
     if [ "${skip_install}" = "True" ] || [ "${skip_install}" = "true" ]; then
         info_msg "install_deps skipped"
@@ -182,8 +182,8 @@ install_deps() {
 # Return the exit code of the first command when using pipe.
 pipe0_status() {
     [ "$#" -ne 2 ] && error_msg "Usage: pipe0_status cmd1 cmd2"
-    local cmd1="$1"
-    local cmd2="$2"
+    cmd1="$1"
+    cmd2="$2"
 
     exec 4>&1
     ret_val=$({ { eval "${cmd1}" 3>&-; echo "$?" 1>&3; } 4>&- \
@@ -217,8 +217,8 @@ convert_to_mb() {
     if ! echo "$1" | egrep -q "^[0-9.]+$"; then
         error_msg "The first argument isn't a number"
     fi
-    local value="$1"
-    local units="$2"
+    value="$1"
+    units="$2"
 
     case "${units}" in
       KB|kb) value=$(echo "${value}" | awk '{print $1/1024}') ;;
@@ -248,7 +248,7 @@ dist_info() {
 
 add_key() {
     [ "$#" -ne 1 ] && error_msg "Usage: add_key url"
-    local url="$1"
+    url="$1"
 
     dist_name
     case "${dist}" in
@@ -260,7 +260,7 @@ add_key() {
 
 add_repo() {
     [ "$#" -lt 1 ] && error_msg "Usage: add_repo <url> [backports]"
-    local url="$1"
+    url="$1"
 
     dist_name
     case "${dist}" in
