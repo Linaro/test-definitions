@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_dba91f7d",
+        "filename": "manual/enterprise/sparkbench.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-18T12:50:28Z",
+      "side": 1,
+      "message": "Please separate \u0027steps\u0027 and \u0027expected\u0027",
+      "revId": "91cd848a0eda970517aa9072a413bb60084c9631",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_1bbba7c5",
+        "filename": "manual/enterprise/sparkbench.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-18T12:50:28Z",
+      "side": 1,
+      "message": "I don\u0027t like this approach. Firstly, there is a mismatch between Java versions. You require 1.8 in line #24 here and wiki says 1.7. Secondly I would expect hadoop installation from packages rather than hacking to get things working. Isn\u0027t hadoop packaged in Linaro overlay?",
+      "revId": "91cd848a0eda970517aa9072a413bb60084c9631",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_3bb663dd",
+        "filename": "manual/enterprise/sparkbench.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-18T12:50:28Z",
+      "side": 1,
+      "message": "That is broken. We\u0027re trying to execute functional tests here. If sth is broken, it\u0027s broken. The test should not do the workaround, sorry.",
+      "revId": "91cd848a0eda970517aa9072a413bb60084c9631",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
