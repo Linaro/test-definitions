@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_bbf893c5",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-18T10:55:14Z",
+      "side": 1,
+      "message": "this returns string \"manual\", right? you probably can just use self.test_kind",
+      "range": {
+        "startLine": 109,
+        "startChar": 57,
+        "endLine": 109,
+        "endChar": 93
+      },
+      "revId": "fbf3d01c48ff40fd961ca4d6f48ccb638fc46f14",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_fb021bb3",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-18T10:55:14Z",
+      "side": 1,
+      "message": "It copy all tests under repo/manual to test_path, right? For manual test, I remember you only want to copy the yaml file, sth like:\ntest_file_path \u003d os.path.join(self.repo_path, self.test_path)\nos.mkdirs(self.test_path)\nshutil.copyfile(test_file_path, self.test_path)\n\nPerhaps, just load the yaml file and don\u0027t copy anything?\n\nThe current approach works with \u0027-k manual\u0027. If the parameter not specified, it will copy the whole repo.\n\nline #149 will detect the type of the test and overwrite the value of \u0027-k\u0027. Seems \u0027-k\u0027 isn\u0027t required at all from there.\n\nHow about we detect and return the value of \u0027kind\u0027 in TestSetup, then amend \u0027test\u0027 dictionary in main function? So that we can use in other classes.\n\nBy the way, for automated tests, shutil.copytree(\u0027[repo_path/automated]\u0027, \u0027test_uuid\u0027) will not work, because relative paths are invalid, because:\n\n* shutil.copytree gives \"linux, android, utils...\" not \"automated\"\n* we run run.sh at the root of the repo,",
+      "revId": "fbf3d01c48ff40fd961ca4d6f48ccb638fc46f14",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
