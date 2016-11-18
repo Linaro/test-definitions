@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_3b82e352",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-18T07:57:41Z",
+      "side": 0,
+      "message": "It is actually a question, is \u0027test\u0027 a good variable name in shell scripting? We are using it as variable name in many functions. I am struggling as it also is a keyword.",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "cf1df9282676872e811b21543a1bd523adde1be8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
