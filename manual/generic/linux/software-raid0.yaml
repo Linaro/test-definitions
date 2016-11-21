@@ -1,0 +1,54 @@
+metadata:
+    name: software-raid0
+    format: "Manual Test Definition 1.0"
+    description: "Use Linux utility mdadm to create and delete software RAID0.
+                  RAID0 consists of striping, without mirroring or parity."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+        - thunderX
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Install OS on the SUT(system under test) and make sure it boots.
+        - Power off the SUT and install two extra hard drives(use sd(b|c)
+          here). The two hard drives shoud have the same mode, at least the
+          same capacity.
+        - Boot to OS and make sure mdadm utility installed.
+        - Create 'Linux RAID auto' partition on each of the two hard drives
+          by running the following steps.
+        - 1) "fdisk /dev/sdx"
+        - 2) Delete all existing partitions with fdisk command "d"
+        - 3) Create Linux raid auto partition with fdisk commands
+             "n -> p -> 1 -> enter -> enter -> t -> fd -> w"
+        - Run the folliwng steps to test RAID0.
+        - 1) "mdadm -C /dev/md0 -l raid0 -n 2 /dev/sd[b-c]1"
+        - 2) 'cat /proc/mdstat' to see if md0 created and running."
+        - 3) "mkfs.ext4 /dev/md0"
+        - 4) Run dd performance test on md0
+             "automated/linux/dd-wr-speed.sh -p /dev/md0 -t ext4"
+        - 5) Inspect the above test result. Compare with test result on single
+             disk, you should see performance boost.
+        - Remove the md0 by running the following steps.
+        - 1) "umount /dev/md0"
+        - 2) "mdadm --stop /dev/md0"
+        - 3) "mdadm --remove /dev/md0"
+        - 4) "mdadm --zero-superblock /dev/sdb1 /dev/sdc1"
+
+    expected:
+        - RAID0 array creating and deleting are successful.
+        - Read/write performance on RAID0 array is faster then single disk.

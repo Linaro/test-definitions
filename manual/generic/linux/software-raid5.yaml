@@ -1,0 +1,61 @@
+metadata:
+    name: software-raid5
+    format: "Manual Test Definition 1.0"
+    description: "Use Linux utility mdadm to create, rebuilt and delete
+                  software RAID5. RAID5 consists of block-level striping with
+                  distributed parity."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+        - thunderX
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Install OS on the SUT(system under test) and make sure it boots.
+        - Power off the SUT and install three extra hard drives(use sd[b|c|d]
+          here). The three hard drives shoud have the same mode, at least the
+          same capacity.
+        - Boot to OS and make sure mdadm utility installed.
+        - Create 'Linux RAID auto' partition on each of the three hard drives
+          by running the following steps.
+        - 1) "fdisk /dev/sdx"
+        - 2) Delete all existing partitions with fdisk command "d"
+        - 3) Create Linux raid auto partition with fdisk commands
+             "n -> p -> 1 -> enter -> enter -> t -> fd -> w"
+        - Run the following steps to test RAID5.
+        - 1) Remove the existing md0. Refer to md0 removing steps above.
+        - 2) "mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1"
+        - 3) Monitor '/proc/mdstat' to check if md0 created and running.
+        - 4) "mkfs.ext4 /dev/md0"
+        - 5) "mount /dev/md0 /mnt"
+        - 6) "echo 'RAID5 test' > /mnt/raid5-test.txt"
+        - 7) "mdadm --manage --set-faulty /dev/md0 /dev/sdd1"
+        - 8) "mdadm --manage /dev/md0 -r /dev/sdd1"
+        - 9) Verify that '/mnt/raid5-test.txt' is not damaged.
+        - 10) "mdadm --manage /dev/md0 -a /dev/sdd1"
+        - 11) Monitor the output of "mdadm --detail /dev/md0" and make sure
+              that md0 'rebuilding' can be finished.
+        - Remove the md0 by running the following steps.
+        - 1) "umount /dev/md0"
+        - 2) "mdadm --stop /dev/md0"
+        - 3) "mdadm --remove /dev/md0"
+        - 4) "mdadm --zero-superblock /dev/sdb1 /dev/sdc1 /dev/sdd1"
+
+    expected:
+        - RAID5 array creating, deleting and rebuilding are successful.
+        - When one disk of RAID5 array damaged or removed, no data loss.
+        - When faulty disk replaced with a new one, RAID5 array can be rebuilt.
