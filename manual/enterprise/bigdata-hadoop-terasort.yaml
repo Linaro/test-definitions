@@ -1,0 +1,44 @@
+metadata:
+    name: hadoop-terasort
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of hadoop"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - CentOS
+    scope:
+        - performance
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Make sure OpenJDK8 is installed by typing:
+        $ java -version
+        NOTE: If this step fails, then fail the test"
+        - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/Installing_Hadoop_2_7_2_Spark_2_0_Hive_2_1_0'"
+        - "Verify ODPi hadoop installation. By typing:
+        $ hadoop  "
+        - "Configure: Add Hadoop User - hduser"
+        - "Configure: Generate ssh key for hduser"
+        - "Configure: Disable IPv6"
+        - "Configure: Configure the app environment"
+        - "Configure: Setup Environment Variables"
+        - "Configure: Modify config files. core-site.xml, mapred-site.xml, hdfs-site.xml"
+        - "Format Namenode"
+        - "Start YARN daemons"
+        - "Validate if Hadoop and all resource managers are running"
+        - "Run teragen, terasort and teravalidate"
+    expected:
+        - "'$ java --version' should display OpenJDK8 as JDK version"
+        - "'$ hadoop command' should display usage help, meaning command works properly."
+        - "'Format Namenode' step should run without errors"
+        - "'Start YARN daemons' steps should run without errors"
+        - "'Validate Hadoop' step should display message 'Started Hadoop nodemanager' and 'Started Hadoop resourcemanager'"
+        - "'Run teragen, terasort and teravalidate' step, should display message that the job is successfully run. 1TB of data is generated and sort and validated. The result should display statistics of run duration."
