@@ -3,6 +3,7 @@
 G_LOOP_COUNT=12
 G_RECORD_LOCAL_CSV=TRUE
 G_VERBOSE_OUTPUT=FALSE
+G_RESULT_NOT_RECORD=FALSE
 F_RAW_DATA_CSV="/data/local/tmp/lava_test_shell_raw_data.csv"
 F_STATISTIC_DATA_CSV="/data/local/tmp/lava_test_shell_statistic_data.csv"
 
@@ -161,7 +162,7 @@ output_test_result(){
     fi
 
     local cmd="lava-test-case"
-    if [ -n "$(which $cmd)" ];then
+    if [ "X${G_RESULT_NOT_RECORD}" = "XFALSE" ] && [ -n "$(which $cmd)" ];then
         $cmd ${lava_paras}
     elif [ "X${G_VERBOSE_OUTPUT}" = "XTRUE" ];then
         echo "$cmd ${lava_paras}"
