@@ -3,8 +3,10 @@
 G_LOOP_COUNT=12
 G_RECORD_LOCAL_CSV=TRUE
 G_VERBOSE_OUTPUT=FALSE
+G_RESULT_NOT_RECORD=FALSE
 F_RAW_DATA_CSV="/data/local/tmp/lava_test_shell_raw_data.csv"
 F_STATISTIC_DATA_CSV="/data/local/tmp/lava_test_shell_statistic_data.csv"
+var_test_func=""
 
 ## Description:
 ##    output the max value of the passed 2 parameters
@@ -13,10 +15,10 @@ F_STATISTIC_DATA_CSV="/data/local/tmp/lava_test_shell_statistic_data.csv"
 ## Example:
 ##    max=$(f_max "1.5" "2.0")
 f_max(){
-    local val1=$1
-    local val2=$2
-    [ -z "$val1" ] && echo $val2
-    [ -z "$val2" ] && echo $val1
+    val1=$1
+    val2=$2
+    [ -z "$val1" ] && echo "$val2"
+    [ -z "$val2" ] && echo "$val1"
 
     echo "$val1,$val2"|awk -F, '{if($1<$2) print $2; else print $1}'
 }
@@ -28,10 +30,10 @@ f_max(){
 ## Example:
 ##    min=$(f_min "1.5" "2.0")
 f_min(){
-    local val1=$1
-    local val2=$2
-    [ -z "$val1" ] && echo $val1
-    [ -z "$val2" ] && echo $val2
+    val1=$1
+    val2=$2
+    [ -z "$val1" ] && echo "$val1"
+    [ -z "$val2" ] && echo "$val2"
 
     echo "$val1,$val2"|awk -F, '{if($1>$2) print $2; else print $1}'
 }
@@ -48,30 +50,31 @@ f_min(){
 ##    if less than 4 samples for that key/item there, average will be calculated as total/count
 ##    if 4 or more samples for that key/item there, average will be calculated with max and min excluded
 statistic(){
-    local f_data=$1
+    f_data=$1
     if ! [ -f "$f_data" ]; then
         return
     fi
-    local field_no=$2
+    field_no=$2
     if [ -z "$field_no" ]; then
         field_no=2
     fi
-    local total=0
-    local max=0
-    local min=0
-    local old_key=""
-    local new_key=""
-    local count=0
-    local units=""
-    sort ${f_data} >${f_data}.sort
-    for line in $(cat "${f_data}.sort" |tr ' ' '~'); do
+    total=0
+    max=0
+    min=0
+    old_key=""
+    new_key=""
+    count=0
+    units=""
+    sort "${f_data}" >"${f_data}.sort"
+    while read -r line; do
+        line=$(echo "$line"|tr ' ' '~')
         if ! echo "$line"|grep -q ,; then
             continue
         fi
-        new_key=$(echo $line|cut -d, -f1)
-        local measurement_units=$(echo $line|cut -d, -f${field_no})
-        if echo ${measurement_units}|grep -q '~'; then
-            value=$(echo ${measurement_units}|cut -d~ -f1)
+        new_key=$(echo "$line"|cut -d, -f1)
+        measurement_units=$(echo "$line"|cut -d, -f${field_no})
+        if echo "${measurement_units}"|grep -q '~'; then
+            value=$(echo "${measurement_units}"|cut -d~ -f1)
         else
             value=${measurement_units}
         fi
@@ -83,7 +86,7 @@ statistic(){
             min=$(f_min "$min" "$value")
         else
             if [ "X${old_key}" != "X" ]; then
-                if [ $count -ge 4 ]; then
+                if [ "${count}" -ge 4 ]; then
                     average=$(echo "${total},${max},${min},$count"|awk -F, '{printf "%.2f",($1-$2-$3)/($4-2);}')
                 else
                     average=$(echo "${total},$count"|awk -F, '{printf "%.2f",$1/$2;}')
@@ -99,13 +102,13 @@ statistic(){
             min="${value}"
             old_key="${new_key}"
             count=1
-            if echo ${measurement_units}|grep -q '~'; then
-                units=$(echo ${measurement_units}|cut -d~ -f2)
+            if echo "${measurement_units}"|grep -q '~'; then
+                units=$(echo "${measurement_units}"|cut -d~ -f2)
             else
                 units=""
             fi
         fi
-    done
+    done < "${f_data}.sort"
     if [ "X${new_key}" != "X" ]; then
         if [ $count -ge 4 ]; then
             average=$(echo "${total},${max},${min},$count"|awk -F, '{printf "%.2f",($1-$2-$3)/($4-2);}')
@@ -133,17 +136,17 @@ statistic(){
 ##    G_VERBOSE_OUTPUT: when this environment variant is set to "TRUE", and only it is TRUE,
 ##         the verbose informain about the result will be outputed
 output_test_result(){
-    local test_name=$1
-    local result=$2
-    local measurement=$3
-    local units=$4
+    test_name=$1
+    result=$2
+    measurement=$3
+    units=$4
 
     if [ -z "${test_name}" ] || [ -z "$result" ]; then
         return
     fi
-    local output=""
-    local lava_paras=""
-    local output_csv=""
+    output=""
+    lava_paras=""
+    output_csv=""
     if [ -z "$units" ]; then
         units="points"
     fi
@@ -160,8 +163,8 @@ output_test_result(){
         echo "${output}"
     fi
 
-    local cmd="lava-test-case"
-    if [ -n "$(which $cmd)" ];then
+    cmd="lava-test-case"
+    if [ "X${G_RESULT_NOT_RECORD}" = "XFALSE" ] && [ -n "$(which $cmd)" ];then
         $cmd ${lava_paras}
     elif [ "X${G_VERBOSE_OUTPUT}" = "XTRUE" ];then
         echo "$cmd ${lava_paras}"
@@ -174,17 +177,18 @@ output_test_result(){
 }
 
 func_print_usage_common(){
-    echo "$(basename $0) [--record-csv TRUE|others] [--loop-count LOOP_COUNT]"
+    script_name=$(basename "$0")
+    echo "${script_name} [--record-csv TRUE|others] [--loop-count LOOP_COUNT]"
     echo "     --record-csv: specify if record the result in csv format in file ${F_RAW_DATA_CSV}"
     echo "                   Only record the file when TRUE is specified."
     echo "     --loop-count: specify the number that how many times should be run for each application to get the average result, default is 12"
     echo "     --verbose-output: output the result and lava-test-case command for each test case each time it is run"
-    echo "$(basename $0) [--help|-h]"
+    echo "${script_name} [--help|-h]"
     echo "     print out this usage."
 }
 
 func_parse_parameters_common(){
-    local para_loop_count=""
+    para_loop_count=""
     while [ -n "$1" ]; do
         case "X$1" in
             X--record-csv)
@@ -228,7 +232,7 @@ func_parse_parameters_common(){
     done
 
     if [ -n "${para_loop_count}" ]; then
-        local tmp_str=$(echo ${para_loop_count}|tr -d '[:digit:]')
+        tmp_str=$(echo "${para_loop_count}"|tr -d '[:digit:]')
         if [ -z "${tmp_str}" ]; then
             G_LOOP_COUNT=${para_loop_count}
         else
@@ -264,11 +268,11 @@ run_test(){
     if [ "X${G_RECORD_LOCAL_CSV}" = "XTRUE" ]; then
         [ -f "${F_RAW_DATA_CSV}" ] && rm "${F_RAW_DATA_CSV}"
         [ -f "${F_STATISTIC_DATA_CSV}" ] && rm "${F_STATISTIC_DATA_CSV}"
-        mkdir -p $(dirname ${F_RAW_DATA_CSV})
+        mkdir -p "$(dirname ${F_RAW_DATA_CSV})"
     fi
 
     loop_index=0
-    while [ ${loop_index} -lt ${G_LOOP_COUNT} ]; do
+    while [ "${loop_index}" -lt "${G_LOOP_COUNT}" ]; do
         if [ -n "${var_test_func}" ]; then
             ${var_test_func}
         fi
