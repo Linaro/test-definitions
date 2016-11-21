@@ -1,0 +1,63 @@
+metadata:
+    name: software-raid1
+    format: "Manual Test Definition 1.0"
+    description: "Use Linux utility mdadm to create, rebuild and delete
+                  software RAID1. RAID1 consists of data mirroring, without
+                  parity or striping."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+        - thunderX
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Install OS on the SUT(system under test) and make sure it boots.
+        - Power off the SUT and install three extra hard drives(use sd(b|c|d)
+          here). The three hard drives shoud have the same mode, at least the
+          same capacity.
+        - Boot to OS and make sure mdadm utility installed.
+        - Create 'Linux RAID auto' partition on each of the three hard drives
+          by running the following steps.
+        - 1) "fdisk /dev/sdx"
+        - 2) Delete all existing partitions with fdisk command "d"
+        - 3) Create Linux raid auto partition with fdisk commands
+             "n -> p -> 1 -> enter -> enter -> t -> fd -> w"
+        - Run the following steps to test RAID1.
+        - 1) "mdadm --create /dev/md0 --level=mirror --raid-devices=2 /dev/sd[b-c]1"
+        - 2) Monitor '/proc/mdstat' to check if md0 created and running.
+        - 3) "mkfs.ext4 /dev/md0"
+        - 4) "mount /dev/md0 /mnt"
+        - 5) "echo 'RAID1 test' > /mnt raid1-test.txt"
+        - 6) Intentionally set faulty partition with command
+             "mdadm --manage --set-faulty /dev/md0 /dev/sdc1"
+        - 7) Execute "mdadm --detail /dev/md0" and check if RAID array shown as
+             'degraded' and sdc1 shown as 'faulty spare'.
+        - 8) Execute "mdadm --manage /dev/md0 -r /dev/sdc1" to remove sdc1.
+        - 9) Verify that '/mnt/raid1-test.txt' is not damaged.
+        - 10) Execute "mdadm --manage /dev/md0 -a /dev/sdd1" to add sdd1.
+        - 11) Monitor the output of "mdadm --detail /dev/md0" and make sure
+              that md0 'rebuilding' can be finished.
+        - Remove the md0 by running the following steps.
+        - 1) "umount /dev/md0"
+        - 2) "mdadm --stop /dev/md0"
+        - 3) "mdadm --remove /dev/md0"
+        - 4) "mdadm --zero-superblock /dev/sdb1 /dev/sdc1 /dev/sdd1"
+
+    expected:
+        - RAID1 array creating, deleting and rebuilding are successful.
+        - When one disk of RAID1 array damaged or removed, no data loss.
+        - When faulty disk replaced with a new one, RAID1 array can be rebuilt.
