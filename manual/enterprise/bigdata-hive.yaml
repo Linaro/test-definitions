@@ -1,0 +1,47 @@
+metadata:
+    name: hive
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of hive"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - CentOS
+    scope:
+        - performance
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Make sure OpenJDK8 is installed by typing:
+          $ java -version
+          It should display 1.8"
+        - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/ODPi_Setup_Config_Run#Setting_up_ODPi_Hadoop_on_Single_Node'"
+        - "To configure Hive with Hadoop, you need to edit the hive-env.sh file, which is placed in the $HIVE_HOME/conf directory. The following commands redirect to Hive config folder and copy the template file:
+          $ cd $HIVE_HOME/conf
+          $ cp hive-env.sh.template hive-env.sh
+          Edit the hive-env.sh file by appending the following line
+          $ export HADOOP_HOME=/usr/local/hadoop"
+        - "Derby is required to test Hive. Follow the steps to download and install apache derby from wiki https://wiki.linaro.org/LEG/Engineering/BigData/Hive#Downloading_Apache_Derby"
+        - "Download Apache Derby"
+        - "Extract Derby archive"
+        - "Setup environment variable for Derby"
+        - "Create a directory to store MetaStore
+          $ mkdir $DERBY_HOME/data"
+        - "Configure Metastore for Hive."
+        - "Create a tmp directory before running hive and give write permissions
+          $ mkdir tmp
+          $ chmod g+w"
+        - "Verify Hive Installation, by typing the following command
+        - $HIVE_HOME/bin/hive"
+        - "Run show tables command
+          hive> show tables;"
+
+    expected:
+        - Time taken to run the command with the results (list of tables)
