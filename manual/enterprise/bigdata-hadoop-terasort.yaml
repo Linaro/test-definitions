@@ -1,0 +1,39 @@
+metadata:
+    name: hadoop-terasort
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of hadoop"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - CentOS
+    scope:
+        - performance
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Make sure OpenJDK8 is installed by typing:
+        $ java -version
+        It should display 1.8"
+        - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/ODPi_Setup_Config_Run#Setting_up_ODPi_Hadoop_on_Single_Node'"
+        - "Verify ODPi hadoop installation. By typing:
+        $ hadoop"
+        - "Add Hadoop User - hduser"
+        - "Generate ssh key for hduser"
+        - "Disable IPv6"
+        - "Configure the app environment"
+        - "Setup Environment Variables"
+        - "Modify config files. core-site.xml, mapred-site.xml, hdfs-site.xml"
+        - "Format Namenode"
+        - "Start YARN daemons"
+        - "Validate if Hadoop and all resource managers are running"
+        - "Run teragen, terasort and teravalidate"
+    expected:
+        - The job is successfully run. 1TB of data is generated and sort and validated. The result should display statistics of run duration.
