@@ -1,0 +1,88 @@
+metadata:
+    name: hadoop-terasort
+    format: "Manual Test Definition 1.0"
+    description: "Functional tests of hadoop"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - ganesh.raju@linaro.org
+    os:
+        - centos
+        - debian
+    scope:
+        - performance
+    devices:
+        - d02
+        - d03
+        - d05
+        - overdrive
+        - moonshot
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - "Step1: Make sure OpenJDK8 is installed by typing:
+        $ java -version
+        NOTE: If this step fails, then fail the test"
+        - "Step2: Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/Installing_Hadoop_2_7_2_Spark_2_0_Hive_2_1_0'"
+        - "Step3: To configure Hive with Hadoop, you need to edit the hive-env.sh file, which is placed in the $HIVE_HOME/conf directory. The following commands redirect to Hive config folder and copy the template file:
+        $ cd $HIVE_HOME/conf
+        $ cp hive-env.sh.template hive-env.sh"
+        - "Step4: Edit the hive-env.sh file by appending the following line:
+        $ export HADOOP_HOME=/usr/local/hadoop"
+        - "Step5: Derby is required to test Hive. Follow the steps to download and install apache derby. For Ref - wiki https://wiki.linaro.org/LEG/Engineering/BigData/Hive#Downloading_Apache_Derby
+        $ cd ~
+        $ wget http://archive.apache.org/dist/db/derby/db-derby-10.4.2.0/db-derby-10.4.2.0-bin.tar.gz
+        $ tar zxvf db-derby-10.4.2.0-bin.tar.gz
+        $ su - passwd: # cd /home/user # mv db-derby-10.4.2.0-bin /usr/local/derby # exit"
+        - "Step6: Configure Environment for Derby, by following the steps:
+        $ export DERBY_HOME=/usr/local/derby
+        $ export PATH=$PATH:$DERBY_HOME/bin
+        $ export CLASSPATH=$CLASSPATH:$DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbytools.jar"
+        - "Step7: Create a directory to store Hive MetaStore
+        $ mkdir $DERBY_HOME/data"
+        - "Step8: Configure Metastore for Hive.
+        $ cd $HIVE_HOME/conf
+        $ cp hive-default.xml.template hive-site.xml"
+        - "Step9: Edit hive-site.xml and append the following lines between the <configuration> and </configuration> tags:
+        <property>
+                <name>javax.jdo.option.ConnectionURL</name>
+                <value>jdbc:derby://localhost:1527/metastore_db;create=true </value>
+                <description>JDBC connect string for a JDBC metastore </description>
+        </property>"
+        - "Step10: Create a file named jpox.properties and add the following lines into it:
+        javax.jdo.PersistenceManagerFactoryClass =
+        org.jpox.PersistenceManagerFactoryImpl
+        org.jpox.autoCreateSchema = false
+        org.jpox.validateTables = false
+        org.jpox.validateColumns = false
+        org.jpox.validateConstraints = false
+        org.jpox.storeManagerType = rdbms
+        org.jpox.autoCreateSchema = true
+        org.jpox.autoStartMechanismMode = checked
+        org.jpox.transactionIsolation = read_committed
+        javax.jdo.option.DetachAllOnCommit = true
+        javax.jdo.option.NontransactionalRead = true
+        javax.jdo.option.ConnectionDriverName = org.apache.derby.jdbc.ClientDriver
+        javax.jdo.option.ConnectionURL = jdbc:derby://hadoop1:1527/metastore_db;create = true
+        javax.jdo.option.ConnectionUserName = APP
+        javax.jdo.option.ConnectionPassword = mine"
+        - "Step11: Create a tmp directory before running hive and give write permissions
+        $ mkdir tmp
+        $ chmod g+w"
+        - "Step12: Set up HDFS before verifying Hive
+        $ $HADOOP_HOME/bin/hadoop fs -mkdir /tmp
+        $ $HADOOP_HOME/bin/hadoop fs -mkdir /user/hive/warehouse
+        $ $HADOOP_HOME/bin/hadoop fs -chmod g+w /tmp
+        $ $HADOOP_HOME/bin/hadoop fs -chmod g+w /user/hive/warehouse"
+        - "Step13: Verify Hive Installation, by typing the following command to create Hive shell
+        $HIVE_HOME/bin/hive"
+        - "Step14: Run show tables command
+        hive> show tables;"
+        - "Step15: Type the following command to exit Hive shell
+        hive> quit"
+    expected:
+        - "Step1: Should display OpenJDK8 as JDK version"
+        - "Step2: Installation should be successful without any errors."
+        - "Step13: Should open a hive shell."
+        - "Step14: Should print out time taken to run the command with the results (list of tables)"
