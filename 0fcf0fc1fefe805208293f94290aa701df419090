@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_56d34138",
+        "filename": "automated/linux/iperf/iperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-22T23:28:36Z",
+      "side": 1,
+      "message": "Done. Removed to avoid confusion.",
+      "parentUuid": "3afa9182_53dd1314",
+      "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_735dafe9",
         "filename": "automated/linux/iperf/iperf.yaml",
         "patchSetId": 1
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "3afa9182_53b6b3dd",
+      "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_36d83553",
+        "filename": "automated/linux/iperf/iperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-22T23:28:36Z",
+      "side": 1,
+      "message": "Removed this param from yaml as well to avoid confusion.",
+      "parentUuid": "3afa9182_33e207d6",
       "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
