@@ -1,0 +1,42 @@
+metadata:
+    name: iperf
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "iperf is a tool for active measurements of the maximum
+                  achievable bandwidth on IP networks."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Specify iperf test server. Execute 'iperf3 -s' on remote host to run
+    # iperf3 test server for physical network bandwidth test.
+    # Test locahost by defualt, which tests the effificency of TCP/IP stack.
+    SERVER: "127.0.0.1"
+    # Time in seconds to transmit for
+    TIME: "10"
+    # Number of parallel client streams to run
+    THREADS: "1"
+    # Specify iperf3 version for CentOS.
+    VERSION: "3.1.4"
+
+run:
+    steps:
+        - cd ./automated/linux/iperf/
+        - ./iperf.sh -c "${SERVER}" -t "${TIME}" -p "${THREADS}" -v "${VERSION}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
