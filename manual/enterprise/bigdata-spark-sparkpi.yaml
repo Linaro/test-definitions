@@ -20,12 +20,16 @@ metadata:
 run:
     steps:
         - "Make sure OpenJDK8 is installed by typing:
-          $ java -version
-          It should display 1.8"
-        - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/ODPi_Setup_Config_Run#Setting_up_ODPi_Hadoop_on_Single_Node'"
+        $ java -version
+        NOTE: If this step fails, then fail the test"
+        - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/Installing_Hadoop_2_7_2_Spark_2_0_Hive_2_1_0'"
         - "Verify apache spark installation by testing spark shell. By typing:
-          $ $SPARK_HOME/bin/spark-shell --master local[*]  "
+          $ SPARK_HOME/bin/spark-shell --master local[*]"
+        - "Run the following command to quit from spark-shell
+          $ exit() "
         - "Run sparkpi example workload. By typing:
-          $ $SPARK_HOME/bin/run-example SparkPi 100 "
+          $ SPARK_HOME/bin/run-example SparkPi 100"
     expected:
-        - The job should complete without error. Teh job output should list the estimate value of pi to the number of characters specified.
+        - "'$ java --version' should display OpenJDK8 as JDK version"
+        - "'Verify apache spark installation' step should create a new Spark shell session successfully."
+        - "'Run sparkpi example' step should start a job and complete without error. The job output should list the estimate value of pi to the number of characters specified."
