@@ -153,8 +153,10 @@ def validate_external(cmd, filename, prefix, args):
 def validate_file(args, path):
     exitcode = 0
     if path.endswith(".yaml"):
-        exitcode = exitcode + validate_yaml(path, args)
-        exitcode = exitcode + metadata_check(path, args)
+        exitcode = validate_yaml(path, args)
+        if exitcode == 0:
+            # if yaml isn't valid there is no point in checking metadata
+            exitcode = metadata_check(path, args)
     elif run_pep8 and path.endswith(".py"):
         exitcode = pep8_check(path, args)
     elif path.endswith(".php"):
