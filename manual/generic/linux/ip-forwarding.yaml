@@ -1,5 +1,5 @@
 metadata:
-    name: IP forwarding
+    name: ip-forwarding
     format: "Manual Test Definition 1.0"
     description: "Test if Kernel IP forwarding works."
     maintainer:
