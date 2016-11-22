@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_81444875",
+        "filename": "automated/linux/iperf/iperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-22T10:14:40Z",
+      "side": 1,
+      "message": "I guess, in the most cases, we only care about the changes in TCP/IP stack, so test localhost is fine.\n\nIt is possible to setup iperf test server with multiple node job in LAVA. That probably isn\u0027t a priority.\n\nAnd if we really need to test the physical network bandwidth, I think the easier way is ask LAVA lab setup an iperf test server. Also, test again the same server everytime provides more comparable data.\n\nMilosz, what do you think?",
+      "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
