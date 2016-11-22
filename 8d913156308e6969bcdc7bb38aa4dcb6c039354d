@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_f6686d89",
+        "filename": "manual/enterprise/bigdata-hive.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-22T21:29:59Z",
+      "side": 1,
+      "message": "Please remove empty spaces",
+      "revId": "8d913156308e6969bcdc7bb38aa4dcb6c039354d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_166c199c",
+        "filename": "manual/enterprise/jpox.properties",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-22T21:29:59Z",
+      "side": 1,
+      "message": "This file isn\u0027t needed. It\u0027s contents are recorded in steps.",
+      "revId": "8d913156308e6969bcdc7bb38aa4dcb6c039354d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
