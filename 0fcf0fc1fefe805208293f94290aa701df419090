@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_93b01bdf",
+        "filename": "automated/linux/iperf/iperf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-22T13:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa9182_d3710379",
+      "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_81444875",
         "filename": "automated/linux/iperf/iperf.yaml",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_d3946346",
+        "filename": "automated/linux/iperf/iperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-22T13:43:55Z",
+      "side": 1,
+      "message": "This yaml file isn\u0027t designed for multiple nodes. To do that, we need create two more yaml files for host and target respectively to cover the LAVA-specific steps in the yaml files.\n\nhost: run \u0027iperf3 -s\u0027 and send IP to target\ntarget: wait to get an IP and amend the SERVER variable\n\nThe SERVER param is needed for local run. I mean setup an iperf test server manually and use it directly in test plan.",
+      "parentUuid": "3afa9182_93581bfc",
+      "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_735dafe9",
         "filename": "automated/linux/iperf/iperf.yaml",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2016-11-22T12:41:45Z",
       "side": 1,
       "message": "that doesn\u0027t look good. Is there any reason for that?",
+      "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_53b6b3dd",
+        "filename": "automated/linux/iperf/iperf.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-22T13:43:55Z",
+      "side": 1,
+      "message": "On CentOS, iperf isn\u0027t available from yum. Have to download and compile it in test script. \n\niperf version grow  quickly, I though it is a good idea to add VERSION param so that we don\u0027t have to modify the script to use a newer version.",
+      "parentUuid": "3afa9182_735dafe9",
       "revId": "0fcf0fc1fefe805208293f94290aa701df419090",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
