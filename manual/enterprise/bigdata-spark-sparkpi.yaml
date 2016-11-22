@@ -20,8 +20,7 @@ metadata:
 run:
     steps:
         - "Make sure OpenJDK8 is installed by typing:
-          $ java -version
-          It should display 1.8"
+          $ java -version"
         - "Follow the steps of Installation from wiki 'https://wiki.linaro.org/LEG/Engineering/BigData/ODPi_Setup_Config_Run#Setting_up_ODPi_Hadoop_on_Single_Node'"
         - "Verify apache spark installation by testing spark shell. By typing:
           $ $SPARK_HOME/bin/spark-shell --master local[*]  "
