@@ -1,8 +1,10 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 
 usage() {
     echo "Usage: $0 [-s <true|false>]" 1>&2
@@ -27,6 +29,7 @@ if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     warn_msg "LAMP package installation skipped"
 else
     dist_name
+    # shellcheck disable=SC2154
     case "${dist}" in
       Debian|Ubuntu)
         if [ "${dist}" = "Debian" ]; then
@@ -58,7 +61,7 @@ grep "Test Page for the Apache HTTP Server" "${OUTPUT}/index.html"
 check_return "apache2-test-page"
 
 # Test MySQL.
-mysqladmin -u root password lamptest
+mysqladmin -u root password lamptest  > /dev/null 2>&1 || true
 mysql --user="root" --password="lamptest" -e "show databases"
 check_return "mysql-show-databases"
 
@@ -96,3 +99,6 @@ check_return "php-select-record"
 curl -o "${OUTPUT}/delete-record" "http://localhost/delete-record.php"
 grep "Record deleted successfully" "${OUTPUT}/delete-record"
 check_return "php-delete-record"
+
+# Delete myDB for the next run.
+mysql --user='root' --password='lamptest' -e 'DROP DATABASE myDB'
