@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_c9403638",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-23T12:47:46Z",
+      "side": 1,
+      "message": "I think this is wrong. \u0027test\u0027 should only contain \u0027parameters\u0027 IMHO. I\u0027m wondering where do \u0027params\u0027 come from. The right thing is to unify on single key and I think this key should be \u0027parameters\u0027.",
+      "revId": "5b1ae7d21126c40d7af58f8252a22bd42a713d08",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
