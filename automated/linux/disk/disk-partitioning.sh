@@ -1,8 +1,10 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 DISKLABEL="gpt"
 FILESYSTEM="ext4"
 
@@ -75,7 +77,7 @@ disk_mount() {
 }
 
 # Test run.
-[ -b "${DEVICE}" ] && error_msg "Please specify a block device with '-d'"
+[ -b "${DEVICE}" ] || error_msg "Please specify a block device with '-d'"
 ! check_root && error_msg "You need to be root to run this script."
 [ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
 mkdir -p "${OUTPUT}"
