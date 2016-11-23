@@ -391,8 +391,12 @@ class ResultParser(object):
         self.results = {}
         self.results['test'] = self.test_name
         self.results['id'] = self.test_uuid
-        self.results['params'] = test.get('params')
         self.logger = logging.getLogger('RUNNER.ResultParser')
+        self.results['params'] = None
+        if 'parameters' in test.keys():
+            self.results['params'] = test['parameters']
+        if 'params' in test.keys():
+            self.results['params'] = test['params']
 
     def run(self):
         self.parse_stdout()
