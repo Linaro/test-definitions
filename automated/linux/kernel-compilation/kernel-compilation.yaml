@@ -1,0 +1,37 @@
+metadata:
+    name: kernel-compilation
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Compile kernel with defconfig on ARM64/ARM platform and
+                  measure how long it takes."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Specify longterm/stable Kernel version that availabe on:
+    # https://www.kernel.org/
+    VERSION: "4.4.34"
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/kernel-compilation/
+        - ./kernel-compilation.sh -v "${VERSION}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
