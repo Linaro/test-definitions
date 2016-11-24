@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_6972e2e6",
+        "filename": "automated/linux/kernel-compilation/kernel-compilation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2016-11-24T06:35:15Z",
+      "side": 1,
+      "message": "I suggest to use:\n* $(getconf _NPROCESSORS_ONLN)\nor\n* $(nproc)",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 53
+      },
+      "revId": "15b95d9ae06b925de8b171b6e445e7bbbadfe272",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_c97676d8",
+        "filename": "automated/linux/kernel-compilation/kernel-compilation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2016-11-24T06:35:15Z",
+      "side": 1,
+      "message": "by using defconfig and setting the target to Image, you assume the kernel is arm64.\n\nMaybe it should be stated somewhere that the kernel compilation test is:\n* native (not cross compiled)\n* arm64 only (not arm or x86)",
+      "range": {
+        "startLine": 48,
+        "startChar": 39,
+        "endLine": 48,
+        "endChar": 44
+      },
+      "revId": "15b95d9ae06b925de8b171b6e445e7bbbadfe272",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
