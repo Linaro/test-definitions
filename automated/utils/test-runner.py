@@ -7,6 +7,7 @@ import logging
 import os
 import re
 import shutil
+import subprocess
 import sys
 import time
 from uuid import uuid4
@@ -87,6 +88,7 @@ class TestSetup(object):
         self.test_path = os.path.join(self.output, self.test_uuid)
         self.logger = logging.getLogger('RUNNER.TestSetup')
         self.test_kind = args.kind
+        self.test_version = test.get('version', None)
 
     def validate_env(self):
         # Inspect if environment set properly.
@@ -115,6 +117,13 @@ class TestSetup(object):
                 sys.exit(1)
             shutil.copytree(self.repo_path, self.test_path, symlinks=True)
             self.logger.info('Test repo copied to: %s' % self.test_path)
+
+    def checkout_version(self):
+        if self.test_version:
+            path = os.getcwd()
+            os.chdir(self.test_path)
+            subprocess.call("git checkout %s" % self.test_version, shell=True)
+            os.chdir(path)
 
     def create_uuid_file(self):
         with open('%s/uuid' % self.test_path, 'w') as f:
@@ -397,6 +406,15 @@ class ResultParser(object):
             self.results['params'] = test['parameters']
         if 'params' in test.keys():
             self.results['params'] = test['params']
+        if 'version' in test.keys():
+            self.results['version'] = test['version']
+        else:
+            path = os.getcwd()
+            print path
+            os.chdir(self.result_path)
+            print os.getcwd()
+            self.results['version'] = subprocess.check_output("git rev-parse HEAD", shell=True)
+            os.chdir(path)
 
     def run(self):
         self.parse_stdout()
@@ -536,6 +554,7 @@ def main():
         setup = TestSetup(test, args)
         setup.create_dir()
         setup.copy_test_repo()
+        setup.checkout_version()
         setup.create_uuid_file()
 
         # Convert test definition.
