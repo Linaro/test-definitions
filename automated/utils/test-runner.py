@@ -393,10 +393,14 @@ class ResultParser(object):
         self.results['id'] = self.test_uuid
         self.logger = logging.getLogger('RUNNER.ResultParser')
         self.results['params'] = None
+        with open(os.path.join(self.result_path, "testdef.yaml"), "r") as f:
+           self.testdef = yaml.safe_load(f)
+           if 'params' in self.testdef.keys():
+               self.results['params'] = self.testdef['params']
         if 'parameters' in test.keys():
-            self.results['params'] = test['parameters']
+            self.results['params'].update(test['parameters'])
         if 'params' in test.keys():
-            self.results['params'] = test['params']
+            self.results['params'].update(test['params'])
 
     def run(self):
         self.parse_stdout()
