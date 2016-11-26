@@ -63,8 +63,8 @@ getBootTimeInfoFromDmesg(){
         output_test_result "FS_MOUNT_DURATION" "fail" "-1" "s"
     fi
 
-    POINT_SERVICE_BOOTANIM_START=$(getTime "init: Starting service \'bootanim\'...")
-    POINT_SERVICE_BOOTANIM_END=$(getTime "init: Service 'bootanim'.* exited with status")
+    POINT_SERVICE_BOOTANIM_START=$(getTime "init: Starting service 'bootanim'..."|tail -n1)
+    POINT_SERVICE_BOOTANIM_END=$(getTime "init: Service 'bootanim'.* exited with status"|tail -n1)
     if [ ! -z "${POINT_SERVICE_BOOTANIM_END}" ] && [ ! -z "${POINT_SERVICE_BOOTANIM_START}" ]; then
         BOOTANIM_TIME=$(echo "${POINT_SERVICE_BOOTANIM_END} ${POINT_SERVICE_BOOTANIM_START} - p" | dc)
         output_test_result "BOOTANIM_TIME" "pass" "${BOOTANIM_TIME}" "s"
@@ -72,7 +72,11 @@ getBootTimeInfoFromDmesg(){
         output_test_result "BOOTANIM_TIME" "fail" "-1" "s"
     fi
 
-    TIME_INFO=$(grep "Boot is finished" "${LOG_LOGCAT_ALL}")
+    ## When there are 2 lines of "Boot is finished",
+    ## it mostly means that the surfaceflinger service restarted by some reason
+    ## but here when there are multiple lines of "Boot is finished",
+    ## use the last one line, and report the case later after checked all the logs
+    TIME_INFO=$(grep "Boot is finished" "${LOG_LOGCAT_ALL}"|tail -n1)
     if [ -z "${TIME_INFO}" ]; then
         output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "s"
     else
@@ -80,7 +84,7 @@ getBootTimeInfoFromDmesg(){
             TIME_INFO=$(echo "${TIME_INFO}"|cut -d\( -f2-)
         done
         TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\  -f1)
-        ANDROID_BOOT_TIME=$(echo "${TIME_VALUE} 1000 / p" | dc)
+        ANDROID_BOOT_TIME=$(echo "${TIME_VALUE}" | awk '{printf "%.3f",$1/1000;}')
         output_test_result "ANDROID_BOOT_TIME" "pass" "${ANDROID_BOOT_TIME}" "s"
     fi
 
@@ -93,9 +97,8 @@ getBootTimeInfoFromDmesg(){
         output_test_result "ANDROID_SERVICE_START_TIME" "fail" "-1" "s"
     fi
 
-    echo "$CONSOLE_SECONDS $TIME_VALUE 1000 / + p"
     if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ]; then
-        TOTAL_SECONDS=$(echo "$CONSOLE_SECONDS $TIME_VALUE 1000 / + p" | dc)
+        TOTAL_SECONDS=$(echo "$CONSOLE_SECONDS $TIME_VALUE" | awk '{printf "%.3f",$1 + $2/1000;}')
         output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
     else
         output_test_result "TOTAL_BOOT_TIME" "fail" "-1" "s"
@@ -118,40 +121,76 @@ if [ "X${OPERATION}" = "XCOLLECT" ]; then
     output_test_result "BOOTTIME_DMESG_COLLECT" "pass"
 elif [ "X${OPERATION}" = "XANALYZE" ]; then
     count=$2
+    ## Check if there is any case that the surfaceflinger service
+    ## was started several times
     i=1
-    G_RESULT_NOT_RECORD=TRUE
-    G_RECORD_LOCAL_CSV=TRUE
-    export G_RECORD_LOCAL_CSV G_RESULT_NOT_RECORD
-    while true; do
+    service_started_once=true
+    while ${service_started_once}; do
         if [ $i -gt "$count" ]; then
             break
         fi
-        getBootTimeInfoFromDmesg ${i}
+        ## check the existence of "Boot is finished"
+        LOG_LOGCAT_ALL="${dir_boottime_data}/logcat_all_${i}.log"
+        android_boottime_lines=$(grep -c "Boot is finished" "${LOG_LOGCAT_ALL}")
+        if [ "${android_boottime_lines}" -ne 1 ]; then
+            echo "There are ${android_boottime_lines} existences of 'Boot is finished' in file: ${LOG_LOGCAT_ALL}"
+            echo "Please check the status first"
+            service_started_once=false
+        fi
+
+        LOG_DMESG="${dir_boottime_data}/dmesg_${i}.log"
+        ## check  the service of bootanim
+        bootanim_lines=$(grep -c "'bootanim'" "${LOG_DMESG}")
+        if [ "${bootanim_lines}" -ne 2 ]; then
+            echo "bootanim service seems to be started more than once in file: ${LOG_DMESG}"
+            echo "Please check the status first"
+            service_started_once=false
+        fi
         i=$((i+1))
     done
-    G_RESULT_NOT_RECORD=FALSE
-    export G_RESULT_NOT_RECORD
-    if [ "X${G_RECORD_LOCAL_CSV}" = "XTRUE" ]; then
-        statistic ${F_RAW_DATA_CSV} 2 |tee ${F_STATISTIC_DATA_CSV}
-        sed -i 's/=/,/' "${F_STATISTIC_DATA_CSV}"
 
-        G_RECORD_LOCAL_CSV=FALSE
-        export G_RECORD_LOCAL_CSV
-        while read -r line; do
-            if ! echo "$line"|grep -q ,; then
-                continue
+    if ${service_started_once}; then
+        i=1
+        G_RESULT_NOT_RECORD=TRUE
+        G_RECORD_LOCAL_CSV=TRUE
+        export G_RECORD_LOCAL_CSV G_RESULT_NOT_RECORD
+        while true; do
+            if [ $i -gt "$count" ]; then
+                break
             fi
-            key=$(echo "$line"|cut -d, -f1)
-            measurement=$(echo "$line"|cut -d, -f2)
-            units=$(echo "$line"|cut -d, -f3)
-            output_test_result "${key}" "pass" "${measurement}" "${units}"
-        done < "${F_STATISTIC_DATA_CSV}"
+            getBootTimeInfoFromDmesg ${i}
+            i=$((i+1))
+        done
+        G_RESULT_NOT_RECORD=FALSE
+        export G_RESULT_NOT_RECORD
+        if [ "X${G_RECORD_LOCAL_CSV}" = "XTRUE" ]; then
+            statistic ${F_RAW_DATA_CSV} 2 |tee ${F_STATISTIC_DATA_CSV}
+            sed -i 's/=/,/' "${F_STATISTIC_DATA_CSV}"
+
+            G_RECORD_LOCAL_CSV=FALSE
+            export G_RECORD_LOCAL_CSV
+            while read -r line; do
+                if ! echo "$line"|grep -q ,; then
+                    continue
+                fi
+                key=$(echo "$line"|cut -d, -f1)
+                measurement=$(echo "$line"|cut -d, -f2)
+                units=$(echo "$line"|cut -d, -f3)
+                output_test_result "${key}" "pass" "${measurement}" "${units}"
+            done < "${F_STATISTIC_DATA_CSV}"
+        fi
+
+        output_test_result "SERVICE_STARTED_ONCE" "pass"
+    else
+        output_test_result "SERVICE_STARTED_ONCE" "fail"
     fi
     # set again for following output_test_result
     G_RECORD_LOCAL_CSV=FALSE
     cd ${local_tmp}|| exit 1
     tar -czvf boottime.tgz boottime
-    lava-test-run-attach boottime.tgz application/x-gzip
+    if [ -n "$(which lava-test-run-attach)" ]; then
+        lava-test-run-attach boottime.tgz application/x-gzip
+    fi
     output_test_result "BOOTTIME_ANALYZE" "pass"
 else
     G_VERBOSE_OUTPUT=FALSE
