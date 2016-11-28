@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_e26707e9",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-28T05:06:16Z",
+      "side": 1,
+      "message": "result.json shows\n\n\"version\": \"fed78723b9287cf7b76b75682b30b65dd763522a\\n\",\n\nI guess we need to strip off \u0027\\n\u0027",
+      "revId": "feaac036824d094a55d7892bcd1d3f24269b5eea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
