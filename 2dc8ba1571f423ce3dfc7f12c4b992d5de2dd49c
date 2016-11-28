@@ -16,6 +16,24 @@
       "revId": "2dc8ba1571f423ce3dfc7f12c4b992d5de2dd49c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_22e74f42",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-28T09:36:39Z",
+      "side": 1,
+      "message": "Correct, I\u0027ll add that.\n\nYAML keyword is \u0027params\u0027 at the moment. I can add a check in the sanity tests to cover that. So IMHO no, we should not cover \u0027parameters\u0027. I guess it would be a good idea to start conversation with LAVA team. I would unify on \u0027parameters\u0027 in all possible cases.",
+      "parentUuid": "3afa9182_2262afd8",
+      "revId": "2dc8ba1571f423ce3dfc7f12c4b992d5de2dd49c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
