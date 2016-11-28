@@ -28,6 +28,9 @@ mkdir -p "${OUTPUT}"
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     warn_msg "LAMP package installation skipped"
 else
+    # Stop nginx server in case it is installed and running.
+    systemctl stop nginx > /dev/null 2>&1 || true
+
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
