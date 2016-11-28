@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_4736ed04",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-11-28T04:31:35Z",
+      "side": 1,
+      "message": "Here should not have such cases, since it is checked before this function call. keep it here in case this function is copied somewhere",
+      "range": {
+        "startLine": 79,
+        "startChar": 68,
+        "endLine": 79,
+        "endChar": 69
+      },
+      "revId": "cc87cceca2ca57facbcb8c6d66dcc5a71d90ef8e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a73b51ea",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2016-11-28T04:31:35Z",
+      "side": 1,
+      "message": "Changed to use awk to get more accurate result. with dc here only integer could be gotten.",
+      "range": {
+        "startLine": 87,
+        "startChar": 50,
+        "endLine": 87,
+        "endChar": 81
+      },
+      "revId": "cc87cceca2ca57facbcb8c6d66dcc5a71d90ef8e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
