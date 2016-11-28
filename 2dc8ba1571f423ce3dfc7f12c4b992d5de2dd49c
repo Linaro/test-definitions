@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_2262afd8",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-28T05:31:04Z",
+      "side": 1,
+      "message": "If there is no params in test-case.yaml at all, then results[\u0027params\u0027] is NoneType. The following update() will fail. We may need \"results[\u0027params\u0027] \u003d {}\" before the if block?\n\nAnd the annoying question: should we cover \u0027parameters\u0027?",
+      "revId": "2dc8ba1571f423ce3dfc7f12c4b992d5de2dd49c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
