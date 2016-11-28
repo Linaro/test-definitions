@@ -88,8 +88,8 @@ run_test_case "${test_command}" "test-nginx-server" "${skip_list}"
 
 # Test MySQL.
 skip_list="$(echo "${skip_list}" | awk '{ for (i=2; i<=NF; i++) print $i}')"
-mysqladmin -u root password lemptest > /dev/null 2>&1 || true
-test_command="mysql --user='root' --password='lemptest' -e 'show databases'"
+mysqladmin -u root password lxmptest > /dev/null 2>&1 || true
+test_command="mysql --user='root' --password='lxmptest' -e 'show databases'"
 run_test_case "${test_command}" "mysql-show-databases" "${skip_list}"
 
 # Test PHP.
@@ -135,7 +135,7 @@ run_test_case "${test_command}" "php-delete-record"
 
 # Cleanup.
 # Delete myDB for the next run.
-mysql --user='root' --password='lemptest' -e 'DROP DATABASE myDB'
+mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
 
 # Restore from backups.
 rm -rf /usr/share/nginx/html

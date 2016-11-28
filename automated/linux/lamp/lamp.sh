@@ -28,6 +28,9 @@ mkdir -p "${OUTPUT}"
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     warn_msg "LAMP package installation skipped"
 else
+    # Stop nginx server in case it is installed and running.
+    systemctl stop nginx > /dev/null 2>&1 || true
+
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
@@ -61,8 +64,8 @@ grep "Test Page for the Apache HTTP Server" "${OUTPUT}/index.html"
 check_return "apache2-test-page"
 
 # Test MySQL.
-mysqladmin -u root password lamptest  > /dev/null 2>&1 || true
-mysql --user="root" --password="lamptest" -e "show databases"
+mysqladmin -u root password lxmptest  > /dev/null 2>&1 || true
+mysql --user="root" --password="lxmptest" -e "show databases"
 check_return "mysql-show-databases"
 
 # Test PHP.
@@ -101,4 +104,4 @@ grep "Record deleted successfully" "${OUTPUT}/delete-record"
 check_return "php-delete-record"
 
 # Delete myDB for the next run.
-mysql --user='root' --password='lamptest' -e 'DROP DATABASE myDB'
+mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'

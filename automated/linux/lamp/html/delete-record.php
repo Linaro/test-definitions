@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "lamptest";
+$password = "lxmptest";
 $dbname = "myDB";
 
 // Create connection
