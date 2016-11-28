@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_62baf7e2",
+        "filename": "automated/linux/24h-stress/24h-stress-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-28T10:42:38Z",
+      "side": 1,
+      "message": "This won\u0027t work in a single node test without prior setup in the LAB.",
+      "revId": "a7fc3b9fe6b195645ba9a7e2b6b62426dc71fbd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_02ee93ec",
+        "filename": "automated/linux/24h-stress/24h-stress-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-28T10:42:38Z",
+      "side": 1,
+      "message": "What if we pass \u0027foo\u0027 as a TEST parameter?",
+      "revId": "a7fc3b9fe6b195645ba9a7e2b6b62426dc71fbd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
