@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_42a6dbc2",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-28T12:18:11Z",
+      "side": 1,
+      "message": "This is test pre-requirement.",
+      "parentUuid": "3afa9182_f3e35f31",
+      "revId": "4a2ebec98bb17d104220683a42fbca655030c9a8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_73aacfd5",
         "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
         "patchSetId": 5
@@ -70,6 +88,24 @@
       "writtenOn": "2016-11-22T12:16:19Z",
       "side": 1,
       "message": "I see \"libhugetlb pass\" in result.txt, which doesn\u0027t look right as some sub-tests actually failed.\n\nI think this function should only output \"test skip\"",
+      "revId": "4a2ebec98bb17d104220683a42fbca655030c9a8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_029cd368",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-11-28T12:18:11Z",
+      "side": 1,
+      "message": "RE: I see \"libhugetlb pass\" in result.txt, which doesn\u0027t look right as some sub-tests actually failed.\nAns: we could alter the name of test case as\n\"libhugetlb-pre-requirement\"\n\nRE: I think this function should only output \"test skip\"\nnot really.\nAns: We should know the pre-requirement met and test started building and executing.",
+      "parentUuid": "3afa9182_93cadb9f",
       "revId": "4a2ebec98bb17d104220683a42fbca655030c9a8",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
