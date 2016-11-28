@@ -33,6 +33,24 @@
       "revId": "a7fc3b9fe6b195645ba9a7e2b6b62426dc71fbd4",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_a2b4dff2",
+        "filename": "automated/linux/24h-stress/24h-stress-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-28T10:55:30Z",
+      "side": 1,
+      "message": "right, that should be handled by *)",
+      "parentUuid": "3afa9182_02ee93ec",
+      "revId": "a7fc3b9fe6b195645ba9a7e2b6b62426dc71fbd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
