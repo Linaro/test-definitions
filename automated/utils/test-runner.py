@@ -404,6 +404,7 @@ class ResultParser(object):
         self.results['params'] = {}
         with open(os.path.join(self.result_path, "testdef.yaml"), "r") as f:
             self.testdef = yaml.safe_load(f)
+            self.results['name'] = self.testdef['metadata']['name']
             if 'params' in self.testdef.keys():
                 self.results['params'] = self.testdef['params']
         if 'parameters' in test.keys():
@@ -472,11 +473,11 @@ class ResultParser(object):
             test_params = ';'.join(['%s=%s' % (k, v) for k, v in params_dict.iteritems()])
 
         for metric in self.results['metrics']:
-            metric['test'] = self.results['test']
+            metric['name'] = self.results['name']
             metric['test_params'] = test_params
 
         # Save test results to output/test_id/result.csv
-        fieldnames = ['test', 'test_case_id', 'result', 'measurement', 'units', 'test_params']
+        fieldnames = ['name', 'test_case_id', 'result', 'measurement', 'units', 'test_params']
         with open('%s/result.csv' % self.result_path, 'w') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
