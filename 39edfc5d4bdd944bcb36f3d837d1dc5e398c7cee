@@ -46,6 +46,30 @@
       "revId": "39edfc5d4bdd944bcb36f3d837d1dc5e398c7cee",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_5826cabb",
+        "filename": "automated/linux/docker/docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-11-30T09:46:02Z",
+      "side": 1,
+      "message": "Basically, we are testing the packages from linaro-overlay. It is docker for centos and docker-engine for debian.\n\nhttp://repo.linaro.org/rpm/linaro-overlay/centos-7/repo/\nhttp://repo.linaro.org/ubuntu/linaro-overlay/pool/main/d/docker-engine/\n\nSeems docker.io is maintained by Ubuntu,  I can see the package \u0027docker.io\u0027 on my laptop running Ubuntu. I am not using it, using docker-engine from docker inc... If we need to test the package \u0027docker.io\u0027 someday, we will need to update the test case. IMHO, It isn\u0027t a problem for the moment.\n\nFedora is using \u0027docker\u0027 as package name https://developer.fedoraproject.org/tools/docker/docker-installation.html",
+      "parentUuid": "3afa9182_181d6267",
+      "range": {
+        "startLine": 29,
+        "startChar": 25,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "39edfc5d4bdd944bcb36f3d837d1dc5e398c7cee",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
