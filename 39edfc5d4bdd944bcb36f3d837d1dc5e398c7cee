@@ -22,6 +22,30 @@
       "revId": "39edfc5d4bdd944bcb36f3d837d1dc5e398c7cee",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_181d6267",
+        "filename": "automated/linux/docker/docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-11-30T09:21:55Z",
+      "side": 1,
+      "message": "I don\u0027t see docker.io on RP CentOS:\n\nyum search docker\nLoaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d N/S matched: docker \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\ncockpit-docker.aarch64 : Cockpit user interface for Docker containers\ndocker-common.aarch64 : Common files for docker and docker-latest\ndocker-distribution.aarch64 : Docker toolset to pack, ship, store, and deliver content\ndocker-logrotate.aarch64 : cron job to run logrotate on Docker containers\ndocker-lvm-plugin.aarch64 : Docker volume driver for lvm volumes\ndocker-selinux.aarch64 : SELinux policies for Docker\ndocker-v1.10-migrator.aarch64 : Calculates SHA256 checksums for docker layer content\npython-docker-py.noarch : An API client for docker written in Python\ndocker.aarch64 : Automates deployment of containerized applications\ndocker-forward-journald.aarch64 : Forward stdin to journald\ndocker-novolume-plugin.aarch64 : Block container starts with local volumes defined\ndocker-unit-test.aarch64 : Automates deployment of containerized applications - for running unit tests\noci-systemd-hook.aarch64 : OCI systemd hook for docker\n\n  Name and summary matches only, use \"search all\" for everything.\n[root@localhost yum]# yum repolist\nLoaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\nrepo id                                                                                  repo name                                                                                                    status\nbase/7/aarch64                                                                           CentOS-7 - Base                                                                                              7,025\nextras/7/aarch64                                                                         CentOS-7 - Extras                                                                                              221\nlinaro-overlay                                                                           Linaro Overlay packages for CentOS 7                                                                           595\nupdates/7/aarch64                                                                        CentOS-7 - Updates                                                                                           1,243\nrepolist: 9,084",
+      "parentUuid": "3afa9182_38049e14",
+      "range": {
+        "startLine": 29,
+        "startChar": 25,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "39edfc5d4bdd944bcb36f3d837d1dc5e398c7cee",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
