@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -22,9 +23,17 @@ done
 [ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
 mkdir -p "${OUTPUT}"
 
+dist_name
+# shellcheck disable=SC2154
+case "${dist}" in
+    Debian|Ubuntu) pkgs="docker-engine" ;;
+    Fedora|CentOS) pkgs="docker" ;;
+    *) error_msg "Unsupported distribution" ;;
+esac
+
 skip_list="start-docker-service run-docker-image"
-install_deps "docker-engine"
-exit_on_fail "install-docker-engine" "${skip_list}"
+install_deps "${pkgs}"
+exit_on_fail "install-docker" "${skip_list}"
 
 skip_list="run-docker-image"
 systemctl start docker
