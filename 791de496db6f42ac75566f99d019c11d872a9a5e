@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_1eb6eb3d",
+        "filename": "plans/rpb_ee_common.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-12-01T13:50:09Z",
+      "side": 1,
+      "message": "It is already automated\n\npath: automated/linux/kernel-compilation/kernel-compilation.yaml",
+      "revId": "791de496db6f42ac75566f99d019c11d872a9a5e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
