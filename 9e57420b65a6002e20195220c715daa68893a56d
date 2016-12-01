@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_b821aeb6",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-12-01T11:20:12Z",
+      "side": 1,
+      "message": "This is only guaranteed to work in our repo (as the metadata is checked before merge). I\u0027ll add another check to prevent breakage here.",
+      "revId": "9e57420b65a6002e20195220c715daa68893a56d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
