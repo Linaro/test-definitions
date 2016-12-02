@@ -16,28 +16,20 @@ metadata:
 
 install:
     deps:
-        - qemu-system
+        - qemu-system-arm
+        - qemu-efi
         - wget
-        - xz-utils
 run:
     steps:
         - Boot arm64 bit board
         - After boot success check for "ls /dev/kvm" kvm device entry
         - If /dev/kvm not found, mark test case as not applicable and exit
         - Else continue below steps for installation of required packages
-        - Run "sudo apt-get update"
-        - Run "sudo apt-get install qemu-system wget xz-utils"
-        - Use arm64 kernel Image from /boot
-        - "cp /boot/vmlinuz-`uname -r` Image"
-        - Use arm64 initrd.img from /boot
-        - Note: please double check is it Debian initrd image or CentOS initrd
-        - Note: please check the name of initrd file under /boot and kernel version appended to file name
-        - "cp /boot/initrd.img-`uname -r` initrd.img"
+        - Run "sudo apt update"
+        - Run "sudo apt install wget qemu-system-arm qemu-efi"
         - Execute the following command to download arm64 minimal rootfs
-        - "wget http://testdata.validation.linaro.org/kvm/kvm-aarch64.qcow2.xz"
-        - "xz -d kvm-arm64.qcow2.xz"
-        - Test arm64 guest Image on arm64 host
-        - Run "qemu-system-aarch64 -smp 2 -m 512 -cpu host -machine type=virt,gic-version=host -kernel Image -initrd initrd.img -append 'root=/dev/vda2 rw rootwait console=ttyAMA0,38400n8  earlycon=pl011,0x9000000' -device virtio-blk-device,drive=image -drive if=none,id=image,file=kvm-arm64.qcow2 -nographic -enable-kvm 2>&1 | tee tee kvm-arm64.log"
+        - "wget http://builds.96boards.org/snapshots/developer-cloud/debian/cloud-image/12/debian-cloud-image.qcow2"
+        - Run "qemu-system-aarch64 -smp 2 -m 512 -cpu host -machine type=virt,gic-version=host -bios /usr/share/qemu-efi/QEMU_EFI.fd -device virtio-blk-device,drive=image -drive if=none,id=image,file=debian-cloud-image.qcow2 -netdev user,id=user0 -device virtio-net-device,netdev=user0 -nographic -enable-kvm 2>&1 | tee tee kvm-arm64.log"
         - Wait for couple of minutes let the qemu start booting guest kernel
 
     expected:
