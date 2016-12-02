@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_613cb294",
+        "filename": "plans/rpb_ee/rpb_ee_functional.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2016-12-02T10:34:25Z",
+      "side": 1,
+      "message": "You probably want to delete these two lines.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "f54e7312a0461d1b0e5d5e556ba79f9d9d9889f9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
