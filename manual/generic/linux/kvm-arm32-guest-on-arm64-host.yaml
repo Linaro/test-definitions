@@ -27,7 +27,7 @@ run:
         - Else continue below steps for installation of required packages
         - Run "sudo apt-get update"
         - Run "sudo apt-get install qemu-system wget xz-utils"
-        - Execute the following command to ownload armv7 kernel Image
+        - Execute the following command to download armv7 kernel Image
         - "wget http://testdata.validation.linaro.org/kvm/zImage-armv7"
         - Execute the following command to download arm minimal rootfs
         - "wget http://testdata.validation.linaro.org/kvm/kvm-armhf.qcow2.xz"
