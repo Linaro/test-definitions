@@ -1,0 +1,29 @@
+metadata:
+    name: verify_isolation
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Verify kernel configuration. Isolate application and verify
+                  that kernel tick/resch interrups do not occur more than 1/sec."
+    maintainer:
+        - ravineet.singh@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - juno
+        - arndale
+        - x86
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+
+params:
+    ISOL_CORES:   "2,3"
+    SKIP_INSTALL: "False"
+    GIT_TAG:      "v0.2"
+run:
+    steps:
+      - cd automated/linux/isolate-task
+      - ./isolate-task-verify.sh  -c "${ISOL_CORES}" -s "${SKIP_INSTALL}" -t "${GIT_TAG}"
+      - ../../utils/send-to-lava.sh ./output/result.txt
