@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_e13b8236",
+        "filename": "manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2016-12-02T16:38:28Z",
+      "side": 1,
+      "message": "no, we haven\u0027t released them yet. \"latest\" is preferred to hardcoded \"12\". An option is to use testdata.v.l.o like currently.",
+      "parentUuid": "3afa9182_21174aef",
+      "revId": "4242575f030114609ee6746027df8e4aac24235f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_81d39e37",
         "filename": "manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml",
         "patchSetId": 1
