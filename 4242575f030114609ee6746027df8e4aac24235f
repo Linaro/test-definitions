@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_21174aef",
+        "filename": "manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-12-02T12:14:59Z",
+      "side": 1,
+      "message": "The snapshots location scares me a bit. Are there any released cloud images?",
+      "revId": "4242575f030114609ee6746027df8e4aac24235f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_81d39e37",
+        "filename": "manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-12-02T12:14:59Z",
+      "side": 1,
+      "message": "Is -bios mandatory here?",
+      "revId": "4242575f030114609ee6746027df8e4aac24235f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
