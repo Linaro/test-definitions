@@ -1,0 +1,43 @@
+metadata:
+    name: odp_isolation
+    version: "1.0"
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Verify kernel configuration. Isolate application and verify
+                  that kernel tick/resch interrups do not occur more than 1/sec."
+    maintainer:
+        - ravineet.singh@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - juno
+        - arndale
+        - x86
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+
+install:
+    deps:
+        - git
+        - stress
+        - cpuset
+        - gzip
+    git-repos:
+        - url: git://git.linaro.org/people/ravineet.singh/task-isolation.git
+          destination: task-isolation
+          branch: TASK_ISOLATION_BRANCH
+params:
+    TASK_ISOLATION_BRANCH: master
+
+run:
+    steps:
+        - ./task-isolation/isolate-task.sh -v -c 3,4 sleep 10
+
+parse:
+    pattern: '^(?P<result>(PASS|FAIL|SKIP)):\s+(?P<test_case_id>[a-zA-Z0-9_]+)'
+    fixupdict:
+        PASS: pass
+        FAIL: fail
+        SKIP: skip
