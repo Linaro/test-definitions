@@ -107,16 +107,11 @@ class TestSetup(object):
     def copy_test_repo(self):
         self.validate_env()
         shutil.rmtree(self.test_path, ignore_errors=True)
-        if self.test_kind == 'manual':
-            test_dir_path = os.path.join(self.repo_path, self.repo_test_path.rsplit("/", 1)[0])
-            shutil.copytree(test_dir_path, self.test_path, symlinks=True)
-            self.logger.info('Test copied to: %s' % self.test_path)
-        else:
-            if self.repo_path in self.test_path:
-                self.logger.error("Cannot copy repository into itself. Please choose output directory outside repository path")
-                sys.exit(1)
-            shutil.copytree(self.repo_path, self.test_path, symlinks=True)
-            self.logger.info('Test repo copied to: %s' % self.test_path)
+        if self.repo_path in self.test_path:
+            self.logger.error("Cannot copy repository into itself. Please choose output directory outside repository path")
+            sys.exit(1)
+        shutil.copytree(self.repo_path, self.test_path, symlinks=True)
+        self.logger.info('Test repo copied to: %s' % self.test_path)
 
     def checkout_version(self):
         if self.test_version:
