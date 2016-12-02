@@ -27,12 +27,10 @@ run:
         - Else continue below steps for installation of required packages
         - Run "sudo apt-get update"
         - Run "sudo apt-get install qemu-system wget xz-utils"
-        - Download armv7 kernel Image from linaro snapshots
-        - Note: please double check latest in the below link it may be build number
-        - "wget http://snapshots.linaro.org/ubuntu/images/kvm/arndale/latest/zImage-armv7"
-        - Download arm minimal rootfs from linaro snapshots
-        - Note: please double check latest in the below link it may be build number
-        - "wget http://snapshots.linaro.org/ubuntu/images/kvm-guest/53/armhf/kvm-armhf.qcow2.xz"
+        - Execute the following command to ownload armv7 kernel Image
+        - "wget http://testdata.validation.linaro.org/kvm/zImage-armv7"
+        - Execute the following command to download arm minimal rootfs
+        - "wget http://testdata.validation.linaro.org/kvm/kvm-armhf.qcow2.xz"
         - "xz -d kvm-armhf.qcow2.xz"
         - Test arm32 guest Image on arm64 host
         - Run "qemu-system-aarch64 -smp 2 -m 512 -cpu host,aarch64=off -M virt -kernel ./zImage-armv7 -append 'root=/dev/vda2 rw rootwait mem=512M console=ttyAMA0,38400n8' -device virtio-blk-device,drive=image -drive if=none,id=image,file=kvm-armhf.qcow2 -nographic -enable-kvm 2>&1 | tee kvm-arm32.log"
