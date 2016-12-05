@@ -429,6 +429,10 @@ class ResultParser(object):
 
     def parse_stdout(self):
         with open('%s/stdout.log' % self.result_path, 'r') as f:
+            test_case_re = re.compile("TEST_CASE_ID=(P?.*)")
+            result_re = re.compile("RESULT=(P?.*)")
+            measurement_re = re.compile("MEASUREMENT=(P?.*)")
+            units_re = re.compile("UNITS=(P?.*)")
             for line in f:
                 if re.match(r'\<(|LAVA_SIGNAL_TESTCASE )TEST_CASE_ID=.*', line):
                     line = line.strip('\n').strip('<>').split(' ')
@@ -438,11 +442,18 @@ class ResultParser(object):
                             'units': ''}
 
                     for string in line:
-                        parts = string.split('=')
-                        if len(parts) == 2:
-                            key, value = parts
-                            key = key.lower()
-                            data[key] = value
+                        test_case_match = test_case_re.match(string)
+                        result_match = result_re.match(string)
+                        measurement_match = measurement_re.match(string)
+                        units_match = units_re.match(string)
+                        if test_case_match:
+                            data['test_case_id'] = test_case_match.group(0)
+                        if result_match:
+                            data['result'] = result_match.group(0)
+                        if measurement_match:
+                            data['measurement'] = measurement_match.group(0)
+                        if units_match:
+                            data['units'] = units_match.group(0)
 
                     self.metrics.append(data.copy())
 
