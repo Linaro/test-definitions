@@ -26,7 +26,8 @@
 LOGROOT="/data/bootchart"
 start_f="${LOGROOT}/start"
 stop_f="${LOGROOT}/stop"
-TARBALL="/data/local/tmp/bootchart.tgz"
+DATA_TMP="/data/local/tmp"
+TARBALL="${DATA_TMP}/bootchart.tgz"
 
 start_bootchart(){
     echo "${BOOTCHART_TIME}" > ${start_f}
@@ -58,14 +59,20 @@ collect_data(){
         echo "There is no ${LOGROOT} directory!"
         return
     fi
-    cd ${LOGROOT}
+    cd ${LOGROOT} || exit 1
+    # shellcheck disable=SC2086
     tar -czvf ${TARBALL} ${FILES}
     if [ $? -ne 0 ]; then
         echo "bootchart_collect_data: fail"
     else
         echo "bootchart_collect_data: pass"
     fi
+    # shellcheck disable=SC2086
     rm -fr ${FILES}
+    cd ${DATA_TMP} || exit 1
+    if [ -n "$(which lava-test-run-attach)" ]; then
+        lava-test-run-attach bootchart.tgz application/x-gzip
+    fi
 }
 
 main(){
