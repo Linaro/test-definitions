@@ -18,7 +18,6 @@ params:
 run:
     steps:
         - ./android/scripts/bootchart.sh $OPERATION $BOOTCHART_TIME
-        - lava-test-run-attach /data/local/tmp/bootchart.tgz application/x-gzip
 
 parse:
     pattern: "(?P<test_case_id>\\w+):\\s+(?P<result>(pass|fail))"
