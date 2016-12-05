@@ -105,9 +105,19 @@ cd "${OUTPUT}"
 info_msg "About to run libhugetlbfs test..."
 info_msg "Output directory: ${OUTPUT}"
 
-
+if [ -f /proc/config.gz ]
+then
 CONFIG_HUGETLBFS=$(zcat /proc/config.gz | grep "CONFIG_HUGETLBFS=")
 CONFIG_HUGETLB_PAGE=$(zcat /proc/config.gz | grep "CONFIG_HUGETLB_PAGE=")
+elif [ -f /boot/config-"$(uname -r)" ]
+then
+KERNEL_CONFIG_FILE="/boot/config-$(uname -r)"
+CONFIG_HUGETLBFS=$(grep "CONFIG_HUGETLBFS=" "${KERNEL_CONFIG_FILE}")
+CONFIG_HUGETLB_PAGE=$(grep "CONFIG_HUGETLB_PAGE=" "${KERNEL_CONFIG_FILE}")
+else
+exit_on_skip "libhugetlb-pre-requirements" "Kernel config file not available"
+fi
+
 HUGETLBFS=$(grep hugetlbfs /proc/filesystems | awk '{print $2}')
 
 [ "${CONFIG_HUGETLBFS}" = "CONFIG_HUGETLBFS=y" ] && [ "${CONFIG_HUGETLB_PAGE}" = "CONFIG_HUGETLB_PAGE=y" ] && [ "${HUGETLBFS}" = "hugetlbfs" ]
