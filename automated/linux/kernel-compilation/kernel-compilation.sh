@@ -25,8 +25,8 @@ done
 dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
-    Debian|Ubuntu) pkgs="time bc xz-utils build-essential" ;;
-    CentOS|Fedora) pkgs="time bc xz gcc make" ;;
+    Debian|Ubuntu) pkgs="wget time bc xz-utils build-essential" ;;
+    CentOS|Fedora) pkgs="wget time bc xz gcc make" ;;
 esac
 ! check_root && error_msg "You need to be root to install packages!"
 # install_deps supports the above distributions.
