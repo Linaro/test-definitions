@@ -44,7 +44,7 @@ IP_ADDR=$(ip addr show "${INTERFACE}" | grep -a2 "state UP" | tail -1 | awk '{pr
 exit_on_fail "ethernet-ping-state-UP" "ethernet-ping-route"
 
 # Get default Route IP address of a given interface
-ROUTE_ADDR=$(ip route list  | grep default | awk '{print $3}')
+ROUTE_ADDR=$(ip route list  | grep default | awk '{print $3}' | head -1)
 
 # Run the test
-run_test_case "ping ${ROUTE_ADDR} -c 5" "ethernet-ping-route"
+run_test_case "ping -c 5 ${ROUTE_ADDR}" "ethernet-ping-route"
