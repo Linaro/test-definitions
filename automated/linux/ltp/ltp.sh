@@ -103,10 +103,10 @@ else
     dist_name
     case "${dist}" in
       Debian|Ubuntu)
-        pkgs="xz-utils flex bison build-essential wget curl"
+        pkgs="xz-utils flex bison build-essential wget curl net-tools"
         ;;
       CentOS|Fedora)
-        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl"
+        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools"
         ;;
       *)
         error_msg "Unsupported distribution!"
