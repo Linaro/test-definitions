@@ -1,5 +1,5 @@
 metadata:
-  name: rpb-ee-1612-common
+  name: rpb-ee-1612-stress
   description: Test plan for EE RPB. Common features across all boards
   os: CentOS
   devices:
