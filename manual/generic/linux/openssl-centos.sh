@@ -6,7 +6,7 @@ sudo yum -y update
 # build dependencies
 sudo yum -y install autoconf automake binutils bison flex gcc gcc-c++ gettext \
                  libtool sed make patch pkgconfig redhat-rpm-config rpm-build \
-                 diffutils coreutils glibc-static
+                 diffutils coreutils glibc-static yum-utils
 
 # sslverify=0 to be enabled in all repo files
 # to work with yumdownloader --source

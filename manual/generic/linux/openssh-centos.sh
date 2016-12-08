@@ -26,7 +26,7 @@ done
 
 sudo yum -y clean all
 sudo yum -y install autoconf automake binutils bison flex gcc gcc-c++ gettext \
-                 libtool make patch pkgconfig redhat-rpm-config rpm-build
+             libtool make patch pkgconfig redhat-rpm-config rpm-build yum-utils
 
 sudo yumdownloader --source openssh
 # currently installed openssh version rpm package
