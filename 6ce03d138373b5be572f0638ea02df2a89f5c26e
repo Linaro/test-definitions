@@ -16,6 +16,24 @@
       "revId": "6ce03d138373b5be572f0638ea02df2a89f5c26e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_ad416b0d",
+        "filename": "manual/generic/linux/openssh-centos.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-12-08T09:31:03Z",
+      "side": 1,
+      "message": "Me either. but do not have any other way to make it work today. The auto detection done by configure file from fipscheck sources. Which detected ARCH as aarch64. but aarch64 did not match with supported arch in the pre-defined list. by hard coding to arm would at least make the build success and install required dependent headers for openssh.",
+      "parentUuid": "3afa9182_0dbb5f0f",
+      "revId": "6ce03d138373b5be572f0638ea02df2a89f5c26e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
