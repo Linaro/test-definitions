@@ -51,7 +51,7 @@ tar -xvf fipscheck-1.4.1.tar
 # shellcheck disable=SC2164
 cd fipscheck-1.4.1/
 automake
-./configure
+./configure --build=arm --host=arm
 make
 sudo make install
 # go to home directory
