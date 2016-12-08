@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_0dbb5f0f",
+        "filename": "manual/generic/linux/openssh-centos.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-12-08T09:22:09Z",
+      "side": 1,
+      "message": "I don\u0027t like this assumption hardcoded. Can we detect the architecture?",
+      "revId": "6ce03d138373b5be572f0638ea02df2a89f5c26e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
