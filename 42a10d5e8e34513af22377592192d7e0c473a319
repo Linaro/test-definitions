@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_cd6e7796",
+        "filename": "automated/linux/isolate-task.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-12-08T09:38:01Z",
+      "side": 1,
+      "message": "please don\u0027t use \u0027people\u0027 repositories for official tests. This can be used for prototyping, but not to be merged to master of test-definitons.",
+      "revId": "42a10d5e8e34513af22377592192d7e0c473a319",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_2d6c5b9c",
+        "filename": "automated/linux/isolate-task.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-12-08T09:38:01Z",
+      "side": 1,
+      "message": "where is this parameter used?",
+      "revId": "42a10d5e8e34513af22377592192d7e0c473a319",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_6d05c3c1",
+        "filename": "automated/linux/isolate-task.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2016-12-08T09:38:01Z",
+      "side": 1,
+      "message": "maybe the script arguments should be parametrized? Where can I find the script?",
+      "revId": "42a10d5e8e34513af22377592192d7e0c473a319",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
