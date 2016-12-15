@@ -27,10 +27,14 @@
 ##        iterations >= 4: the average will be calculated with maximum
 ##                         and minimum will be removed
 ##    For each iteration, it will get following boot time information:
-##        TOTAL_TIME: the sum of KERNEL_BOOT_TIME and ANDROID_BOOT_TIME
+##    (assuming kernel started at 0 in this script)
 ##
-##        KERNEL_BOOT_TIME: from kernel started to  line
-##                          "Freeing unused kernel memory" output
+##        TOTAL_TIME:
+##            the sum of KERNEL_BOOT_TIME, INIT_TO_SURFACEFLINGER_START_TIME,
+##            and ANDROID_BOOT_TIME
+##
+##        KERNEL_BOOT_TIME:
+##            from kernel started to line "Freeing unused kernel memory" printed
 ##
 ##        ANDROID_BOOT_TIME: the time information is gotten from the line
 ##            contains "Boot is finished" like following in logcat:
@@ -39,6 +43,10 @@
 ##            to the time boot animation finished.
 ##            it does not include the time from init start to the time
 ##            surfaceflinger service started
+##
+##        INIT_TO_SURFACEFLINGER_START_TIME:
+##            from the time "Freeing unused kernel memory" printed in dmesg
+##            to the time "init: Starting service 'surfaceflinger'..." is printed
 ##
 ##        Also following time valuse are gotten from dmesg log information,
 ##        they are not accurate as what we expects, but are able to be used for
@@ -98,7 +106,7 @@ getBootTimeInfoFromDmesg(){
     CONSOLE_SECONDS_START=0
     CONSOLE_SECONDS_END=$(getTime "Freeing unused kernel memory")
     if [ ! -z "${CONSOLE_SECONDS_END}" ] && [ ! -z "${CONSOLE_SECONDS_START}" ]; then
-        CONSOLE_SECONDS=$(echo "$CONSOLE_SECONDS_END $CONSOLE_SECONDS_START - p" | dc)
+        CONSOLE_SECONDS=$(echo "${CONSOLE_SECONDS_END} ${CONSOLE_SECONDS_START} - p" | dc)
         output_test_result "KERNEL_BOOT_TIME" "pass" "${CONSOLE_SECONDS}" "s"
     else
         output_test_result "KERNEL_BOOT_TIME" "fail" "-1" "s"
@@ -131,6 +139,15 @@ getBootTimeInfoFromDmesg(){
         output_test_result "BOOTANIM_TIME" "fail" "-1" "s"
     fi
 
+    POINT_INIT_START=$(getTime "Freeing unused kernel memory")
+    POINT_SERVICE_SURFACEFLINGER_START=$(getTime "init: Starting service 'surfaceflinger'..."|tail -n1)
+    if [ ! -z "${POINT_SERVICE_SURFACEFLINGER_START}" ] && [ ! -z "${POINT_INIT_START}" ]; then
+        INIT_TO_SURFACEFLINGER_START_TIME=$(echo "${POINT_SERVICE_SURFACEFLINGER_START} ${POINT_INIT_START} - p" | dc)
+        output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "pass" "${INIT_TO_SURFACEFLINGER_START_TIME}" "s"
+    else
+        output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "fail" "-1" "s"
+    fi
+
     ## When there are 2 lines of "Boot is finished",
     ## it mostly means that the surfaceflinger service restarted by some reason
     ## but here when there are multiple lines of "Boot is finished",
@@ -148,16 +165,16 @@ getBootTimeInfoFromDmesg(){
     fi
 
     SERVICE_START_TIME_INFO=$(grep "healthd:" "${LOG_DMESG}"|head -n 1)
-    SERVICE_START_TIME_END=$(echo "$SERVICE_START_TIME_INFO"|cut -d] -f 1|cut -d[ -f2| tr -d " ")
+    SERVICE_START_TIME_END=$(echo "${SERVICE_START_TIME_INFO}"|cut -d] -f 1|cut -d[ -f2| tr -d " ")
     if [ ! -z "${SERVICE_START_TIME_END}" ] && [ ! -z "${CONSOLE_SECONDS_START}" ]; then
-        SERVICE_START_TIME=$(echo "$SERVICE_START_TIME_END $CONSOLE_SECONDS_START - p" | dc)
+        SERVICE_START_TIME=$(echo "${SERVICE_START_TIME_END} ${CONSOLE_SECONDS_START} - p" | dc)
         output_test_result "ANDROID_SERVICE_START_TIME" "pass" "${SERVICE_START_TIME}" "s"
     else
         output_test_result "ANDROID_SERVICE_START_TIME" "fail" "-1" "s"
     fi
 
-    if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ]; then
-        TOTAL_SECONDS=$(echo "$CONSOLE_SECONDS $TIME_VALUE" | awk '{printf "%.3f",$1 + $2/1000;}')
+    if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ] && [ ! -z "${INIT_TO_SURFACEFLINGER_START_TIME}" ]; then
+        TOTAL_SECONDS=$(echo "${CONSOLE_SECONDS} ${INIT_TO_SURFACEFLINGER_START_TIME} ${TIME_VALUE}" | awk '{printf "%.3f",$1 + $2 + $3/1000;}')
         output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
     else
         output_test_result "TOTAL_BOOT_TIME" "fail" "-1" "s"
