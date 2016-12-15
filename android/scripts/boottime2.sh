@@ -72,6 +72,15 @@ getBootTimeInfoFromDmesg(){
         output_test_result "BOOTANIM_TIME" "fail" "-1" "s"
     fi
 
+    POINT_INIT_START=$(getTime "Freeing unused kernel memory")
+    POINT_SERVICE_SURFACEFLINGER_START=$(getTime "init: Starting service 'surfaceflinger'..."|tail -n1)
+    if [ ! -z "${POINT_SERVICE_SURFACEFLINGER_START}" ] && [ ! -z "${POINT_INIT_START}" ]; then
+        INIT_TO_SURFACEFLINGER_START_TIME=$(echo "${POINT_SERVICE_SURFACEFLINGER_START} ${POINT_INIT_START} - p" | dc)
+        output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "pass" "${INIT_TO_SURFACEFLINGER_START_TIME}" "s"
+    else
+        output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "fail" "-1" "s"
+    fi
+
     ## When there are 2 lines of "Boot is finished",
     ## it mostly means that the surfaceflinger service restarted by some reason
     ## but here when there are multiple lines of "Boot is finished",
@@ -97,8 +106,8 @@ getBootTimeInfoFromDmesg(){
         output_test_result "ANDROID_SERVICE_START_TIME" "fail" "-1" "s"
     fi
 
-    if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ]; then
-        TOTAL_SECONDS=$(echo "$CONSOLE_SECONDS $TIME_VALUE" | awk '{printf "%.3f",$1 + $2/1000;}')
+    if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ] && [ ! -z "${INIT_TO_SURFACEFLINGER_START_TIME}" ]; then
+        TOTAL_SECONDS=$(echo "$CONSOLE_SECONDS ${INIT_TO_SURFACEFLINGER_START_TIME} $TIME_VALUE" | awk '{printf "%.3f",$1 + $2 + $3/1000;}')
         output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
     else
         output_test_result "TOTAL_BOOT_TIME" "fail" "-1" "s"
