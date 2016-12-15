@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_58040315",
+        "filename": "automated/linux/isolate-task.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000183
+      },
+      "writtenOn": "2016-12-15T16:14:08Z",
+      "side": 1,
+      "message": "Yes, just my lack of knowledge on how to create a repo in git.linaro.org/lng will do that",
+      "parentUuid": "3afa9182_cd6e7796",
+      "revId": "42a10d5e8e34513af22377592192d7e0c473a319",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_2d6c5b9c",
         "filename": "automated/linux/isolate-task.yaml",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3afa9182_b809a72e",
+        "filename": "automated/linux/isolate-task.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000183
+      },
+      "writtenOn": "2016-12-15T16:14:08Z",
+      "side": 1,
+      "message": "line 32. I guess that I have misunderstood the usage?",
+      "parentUuid": "3afa9182_2d6c5b9c",
+      "revId": "42a10d5e8e34513af22377592192d7e0c473a319",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa9182_6d05c3c1",
         "filename": "automated/linux/isolate-task.yaml",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-12-08T09:38:01Z",
       "side": 1,
       "message": "maybe the script arguments should be parametrized? Where can I find the script?",
+      "revId": "42a10d5e8e34513af22377592192d7e0c473a319",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_980e6b33",
+        "filename": "automated/linux/isolate-task.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000183
+      },
+      "writtenOn": "2016-12-15T16:14:08Z",
+      "side": 1,
+      "message": "Not sure that I understand what you mean. The script is available:\ngit://git.linaro.org/people/ravineet.singh/task-isolation.git",
+      "parentUuid": "3afa9182_6d05c3c1",
       "revId": "42a10d5e8e34513af22377592192d7e0c473a319",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
