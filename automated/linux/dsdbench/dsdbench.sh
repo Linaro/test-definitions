@@ -42,7 +42,7 @@ cp -r vendor/ "${GOPATH}/src"
 
 if [ "${TEST_SUITE}" = "BENCHMARKS" ]; then
     # Run benchmarks.
-    DOCKER_GRAPHDRIVER=overlay2 go test -run=NONE -v -bench . 2>&1 \
+    DOCKER_GRAPHDRIVER=overlay2 go test -run=NONE -v -bench . \
         | tee "${LOG_FILE}"
 
     # Parse log file.
@@ -51,7 +51,7 @@ if [ "${TEST_SUITE}" = "BENCHMARKS" ]; then
         | tee -a "${RESULT_FILE}"
 elif [ "${TEST_SUITE}" = "TESTS" ]; then
     # Run tests.
-    DOCKER_GRAPHDRIVER=overlay2 go test -v . 2>&1 \
+    DOCKER_GRAPHDRIVER=overlay2 go test -v . \
         | tee "${LOG_FILE}"
 
     # Parse log file.
