@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_6f301057",
+        "filename": "automated/linux/isolate-task/isolate-task.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2016-12-21T19:19:26Z",
+      "side": 1,
+      "message": "This could be parameters into this test-def file right",
+      "range": {
+        "startLine": 33,
+        "startChar": 43,
+        "endLine": 33,
+        "endChar": 61
+      },
+      "revId": "d9549ddc61e72389c2022437591a462909dee245",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
