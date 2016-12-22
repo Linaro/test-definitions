@@ -125,6 +125,7 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
     ## was started several times
     i=1
     service_started_once=true
+    no_boot_timeout_force_display=true
     while ${service_started_once}; do
         if [ $i -gt "$count" ]; then
             break
@@ -138,6 +139,13 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
             service_started_once=false
         fi
 
+        if grep -q "BOOT TIMEOUT: forcing display enabled" "${LOG_LOGCAT_ALL}"; then
+            no_boot_timeout_force_display=false
+            echo "There are boot timeout problem in file: ${LOG_LOGCAT_ALL}"
+            echo "Please check the status first"
+            break
+        fi
+
         LOG_DMESG="${dir_boottime_data}/dmesg_${i}.log"
         ## check  the service of bootanim
         bootanim_lines=$(grep -c "'bootanim'" "${LOG_DMESG}")
@@ -149,7 +157,20 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
         i=$((i+1))
     done
 
-    if ${service_started_once}; then
+    if ! ${no_boot_timeout_force_display}; then
+        output_test_result "NO_BOOT_TIMEOUT_FORCE_DISPLAY" "fail"
+    fi
+    if ! ${service_started_once}; then
+        output_test_result "SERVICE_STARTED_ONCE" "fail"
+    fi
+
+    if ${no_boot_timeout_force_display} && ${service_started_once}; then
+        no_checking_problem=true
+    else
+        no_checking_problem=false
+    fi
+
+    if ${no_checking_problem}; then
         i=1
         G_RESULT_NOT_RECORD=TRUE
         G_RECORD_LOCAL_CSV=TRUE
@@ -181,9 +202,8 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
         fi
 
         output_test_result "SERVICE_STARTED_ONCE" "pass"
-    else
-        output_test_result "SERVICE_STARTED_ONCE" "fail"
     fi
+
     # set again for following output_test_result
     G_RECORD_LOCAL_CSV=FALSE
     cd ${local_tmp}|| exit 1
