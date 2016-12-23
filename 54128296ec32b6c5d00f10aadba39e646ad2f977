@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_6a791e93",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2016-12-23T11:53:34Z",
+      "side": 1,
+      "message": "Is this works on all Linaro supported Android devices ?",
+      "range": {
+        "startLine": 142,
+        "startChar": 19,
+        "endLine": 142,
+        "endChar": 58
+      },
+      "revId": "54128296ec32b6c5d00f10aadba39e646ad2f977",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
