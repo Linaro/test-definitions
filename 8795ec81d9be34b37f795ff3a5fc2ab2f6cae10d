@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f61a0_0831a7a2",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-03T11:43:52Z",
+      "side": 1,
+      "message": "use of curly brackets is inconsistent. Please either use on all variables or remove from all.",
+      "revId": "8795ec81d9be34b37f795ff3a5fc2ab2f6cae10d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
