@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f61a0_a81fbb08",
+        "filename": "automated/linux/isolate-task/isolate-task.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-03T12:22:57Z",
+      "side": 1,
+      "message": "Ideally, test cases under automated/ folder should be able to executed both on local and in LAVA. To do that, we handle package installation in test script, not using the lava feature. Refer to https://git.linaro.org/qa/test-definitions.git/tree/automated/doc/test-writting-guidelines.rst, section \u00272. Installing dependence\u0027",
+      "revId": "3dbeda0e5657d8b05cd866cd8ed998a891345e5c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1f61a0_482b9f30",
+        "filename": "automated/linux/isolate-task/isolate-task.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-03T12:22:57Z",
+      "side": 1,
+      "message": "I read the previous discussion. \n\nYeah, we\u0027d better host the yaml definition file and test script files in the same repo. Normally \u0027git\u0027 related commands should go to test script. I understand it is not possible to do that way here, as the script is not exist before the \u0027git clone\u0027. BTW, our local test runner doesn\u0027t support \u0027git-repos\u0027 param from yaml file. \n\nIf the script isn\u0027t for verification, then why the yaml file is? If it is a common tool, as Anders suggested, I guess you can put it to automated/utils",
+      "revId": "3dbeda0e5657d8b05cd866cd8ed998a891345e5c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1f61a0_c8166ff1",
+        "filename": "automated/linux/isolate-task/isolate-task.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-03T12:22:57Z",
+      "side": 1,
+      "message": "For the same reason(support local run), the parsing part also should be done in test script. Please refer to the writing guide section 4 and 5.",
+      "revId": "3dbeda0e5657d8b05cd866cd8ed998a891345e5c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
