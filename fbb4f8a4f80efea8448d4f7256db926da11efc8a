@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f61a0_f1619ad4",
+        "filename": "automated/linux/isolate-task/isolate-task-verify.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-09T13:11:30Z",
+      "side": 1,
+      "message": "Is there any pass/fail/measurement for this test? I don\u0027t think the result.txt is parsed automatically for the results.",
+      "revId": "fbb4f8a4f80efea8448d4f7256db926da11efc8a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
