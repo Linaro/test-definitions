@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f61a0_517346b1",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-09T13:06:35Z",
+      "side": 1,
+      "message": "can we make mysql installation only happen if using database/oltp module of sysbench? Will it be possible to compile in this situation?",
+      "revId": "f4a889a232deb778d2e5c03a2c8e2f551e8ae582",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1f61a0_b16722ea",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-09T13:06:35Z",
+      "side": 1,
+      "message": "git is missing from dependencies",
+      "revId": "f4a889a232deb778d2e5c03a2c8e2f551e8ae582",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
