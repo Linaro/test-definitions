@@ -34,6 +34,24 @@
       "revId": "fbb4f8a4f80efea8448d4f7256db926da11efc8a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1f61a0_11eeee22",
+        "filename": "automated/linux/isolate-task/isolate-task-verify.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-09T15:03:13Z",
+      "side": 1,
+      "message": "That is OK. The problem is it won\u0027t record the results in LAVA. You will need sth like:\n../../utils/send-to-lava.sh ./output/result.txt\nin your yaml file to make it working. That should do the trick :)",
+      "parentUuid": "ba1f61a0_f18fda73",
+      "revId": "fbb4f8a4f80efea8448d4f7256db926da11efc8a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
