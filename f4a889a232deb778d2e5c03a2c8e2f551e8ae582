@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ba1f61a0_71ddaa42",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-10T08:16:34Z",
+      "side": 1,
+      "message": "To compile sysbench with mysql support, libmysqlclient-dev for debian and mysql-devel for centos is needed.\n\nTo run mysql oltp test, we need to install mysql server and start it. I will put this part to a conditional block.",
+      "parentUuid": "ba1f61a0_517346b1",
+      "revId": "f4a889a232deb778d2e5c03a2c8e2f551e8ae582",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba1f61a0_b16722ea",
         "filename": "automated/linux/sysbench/sysbench.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-01-09T13:06:35Z",
       "side": 1,
       "message": "git is missing from dependencies",
+      "revId": "f4a889a232deb778d2e5c03a2c8e2f551e8ae582",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1f61a0_f1c7da62",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-10T08:16:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba1f61a0_b16722ea",
       "revId": "f4a889a232deb778d2e5c03a2c8e2f551e8ae582",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
