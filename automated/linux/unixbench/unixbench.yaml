@@ -1,0 +1,33 @@
+metadata:
+    name: unixbench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "The purpose of UnixBench is to provide a basic
+                  indicator of the performance of a Unix-like system."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/unixbench/
+        - ./unixbench.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
