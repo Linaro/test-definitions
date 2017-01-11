@@ -1,0 +1,28 @@
+metadata:
+    name: kselftest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Kernel Self Test"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+    devices:
+        - all
+
+params:
+    # Specify Kernel self test pre-build tarball name from below location
+    # http://testdata.validation.linaro.org/tests/kselftest/
+    # TESTPROG: kselftest_aarch64.tar.gz
+    TESTPROG: kselftest_armhf.tar.gz
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/kselftest/
+        - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
