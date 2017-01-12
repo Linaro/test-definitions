@@ -7,7 +7,7 @@ error_msg() {
     msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
     printf "ERROR: %s\n" "${msg}" >&2
-    exit 0
+    exit 1
 }
 
 warn_msg() {
