@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba1f61a0_4226d6bb",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-13T08:48:46Z",
+      "side": 1,
+      "message": "I understand that dependencies are needed for compilation. My question was rather can we compile without mysql modules if we don\u0027t run olpt test? If not, let\u0027s leave it as it is. No need for conditionals.",
+      "parentUuid": "ba1f61a0_71ddaa42",
+      "revId": "f4a889a232deb778d2e5c03a2c8e2f551e8ae582",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba1f61a0_b16722ea",
         "filename": "automated/linux/sysbench/sysbench.sh",
         "patchSetId": 1
