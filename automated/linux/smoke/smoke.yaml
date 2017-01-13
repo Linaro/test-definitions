@@ -7,7 +7,10 @@ metadata:
         - chase.qi@linaro.org
     os:
         - debian
+        - ubuntu
+        - centos
         - fedora
+        - openembedded
     scope:
         - functional
     devices:
@@ -16,6 +19,11 @@ metadata:
         - juno
         - hi6220-hikey
         - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
 
 params:
     SKIP_INSTALL: "False"
