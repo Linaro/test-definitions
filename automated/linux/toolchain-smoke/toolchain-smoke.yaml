@@ -9,6 +9,7 @@ metadata:
         - ubuntu
         - fedora
         - centos
+        - openembedded
     scope:
         - functional
     devices:
