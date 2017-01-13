@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -23,34 +24,26 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu)
-        pkgs="build-essential"
-        install_deps "${pkgs}"
-        ;;
-      Fedora|CentOS)
-        pkgs="gcc glibc-static"
-        install_deps "${pkgs}"
-        ;;
-      *) error_msg "Unsupported distribution" ;;
+      Debian|Ubuntu) install_deps "build-essential" "${SKIP_INSTALL}" ;;
+      Fedora|CentOS) install_deps "gcc glibc-static" "${SKIP_INSTALL}" ;;
+      Unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
 
 ! check_root && error_msg "You need to be root to run this script."
 [ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
 mkdir -p "${OUTPUT}"
+cd "${OUTPUT}"
 
-if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
-    info_msg "gcc package installation skipped"
-else
-    install
-fi
+install
+
 FLAGS=""
 if [ "${STATIC}" = "true" ] || [ "${STATIC}" = "True" ]; then
     FLAGS="-static"
 fi
 
 skip_list="execute_binary"
-command="gcc ${FLAGS} -o hello hello.c"
+command="gcc ${FLAGS} -o hello ../hello.c"
 run_test_case "${command}" "gcc${FLAGS}" "${skip_list}"
 
 command="./hello | grep -x 'Hello world'"
