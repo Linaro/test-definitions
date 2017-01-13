@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ba1f61a0_424d3672",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-13T09:09:31Z",
+      "side": 1,
+      "message": "That can be compiled with \"--without-mysql\". To do so, we will need to put line 62-66 to conditional blocks as well.\n\nSeems like mysql test is a common use case of sysbench, refer to the readme file https://github.com/akopytov/sysbench, I guess it is good to have it.",
+      "parentUuid": "ba1f61a0_4226d6bb",
+      "revId": "f4a889a232deb778d2e5c03a2c8e2f551e8ae582",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba1f61a0_b16722ea",
         "filename": "automated/linux/sysbench/sysbench.sh",
         "patchSetId": 1
