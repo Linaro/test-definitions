@@ -87,34 +87,57 @@ and test output.
 2. Installing dependence
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The same test case should support Debian/Ubuntu, Fedora/CentOS and OE builds.
+The same test case should work on Debian/Ubuntu, Fedora/CentOS and OE
+distributions whenever possible. This can be achieved with install_deps
+function. The following is a simple example. "${SKIP_INSTALL}" should be set to
+'true' on distributions that not supported by install_deps. In the unsupported
+case, if "${SKIP_INSTALL}" is 'true', install_desp still will skip package
+installation.
 
-When using package management tool like apt or yum/dnf to install dependencies,
-package name may vary depending on the distributions you want to support, so you
-will need to define dependent packages by distribution. dist_name and
-install_deps functions provided in 'lib/sh-test-lib' can be used to detect the
-distribution at running time and handle package installation respectively.
+Example 1::
 
-On OSes built using OpenEmbedded that don't support installing additional
-packages, even compile and install from source code is impossible when tool
-chain isn't available. The required dependencies should be pre-install. To run
-test case that contain install steps on this kind of OS:
+    install_deps "${pkgs}" "${SKIP_INSTALL}"
 
-    * Define 'SKIP_INSTALL' variable with 'False' as default.
-    * Add parameter '-s <True|False>', so that user can modify 'SKIP_INSTALL'.
-    * Use "install_deps ${pkgs} ${SKIP_INSTALL}" to install package. It will
-      check the value of 'SKIP_INSTALL' to determine whether skip the install.
-    * When you have customized install steps like code downloading, compilation
-      and install defined, you will need to do the check yourself.
+Package name may vary by distribution. In this case, you will need to handle
+package installation with separate lines. dist_name function is designed to
+detect the distribution ID at running time so that you can define package name
+by distribution. Refer to the following example.
 
-An example::
+Example 2::
 
     dist_name
     case "${dist}" in
-      Debian|Ubuntu) pkgs="lsb-release" ;;
-      Fedora|CentOS) pkgs="redhat-lsb-core" ;;
+      Debian|Ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}" ;;
+      Fedora|CentOS) install_deps "redhat-lsb-core" "${SKIP_INSTALL}" ;;
+      Unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
-    install_deps "${pkgs}" "${SKIP_INSTALL}"
+
+Except automated package installation, you may also need to download and install
+software manually. If you want to make these steps skippable, here is an
+example.
+
+Example 3::
+
+    if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
+        dist_name
+        case "${dist}" in
+            Debian|Ubuntu) install_deps "${pkgs}" ;;
+            Fedora|CentOS) install_deps "${pkgs}" ;;
+            Unknown) warn_msg "Unsupported distro: package install skipped" ;;
+        esac
+
+        # manually install steps.
+        git clone "${repo}"
+        cd "${dir}"
+        configure && make install
+    fi
+
+Hopefully, the above 3 examples able to cover most of the user cases. When
+writing test case, in general:
+
+    * Define 'SKIP_INSTALL' variable with 'false' as default.
+    * Add parameter '-s <True|False>', so that user can modify 'SKIP_INSTALL'.
+    * Try to use the above functions, and give unknown distributions more care.
 
 3. Saving output
 ~~~~~~~~~~~~~~~~~
