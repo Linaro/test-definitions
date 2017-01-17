@@ -1,0 +1,43 @@
+metadata:
+    name: cyclictest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "cyclictest measures event latency in Linux kernel by
+                  measuring the amount of time that passes between when a timer
+                  expires and when the thread which set the timer actually
+                  runs."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Priority of highest prio thread.
+    PRIORITY: "99"
+    # Base interval of thread in us.
+    INTERVAL: "10000"
+    # Number of threads.
+    THREADS: "1"
+    # Number of loops.
+    LOOPS: "10000"
+
+run:
+    steps:
+        - cd ./automated/linux/cyclictest/
+        - ./cyclictest.sh -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -l "${LOOPS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
