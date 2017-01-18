@@ -1,0 +1,28 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: mmc-test
+    description: "The Multi Media Card (MMC) is a memory card standard used for solid-state storage
+                  This will perform Basic MMC tests"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - beaglebone-black
+        - hi6220-hikey
+        - apq8016-sbc
+
+run:
+    steps:
+        - cd ./automated/linux/mmc
+        - ./mmc-test.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
