@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_6acad7a2",
+        "filename": "automated/linux/mmc/mmc-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-18T19:59:24Z",
+      "side": 1,
+      "message": "does it have mmc device?",
+      "revId": "74caff23e093984b435c7af5936474e40407b5d3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_4acf13b1",
+        "filename": "automated/linux/mmc/mmc-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-18T19:59:24Z",
+      "side": 1,
+      "message": "does it have mmc device?",
+      "revId": "74caff23e093984b435c7af5936474e40407b5d3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_aac32f89",
+        "filename": "automated/linux/mmc/mmc-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-18T19:59:24Z",
+      "side": 1,
+      "message": "server platforms are out of scope here",
+      "revId": "74caff23e093984b435c7af5936474e40407b5d3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
