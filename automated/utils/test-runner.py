@@ -507,10 +507,10 @@ class ResultParser(object):
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--output', default='/root/output', dest='output',
+    parser.add_argument('-o', '--output', default=os.getenv("HOME")+'/output', dest='output',
                         help='''
                         specify a directory to store test and result files.
-                        Default: /root/output
+                        Default: $HOME/output
                         ''')
     parser.add_argument('-p', '--test_plan', default=None, dest='test_plan',
                         help='''
