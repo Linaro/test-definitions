@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_2ae9ff1a",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-18T19:53:43Z",
+      "side": 1,
+      "message": "grep \"oltp\" \"${TESTS}\"",
+      "revId": "572452f21514eb78dc104975e20537410f8e099c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_0aeebb22",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-18T19:53:43Z",
+      "side": 1,
+      "message": "same as line 61",
+      "revId": "572452f21514eb78dc104975e20537410f8e099c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
