@@ -4,10 +4,10 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 # Absolute path to this script. /home/user/bin/foo.sh
-SCRIPT="$(readlink -f $0)"
+SCRIPT="$(readlink -f "${0}")"
 # Absolute path this script is in. /home/user/bin
-SCRIPTPATH="$(dirname $SCRIPT)"
-echo "Script path is: "${SCRIPTPATH}""
+SCRIPTPATH="$(dirname "${SCRIPT}")"
+echo "Script path is: ${SCRIPTPATH}"
 # List of test cases
 TST_CMDFILES=""
 # List of test cases to be skipped
@@ -18,7 +18,7 @@ LTP_VERSION="20160920"
 LTP_PATH=/opt/ltp
 
 usage() {
-    echo "Usage: $0 [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION]" 1>&2
+    echo "Usage: ${0} [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION]" 1>&2
     exit 0
 }
 
@@ -26,18 +26,19 @@ while getopts "T:S:s:v:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
+        # shellcheck disable=SC2001
         LOG_FILE=$(echo "${OPTARG}"| sed 's,\/,_,')
         ;;
      S)
         OPT=$(echo "${OPTARG}" | grep "http")
         if [ -z "${OPT}" ] ; then
         # LTP skipfile
-          SKIPFILE="-S "${SCRIPTPATH}"/"${OPTARG}""
+          SKIPFILE="-S ${SCRIPTPATH}/${OPTARG}"
         else
         # Download LTP skipfile from speficied URL
-          wget "${OPTARG}"
-          SKIPFILE=$(echo "${OPTARG##*/}")
-          SKIPFILE="-S $(pwd)/${SKIPFILE}"
+          wget "${OPTARG}" -O "skipfile"
+          SKIPFILE="skipfile"
+          SKIPFILE="-S ${SCRIPTPATH}/${SKIPFILE}"
         fi
         ;;
      # SKIP_INSTALL is true in case of Open Embedded builds
@@ -51,20 +52,14 @@ done
 install_ltp() {
     rm -rf /opt/ltp
     mkdir -p /opt/ltp
+    # shellcheck disable=SC2164
     cd /opt/ltp
+    # shellcheck disable=SC2140
     wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
     tar --strip-components=1 -Jxf ltp-full-"${LTP_VERSION}".tar.xz
     ./configure
     make -j8 all
     make SKIP_IDCHECK=1 install
-}
-
-parse_ltp_summary() {
-    for TEST in "Total Tests" "Total Skipped Tests" "Total Failures"; do
-        NO_OF_TESTS="$(grep "$TEST" "$1"  | awk '{print $NF}')"
-        TEST=$(echo "$TEST" | tr -s ' ' '-')
-        add_metric "$TEST" "pass" "${NO_OF_TESTS}" "testcases"
-    done
 }
 
 # Parse LTP output
@@ -74,18 +69,12 @@ parse_ltp_output() {
 
 # Run LTP test suite
 run_ltp() {
+    # shellcheck disable=SC2164
     cd "${LTP_PATH}"
 
-    exec 4>&1
-    error_statuses="$(((./runltp -p -q -f "${TST_CMDFILES}" \
-        -l "${OUTPUT}/LTP_${LOG_FILE}.log" \
-        -C "${OUTPUT}/LTP_${LOG_FILE}.failed" "${SKIPFILE}" \
-        ||  echo "0:$?" >&3) | (tee "${OUTPUT}/LTP_${LOG_FILE}.out" \
-        ||  echo "1:$?" >&3)) 3>&1 >&4)"
-    exec 4>&-
+    pipe0_status "./runltp -p -q -f ${TST_CMDFILES} -l ${OUTPUT}/LTP_${LOG_FILE}.log -C ${OUTPUT}/LTP_${LOG_FILE}.failed ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
+    check_return "runltp_${LOG_FILE}"
 
-    echo "${error_statuses}"
-    parse_ltp_summary "${OUTPUT}/LTP_${LOG_FILE}.log"
     parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
 }
 
@@ -101,17 +90,19 @@ if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     info_msg "install_ltp skipped"
 else
     dist_name
+    # shellcheck disable=SC2154
     case "${dist}" in
       Debian|Ubuntu)
         pkgs="xz-utils flex bison build-essential wget curl net-tools"
+        install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       CentOS|Fedora)
         pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools"
+        install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)
-        error_msg "Unsupported distribution!"
+        warn_msg "Unsupported distribution: package install skipped"
     esac
-    install_deps "${pkgs}" "${SKIP_INSTALL}"
     info_msg "Run install_ltp"
     install_ltp
 fi
