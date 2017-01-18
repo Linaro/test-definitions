@@ -56,8 +56,18 @@ device_tree_property() {
 [ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
 mkdir -p "${OUTPUT}"
 
-CONFIG_PROC_FS=$(zcat /proc/config.gz | grep CONFIG_PROC_FS)
-CONFIG_OF=$(zcat /proc/config.gz | grep "CONFIG_OF=")
+if [ -f /proc/config.gz ]
+then
+    CONFIG_PROC_FS=$(zcat /proc/config.gz | grep "CONFIG_PROC_FS=")
+    CONFIG_OF=$(zcat /proc/config.gz | grep "CONFIG_OF=")
+elif [ -f /boot/config-"$(uname -r)" ]
+then
+    KERNEL_CONFIG_FILE="/boot/config-$(uname -r)"
+    CONFIG_PROC_FS=$(grep "CONFIG_PROC_FS=" "${KERNEL_CONFIG_FILE}")
+    CONFIG_OF=$(grep "CONFIG_OF=" "${KERNEL_CONFIG_FILE}")
+else
+    exit_on_skip "device-tree-pre-requirements" "Kernel config file not available"
+fi
 
 [ "${CONFIG_PROC_FS}" = "CONFIG_PROC_FS=y" ] && [ "${CONFIG_OF}" = "CONFIG_OF=y" ] && [ -d "${SYSFS_DEVICE_TREE}" ]
 exit_on_fail "device-tree-Kconfig" "${DT_SKIP_LIST_2}"
