@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_8acaab6c",
+        "filename": "automated/linux/pi-stress/pi-stress.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-19T08:53:53Z",
+      "side": 1,
+      "message": "Figured that the right trap usage is\n\ntrap \u0027\u0027 TERM\n\nnot\n\ntrap \u0027\u0027 SIGTERM",
+      "revId": "038dd6d1dd289ec9e9ed5beba6ef1847eb50f034",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
