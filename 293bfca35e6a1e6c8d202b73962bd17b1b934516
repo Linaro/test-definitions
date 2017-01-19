@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_0a36bb03",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-01-19T12:56:41Z",
+      "side": 1,
+      "message": "this is risky. If sth goes wrong with LTP, script will exit here. This is not how it used to work.",
+      "revId": "293bfca35e6a1e6c8d202b73962bd17b1b934516",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
