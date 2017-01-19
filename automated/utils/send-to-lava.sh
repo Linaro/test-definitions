@@ -16,14 +16,18 @@ if [ -f "${RESULT_FILE}" ]; then
             else
                 echo "<TEST_CASE_ID=${test} RESULT=${result}>"
             fi
-        elif echo "${line}" | egrep -iq ".*+ (pass|fail|skip)+ .*+ .*"; then
+        elif echo "${line}" | egrep -iq ".*+ (pass|fail|skip)+ .*+"; then
             test="$(echo "${line}" | awk '{print $1}')"
             result="$(echo "${line}" | awk '{print $2}')"
             measurement="$(echo "${line}" | awk '{print $3}')"
             units="$(echo "${line}" | awk '{print $4}')"
 
             if [ "${lava_test_case}" -eq 0 ]; then
-                lava-test-case "${test}" --result "${result}" --measurement "${measurement}" --units "${units}"
+                if [ -n "${units}" ]; then
+                    lava-test-case "${test}" --result "${result}" --measurement "${measurement}" --units "${units}"
+                else
+                    lava-test-case "${test}" --result "${result}" --measurement "${measurement}"
+                fi
             else
                echo "<TEST_CASE_ID=${test} RESULT=${result} UNITS=${units} MEASUREMENT=${measurement}>"
             fi

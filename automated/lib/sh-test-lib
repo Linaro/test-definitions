@@ -129,9 +129,9 @@ report_fail() {
 }
 
 add_metric() {
-    if [ "$#" -ne 4 ]; then
-        warn_msg "The number of parameters less then 4"
-        error_msg "Usage: add_metric test_case result measurement units"
+    if [ "$#" -lt 3 ]; then
+        warn_msg "The number of parameters less then 3"
+        error_msg "Usage: add_metric test_case result measurement [units]"
     fi
     test_case="$1"
     result="$2"
