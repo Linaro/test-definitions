@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_8a474b1d",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-01-19T01:59:21Z",
+      "side": 1,
+      "message": "root@hikey:~# TESTS\u003d\"cpu memory oltp\"\nroot@hikey:~# grep \"oltp\" \"${TESTS}\"\ngrep: cpu memory oltp: No such file or directory\nroot@hikey:~# echo \"${TESTS}\" | grep oltp\ncpu memory oltp\nroot@hikey:~# grep \"oltp\" \u003c\u003c\u003c \"${TESTS}\"\ncpu memory oltp\nroot@hikey:~# \n\nhttp://unix.stackexchange.com/questions/163810/grep-on-a-variable\nSeems we need either \"|\" or \"\u003c\u003c\u003c\" to grep  on a variable. \"\u003c\u003c\u003c\" is not portable.",
+      "parentUuid": "9a245df4_2ae9ff1a",
+      "revId": "572452f21514eb78dc104975e20537410f8e099c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_0aeebb22",
         "filename": "automated/linux/sysbench/sysbench.sh",
         "patchSetId": 4
