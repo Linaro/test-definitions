@@ -19,7 +19,7 @@ metadata:
 
 install:
     steps:
-        - 'VERSION=20160920'
+        - 'VERSION=20170116'
         - 'rm -rf /opt/ltp'
         - 'mkdir -p /opt/ltp'
         - 'cd /opt/ltp'
