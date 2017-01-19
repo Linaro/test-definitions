@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_2ab61fdd",
+        "filename": "automated/linux/mmc/mmc-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-01-19T10:57:06Z",
+      "side": 1,
+      "message": "Yes.\nThere is SD card Slot on TC2.",
+      "parentUuid": "9a245df4_6acad7a2",
+      "revId": "74caff23e093984b435c7af5936474e40407b5d3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_4acf13b1",
         "filename": "automated/linux/mmc/mmc-test.yaml",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_aac96f5c",
+        "filename": "automated/linux/mmc/mmc-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-01-19T10:57:06Z",
+      "side": 1,
+      "message": "Nope. Juno Does not have SD card slot. (I referred images on web). But MMC enabled in Kernel configuration of LCR Juno builds.",
+      "parentUuid": "9a245df4_4acf13b1",
+      "revId": "74caff23e093984b435c7af5936474e40407b5d3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_aac32f89",
         "filename": "automated/linux/mmc/mmc-test.yaml",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-01-18T19:59:24Z",
       "side": 1,
       "message": "server platforms are out of scope here",
+      "revId": "74caff23e093984b435c7af5936474e40407b5d3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_8ac62b48",
+        "filename": "automated/linux/mmc/mmc-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-01-19T10:57:06Z",
+      "side": 1,
+      "message": "Removed server platforms.",
+      "parentUuid": "9a245df4_aac32f89",
       "revId": "74caff23e093984b435c7af5936474e40407b5d3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
