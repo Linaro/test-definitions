@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_8d500560",
+        "filename": "automated/linux/ltp-realtime/ltp-realtime.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2017-01-20T12:07:29Z",
+      "side": 1,
+      "message": "if no tests is passed into the script can we end with a message where we list all possible tests?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "76fac6c0de9feb52bc6b3d7c65cfa40612b79bd9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_ed4d41c6",
+        "filename": "automated/linux/ltp-realtime/ltp-realtime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2017-01-20T12:07:29Z",
+      "side": 1,
+      "message": "is this the complete lists of all tests?",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "76fac6c0de9feb52bc6b3d7c65cfa40612b79bd9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
