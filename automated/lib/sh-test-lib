@@ -66,7 +66,7 @@ exit_on_skip() {
         echo "${test_case} skip" | tee -a "${RESULT_FILE}"
 
         if [ -n "${msg}" ]; then
-            error_msg "${msg}"
+            warn_msg "${msg}"
         fi
 
         # Exit normally to continue to run the following steps defined in test
@@ -259,7 +259,7 @@ dist_info() {
         case "${dist}" in
           Debian|Ubuntu) install_deps "lsb-release" ;;
           CentOS|Fedora) install_deps "redhat-lsb-core" ;;
-          *) error_msg "Unsupported distro: dist_info skipped"
+          *) warn_msg "Unsupported distro: dist_info skipped"
         esac
     fi
 
@@ -276,7 +276,7 @@ add_key() {
     case "${dist}" in
       Debian|Ubuntu) wget -O - "${url}" | apt-key add - ;;
       CentOS|Fedora) infor_msg "add_key isn't needed on ${dist}" ;;
-      *) error_msg "Unsupported distro: add_key skipped"
+      *) warn_msg "Unsupported distro: add_key skipped"
     esac
 }
 
@@ -307,7 +307,7 @@ add_repo() {
         wget -O - "${url}" >> "/etc/yum.repos.d/3rd-party.repo"
         ;;
       *)
-        error_msg "Unsupported distro: add_repo skipped"
+        warn_msg "Unsupported distro: add_repo skipped"
         ;;
    esac
 }
