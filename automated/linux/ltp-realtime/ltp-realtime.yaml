@@ -1,0 +1,38 @@
+metadata:
+    name: ltp-realtime
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run LTP realtime test suite on Ubuntu/CentOS/Openembedded.
+                  This testsuite contains some functional tests and a few
+                  performance and latency measurement tests"
+    maintainer:
+        - anders.roxell@linaro.org
+        - mike.holmes@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - preempt-rt
+    devices:
+        - arndale
+params:
+    # LTP version
+    LTP_VERSION: 20170116
+    LTP_REALTIME_TESTS: "async_handler gtod_latency hrtimer-prio matrix_mult measurement periodic_cpu_load pi_perf prio-preempt prio-wake pthread_kill_latency rt-migrate sched_football sched_jitter sched_latency thread_clock"
+    SKIP_INSTALL: false
+
+run:
+    steps:
+        - cd ./automated/linux/ltp-realtime/
+        - ./ltp-realtime.sh -T "${LTP_REALTIME_TESTS}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
+
+parse:
+    pattern: "^(?!.+ED)(?P<test_case_id>\\w+)\\s+(?P<result>PASS|FAIL|CONF)\\s+\\d+"
+    fixupdict:
+        FAIL: fail
+        PASS: pass
+        CONF: skip
