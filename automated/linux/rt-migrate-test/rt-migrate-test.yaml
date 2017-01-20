@@ -1,0 +1,35 @@
+metadata:
+    name: rt-migrate-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "rt-migrate-test verifies the RT threads scheduler balancing."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - performance
+        - preempt-rt
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Number of loops.
+    LOOPS: "100"
+
+run:
+    steps:
+        - cd ./automated/linux/rt-migrate-test/
+        - ./rt-migrate-test.sh -l "${LOOPS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
