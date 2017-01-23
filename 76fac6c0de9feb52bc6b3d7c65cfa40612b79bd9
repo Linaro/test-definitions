@@ -271,6 +271,30 @@
       "revId": "76fac6c0de9feb52bc6b3d7c65cfa40612b79bd9",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_bb953f8a",
+        "filename": "automated/linux/ltp-realtime/ltp-realtime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2017-01-23T22:34:03Z",
+      "side": 1,
+      "message": "ack +1 for that.",
+      "parentUuid": "9a245df4_7b7c6773",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "76fac6c0de9feb52bc6b3d7c65cfa40612b79bd9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
