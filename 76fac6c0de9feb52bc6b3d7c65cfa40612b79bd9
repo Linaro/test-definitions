@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_f0acf68e",
+        "filename": "automated/linux/ltp-realtime/ltp-realtime.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-01-23T12:02:57Z",
+      "side": 1,
+      "message": "LTP_REALTIME_TESTS list of testcases are same as yaml files. so we can run with and without yaml file.",
+      "parentUuid": "9a245df4_90477a1d",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "76fac6c0de9feb52bc6b3d7c65cfa40612b79bd9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_ed4d41c6",
         "filename": "automated/linux/ltp-realtime/ltp-realtime.yaml",
         "patchSetId": 1
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "yup I saw that and my question was if you have checked if more tests have been added to the ltp/ltp-realtime project that we should add here.",
       "parentUuid": "9a245df4_2d4ab983",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "76fac6c0de9feb52bc6b3d7c65cfa40612b79bd9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_909f7a50",
+        "filename": "automated/linux/ltp-realtime/ltp-realtime.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-01-23T12:02:57Z",
+      "side": 1,
+      "message": "That kind of maintenance is there + we may have to update Python script to parse results and get metrics of newly added test case.\n\nHowever, we are doing LTP version update for every 4 months.\n\nVery rarely we could expect new testcases into realtime. the last update of adding new test case was 2 years ago.",
+      "parentUuid": "9a245df4_b04a7e25",
       "range": {
         "startLine": 24,
         "startChar": 4,
