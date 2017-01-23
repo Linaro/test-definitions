@@ -1,0 +1,28 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: busybox
+    description: "Busybox smoke tests."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+run:
+    steps:
+        - cd ./automated/linux/busybox/
+        - ./busybox.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
