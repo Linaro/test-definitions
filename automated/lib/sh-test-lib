@@ -151,7 +151,10 @@ detect_abi() {
 }
 
 dist_name() {
-    if [ -x /usr/bin/lsb_release ]; then
+    if [ -f /etc/os-release ]; then
+        # shellcheck disable=SC1091
+        dist=$(. /etc/os-release && echo "${ID}")
+    elif [ -x /usr/bin/lsb_release ]; then
         dist="$(lsb_release -si)"
     elif [ -f /etc/lsb-release ]; then
         # shellcheck disable=SC1091
@@ -166,6 +169,14 @@ dist_name() {
         dist="Unknown"
         warn_msg "Unsupported distro: cannot determine distribution name"
     fi
+
+    case "${dist}" in
+        debian) dist="Debian" ;;
+        ubuntu) dist="Ubuntu" ;;
+        fedora) dist="Fedora" ;;
+        centos) dist="CentOS" ;;
+        rpb|rpb-wayland|rpb-eglfs) dist="oe-based" ;;
+    esac
 }
 
 install_deps() {
