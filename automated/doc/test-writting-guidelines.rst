@@ -2,7 +2,7 @@
 Test Writing Guidelines
 =======================
 
-This document describes guidelines and is intended for anybody who want to write
+This document describes guidelines and is intended for anybody who wants to write
 or modify a test case. It's not a definitive guide and it's not, by any means, a
 substitute for common sense.
 
@@ -12,7 +12,7 @@ General Rules
 1. Simplicity
 -------------
 
-It's worth keep test cases as simple as possible.
+It's worth keeping test cases as simple as possible.
 
 2. Code duplication
 -------------------
@@ -77,21 +77,21 @@ Linux
 1. Structure
 ~~~~~~~~~~~~
 
-Tests are generally placed under 'linux/' directory. Everything that related to
+Tests are generally placed under 'linux/' directory. Everything that relates to
 the test goes under the same folder named with test case name.
 
 Define 'linux/test-case-name/output' folder in test case to save test output and
 result. Using a dedicated folder is helpful to distinguish between test script
 and test output.
 
-2. Installing dependence
-~~~~~~~~~~~~~~~~~~~~~~~~
+2. Installing dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The same test case should work on Debian/Ubuntu, Fedora/CentOS and OE
-distributions whenever possible. This can be achieved with install_deps
+The same test case should work on Debian/Ubuntu, Fedora/CentOS and OE based
+distributions whenever possible. This can be achieved with install_deps()
 function. The following is a simple example. "${SKIP_INSTALL}" should be set to
-'true' on distributions that not supported by install_deps. In the unsupported
-case, if "${SKIP_INSTALL}" is 'true', install_desp still will skip package
+'true' on distributions that do not supported install_deps(). In the unsupported
+case, if "${SKIP_INSTALL}" is 'true', install_deps() still will skip package
 installation.
 
 Example 1::
@@ -99,7 +99,7 @@ Example 1::
     install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 Package name may vary by distribution. In this case, you will need to handle
-package installation with separate lines. dist_name function is designed to
+package installation with separate lines. dist_name() function is designed to
 detect the distribution ID at running time so that you can define package name
 by distribution. Refer to the following example.
 
@@ -129,11 +129,11 @@ Example 3::
         # manually install steps.
         git clone "${repo}"
         cd "${dir}"
-        configure && make install
+        ./configure && make install
     fi
 
-Hopefully, the above 3 examples able to cover most of the user cases. When
-writing test case, in general:
+Hopefully, the above 3 examples cover most of the user cases. When
+writing test cases, in general:
 
     * Define 'SKIP_INSTALL' variable with 'false' as default.
     * Add parameter '-s <True|False>', so that user can modify 'SKIP_INSTALL'.
@@ -152,11 +152,12 @@ Saving parsed result in the same format is important for post process such as
 sending to LAVA. The following result format should be followed.
 
     test-caes-id pass/fail/skip
+    test-case-id pass/fail/skip measurement
     test-case-id pass/fail/skip measurement units
 
 'output/result.txt' file is recommended to save result.
 
-We encourage test writer to use the functions defined in 'sh-test-lib' to format
+We encourage test writers to use the functions defined in 'sh-test-lib' to format
 test result.
 
 Print "test-case pass/fail" by checking exit code::
@@ -165,7 +166,7 @@ Print "test-case pass/fail" by checking exit code::
 
 Add a metric for performance test::
 
-    add_metic "${test-case-id}" "pass/fail/skip" "${measurement}" "${units"}
+    add_metic "${test-case-id}" "pass/fail/skip" "${measurement}" "${units}"
 
 
 5. Running in LAVA
