@@ -39,7 +39,6 @@ run() {
 }
 
 # Test run.
-! check_root && error_msg "Please run this script as root."
 [ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
 mkdir -p "${OUTPUT}"
 
