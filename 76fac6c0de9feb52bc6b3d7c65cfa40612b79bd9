@@ -155,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_fbbdf703",
+        "filename": "automated/linux/ltp-realtime/ltp-realtime.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-01-24T06:01:57Z",
+      "side": 1,
+      "message": "Fixed in latest patch.",
+      "parentUuid": "9a245df4_1b872b63",
+      "revId": "76fac6c0de9feb52bc6b3d7c65cfa40612b79bd9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_ed4d41c6",
         "filename": "automated/linux/ltp-realtime/ltp-realtime.yaml",
         "patchSetId": 1
