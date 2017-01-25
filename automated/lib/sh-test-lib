@@ -154,8 +154,7 @@ dist_name() {
     if [ -x /usr/bin/lsb_release ]; then
         dist="$(lsb_release -si)"
     elif [ -f /etc/lsb-release ]; then
-        . /etc/lsb-release
-        dist="${DISTRIB_ID}"
+        dist="$(. /etc/lsb-release && echo ${DISTRIB_ID})"
     elif [ -f /etc/debian_version ]; then
         dist="Debian"
     elif [ -f /etc/fedora-release ]; then
