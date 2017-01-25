@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_213c8293",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-01-25T20:11:04Z",
+      "side": 1,
+      "message": "oe-rpb instead? or oerpb? i think it\u0027s important to have oe in the dist name, we could potentially have non OE based RPB distros..",
+      "revId": "7b2cf75414c6549b9544938757051c31a51b7a22",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
