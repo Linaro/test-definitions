@@ -59,6 +59,7 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 mkdir -p "${OUTPUT}"
 
 dist_name
+# shellcheck disable=SC2154
 if [ "${dist}" = "debian" ] || [ "${dist}" = "ubuntu" ]; then
     "${WD}"/install-on-debian.sh
 else
