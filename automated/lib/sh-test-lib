@@ -177,6 +177,8 @@ install_deps() {
     if [ "${skip_install}" = "True" ] || [ "${skip_install}" = "true" ]; then
         info_msg "install_deps skipped"
     else
+        ! check_root && \
+            error_msg "About to install packages, please run this script as root."
         info_msg "Installing ${pkgs}"
         dist_name
         case "${dist}" in
@@ -272,6 +274,8 @@ add_key() {
     [ "$#" -ne 1 ] && error_msg "Usage: add_key url"
     url="$1"
 
+    ! check_root && \
+        error_msg "About to use apt-key, please run this script as root."
     dist_name
     case "${dist}" in
       Debian|Ubuntu) wget -O - "${url}" | apt-key add - ;;
@@ -284,6 +288,8 @@ add_repo() {
     [ "$#" -lt 1 ] && error_msg "Usage: add_repo <url> [backports]"
     url="$1"
 
+    ! check_root && \
+        error_msg "About to add a repo, please run this script as root."
     dist_name
     case "${dist}" in
       # Detect Debian/Ubuntu codename and add repo automatically. The same url
