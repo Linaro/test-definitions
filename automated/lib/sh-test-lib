@@ -173,7 +173,7 @@ dist_name() {
     # convert dist to lower case
     dist=$(echo ${dist} | tr '[:upper:]' '[:lower:]')
     case "${dist}" in
-        rpb|rpb-wayland|rpb-eglfs) dist="oe-based" ;;
+        rpb*) dist="oe-rpb" ;;
     esac
 }
 
