@@ -160,21 +160,21 @@ dist_name() {
         # shellcheck disable=SC1091
         dist="$(. /etc/lsb-release && echo "${DISTRIB_ID}")"
     elif [ -f /etc/debian_version ]; then
-        dist="Debian"
+        dist="debian"
     elif [ -f /etc/fedora-release ]; then
-        dist="Fedora"
+        dist="fedora"
     elif [ -f /etc/centos-release ]; then
-        dist="CentOS"
+        dist="centos"
     else
-        dist="Unknown"
+        dist="unknown"
         warn_msg "Unsupported distro: cannot determine distribution name"
     fi
 
     case "${dist}" in
-        debian) dist="Debian" ;;
-        ubuntu) dist="Ubuntu" ;;
-        fedora) dist="Fedora" ;;
-        centos) dist="CentOS" ;;
+        Debian) dist="debian" ;;
+        Ubuntu) dist="ubuntu" ;;
+        Fedora) dist="fedora" ;;
+        CentOS) dist="centos" ;;
         rpb|rpb-wayland|rpb-eglfs) dist="oe-based" ;;
     esac
 }
@@ -191,21 +191,21 @@ install_deps() {
         info_msg "Installing ${pkgs}"
         dist_name
         case "${dist}" in
-          Debian|Ubuntu)
+          debian|ubuntu)
             # Use the default answers for all questions.
             DEBIAN_FRONTEND=noninteractive apt-get update -q -y
             # shellcheck disable=SC2086
             DEBIAN_FRONTEND=noninteractive apt-get install -q -y ${pkgs}
             ;;
-          CentOS)
+          centos)
             # shellcheck disable=SC2086
             yum -e 0 -y install ${pkgs}
             ;;
-          Fedora)
+          fedora)
             # shellcheck disable=SC2086
             dnf -e 0 -y install ${pkgs}
             ;;
-          Unknown)
+          unknown)
             warn_msg "Unsupported distro: package install skipped"
             ;;
         esac
@@ -268,8 +268,8 @@ dist_info() {
     if ! command -v lsb_release > /dev/null; then
         dist_name
         case "${dist}" in
-          Debian|Ubuntu) install_deps "lsb-release" ;;
-          CentOS|Fedora) install_deps "redhat-lsb-core" ;;
+          debian|ubuntu) install_deps "lsb-release" ;;
+          centos|fedora) install_deps "redhat-lsb-core" ;;
           *) warn_msg "Unsupported distro: dist_info skipped"
         esac
     fi
@@ -285,8 +285,8 @@ add_key() {
 
     dist_name
     case "${dist}" in
-      Debian|Ubuntu) wget -O - "${url}" | apt-key add - ;;
-      CentOS|Fedora) infor_msg "add_key isn't needed on ${dist}" ;;
+      debian|ubuntu) wget -O - "${url}" | apt-key add - ;;
+      centos|fedora) infor_msg "add_key isn't needed on ${dist}" ;;
       *) warn_msg "Unsupported distro: add_key skipped"
     esac
 }
@@ -299,7 +299,7 @@ add_repo() {
     case "${dist}" in
       # Detect Debian/Ubuntu codename and add repo automatically. The same url
       # should work on all distributions supported by the repo.
-      Debian|Ubuntu)
+      debian|ubuntu)
         dist_info
         if [ -z "$2" ]; then
             backports=""
@@ -314,7 +314,7 @@ add_repo() {
         ;;
       # It is not easy to amend url with distro version as its format may vary
       # by repo. Test definition/plan should provide a correct repo url.
-      CentOS|Fedora)
+      centos|fedora)
         wget -O - "${url}" >> "/etc/yum.repos.d/3rd-party.repo"
         ;;
       *)

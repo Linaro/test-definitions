@@ -43,10 +43,10 @@ else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-        Debian|Ubuntu|Fedora)
+        debian|ubuntu|fedora)
             install_deps "iperf3"
             ;;
-        CentOS)
+        centos)
             install_deps "wget gcc make"
             wget https://github.com/esnet/iperf/archive/"${VERSION}".tar.gz
             tar xf "${VERSION}".tar.gz

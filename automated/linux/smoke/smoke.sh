@@ -22,9 +22,9 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}";;
-      Fedora|CentOS) install_deps "redhat-lsb-core" "${SKIP_INSTALL}";;
-      Unknown) warn_msg "Unsupported distro: package install skipped" ;;
+      debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}";;
+      fedora|centos) install_deps "redhat-lsb-core" "${SKIP_INSTALL}";;
+      unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
 

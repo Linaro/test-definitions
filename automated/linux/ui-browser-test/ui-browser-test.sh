@@ -59,7 +59,7 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 mkdir -p "${OUTPUT}"
 
 dist_name
-if [ "${dist}" = "Debian" ] || [ "${dist}" = "Ubuntu" ]; then
+if [ "${dist}" = "debian" ] || [ "${dist}" = "ubuntu" ]; then
     "${WD}"/install-on-debian.sh
 else
     echo "Not a debian machine"

@@ -27,8 +27,8 @@ if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
 else
     dist_name
     case "${dist}" in
-      Debian|Ubuntu) pkg="openjdk-${VERSION}-jdk" ;;
-      CentOS|Fedora) pkg="java-1.${VERSION}.0-openjdk-devel" ;;
+      debian|ubuntu) pkg="openjdk-${VERSION}-jdk" ;;
+      centos|fedora) pkg="java-1.${VERSION}.0-openjdk-devel" ;;
       *) error_msg "Unsupported distribution" ;;
     esac
     install_deps "${pkg}"

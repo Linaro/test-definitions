@@ -18,7 +18,7 @@ dist_name
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
 case "${dist}" in
-    Debian)
+    debian)
         pkgs="nginx mysql-server php5-mysql php5-fpm curl"
         install_deps "${pkgs}"
 
@@ -38,7 +38,7 @@ case "${dist}" in
         cp ./debian-nginx.conf /etc/nginx/sites-available/default
         systemctl restart nginx
         ;;
-    CentOS)
+    centos)
         # x86_64 nginx package can be installed from epel repo. However, epel
         # project doesn't support ARM arch yet. RPB repo should provide nginx.
         [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release"
@@ -142,11 +142,11 @@ rm -rf /usr/share/nginx/html
 mv /usr/share/nginx/html.bak /usr/share/nginx/html
 # shellcheck disable=SC2154
 case "${dist}" in
-    Debian)
+    debian)
         mv -f /etc/php5/fpm/php.ini.bak /etc/php5/fpm/php.ini
         mv -f /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
         ;;
-    CentOS)
+    centos)
         mv -f /etc/php.ini.bak /etc/php.ini
         rm -f /etc/nginx/default.d/default.conf
         ;;

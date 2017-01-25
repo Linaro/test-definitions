@@ -40,11 +40,11 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu)
+      debian|ubuntu)
         pkgs="fio"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
-      Fedora|CentOS)
+      fedora|centos)
         pkgs="libaio-devel gcc tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         fio_build_install

@@ -73,11 +73,11 @@ else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu)
+      debian|ubuntu)
         pkgs="xz-utils flex bison build-essential wget curl net-tools"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
-      CentOS|Fedora)
+      centos|fedora)
         pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;

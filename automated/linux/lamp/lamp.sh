@@ -34,10 +34,10 @@ else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu)
-        if [ "${dist}" = "Debian" ]; then
+      debian|ubuntu)
+        if [ "${dist}" = "debian" ]; then
             pkgs="apache2 mysql-server php5-mysql php5-common libapache2-mod-php5"
-        elif [ "${dist}" = "Ubuntu" ]; then
+        elif [ "${dist}" = "ubuntu" ]; then
             pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
         fi
         install_deps "curl ${pkgs}"
@@ -45,7 +45,7 @@ else
         systemctl restart apache2
         systemctl restart mysql
         ;;
-      CentOS|Fedora)
+      centos|fedora)
         pkgs="httpd mariadb-server mariadb php php-mysql"
         install_deps "curl ${pkgs}"
         systemctl start httpd.service

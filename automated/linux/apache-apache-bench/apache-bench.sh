@@ -35,12 +35,12 @@ else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu)
+      debian|ubuntu)
         pkgs="apache2 apache2-utils"
         install_deps "${pkgs}"
         systemctl restart apache2
         ;;
-      CentOS|Fedora)
+      centos|fedora)
         pkgs="httpd httpd-tools"
         install_deps "${pkgs}"
         systemctl start httpd.service

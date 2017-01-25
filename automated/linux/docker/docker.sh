@@ -26,8 +26,8 @@ mkdir -p "${OUTPUT}"
 dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
-    Debian|Ubuntu) pkgs="docker-engine" ;;
-    Fedora|CentOS) pkgs="docker" ;;
+    debian|ubuntu) pkgs="docker-engine" ;;
+    fedora|centos) pkgs="docker" ;;
     *) error_msg "Unsupported distribution" ;;
 esac
 

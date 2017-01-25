@@ -32,7 +32,7 @@ dist_name
 # systemctl available on Debian 8, CentOS 7 and newer releases.
 # shellcheck disable=SC2154
 case "${dist}" in
-    Debian)
+    debian)
         pkgs="nginx apache2-utils"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
 
@@ -41,7 +41,7 @@ case "${dist}" in
 
         systemctl restart nginx
         ;;
-    CentOS)
+    centos)
         # x86_64 nginx package can be installed from epel repo. However, epel
         # project doesn't support ARM arch yet. RPB repo should provide nginx.
         [ "$(uname -m)" = "x86_64" ] && install_deps "epel-release" "${SKIP_INSTALL}"

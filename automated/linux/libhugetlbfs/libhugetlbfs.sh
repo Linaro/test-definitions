@@ -84,11 +84,11 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu)
+      debian|ubuntu)
         pkgs="binutils gcc make python sed tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
-      Fedora|CentOS)
+      fedora|centos)
         pkgs="binutils gcc glibc-static make python sed tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;

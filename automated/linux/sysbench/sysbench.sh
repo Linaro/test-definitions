@@ -56,7 +56,7 @@ else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-        Debian|Ubuntu)
+        debian|ubuntu)
             install_deps "git build-essential automake libtool"
             if echo "${TESTS}" | grep "oltp"; then
                 install_deps "libmysqlclient-dev mysql-server"
@@ -66,7 +66,7 @@ else
                 install_sysbench "--without-mysql"
             fi
             ;;
-        Fedora|CentOS)
+        fedora|centos)
             install_deps "git gcc make automake libtool"
             if echo "${TESTS}" | grep "oltp"; then
                 install_deps "mysql-devel mariadb-server mariadb"
@@ -76,7 +76,7 @@ else
                 install_sysbench "--without-mysql"
             fi
             ;;
-        Unknown)
+        unknown)
             warn_msg "Unsupported distro: package install skipped"
             ;;
     esac

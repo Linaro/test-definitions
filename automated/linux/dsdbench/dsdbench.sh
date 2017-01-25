@@ -26,8 +26,8 @@ done
 dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
-    Debian|Ubuntu) pkgs="git golang libdevmapper-dev" ;;
-    Fedora|CentOS) pkgs="git golang device-mapper-devel" ;;
+    debian|ubuntu) pkgs="git golang libdevmapper-dev" ;;
+    fedora|centos) pkgs="git golang device-mapper-devel" ;;
 esac
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 

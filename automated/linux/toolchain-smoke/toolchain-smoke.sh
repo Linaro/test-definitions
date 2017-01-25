@@ -24,9 +24,9 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      Debian|Ubuntu) install_deps "build-essential" "${SKIP_INSTALL}" ;;
-      Fedora|CentOS) install_deps "gcc glibc-static" "${SKIP_INSTALL}" ;;
-      Unknown) warn_msg "Unsupported distro: package install skipped" ;;
+      debian|ubuntu) install_deps "build-essential" "${SKIP_INSTALL}" ;;
+      fedora|centos) install_deps "gcc glibc-static" "${SKIP_INSTALL}" ;;
+      unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
 
