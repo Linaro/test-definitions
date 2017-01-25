@@ -59,6 +59,7 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 mkdir -p "${OUTPUT}"
 
 dist_name
+# shellcheck disable=SC2154
 if [ "${dist}" = "debian" ] || [ "${dist}" = "ubuntu" ]; then
     "${WD}"/install-on-debian.sh
 else
@@ -70,6 +71,8 @@ cp -a robot-test-scripts /tmp/
 # Tests should runs by linaro users because X owned by linaro user.
 # linaro user can not create output files in /root
 # so change directory to /tmp
+(
+# run tests in a subshell
 cd /tmp
 # Run as TESTUSER
 su "${TESTUSER}" -c "${WD}"/run-robot-tests.sh
@@ -78,4 +81,4 @@ mv "${UI_BROWSER_TEST_OUTPUT}" "${OUTPUT}"
 mv robot-test-scripts "${OUTPUT}"
 # Parse test results
 python "${WD}"/robot-results-parser.py "${OUTPUT}"/"${UI_BROWSER_TEST_OUTPUT}"/output.xml >> "${RESULT_FILE}"
-cd -
+)
