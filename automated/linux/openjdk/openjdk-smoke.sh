@@ -3,6 +3,7 @@
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 VERSION="8"
 
 usage() {
@@ -26,6 +27,7 @@ if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     info_msg "JDK package installation skipped"
 else
     dist_name
+    # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu) pkg="openjdk-${VERSION}-jdk" ;;
       centos|fedora) pkg="java-1.${VERSION}.0-openjdk-devel" ;;
@@ -49,6 +51,7 @@ exit_on_fail "check-java-version"
 javac -version 2>&1 | grep "javac 1.${VERSION}"
 exit_on_fail "check-javac-version"
 
+# shellcheck disable=SC2164
 cd "${OUTPUT}"
 cat > "HelloWorld.java" << EOL
 public class HelloWorld {
