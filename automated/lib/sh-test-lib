@@ -170,11 +170,9 @@ dist_name() {
         warn_msg "Unsupported distro: cannot determine distribution name"
     fi
 
+    # convert dist to lower case
+    dist=$(echo ${dist} | tr '[:upper:]' '[:lower:]')
     case "${dist}" in
-        Debian) dist="debian" ;;
-        Ubuntu) dist="ubuntu" ;;
-        Fedora) dist="fedora" ;;
-        CentOS) dist="centos" ;;
         rpb|rpb-wayland|rpb-eglfs) dist="oe-based" ;;
     esac
 }
