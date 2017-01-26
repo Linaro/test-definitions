@@ -16,6 +16,24 @@
       "revId": "7b2cf75414c6549b9544938757051c31a51b7a22",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_41b6d6dd",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-01-26T07:04:26Z",
+      "side": 1,
+      "message": "shouldn\u0027t we use \"openembedded\" then? even if oe isn\u0027t a distro for the purist...",
+      "parentUuid": "9a245df4_213c8293",
+      "revId": "7b2cf75414c6549b9544938757051c31a51b7a22",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
