@@ -52,6 +52,24 @@
       "revId": "7b2cf75414c6549b9544938757051c31a51b7a22",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_c1d006fa",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-01-26T08:04:23Z",
+      "side": 1,
+      "message": "for the common mortal, it\u0027s openembedded so I\u0027m happy to ignore the purist about oe is not a distro. oe-based seems wrong to me. oe-rpb doesn\u0027t match dist so it\u0027s also odd to me ;)\n\nthat\u0027s the reason I prefer openembedded or rpb, not a mixture of nonsense.",
+      "parentUuid": "9a245df4_81e72ee4",
+      "revId": "7b2cf75414c6549b9544938757051c31a51b7a22",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
