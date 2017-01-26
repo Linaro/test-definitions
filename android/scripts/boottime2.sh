@@ -1,5 +1,69 @@
 #!/system/bin/sh
 
+##############################################################################
+## Description about this boot time measuring script                      ####
+##############################################################################
+## This script will be run on the device, it has following 2 functions:
+## 1. collecting the dmesg log and logcat information, and save them under
+##        /data/local/tmp/boottime
+##    directory in the name for following format:
+##       logcat_all_${COLLECT_NO}.log :
+##              collected via command "logcat -d -v time *:V"
+##       logcat_events_${COLLECT_NO}.log:
+##              collected via command "logcat -d -b events -v time"
+##       dmesg_${COLLECT_NO}.log:
+##              collected via command "dmesg"
+##    when this script is run as following:
+##       ./android/scripts/boottime2.sh COLLECT ${COLLECT_NO}
+##
+## 2. analyzing boottime inforamtion from the collected log information
+##    when this script is run as following:
+##       ./android/scripts/boottime2.sh ANALYZE ${COLLECT_NO}
+##
+##    it will get the average of multiple iterations for the boot time,
+##    so that to get more stable and accurate boot time information:
+##
+##        iterations < 4:  the average will be calculated with all data
+##        iterations >= 4: the average will be calculated with maximum
+##                         and minimum will be removed
+##    For each iteration, it will get following boot time information:
+##    (assuming kernel started at 0 timestamp in this script)
+##
+##        TOTAL_TIME:
+##            the sum of KERNEL_BOOT_TIME and ANDROID_BOOT_TIME
+##
+##        KERNEL_BOOT_TIME:
+##            from kernel started to line "Freeing unused kernel memory" printed,
+##            it does not include kernel loading and uncompression part done
+##            by bootloader or kernel itself
+##
+##        ANDROID_BOOT_TIME: the time information is gotten from the line
+##            contains "Boot is finished" like following in logcat:
+##              1-01 00:00:27.158 I/SurfaceFlinger( 1835): Boot is finished (13795 ms)
+##            the time here means the time from surfaceflinger service started
+##            to the time boot animation finished.
+##            it does not include the time from init start to the time
+##            surfaceflinger service started
+##
+##        Also following time values are gotten from dmesg log information,
+##        they are not accurate as what we expects, but are able to be used for
+##        reference and used for checking our boot time improvements
+##        FS_MOUNT_TIME:
+##            from the time "Freeing unused kernel memory:" printed
+##            to the time "init: Starting service 'logd'..." printed.
+##
+##        FS_MOUNT_DURATION:
+##            from the line "init: /dev/hw_random not found" printed
+##            to the time "init: Starting service 'logd'..." printed
+##
+##        BOOTANIM_TIME:
+##            from the time "init: Starting service 'bootanim'..." printed
+##            to the time "init: Service 'bootanim'.* exited with status" printed
+##
+##        ANDROID_SERVICE_START_TIME:
+##            from the time kernel started to the time healthd service started
+##############################################################################
+
 local_file_path="$0"
 local_file_parent=$(dirname "${local_file_path}")
 local_file_parent=$(cd "${local_file_parent}"||exit; pwd)
