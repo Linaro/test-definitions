@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_a12232ff",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2017-01-26T09:24:56Z",
+      "side": 1,
+      "message": "And that is after kernel uncompression? From kernel Init? PErhaps we should state it here \"It does not include kernel loading and uncompression\"",
+      "range": {
+        "startLine": 32,
+        "startChar": 33,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "35b2f8c92d0bd04fe2acb04f36ce9e3a2fd16340",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_01205ef6",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2017-01-26T09:24:56Z",
+      "side": 1,
+      "message": "values",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "35b2f8c92d0bd04fe2acb04f36ce9e3a2fd16340",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
