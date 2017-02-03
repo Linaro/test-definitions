@@ -155,6 +155,12 @@ class TestDefinition(object):
                 self.testdef = yaml.safe_load(f)
                 if self.testdef['metadata']['format'].startswith("Manual Test Definition"):
                     self.is_manual = True
+        if self.is_manual:
+            self.runner = ManualTestRun(test, args)
+        if self.args.target is None:
+            self.runner = AutomatedTestRun(test, args)
+        else:
+            self.runner = RemoteTestRun(test, args)
 
     def definition(self):
         with open('%s/testdef.yaml' % self.test['test_path'], 'w') as f:
@@ -164,7 +170,7 @@ class TestDefinition(object):
         with open('%s/testdef_metadata' % self.test['test_path'], 'w') as f:
             f.write(yaml.dump(self.testdef['metadata'], encoding='utf-8', allow_unicode=True))
 
-    def run(self):
+    def mkrun(self):
         if not self.is_manual:
             with open('%s/run.sh' % self.test['test_path'], 'a') as f:
                 f.write('#!/bin/sh\n')
@@ -193,12 +199,8 @@ class TestDefinition(object):
 
             os.chmod('%s/run.sh' % self.test['test_path'], 0755)
 
-    def get_test_run(self):
-        if self.is_manual:
-            return ManualTestRun(self.test, self.args)
-        if self.args.target is None:
-            return AutomatedTestRun(self.test, self.args)
-        return RemoteTestRun(self.test, self.args)
+    def run(self):
+        self.runner.run()
 
     def handle_parameters(self):
         ret_val = ['###default parameters from test definition###\n']
@@ -652,11 +654,10 @@ def main():
         if test_def.exists:
             test_def.definition()
             test_def.metadata()
-            test_def.run()
+            test_def.mkrun()
 
             # Run test.
-            test_run = test_def.get_test_run()
-            test_run.run()
+            test_def.run()
 
             # Parse test output, save results in json and csv format.
             result_parser = ResultParser(test, args)
