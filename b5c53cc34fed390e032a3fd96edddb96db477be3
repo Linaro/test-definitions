@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_24c48b3f",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-06T08:49:48Z",
+      "side": 1,
+      "message": "Why? We need to move the install_sysbench() out of the if block.",
+      "parentUuid": "9a245df4_44bb7fc4",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_a4b07bde",
         "filename": "automated/linux/sysbench/sysbench.sh",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2017-02-06T08:39:58Z",
       "side": 1,
       "message": "install_sysbench is now called regardless of the distro, so it can be moved outside the case statement.",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_c4c64f49",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-06T08:49:48Z",
+      "side": 1,
+      "message": "For linaro builds, could be yes. If we think deeper, when it runs on unsupported distro like opensuse, it wouldn\u0027t work if packages needed are missing.",
+      "parentUuid": "9a245df4_84b577cf",
       "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
