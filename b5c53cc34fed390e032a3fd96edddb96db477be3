@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_e4d0b3f9",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-02-06T09:00:01Z",
+      "side": 1,
+      "message": "i was just highlighting that you added a new line here, where i don\u0027t think it was needed.",
+      "parentUuid": "9a245df4_24c48b3f",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_a4b07bde",
         "filename": "automated/linux/sysbench/sysbench.sh",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "For linaro builds, could be yes. If we think deeper, when it runs on unsupported distro like opensuse, it wouldn\u0027t work if packages needed are missing.",
       "parentUuid": "9a245df4_84b577cf",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_84ec57c9",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-02-06T09:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a245df4_c4c64f49",
       "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
