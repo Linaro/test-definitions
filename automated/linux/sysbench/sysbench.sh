@@ -18,7 +18,8 @@ SKIP_INSTALL="false"
 
 # sysbench test parameters.
 NUM_THREADS="1"
-TESTS="cpu memory threads mutex fileio oltp"
+# TESTS="cpu memory threads mutex fileio oltp"
+TESTS="cpu memory threads mutex fileio"
 
 usage() {
     echo "usage: $0 [-n <num-threads>] [-t <test>] [-s <true|false>] 1>&2"
@@ -76,8 +77,16 @@ else
                 install_sysbench "--without-mysql"
             fi
             ;;
-        unknown)
-            warn_msg "Unsupported distro: package install skipped"
+        oe-rpb)
+            # Assume all dependent packages are already installed.
+            if echo "${TESTS}" | grep "oltp"; then
+                install_sysbench
+            else
+                install_sysbench "--without-mysql"
+            fi
+            ;;
+        *)
+            warn_msg "Unsupported distro: ${dist}! Package install skipped"
             ;;
     esac
 fi
