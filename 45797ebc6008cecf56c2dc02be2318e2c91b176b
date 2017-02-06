@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a245df4_249f6b61",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-02-06T08:09:18Z",
+      "side": 1,
+      "message": "maybe it would be nicer/simpler to move the if statement into install_sysbench() directly and avoid duplication.",
+      "revId": "45797ebc6008cecf56c2dc02be2318e2c91b176b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_04bb470f",
         "filename": "automated/linux/sysbench/sysbench.yaml",
         "patchSetId": 1
