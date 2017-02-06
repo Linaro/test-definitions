@@ -18,19 +18,20 @@ SKIP_INSTALL="false"
 
 # sysbench test parameters.
 NUM_THREADS="1"
-TESTS="cpu memory threads mutex fileio oltp"
+# TESTS="cpu memory threads mutex fileio oltp"
+TESTS="cpu memory threads mutex fileio"
 
 usage() {
     echo "usage: $0 [-n <num-threads>] [-t <test>] [-s <true|false>] 1>&2"
     exit 1
 }
 
-while getopts "n:t:s:h" opt; do
+while getopts ":n:t:s:" opt; do
     case "${opt}" in
         n) NUM_THREADS="${OPTARG}" ;;
         t) TESTS="${OPTARG}" ;;
         s) SKIP_INSTALL="${OPTARG}" ;;
-        h|*) usage ;;
+        *) usage ;;
     esac
 done
 
@@ -39,7 +40,11 @@ install_sysbench() {
     cd sysbench
     git checkout 0.4
     ./autogen.sh
-    ./configure "$1"
+    if echo "${TESTS}" | grep "oltp"; then
+        ./configure
+    else
+        ./configure --without-mysql
+    fi
     make install
     cd ../
 }
@@ -61,23 +66,23 @@ else
             if echo "${TESTS}" | grep "oltp"; then
                 install_deps "libmysqlclient-dev mysql-server"
                 systemctl start mysql
-                install_sysbench
-            else
-                install_sysbench "--without-mysql"
             fi
+            install_sysbench
             ;;
         fedora|centos)
             install_deps "git gcc make automake libtool"
             if echo "${TESTS}" | grep "oltp"; then
                 install_deps "mysql-devel mariadb-server mariadb"
                 systemctl start mariadb
-                install_sysbench
-            else
-                install_sysbench "--without-mysql"
             fi
+            install_sysbench
             ;;
-        unknown)
-            warn_msg "Unsupported distro: package install skipped"
+        oe-rpb)
+            # Assume all dependent packages are already installed.
+            install_sysbench
+            ;;
+        *)
+            warn_msg "Unsupported distro: ${dist}! Package installation skipped!"
             ;;
     esac
 fi
