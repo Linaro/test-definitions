@@ -140,6 +140,23 @@
       "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_4436df04",
+        "filename": "automated/linux/sysbench/sysbench.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-06T12:50:29Z",
+      "side": 1,
+      "message": "lines 32 and 35 are the same. One should be removed. I also don\u0027t think we need 2 examples for single param tests. So one of the 33/34 also should be removed.",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
