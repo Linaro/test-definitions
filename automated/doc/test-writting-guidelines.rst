@@ -109,7 +109,7 @@ Example 2::
     case "${dist}" in
       debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}" ;;
       fedora|centos) install_deps "redhat-lsb-core" "${SKIP_INSTALL}" ;;
-      unknown) warn_msg "Unsupported distro: package install skipped" ;;
+      *) warn_msg "Unsupported distro: ${dist}! Package installation skipped." ;;
     esac
 
 Except automated package installation, you may also need to download and install
@@ -123,7 +123,7 @@ Example 3::
         case "${dist}" in
             debian|ubuntu) install_deps "${pkgs}" ;;
             fedora|centos) install_deps "${pkgs}" ;;
-            unknown) warn_msg "Unsupported distro: package install skipped" ;;
+            *) warn_msg "Unsupported distro: ${dist}! Package installation skipped." ;;
         esac
 
         # manually install steps.

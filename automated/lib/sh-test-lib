@@ -205,8 +205,8 @@ install_deps() {
             # shellcheck disable=SC2086
             dnf -e 0 -y install ${pkgs}
             ;;
-          unknown)
-            warn_msg "Unsupported distro: package install skipped"
+          *)
+            warn_msg "Unsupported distro: ${dist}! Package installation skipped."
             ;;
         esac
     fi
@@ -322,7 +322,7 @@ add_repo() {
         wget -O - "${url}" >> "/etc/yum.repos.d/3rd-party.repo"
         ;;
       *)
-        warn_msg "Unsupported distro: add_repo skipped"
+        warn_msg "Unsupported distro: ${dist}! add_repo skipped"
         ;;
    esac
 }
