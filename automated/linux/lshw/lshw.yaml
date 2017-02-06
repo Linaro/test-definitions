@@ -1,0 +1,36 @@
+metadata:
+    name: lshw
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "lshw is a small tool to extract detailed information
+                  on the hardware configuration of the machine."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Test if lshw able to report the classes pre-defined in ${CLASSES}.
+    CLASSES: "system bus processor memory network"
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/lshw/
+        - ./lshw.sh -s "${SKIP_INSTALL}" -c "${CLASSES}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
