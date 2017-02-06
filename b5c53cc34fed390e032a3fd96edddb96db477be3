@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_44bb7fc4",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-02-06T08:39:58Z",
+      "side": 1,
+      "message": "unneeded change",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_a4b07bde",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-02-06T08:39:58Z",
+      "side": 1,
+      "message": "unneeded change",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_84b577cf",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-02-06T08:39:58Z",
+      "side": 1,
+      "message": "install_sysbench is now called regardless of the distro, so it can be moved outside the case statement.",
+      "revId": "b5c53cc34fed390e032a3fd96edddb96db477be3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
