@@ -13,6 +13,7 @@ metadata:
         - ubuntu
         - fedora
         - centos
+        - openembedded
     scope:
         - performance
     environment:
@@ -27,10 +28,10 @@ metadata:
         - d05
 
 params:
-    # "${TESTS}" could be one more of the following tests.
+    # "${TESTS}" could be one or more of the following tests.
+    # TESTS: cpu memory threads mutex fileio oltp
     # TESTS: "oltp"
-    # TESTS: "fileio oltp"
-    TESTS: "cpu memory threads mutex fileio oltp"
+    TESTS: "cpu memory threads mutex fileio"
     # Number of threads to use.
     NUM_THREADS: "1"
     SKIP_INSTALL: "false"
