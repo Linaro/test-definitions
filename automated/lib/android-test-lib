@@ -1,24 +1,68 @@
 #!/bin/sh
 
 initialize_adb() {
+    adb devices
     if [ -z "${SN}" ]; then
-        local number="$(adb devices | grep -wc 'device')"
+        number="$(adb devices | grep -wc 'device')"
         if [ "${number}" -gt 1 ]; then
             warn_msg "Device not specified; define SN or use '-s'"
             error_msg "More than one device or emulator found"
         elif [ "${number}" -eq 1 ]; then
-            SN="$(adb devices | grep -w 'device' | awk '{print $1}')"
+            SN="$(adb get-serialno)"
             export SN
         else
             error_msg "Device NOT found"
         fi
     fi
 
-    adb -s "${SN}" shell ls / > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
+    if adb -s "${SN}" shell echo "Testing adb connectivity"; then
         info_msg "Connected to device ${SN} successfully"
     else
         error_msg "Unable to connect to device ${SN}"
+    fi
+}
+
+wait_boot_completed() {
+    timeout="$1"
+    [ "$#" -ne 1 ] && error_msg "Usage: wait_for_boot_completed timeout_in_seconds"
+    end=$(( $(date +%s) + timeout ))
+
+    boot_completed=false
+    while [ "$(date +%s)" -lt "$end" ]; do
+        if adb -s "${SN}" shell getprop sys.boot_completed | grep "1"; then
+            boot_completed=true
+            break
+        else
+            sleep 3
+        fi
+    done
+
+    if "${boot_completed}"; then
+        info_msg "Target booted up completely."
+    else
+        error_msg "wait_boot_completed timed out after ${timeout} seconds"
+    fi
+}
+
+wait_homescreen() {
+    timeout="$1"
+    [ "$#" -ne 1 ] && error_msg "Usage: wait_homescreen timeout_in_seconds"
+    end=$(( $(date +%s) + timeout ))
+
+    homescreen_displayed=false
+    while [ "$(date +%s)" -lt "$end" ]; do
+        if adb -s "${SN}" logcat -sd ActivityManager:I | grep "Displayed com.android.launcher"; then
+            homescreen_displayed=true
+            break
+        else
+            sleep 3
+        fi
+    done
+
+    if "${homescreen_displayed}"; then
+        info_msg "Target booted to homescreen successfully."
+    else
+        error_msg "wait_homescreen timed out after ${timeout} seconds"
     fi
 }
 
@@ -35,8 +79,8 @@ detect_abi() {
 }
 
 install() {
-    local file_path="$1"
-    local file_name="$(basename "${file_path}")"
+    file_path="$1"
+    file_name="$(basename "${file_path}")"
 
     if adb -s "${SN}" shell mount | grep system | grep -q ro; then
         # Remounts the /system partition on the device read-write
@@ -50,8 +94,8 @@ install() {
 }
 
 pull_output() {
-    local device_output="$1"
-    local host_output="$2"
+    device_output="$1"
+    host_output="$2"
 
     info_msg "Pulling output from devcie ${SN}"
     adb -s "${SN}" pull "${device_output}" "${host_output}"
