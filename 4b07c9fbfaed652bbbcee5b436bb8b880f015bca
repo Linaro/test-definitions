@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_b56423e6",
+        "filename": "automated/android/cts/cts-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-09T10:05:50Z",
+      "side": 1,
+      "message": "Not sure if this is the best practice.",
+      "revId": "4b07c9fbfaed652bbbcee5b436bb8b880f015bca",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_15624fd8",
+        "filename": "automated/android/cts/cts.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-09T10:05:50Z",
+      "side": 1,
+      "message": "Should be \u0027test -n\u0027, will fix it.",
+      "revId": "4b07c9fbfaed652bbbcee5b436bb8b880f015bca",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_f55e9b11",
+        "filename": "automated/android/cts/cts.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-09T10:05:50Z",
+      "side": 1,
+      "message": "will fix it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "4b07c9fbfaed652bbbcee5b436bb8b880f015bca",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
