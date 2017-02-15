@@ -29,55 +29,64 @@ done
 
 parse_output() {
     # Parse each type of results
-    egrep "*:.*PASS" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
+    egrep "PASS" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
     sed -i -e 's/ (inconclusive)//g' "${TEST_PASS_LOG}"
     sed -i -e 's/(//g' "${TEST_PASS_LOG}"
     sed -i -e 's/)://g' "${TEST_PASS_LOG}"
     sed -i -e 's/://g' "${TEST_PASS_LOG}"
     awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF}' "${TEST_PASS_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
 
-    egrep "*:.*FAIL" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_FAIL_LOG}"
+    egrep "FAIL" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_FAIL_LOG}"
     sed -i -e 's/ (inconclusive)//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/(//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/)//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/://g' "${TEST_FAIL_LOG}"
     awk '{for (i=1; i<NF; i++) printf $i "-"; print $i " " "FAIL"}' "${TEST_FAIL_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
 
-    egrep "*:.*SKIP" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
-    egrep "*:.*Bad configuration" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
+    egrep "SKIP" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
+    egrep "Bad configuration" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
     sed -i -e 's/ (inconclusive)//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/(//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/)//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/://g' "${TEST_SKIP_LOG}"
     awk '{for (i=1; i<NF; i++) printf $i "-"; print $i " " "SKIP"}' "${TEST_SKIP_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
+    rm -rf "${RESULT_LOG}" "${TEST_PASS_LOG}" "${TEST_FAIL_LOG}" "${TEST_SKIP_LOG}"
 }
 
-libhugetlbfs_build_test() {
+libhugetlbfs_setup() {
     mount_point="/mnt/hugetlb/"
     # Allocate hugepages
     echo 200 > /proc/sys/vm/nr_hugepages
     umount "${mount_point}" > /dev/null 2>&1 || true
     mkdir -p "${mount_point}"
     mount -t hugetlbfs hugetlbfs "${mount_point}"
+}
 
+libhugetlbfs_cleanup() {
+    umount "${mount_point}" > /dev/null 2>&1 || true
+}
+
+libhugetlbfs_build_test() {
     # shellcheck disable=SC2140
     # Upstream tree
 #    wget https://github.com/libhugetlbfs/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
     #TODO
     # Private tree with CentOS build fix
     # When patch is upstream remove private tree and enable upstream tree
-    wget https://github.com/nareshkamboju/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
+    wget http://github.com/nareshkamboju/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
     tar -xvf libhugetlbfs-"${VERSION}".tar.gz
     # shellcheck disable=SC2164
     cd libhugetlbfs-"${VERSION}"
     make BUILDTYPE=NATIVEONLY
+}
+
+libhugetlbfs_run_test() {
     # shellcheck disable=SC2164
     cd tests
     # Run tests
     # Redirect stdout (not stderr)
     ./run_tests.py -b "${WORD_SIZE}" | tee -a "${RESULT_LOG}"
     parse_output
-    umount "${mount_point}" > /dev/null 2>&1 || true
 }
 
 install() {
@@ -126,5 +135,20 @@ exit_on_skip "libhugetlb-pre-requirements" "Kernel config CONFIG_HUGETLBFS=y and
 # Install packages
 install
 
-# Build libhugetlbfs and run tests
-libhugetlbfs_build_test
+# Setup libhugetlbfs mount point
+libhugetlbfs_setup
+
+if [ -d /usr/lib/libhugetlbfs-"${VERSION}" ]
+then
+   echo "pre built /usr/lib/libhugetlbfs-"${VERSION}" found on rootfs"
+   cd /usr/lib/libhugetlbfs-"${VERSION}"
+else
+    # Build libhugetlbfs tests
+    libhugetlbfs_build_test
+fi
+
+# Run libhugetlbfs tests
+libhugetlbfs_run_test
+
+# Unmount libhugetlbfs mount point
+libhugetlbfs_cleanup
