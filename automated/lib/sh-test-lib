@@ -326,3 +326,12 @@ add_repo() {
         ;;
    esac
 }
+
+create_out_dir() {
+    [ -z "$1" ] && error_msg "Usage: create_out_dir output_dir"
+    OUTPUT=$1
+    [ -d "${OUTPUT}" ] &&
+        mv "${OUTPUT}" "${OUTPUT}_$(date -r "${OUTPUT}" +%Y%m%d%H%M%S)"
+    mkdir -p "${OUTPUT}"
+    [ -d "${OUTPUT}" ] || error_msg "Could not create output directory ${OUTPUT}"
+}
