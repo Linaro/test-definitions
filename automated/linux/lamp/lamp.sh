@@ -19,8 +19,7 @@ while getopts "s:" o; do
 done
 
 ! check_root && error_msg "This script must be run as root"
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 # Install lamp and use systemctl for service management. Tested on Ubuntu 16.04,
 # Debian 8, CentOS 7 and Fedora 24. systemctl should available on newer releases
