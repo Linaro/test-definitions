@@ -36,8 +36,7 @@ run() {
 }
 
 # Test run.
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 install
 

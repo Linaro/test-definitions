@@ -33,8 +33,7 @@ esac
 # It will skip package installation on other distributions by default.
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
 
 # Download and extract Kernel tarball.

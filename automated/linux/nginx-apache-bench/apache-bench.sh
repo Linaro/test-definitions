@@ -24,8 +24,7 @@ while getopts "s:n:c:" o; do
 done
 
 ! check_root && error_msg "This script must be run as root"
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 dist_name
 # Install and configure LEMP.

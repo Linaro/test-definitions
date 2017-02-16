@@ -55,8 +55,7 @@ fi
 pkgs="python2.7 python-pip python-lxml"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 dist_name
 # shellcheck disable=SC2154

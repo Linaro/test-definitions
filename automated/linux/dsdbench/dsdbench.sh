@@ -32,7 +32,7 @@ esac
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 ! check_root && error_msg "You need to be root to run this script."
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
+create_out_dir "${OUTPUT}"
 mkdir -p "${OUTPUT}/golang"
 cd "${OUTPUT}"
 export GOPATH="${OUTPUT}/golang"
