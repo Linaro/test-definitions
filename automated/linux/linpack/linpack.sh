@@ -18,8 +18,7 @@ while getopts "a:" o; do
     esac
 done
 
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 # Run Test.
 info_msg "Running linpack with array size ${ARRAY_SIZE}..."
