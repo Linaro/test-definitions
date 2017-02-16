@@ -50,8 +50,7 @@ install_sysbench() {
 }
 
 ! check_root && error_msg "Please run this script as root."
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
 
 # Test installation.

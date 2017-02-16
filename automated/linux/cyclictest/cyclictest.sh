@@ -31,8 +31,7 @@ while getopts ":p:i:t:l:" opt; do
 done
 
 ! check_root && error_msg "Please run this script as root."
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 # Run cyclictest.
 detect_abi

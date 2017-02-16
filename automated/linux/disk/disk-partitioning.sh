@@ -79,8 +79,7 @@ disk_mount() {
 # Test run.
 [ -b "${DEVICE}" ] || error_msg "Please specify a block device with '-d'"
 ! check_root && error_msg "You need to be root to run this script."
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 pkgs="parted e2fsprogs dosfstools"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
