@@ -30,14 +30,17 @@
 ##    (assuming kernel started at 0 timestamp in this script)
 ##
 ##        TOTAL_BOOT_TIME:
-##            the sum of KERNEL_BOOT_TIME, and ANDROID_BOOT_TIME
+##            the sum of KERNEL_BOOT_TIME and ANDROID_BOOT_TIME
 ##
 ##        KERNEL_BOOT_TIME:
 ##            from kernel started to line "Freeing unused kernel memory" printed,
 ##            it does not include kernel loading and uncompression part done
 ##            by bootloader or kernel itself
 ##
-##        ANDROID_BOOT_TIME: the time information is gotten from the line
+##        ANDROID_BOOT_TIME:
+##            the sum of INIT_TO_SURFACEFLINGER_START_TIME and SURFACEFLINGER_BOOT_TIME
+##
+##        SURFACEFLINGER_BOOT_TIME: the time information is gotten from the line
 ##            contains "Boot is finished" like following in logcat:
 ##              1-01 00:00:27.158 I/SurfaceFlinger( 1835): Boot is finished (13795 ms)
 ##            the time here means the time from surfaceflinger service started
@@ -108,8 +111,8 @@ getBootTimeInfoFromDmesg(){
     CONSOLE_SECONDS_START=0
     CONSOLE_SECONDS_END=$(getTime "Freeing unused kernel memory")
     if [ ! -z "${CONSOLE_SECONDS_END}" ] && [ ! -z "${CONSOLE_SECONDS_START}" ]; then
-        CONSOLE_SECONDS=$(echo "${CONSOLE_SECONDS_END} ${CONSOLE_SECONDS_START} - p" | dc)
-        output_test_result "KERNEL_BOOT_TIME" "pass" "${CONSOLE_SECONDS}" "s"
+        KERNEL_BOOT_TIME=$(echo "${CONSOLE_SECONDS_END} ${CONSOLE_SECONDS_START} - p" | dc)
+        output_test_result "KERNEL_BOOT_TIME" "pass" "${KERNEL_BOOT_TIME}" "s"
     else
         output_test_result "KERNEL_BOOT_TIME" "fail" "-1" "s"
     fi
@@ -154,16 +157,24 @@ getBootTimeInfoFromDmesg(){
     ## it mostly means that the surfaceflinger service restarted by some reason
     ## but here when there are multiple lines of "Boot is finished",
     ## use the last one line, and report the case later after checked all the logs
-    TIME_INFO=$(grep "Boot is finished" "${LOG_LOGCAT_ALL}"|tail -n1)
-    if [ -z "${TIME_INFO}" ]; then
-        output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "s"
+    SURFACEFLINGER_BOOT_TIME_INFO=$(grep "Boot is finished" "${LOG_LOGCAT_ALL}"|tail -n1)
+    if [ -z "${SURFACEFLINGER_BOOT_TIME_INFO}" ]; then
+        output_test_result "SURFACEFLINGER_BOOT_TIME" "fail" "-1" "s"
     else
-        while echo "${TIME_INFO}"|grep -q "("; do
-            TIME_INFO=$(echo "${TIME_INFO}"|cut -d\( -f2-)
+        while echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|grep -q "("; do
+            SURFACEFLINGER_BOOT_TIME_INFO=$(echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|cut -d\( -f2-)
         done
-        TIME_VALUE=$(echo "${TIME_INFO}"|cut -d\  -f1)
-        ANDROID_BOOT_TIME=$(echo "${TIME_VALUE}" | awk '{printf "%.3f",$1/1000;}')
+        SURFACEFLINGER_BOOT_TIME_MS=$(echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|cut -d\  -f1)
+        SURFACEFLINGER_BOOT_TIME=$(echo "${SURFACEFLINGER_BOOT_TIME_MS}" | awk '{printf "%.3f",$1/1000;}')
+        output_test_result "SURFACEFLINGER_BOOT_TIME" "pass" "${SURFACEFLINGER_BOOT_TIME}" "s"
+    fi
+
+
+    if [ ! -z "${INIT_TO_SURFACEFLINGER_START_TIME}" ] && [ ! -z "${SURFACEFLINGER_BOOT_TIME}" ] ; then
+        ANDROID_BOOT_TIME=$(echo "${INIT_TO_SURFACEFLINGER_START_TIME} ${SURFACEFLINGER_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2/1000;}')
         output_test_result "ANDROID_BOOT_TIME" "pass" "${ANDROID_BOOT_TIME}" "s"
+    else
+        output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "s"
     fi
 
     SERVICE_START_TIME_INFO=$(grep "healthd:" "${LOG_DMESG}"|head -n 1)
@@ -175,8 +186,8 @@ getBootTimeInfoFromDmesg(){
         output_test_result "ANDROID_SERVICE_START_TIME" "fail" "-1" "s"
     fi
 
-    if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ] ; then
-        TOTAL_SECONDS=$(echo "${CONSOLE_SECONDS} ${TIME_VALUE}" | awk '{printf "%.3f",$1 + $2/1000;}')
+    if [ ! -z "${KERNEL_BOOT_TIME}" ] && [ ! -z "${ANDROID_BOOT_TIME}" ] ; then
+        TOTAL_SECONDS=$(echo "${KERNEL_BOOT_TIME} ${ANDROID_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2/1000;}')
         output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
     else
         output_test_result "TOTAL_BOOT_TIME" "fail" "-1" "s"
