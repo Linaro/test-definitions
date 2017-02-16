@@ -19,8 +19,7 @@ while getopts "d:s:" o; do
 done
 
 ! check_root && error_msg "You need to be root to run this script."
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 install_deps "hdparm" "${SKIP_INSTALL}"
 

@@ -29,8 +29,7 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 TEST_LOG="${OUTPUT}/isolation-test-output.txt"
 
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 if [ "${SKIP_INSTALL}" = "false" ] || [ "${SKIP_INSTALL}" = "False" ]; then
     install_deps "git stress cpuset gzip"

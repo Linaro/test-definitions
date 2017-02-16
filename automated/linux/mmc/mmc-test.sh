@@ -36,8 +36,7 @@ list_all_mmc_devices() {
 
 # Test run.
 ! check_root && error_msg "This script must be run as root"
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 info_msg "About to run MMC test..."
 info_msg "Output directory: ${OUTPUT}"
