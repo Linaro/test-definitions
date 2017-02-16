@@ -29,9 +29,8 @@
 ##    For each iteration, it will get following boot time information:
 ##    (assuming kernel started at 0 timestamp in this script)
 ##
-##        TOTAL_TIME:
-##            the sum of KERNEL_BOOT_TIME, INIT_TO_SURFACEFLINGER_START_TIME,
-##            and ANDROID_BOOT_TIME
+##        TOTAL_BOOT_TIME:
+##            the sum of KERNEL_BOOT_TIME, and ANDROID_BOOT_TIME
 ##
 ##        KERNEL_BOOT_TIME:
 ##            from kernel started to line "Freeing unused kernel memory" printed,
@@ -46,13 +45,14 @@
 ##            it does not include the time from init start to the time
 ##            surfaceflinger service started
 ##
+##        Also following time values are gotten from dmesg log information,
+##        they are not accurate as what we expects, but are able to be used for
+##        reference and used for checking our boot time improvements
+##
 ##        INIT_TO_SURFACEFLINGER_START_TIME:
 ##            from the time "Freeing unused kernel memory" printed in dmesg
 ##            to the time "init: Starting service 'surfaceflinger'..." is printed
 ##
-##        Also following time values are gotten from dmesg log information,
-##        they are not accurate as what we expects, but are able to be used for
-##        reference and used for checking our boot time improvements
 ##        FS_MOUNT_TIME:
 ##            from the time "Freeing unused kernel memory:" printed
 ##            to the time "init: Starting service 'logd'..." printed.
@@ -175,8 +175,8 @@ getBootTimeInfoFromDmesg(){
         output_test_result "ANDROID_SERVICE_START_TIME" "fail" "-1" "s"
     fi
 
-    if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ] && [ ! -z "${INIT_TO_SURFACEFLINGER_START_TIME}" ]; then
-        TOTAL_SECONDS=$(echo "${CONSOLE_SECONDS} ${INIT_TO_SURFACEFLINGER_START_TIME} ${TIME_VALUE}" | awk '{printf "%.3f",$1 + $2 + $3/1000;}')
+    if [ ! -z "${CONSOLE_SECONDS}" ] && [ ! -z "${TIME_VALUE}" ] ; then
+        TOTAL_SECONDS=$(echo "${CONSOLE_SECONDS} ${TIME_VALUE}" | awk '{printf "%.3f",$1 + $2/1000;}')
         output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
     else
         output_test_result "TOTAL_BOOT_TIME" "fail" "-1" "s"
