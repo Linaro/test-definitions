@@ -32,8 +32,7 @@ while getopts "i:t:s:l:g:f:p:T:h" o; do
     esac
 done
 
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 TEST_LOG="${OUTPUT}/hackbench-output-${TARGET}.txt"
 
 # Determine hackbench test options.

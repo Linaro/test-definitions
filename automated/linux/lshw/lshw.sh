@@ -26,8 +26,7 @@ while getopts ':s:c:' opt; do
 done
 
 ! check_root && error_msg "lshw must be run as super user or it will only report partial information."
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 install_deps "lshw" "${SKIP_INSTALL}"
 

@@ -8,8 +8,7 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 cd "${OUTPUT}" || exit 1
 
 busybox
