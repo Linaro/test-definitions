@@ -26,8 +26,7 @@ done
 
 # Test run.
 ! check_root && error_msg "This script must be run as root"
-[ -d "${OUTPUT}" ] && mv "${OUTPUT}" "${OUTPUT}_$(date +%Y%m%d%H%M%S)"
-mkdir -p "${OUTPUT}"
+create_out_dir "${OUTPUT}"
 
 pkgs="net-tools"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
