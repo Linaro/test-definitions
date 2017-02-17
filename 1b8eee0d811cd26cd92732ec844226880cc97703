@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_a27346b0",
+        "filename": "automated/android/cts/cts-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-17T13:10:00Z",
+      "side": 1,
+      "message": "It works without __init__.py :)",
+      "parentUuid": "9a245df4_1fa70951",
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_bf5a3d81",
         "filename": "automated/lib/android-test-lib",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_225f5610",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-17T13:10:00Z",
+      "side": 1,
+      "message": "I will talk to you next Monday to see how to handle this properly.",
+      "parentUuid": "9a245df4_bf5a3d81",
+      "range": {
+        "startLine": 30,
+        "startChar": 48,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_dfac5138",
         "filename": "automated/lib/py_test_lib.py",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2017-02-17T13:01:40Z",
       "side": 1,
       "message": "where is this used and why do we need it?",
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_42624ad9",
+        "filename": "automated/lib/py_test_lib.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-17T13:10:00Z",
+      "side": 1,
+      "message": "I created this for pi_stress test to decide which binary to use. But I finally didn\u0027t use python for pi_stress. I guess we will need this function some day. So I didn\u0027t remove it.",
+      "parentUuid": "9a245df4_dfac5138",
       "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
