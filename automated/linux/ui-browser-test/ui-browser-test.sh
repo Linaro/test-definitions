@@ -59,6 +59,7 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 mkdir -p "${OUTPUT}"
 
 dist_name
+# shellcheck disable=SC2154
 if [ "${dist}" = "debian" ] || [ "${dist}" = "ubuntu" ]; then
     "${WD}"/install-on-debian.sh
 else
@@ -78,4 +79,5 @@ mv "${UI_BROWSER_TEST_OUTPUT}" "${OUTPUT}"
 mv robot-test-scripts "${OUTPUT}"
 # Parse test results
 python "${WD}"/robot-results-parser.py "${OUTPUT}"/"${UI_BROWSER_TEST_OUTPUT}"/output.xml >> "${RESULT_FILE}"
+# shellcheck disable=SC2103
 cd -
