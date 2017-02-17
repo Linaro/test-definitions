@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_1ff9c94d",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-17T11:00:20Z",
+      "side": 1,
+      "message": "I guess it\u0027s worth to remove the test suite if it wasn\u0027t pre-built.",
+      "revId": "d1131f065323cb05fa33909d9c5e407aa8b8688e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
