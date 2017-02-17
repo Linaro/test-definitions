@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_bf5a3d81",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-02-17T10:09:40Z",
+      "side": 1,
+      "message": "better to check if the launcher is displayed, IIRC, this property is set before the launcher displayed.",
+      "range": {
+        "startLine": 30,
+        "startChar": 48,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
