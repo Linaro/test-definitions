@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_5fbb41c4",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-17T09:14:33Z",
+      "side": 1,
+      "message": "Better check if $1 specified.\n\n[ -z \"$1\" ] \u0026\u0026 error_msg \"Usage: create_out_dir output_dir\"",
+      "revId": "1daeca7eb3af09a9e8a83efd812bc53958b5b524",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_3fc48d3f",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-17T09:14:33Z",
+      "side": 1,
+      "message": "Looks better then the old implementation!",
+      "range": {
+        "startLine": 333,
+        "startChar": 36,
+        "endLine": 333,
+        "endChar": 55
+      },
+      "revId": "1daeca7eb3af09a9e8a83efd812bc53958b5b524",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
