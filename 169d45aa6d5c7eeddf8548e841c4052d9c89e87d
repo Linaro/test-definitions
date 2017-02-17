@@ -16,6 +16,24 @@
       "revId": "169d45aa6d5c7eeddf8548e841c4052d9c89e87d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_023a12cd",
+        "filename": "automated/linux/kselftest/kselftest.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-02-17T12:43:48Z",
+      "side": 1,
+      "message": "Done.\nModified to lowercase distro names.",
+      "parentUuid": "9a245df4_3f93edfb",
+      "revId": "169d45aa6d5c7eeddf8548e841c4052d9c89e87d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
