@@ -23,7 +23,7 @@ parser() {
     egrep "^XTEST_TEE_.* (OK|FAILED|SKIPPED)" "${LOG_FILE}" \
         > "${OUTPUT}/raw-result.txt"
 
-    while read line; do
+    while read -r line; do
         test_case=$(echo "${line}" | awk '{print $1}')
         test_result=$(echo "${line}" | awk '{print $2}')
 

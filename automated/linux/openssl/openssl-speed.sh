@@ -38,8 +38,8 @@ for test in ${cipher_commands}; do
     case "${test}" in
       # Parse asymmetric encryption output.
       rsa2048|dsa2048)
-        awk -v test_case_id="${test}" 'match($1$2, test_case_id) \
-            {printf("%s-sign pass %s sign/s\n", test_case_id, $(NF-1)); \
+        awk -v test_case_id="${test}" 'match($1$2, test_case_id)
+            {printf("%s-sign pass %s sign/s\n", test_case_id, $(NF-1));
             printf("%s-verify pass %s verify/s\n", test_case_id, $NF)}' \
             "${OUTPUT}/${test}-output.txt" | tee -a "${RESULT_FILE}"
         ;;
