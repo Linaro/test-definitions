@@ -171,7 +171,7 @@ getBootTimeInfoFromDmesg(){
 
 
     if [ ! -z "${INIT_TO_SURFACEFLINGER_START_TIME}" ] && [ ! -z "${SURFACEFLINGER_BOOT_TIME}" ] ; then
-        ANDROID_BOOT_TIME=$(echo "${INIT_TO_SURFACEFLINGER_START_TIME} ${SURFACEFLINGER_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2/1000;}')
+        ANDROID_BOOT_TIME=$(echo "${INIT_TO_SURFACEFLINGER_START_TIME} ${SURFACEFLINGER_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2;}')
         output_test_result "ANDROID_BOOT_TIME" "pass" "${ANDROID_BOOT_TIME}" "s"
     else
         output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "s"
@@ -187,7 +187,7 @@ getBootTimeInfoFromDmesg(){
     fi
 
     if [ ! -z "${KERNEL_BOOT_TIME}" ] && [ ! -z "${ANDROID_BOOT_TIME}" ] ; then
-        TOTAL_SECONDS=$(echo "${KERNEL_BOOT_TIME} ${ANDROID_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2/1000;}')
+        TOTAL_SECONDS=$(echo "${KERNEL_BOOT_TIME} ${ANDROID_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2;}')
         output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
     else
         output_test_result "TOTAL_BOOT_TIME" "fail" "-1" "s"
