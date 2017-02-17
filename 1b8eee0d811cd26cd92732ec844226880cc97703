@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a245df4_1fa70951",
+        "filename": "automated/android/cts/cts-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-17T13:01:40Z",
+      "side": 1,
+      "message": "does this work without __init__.py in the ../../lib directory?",
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_bf5a3d81",
         "filename": "automated/lib/android-test-lib",
         "patchSetId": 2
@@ -19,6 +36,23 @@
         "endLine": 30,
         "endChar": 65
       },
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_dfac5138",
+        "filename": "automated/lib/py_test_lib.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-17T13:01:40Z",
+      "side": 1,
+      "message": "where is this used and why do we need it?",
       "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
