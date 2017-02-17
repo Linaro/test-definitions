@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_026852b9",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-17T13:07:49Z",
+      "side": 1,
+      "message": "that won\u0027t work. After libhugetlbfs_run_tests you\u0027re in \u0027tests\u0027 dir. Probably better to record the PWD in some global variable, so it works for both cases - pre-built and compile in runtime.",
+      "revId": "07a88f16511e24b8073c08c52ad57a1a763595d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
