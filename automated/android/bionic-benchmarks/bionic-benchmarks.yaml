@@ -1,0 +1,28 @@
+metadata:
+    name: bionic-benchmarks-with-units
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Collect the bionic-benchmarks data and try to analyse it."
+    maintainer:
+        - daniel.diaz@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    devices:
+        - mustang
+        - hi6220-hikey
+        - apq8016-sbc
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+
+params:
+    LOOPS: "1"
+
+run:
+    steps:
+        - cd ./automated/linux/bionic-benchmarks/
+        - ./bionic-benchmarks.sh -l "${LOOPS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
