@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_ad6e97c7",
+        "filename": "automated/android/cts/cts-runner.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-20T11:05:03Z",
+      "side": 1,
+      "message": "Try putting # nopep8 at the end of the line (after two spaces). This will disable pep8 failure here.",
+      "revId": "439509dc45da6027fd04c03af5f209226983892d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
