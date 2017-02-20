@@ -16,6 +16,24 @@
       "revId": "ce08879912fca92c804f55c28a325a3dad638ce0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_edc9af5b",
+        "filename": "automated/linux/kselftest/kselftest.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-02-20T15:58:03Z",
+      "side": 1,
+      "message": "Sorry.\nfixed centos name.",
+      "parentUuid": "9a245df4_ad997770",
+      "revId": "ce08879912fca92c804f55c28a325a3dad638ce0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
