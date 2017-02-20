@@ -1,1 +1,31 @@
-../common/cyclictest-basic.yaml
+metadata:
+    name: cyclictest-basic
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Cyclictest tool is used to measure event latency in kernel. The test runs cyclictest
+                  command in loop and increases the number of thread after each iteration."
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - ubuntu
+        - openembedded
+    devices:
+        - arndale
+        - beaglebone-black
+        - rtsm_fvp_base-aemv8a
+    scope:
+        - performance
+        - preempt-rt
+
+install:
+    deps:
+        - rt-tests
+
+params:
+    TIMES: 8            # The number of times 'cyclictest' will be run
+    INTERVAL: 10000     # '--interval': base interval of thread in us
+    LATENCY: 1000000    # '--latency':  This number will be written to /dev/cpu_dma_latency
+    DURATION: 20        # '--duratio':  specify a length for the test run
+
+run:
+    steps:
+        - './common/scripts/cyclictest-basic.sh ${TIMES} ${INTERVAL} ${LATENCY} ${DURATION}'
