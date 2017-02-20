@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_ad997770",
+        "filename": "automated/linux/kselftest/kselftest.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-20T15:12:14Z",
+      "side": 1,
+      "message": "centos is still named incorrectly. Check here: https://git.linaro.org/qa/test-definitions.git/tree/automated/lib/sh-test-lib#n167",
+      "revId": "ce08879912fca92c804f55c28a325a3dad638ce0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
