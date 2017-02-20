@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_edf88fc6",
+        "filename": "automated/linux/bionic-benchmarks/bionic-benchmarks.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-20T13:05:35Z",
+      "side": 1,
+      "message": "Please also check boot status. I added two functions for that purpose, refer to https://review.linaro.org/#/c/17389/6/automated/lib/android-test-lib\n\nThe cts patch will be merged soon.",
+      "revId": "8dde0da842f1bb9b3d2d9323d7ae7d228a21b65b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_8d1473f6",
+        "filename": "automated/linux/bionic-benchmarks/bionic-benchmarks.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-20T13:05:35Z",
+      "side": 1,
+      "message": "On LCR builds, we are unable to use \u0027adb root\u0027 \u0026\u0026 \u0027adb remont\u0027 to mount /system rw. Yongqin says that /system of LCR is always read-only\n\nSo install() need to be updated, we plan to move the installation dir to /data/local/tmp.",
+      "revId": "8dde0da842f1bb9b3d2d9323d7ae7d228a21b65b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
