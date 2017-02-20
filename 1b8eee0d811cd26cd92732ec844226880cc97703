@@ -102,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_829562e6",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-20T07:43:00Z",
+      "side": 1,
+      "message": "Added wait_homescreen() to check if luncher displayed.",
+      "parentUuid": "9a245df4_225f5610",
+      "range": {
+        "startLine": 30,
+        "startChar": 48,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_dfac5138",
         "filename": "automated/lib/py_test_lib.py",
         "patchSetId": 2
@@ -149,6 +173,24 @@
       "side": 1,
       "message": "I\u0027d rather remove it from this patch if it\u0027s not used.",
       "parentUuid": "9a245df4_42624ad9",
+      "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_629aee15",
+        "filename": "automated/lib/py_test_lib.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-20T07:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a245df4_42b9aa2d",
       "revId": "1b8eee0d811cd26cd92732ec844226880cc97703",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
