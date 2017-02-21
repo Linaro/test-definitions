@@ -23,8 +23,8 @@ initialize_adb() {
 }
 
 wait_boot_completed() {
-    timeout="$1"
     [ "$#" -ne 1 ] && error_msg "Usage: wait_for_boot_completed timeout_in_seconds"
+    timeout="$1"
     end=$(( $(date +%s) + timeout ))
 
     boot_completed=false
@@ -45,8 +45,8 @@ wait_boot_completed() {
 }
 
 wait_homescreen() {
-    timeout="$1"
     [ "$#" -ne 1 ] && error_msg "Usage: wait_homescreen timeout_in_seconds"
+    timeout="$1"
     end=$(( $(date +%s) + timeout ))
 
     homescreen_displayed=false
@@ -78,25 +78,45 @@ detect_abi() {
     info_msg "ABI: ${abi}"
 }
 
+# install() push binary or script file to '/system/bin' so that you can run it
+# without absolute/relative path. If '/system' is always read-only(like LCR),
+# please use adb_push() instead to push binary or file to somewhere that 'rw'
+# permission granted, like '/data/local/tmp', and run it from there.
 install() {
+    [ "$#" -ne 1 ] && error_msg "Usage: install <file_path>"
     file_path="$1"
     file_name="$(basename "${file_path}")"
 
     if adb -s "${SN}" shell mount | grep system | grep -q ro; then
         # Remounts the /system partition on the device read-write
         info_msg "/system partition is read-only, remounting it read-write..."
+        # Because of https://bugs.linaro.org/show_bug.cgi?id=2888, this
+        # function wouldn't work in LAVA v2 LXC until the bug get addressed.
+        adb root
         adb -s "${SN}" remount
     fi
 
     info_msg "Installing ${file_name}"
-    adb -s "${SN}" push "${file_path}"  "/system/bin/"
+    adb -s "${SN}" push -p "${file_path}"  "/system/bin/"
     adb -s "${SN}" shell chmod 755  "/system/bin/${file_name}"
 }
 
-pull_output() {
-    device_output="$1"
-    host_output="$2"
+adb_push() {
+    [ "$#" -ne 2 ] && error_msg "Usage: adb_push <local> <remote>"
+    local="$1"
+    remote="$2"
 
-    info_msg "Pulling output from devcie ${SN}"
-    adb -s "${SN}" pull "${device_output}" "${host_output}"
+    adb -s "${SN}" shell mkdir -p "${remote}"
+    info_msg "Pushing ${local} to devcie ${SN}"
+    adb -s "${SN}" push -p "${local}" "${remote}"
+    adb -s "${SN}" shell chmod -R 755 "${remote}"
+}
+
+adb_pull() {
+    [ "$#" -ne 2 ] && error_msg "Usage: adb_pull <remote> <local>"
+    remote="$1"
+    local="$2"
+
+    info_msg "Pulling ${remote} from devcie ${SN}"
+    adb -s "${SN}" pull -p "${remote}" "${local}"
 }
