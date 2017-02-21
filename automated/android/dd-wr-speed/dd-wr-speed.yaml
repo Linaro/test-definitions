@@ -24,9 +24,11 @@ params:
     # Specify device serial number for adb connection if more than one device
     # connected.
     SN: ""
+    # Specify timeout in seconds for wait_boot_completed
+    TIMEOUT: "300"
 
 run:
     steps:
         - cd ./automated/android/dd-wr-speed
-        - ./dd-wr-speed.sh -p "${PARTITION}" -i "${ITERATION}" -s "${SN}"
+        - ./dd-wr-speed.sh -p "${PARTITION}" -i "${ITERATION}" -s "${SN}" -t "${TIMEOUT}"
         - ../../utils/send-to-lava.sh ./output/result.txt
