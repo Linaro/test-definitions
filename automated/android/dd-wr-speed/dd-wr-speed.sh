@@ -1,17 +1,20 @@
-#!/bin/sh
+#!/bin/sh -ex
 
 HOST_OUTPUT="$(pwd)/output"
-DEVICE_OUTPUT="/sdcard/tests/dd-wr-speed"
-RESULT_FILE="${HOST_OUTPUT}/result.txt"
+DEVICE_OUTPUT="/data/local/tmp/dd-wr-speed"
+SN=""
+TIMEOUT="300"
 ITERATION="5"
 PARTITION=""
+RESULT_FILE="${HOST_OUTPUT}/result.txt"
+export  RESULT_FILE
 
 usage() {
-    echo "Usage: $0 [-p <partition>] [-i <iteration>] [-s <sn>]" 1>&2
+    echo "Usage: $0 [-p <partition>] [-i <iteration>] [-s <sn>] [-t <timeout>]" 1>&2
     exit 1
 }
 
-while getopts "p:i:s:" o; do
+while getopts ":p:i:s:t:" o; do
   case "$o" in
     # "/data" partition will be used by default. Use '-p' to specify an
     # external partition as needed, the partition will be formatted to vfat,
@@ -21,58 +24,41 @@ while getopts "p:i:s:" o; do
     i) ITERATION="${OPTARG}" ;;
     # Specify device serial number when more than one device connected.
     s) SN="${OPTARG}" ;;
+    t) TIMEOUT="${OPTARG}" ;;
     *) usage ;;
   esac
 done
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
+# shellcheck disable=SC1091
 . ../../lib/android-test-lib
 
 parse_output() {
-    local test="$1"
-    local test_case_id="${test}"
-    local UNITS="MB/s"
-
-    if ! [ -f "${HOST_OUTPUT}/${test}-output.txt" ]; then
-        warn_msg "${test} result file missing"
-        return
-    fi
-
-    # Fixup test case id with partition and filesystem.
-    if [ -n "${PARTITION}" ]; then
-        partition_name="$(basename "${PARTITION}")"
-        test_case_id="${partition_name}-vfat-${test_case_id}"
-    else
-        filesystem="$(adb -s "${SN}" shell mount \
-            | grep "/data" | awk '{print $3}')"
-        test_case_id="emmc-${filesystem}-${test_case_id}"
+    test_case_id="$1"
+    if ! [ -f "${HOST_OUTPUT}/device-output/${test_case_id}-output.txt" ]; then
+        warn_msg "${test_case_id} result file missing"
+        return 1
     fi
 
     # Parse raw output and add results to ${RESULT_FILE}.
     itr=1
-    info_msg "Parsing ${test} output..."
-    while read line; do
-        if echo "${line}" | egrep -q "(M|G)B/s"; then
+    info_msg "Parsing ${test_case_id} output..."
+    while read -r line; do
+        if echo "${line}" | grep -E "(M|G)B/s"; then
             # busybox dd print test result in the format "39.8MB/s".
-            result="$(echo "${line}" | awk '{print $NF}')"
-            units="$(printf "%s" "${result}" | tail -c 4)"
-            measurement="$(printf "%s" "${result}" | tr -d "${units}")"
-
-            if [ "${units}" = "GB/s" ]; then
-                measurement=$(( measurement * 1024 ))
-            elif [ "${units}" = "KB/s" ]; then
-                measurement=$(( measurement / 1024 ))
-            fi
-
-            add_metric "${test_case_id}-itr${itr}" "pass" "${measurement}" "${UNITS}"
+            units=$(echo "${line}" | awk '{print substr($NF,(length($NF)-3),2)}')
+            measurement=$(echo "${line}" | awk '{print substr($NF,1,(length($NF)-4))}')
+            measurement=$(convert_to_mb "${measurement}" "${units}")
+            add_metric "${test_case_id}-itr${itr}" "pass" "${measurement}" "MB/s"
             itr=$(( itr + 1 ))
         fi
-    done < "${HOST_OUTPUT}/${test}"-output.txt
+    done < "${HOST_OUTPUT}/device-output/${test_case_id}"-output.txt
 
     # For multiple times dd test, calculate the mean, min and max values.
     # Save them to ${RESULT_FILE}.
     if [ "${ITERATION}" -gt 1 ]; then
-        eval "$(grep "${test}" "${HOST_OUTPUT}"/result.txt \
+        eval "$(grep "${test_case_id}" "${HOST_OUTPUT}"/result.txt \
             | awk '{
                        if(min=="") {min=max=$3};
                        if($3>max) {max=$3};
@@ -83,26 +69,31 @@ parse_output() {
                        print "mean="total/count, "min="min, "max="max;
                    }')"
 
-        add_metric "${test_case_id}-mean" "pass" "${mean}" "${UNITS}"
-        add_metric "${test_case_id}-min" "pass" "${min}" "${UNITS}"
-        add_metric "${test_case_id}-max" "pass" "${max}" "${UNITS}"
+        # shellcheck disable=SC2154
+        add_metric "${test_case_id}-mean" "pass" "${mean}" "MB/s"
+        # shellcheck disable=SC2154
+        add_metric "${test_case_id}-min" "pass" "${min}" "MB/s"
+        # shellcheck disable=SC2154
+        add_metric "${test_case_id}-max" "pass" "${max}" "MB/s"
     fi
 }
 
 # Test run.
-[ -d "${HOST_OUTPUT}" ] && mv "${HOST_OUTPUT}" "${HOST_OUTPUT}-$(date +%Y%m%d%H%M%S)"
-mkdir -p "${HOST_OUTPUT}"
+create_out_dir "${HOST_OUTPUT}"
+mkdir -p "${HOST_OUTPUT}/device-output"
 
 initialize_adb
+wait_boot_completed "${TIMEOUT}"
+
 detect_abi
-install "../../bin/${abi}/busybox"
-install "./device-script.sh"
+# shellcheck disable=SC2154
+adb_push  "../../bin/${abi}/busybox" "/data/local/tmp/bin/"
+adb_push "./device-script.sh" "/data/local/tmp/bin"
 
 info_msg "About to run dd speed test on device ${SN}"
-adb -s "${SN}" shell device-script.sh "${ITERATION}" "${PARTITION}" "${DEVICE_OUTPUT}" 2>&1 \
-    | tee "${HOST_OUTPUT}"/device-run.log
+adb -s "${SN}" shell "echo /data/local/tmp/bin/device-script.sh ${ITERATION} ${DEVICE_OUTPUT} ${PARTITION} | su" 2>&1 | tee "${HOST_OUTPUT}/device-stdout.log"
 
-pull_output "${DEVICE_OUTPUT}" "${HOST_OUTPUT}"
+adb_pull "${DEVICE_OUTPUT}" "${HOST_OUTPUT}/device-output"
 
 parse_output "dd-write"
 parse_output "dd-read"
