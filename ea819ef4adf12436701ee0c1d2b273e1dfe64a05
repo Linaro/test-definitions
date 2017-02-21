@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_28c8d573",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2017-02-21T14:19:29Z",
+      "side": 1,
+      "message": "I\u0027m just wondering if this could aslo be more generic as \"Time to show UI )Launcher) after Surfaceflinger has been already started\"",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "ea819ef4adf12436701ee0c1d2b273e1dfe64a05",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_c8cad96d",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2017-02-21T14:19:29Z",
+      "side": 1,
+      "message": "Should this be \"... from surfaceflinger FINISHED to the time ...\"",
+      "range": {
+        "startLine": 75,
+        "startChar": 47,
+        "endLine": 75,
+        "endChar": 54
+      },
+      "revId": "ea819ef4adf12436701ee0c1d2b273e1dfe64a05",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
