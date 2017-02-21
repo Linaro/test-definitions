@@ -70,6 +70,10 @@
 ##
 ##        ANDROID_SERVICE_START_TIME:
 ##            from the time kernel started to the time healthd service started
+##
+##        ANDROID_UI_SHOWN:
+##            time from surfaceflinger service started to the time
+##            when UI is shown on display
 ##############################################################################
 
 local_file_path="$0"
@@ -98,6 +102,25 @@ getTime(){
         echo "${timestamp}"
     fi
 }
+
+
+# logcat_all line example
+# 01-01 00:00:26.313 I/SurfaceFlinger( 1850): Boot is finished (11570 ms)
+getTimeStampFromLogcat(){
+    key=$1
+    if [ -z "${key}" ]; then
+        return
+    fi
+
+    key_line=$(grep "${key}" "${LOG_LOGCAT_ALL}")
+    if [ -n "${key_line}" ]; then
+        timestamp_sec=$(echo "${key_line}"|awk '{print $2}' | awk -F ":" '{print $3}')
+        timestamp_min=$(echo "${key_line}"|awk '{print $2}' | awk -F ":" '{print $2}')
+        timestamp=$(echo "${timestamp_sec} ${timestamp_min}" | awk '{printf "%.3f",$1 + $2 * 60;}')
+        echo "${timestamp}"
+    fi
+}
+
 
 getBootTimeInfoFromDmesg(){
     COLLECT_NO=$1
@@ -153,6 +176,9 @@ getBootTimeInfoFromDmesg(){
         output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "fail" "-1" "s"
     fi
 
+    POINT_SURFACEFLINGER_BOOT=$(getTimeStampFromLogcat "Boot is finished")
+    POINT_LAUNCHER_DISPLAYED=$(getTimeStampFromLogcat "Displayed com.android.launcher")
+
     ## When there are 2 lines of "Boot is finished",
     ## it mostly means that the surfaceflinger service restarted by some reason
     ## but here when there are multiple lines of "Boot is finished",
@@ -167,6 +193,20 @@ getBootTimeInfoFromDmesg(){
         SURFACEFLINGER_BOOT_TIME_MS=$(echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|cut -d\  -f1)
         SURFACEFLINGER_BOOT_TIME=$(echo "${SURFACEFLINGER_BOOT_TIME_MS}" | awk '{printf "%.3f",$1/1000;}')
         output_test_result "SURFACEFLINGER_BOOT_TIME" "pass" "${SURFACEFLINGER_BOOT_TIME}" "s"
+
+        if [ ! -z "${POINT_SURFACEFLINGER_BOOT}" ] && [ ! -z "${POINT_LAUNCHER_DISPLAYED}" ]; then
+
+                min=$(echo "${POINT_LAUNCHER_DISPLAYED} ${POINT_SURFACEFLINGER_BOOT}" | awk '{if ($1 < $2) printf $1; else print $2}')
+
+                if [ "${min}" = "${POINT_SURFACEFLINGER_BOOT}" ]; then
+                        ANDROID_UI_SHOWN=$(echo "${SURFACEFLINGER_BOOT_TIME} ${POINT_SURFACEFLINGER_BOOT} ${POINT_LAUNCHER_DISPLAYED}" | awk '{printf "%.3f",$1 + $3 - $2;}')
+                else
+                        ANDROID_UI_SHOWN=$(echo "${SURFACEFLINGER_BOOT_TIME}" | awk '{printf "%.3f",$1;}')
+                fi
+                output_test_result "ANDROID_UI_SHOWN" "pass" "${ANDROID_UI_SHOWN}" "s"
+        else
+                output_test_result "ANDROID_UI_SHOWN" "fail" "-1" "s"
+        fi
     fi
 
 
