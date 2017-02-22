@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_883aa134",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-02-22T08:18:32Z",
+      "side": 1,
+      "message": "With the changes from Ivaylo, the launcher will be displayed(or say ready to be shown) before the Surfaceflinger finished, so we could not simply measure the time from surfaceflinger finished to launcher displayed and use it for ANDROID_UI_SHOWN measurement.\n\nFrom my understanding, Laucher implementation are based on the android java framework, which is normally started after surfaceflinger service started(surfaceflinger service is tarted very early in the init stage), so changes for luncher(and similar) should not be able to affect boottime before surfaceflinger started.\n\nAnd the time before surfaceflinger started need to be measure from information from dmesg, and the launcher related time need to be measure from logcat.\n\nSo from my perspective, measure from the point surfaceflinger started to the point UI displayed is enough for checking changes for launcher related things(android framework side or launcher implementation side), and easy for use to implement.",
+      "parentUuid": "9a245df4_28dbb51c",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "ea819ef4adf12436701ee0c1d2b273e1dfe64a05",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_c8cad96d",
         "filename": "android/scripts/boottime2.sh",
         "patchSetId": 3
@@ -65,6 +89,52 @@
         "startChar": 47,
         "endLine": 75,
         "endChar": 54
+      },
+      "revId": "ea819ef4adf12436701ee0c1d2b273e1dfe64a05",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_2849f5d0",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-02-22T08:18:32Z",
+      "side": 1,
+      "message": "HI, Ivaylo\n\nCould you please help to add some comments here to explain why we need to have 2 ways for the ANDROID_UI_SHOWN measurement?\nSome time later who do not know your changes on launcher might be confused here.\n\n\nThanks,\nYongqin Liu",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 0
+      },
+      "revId": "ea819ef4adf12436701ee0c1d2b273e1dfe64a05",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_c83bf936",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-02-22T08:18:32Z",
+      "side": 1,
+      "message": "using SURFACEFLINGER_BOOT_TIME implicitly means that the timestamp base is the point where surfaceflinger started, I\u0027d like to use the timestamp for surfaceflinger started explicitly here, so that it would be good for the reader of this script to understand.",
+      "range": {
+        "startLine": 202,
+        "startChar": 51,
+        "endLine": 202,
+        "endChar": 75
       },
       "revId": "ea819ef4adf12436701ee0c1d2b273e1dfe64a05",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
