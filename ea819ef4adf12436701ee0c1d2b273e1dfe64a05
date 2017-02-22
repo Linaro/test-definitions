@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_28dbb51c",
+        "filename": "android/scripts/boottime2.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2017-02-22T07:20:46Z",
+      "side": 1,
+      "message": "Or actually, should we make this From \"Freeining kernel memory\" (Android init starts) to UI shown? This way if we optimize launcher so that trade-offs are made during boot-time with e.g. SF start time, it will still get reasonable measurement.",
+      "parentUuid": "9a245df4_28c8d573",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 26
+      },
+      "revId": "ea819ef4adf12436701ee0c1d2b273e1dfe64a05",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_c8cad96d",
         "filename": "android/scripts/boottime2.sh",
         "patchSetId": 3
