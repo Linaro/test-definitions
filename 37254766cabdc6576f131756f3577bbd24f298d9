@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_f3950e89",
+        "filename": "automated/android/dd-wr-speed/device-script.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000160
+      },
+      "writtenOn": "2017-02-22T16:24:57Z",
+      "side": 1,
+      "message": "Reversed order of arguments #2 and #3.",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "37254766cabdc6576f131756f3577bbd24f298d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_73747e9c",
+        "filename": "automated/android/dd-wr-speed/device-script.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000160
+      },
+      "writtenOn": "2017-02-22T16:24:57Z",
+      "side": 1,
+      "message": "Spelling.",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "37254766cabdc6576f131756f3577bbd24f298d9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
