@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_881101af",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-22T08:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a245df4_e8719d78",
+      "range": {
+        "startLine": 100,
+        "startChar": 24,
+        "endLine": 100,
+        "endChar": 26
+      },
+      "revId": "dd1a2df56da1eed0515bc1d464748c247a72c9e2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_c86e5996",
         "filename": "automated/lib/android-test-lib",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_e8251d0b",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-22T08:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a245df4_c86e5996",
+      "range": {
+        "startLine": 111,
+        "startChar": 25,
+        "endLine": 111,
+        "endChar": 26
+      },
+      "revId": "dd1a2df56da1eed0515bc1d464748c247a72c9e2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_286c559c",
         "filename": "automated/lib/android-test-lib",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-02-21T12:56:45Z",
       "side": 1,
       "message": "Ditto",
+      "range": {
+        "startLine": 121,
+        "startChar": 25,
+        "endLine": 121,
+        "endChar": 26
+      },
+      "revId": "dd1a2df56da1eed0515bc1d464748c247a72c9e2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_c822d900",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-22T08:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a245df4_286c559c",
       "range": {
         "startLine": 121,
         "startChar": 25,
