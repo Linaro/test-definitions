@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_3334c6dd",
+        "filename": "automated/android/bionic-benchmarks/bionic-benchmarks.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-22T15:19:14Z",
+      "side": 1,
+      "message": "please only include android here. This tests is android specific.",
+      "revId": "a2e97120df7ac69546fc1d7d41e7d53fe726a6a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_1331c2ec",
+        "filename": "automated/android/bionic-benchmarks/bionic-benchmarks.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-22T15:19:14Z",
+      "side": 1,
+      "message": "the only \u0027known to work\u0027 devices are hikey, juno and x15.",
+      "revId": "a2e97120df7ac69546fc1d7d41e7d53fe726a6a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_734d9e72",
+        "filename": "automated/android/bionic-benchmarks/device-script.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-02-22T15:19:14Z",
+      "side": 1,
+      "message": "I think it would be a good idea to check whether the file is present. If not - exit gracefully",
+      "revId": "a2e97120df7ac69546fc1d7d41e7d53fe726a6a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
