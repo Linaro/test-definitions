@@ -23,9 +23,6 @@ SERVER_IP=${SERVER_IP:-192.168.1.4}
 #   odp-dpdk: NGiNX with OFP+ODP+DPDK
 CONFIG_TYPE=${CONFIG_TYPE:-linux-ip}
 
-# DEB_URL
-DEB_URL=${DEB_URL:-http://people.linaro.org/~josep.puigdemont/debs}
-
 function exit_error {
 	echo "-- SERVER ERROR"
 	journalctl -u nginx
@@ -43,10 +40,8 @@ function config_linux_ip {
 }
 
 # Use this function to configure a device for DPDK usage
-# FIXME: this should use a repository
 function config_dpdk_dev {
 	local driver=${1:-igb_uio}
-	local DEBS="libofp-odp-dpdk0_1.1+git3+4ec95a1-0linaro1linarojessie1_amd64.deb"
 
 	if ! which dpdk-devbind &>/dev/null; then
 		echo "ERROR: dpdk not installed"
@@ -62,37 +57,16 @@ function config_dpdk_dev {
 	apt-get install -y nginx
 	systemctl stop nginx
 
-	# we want our version of libofp, with CONFIG_WEBSERVER set
-	apt-get remove -y libofp-odp-dpdk0 nginx-common
-	mkdir ofp
-	cd ofp
-	for deb in $DEBS; do
-		wget -q "$DEB_URL/ofp-config-webserver/$deb"
-		dpkg -i "$deb"
-	done
-	cd ..
+	# FIXME: for now NGiNX for OFP only supports one core worker
+	echo "-- NOTICE: setting MAX_CORES to 1"
+	MAX_CORES=1
 }
 
 # Callback to call before starting nginx when using OFP-DPDK
 # First parameter of callback is the number of cores
 function odp_dpdk_pre_cb {
-	local cores=$1
-	local DEBS="nginx-common_1.9.10-1~linaro1linarojessie1_all.deb \
-		    nginx-full_1.9.10-1~linaro1linarojessie1_amd64.deb \
-		    nginx_1.9.10-1~linaro1linarojessie1_all.deb"
-
-	apt-get remove -y nginx-common
-
 	# clean hugepages
 	rm -rf /dev/hugepages/*
-
-	mkdir -p "iter_${cores}"
-	cd "iter_${cores}"
-	for deb in $DEBS; do
-		wget -q "$DEB_URL/nginx-ofp-odp-dpdk/${cores}_queue/$deb"
-		dpkg --force-confold -i "$deb"
-	done
-	cd ..
 }
 
 function odp_dpdk_post_cb {
