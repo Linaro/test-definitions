@@ -42,7 +42,9 @@ else
             dpkg --add-architecture i386
             dist_info
             echo "deb [arch=amd64,i386] http://ftp.us.debian.org/debian ${Codename} main non-free contrib" > /etc/apt/sources.list.d/cts.list
-            echo "deb http://ftp.debian.org/debian ${Codename}-backports main" >> /etc/apt/sources.list.d/cts.list
+            if [ "${Codename}" != "sid" ]; then
+                echo "deb http://ftp.debian.org/debian ${Codename}-backports main" >> /etc/apt/sources.list.d/cts.list
+            fi
             cat /etc/apt/sources.list.d/cts.list
             apt-get update || true
             install_deps "${JDK}" || install_deps "-t ${Codename}-backports ${JDK}"
