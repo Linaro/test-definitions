@@ -1,3 +1,4 @@
+# NOTE: when calling this test, kernel-headers must have been installed
 metadata:
     name: httperf-nginx-ofp-odp-dpdk
     format: Lava-Test-Shell Test Definition 1.0
@@ -21,6 +22,10 @@ install:
         - sysstat
         - wget
 
+params:
+    MAX_CORES: 0
+    VLAND_NAME: vlan_one
+
 run:
     steps:
         - wget -O - http://deb.opendataplane.org/odp.key|sudo apt-key add -
@@ -28,15 +33,9 @@ run:
         - echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
         - apt-get update
         - apt-get -t jessie-backports install -y libssl1.0.0 libssl-dev
-        - wget http://people.linaro.org/~anders.roxell/ubuntu-v4.4/linux-headers-4.4.0-31_4.4.0-31.50_all.deb
-        - dpkg -i linux-headers-4.4.0-31_4.4.0-31.50_all.deb
-        - wget http://people.linaro.org/~anders.roxell/x86_64-ofp-2/overlay.tar.gz
-        - tar xzf overlay.tar.gz -C /
-        - depmod -a
         - sysctl -w vm.nr_hugepages=1024
         - modprobe uio
         - apt-get install -y dpdk-igb-uio-dkms dpdk pciutils
-        - export CONFIG_TYPE=${CONFIG_TYPE:-odp-dpdk}
-        - export MAX_CORES=${MAX_CORES:-0}
-        - export VLAND_NAME=${VLAND_NAME:-vlan_one}
+        - export CONFIG_TYPE=odp-dpdk
+        - export MAX_CORES VLAND_NAME
         - lava-test-case httperf-nginx-server --shell ./automated/linux/nginx-server/nginx-server.sh
