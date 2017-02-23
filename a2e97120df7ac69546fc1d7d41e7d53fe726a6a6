@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a245df4_131702ef",
+        "filename": "automated/android/bionic-benchmarks/bionic-benchmarks.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-23T02:07:53Z",
+      "side": 1,
+      "message": "install() wouldn\u0027t work on LCR build or in LAVA. Refer to the comments added https://git.linaro.org/qa/test-definitions.git/commit/?id\u003de2c463022339b75844ac63f577593ea847090eba",
+      "revId": "a2e97120df7ac69546fc1d7d41e7d53fe726a6a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_73d3de38",
+        "filename": "automated/android/bionic-benchmarks/bionic-benchmarks.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-23T02:07:53Z",
+      "side": 1,
+      "message": "To unify function naming, this has been changed to adb_pull, refer to https://git.linaro.org/qa/test-definitions.git/commit/?id\u003de2c463022339b75844ac63f577593ea847090eba",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 11
+      },
+      "revId": "a2e97120df7ac69546fc1d7d41e7d53fe726a6a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_3334c6dd",
         "filename": "automated/android/bionic-benchmarks/bionic-benchmarks.yaml",
         "patchSetId": 5
@@ -72,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "9a245df4_b3dd5645",
+        "filename": "automated/android/bionic-benchmarks/bionic-benchmarks.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-23T02:07:53Z",
+      "side": 1,
+      "message": "It is \u0027x15\u0027 https://validation.linaro.org/scheduler/device_type/x15",
+      "parentUuid": "9a245df4_931492f6",
+      "revId": "a2e97120df7ac69546fc1d7d41e7d53fe726a6a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a245df4_734d9e72",
         "filename": "automated/android/bionic-benchmarks/device-script.sh",
         "patchSetId": 5
@@ -118,6 +176,30 @@
       "writtenOn": "2017-02-22T17:36:09Z",
       "side": 1,
       "message": "Should this be \u0027exit\u0027 instead of \u0027return\u0027?",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 14
+      },
+      "revId": "a2e97120df7ac69546fc1d7d41e7d53fe726a6a6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_53d85a53",
+        "filename": "automated/android/bionic-benchmarks/device-script.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-23T02:07:53Z",
+      "side": 1,
+      "message": "\u0027return\u0027 give another chance for rest loops/tests to run, but they may fail in the same way.\n\nI will use \u0027exit\u0027, we will need to investigate/fix the error anyways.",
+      "parentUuid": "9a245df4_330326ba",
       "range": {
         "startLine": 32,
         "startChar": 8,
