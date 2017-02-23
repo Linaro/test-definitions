@@ -22,6 +22,30 @@
       "revId": "5573aa16f8a69d5668f13d538e937d51fd003814",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_b3fef669",
+        "filename": "automated/android/cts/cts-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-02-23T09:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a245df4_13eee2ec",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "5573aa16f8a69d5668f13d538e937d51fd003814",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
