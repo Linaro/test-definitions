@@ -25,14 +25,15 @@ install:
 params:
     MAX_CORES: 0
     VLAND_NAME: vlan_one
+    DEB_REPO_URL: http://deb.opendataplane.org
+    DEB_REPO_KEY_URL: http://deb.opendataplane.org/odp.key
 
 run:
     steps:
-        - wget -O - http://deb.opendataplane.org/odp.key|sudo apt-key add -
-        - echo "deb http://deb.opendataplane.org jessie main" > /etc/apt/sources.list.d/odp.list
-        - echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
+        - . automated/lib/sh-test-lib
+        - add_key "$DEB_REPO_KEY_URL"
+        - add_repo "$DEB_REPO_URL"
         - apt-get update
-        - apt-get -t jessie-backports install -y libssl1.0.0 libssl-dev
         - sysctl -w vm.nr_hugepages=1024
         - modprobe uio
         - apt-get install -y dpdk-igb-uio-dkms dpdk pciutils
