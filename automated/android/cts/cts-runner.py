@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import re
 import sys
 import shlex
 import shutil
@@ -16,13 +17,37 @@ import py_test_lib  # nopep8
 
 
 def result_parser(xml_file):
+    etree_file = open(xml_file, 'rb')
+    etree_content = etree_file.read()
+    rx = re.compile("&#([0-9]+);|&#x([0-9a-fA-F]+);")
+    endpos = len(etree_content)
+    pos = 0
+    while pos < endpos:
+        # remove characters that don't conform to XML spec
+        m = rx.search(etree_content, pos)
+        if not m:
+            break
+        mstart, mend = m.span()
+        target = m.group(1)
+        if target:
+            num = int(target)
+        else:
+            num = int(m.group(2), 16)
+        # #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+        if not(num in (0x9, 0xA, 0xD) or
+                0x20 <= num <= 0xD7FF or
+                0xE000 <= num <= 0xFFFD or
+                0x10000 <= num <= 0x10FFFF):
+            etree_content = etree_content[:mstart] + etree_content[mend:]
+            endpos = len(etree_content)
+        pos = mend
+
     try:
-        tree = ET.parse(xml_file)
+        root = ET.fromstring(etree_content)
     except ET.ParseError as e:
         logger.error('xml.etree.ElementTree.ParseError: %s' % e)
         logger.info('Please Check %s manually' % xml_file)
         sys.exit(1)
-    root = tree.getroot()
     logger.info('Test modules in %s: %s'
                 % (xml_file, str(len(root.findall('Module')))))
     for elem in root.findall('Module'):
