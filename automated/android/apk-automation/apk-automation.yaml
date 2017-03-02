@@ -1,0 +1,39 @@
+metadata:
+    name: apk-automation
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Automated benchmarking with APKs on Android."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    devices:
+        - juno
+        - hi6220-hikey
+        - x15
+    scope:
+        - performance
+
+params:
+    SKIP_INSTALL: "false"
+    # Timeout for wait_boot_completed and wait_homescreen.
+    TIMEOUT: "300"
+    # Specify adb device SN if more then one device connected.
+    SN: ""
+    TEST_NAME: "linpack"
+    LOOP_COUNT: "5"
+    COLLECT_STREAMLINE: "false"
+    VERBOSE_OUTPUT: "FALSE"
+    RECORD_STATISTICS: "TRUE"
+    RECORD_CSV: "TRUE"
+    # Specify url and token for file uploading.
+    URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    TOKEN: "4373c97b474497dbd12373689d7d492e"
+run:
+    steps:
+        - cd ./automated/android/apk-automation
+        - ./apk-automation.sh -s "${SKIP_INSTALL}" -o "${TIMEOUT}" -n "${SN}" -t "${TEST_NAME}" -l "${LOOP_COUNT}" -m "${COLLECT_STREAMLINE}" -v "${VERBOSE_OUTPUT}" -r "${RECORD_STATISTICS}" -c "${RECORD_CSV}"
+        # Upload rawdata.zip to artifactorial.
+        - ../../utils/upload-to-artifactorial.sh -a "./output/rawdata.zip" -u "${URL}" -t "${TOKEN}"
+        # Send test result to LAVA.
+        - ../../utils/send-to-lava.sh ./output/result.txt
