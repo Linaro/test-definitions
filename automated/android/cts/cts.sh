@@ -54,6 +54,7 @@ else
             install_deps "${PKG_DEPS} ${JDK}"
             ;;
     esac
+    install_latest_adb
 fi
 
 initialize_adb
