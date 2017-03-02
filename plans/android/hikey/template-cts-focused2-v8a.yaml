@@ -1,0 +1,94 @@
+device_type: hi6220-hikey
+job_name: "%%JOB_NAME%%-%%ANDROID_META_BUILD%%-cts-focused2-v8a"
+timeouts:
+  job:
+    minutes: 360
+  action:
+    minutes: 15
+  connection:
+    minutes: 2
+priority: medium
+visibility: public
+
+metadata:
+  android.build: %%ANDROID_META_BUILD%%
+  android.name: %%ANDROID_META_NAME%%
+  android.url: %%ANDROID_META_URL%%
+
+protocols:
+  lava-lxc:
+    name: lxc-hikey-test
+    template: debian
+    distribution: debian
+    release: sid
+    arch: amd64
+
+actions:
+- deploy:
+    namespace: tlxc
+    timeout:
+      minutes: 5
+    to: lxc
+    packages:
+    - adb
+    - fastboot
+    - systemd
+    - systemd-sysv
+    os: debian
+
+- boot:
+    namespace: tlxc
+    prompts:
+    - 'root@(.*):/#'
+    - 'hikey:/'
+    timeout:
+      minutes: 5
+    method: lxc
+
+- deploy:
+    timeout:
+      minutes: 30
+    to: fastboot
+    namespace: droid
+    connection: lxc
+    images:
+      ptable:
+        url: http://builds.96boards.org/snapshots/reference-platform/components/uefi/latest/release/hikey/ptable-aosp-8g.img
+      boot:
+        url: %%DOWNLOAD_URL%%/boot.img.xz
+        compression: xz
+      cache:
+        url: %%ANDROID_CACHE%%
+        compression: xz
+      userdata:
+        url: %%ANDROID_DATA%%
+        compression: xz
+      system:
+        url: %%ANDROID_SYSTEM%%
+        compression: xz
+    os: debian
+
+- boot:
+    namespace: droid
+    connection: serial
+    prompts:
+    - 'root@(.*):/#'
+    - 'hikey:/'
+    timeout:
+      minutes: 15
+    method: uefi-menu
+    commands: fastboot
+
+- test:
+    namespace: tlxc
+    connection: lxc
+    timeout:
+      minutes: 300
+    definitions:
+    - repository: https://git.linaro.org/qa/test-definitions.git
+      from: git
+      path: automated/android/cts/cts.yaml
+      params:
+        "TEST_PARAMS": "run cts-focused2 --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
+        "CTS_URL": "http://testdata.validation.linaro.org/cts/android-cts-7.1_r2.zip"
+      name: cts-focused2-v8a
