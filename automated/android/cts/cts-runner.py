@@ -141,7 +141,14 @@ while child.isalive():
 
     try:
         # Check if all tests finished every minute.
-        child.expect('I/ResultReporter: Full Result:', timeout=60)
+        m = child.expect(['I/ResultReporter: Full Result:',
+                          'I/ConsoleReporter:.*Test run failed to complete.'],
+                         timeout=60)
+        if m == 0:
+            py_test_lib.add_result(RESULT_FILE, 'cts-test-run pass')
+        elif m == 1:
+            py_test_lib.add_result(RESULT_FILE, 'cts-test-run fail')
+
         # Once all tests finshed, exit from tf shell and throw EOF.
         child.sendline('exit')
         child.expect(pexpect.EOF, timeout=60)
