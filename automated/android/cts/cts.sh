@@ -81,7 +81,6 @@ fi
 
 # Run CTS test.
 ./cts-runner.py -t "${TEST_PARAMS}" -n "${SN}"
-check_return "cts-test-run"
 
 # Cleanup.
 rm -f /etc/apt/sources.list.d/cts.list
