@@ -282,8 +282,8 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
 
         LOG_DMESG="${dir_boottime_data}/dmesg_${i}.log"
         ## check  the service of bootanim
-        bootanim_lines=$(grep -c "'bootanim'" "${LOG_DMESG}")
-        if [ "${bootanim_lines}" -ne 2 ]; then
+        bootanim_lines=$(grep -c "init: Service 'bootanim'.* exited with status" "${LOG_DMESG}")
+        if [ "${bootanim_lines}" -ne 1 ]; then
             echo "bootanim service seems to be started more than once in file: ${LOG_DMESG}"
             echo "Please check the status first"
             service_started_once=false
