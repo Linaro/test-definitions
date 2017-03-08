@@ -137,7 +137,7 @@ getBootTimeInfoFromDmesg(){
         KERNEL_BOOT_TIME=$(echo "${CONSOLE_SECONDS_END} ${CONSOLE_SECONDS_START} - p" | dc)
         output_test_result "KERNEL_BOOT_TIME" "pass" "${KERNEL_BOOT_TIME}" "s"
     else
-        output_test_result "KERNEL_BOOT_TIME" "fail" "-1" "s"
+        output_test_result "KERNEL_BOOT_TIME" "fail"
     fi
 
     POINT_FS_MOUNT_START=$(getTime "Freeing unused kernel memory:"|tail -n1)
@@ -146,7 +146,7 @@ getBootTimeInfoFromDmesg(){
         FS_MOUNT_TIME=$(echo "${POINT_FS_MOUNT_END} ${POINT_FS_MOUNT_START} - p" | dc)
         output_test_result "FS_MOUNT_TIME" "pass" "${FS_MOUNT_TIME}" "s"
     else
-        output_test_result "FS_MOUNT_TIME" "fail" "-1" "s"
+        output_test_result "FS_MOUNT_TIME" "fail"
     fi
 
     POINT_FS_DURATION_START=$(getTime "init: /dev/hw_random not found"|tail -n1)
@@ -155,7 +155,7 @@ getBootTimeInfoFromDmesg(){
         FS_MOUNT_DURATION=$(echo "${POINT_FS_DURATION_END} ${POINT_FS_DURATION_START} - p" | dc)
         output_test_result "FS_MOUNT_DURATION" "pass" "${FS_MOUNT_DURATION}" "s"
     else
-        output_test_result "FS_MOUNT_DURATION" "fail" "-1" "s"
+        output_test_result "FS_MOUNT_DURATION" "fail"
     fi
 
     POINT_SERVICE_BOOTANIM_START=$(getTime "init: Starting service 'bootanim'..."|tail -n1)
@@ -164,7 +164,7 @@ getBootTimeInfoFromDmesg(){
         BOOTANIM_TIME=$(echo "${POINT_SERVICE_BOOTANIM_END} ${POINT_SERVICE_BOOTANIM_START} - p" | dc)
         output_test_result "BOOTANIM_TIME" "pass" "${BOOTANIM_TIME}" "s"
     else
-        output_test_result "BOOTANIM_TIME" "fail" "-1" "s"
+        output_test_result "BOOTANIM_TIME" "fail"
     fi
 
     POINT_INIT_START=$(getTime "Freeing unused kernel memory")
@@ -173,7 +173,7 @@ getBootTimeInfoFromDmesg(){
         INIT_TO_SURFACEFLINGER_START_TIME=$(echo "${POINT_SERVICE_SURFACEFLINGER_START} ${POINT_INIT_START} - p" | dc)
         output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "pass" "${INIT_TO_SURFACEFLINGER_START_TIME}" "s"
     else
-        output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "fail" "-1" "s"
+        output_test_result "INIT_TO_SURFACEFLINGER_START_TIME" "fail"
     fi
 
     POINT_SURFACEFLINGER_BOOT=$(getTimeStampFromLogcat "Boot is finished")
@@ -186,7 +186,7 @@ getBootTimeInfoFromDmesg(){
     ## use the last one line, and report the case later after checked all the logs
     SURFACEFLINGER_BOOT_TIME_INFO=$(grep "Boot is finished" "${LOG_LOGCAT_ALL}"|tail -n1)
     if [ -z "${SURFACEFLINGER_BOOT_TIME_INFO}" ]; then
-        output_test_result "SURFACEFLINGER_BOOT_TIME" "fail" "-1" "s"
+        output_test_result "SURFACEFLINGER_BOOT_TIME" "fail"
     else
         while echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|grep -q "("; do
             SURFACEFLINGER_BOOT_TIME_INFO=$(echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|cut -d\( -f2-)
@@ -210,7 +210,7 @@ getBootTimeInfoFromDmesg(){
                 fi
                 output_test_result "ANDROID_UI_SHOWN" "pass" "${ANDROID_UI_SHOWN}" "s"
         else
-                output_test_result "ANDROID_UI_SHOWN" "fail" "-1" "s"
+                output_test_result "ANDROID_UI_SHOWN" "fail"
         fi
     fi
 
@@ -219,7 +219,7 @@ getBootTimeInfoFromDmesg(){
         ANDROID_BOOT_TIME=$(echo "${INIT_TO_SURFACEFLINGER_START_TIME} ${SURFACEFLINGER_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2;}')
         output_test_result "ANDROID_BOOT_TIME" "pass" "${ANDROID_BOOT_TIME}" "s"
     else
-        output_test_result "ANDROID_BOOT_TIME" "fail" "-1" "s"
+        output_test_result "ANDROID_BOOT_TIME" "fail"
     fi
 
     SERVICE_START_TIME_INFO=$(grep "healthd:" "${LOG_DMESG}"|head -n 1)
@@ -228,14 +228,14 @@ getBootTimeInfoFromDmesg(){
         SERVICE_START_TIME=$(echo "${SERVICE_START_TIME_END} ${CONSOLE_SECONDS_START} - p" | dc)
         output_test_result "ANDROID_SERVICE_START_TIME" "pass" "${SERVICE_START_TIME}" "s"
     else
-        output_test_result "ANDROID_SERVICE_START_TIME" "fail" "-1" "s"
+        output_test_result "ANDROID_SERVICE_START_TIME" "fail"
     fi
 
     if [ ! -z "${KERNEL_BOOT_TIME}" ] && [ ! -z "${ANDROID_BOOT_TIME}" ] ; then
         TOTAL_SECONDS=$(echo "${KERNEL_BOOT_TIME} ${ANDROID_BOOT_TIME}" | awk '{printf "%.3f",$1 + $2;}')
         output_test_result "TOTAL_BOOT_TIME" "pass" "${TOTAL_SECONDS}" "s"
     else
-        output_test_result "TOTAL_BOOT_TIME" "fail" "-1" "s"
+        output_test_result "TOTAL_BOOT_TIME" "fail"
     fi
 }
 
@@ -282,8 +282,8 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
 
         LOG_DMESG="${dir_boottime_data}/dmesg_${i}.log"
         ## check  the service of bootanim
-        bootanim_lines=$(grep -c "'bootanim'" "${LOG_DMESG}")
-        if [ "${bootanim_lines}" -ne 2 ]; then
+        bootanim_lines=$(grep -c "init: Service 'bootanim'.* exited with status" "${LOG_DMESG}")
+        if [ "${bootanim_lines}" -ne 1 ]; then
             echo "bootanim service seems to be started more than once in file: ${LOG_DMESG}"
             echo "Please check the status first"
             service_started_once=false
