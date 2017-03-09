@@ -1,0 +1,22 @@
+metadata:
+    name: bionic-libc-tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Execute all available bionic-libc-tests and fetch data."
+    maintainer:
+        - daniel.diaz@linaro.org
+    os:
+        - android
+    devices:
+        - juno
+        - hi6220-hikey
+        - x15
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+
+run:
+    steps:
+        - cd ./automated/linux/bionic-libc-tests/
+        - ./bionic-libc-tests.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
