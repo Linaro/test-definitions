@@ -457,6 +457,10 @@ class ResultParser(object):
 
                     self.metrics.append(data.copy())
 
+        # Mark test run as fail when no result found.
+        if not self.metrics:
+            self.metrics = [{'test_case_id': 'test-run', 'result': 'fail', 'measurement': '', 'units': ''}]
+
         self.results['metrics'] = self.metrics
 
     def dict_to_json(self):
