@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -176,7 +177,10 @@ class TestDefinition(object):
 
                 f.write('set -e\n')
                 f.write('export TESTRUN_ID=%s\n' % self.testdef['metadata']['name'])
-                f.write('cd %s\n' % self.test_path)
+                if self.args.target is None:
+                    f.write('cd %s\n' % self.test_path)
+                else:
+                    f.write('cd /%s%s\n' % (self.test_uuid, self.test_path))
                 f.write('UUID=`cat uuid`\n')
                 f.write('echo "<STARTRUN $TESTRUN_ID $UUID>"\n')
                 steps = self.testdef['run'].get('steps', [])
@@ -192,7 +196,9 @@ class TestDefinition(object):
     def get_test_run(self):
         if self.is_manual:
             return ManualTestRun(self.test, self.args)
-        return AutomatedTestRun(self.test, self.args)
+        if self.args.target is None:
+            return AutomatedTestRun(self.test, self.args)
+        return RemoteTestRun(self.test, self.args)
 
     def handle_parameters(self):
         ret_val = ['###default parameters from test definition###\n']
@@ -229,12 +235,14 @@ class TestDefinition(object):
 
 class TestRun(object):
     def __init__(self, test, args):
+        self.test = test
+        self.args = args
         self.output = os.path.realpath(args.output)
         self.test_name = os.path.splitext(test['path'].split('/')[-1])[0]
         self.test_uuid = self.test_name + '_' + test['uuid']
         self.test_path = os.path.join(self.output, self.test_uuid)
         self.logger = logging.getLogger('RUNNER.TestRun')
-        self.test_timeout = args.timeout
+        self.test_timeout = self.args.timeout
         if 'timeout' in test:
             self.test_timeout = test['timeout']
 
@@ -250,6 +258,7 @@ class AutomatedTestRun(TestRun):
         self.logger.info('Executing %s/run.sh' % self.test_path)
         shell_cmd = '%s/run.sh 2>&1 | tee %s/stdout.log' % (self.test_path, self.test_path)
         self.child = pexpect.spawn('/bin/sh', ['-c', shell_cmd])
+        self.check_result()
 
     def check_result(self):
         if self.test_timeout:
@@ -269,6 +278,49 @@ class AutomatedTestRun(TestRun):
             except pexpect.EOF:
                 self.logger.info('%s test finished.\n' % self.test_uuid)
                 break
+
+
+class RemoteTestRun(AutomatedTestRun):
+
+    def __copy_file(self, source, target):
+        # using rsync requires rsync on target
+        copy_operator = 'rsync -avzR -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --exclude=".*"'
+        # using scp doesn't work!
+        #copy_operator = 'scp -r'
+        copy_cmd = '%s %s %s' % (copy_operator, source, target)
+        self.logger.debug(copy_cmd)
+        subprocess.call(shlex.split(copy_cmd))
+
+    def __check_rsync(self):
+        check_cmd = "ssh %s@%s rsync --help" % (self.args.target_user, self.args.target)
+        self.logger.debug(check_cmd)
+        ret = subprocess.call(shlex.split(check_cmd))
+        import pdb;pdb.set_trace()
+        return ret
+
+    def copy_to_target(self):
+        orig_test_path = self.test['path'].rsplit("/", 1)[0]
+        remote_target = '%s@%s:/%s' % (self.args.target_user, self.args.target, self.test_uuid)
+        self.__copy_file("%s/%s" % (self.test_path, orig_test_path), remote_target)
+        self.__copy_file("%s/automated/bin" % (self.test_path), remote_target)
+        self.__copy_file("%s/automated/lib" % (self.test_path), remote_target)
+        self.__copy_file("%s/automated/utils" % (self.test_path), remote_target)
+        self.__copy_file("%s/run.sh" % (self.test_path), remote_target)
+        self.__copy_file("%s/uuid" % (self.test_path), remote_target)
+        self.__copy_file("%s/testdef.yaml" % (self.test_path), remote_target)
+
+    def run(self):
+        if self.__check_rsync() != 0:
+            self.logger.error("rsync in not available on remote target")
+            return
+        self.copy_to_target()
+        self.logger.info('Executing /%s%s/run.sh remotely on %s' % (self.test_uuid, self.test_path, self.args.target))
+        shell_cmd = 'ssh %s@%s "/%s%s/run.sh 2>&1"' % (self.args.target_user, self.args.target, self.test_uuid, self.test_path)
+        self.logger.debug(shell_cmd)
+        output = open("%s/stdout.log" % self.test_path, "w")
+        self.child = pexpect.spawn(shell_cmd)
+        self.child.logfile = output
+        self.check_result()
 
 
 class ManualTestShell(cmd.Cmd):
@@ -435,7 +487,7 @@ class ResultParser(object):
             units_re = re.compile("UNITS=(.*)")
             for line in f:
                 if re.match(r'\<(|LAVA_SIGNAL_TESTCASE )TEST_CASE_ID=.*', line):
-                    line = line.strip('\n').strip('<>').split(' ')
+                    line = line.strip('\n').strip('\r').strip('<>').split(' ')
                     data = {'test_case_id': '',
                             'result': '',
                             'measurement': '',
@@ -531,10 +583,19 @@ def get_args():
                         '''),
     parser.add_argument('-t', '--timeout', type=int, default=None,
                         dest='timeout', help='Specify test timeout')
+    parser.add_argument('-g', '--target', default=None,
+                        dest='target', help='''
+                        Specify SSH target to execute tests.
+                        Note: ssh authentication must be paswordless
+                        ''')
+    parser.add_argument('-u', '--target-user', default=None,
+                        dest='target_user', help='Specify SSH user name for target')
     parser.add_argument('-s', '--skip_install', dest='skip_install',
                         default=False, action='store_true',
                         help='skip install section defined in test definition.')
     args = parser.parse_args()
+    if 'target' in vars(args) and 'target_user' not in vars(args):
+        parser.error("--target-user is required when --target is set")
     return args
 
 
@@ -549,7 +610,7 @@ def main():
     logger.addHandler(ch)
 
     args = get_args()
-    if args.kind != "manual":
+    if args.kind != "manual" and args.target is None:
         if os.geteuid() != 0:
             logger.error("Sorry, you need to run this as root")
             sys.exit(1)
@@ -580,7 +641,6 @@ def main():
             # Run test.
             test_run = test_def.get_test_run()
             test_run.run()
-            test_run.check_result()
 
             # Parse test output, save results in json and csv format.
             result_parser = ResultParser(test, args)
