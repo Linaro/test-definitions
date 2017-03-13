@@ -1,0 +1,90 @@
+<STARTRUN smoke-tests-basic 524a47dc-e627-4307-b5e3-5be2cd273f23>
+INFO: Installing redhat-lsb-core
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.met.hu
+ * extras: mirror.met.hu
+ * updates: mirror.met.hu
+Package redhat-lsb-core-4.1-27.el7.centos.1.x86_64 already installed and latest version
+Nothing to do
+
+INFO: Running pwd test...
+/smoke_524a47dc-e627-4307-b5e3-5be2cd273f23/automated/linux/smoke
+pwd pass
+
+INFO: Running lsb_release test...
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	CentOS
+Description:	CentOS Linux release 7.2.1511 (Core) 
+Release:	7.2.1511
+Codename:	Core
+lsb_release pass
+
+INFO: Running uname test...
+Linux localhost.localdomain 3.10.0-327.36.3.el7.x86_64 #1 SMP Mon Oct 24 16:09:20 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+uname pass
+
+INFO: Running ip test...
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 08:00:27:6e:94:6f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.101.42/24 brd 192.168.101.255 scope global dynamic enp0s3
+       valid_lft 6683sec preferred_lft 6683sec
+    inet6 fe80::a00:27ff:fe6e:946f/64 scope link 
+       valid_lft forever preferred_lft forever
+ip pass
+
+INFO: Running lscpu test...
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                1
+On-line CPU(s) list:   0
+Thread(s) per core:    1
+Core(s) per socket:    1
+Socket(s):             1
+NUMA node(s):          1
+Vendor ID:             GenuineIntel
+CPU family:            6
+Model:                 69
+Model name:            Intel(R) Core(TM) i7-4510U CPU @ 2.00GHz
+Stepping:              1
+CPU MHz:               2593.994
+BogoMIPS:              5187.98
+Hypervisor vendor:     KVM
+Virtualization type:   full
+L1d cache:             32K
+L1i cache:             32K
+L2 cache:              256K
+L3 cache:              4096K
+NUMA node0 CPU(s):     0
+lscpu pass
+
+INFO: Running vmstat test...
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 2  0      0 1165280    948 611884    0    0    20    52   74  117  0  0 100  0  0
+vmstat pass
+
+INFO: Running lsblk test...
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0    8G  0 disk 
+├─sda1            8:1    0  500M  0 part /boot
+└─sda2            8:2    0  7.5G  0 part 
+  ├─centos-root 253:0    0  6.7G  0 lvm  /
+  └─centos-swap 253:1    0  820M  0 lvm  [SWAP]
+sr0              11:0    1 1024M  0 rom  
+lsblk pass
+<TEST_CASE_ID=pwd RESULT=pass>
+<TEST_CASE_ID=lsb_release RESULT=pass>
+<TEST_CASE_ID=uname RESULT=pass>
+<TEST_CASE_ID=ip RESULT=pass>
+<TEST_CASE_ID=lscpu RESULT=pass>
+<TEST_CASE_ID=vmstat RESULT=pass>
+<TEST_CASE_ID=lsblk RESULT=pass>
+<ENDRUN smoke-tests-basic 524a47dc-e627-4307-b5e3-5be2cd273f23>

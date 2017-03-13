@@ -15,6 +15,7 @@ from uuid import uuid4
 
 try:
     import pexpect
+    from pexpect import pxssh
     import yaml
 except ImportError as e:
     print(e)
@@ -192,7 +193,9 @@ class TestDefinition(object):
     def get_test_run(self):
         if self.is_manual:
             return ManualTestRun(self.test, self.args)
-        return AutomatedTestRun(self.test, self.args)
+        if self.args.target is None:
+            return AutomatedTestRun(self.test, self.args)
+        return RemoteTestRun(self.test, self.args)
 
     def handle_parameters(self):
         ret_val = ['###default parameters from test definition###\n']
@@ -229,11 +232,13 @@ class TestDefinition(object):
 
 class TestRun(object):
     def __init__(self, test, args):
+        self.test = test
+        self.args = args
+        self.logger = logging.getLogger('RUNNER.TestRun')
         self.output = os.path.realpath(args.output)
         self.test_name = os.path.splitext(test['path'].split('/')[-1])[0]
         self.test_uuid = self.test_name + '_' + test['uuid']
         self.test_path = os.path.join(self.output, self.test_uuid)
-        self.logger = logging.getLogger('RUNNER.TestRun')
         self.test_timeout = args.timeout
         if 'timeout' in test:
             self.test_timeout = test['timeout']
@@ -241,17 +246,17 @@ class TestRun(object):
     def run(self):
         raise NotImplementedError
 
-    def check_result(self):
+    def check_output(self):
         raise NotImplementedError
-
 
 class AutomatedTestRun(TestRun):
     def run(self):
         self.logger.info('Executing %s/run.sh' % self.test_path)
         shell_cmd = '%s/run.sh 2>&1 | tee %s/stdout.log' % (self.test_path, self.test_path)
         self.child = pexpect.spawn('/bin/sh', ['-c', shell_cmd])
+        self.check_output()
 
-    def check_result(self):
+    def check_output(self):
         if self.test_timeout:
             self.logger.info('Test timeout: %s' % self.test_timeout)
             test_end = time.time() + self.test_timeout
@@ -269,6 +274,94 @@ class AutomatedTestRun(TestRun):
             except pexpect.EOF:
                 self.logger.info('%s test finished.\n' % self.test_uuid)
                 break
+
+
+class RemoteTestRun(AutomatedTestRun):
+    def __init__(self, test, args):
+        self.output = os.path.realpath(args.output)
+        self.test_name = os.path.splitext(test['path'].split('/')[-1])[0]
+        self.test_uuid = self.test_name + '_' + test['uuid']
+        self.test_path = os.path.join(self.output, self.test_uuid)
+        self.test_timeout = args.timeout
+        if 'timeout' in test:
+            self.test_timeout = test['timeout']
+        self.logger = logging.getLogger('RUNNER.RemoteTestRun.%s' % args.target)
+        self.target = args.target
+        self.target_user = args.target_user
+        self.target_password = args.target_password
+        self.s = pxssh.pxssh()
+
+    def validate(self):
+        if pexpect.which('ssh') is None:
+            self.logger.error('openssh client must be installed on the host.')
+            sys.exit(1)
+
+        try:
+            if self.target_password is None:
+                self.logger.info('Logging into %s with %s with passwordless authentication' % (self.target, self.target_user))
+                self.s.login(self.target, self.target_user)
+            else:
+                self.logger.info('Logging into %s with %s:%s' % (self.target, self.target_user, self.target_password))
+                self.s.login(self.target, self.target_user, self.target_password)
+        except pxssh.ExceptionPxssh as e:
+            self.logger.error('pxssh failed on login.')
+            print(e)
+            sys.exit(1)
+
+    def scp_push(self, source, dest):
+        self.logger.info('Pushing files to target: %s' % dest)
+        if self.target_password is None:
+            pexpect.run('scp -r  %s %s@%s:%s' % (source, self.target_user, self.target, dest))
+        else:
+            child = pexpect.spawn('scp -r  %s %s@%s:%s' % (source, self.target_user, self.target, dest))
+            child.expect('(?i)password')
+            child.sendline(self.target_password)
+            while child.isalive():
+                child.expect(['\r\n', pexpect.EOF, pexpect.TIMEOUT])
+                print child.before
+
+    def scp_pull(self, source, dest):
+        self.logger.info('Pulling files from target...')
+        if self.target_password is None:
+            pexpect.run('scp -r %s@%s:%s %s' % (self.target_user, self.target, source, dest))
+        else:
+            child = pexpect.spawn('scp -r %s@%s:%s %s' % (self.target_user, self.target, source, dest))
+            child.expect('(?i)password')
+            child.sendline(self.target_password)
+            while child.isalive():
+                child.expect(['\r\n', pexpect.EOF, pexpect.TIMEOUT])
+                print child.before
+
+    def run(self):
+        self.validate()
+
+        # Copy test_path/automated folder and test_path/run.sh to target_user's home/output.
+        self.s.sendline('echo $HOME')
+        self.s.prompt()
+        target_user_home = self.s.before.split('\n')[1].strip('\r')
+        target_test_path = "%s/output/%s" % (target_user_home, self.test_uuid)
+        self.logger.info('Target test path: %s' % target_test_path)
+        # TODO: modify run.sh
+        self.s.sendline('mkdir -p %s' % target_test_path)
+        self.s.prompt()
+        print(self.s.before)
+
+        source = "%s/automated %s/run.sh %s/uuid" % (self.test_path, self.test_path, self.test_path)
+        # source = "%s/run.sh" % self.test_path
+        print source
+        self.scp_push(source, target_test_path)
+
+        # Execute 'run.sh' on the target.
+        self.logger.info('Executing %s/run.sh on target...' % target_test_path)
+        shell_cmd = '%s/run.sh 2>&1 | tee %s/stdout.log' % (target_test_path, target_test_path)
+        self.child = pexpect.spawn('ssh %s@%s "%s"' % (self.target_user, self.target, shell_cmd))
+        if self.target_password:
+            self.child.expect('(P|p)assword:')
+            self.child.sendline(self.target_password)
+
+        self.check_output()
+        source = '%s/stdout.log' % target_test_path
+        self.scp_pull(source, self.test_path)
 
 
 class ManualTestShell(cmd.Cmd):
@@ -534,7 +627,15 @@ def get_args():
     parser.add_argument('-s', '--skip_install', dest='skip_install',
                         default=False, action='store_true',
                         help='skip install section defined in test definition.')
+    parser.add_argument('-g', '--target', default=None,
+                        dest='target', help='Specify SSH target to execute tests.')
+    parser.add_argument('-u', '--target-user', default=None,
+                        dest='target_user', help='Specify SSH user name for target.')
+    parser.add_argument('-w', '--target-password', default=None,
+                        dest='target_password', help="Specify SSH user's password for target.")
     args = parser.parse_args()
+    if 'target' in vars(args) and 'target_user' not in vars(args):
+        parser.error("--target-user is required when --target is set")
     return args
 
 
@@ -580,7 +681,6 @@ def main():
             # Run test.
             test_run = test_def.get_test_run()
             test_run.run()
-            test_run.check_result()
 
             # Parse test output, save results in json and csv format.
             result_parser = ResultParser(test, args)
