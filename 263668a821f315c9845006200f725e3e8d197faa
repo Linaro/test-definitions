@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_3ab669dd",
+        "filename": "automated/stdout.log",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-13T14:27:35Z",
+      "side": 1,
+      "message": "included by mistake!",
+      "revId": "263668a821f315c9845006200f725e3e8d197faa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_7ab0e1dd",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-13T14:27:35Z",
+      "side": 1,
+      "message": "this can be replaced by super()",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 287,
+        "endChar": 47
+      },
+      "revId": "263668a821f315c9845006200f725e3e8d197faa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
