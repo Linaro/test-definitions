@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_fa1fb1b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "s/reature/feature",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_da1c75c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "s/passwords/password/",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_ba25390c",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "unrelated change (the 2 lines)",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_9a22fdff",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "probably a bug fix, but seems unrelated, no?",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_1a7e0de5",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "the target folder on the remote looks weird, I ran a \u0027smoke\u0027 test and the folder was\n\n/smoke_e3f2269c-96b1-4c17-886b-2870f0bdf540/home/ndec/output/smoke_e3f2269c-96b1-4c17-886b-2870f0bdf540\n\nand new tests are added in / directly, so we are using a mix of local ($HOME) and target.\n\nI would expect folders to be in /output on the target, for example.",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_9a695d28",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "do you capture both stdout and stderr here?",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_fa769105",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "sysbench didn\u0027t work properly. what happens is that PATH is not setup properly when run from ssh. e.g.\n\n$ ssh root@10.42.0.179 env\nshows\nPATH\u003d/usr/bin:/bin:/usr/sbin:/sbin\n\nso /usr/local/bin is missing , which is where sysbench was just installed",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_5a11a5ab",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-13T20:18:15Z",
+      "side": 1,
+      "message": "it might be simpler to have just 1 argument instead of 2, and assume that the argument could have the IP/name of the target and/or the username:\n\n192.168.1.0 or root@192.168.1.0",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
