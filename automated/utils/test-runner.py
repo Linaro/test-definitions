@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -23,13 +24,21 @@ except ImportError as e:
     sys.exit(1)
 
 
+SSH_PARAMS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+
+def call_ssh(args):
+    ssh_cmd = "ssh %s %s" % (SSH_PARAMS, args)
+    ssh_output = subprocess.check_output(shlex.split(ssh_cmd)).strip()
+    return ssh_output
+
+
 class TestPlan(object):
     """
     Analysis args specified, then generate test plan.
     """
 
     def __init__(self, args):
-        self.output = args.output
         self.test_def = args.test_def
         self.test_plan = args.test_plan
         self.timeout = args.timeout
@@ -80,12 +89,8 @@ class TestSetup(object):
     """
 
     def __init__(self, test, args):
-        self.output = os.path.realpath(args.output)
-        self.test_name = os.path.splitext(test['path'].split('/')[-1])[0]
-        self.repo_test_path = test['path']
-        self.uuid = test['uuid']
-        self.test_uuid = self.test_name + '_' + self.uuid
-        self.test_path = os.path.join(self.output, self.test_uuid)
+        self.test = test
+        self.args = args
         self.logger = logging.getLogger('RUNNER.TestSetup')
         self.test_kind = args.kind
         self.test_version = test.get('version', None)
@@ -100,29 +105,29 @@ class TestSetup(object):
             sys.exit(1)
 
     def create_dir(self):
-        if not os.path.exists(self.output):
-            os.makedirs(self.output)
-            self.logger.info('Output directory created: %s' % self.output)
+        if not os.path.exists(self.test['output']):
+            os.makedirs(self.test['output'])
+            self.logger.info('Output directory created: %s' % self.test['output'])
 
     def copy_test_repo(self):
         self.validate_env()
-        shutil.rmtree(self.test_path, ignore_errors=True)
-        if self.repo_path in self.test_path:
+        shutil.rmtree(self.test['test_path'], ignore_errors=True)
+        if self.repo_path in self.test['test_path']:
             self.logger.error("Cannot copy repository into itself. Please choose output directory outside repository path")
             sys.exit(1)
-        shutil.copytree(self.repo_path, self.test_path, symlinks=True)
-        self.logger.info('Test repo copied to: %s' % self.test_path)
+        shutil.copytree(self.repo_path, self.test['test_path'], symlinks=True)
+        self.logger.info('Test repo copied to: %s' % self.test['test_path'])
 
     def checkout_version(self):
         if self.test_version:
             path = os.getcwd()
-            os.chdir(self.test_path)
+            os.chdir(self.test['test_path'])
             subprocess.call("git checkout %s" % self.test_version, shell=True)
             os.chdir(path)
 
     def create_uuid_file(self):
-        with open('%s/uuid' % self.test_path, 'w') as f:
-            f.write(self.uuid)
+        with open('%s/uuid' % self.test['test_path'], 'w') as f:
+            f.write(self.test['uuid'])
 
 
 class TestDefinition(object):
@@ -133,11 +138,6 @@ class TestDefinition(object):
     def __init__(self, test, args):
         self.test = test
         self.args = args
-        self.output = os.path.realpath(args.output)
-        self.test_def = test['path']
-        self.test_name = os.path.splitext(self.test_def.split('/')[-1])[0]
-        self.test_uuid = self.test_name + '_' + test['uuid']
-        self.test_path = os.path.join(self.output, self.test_uuid)
         self.logger = logging.getLogger('RUNNER.TestDef')
         self.skip_install = args.skip_install
         self.is_manual = False
@@ -149,24 +149,24 @@ class TestDefinition(object):
         if 'params' in test:
             self.custom_params = test['params']
         self.exists = False
-        if os.path.isfile(self.test_def):
+        if os.path.isfile(self.test['path']):
             self.exists = True
-            with open(self.test_def, 'r') as f:
+            with open(self.test['path'], 'r') as f:
                 self.testdef = yaml.safe_load(f)
                 if self.testdef['metadata']['format'].startswith("Manual Test Definition"):
                     self.is_manual = True
 
     def definition(self):
-        with open('%s/testdef.yaml' % self.test_path, 'w') as f:
+        with open('%s/testdef.yaml' % self.test['test_path'], 'w') as f:
             f.write(yaml.dump(self.testdef, encoding='utf-8', allow_unicode=True))
 
     def metadata(self):
-        with open('%s/testdef_metadata' % self.test_path, 'w') as f:
+        with open('%s/testdef_metadata' % self.test['test_path'], 'w') as f:
             f.write(yaml.dump(self.testdef['metadata'], encoding='utf-8', allow_unicode=True))
 
     def run(self):
         if not self.is_manual:
-            with open('%s/run.sh' % self.test_path, 'a') as f:
+            with open('%s/run.sh' % self.test['test_path'], 'a') as f:
                 f.write('#!/bin/sh\n')
 
                 self.parameters = self.handle_parameters()
@@ -176,7 +176,10 @@ class TestDefinition(object):
 
                 f.write('set -e\n')
                 f.write('export TESTRUN_ID=%s\n' % self.testdef['metadata']['name'])
-                f.write('cd %s\n' % self.test_path)
+                if self.args.target is None:
+                    f.write('cd %s\n' % (self.test['test_path']))
+                else:
+                    f.write('cd %s\n' % (self.test['target_test_path']))
                 f.write('UUID=`cat uuid`\n')
                 f.write('echo "<STARTRUN $TESTRUN_ID $UUID>"\n')
                 steps = self.testdef['run'].get('steps', [])
@@ -187,12 +190,14 @@ class TestDefinition(object):
                         f.write('%s\n' % cmd)
                 f.write('echo "<ENDRUN $TESTRUN_ID $UUID>"\n')
 
-            os.chmod('%s/run.sh' % self.test_path, 0755)
+            os.chmod('%s/run.sh' % self.test['test_path'], 0755)
 
     def get_test_run(self):
         if self.is_manual:
             return ManualTestRun(self.test, self.args)
-        return AutomatedTestRun(self.test, self.args)
+        if self.args.target is None:
+            return AutomatedTestRun(self.test, self.args)
+        return RemoteTestRun(self.test, self.args)
 
     def handle_parameters(self):
         ret_val = ['###default parameters from test definition###\n']
@@ -229,12 +234,10 @@ class TestDefinition(object):
 
 class TestRun(object):
     def __init__(self, test, args):
-        self.output = os.path.realpath(args.output)
-        self.test_name = os.path.splitext(test['path'].split('/')[-1])[0]
-        self.test_uuid = self.test_name + '_' + test['uuid']
-        self.test_path = os.path.join(self.output, self.test_uuid)
+        self.test = test
+        self.args = args
         self.logger = logging.getLogger('RUNNER.TestRun')
-        self.test_timeout = args.timeout
+        self.test_timeout = self.args.timeout
         if 'timeout' in test:
             self.test_timeout = test['timeout']
 
@@ -247,9 +250,10 @@ class TestRun(object):
 
 class AutomatedTestRun(TestRun):
     def run(self):
-        self.logger.info('Executing %s/run.sh' % self.test_path)
-        shell_cmd = '%s/run.sh 2>&1 | tee %s/stdout.log' % (self.test_path, self.test_path)
+        self.logger.info('Executing %s/run.sh' % self.test['test_path'])
+        shell_cmd = '%s/run.sh 2>&1 | tee %s/stdout.log' % (self.test['test_path'], self.test['test_path'])
         self.child = pexpect.spawn('/bin/sh', ['-c', shell_cmd])
+        self.check_result()
 
     def check_result(self):
         if self.test_timeout:
@@ -258,7 +262,7 @@ class AutomatedTestRun(TestRun):
 
         while self.child.isalive():
             if self.test_timeout and time.time() > test_end:
-                self.logger.warning('%s test timed out, killing test process...' % self.test_uuid)
+                self.logger.warning('%s test timed out, killing test process...' % self.test['test_uuid'])
                 self.child.terminate(force=True)
                 break
             try:
@@ -267,8 +271,37 @@ class AutomatedTestRun(TestRun):
             except pexpect.TIMEOUT:
                 continue
             except pexpect.EOF:
-                self.logger.info('%s test finished.\n' % self.test_uuid)
+                self.logger.info('%s test finished.\n' % self.test['test_uuid'])
                 break
+
+
+class RemoteTestRun(AutomatedTestRun):
+    def copy_to_target(self):
+        os.chdir(self.test['test_path'])
+        tarball_name = "target-test-files.tar"
+        tar_cmd = 'tar -caf %s run.sh uuid automated/lib automated/bin automated/utils %s' % (tarball_name, self.test['tc_relative_dir'])
+        subprocess.call(shlex.split(tar_cmd))
+        create_target_test_path_cmd = '%s "mkdir -p %s"' % (self.args.target, self.test['target_test_path'])
+        call_ssh(create_target_test_path_cmd)
+        scp_cmd = 'scp %s ./%s %s:%s' % (SSH_PARAMS, tarball_name, self.args.target, self.test['target_test_path'])
+        self.logger.info('Pushing test files to target with command: %s' % scp_cmd)
+        subprocess.call(shlex.split(scp_cmd))
+        uncompress_cmd = '%s "cd %s && tar -xf %s"' % (self.args.target, self.test['target_test_path'], tarball_name)
+        self.logger.info('Uncompressing test files on target with command: %s' % uncompress_cmd)
+        call_ssh(uncompress_cmd)
+        delete_tarball_cmd = "%s rm %s/%s" % (self.args.target, self.test['target_test_path'], tarball_name)
+        self.logger.info("Deleting remote tarball: %s" % delete_tarball_cmd)
+        call_ssh(delete_tarball_cmd)
+
+    def run(self):
+        self.copy_to_target()
+        self.logger.info('Executing %s/run.sh remotely on %s' % (self.test['target_test_path'], self.args.target))
+        shell_cmd = 'ssh %s %s "%s/run.sh 2>&1"' % (SSH_PARAMS, self.args.target, self.test['target_test_path'])
+        self.logger.debug('shell_cmd: %s' % shell_cmd)
+        output = open("%s/stdout.log" % self.test['test_path'], "w")
+        self.child = pexpect.spawn(shell_cmd)
+        self.child.logfile = output
+        self.check_result()
 
 
 class ManualTestShell(cmd.Cmd):
@@ -375,11 +408,11 @@ class ManualTestShell(cmd.Cmd):
 
 class ManualTestRun(TestRun, cmd.Cmd):
     def run(self):
-        print self.test_name
-        with open('%s/testdef.yaml' % self.test_path, 'r') as f:
+        print self.test['test_name']
+        with open('%s/testdef.yaml' % self.test['test_path'], 'r') as f:
             self.testdef = yaml.safe_load(f)
 
-        ManualTestShell(self.testdef, self.test_path).cmdloop()
+        ManualTestShell(self.testdef, self.test['test_path']).cmdloop()
 
     def check_result(self):
         pass
@@ -387,17 +420,15 @@ class ManualTestRun(TestRun, cmd.Cmd):
 
 class ResultParser(object):
     def __init__(self, test, args):
-        self.output = os.path.realpath(args.output)
-        self.test_name = os.path.splitext(test['path'].split('/')[-1])[0]
-        self.test_uuid = self.test_name + '_' + test['uuid']
-        self.result_path = os.path.join(self.output, self.test_uuid)
+        self.test = test
+        self.args = args
         self.metrics = []
         self.results = {}
-        self.results['test'] = self.test_name
-        self.results['id'] = self.test_uuid
+        self.results['test'] = test['test_name']
+        self.results['id'] = test['test_uuid']
         self.logger = logging.getLogger('RUNNER.ResultParser')
         self.results['params'] = {}
-        with open(os.path.join(self.result_path, "testdef.yaml"), "r") as f:
+        with open(os.path.join(self.test['test_path'], "testdef.yaml"), "r") as f:
             self.testdef = yaml.safe_load(f)
             self.results['name'] = ""
             if 'metadata' in self.testdef.keys() and \
@@ -413,7 +444,7 @@ class ResultParser(object):
             self.results['version'] = test['version']
         else:
             path = os.getcwd()
-            os.chdir(self.result_path)
+            os.chdir(self.test['test_path'])
             test_version = subprocess.check_output("git rev-parse HEAD", shell=True)
             self.results['version'] = test_version.rstrip()
             os.chdir(path)
@@ -422,20 +453,20 @@ class ResultParser(object):
         self.parse_stdout()
         self.dict_to_json()
         self.dict_to_csv()
-        self.logger.info('Result files saved to: %s' % self.result_path)
+        self.logger.info('Result files saved to: %s' % self.test['test_path'])
         print('--- Printing result.csv ---')
-        with open('%s/result.csv' % self.result_path) as f:
+        with open('%s/result.csv' % self.test['test_path']) as f:
             print(f.read())
 
     def parse_stdout(self):
-        with open('%s/stdout.log' % self.result_path, 'r') as f:
+        with open('%s/stdout.log' % self.test['test_path'], 'r') as f:
             test_case_re = re.compile("TEST_CASE_ID=(.*)")
             result_re = re.compile("RESULT=(.*)")
             measurement_re = re.compile("MEASUREMENT=(.*)")
             units_re = re.compile("UNITS=(.*)")
             for line in f:
                 if re.match(r'\<(|LAVA_SIGNAL_TESTCASE )TEST_CASE_ID=.*', line):
-                    line = line.strip('\n').strip('<>').split(' ')
+                    line = line.strip('\n').strip('\r').strip('<>').split(' ')
                     data = {'test_case_id': '',
                             'result': '',
                             'measurement': '',
@@ -461,17 +492,17 @@ class ResultParser(object):
 
     def dict_to_json(self):
         # Save test results to output/test_id/result.json
-        with open('%s/result.json' % self.result_path, 'w') as f:
+        with open('%s/result.json' % self.test['test_path'], 'w') as f:
             json.dump([self.results], f, indent=4)
 
         # Collect test results of all tests in output/result.json
         feeds = []
-        if os.path.isfile('%s/result.json' % self.output):
-            with open('%s/result.json' % self.output, 'r') as f:
+        if os.path.isfile('%s/result.json' % self.test['output']):
+            with open('%s/result.json' % self.test['output'], 'r') as f:
                 feeds = json.load(f)
 
         feeds.append(self.results)
-        with open('%s/result.json' % self.output, 'w') as f:
+        with open('%s/result.json' % self.test['output'], 'w') as f:
             json.dump(feeds, f, indent=4)
 
     def dict_to_csv(self):
@@ -487,19 +518,19 @@ class ResultParser(object):
 
         # Save test results to output/test_id/result.csv
         fieldnames = ['name', 'test_case_id', 'result', 'measurement', 'units', 'test_params']
-        with open('%s/result.csv' % self.result_path, 'w') as f:
+        with open('%s/result.csv' % self.test['test_path'], 'w') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             for metric in self.results['metrics']:
                 writer.writerow(metric)
 
         # Collect test results of all tests in output/result.csv
-        if not os.path.isfile('%s/result.csv' % self.output):
-            with open('%s/result.csv' % self.output, 'w') as f:
+        if not os.path.isfile('%s/result.csv' % self.test['output']):
+            with open('%s/result.csv' % self.test['output'], 'w') as f:
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
                 writer.writeheader()
 
-        with open('%s/result.csv' % self.output, 'a') as f:
+        with open('%s/result.csv' % self.test['output'], 'a') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             for metric in self.results['metrics']:
                 writer.writerow(metric)
@@ -531,6 +562,12 @@ def get_args():
                         '''),
     parser.add_argument('-t', '--timeout', type=int, default=None,
                         dest='timeout', help='Specify test timeout')
+    parser.add_argument('-g', '--target', default=None,
+                        dest='target', help='''
+                        Specify SSH target to execute tests.
+                        Format: user@host
+                        Note: ssh authentication must be paswordless
+                        ''')
     parser.add_argument('-s', '--skip_install', dest='skip_install',
                         default=False, action='store_true',
                         help='skip install section defined in test definition.')
@@ -549,9 +586,26 @@ def main():
     logger.addHandler(ch)
 
     args = get_args()
-    if args.kind != "manual":
+    logger.debug('Test job arguments: %s' % args)
+    if args.kind != "manual" and args.target is None:
         if os.geteuid() != 0:
             logger.error("Sorry, you need to run this as root")
+            sys.exit(1)
+
+    # Validate target argument format and connectivity.
+    if args.target:
+        rex = re.compile('.+@.+')
+        if not rex.match(args.target):
+            logger.error('Usage: -g username@host')
+            sys.exit(1)
+        if pexpect.which('ssh') is None:
+            logger.error('openssh client must be installed on the host.')
+            sys.exit(1)
+        try:
+            call_ssh("%s exit" % args.target)
+        except subprocess.CalledProcessError as e:
+            logger.error('ssh login failed.')
+            print(e)
             sys.exit(1)
 
     # Generate test plan.
@@ -563,6 +617,24 @@ def main():
 
     # Run tests.
     for test in test_list:
+        # Set and save test params to test dictionary.
+        test['test_name'] = os.path.splitext(test['path'].split('/')[-1])[0]
+        test['test_uuid'] = '%s_%s' % (test['test_name'], test['uuid'])
+        test['output'] = os.path.realpath(args.output)
+        if args.target and args.target not in test['output']:
+            test['output'] = os.path.join(test['output'], args.target)
+        test['test_path'] = os.path.join(test['output'], test['test_uuid'])
+        # Get relative directory path of yaml file for file copy.
+        # '-d' takes any relative paths to the yaml file, so get the realpath first.
+        tc_realpath = os.path.realpath(test['path'])
+        tc_dirname = os.path.dirname(tc_realpath)
+        test['tc_relative_dir'] = '%s%s' % (args.kind, tc_dirname.split(args.kind)[1])
+        if args.target is not None:
+            target_user_home_cmd = '%s "echo $HOME"' % args.target
+            target_user_home = call_ssh(target_user_home_cmd)
+            test['target_test_path'] = '%s/output/%s' % (target_user_home, test['test_uuid'])
+        logger.debug('Test parameters: %s' % test)
+
         # Create directories and copy files needed.
         setup = TestSetup(test, args)
         setup.create_dir()
@@ -580,7 +652,6 @@ def main():
             # Run test.
             test_run = test_def.get_test_run()
             test_run.run()
-            test_run.check_result()
 
             # Parse test output, save results in json and csv format.
             result_parser = ResultParser(test, args)
