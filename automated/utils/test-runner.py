@@ -179,6 +179,7 @@ class TestDefinition(object):
                 f.write('cd %s\n' % self.test_path)
                 f.write('UUID=`cat uuid`\n')
                 f.write('echo "<STARTRUN $TESTRUN_ID $UUID>"\n')
+                f.write('export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin\n')
                 steps = self.testdef['run'].get('steps', [])
                 if steps:
                     for cmd in steps:
