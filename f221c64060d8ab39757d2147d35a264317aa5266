@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_3574ba9b",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-14T10:58:00Z",
+      "side": 1,
+      "message": "It is related. This variable is used in line 301.",
+      "parentUuid": "7a1969be_ba25390c",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_9a22fdff",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 2
@@ -64,6 +82,24 @@
       "writtenOn": "2017-03-13T20:18:15Z",
       "side": 1,
       "message": "probably a bug fix, but seems unrelated, no?",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_1579be93",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-14T10:58:00Z",
+      "side": 1,
+      "message": "Changed for consistency. Both args and self.args would work.",
+      "parentUuid": "7a1969be_9a22fdff",
       "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_95648ee6",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-14T10:58:00Z",
+      "side": 1,
+      "message": "Yes, that needs to be changed. I wanted to avoid copying the whole repository to the target (around 30M currently) and this is how it ended. Will be changed in next version.",
+      "parentUuid": "7a1969be_1a7e0de5",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_9a695d28",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 2
@@ -98,6 +152,24 @@
       "writtenOn": "2017-03-13T20:18:15Z",
       "side": 1,
       "message": "do you capture both stdout and stderr here?",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_d55e0612",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-14T10:58:00Z",
+      "side": 1,
+      "message": "I think so. In line 317 the stderr is redirected to stdout so both should be captured in this file.",
+      "parentUuid": "7a1969be_9a695d28",
       "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_359b1acb",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-14T10:58:00Z",
+      "side": 1,
+      "message": "ACK. Let\u0027s deal with that in https://review.linaro.org/17892",
+      "parentUuid": "7a1969be_fa769105",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_5a11a5ab",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 2
@@ -132,6 +222,24 @@
       "writtenOn": "2017-03-13T20:18:15Z",
       "side": 1,
       "message": "it might be simpler to have just 1 argument instead of 2, and assume that the argument could have the IP/name of the target and/or the username:\n\n192.168.1.0 or root@192.168.1.0",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_15a09ef3",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-14T10:58:00Z",
+      "side": 1,
+      "message": "Sure, will do that.",
+      "parentUuid": "7a1969be_5a11a5ab",
       "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
