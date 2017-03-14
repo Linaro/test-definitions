@@ -16,6 +16,24 @@
       "revId": "d67955a72ac676d7a1eaa1f710300367ad471a1f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_953daebe",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-14T10:52:52Z",
+      "side": 1,
+      "message": "well, no. that\u0027s the point of my patch. when running the test, we want to be sure about what PATH is set to, and make sure it doesn\u0027t contain anything the user left (by mistake). e.g. we want better control on the \u0027device under test\u0027.",
+      "parentUuid": "7a1969be_15525e13",
+      "revId": "d67955a72ac676d7a1eaa1f710300367ad471a1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
