@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_409b72c9",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-15T11:20:45Z",
+      "side": 1,
+      "message": "For the current approach, both local test run and remote test run use ~/output/test_uuid by default. Using \u0027~/\u0027 could avoid permission issues. If the local and remote user names are different, then the paths will be different too.\n\nPutting user@ip to local_test_path sounds good. The same as below, we will need to do some pre-processing to save these variables to \u0027test\u0027 or \u0027args\u0027 dictionary.",
+      "parentUuid": "7a1969be_e047fe49",
+      "revId": "fff4df3844f77aacd2717b2a93ef30fc1e904da1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_a03d06be",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_00621ad8",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-15T11:20:45Z",
+      "side": 1,
+      "message": "target_test_path is the key, if we want to use it directly to generate \u0027run.sh\u0027 in TestDefinition class, we will need to do the validate() and set the variables at the very beginning, probably in the main(), then save these paths to \u0027test\u0027 or \u0027args\u0027, so that we can use them cross classes.",
+      "parentUuid": "7a1969be_a03d06be",
+      "revId": "fff4df3844f77aacd2717b2a93ef30fc1e904da1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_004b3a5a",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2017-03-15T10:27:26Z",
       "side": 1,
       "message": "in the current script, if user is missing from the command line, then it will fail, in the validate function we expect \u0027user\u0027 to be there. so we probably want to enforce it here and fail early on.",
+      "revId": "fff4df3844f77aacd2717b2a93ef30fc1e904da1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e05ede11",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-15T11:20:45Z",
+      "side": 1,
+      "message": "We can check if it is following the string@ip format.",
+      "parentUuid": "7a1969be_004b3a5a",
       "revId": "fff4df3844f77aacd2717b2a93ef30fc1e904da1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
