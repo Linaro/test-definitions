@@ -141,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_d502860a",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-15T07:43:05Z",
+      "side": 1,
+      "message": "Please take a look at patch set #3, hopefully that addresses test paths issue.",
+      "parentUuid": "7a1969be_95648ee6",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_9a695d28",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 2
@@ -211,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_f5050215",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-15T07:43:05Z",
+      "side": 1,
+      "message": "I don\u0027t have the \u0027path\u0027 issue when running sysbench on db410c debian. IMHO, test-runner shouldn\u0027t touch test env. test script or the distro itself should take care of that part.",
+      "parentUuid": "7a1969be_359b1acb",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_5a11a5ab",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 2
@@ -240,6 +276,24 @@
       "side": 1,
       "message": "Sure, will do that.",
       "parentUuid": "7a1969be_5a11a5ab",
+      "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_40fff201",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-15T07:43:05Z",
+      "side": 1,
+      "message": "Refer to patch set #3.",
+      "parentUuid": "7a1969be_15a09ef3",
       "revId": "f221c64060d8ab39757d2147d35a264317aa5266",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
