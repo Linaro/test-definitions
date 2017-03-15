@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_4037f2b0",
+        "filename": "automated/android/dd-wr-speed/dd-wr-speed.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-15T14:18:32Z",
+      "side": 1,
+      "message": "can we have the \u0027device-output\u0027 declared as variable? It\u0027s used in more than 1 place.",
+      "revId": "1bf04ec92345ec53ec681d7c9139ad9b51c6aa20",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_203c7693",
+        "filename": "automated/android/dd-wr-speed/dd-wr-speed.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-15T14:18:32Z",
+      "side": 1,
+      "message": "please rename it to BOOT_TIMEOUT to avoid confusion.",
+      "revId": "1bf04ec92345ec53ec681d7c9139ad9b51c6aa20",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
