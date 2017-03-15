@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_e047fe49",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-15T10:27:26Z",
+      "side": 1,
+      "message": "I think we should have local_test_path and target_test_path both would be the same when running locally for example.\n\nanother thing we might want (but maybe that can be done later once this patch is merged), is to add the \u0027target\u0027 string in the local_test_path, e.g. \n\n~/output/root@192.169.0.1/smoke_xxxx/xxx\n\nso that we can run tests on multiple targets simultaneously.",
+      "revId": "fff4df3844f77aacd2717b2a93ef30fc1e904da1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_a03d06be",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-15T10:27:26Z",
+      "side": 1,
+      "message": "to me it would look simpler/nicer to set \u0027test_path\u0027 to the target test_path folder once in the init, and never have to deal with it anymore. what you are doing here, is working fine, i agree.",
+      "revId": "fff4df3844f77aacd2717b2a93ef30fc1e904da1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_004b3a5a",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-15T10:27:26Z",
+      "side": 1,
+      "message": "in the current script, if user is missing from the command line, then it will fail, in the validate function we expect \u0027user\u0027 to be there. so we probably want to enforce it here and fail early on.",
+      "revId": "fff4df3844f77aacd2717b2a93ef30fc1e904da1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
