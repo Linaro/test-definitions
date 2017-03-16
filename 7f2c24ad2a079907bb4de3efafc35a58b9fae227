@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_5baa47d5",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-16T11:38:25Z",
+      "side": 1,
+      "message": "Need to run \n\nsubprocess.call(shlex.split(scp_cmd))",
+      "revId": "7f2c24ad2a079907bb4de3efafc35a58b9fae227",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_9b64bfe6",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-16T11:38:25Z",
+      "side": 1,
+      "message": "should be \n\n% (self.args.target, self.test[\u0027target_test_path\u0027], tarball_name)",
+      "revId": "7f2c24ad2a079907bb4de3efafc35a58b9fae227",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_bb67fbe9",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-16T11:38:25Z",
+      "side": 1,
+      "message": "Not needed any more?",
+      "range": {
+        "startLine": 574,
+        "startChar": 0,
+        "endLine": 575,
+        "endChar": 70
+      },
+      "revId": "7f2c24ad2a079907bb4de3efafc35a58b9fae227",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
