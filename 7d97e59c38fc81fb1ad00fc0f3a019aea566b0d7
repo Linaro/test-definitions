@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_a0cd0660",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-16T08:14:28Z",
+      "side": 1,
+      "message": "in the very first version of the patch we used ssh instead of pxssh, and we had \"-o StrictHostKeyChecking\u003dno -o UserKnownHostsFile\u003d/dev/null\" which are very useful. I just hit this issue now with the latest patchset.\n\n ssh root@10.42.0.206\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nIT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!\nSomeone could be eavesdropping on you right now (man-in-the-middle attack)!\nIt is also possible that a host key has just been changed.\nThe fingerprint for the ECDSA key sent by the remote host is\nSHA256:QyLOr8M9AEpKxbg7g73bqe6UdKtYMLLB0gkFRGBhmAU.\nPlease contact your system administrator.\nAdd correct host key in /home/ndec/.ssh/known_hosts to get rid of this message.\nOffending ECDSA key in /home/ndec/.ssh/known_hosts:52\n  remove with:\n  ssh-keygen -f \"/home/ndec/.ssh/known_hosts\" -R 10.42.0.206\nECDSA host key for 10.42.0.206 has changed and you have requested strict checking.\nHost key verification failed.\n\ncan we figure out how to use these ssh options by defaults? it\u0027s useful for dev boards..",
+      "revId": "7d97e59c38fc81fb1ad00fc0f3a019aea566b0d7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_00c4da3e",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 6
