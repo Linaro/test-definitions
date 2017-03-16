@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_20091696",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-16T08:24:32Z",
+      "side": 1,
+      "message": "hmm. not sure about this one.. basically we also use twice more space on the target since the tar file is not removed.. and more space on host as well.. i am not sure i like it.. at the very least we should clean up the files after they are used.",
+      "parentUuid": "7a1969be_a0c6a647",
+      "revId": "7d97e59c38fc81fb1ad00fc0f3a019aea566b0d7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_a0cd0660",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 6
