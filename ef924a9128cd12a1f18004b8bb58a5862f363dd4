@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_6072eee6",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T10:22:23Z",
+      "side": 1,
+      "message": "options are missing:\n-o StrictHostKeyChecking\u003dno -o UserKnownHostsFile\u003d/dev/null",
+      "revId": "ef924a9128cd12a1f18004b8bb58a5862f363dd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_c07642d8",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T10:22:23Z",
+      "side": 1,
+      "message": "options are missing:\n-o StrictHostKeyChecking\u003dno -o UserKnownHostsFile\u003d/dev/null",
+      "revId": "ef924a9128cd12a1f18004b8bb58a5862f363dd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_a07346e6",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T10:22:23Z",
+      "side": 1,
+      "message": "options are missing:\n-o StrictHostKeyChecking\u003dno -o UserKnownHostsFile\u003d/dev/null",
+      "revId": "ef924a9128cd12a1f18004b8bb58a5862f363dd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_806d6a07",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T10:22:23Z",
+      "side": 1,
+      "message": "this looks a bit inconsistent. In all other places we use ssh/scp directly. I guess for consistency, pxssh is not the best idea here. Please use subprocess.call and use ssh directly.",
+      "revId": "ef924a9128cd12a1f18004b8bb58a5862f363dd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e07d3eb3",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T10:22:23Z",
+      "side": 1,
+      "message": "options are missing:\n-o StrictHostKeyChecking\u003dno -o UserKnownHostsFile\u003d/dev/null",
+      "revId": "ef924a9128cd12a1f18004b8bb58a5862f363dd4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
