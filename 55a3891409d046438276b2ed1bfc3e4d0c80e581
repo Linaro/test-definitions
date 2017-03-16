@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_00adfa88",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-03-16T08:09:17Z",
+      "side": 1,
+      "message": "i see what you are trying to do here, but we should add args.target in test[output] only if the user has no provided output. if the user has provided an output argument, we should not touch it, since the user will expect the output to be what it put on the command line.",
+      "revId": "55a3891409d046438276b2ed1bfc3e4d0c80e581",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
