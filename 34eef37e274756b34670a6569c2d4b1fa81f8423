@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_20f3d674",
+        "filename": "automated/android/bionic-libc-tests/bionic-libc-tests.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-16T09:53:28Z",
+      "side": 1,
+      "message": "does this script take any argument?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "34eef37e274756b34670a6569c2d4b1fa81f8423",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_60edce8b",
+        "filename": "automated/android/bionic-libc-tests/bionic-libc-tests.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-16T09:53:28Z",
+      "side": 1,
+      "message": "Don\u0027t see it in bionic-libc-tests.sh.",
+      "range": {
+        "startLine": 24,
+        "startChar": 33,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "34eef37e274756b34670a6569c2d4b1fa81f8423",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
