@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_a0c6a647",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-16T08:08:08Z",
+      "side": 1,
+      "message": "Using tar for copy_to_target() make the file pushing a bit nicer, but it requires that the target has tar util installed, hopefully, it is not a problem.",
+      "revId": "7d97e59c38fc81fb1ad00fc0f3a019aea566b0d7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_00c4da3e",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-16T08:08:08Z",
+      "side": 1,
+      "message": "The parameter may also enabled us to reduce the size of local file copy. If we really want to do that, lets do it in another patch.",
+      "revId": "7d97e59c38fc81fb1ad00fc0f3a019aea566b0d7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
