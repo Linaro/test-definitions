@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_1b3c4f93",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T12:18:16Z",
+      "side": 1,
+      "message": "right. I removed it by mistake.",
+      "parentUuid": "7a1969be_5baa47d5",
+      "revId": "7f2c24ad2a079907bb4de3efafc35a58b9fae227",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_9b64bfe6",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_7b41030b",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T12:18:16Z",
+      "side": 1,
+      "message": "correct. Will change",
+      "parentUuid": "7a1969be_9b64bfe6",
+      "revId": "7f2c24ad2a079907bb4de3efafc35a58b9fae227",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_bb67fbe9",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 9
@@ -47,6 +83,30 @@
       "writtenOn": "2017-03-16T11:38:25Z",
       "side": 1,
       "message": "Not needed any more?",
+      "range": {
+        "startLine": 574,
+        "startChar": 0,
+        "endLine": 575,
+        "endChar": 70
+      },
+      "revId": "7f2c24ad2a079907bb4de3efafc35a58b9fae227",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_3b378bb2",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T12:18:16Z",
+      "side": 1,
+      "message": "yes, should be removed. Merging the patches made me overlook this one.",
+      "parentUuid": "7a1969be_bb67fbe9",
       "range": {
         "startLine": 574,
         "startChar": 0,
