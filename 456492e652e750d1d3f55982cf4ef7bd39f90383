@@ -34,6 +34,24 @@
       "revId": "456492e652e750d1d3f55982cf4ef7bd39f90383",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_db1637f1",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-16T13:12:48Z",
+      "side": 1,
+      "message": "We would be on par with \u0027old LAVA\u0027 where test-run pass/fail was recorded always.",
+      "parentUuid": "7a1969be_a0918654",
+      "revId": "456492e652e750d1d3f55982cf4ef7bd39f90383",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
