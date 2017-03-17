@@ -52,6 +52,24 @@
       "revId": "456492e652e750d1d3f55982cf4ef7bd39f90383",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_bbaffb2a",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-17T09:51:00Z",
+      "side": 1,
+      "message": "As talked during 1-1,  lava used to use exit code to determine lava-test-shell pass/fail, lava v2 has stopped doing this for some reasons.\n\nThis path is a different approach, it is trying to show a test failure in test result file in case no results produced for this test, so that test result reviewer can notice sth went wrong.",
+      "parentUuid": "7a1969be_db1637f1",
+      "revId": "456492e652e750d1d3f55982cf4ef7bd39f90383",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
