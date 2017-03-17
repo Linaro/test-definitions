@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_3b794bfd",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-17T03:44:40Z",
+      "side": 1,
+      "message": "The current code appends \u0027args.target\u0027 when it is not included in test[\u0027output\u0027], it is probably not a good decision.\n\nUse user\u0027s(the god :)) input directly make the most sense. Fixed in patch #11.",
+      "revId": "c35b9379f1f3f94cac6368fb26bc8d1d9851d1c2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
