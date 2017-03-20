@@ -1,0 +1,36 @@
+# NOTE: when calling this test, kernel-headers must have been installed
+metadata:
+    name: httperf-nginx-ofp-odp-dpdk-git
+    format: Lava-Test-Shell Test Definition 1.0
+    description: Server running OFP+ODP+DPDK NGiNX from git
+    environment:
+        - lava-test-shell
+    maintainer:
+        - josep.puigdemont@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - x86
+
+install:
+    deps:
+        - bash
+        - ethtool
+        - pciutils
+        - procps
+        - sysstat
+        - wget
+
+params:
+    MAX_CORES: 0
+    VLAND_NAME: vlan_one
+    BUILD_DIR: /build
+
+run:
+    steps:
+        - sysctl -w vm.nr_hugepages=1024
+        - modprobe uio
+        - export CONFIG_TYPE=odp-dpdk-git
+        - export MAX_CORES VLAND_NAME
+        - lava-test-case httperf-nginx-server --shell ./automated/linux/nginx-server/nginx-server.sh
