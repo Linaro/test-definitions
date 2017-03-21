@@ -70,6 +70,30 @@
       "revId": "7c7feaa6b4b6d9bfef98079349249e4171f60ca5",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_a336ade5",
+        "filename": "automated/android/optee/optee-xtest.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-03-21T13:28:27Z",
+      "side": 1,
+      "message": "In this script the Line 47, and also in other scripts IIRC",
+      "parentUuid": "7a1969be_7072bde6",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 62
+      },
+      "revId": "7c7feaa6b4b6d9bfef98079349249e4171f60ca5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
