@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_30bfa5d2",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-03-21T06:41:43Z",
+      "side": 1,
+      "message": "so not adb overtcpip supported on v2?\n\nfor adb connection over tcpip, adb root would make the adb connection lost",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_90b499f3",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-03-21T06:41:43Z",
+      "side": 1,
+      "message": "does this SN need need to be defined explicitly?\nis there some function used for parsing the -s option?\n\nfor SN, I suggest to use the same gobal environment variabl ANDROID_SERIAL as adb command, instead to use a separate SN for same meaning.",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_50ba21e2",
+        "filename": "automated/android/stringbench/stringbench.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-03-21T06:41:43Z",
+      "side": 1,
+      "message": "Could we make these 3 steps one, either with parameters or without?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 57
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
