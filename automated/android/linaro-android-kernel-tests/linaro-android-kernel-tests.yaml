@@ -1,0 +1,23 @@
+metadata:
+    name: linaro-android-kernel-tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Linaro Android kernel test suite comprises of kernel feature
+                  tests which are uniquie to android. The test suite runs
+                  following kernel tests: ashmem, ashmem-expanded, alarmdev,
+                  logger, binder, sync, vfat, evdev and swp-swpb."
+    maintainer:
+        - yongqin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+        - hi6220-hikey
+
+run:
+    steps:
+        - cd ./automated/android/linaro-android-kernel-tests
+        - ./linaro-android-kernel-tests.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
