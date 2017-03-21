@@ -1,0 +1,20 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: busybox
+    description: "Busybox smoke tests."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - juno
+
+run:
+    steps:
+        - cd ./automated/android/busybox/
+        - ./busybox.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
