@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_c36769e9",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-21T14:14:43Z",
+      "side": 1,
+      "message": "you\u0027re right and I guess we need to use ANDROID_SERIAL to work around the problem. The adb_root should do all the work. Currently it only does \u0027wait-for-device\u0027. Maybe it should do \u0027adb connect\u0027 as well? With ANDROID_SERIAL it would just work.",
+      "parentUuid": "7a1969be_e347054a",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_90b499f3",
         "filename": "automated/android/stringbench/stringbench.sh",
         "patchSetId": 3
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "On local side, we would have more android devices connected, and this should be supported.\n\nBy using ANDROID_SERIAL, it will help to make the scripts simple, just like \"export ANDROID_SERIAL\u003dxxx\" at the beginning, then the remaining source code could just run adb commands directly, no need to parse and pass the SN down to the next script called.",
       "parentUuid": "7a1969be_d0a29199",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_a364ede5",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-21T14:14:43Z",
+      "side": 1,
+      "message": "Agree, ANDROID_SERIAL is the way to go forward. I guess this needs some patch on the lib side to check whether the env variable is actually set.",
+      "parentUuid": "7a1969be_4374199c",
       "range": {
         "startLine": 37,
         "startChar": 18,
