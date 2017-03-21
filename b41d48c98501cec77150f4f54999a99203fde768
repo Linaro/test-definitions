@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_3094c536",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-21T07:49:26Z",
+      "side": 1,
+      "message": "As I know hikey v2 devices use adb usb over usb.\n\nNo mater LAVA LXC use ethernet or usb for adb connection, It has to provide a way to obtain \u0027root permission\u0027.\n\nAt this moment, as Senthil advised, we are handling it in this way\nhttps://git.linaro.org/qa/test-definitions.git/tree/automated/lib/android-test-lib#n38",
+      "parentUuid": "7a1969be_30bfa5d2",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_90b499f3",
         "filename": "automated/android/stringbench/stringbench.sh",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_d0a29199",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-21T07:49:26Z",
+      "side": 1,
+      "message": "It is set in initialize_adb()\n\n\u0027-s ${SN}\u0027 is only useful when more then one devices connected to the same host. I am actually not sure if we really need to support this case. If we really do, I can add \u0027-s\u0027 param to the script and yaml file, otherwise, it is safe to remove \u0027-s ${SN}\u0027.\n\nMilosz, comments?",
+      "parentUuid": "7a1969be_90b499f3",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_50ba21e2",
         "filename": "automated/android/stringbench/stringbench.yaml",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2017-03-21T06:41:43Z",
       "side": 1,
       "message": "Could we make these 3 steps one, either with parameters or without?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 57
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_b09f1550",
+        "filename": "automated/android/stringbench/stringbench.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-21T07:49:26Z",
+      "side": 1,
+      "message": "Can you please explain the reasons or benefits in doing that?",
+      "parentUuid": "7a1969be_50ba21e2",
       "range": {
         "startLine": 22,
         "startChar": 0,
