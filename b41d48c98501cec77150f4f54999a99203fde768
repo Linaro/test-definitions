@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_e347054a",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-03-21T14:01:54Z",
+      "side": 1,
+      "message": "I meant the \"adb root\" command called in the lib script, this might cause the adb connection over tcpip lost. Since adb root would cause the adbd service restarted if adb is not running as root already",
+      "parentUuid": "7a1969be_3094c536",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_90b499f3",
         "filename": "automated/android/stringbench/stringbench.sh",
         "patchSetId": 3
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_4374199c",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-03-21T14:01:54Z",
+      "side": 1,
+      "message": "On local side, we would have more android devices connected, and this should be supported.\n\nBy using ANDROID_SERIAL, it will help to make the scripts simple, just like \"export ANDROID_SERIAL\u003dxxx\" at the beginning, then the remaining source code could just run adb commands directly, no need to parse and pass the SN down to the next script called.",
+      "parentUuid": "7a1969be_d0a29199",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_50ba21e2",
         "filename": "automated/android/stringbench/stringbench.yaml",
         "patchSetId": 3
@@ -179,6 +227,30 @@
       "side": 1,
       "message": "Can you please explain the reasons or benefits in doing that?",
       "parentUuid": "7a1969be_50ba21e2",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 57
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e330a5ea",
+        "filename": "automated/android/stringbench/stringbench.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-03-21T14:01:54Z",
+      "side": 1,
+      "message": "like just running  \"./automated/android/stringbench/stringbench.sh --send-result-to-lava\",\n\nand by this, on local side, I could also run ./automated/android/stringbench/stringbench.sh from the root of this repository, and no need to change to the specific directory.",
+      "parentUuid": "7a1969be_b09f1550",
       "range": {
         "startLine": 22,
         "startChar": 0,
