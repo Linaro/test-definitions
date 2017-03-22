@@ -141,3 +141,17 @@ adb_pull() {
     info_msg "Pulling ${remote} from devcie ${ANDROID_SERIAL}"
     adb pull "${remote}" "${local}"
 }
+
+adb_shell_which() {
+    [ "$#" -ne 1 ] && error_msg "Usage: adb_shell_which <cmd>"
+    cmd="$1"
+    # Only latest version adb able to return exit code.
+    # Check if output of which is empty is a more reliable way.
+    which_output="$(adb shell "which ${cmd}")"
+    info_msg "Output of which: *${which_output}*"
+    if [ -n "${which_output}" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
