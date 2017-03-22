@@ -80,16 +80,12 @@ RESULT_FILE = '%s/result.txt' % OUTPUT
 CTS_STDOUT = '%s/cts-stdout.txt' % OUTPUT
 CTS_LOGCAT = '%s/cts-logcat.txt' % OUTPUT
 TEST_PARAMS = ''
-SN = ''
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', dest='TEST_PARAMS', required=True,
                     help="cts test parameters")
-parser.add_argument('-n', dest='SN', required=True,
-                    help='Target device serial no.')
 args = parser.parse_args()
 TEST_PARAMS = args.TEST_PARAMS
-SN = args.SN
 
 if os.path.exists(OUTPUT):
     suffix = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
@@ -127,7 +123,7 @@ while child.isalive():
     subprocess.call('echo')
     subprocess.call(['echo', '--- line break ---'])
     logger.info('Checking adb connectivity...')
-    adb_command = "adb -s %s shell echo OK" % SN
+    adb_command = "adb shell echo OK"
     adb_check = subprocess.Popen(shlex.split(adb_command))
     if adb_check.wait() != 0:
         subprocess.call(['adb', 'devices'])

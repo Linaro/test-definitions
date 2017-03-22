@@ -17,8 +17,8 @@ params:
     SKIP_INSTALL: "false"
     # Specify timeout in seconds for wait_boot_completed and wait_homescreen.
     TIMEOUT: "300"
-    # Specify adb device SN if more then one device connected.
-    SN: ""
+    # Specify adb device serial no. if more then one device connected.
+    ANDROID_SERIAL: ""
     JDK: "openjdk-8-jdk-headless"
     # Download CTS package or copy it from local disk.
     # CTS_URL: "/root/android-cts/linaro/7.1_r1/android-cts-7.1_r1.zip"
@@ -30,7 +30,7 @@ params:
 run:
     steps:
         - cd ./automated/android/cts
-        - ./cts.sh -s "${SKIP_INSTALL}" -o "${TIMEOUT}" -n "${SN}" -d "${JDK}" -c "${CTS_URL}" -t "${TEST_PARAMS}"
+        - ./cts.sh -s "${SKIP_INSTALL}" -o "${TIMEOUT}" -n "${ANDROID_SERIAL}" -d "${JDK}" -c "${CTS_URL}" -t "${TEST_PARAMS}"
         # Upload test log and result files to artifactorial.
         - cp -r ./android-cts/results ./output/ || true
         - cp -r ./android-cts/logs ./output/ || true

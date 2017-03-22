@@ -25,8 +25,8 @@ initialize_adb
 wait_boot_completed "${TIMEOUT}"
 adb_push "./device-script.sh" "/data/local/tmp/"
 
-info_msg "About to run bionic-libc-tests on device ${SN}"
-adb -s "${SN}" shell /data/local/tmp/device-script.sh 2>&1 \
+info_msg "About to run bionic-libc-tests on device ${ANDROID_SERIAL}"
+adb shell /data/local/tmp/device-script.sh 2>&1 \
     | tee "${HOST_OUTPUT}"/device-run.log
 
 adb_pull "${DEVICE_OUTPUT}" "${HOST_OUTPUT}"
