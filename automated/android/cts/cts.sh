@@ -23,7 +23,7 @@ while getopts ':s:o:n:d:c:t:' opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         o) TIMEOUT="${OPTARG}" ;;
-        n) SN="${OPTARG}" ;;
+        n) ANDROID_SERIAL="${OPTARG}" ;;
         d) JDK="${OPTARG}" ;;
         c) CTS_URL="${OPTARG}" ;;
         t) TEST_PARAMS="${OPTARG}" ;;
@@ -80,7 +80,8 @@ if [ -d android-cts/results ]; then
 fi
 
 # Run CTS test.
-./cts-runner.py -t "${TEST_PARAMS}" -n "${SN}"
+info_msg "About to run dd speed test on device ${ANDROID_SERIAL}"
+./cts-runner.py -t "${TEST_PARAMS}"
 
 # Cleanup.
 rm -f /etc/apt/sources.list.d/cts.list
