@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_63e2f504",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-22T02:12:12Z",
+      "side": 1,
+      "message": "I don\u0027t have juno, but I tried on hikey.  To connect to hikey over tcp/ip, we need to run the following 3 lines to set adbd, right?\n\nroot@hikey:/ # setprop service.adb.tcp.port 5555                               \nroot@hikey:/ # stop adbd\nroot@hikey:/ # start adbd\n\nIt says: only root user can run \u0027stop/start adbd\u0027.  If we run \u0027stop/start adbd\u0027 as root, \u0027adb root\u0027 from the host will say \u0027adbd is already running as root\u0027, it will do nothing and wouldn\u0027t lead to device lost.\n\nPlease notice that \u0027adb connect \u003chost\u003e[:\u003cport\u003e]\u0027 only support TCP/IP. \n\nI don\u0027t have a clean idea about how to support adb over tcp/ip yet, from my point of view,  local-user/LAVA should provide a device that running adbd as root to test script.\n\n----\n\nTo support multiple devices for local run, I can add \u0027-s\u0027 to all the adb commands. https://review.linaro.org/#/c/18055/\n\n----\n\nRegarding \u0027SN\u0027 vs \u0027ANDROID_SERIAL\u0027, from \u0027adb help\u0027, I see this \n\nANDROID_SERIAL               - The serial number to connect to. -s takes priority over this if given.\n\nFrom my understanding, \u0027ANDROID_SERIAL\u0027 is an environmental variable that adb use by default, while \u0027-s\u0027 is used to specify a serial no. to overwrite it. I don\u0027t see using \u0027-s ANDROID_SERIAL\u0027 is a better idea.  But if you guys really want to do that, we need another patch to update initialize_adb() and test cases that already using \u0027SN\u0027.",
+      "parentUuid": "7a1969be_c36769e9",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_90b499f3",
         "filename": "automated/android/stringbench/stringbench.sh",
         "patchSetId": 3
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "Agree, ANDROID_SERIAL is the way to go forward. I guess this needs some patch on the lib side to check whether the env variable is actually set.",
       "parentUuid": "7a1969be_4374199c",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_c3e64916",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-22T02:12:12Z",
+      "side": 1,
+      "message": "All we need to do is add \u0027-s\u0027 parameter for the test script and yaml definition file.\n\nhttps://git.linaro.org/qa/test-definitions.git/tree/automated/lib/android-test-lib#n12\n\nIf SN specified, initialize_adb() will use it directly. If SN not specified and only one device found, initialize_adb() will get the serial no. and assign it to SN; if more then once device found, it will exit and ask user specify one.",
+      "parentUuid": "7a1969be_a364ede5",
       "range": {
         "startLine": 37,
         "startChar": 18,
