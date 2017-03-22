@@ -130,7 +130,13 @@ adb_push() {
     adb shell mkdir -p "${remote}"
     info_msg "Pushing ${local} to devcie ${ANDROID_SERIAL}"
     adb push "${local}" "${remote}"
-    adb shell chmod -R 755 "${remote}"
+
+    # Set 755 permission on the folder/file pushed to device.
+    if [ -d "${local}" ]; then
+        adb shell chmod -R 755 "${remote}"
+    elif [ -f "${local}" ]; then
+        adb shell chmod -R 755 "$(echo "${remote}" | sed 's|/$||')/$(basename "${local}")"
+    fi
 }
 
 adb_pull() {
