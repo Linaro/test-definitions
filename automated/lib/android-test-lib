@@ -141,3 +141,17 @@ adb_pull() {
     info_msg "Pulling ${remote} from devcie ${SN}"
     adb -s "${SN}" pull "${remote}" "${local}"
 }
+
+check_cmd_existence() {
+    [ "$#" -ne 1 ] && error_msg "Usage: check_cmd_existence <cmd>"
+    cmd="$1"
+    # Only latest version adb able to return exit code.
+    # Check if output of which is empty is a more reliable way.
+    which_output="$(adb shell "which ${cmd}")"
+    info_msg "Output of which: ${which_output}"
+    if [ -z "${which_output}" ]; then
+        warn_msg "${cmd} NOT found"
+        report_fail "check-cmd-existence"
+        exit 0
+    fi
+}
