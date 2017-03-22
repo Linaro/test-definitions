@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_83445175",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-22T13:09:13Z",
+      "side": 1,
+      "message": "add * around ${which_output) for easier reading?",
+      "revId": "d84f6716025323955d804c8abbde76c50f5f1108",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_234f5d94",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-22T13:09:13Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to fail anything here. I would rather return a value from function and let test writer decide what to do with output",
+      "revId": "d84f6716025323955d804c8abbde76c50f5f1108",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
