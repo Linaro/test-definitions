@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_e3c42561",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-22T06:31:56Z",
+      "side": 1,
+      "message": "By the way, if only a few commands require root persmission, we also can run it with the following format without execting \u0027adb root\u0027\n\nadb shell \u0027echo cmd | su\u0027\n\nAnd stringbench actually doesn\u0027t require root permission. adb_root() removed.",
+      "parentUuid": "7a1969be_63e2f504",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_90b499f3",
         "filename": "automated/android/stringbench/stringbench.sh",
         "patchSetId": 3
@@ -276,6 +300,30 @@
       "side": 1,
       "message": "All we need to do is add \u0027-s\u0027 parameter for the test script and yaml definition file.\n\nhttps://git.linaro.org/qa/test-definitions.git/tree/automated/lib/android-test-lib#n12\n\nIf SN specified, initialize_adb() will use it directly. If SN not specified and only one device found, initialize_adb() will get the serial no. and assign it to SN; if more then once device found, it will exit and ask user specify one.",
       "parentUuid": "7a1969be_a364ede5",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "b41d48c98501cec77150f4f54999a99203fde768",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_039fc160",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-22T06:31:56Z",
+      "side": 1,
+      "message": "Had a talk with YQ, lets stick with ANDROID_SERIAL and remove all the \u0027-s ${SN}\u0027 https://review.linaro.org/#/c/18056/\n\n-s peremeter added to specify ANDROID_SERIAL",
+      "parentUuid": "7a1969be_c3e64916",
       "range": {
         "startLine": 37,
         "startChar": 18,
