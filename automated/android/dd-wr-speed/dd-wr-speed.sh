@@ -3,7 +3,7 @@
 HOST_OUTPUT="$(pwd)/output"
 LOCAL_DEVICE_OUTPUT="${HOST_OUTPUT}/device-output"
 DEVICE_OUTPUT="/data/local/tmp/dd-wr-speed"
-SN=""
+ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
 ITERATION="5"
 PARTITION=""
@@ -11,7 +11,7 @@ RESULT_FILE="${HOST_OUTPUT}/result.txt"
 export  RESULT_FILE
 
 usage() {
-    echo "Usage: $0 [-p <partition>] [-i <iteration>] [-s <sn>] [-t <timeout>]" 1>&2
+    echo "Usage: $0 [-p <partition>] [-i <iteration>] [-s <android_serial>] [-t <timeout>]" 1>&2
     exit 1
 }
 
@@ -24,7 +24,7 @@ while getopts ":p:i:s:t:" o; do
     # You may need to run dd test 4-5 times for an accurate evaluation.
     i) ITERATION="${OPTARG}" ;;
     # Specify device serial number when more than one device connected.
-    s) SN="${OPTARG}" ;;
+    s) ANDROID_SERIAL="${OPTARG}" ;;
     t) BOOT_TIMEOUT="${OPTARG}" ;;
     *) usage ;;
   esac
@@ -91,8 +91,8 @@ detect_abi
 adb_push  "../../bin/${abi}/busybox" "/data/local/tmp/bin/"
 adb_push "./device-script.sh" "/data/local/tmp/bin"
 
-info_msg "About to run dd speed test on device ${SN}"
-adb -s "${SN}" shell "echo /data/local/tmp/bin/device-script.sh ${ITERATION} ${DEVICE_OUTPUT} ${PARTITION} | su" 2>&1 | tee "${HOST_OUTPUT}/device-stdout.log"
+info_msg "About to run dd speed test on device ${ANDROID_SERIAL}"
+adb shell "echo /data/local/tmp/bin/device-script.sh ${ITERATION} ${DEVICE_OUTPUT} ${PARTITION} | su" 2>&1 | tee "${HOST_OUTPUT}/device-stdout.log"
 
 adb_pull "${DEVICE_OUTPUT}" "${LOCAL_DEVICE_OUTPUT}"
 

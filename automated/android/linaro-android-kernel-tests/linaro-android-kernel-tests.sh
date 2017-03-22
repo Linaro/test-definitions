@@ -16,8 +16,8 @@ wait_boot_completed "300"
 create_out_dir "${OUTPUT}"
 
 # Run test script.
-if test -n "$(adb -s "${SN}" shell "which ${TEST_SCRIPT}")"; then
-    adb -s "${SN}" shell "${TEST_SCRIPT}" | tee "${LOGFILE}"
+if test -n "$(adb shell "which ${TEST_SCRIPT}")"; then
+    adb shell "${TEST_SCRIPT}" | tee "${LOGFILE}"
 else
     warn_msg "${TEST_SCRIPT} NOT found"
     report_fail "test-script-existence-check"
