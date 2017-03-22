@@ -118,6 +118,30 @@
       "revId": "7c7feaa6b4b6d9bfef98079349249e4171f60ca5",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_c37be927",
+        "filename": "automated/android/optee/optee-xtest.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-22T07:00:37Z",
+      "side": 1,
+      "message": "Please review https://review.linaro.org/#/c/18057/",
+      "parentUuid": "7a1969be_83ca919f",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 62
+      },
+      "revId": "7c7feaa6b4b6d9bfef98079349249e4171f60ca5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
