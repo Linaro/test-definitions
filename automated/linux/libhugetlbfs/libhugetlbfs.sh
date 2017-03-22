@@ -145,11 +145,11 @@ install
 # Setup libhugetlbfs mount point
 libhugetlbfs_setup
 
-if [ -d /usr/lib/libhugetlbfs-"${VERSION}" ]
+if [ -d /usr/lib/libhugetlbfs ]
 then
-   echo "pre built /usr/lib/libhugetlbfs-${VERSION} found on rootfs"
+   echo "pre built /usr/lib/libhugetlbfs found on rootfs"
    # shellcheck disable=SC2164
-   cd /usr/lib/libhugetlbfs-"${VERSION}"
+   cd /usr/lib/libhugetlbfs
 else
     # Build libhugetlbfs tests
     libhugetlbfs_build_test
