@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_416371b1",
+        "filename": "automated/android/bionic-benchmarks/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-24T04:11:43Z",
+      "side": 1,
+      "message": "32bit test program doesn\u0027t work. @Yongqin, can you please take a look?\n\nroot@hikey:/data/benchmarktest/bionic-benchmarks # ls\nbionic-benchmarks32\nroot@hikey:/data/benchmarktest/bionic-benchmarks # ./bionic-benchmarks32   \nIllegal instruction \n132|root@hikey:/data/benchmarktest/bionic-benchmarks #",
+      "revId": "7ed1585fecc8a1d2eebeed80843ad1c4f9e03c9a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
