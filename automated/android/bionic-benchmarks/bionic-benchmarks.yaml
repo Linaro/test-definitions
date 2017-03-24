@@ -20,6 +20,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/bionic-benchmarks/
+        - cd ./automated/android/bionic-benchmarks/
         - ./bionic-benchmarks.sh -l "${LOOPS}"
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -8,7 +8,7 @@ test_bionic_benchmark() {
     if [ "X$tbb_arch" = "X32" ]; then
         cmd="/data/benchmarktest/bionic-benchmarks/bionic-benchmarks32"
     elif [ "X$tbb_arch" = "X64" ]; then
-        cmd="/data/benchmarktest/bionic-benchmarks/bionic-benchmarks64"
+        cmd="/data/benchmarktest64/bionic-benchmarks/bionic-benchmarks64"
     else
         echo "The specified arch ($tbb_arch) is not supported!"
         return
