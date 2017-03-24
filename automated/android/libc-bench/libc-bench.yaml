@@ -1,0 +1,29 @@
+metadata:
+    name: libc-bench
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run libc-bench to benchmark the performance of bionic.
+                  The source can be viewed here:
+                  https://android-git.linaro.org/platform/external/libc-bench"
+    maintainer:
+        - yongqin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - juno
+        - hi6220-hikey
+
+params:
+    # Specify device serial no. when more than one device connected.
+    ANDROID_SERIAL: ""
+    # Specify timeout in seconds for wait_boot_completed
+    BOOT_TIMEOUT: "300"
+    LOOPS: "1"
+
+run:
+    steps:
+        - cd ./automated/android/libc-bench
+        - ./libc-bench.sh -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -l "${LOOPS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
