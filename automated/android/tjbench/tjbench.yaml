@@ -1,0 +1,34 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: tjbench
+    description: "Tjbench is used to benchmark the performance of libjpeg-turbo
+                  and libjpeg62 for android. For each test image, the tjbench
+                  program is used to measure the compression and decompression
+                  performance and the compression ratio obtained when
+                  compressing the test image as a JPEG image and then
+                  decompressing the JPEG image back to its original
+                  uncompressed form."
+    maintainer:
+        - yongqin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - juno
+        - hi6220-hikey
+
+params:
+    # Specify device serial no. when more than one device connected.
+    ANDROID_SERIAL: ""
+    # Specify timeout in seconds for wait_boot_completed.
+    BOOT_TIMEOUT: "300"
+    LOOPS: "1"
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/android/tjbench
+        - ./tjbench.sh -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -l "${LOOPS}" -S "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
