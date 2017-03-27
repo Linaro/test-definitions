@@ -147,7 +147,7 @@ adb_shell_which() {
     cmd="$1"
     # Only latest version adb able to return exit code.
     # Check if output of which is empty is a more reliable way.
-    which_output="$(adb shell "which ${cmd}")"
+    which_output="$(adb shell "echo which ${cmd} | su")"
     info_msg "Output of which: *${which_output}*"
     if [ -n "${which_output}" ]; then
         return 0
