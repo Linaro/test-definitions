@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_9ce792e4",
+        "filename": "automated/android/media-codecs-functional-tests/media-codecs-functional-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-27T13:28:24Z",
+      "side": 1,
+      "message": "Refer to https://review.linaro.org/#/c/18141/1",
+      "revId": "fc666b440aababb7d28f34e3577be0e6887bbd57",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
