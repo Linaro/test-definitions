@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_7c1456f5",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-27T12:50:01Z",
+      "side": 1,
+      "message": "I think it would be good to check whether image is already downloaded. The use case for this is re-running the same test from the script.",
+      "revId": "8036610d74f2c0943dc80e17cc3105cbceb008d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
