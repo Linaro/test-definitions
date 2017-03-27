@@ -16,6 +16,24 @@
       "revId": "a310164941be5f8efe97e2a3f84e83c0b81a6354",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_bccd2e60",
+        "filename": "automated/android/libc-bench/libc-bench.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-27T13:33:17Z",
+      "side": 1,
+      "message": "Yeah. I thought about this. You can see the similar code in https://review.linaro.org/#/c/18148/2/automated/android/tjbench/tjbench.sh\n\nThey are slightly different, I will figure out a proper way to move them to test-lib.",
+      "parentUuid": "7a1969be_3cbbfec5",
+      "revId": "a310164941be5f8efe97e2a3f84e83c0b81a6354",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
