@@ -16,6 +16,24 @@
       "revId": "8036610d74f2c0943dc80e17cc3105cbceb008d8",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_fc1686f0",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-27T13:25:30Z",
+      "side": 1,
+      "message": "When running test script directly, it always backup the $OUTPUT folder and move it away. \n\nI have moved the download location to $PWD so that we can reuse the image downloaded.",
+      "parentUuid": "7a1969be_7c1456f5",
+      "revId": "8036610d74f2c0943dc80e17cc3105cbceb008d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
