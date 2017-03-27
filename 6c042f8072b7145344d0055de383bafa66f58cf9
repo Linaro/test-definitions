@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_3c177ea5",
+        "filename": "automated/android/media-codecs-functional-tests/media-codecs-functional-tests.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-27T13:51:17Z",
+      "side": 1,
+      "message": "please copy this script to the repository. There are examples in patches from Daniel.",
+      "revId": "6c042f8072b7145344d0055de383bafa66f58cf9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
