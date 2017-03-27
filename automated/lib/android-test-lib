@@ -155,3 +155,23 @@ adb_shell_which() {
         return 1
     fi
 }
+
+parse_common_args() {
+    while getopts ":s:t:" opt; do
+        case "${opt}" in
+            # Specify device serial number when more than one device connected.
+            s)
+                ANDROID_SERIAL="${OPTARG}"
+                ;;
+            # Specify timeout in seconds for wait_boot_completed.
+            t)
+                BOOT_TIMEOUT="${OPTARG}"
+                export BOOT_TIMEOUT
+                ;;
+            *)
+                echo "Usage: $0 [-s <android_serial>] [-t <boot_timeout>]" 1>&2
+                exit 1
+                ;;
+        esac
+    done
+}
