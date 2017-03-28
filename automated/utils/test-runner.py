@@ -181,6 +181,7 @@ class TestDefinition(object):
                         f.write(line)
 
                 f.write('set -e\n')
+                f.write('set -x\n')
                 f.write('export TESTRUN_ID=%s\n' % self.testdef['metadata']['name'])
                 if self.args.target is None:
                     f.write('cd %s\n' % (self.test['test_path']))
