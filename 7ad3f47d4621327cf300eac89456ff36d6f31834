@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_171d3b67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-28T08:54:00Z",
+      "side": 1,
+      "message": "These functions are desinged to work with android /system/bin/sh, but Linux /bin/sh, so we cannot simple move them to android-test-lib which is for local run.\n\nIn the long term, if these functions are also reqruied by other device side scripts, we can consider to add a new library file, sth like android-device-test-lib, which can be pushed to target, and sourced by device-script.sh",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "7ad3f47d4621327cf300eac89456ff36d6f31834",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
