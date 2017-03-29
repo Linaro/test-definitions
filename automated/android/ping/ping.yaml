@@ -1,0 +1,28 @@
+metadata:
+    name: ping
+    format: "Lava-Test Test Definition 1.0"
+    description: "ping test"
+    maintainer:
+        - yongqin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - juno
+        - hi6220-hikey
+
+params:
+    # Specify device serial no. when more than one device connected.
+    ANDROID_SERIAL: ""
+    # Specify timeout in seconds for wait_boot_completed.
+    BOOT_TIMEOUT: "300"
+    # Specify the server to ping.
+    SERVER: "www.google.com"
+
+run:
+    steps:
+        - cd ./automated/android/ping
+        - ./ping.sh -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -S "${SERVER}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
