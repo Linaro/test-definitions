@@ -1,0 +1,27 @@
+metadata:
+    name: piglit-gles2
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Piglit is a collection of automated tests for OpenGL
+                  implementations. piglit_gles2.0 runs OpenGL ES 2.0 tests."
+    maintainer:
+        - yongqin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+        - hi6220-hikey
+
+params:
+    # Specify device serial no. when more than one device connected.
+    ANDROID_SERIAL: ""
+    # Specify timeout in seconds for wait_boot_completed
+    BOOT_TIMEOUT: "300"
+
+run:
+    steps:
+        - cd ./automated/android/piglit-gles2
+        - ./piglit-gles2.sh -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
