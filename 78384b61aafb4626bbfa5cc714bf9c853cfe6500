@@ -16,6 +16,24 @@
       "revId": "78384b61aafb4626bbfa5cc714bf9c853cfe6500",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_b2f43588",
+        "filename": "automated/android/piglit-gles2/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-30T09:14:05Z",
+      "side": 1,
+      "message": "OK, let\u0027s leave it as it is.",
+      "parentUuid": "7a1969be_52ba21e2",
+      "revId": "78384b61aafb4626bbfa5cc714bf9c853cfe6500",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
