@@ -1,0 +1,17 @@
+from argparse import ArgumentParser
+import importlib
+
+parser = ArgumentParser()
+parser.add_argument('-d', '--apk_dir', dest='apk_dir', default='./apks',
+                    help="Specify APK's directory.")
+parser.add_argument('-n', '--name', dest='name', default='linpack',
+                    help='Specify test name.')
+parser.add_argument('-l', '--loops', type=int, dest='loops', default=1,
+                    help='Set the number of test loops.')
+args = parser.parse_args()
+print('Test job arguments: %s' % args)
+
+config = vars(args)
+mod = importlib.import_module(config['name'])
+a = mod.ApkRunnerImpl(config)
+a.run()
