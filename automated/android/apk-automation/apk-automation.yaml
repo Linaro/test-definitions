@@ -1,0 +1,43 @@
+metadata:
+    name: apk-automation
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Automate testing with Android APK."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    devices:
+        - juno
+        - hi6220-hikey
+        - x15
+    scope:
+        - performance
+
+params:
+    SKIP_INSTALL: "false"
+    # Timeout for wait_boot_completed in seconds.
+    BOOT_TIMEOUT: "300"
+    # Specify adb device SN if more then one device connected.
+    ANDROID_SERIAL: ""
+    TEST_NAME: "linpack"
+    LOOPS: "13"
+    APK_DIR: "./apks"
+    BASE_URL: "http://testdata.validation.linaro.org/apks/"
+    # Specify url and token for publishing artifacts.
+    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
+    # 'secrets' dictionary, and set job visibility to personal or group.
+    # Refer to https://validation.linaro.org/static/docs/v2/publishing-artifacts.html
+    ARTIFACTORIAL_TOKEN: ""
+
+run:
+    steps:
+        - cd ./automated/android/apk-automation
+        - ./apk-automation.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -s "${ANDROID_SERIAL}" -n "${TEST_NAME}" -l "${LOOPS}" -d "${APK_DIR}" -u "${BASE_URL}"
+        # Upload test output to artifactorial.
+        - cp "./output/${TEST_NAME}/result.txt" "./output/result.txt"
+        - tar caf "output-${TEST_NAME}.tar.xz" "./output"
+        - ../../utils/upload-to-artifactorial.sh -a "output-${TEST_NAME}.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        # Send test result to LAVA.
+        - ../../utils/send-to-lava.sh "./output/result.txt"
