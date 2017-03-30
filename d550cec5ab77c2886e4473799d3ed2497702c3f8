@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_3434b2dd",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-03-30T11:18:16Z",
+      "side": 1,
+      "message": "we download, build and run microbenchmarks. These are not included in prebuilts on the target.",
+      "parentUuid": "7a1969be_5231810a",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_32368504",
         "filename": "automated/android/microbencmarks/microbenchmarks.sh",
         "patchSetId": 1
@@ -87,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_141a566e",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-03-30T11:18:16Z",
+      "side": 1,
+      "message": "yes it is. Will be cleaning it up.",
+      "parentUuid": "7a1969be_32368504",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_b25a754e",
         "filename": "automated/android/microbencmarks/microbenchmarks.sh",
         "patchSetId": 1
@@ -98,6 +134,24 @@
       "writtenOn": "2017-03-30T10:59:38Z",
       "side": 1,
       "message": "this part isn\u0027t necessary. Results should be saved as local files, LAVA publishing API and as plain results in LAVA. This way the results can be pulled from different dashboards and we\u0027re more immune to intermittent failures during result publishing.",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_1431b6ec",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-03-30T11:18:16Z",
+      "side": 1,
+      "message": "do we already have support in dashboard to pull files from LAVA-v2 ? Until that support lands in, the above approach is the temporary workaround.",
+      "parentUuid": "7a1969be_b25a754e",
       "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
