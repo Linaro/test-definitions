@@ -1,0 +1,37 @@
+metadata:
+    name: microbenchmarks
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run ART microbenchmarks."
+    maintainer:
+        - vishal.bhoj@linaro.org
+    os:
+        - android
+    devices:
+        - pixel
+        - nexus5x
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+        - local-test-runner
+
+params:
+    SNAPSHOTS_URL: ""
+    SOURCE_PROJECT_NAME: ""
+    SOURCE_BUILD_NUMBER: ""
+    SOURCE_BUILD_URL: ""
+    ART_URL: ""
+    LUNCH_TARGET: ""
+    BUILD_TARBALL: ""
+    ITERATIONS: "10"
+    MODE: ""
+    # Specify url and token for file uploading.
+    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+
+run:
+    steps:
+        - export SECRETS_FILE=${PWD}/../../../secrets
+        - cd ./automated/android/microbenchmarks
+        - . ./microbenchmarks.sh -s false
+        - tar -cJf artifacts.txz artifacts/
+        - ../../../../utils/upload-to-artifactorial.sh -a artifacts.txz -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
