@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_f2a6ad52",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-30T10:59:38Z",
+      "side": 1,
+      "message": "there is a library function initialize_adb() that does all LAVA magic safely.\n\nshebang line is missing.",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_926db907",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-30T10:59:38Z",
+      "side": 1,
+      "message": "please use sh-test-lib\u0027s install_deps() function.",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_7272bde6",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-30T10:59:38Z",
+      "side": 1,
+      "message": "above 4 lines are included in android-test-lib\u0027s adb_root() function.",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_5231810a",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-30T10:59:38Z",
+      "side": 1,
+      "message": "do we need the whole ART code to run tests from pre-build binaries?",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_32368504",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-30T10:59:38Z",
+      "side": 1,
+      "message": "is this for debug only?",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_b25a754e",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-03-30T10:59:38Z",
+      "side": 1,
+      "message": "this part isn\u0027t necessary. Results should be saved as local files, LAVA publishing API and as plain results in LAVA. This way the results can be pulled from different dashboards and we\u0027re more immune to intermittent failures during result publishing.",
+      "revId": "d550cec5ab77c2886e4473799d3ed2497702c3f8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
