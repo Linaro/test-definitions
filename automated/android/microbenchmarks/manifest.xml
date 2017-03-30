@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote name="linaro-android"
+          fetch="https://android-git.linaro.org/git/"
+          review="android-review.linaro.org"
+          />
+
+  <!-- Add ART optimization related projects -->
+  <project path="art" name="platform/art" revision="master" remote="linaro-android"/>
+
+  <!-- ART test scripts and benchmarks -->
+  <project path="scripts" name="linaro-art/art-build-scripts" revision="master" remote="linaro-android" />
+  <project path="benchmarks" name="linaro/art-testing" revision="master" remote="linaro-android" />
+
+</manifest>
