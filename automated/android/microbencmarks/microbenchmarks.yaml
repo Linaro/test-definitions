@@ -1,0 +1,33 @@
+metadata:
+    name: microbenchmarks
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run ART microbenchmarks."
+    maintainer:
+        - vishal.bhoj@linaro.org
+    os:
+        - android
+    devices:
+        - pixel
+        - nexus5x
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+        - local-test-runner
+
+params:
+    SNAPSHOTS_URL: ""
+    SOURCE_PROJECT_NAME: ""
+    SOURCE_BUILD_NUMBER: ""
+    SOURCE_BUILD_URL: ""
+    ART_TOKEN: ""
+    ART_URL: ""
+    LUNCH_TARGET: ""
+    ITERATIONS: "10"
+    MODE: ""
+
+run:
+    steps:
+        - cd ./automated/android/microbenchmarks
+        - ./microbenchmarks.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
