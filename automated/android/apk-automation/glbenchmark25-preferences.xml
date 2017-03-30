@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+<string name="edition">COMMUNITY</string>
+<string name="username">androidcommunityuser</string>
+<string name="customoffscreenresolution">1920x1080</string>
+<boolean name="batterytest" value="false" />
+<boolean name="dontshowdialogregisterwarning" value="true" />
+<string name="customresolution">0x0</string>
+<boolean name="offscreenbutton" value="true" />
+<string name="devicename">pandaboard</string>
+<boolean name="disableupload" value="true" />
+<string name="password">asdojavmdthjwejgasogaouhgaufiuadxfoafgaosdcjaocaod</string>
+<boolean name="onscreenbutton" value="true" />
+</map>
