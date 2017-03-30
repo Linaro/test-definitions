@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_52ba21e2",
+        "filename": "automated/android/piglit-gles2/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-30T01:43:36Z",
+      "side": 1,
+      "message": "This line is required, without the env variable, I got the following error.\n\nenvironment var PIGLIT_PLATFORM must be set when piglit is built without GLX support\n\nTo change env var and run the following commands, seems like we have to put all lines in the same script, push it to device, and run the script through adb shell.\n\n----\nChanging env using adb shell command wouldn\u0027t work for the next adb shell command, they should be different shell.\n\nchase@T440 ~ $ adb shell \u0027export PIGLIT_PLATFORM\u003dandroid; echo $PIGLIT_PLATFORM\u0027\nandroid\nchase@T440 ~ $ adb shell \u0027echo $PIGLIT_PLATFORM\u0027\n\nchase@T440 ~ $",
+      "revId": "78384b61aafb4626bbfa5cc714bf9c853cfe6500",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
