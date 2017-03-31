@@ -9,8 +9,9 @@ SKIP_INSTALL="false"
 TIMEOUT="300"
 JDK="openjdk-8-jdk-headless"
 PKG_DEPS="curl wget zip xz-utils python-lxml python-setuptools python-pexpect aapt android-tools-adb lib32z1-dev libc6-dev-i386 lib32gcc1 libc6:i386 libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386"
-CTS_URL="http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
+TEST_URL="http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
 TEST_PARAMS="run cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
+TEST_PATH="android-cts"
 RESULT_FILE="$(pwd)/output/result.txt"
 export RESULT_FILE
 
@@ -25,8 +26,9 @@ while getopts ':s:o:n:d:c:t:' opt; do
         o) TIMEOUT="${OPTARG}" ;;
         n) ANDROID_SERIAL="${OPTARG}" ;;
         d) JDK="${OPTARG}" ;;
-        c) CTS_URL="${OPTARG}" ;;
+        c) TEST_URL="${OPTARG}" ;;
         t) TEST_PARAMS="${OPTARG}" ;;
+        p) TEST_PATH="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -65,23 +67,23 @@ wait_homescreen "${TIMEOUT}"
 export _JAVA_OPTIONS="-Xmx350M"
 java -version
 
-# Download CTS test package or copy it from local disk.
-if echo "${CTS_URL}" | grep "^http" ; then
-    wget -S --progress=dot:giga "${CTS_URL}"
+# Download CTS/VTS test package or copy it from local disk.
+if echo "${TEST_URL}" | grep "^http" ; then
+    wget -S --progress=dot:giga "${TEST_URL}"
 else
-    cp "${CTS_URL}" ./
+    cp "${TEST_URL}" ./
 fi
-file_name=$(basename "${CTS_URL}")
+file_name=$(basename "${TEST_URL}")
 unzip -q "${file_name}"
 rm -f "${file_name}"
 
-if [ -d android-cts/results ]; then
-    mv android-cts/results "android-cts/results_$(date +%Y%m%d%H%M%S)"
+if [ -d "${TEST_PATH}/results" ]; then
+    mv "${TEST_PATH}/results" "android-cts/results_$(date +%Y%m%d%H%M%S)"
 fi
 
-# Run CTS test.
-info_msg "About to run dd speed test on device ${ANDROID_SERIAL}"
-./cts-runner.py -t "${TEST_PARAMS}"
+# Run tradefed test.
+info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
+./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}"
 
 # Cleanup.
 rm -f /etc/apt/sources.list.d/cts.list
