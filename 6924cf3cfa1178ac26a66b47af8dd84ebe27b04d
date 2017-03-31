@@ -16,6 +16,24 @@
       "revId": "6924cf3cfa1178ac26a66b47af8dd84ebe27b04d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_14e2569f",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-03-31T03:31:31Z",
+      "side": 1,
+      "message": "This is not relevant to this job. We don\u0027t boot the device to homescreen on every test job. The device is already booted.",
+      "parentUuid": "7a1969be_d4d71ebe",
+      "revId": "6924cf3cfa1178ac26a66b47af8dd84ebe27b04d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
