@@ -9,24 +9,26 @@ SKIP_INSTALL="false"
 TIMEOUT="300"
 JDK="openjdk-8-jdk-headless"
 PKG_DEPS="curl wget zip xz-utils python-lxml python-setuptools python-pexpect aapt android-tools-adb lib32z1-dev libc6-dev-i386 lib32gcc1 libc6:i386 libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386"
-CTS_URL="http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
+TEST_URL="http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
 TEST_PARAMS="run cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
+TEST_PATH="android-cts"
 RESULT_FILE="$(pwd)/output/result.txt"
 export RESULT_FILE
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-o timeout] [-n serialno] [-d jdk-version] [-c cts_url] [-t test_params]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-o timeout] [-n serialno] [-d jdk-version] [-c cts_url] [-t test_params] [-p test_path]" 1>&2
     exit 1
 }
 
-while getopts ':s:o:n:d:c:t:' opt; do
+while getopts ':s:o:n:d:c:t:p:' opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         o) TIMEOUT="${OPTARG}" ;;
         n) ANDROID_SERIAL="${OPTARG}" ;;
         d) JDK="${OPTARG}" ;;
-        c) CTS_URL="${OPTARG}" ;;
+        c) TEST_URL="${OPTARG}" ;;
         t) TEST_PARAMS="${OPTARG}" ;;
+        p) TEST_PATH="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -41,11 +43,11 @@ else
         debian)
             dpkg --add-architecture i386
             dist_info
-            echo "deb [arch=amd64,i386] http://ftp.us.debian.org/debian ${Codename} main non-free contrib" > /etc/apt/sources.list.d/cts.list
+            echo "deb [arch=amd64,i386] http://ftp.us.debian.org/debian ${Codename} main non-free contrib" > /etc/apt/sources.list.d/tradefed.list
             if [ "${Codename}" != "sid" ]; then
-                echo "deb http://ftp.debian.org/debian ${Codename}-backports main" >> /etc/apt/sources.list.d/cts.list
+                echo "deb http://ftp.debian.org/debian ${Codename}-backports main" >> /etc/apt/sources.list.d/tradefed.list
             fi
-            cat /etc/apt/sources.list.d/cts.list
+            cat /etc/apt/sources.list.d/tradefed.list
             apt-get update || true
             install_deps "${JDK}" || install_deps "-t ${Codename}-backports ${JDK}"
             install_deps "${PKG_DEPS}"
@@ -60,28 +62,29 @@ fi
 initialize_adb
 wait_boot_completed "${TIMEOUT}"
 wait_homescreen "${TIMEOUT}"
+adb_root
 
 # Increase the heap size. KVM devices in LAVA default to ~250M of heap
 export _JAVA_OPTIONS="-Xmx350M"
 java -version
 
-# Download CTS test package or copy it from local disk.
-if echo "${CTS_URL}" | grep "^http" ; then
-    wget -S --progress=dot:giga "${CTS_URL}"
+# Download CTS/VTS test package or copy it from local disk.
+if echo "${TEST_URL}" | grep "^http" ; then
+    wget -S --progress=dot:giga "${TEST_URL}"
 else
-    cp "${CTS_URL}" ./
+    cp "${TEST_URL}" ./
 fi
-file_name=$(basename "${CTS_URL}")
+file_name=$(basename "${TEST_URL}")
 unzip -q "${file_name}"
 rm -f "${file_name}"
 
-if [ -d android-cts/results ]; then
-    mv android-cts/results "android-cts/results_$(date +%Y%m%d%H%M%S)"
+if [ -d "${TEST_PATH}/results" ]; then
+    mv "${TEST_PATH}/results" "${TEST_PATH}/results_$(date +%Y%m%d%H%M%S)"
 fi
 
-# Run CTS test.
-info_msg "About to run dd speed test on device ${ANDROID_SERIAL}"
-./cts-runner.py -t "${TEST_PARAMS}"
+# Run tradefed test.
+info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
+./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}"
 
 # Cleanup.
-rm -f /etc/apt/sources.list.d/cts.list
+rm -f /etc/apt/sources.list.d/tradefed.list
