@@ -77,15 +77,17 @@ def result_parser(xml_file):
 
 OUTPUT = '%s/output' % os.getcwd()
 RESULT_FILE = '%s/result.txt' % OUTPUT
-CTS_STDOUT = '%s/cts-stdout.txt' % OUTPUT
-CTS_LOGCAT = '%s/cts-logcat.txt' % OUTPUT
+TRADEFED_STDOUT = '%s/tradefed-stdout.txt' % OUTPUT
+TRADEFED_LOGCAT = '%s/tradefed-logcat.txt' % OUTPUT
 TEST_PARAMS = ''
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', dest='TEST_PARAMS', required=True,
-                    help="cts test parameters")
+                    help="tradefed shell test parameters")
+parser.add_argument('-p', dest='TEST_PATH', required=True,
+                    help="path to tradefed package top directory")
 args = parser.parse_args()
-TEST_PARAMS = args.TEST_PARAMS
+#TEST_PARAMS = args.TEST_PARAMS
 
 if os.path.exists(OUTPUT):
     suffix = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
@@ -96,7 +98,7 @@ os.makedirs(OUTPUT)
 # There might be an issue in lava/local dispatcher, most likely problem of
 # pexpect. It prints the messages from print() last, not by sequence.
 # Use logging and subprocess.call() to work around this.
-logger = logging.getLogger('CTS')
+logger = logging.getLogger('Tradefed')
 logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
@@ -104,19 +106,32 @@ formatter = logging.Formatter('%(asctime)s - %(name)s: %(levelname)s: %(message)
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-cts_stdout = open(CTS_STDOUT, 'w')
-cts_logcat_out = open(CTS_LOGCAT, 'w')
-cts_logcat = subprocess.Popen(['adb', 'logcat'], stdout=cts_logcat_out)
+tradefed_stdout = open(TRADEFED_STDOUT, 'w')
+tradefed_logcat_out = open(TRADEFED_LOGCAT, 'w')
+tradefed_logcat = subprocess.Popen(['adb', 'logcat'], stdout=tradefed_logcat_out)
 
-logger.info('Test params: %s' % TEST_PARAMS)
-logger.info('Starting CTS test...')
+logger.info('Test params: %s' % args.TEST_PARAMS)
+logger.info('Starting tradefed shell test...')
 
-child = pexpect.spawn('android-cts/tools/cts-tradefed', logfile=cts_stdout)
+command = None
+prompt = None
+if args.TEST_PATH == "android-cts":
+    command = "android-cts/tools/cts-tradefed"
+    prompt = "cts-tf >"
+if args.TEST_PATH == "android-vts":
+    command = "android-vts/tools/vts-tradefed"
+    prompt = "vts-tf >"
+
+if command is None:
+    logger.error("Not supported path: %s" % args.TEST_PATH)
+    sys.exit(1)
+
+child = pexpect.spawn(command, logfile=tradefed_stdout)
 try:
-    child.expect('cts-tf >', timeout=60)
-    child.sendline(TEST_PARAMS)
+    child.expect(prompt, timeout=60)
+    child.sendline(args.TEST_PARAMS)
 except pexpect.TIMEOUT:
-    result = 'lunch-cts-rf-shell fail'
+    result = 'lunch-tf-shell fail'
     py_test_lib.add_result(RESULT_FILE, result)
 
 while child.isalive():
@@ -127,7 +142,7 @@ while child.isalive():
     adb_check = subprocess.Popen(shlex.split(adb_command))
     if adb_check.wait() != 0:
         subprocess.call(['adb', 'devices'])
-        logger.error('Terminating CTS test as adb connection is lost!')
+        logger.error('Terminating tradefed shell test as adb connection is lost!')
         child.terminate(force=True)
         result = 'check-adb-connectivity fail'
         py_test_lib.add_result(RESULT_FILE, result)
@@ -141,24 +156,24 @@ while child.isalive():
                           'I/ConsoleReporter:.*Test run failed to complete.'],
                          timeout=60)
         if m == 0:
-            py_test_lib.add_result(RESULT_FILE, 'cts-test-run pass')
+            py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run pass')
         elif m == 1:
-            py_test_lib.add_result(RESULT_FILE, 'cts-test-run fail')
+            py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run fail')
 
         # Once all tests finshed, exit from tf shell and throw EOF.
         child.sendline('exit')
         child.expect(pexpect.EOF, timeout=60)
     except pexpect.TIMEOUT:
-        logger.info('Printing cts recent output...')
-        subprocess.call(['tail', CTS_STDOUT])
+        logger.info('Printing tradefed recent output...')
+        subprocess.call(['tail', TRADEFED_STDOUT])
 
-logger.info('CTS test finished')
-cts_logcat.kill()
-cts_logcat_out.close()
-cts_stdout.close()
+logger.info('Tradefed test finished')
+tradefed_logcat.kill()
+tradefed_logcat_out.close()
+tradefed_stdout.close()
 
 # Locate and parse test result.
-result_dir = 'android-cts/results'
+result_dir = '%s/results' % args.TEST_PATH
 test_result = 'test_result.xml'
 if os.path.exists(result_dir) and os.path.isdir(result_dir):
     for root, dirs, files in os.walk(result_dir):
