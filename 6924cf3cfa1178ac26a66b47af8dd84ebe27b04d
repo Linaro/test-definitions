@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_d4d71ebe",
+        "filename": "automated/android/microbencmarks/microbenchmarks.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-03-31T03:05:18Z",
+      "side": 1,
+      "message": "In LAVA v2, once LAVA see the expected shell prompt, it take it as boot passed, that is not enough... \n\nI talked with Senthil at connect, seems like LAVA not going to check final boot status as it does in V1. \n\nWe need to handle that in test script. To do that, I created the following two functions.\n\nhttp://git.linaro.org/qa/test-definitions.git/tree/automated/lib/android-test-lib#n46\nwait_boot_completed()\nwait_homescreen()\n\nNormally, I use the firt one right after initialize_adb().\n\nwait_homescreen() rely on the output \"Displayed com.android.launcher\" from logcat, it works fine right after reboot, but if we run it again after some tests, the log may be flooded away.",
+      "revId": "6924cf3cfa1178ac26a66b47af8dd84ebe27b04d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
