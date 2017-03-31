@@ -1,7 +1,7 @@
 metadata:
     name: cts
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Run CTS on Linaro android."
+    description: "Run tradefed based tests in LAVA."
     maintainer:
         - milosz.wasilewski@linaro.org
         - chase.qi@linaro.org
@@ -22,20 +22,24 @@ params:
     JDK: "openjdk-8-jdk-headless"
     # Download CTS package or copy it from local disk.
     # CTS_URL: "/root/android-cts/linaro/7.1_r1/android-cts-7.1_r1.zip"
-    CTS_URL: "http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
+    TEST_URL: "http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
     TEST_PARAMS: "run cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
+    # set to the name of the top directory in TEST_URL archive
+    # This should be 'android-cts' for CTS and android-vts for VTS
+    TEST_PATH: "android-cts"
     # Specify url and token for file uploading.
     URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
-    TOKEN: "4373c97b474497dbd12373689d7d492e"
+    TOKEN: ""
+
 run:
     steps:
-        - cd ./automated/android/cts
-        - ./cts.sh -s "${SKIP_INSTALL}" -o "${TIMEOUT}" -n "${ANDROID_SERIAL}" -d "${JDK}" -c "${CTS_URL}" -t "${TEST_PARAMS}"
+        - cd ./automated/android/tradefed
+        - ./tradefed.sh -s "${SKIP_INSTALL}" -o "${TIMEOUT}" -n "${ANDROID_SERIAL}" -d "${JDK}" -c "${TEST_URL}" -t "${TEST_PARAMS}"
         # Upload test log and result files to artifactorial.
-        - cp -r ./android-cts/results ./output/ || true
-        - cp -r ./android-cts/logs ./output/ || true
-        - tar caf cts-output-$(date +%Y%m%d%H%M%S).tar.xz ./output
-        - ATTACHMENT=$(ls cts-output-*.tar.xz)
+        - cp -r ./${TEST_PATH}/results ./output/ || true
+        - cp -r ./${TEST_PATH}/logs ./output/ || true
+        - tar caf tradefed-output-$(date +%Y%m%d%H%M%S).tar.xz ./output
+        - ATTACHMENT=$(ls tradefed-output-*.tar.xz)
         - ../../utils/upload-to-artifactorial.sh -a "${ATTACHMENT}" -u "${URL}" -t "${TOKEN}"
         # Send test result to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
