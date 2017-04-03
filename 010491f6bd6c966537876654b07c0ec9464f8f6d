@@ -16,6 +16,24 @@
       "revId": "010491f6bd6c966537876654b07c0ec9464f8f6d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_dacaa76d",
+        "filename": "automated/android/apk-automation/main.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-03T13:45:28Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "7a1969be_dae3c703",
+      "revId": "010491f6bd6c966537876654b07c0ec9464f8f6d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
