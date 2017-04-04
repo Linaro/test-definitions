@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_fa24c3c7",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-04T08:02:45Z",
+      "side": 1,
+      "message": "isn\u0027t it enough to just call \u0027export VAR\u0027?",
+      "revId": "555aa815ed1cb090ba20f45a9dfb9b6f782df4aa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_da2107b6",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-04T08:02:45Z",
+      "side": 1,
+      "message": "do we want to support \u0027SKIP_INSTALL\u0027 here? The use case is local execution when all pkgs are already installed.",
+      "revId": "555aa815ed1cb090ba20f45a9dfb9b6f782df4aa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_ba124b60",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-04T08:02:45Z",
+      "side": 1,
+      "message": "I still think saving results to LAVA is a good idea.",
+      "revId": "555aa815ed1cb090ba20f45a9dfb9b6f782df4aa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
