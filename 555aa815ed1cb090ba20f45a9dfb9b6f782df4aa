@@ -50,6 +50,24 @@
       "revId": "555aa815ed1cb090ba20f45a9dfb9b6f782df4aa",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_fa0b2329",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-04T08:24:13Z",
+      "side": 1,
+      "message": "Yes, I will include publishing the results in artifactorial in the next phase.",
+      "parentUuid": "7a1969be_ba124b60",
+      "revId": "555aa815ed1cb090ba20f45a9dfb9b6f782df4aa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
