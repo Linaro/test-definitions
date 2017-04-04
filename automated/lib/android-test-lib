@@ -37,7 +37,7 @@ initialize_adb() {
 
 adb_root() {
     adb root &
-    sleep 10
+    sleep 30
     which lava-lxc-device-add && lava-lxc-device-add
     adb wait-for-device
     adb devices
