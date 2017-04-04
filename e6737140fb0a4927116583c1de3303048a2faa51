@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_bdf36509",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-04T10:31:49Z",
+      "side": 1,
+      "message": "If I understand the docs correctly, the ART_TOKEN should be stored in file called \u0027secrets\u0027. So in order to get it here as variable, we need to source the \u0027secrets\u0027 file. I\u0027m wondering what it\u0027s path is to do that properly.\n\nhttps://validation.linaro.org/static/docs/v2/publishing-artifacts.html",
+      "revId": "e6737140fb0a4927116583c1de3303048a2faa51",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
