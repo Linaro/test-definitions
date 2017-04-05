@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_bd352548",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-05T02:15:26Z",
+      "side": 1,
+      "message": "Not needed unless you need the distro\u0027s Release number or Codename.",
+      "revId": "24b03103a2c3a11cc8472e547ee8cfad047d16e0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_5d307156",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-05T02:15:26Z",
+      "side": 1,
+      "message": "I think it is safe to use debian|ubuntu) here, the package names are the same. And  line #18 should be removed.  \n\nPlease refer to the 3 examples at https://git.linaro.org/qa/test-definitions.git/tree/automated/doc/test-writing-guidelines.rst#n87\n\nIf the pack names are the same cross distributions, or we only need to support debian/ubuntu, the installation part can be:\n\nPKG_DEPS\u003d\"git wget binutils curl bc xz-utils python python3 python3-scipy openjdk-8-jdk\"\ninstall_deps \"${PKG_DEPS}\" \"${SKIP_INSTALL}\"",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "24b03103a2c3a11cc8472e547ee8cfad047d16e0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
