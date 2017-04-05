@@ -25,6 +25,7 @@
 
 LOGROOT="/data/bootchart"
 start_f="${LOGROOT}/start"
+enabled_f="${LOGROOT}/enabled"
 stop_f="${LOGROOT}/stop"
 DATA_TMP="/data/local/tmp"
 TARBALL="${DATA_TMP}/bootchart.tgz"
@@ -38,14 +39,23 @@ start_bootchart(){
     fi
 }
 
+enabled_bootchart(){
+    touch ${enabled_f}
+    if [ $? -ne 0 ]; then
+        echo "enabled_bootchart: fail"
+    else
+        echo "enabled_bootchart: pass"
+    fi
+}
+
 stop_bootchart(){
-    echo 1 > ${stop_f} 
+    echo 1 > ${stop_f}
     if [ $? -ne 0 ]; then
         echo "stop_bootchart: fail"
     else
         echo "stop_bootchart: pass"
     fi
-    rm ${start_f}
+    rm -fr ${start_f} ${enabled_f}
     if [ $? -ne 0 ]; then
         echo "rm_start_file: fail"
     else
@@ -89,6 +99,7 @@ main(){
     case "X${OPERATION}" in
         "Xstart")
             start_bootchart
+            enabled_bootchart
             ;;
         "Xstop")
             stop_bootchart
