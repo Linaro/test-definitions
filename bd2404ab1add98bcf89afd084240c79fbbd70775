@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7a1969be_289f3161",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000022
+      },
+      "writtenOn": "2017-04-06T07:17:55Z",
+      "side": 1,
+      "message": "This sleep shouldn\u0027t be there before lava-lxc-device-wait-add which will make LAVA to miss the udev event after adb root command is called. lava-lxc-device-wait-add is a blocking call too.\n\nAfter adb root if we sleep then get rid of lava-lxc-device-wait-add and use only lava-lxc-device-add.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 12
+      },
+      "revId": "bd2404ab1add98bcf89afd084240c79fbbd70775",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_e8cd1988",
         "filename": "automated/lib/android-test-lib",
         "patchSetId": 2
