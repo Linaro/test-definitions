@@ -632,12 +632,12 @@ def main():
         if args.target is not None and '-o' not in sys.argv:
             test['output'] = os.path.join(test['output'], args.target)
         test['test_path'] = os.path.join(test['output'], test['test_uuid'])
-        # Get relative directory path of yaml file for file copy.
-        # '-d' takes any relative paths to the yaml file, so get the realpath first.
-        tc_realpath = os.path.realpath(test['path'])
-        tc_dirname = os.path.dirname(tc_realpath)
-        test['tc_relative_dir'] = '%s%s' % (args.kind, tc_dirname.split(args.kind)[1])
         if args.target is not None:
+            # Get relative directory path of yaml file for partial file copy.
+            # '-d' takes any relative paths to the yaml file, so get the realpath first.
+            tc_realpath = os.path.realpath(test['path'])
+            tc_dirname = os.path.dirname(tc_realpath)
+            test['tc_relative_dir'] = '%s%s' % (args.kind, tc_dirname.split(args.kind)[1])
             target_user_home_cmd = '%s "echo $HOME"' % args.target
             target_user_home = call_ssh(target_user_home_cmd)
             test['target_test_path'] = '%s/output/%s' % (target_user_home, test['test_uuid'])
