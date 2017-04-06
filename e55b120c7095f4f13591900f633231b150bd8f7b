@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_881105af",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-06T10:51:06Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "7a1969be_0846b5bf",
+      "revId": "e55b120c7095f4f13591900f633231b150bd8f7b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_48170da4",
         "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-06T10:44:23Z",
       "side": 1,
       "message": "I don\u0027t like using tools from random places. Is there anything wrong (not working) with packaged version of adb?",
+      "revId": "e55b120c7095f4f13591900f633231b150bd8f7b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e825190b",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-06T10:51:06Z",
+      "side": 1,
+      "message": "Vishal, I remember you said microbenchmarks request the latest version adb and we should stick with one from google, the install_latest_adb() is used to do that. https://git.linaro.org/qa/test-definitions.git/tree/automated/lib/android-test-lib",
+      "parentUuid": "7a1969be_48170da4",
       "revId": "e55b120c7095f4f13591900f633231b150bd8f7b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
