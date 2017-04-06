@@ -22,6 +22,30 @@
       "revId": "bd2404ab1add98bcf89afd084240c79fbbd70775",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e894f945",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-06T06:55:52Z",
+      "side": 1,
+      "message": "I know. Sleep before blocking call looks even more weird.",
+      "parentUuid": "7a1969be_e8cd1988",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 23
+      },
+      "revId": "bd2404ab1add98bcf89afd084240c79fbbd70775",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
