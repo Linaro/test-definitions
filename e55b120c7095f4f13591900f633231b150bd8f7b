@@ -69,6 +69,24 @@
       "revId": "e55b120c7095f4f13591900f633231b150bd8f7b",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_c8213db6",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-06T15:50:00Z",
+      "side": 1,
+      "message": "I prefer using the one from the build but it seems to be broken. I will use the one from install_latest_adb(). thanks.",
+      "parentUuid": "7a1969be_e825190b",
+      "revId": "e55b120c7095f4f13591900f633231b150bd8f7b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
