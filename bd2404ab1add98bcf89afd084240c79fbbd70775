@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_e8cd1988",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-06T05:49:01Z",
+      "side": 1,
+      "message": "This waits for device to show up but for some reason things aren\u0027t working. I am still testing this patch. I\u0027ll update the results.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 23
+      },
+      "revId": "bd2404ab1add98bcf89afd084240c79fbbd70775",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
