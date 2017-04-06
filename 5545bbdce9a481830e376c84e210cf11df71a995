@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_2858d155",
+        "filename": "automated/android/apk-automation/vellamo3.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-06T15:17:20Z",
+      "side": 1,
+      "message": "Milosz, I am having difficult to migrate vellamo3. After browser test finished, it stucked here, refer to https://pastebin.linaro.org/view/4421b6a4\n\nThe old code works. Any hints?",
+      "revId": "5545bbdce9a481830e376c84e210cf11df71a995",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
