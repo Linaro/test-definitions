@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_0846b5bf",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-06T10:44:23Z",
+      "side": 1,
+      "message": "I\u0027m trying to understand the sequence here. There is a call to install_deps in line 14. Than the SKIP_INSTALL variable is set and there is another call to install_deps here with if statement. Looks wrong to me. The if statement is already included in the install_deps and calling the function twice most likely isn\u0027t needed. I guess removing the if clause and moving the install_deps call below the while loop would do the job.",
+      "revId": "e55b120c7095f4f13591900f633231b150bd8f7b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_48170da4",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-06T10:44:23Z",
+      "side": 1,
+      "message": "I don\u0027t like using tools from random places. Is there anything wrong (not working) with packaged version of adb?",
+      "revId": "e55b120c7095f4f13591900f633231b150bd8f7b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
