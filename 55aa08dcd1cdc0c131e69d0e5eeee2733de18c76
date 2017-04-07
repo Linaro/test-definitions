@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_43e24ed6",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-07T06:59:48Z",
+      "side": 1,
+      "message": "I have no experience with artifactorial. Is it safe to list the token here?",
+      "revId": "55aa08dcd1cdc0c131e69d0e5eeee2733de18c76",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
