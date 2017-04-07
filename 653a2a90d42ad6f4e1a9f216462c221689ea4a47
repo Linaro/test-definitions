@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_235592c6",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-07T01:04:09Z",
+      "side": 1,
+      "message": "Normally, we also define \"SKIP_INSTALL: \u0027false\u0027\" in params, and run test script with \u0027-s \"${SKIP_INSTALL}\"\u0027.  At least we should use \u0027-s false\u0027 for test run in LAVA.",
+      "revId": "653a2a90d42ad6f4e1a9f216462c221689ea4a47",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_035216dd",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 18
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-07T01:04:09Z",
+      "side": 1,
+      "message": "Not sure how many files inside the folder. I just tried, Artifactorial doesn\u0027t take multiple files. So better compress the files as a tarball.",
+      "revId": "653a2a90d42ad6f4e1a9f216462c221689ea4a47",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_635e6aeb",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-07T01:04:09Z",
+      "side": 1,
+      "message": "Not sure if the relative path is valid.",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "653a2a90d42ad6f4e1a9f216462c221689ea4a47",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
