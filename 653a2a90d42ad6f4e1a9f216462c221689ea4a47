@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_430a4ed3",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 18
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-07T03:53:11Z",
+      "side": 1,
+      "message": "will archive it.",
+      "parentUuid": "7a1969be_035216dd",
+      "revId": "653a2a90d42ad6f4e1a9f216462c221689ea4a47",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_635e6aeb",
         "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
         "patchSetId": 18
@@ -47,6 +65,30 @@
       "writtenOn": "2017-04-07T01:04:09Z",
       "side": 1,
       "message": "Not sure if the relative path is valid.",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "653a2a90d42ad6f4e1a9f216462c221689ea4a47",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_a30fc2e0",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-07T03:53:11Z",
+      "side": 1,
+      "message": "this is right since i am in a different directory inside repo",
+      "parentUuid": "7a1969be_635e6aeb",
       "range": {
         "startLine": 40,
         "startChar": 10,
