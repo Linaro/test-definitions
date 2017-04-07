@@ -16,6 +16,24 @@
       "revId": "55aa08dcd1cdc0c131e69d0e5eeee2733de18c76",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_4309ae94",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-07T07:49:22Z",
+      "side": 1,
+      "message": "It is not safe to have it here. I just got it here from CTS job.",
+      "parentUuid": "7a1969be_43e24ed6",
+      "revId": "55aa08dcd1cdc0c131e69d0e5eeee2733de18c76",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
