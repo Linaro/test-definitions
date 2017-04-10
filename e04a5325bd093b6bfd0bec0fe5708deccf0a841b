@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_e4bd5a04",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-10T07:09:44Z",
+      "side": 1,
+      "message": "According to Senthil, this call is breaking things. If you remove it, it should work. Example here:\nhttps://playground.validation.linaro.org/scheduler/job/80147#L1135",
+      "revId": "e04a5325bd093b6bfd0bec0fe5708deccf0a841b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
