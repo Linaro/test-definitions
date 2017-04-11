@@ -16,6 +16,24 @@
       "revId": "5545bbdce9a481830e376c84e210cf11df71a995",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_aaae8be5",
+        "filename": "automated/android/apk-automation/vellamo3.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-11T11:37:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1969be_2858d155",
+      "revId": "5545bbdce9a481830e376c84e210cf11df71a995",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
