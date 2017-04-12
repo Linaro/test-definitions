@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_2dee358c",
+        "filename": "automated/android/apk-automation/apk-automation.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-12T12:24:45Z",
+      "side": 1,
+      "message": "Should we move these lines to upload-to-artifactorial.sh?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 88
+      },
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
