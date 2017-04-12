@@ -36,11 +36,15 @@ initialize_adb() {
 }
 
 adb_root() {
-    adb root &
-    which lava-lxc-device-wait-add && lava-lxc-device-wait-add
-    which lava-lxc-device-add && lava-lxc-device-add
-    adb wait-for-device
-    adb devices
+    if [ "$(adb shell whoami)" = "root" ]; then 
+        echo "DUT already has adbd running as root"
+    else
+        adb root &
+        which lava-lxc-device-wait-add && lava-lxc-device-wait-add
+        which lava-lxc-device-add && lava-lxc-device-add
+        adb wait-for-device
+        adb devices
+    fi
 }
 
 wait_boot_completed() {
