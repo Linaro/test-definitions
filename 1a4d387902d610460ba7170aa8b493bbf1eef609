@@ -16,6 +16,24 @@
       "revId": "1a4d387902d610460ba7170aa8b493bbf1eef609",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_d88c7d82",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T08:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a1371a2_f84a1954",
+      "revId": "1a4d387902d610460ba7170aa8b493bbf1eef609",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
