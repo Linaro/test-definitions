@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3a1371a2_385e71ea",
+        "filename": "automated/android/apk-automation/antutu6.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a1371a2_2dee358c",
         "filename": "automated/android/apk-automation/apk-automation.yaml",
         "patchSetId": 9
@@ -19,6 +36,370 @@
         "endLine": 42,
         "endChar": 88
       },
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_ed809d8d",
+        "filename": "automated/android/apk-automation/apk-automation.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "+1. Than we should make -t parameter optional.",
+      "parentUuid": "3a1371a2_2dee358c",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 88
+      },
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_9847a51d",
+        "filename": "automated/android/apk-automation/benchmarkpi.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please change to self.logger.",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_f854d9cb",
+        "filename": "automated/android/apk-automation/benchmarkpi.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_d8511dda",
+        "filename": "automated/android/apk-automation/benchmarkpi.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_5846cd24",
+        "filename": "automated/android/apk-automation/caffeinemark.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_b84a6125",
+        "filename": "automated/android/apk-automation/caffeinemark.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_7841090b",
+        "filename": "automated/android/apk-automation/cf-bench.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please move to private class method",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_b8dc2176",
+        "filename": "automated/android/apk-automation/common/__init__.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s safe option. connectToDeviceOrExit supports optional parameter serialno. You can add it to kwargs1 dictionary and pass from main. This way there won\u0027t be a chance of executing tests on the wrong device (local execution).\n\nhttps://github.com/dtmilano/AndroidViewClient/blob/master/src/com/dtmilano/android/viewclient.py#L2651",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_98d96586",
+        "filename": "automated/android/apk-automation/common/__init__.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "shouldn\u0027t the whole loop be taken into try/except clause? When there is an exception, screenshot should be taken. I think this is the way it worked in the previous version.",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_18d57543",
+        "filename": "automated/android/apk-automation/common/__init__.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "should we include sth like sqlite db for this purpose? Same as done in WA would do the job imho. This way the test name would not have to be altered when doing multiple iterations. I guess this is some idea for the future.",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_78caa9a2",
+        "filename": "automated/android/apk-automation/common/__init__.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "result_post_processing is called after report_result. This means that test name is already altered (added iteration number). Am I correct on this? If so, can we fix this somehow, so at least test names in CSV don\u0027t have the itr suffix?",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_58cfedb0",
+        "filename": "automated/android/apk-automation/common/__init__.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please make this a parameter and pass from main.",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_183c5593",
+        "filename": "automated/android/apk-automation/gearses2eclair.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_f8bdf903",
+        "filename": "automated/android/apk-automation/geekbench3.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_d8babd09",
+        "filename": "automated/android/apk-automation/geekbench3.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_383791b2",
+        "filename": "automated/android/apk-automation/geekbench3.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "change to self.logger.",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_b8c38189",
+        "filename": "automated/android/apk-automation/glbenchmark25.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "change to self.logger",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_ad5d054b",
+        "filename": "automated/android/apk-automation/rl-sqlite.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "please make this a private method of the class rather than embedded function.",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_8d5ac94e",
+        "filename": "automated/android/apk-automation/rl-sqlite.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "hmm, indentation looks wrong. I know it\u0027s copy/paste from current implementation.",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_cd7de1b3",
+        "filename": "automated/android/apk-automation/vellamo3.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "shouldn\u0027t we break the loop once the button is pressed?",
+      "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_2d4ab583",
+        "filename": "automated/android/apk-automation/vellamo3.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-13T09:11:40Z",
+      "side": 1,
+      "message": "if btn_start isn\u0027t found, the script should probably move to next chapter or exit. Otherwise it will run into infinite loop and will be killed by timeout.",
       "revId": "4ade92a99723a83309879962dd88008f8aff60d0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
