@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_f84a1954",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-13T04:48:57Z",
+      "side": 1,
+      "message": "The same as https://review.linaro.org/#/c/18258/9/automated/android/apk-automation/apk-automation.yaml, we should hide the token, I am going to delete this token from my account.",
+      "revId": "1a4d387902d610460ba7170aa8b493bbf1eef609",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
