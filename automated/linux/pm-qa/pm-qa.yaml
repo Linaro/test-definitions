@@ -1,0 +1,39 @@
+metadata:
+    name: pm-qa
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test power management (PM-QA). Currently, the test runs
+                  cpufreq, cpuidle, cpuhotplug, thermal and cputopology by
+                  default and individual test can be run by setting TESTS
+                  parameter in test job definition too. Test case documentation
+                  available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
+    maintainer:
+        - lisa.nguyen@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - debian
+        - openembedded
+    scope:
+        - functional
+        - performance
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - beaglebone-black
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+
+params:
+    RELEASE: "pm-qa-v0.5.2"
+    TESTS: "cpufreq cpuidle cpuhotplug thermal cputopology"
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/pm-qa/
+        - ./pm-qa.sh -r "${RELEASE}" -t "${TESTS}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
