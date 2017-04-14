@@ -1,0 +1,34 @@
+metadata:
+    name: bootchart
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Collect the bootchart data and try to analyse."
+    maintainer:
+        - yongqin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - juno
+        - hi6220-hikey
+
+params:
+    SKIP_INSTALL: "false"
+    # Specify device serial no. when more than one device connected.
+    ANDROID_SERIAL: ""
+    # Specify timeout in seconds for wait_boot_completed.
+    BOOT_TIMEOUT: "300"
+    # Available operations: start or stop.
+    OPERATION: "stop"
+    BOOTCHART_TIME: "120"
+    # Specify url and token for publishing artifacts.
+    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    ARTIFACTORIAL_TOKEN: ""
+
+run:
+    steps:
+        - cd ./automated/android/bootchart/
+        - ./bootchart.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -s "${ANDROID_SERIAL}" -o "${OPERATION}" -T "${BOOTCHART_TIME}"
+        - ../../utils/upload-to-artifactorial.sh -a "./output/output-bootchart.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
