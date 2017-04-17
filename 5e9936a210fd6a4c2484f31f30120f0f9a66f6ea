@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_3331720c",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-17T18:38:20Z",
+      "side": 1,
+      "message": "is disablesuspend.sh run on the build ? Not sure if this implicit call is ported from v1 to v2 but for hikey, while running vts I need to run disablesuspend.sh\n\nAlso I need to run adb root as I think I see it tries to restart adb as root. I\u0027ll do some more investigation.",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "5e9936a210fd6a4c2484f31f30120f0f9a66f6ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
