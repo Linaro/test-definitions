@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_33c7b214",
+        "filename": "automated/android/apk-automation/common/__init__.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-04-17T06:25:02Z",
+      "side": 1,
+      "message": "Tried to run throught all of these apks with this test plan https://git.linaro.org/people/chase.qi/test-definitions.git/tree/plans/android-apk-atuomation.yaml\n\nExept vellamo3, other tests finished as expected. The third iteration of vellamo3 trigged this line, but the error msg is None. Then I tried to run vellamo3 13 times, but unable to duplicate the issue.\n\nChanging the logger.error() lines to self.logger.error(e) to try to capture the while error msg in case it happen again.",
+      "revId": "4711fe79183575bb976a65f1499590465a8a3611",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
