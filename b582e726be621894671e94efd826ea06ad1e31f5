@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_3e95b9e4",
+        "filename": "automated/linux/rcutorture/rcutorture.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-04-18T09:56:54Z",
+      "side": 1,
+      "message": "If that file do not exist check for other config file\nelif [ -f /boot/config-\"$(uname -r)\" ]\n\nPlease refer,\nhttps://git.linaro.org/qa/test-definitions.git/tree/automated/linux/libhugetlbfs/libhugetlbfs.sh#n128",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "b582e726be621894671e94efd826ea06ad1e31f5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_9efe6d37",
+        "filename": "automated/linux/rcutorture/rcutorture.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-04-18T09:56:54Z",
+      "side": 1,
+      "message": "D you want to add gunzip or tar or zip as dependency package ?",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "b582e726be621894671e94efd826ea06ad1e31f5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
