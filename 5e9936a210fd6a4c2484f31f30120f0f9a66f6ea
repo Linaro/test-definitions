@@ -22,6 +22,30 @@
       "revId": "5e9936a210fd6a4c2484f31f30120f0f9a66f6ea",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_9908472f",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-19T09:26:23Z",
+      "side": 1,
+      "message": "is the disablesuspent.sh also needed for CTS? What is the path of the script on the target?",
+      "parentUuid": "3a1371a2_3331720c",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "5e9936a210fd6a4c2484f31f30120f0f9a66f6ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
