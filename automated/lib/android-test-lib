@@ -1,4 +1,4 @@
-#!/bin/sh
+#/bin/sh
 
 install_latest_adb() {
     install_deps "wget zip"
@@ -164,6 +164,13 @@ adb_shell_which() {
     else
         return 1
     fi
+}
+
+disable_suspend() {
+   echo "Now disable the suspend feature..."
+   adb shell input keyevent 82  ##unlock the home screen
+   adb shell svc power stayon true ##disable the suspend
+   echo "The suspend feature is disabled."
 }
 
 parse_common_args() {
