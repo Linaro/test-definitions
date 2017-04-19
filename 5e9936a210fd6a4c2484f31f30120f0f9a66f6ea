@@ -70,6 +70,30 @@
       "revId": "5e9936a210fd6a4c2484f31f30120f0f9a66f6ea",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_ebe36231",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-19T10:17:37Z",
+      "side": 1,
+      "message": "IMHO, let us move disablesuspend api into test-definition library. This way, we will not depend on what build it is run on. we already wait for homescreen anyway. we just need to run 2 commands after that. Here is the implementation: https://android-git.linaro.org/device/linaro/common.git/tree/disablesuspend.sh?h\u003dlinaro-nougat  line no 31 and 32 needs to be run.",
+      "parentUuid": "3a1371a2_abd96a85",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "5e9936a210fd6a4c2484f31f30120f0f9a66f6ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
