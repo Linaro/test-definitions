@@ -94,6 +94,30 @@
       "revId": "5e9936a210fd6a4c2484f31f30120f0f9a66f6ea",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_ce3954da",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-04-19T20:06:48Z",
+      "side": 1,
+      "message": "We need adb_root before invoking android-vts. since LTP tries to run adb as root if not running as root already which results in loosing the connection:\n\n vts-tf \u003e [2K04-19 20:41:07 D/BackgroundDeviceAction: Waiting for device 96B0201601000862 online before starting.\nvts-tf \u003e\n--- line break ---\n2017-04-19 20:41:47,698 - Tradefed: INFO: Checking adb connectivity...\nerror: device \u002796B0201601000862\u0027 not found\nList of devices attached\n\n\nHere is the job: https://staging.validation.linaro.org/scheduler/job/170134",
+      "parentUuid": "3a1371a2_abd96a85",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "5e9936a210fd6a4c2484f31f30120f0f9a66f6ea",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
