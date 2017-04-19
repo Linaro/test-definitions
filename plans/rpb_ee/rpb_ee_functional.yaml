@@ -90,12 +90,12 @@ requirements:
     category: Low-level kernel
     tests:
       automated:
-        - path: automated/linux/disk/disk-partitioning.yaml
+        - path: automated/linux/disk-partitioning/disk-partitioning.yaml
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
           parameters:
             DEVICE: /dev/sdb
-        - path: automated/linux/disk/disk-partitioning.yaml
+        - path: automated/linux/disk-partitioning/disk-partitioning.yaml
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
           parameters:
