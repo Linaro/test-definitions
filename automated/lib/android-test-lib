@@ -166,6 +166,13 @@ adb_shell_which() {
     fi
 }
 
+disable_suspend() {
+   echo "Now disable the suspend feature..."
+   adb shell input keyevent 82  ##unlock the home screen
+   adb shell svc power stayon true ##disable the suspend
+   echo "The suspend feature is disabled."
+}
+
 parse_common_args() {
     while getopts ":s:t:" opt; do
         case "${opt}" in
