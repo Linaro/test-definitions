@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_816e0dc8",
+        "filename": "automated/android/apk-automation/apk-automation.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-20T12:29:15Z",
+      "side": 1,
+      "message": "it might be a good idea to disable suspend here. It\u0027s done by default in v1.",
+      "revId": "2ece67c4e9510f60851f08f396646274f9128fb8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_617311b2",
+        "filename": "automated/android/apk-automation/common/__init__.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-04-20T12:29:15Z",
+      "side": 1,
+      "message": "if serialno is None ?",
+      "revId": "2ece67c4e9510f60851f08f396646274f9128fb8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
