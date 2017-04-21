@@ -23,6 +23,12 @@
 #
 ###############################################################################
 
+local_file_path="$0"
+local_file_parent=$(dirname "${local_file_path}")
+local_file_parent=$(cd "${local_file_parent}"||exit; pwd)
+# shellcheck source=android/scripts/common.sh
+. "${local_file_parent}/common.sh"
+
 LOGROOT="/data/bootchart"
 start_f="${LOGROOT}/start"
 enabled_f="${LOGROOT}/enabled"
@@ -33,33 +39,33 @@ TARBALL="${DATA_TMP}/bootchart.tgz"
 start_bootchart(){
     echo "${BOOTCHART_TIME}" > ${start_f}
     if [ $? -ne 0 ]; then
-        echo "start_bootchart: fail"
+        output_test_result "start_bootchart" "fail"
     else
-        echo "start_bootchart: pass"
+        output_test_result "start_bootchart" "pass"
     fi
 }
 
 enabled_bootchart(){
     touch ${enabled_f}
     if [ $? -ne 0 ]; then
-        echo "enabled_bootchart: fail"
+        output_test_result "enabled_bootchart" "fail"
     else
-        echo "enabled_bootchart: pass"
+        output_test_result "enabled_bootchart" "pass"
     fi
 }
 
 stop_bootchart(){
     echo 1 > ${stop_f}
     if [ $? -ne 0 ]; then
-        echo "stop_bootchart: fail"
+        output_test_result "stop_bootchart" "fail"
     else
-        echo "stop_bootchart: pass"
+        output_test_result "stop_bootchart" "pass"
     fi
     rm -fr ${start_f} ${enabled_f}
     if [ $? -ne 0 ]; then
-        echo "rm_start_file: fail"
+        output_test_result "rm_start_file" "fail"
     else
-        echo "rm_start_file: pass"
+        output_test_result "rm_start_file" "pass"
     fi
 }
 
@@ -73,15 +79,33 @@ collect_data(){
     # shellcheck disable=SC2086
     tar -czvf ${TARBALL} ${FILES}
     if [ $? -ne 0 ]; then
-        echo "bootchart_collect_data: fail"
+        output_test_result "bootchart_collect_data" "fail"
     else
-        echo "bootchart_collect_data: pass"
+        output_test_result "bootchart_collect_data" "pass"
     fi
     # shellcheck disable=SC2086
     rm -fr ${FILES}
     cd ${DATA_TMP} || exit 1
     if [ -n "$(which lava-test-run-attach)" ]; then
         lava-test-run-attach bootchart.tgz application/x-gzip
+    fi
+    local bootchart_parse_cmd="/system/bin/bootchart_parse"
+    local bootchart_paser_res="/data/local/tmp/bootchart_parse.result"
+    if [ -x "${bootchart_parse_cmd}" ]; then
+        ${bootchart_parse_cmd} > "${bootchart_paser_res}"
+        if [ $? -ne 0 ]; then
+            output_test_result "bootchart_parse" "fail"
+        else
+            output_test_result "bootchart_parse" "pass"
+            while read -r line; do
+                local test_case_cmd=$(echo "${line}" |cut -d, -f1)
+                local start_time=$(echo "${line}" |cut -d, -f2)
+                local end_time=$(echo "${line}" |cut -d, -f3)
+                output_test_result "${test_case_cmd}_starttime" "pass" "${start_time}" "ms"
+                output_test_result "${test_case_cmd}_endtime" "pass" "${end_time}" "ms"
+            done < "${bootchart_paser_res}"
+        fi
+        rm -fr "${bootchart_paser_res}"
     fi
 }
 

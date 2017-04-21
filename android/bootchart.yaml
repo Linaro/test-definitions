@@ -18,6 +18,3 @@ params:
 run:
     steps:
         - ./android/scripts/bootchart.sh $OPERATION $BOOTCHART_TIME
-
-parse:
-    pattern: "(?P<test_case_id>\\w+):\\s+(?P<result>(pass|fail))"
