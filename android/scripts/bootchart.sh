@@ -23,6 +23,12 @@
 #
 ###############################################################################
 
+local_file_path="$0"
+local_file_parent=$(dirname "${local_file_path}")
+local_file_parent=$(cd "${local_file_parent}"||exit; pwd)
+# shellcheck source=android/scripts/common.sh
+. "${local_file_parent}/common.sh"
+
 LOGROOT="/data/bootchart"
 start_f="${LOGROOT}/start"
 enabled_f="${LOGROOT}/enabled"
@@ -33,62 +39,99 @@ TARBALL="${DATA_TMP}/bootchart.tgz"
 start_bootchart(){
     echo "${BOOTCHART_TIME}" > ${start_f}
     if [ $? -ne 0 ]; then
-        echo "start_bootchart: fail"
+        output_test_result "start_bootchart" "fail"
     else
-        echo "start_bootchart: pass"
+        output_test_result "start_bootchart" "pass"
     fi
 }
 
 enabled_bootchart(){
     touch ${enabled_f}
     if [ $? -ne 0 ]; then
-        echo "enabled_bootchart: fail"
+        output_test_result "enabled_bootchart" "fail"
     else
-        echo "enabled_bootchart: pass"
+        output_test_result "enabled_bootchart" "pass"
     fi
 }
 
 stop_bootchart(){
     echo 1 > ${stop_f}
     if [ $? -ne 0 ]; then
-        echo "stop_bootchart: fail"
+        output_test_result "stop_bootchart" "fail"
     else
-        echo "stop_bootchart: pass"
+        output_test_result "stop_bootchart" "pass"
     fi
     rm -fr ${start_f} ${enabled_f}
     if [ $? -ne 0 ]; then
-        echo "rm_start_file: fail"
+        output_test_result "rm_start_file" "fail"
     else
-        echo "rm_start_file: pass"
+        output_test_result "rm_start_file" "pass"
     fi
 }
 
 collect_data(){
-    FILES="header proc_stat.log proc_ps.log proc_diskstats.log"
+    FILES="header proc_stat.log proc_ps.log proc_diskstats.log kernel_pacct"
     if [ ! -d "${LOGROOT}" ]; then
         echo "There is no ${LOGROOT} directory!"
         return
     fi
     cd ${LOGROOT} || exit 1
-    # shellcheck disable=SC2086
-    tar -czvf ${TARBALL} ${FILES}
-    if [ $? -ne 0 ]; then
-        echo "bootchart_collect_data: fail"
-    else
-        echo "bootchart_collect_data: pass"
+    local exist_files=""
+    for f in ${FILES}; do
+        if [ -f "${f}" ]; then
+            exist_files="${exist_files} ${f}"
+        fi
+    done
+    if [ -z "${exist_files}" ]; then
+        output_test_result "bootchart_collect_data" "fail"
+        exit 1
     fi
     # shellcheck disable=SC2086
+    tar -czvf ${TARBALL} ${exist_files}
+    if [ $? -ne 0 ]; then
+        output_test_result "bootchart_collect_data" "fail"
+        exit 1
+    else
+        output_test_result "bootchart_collect_data" "pass"
+    fi
+
+    local bootchart_parse_cmd="/system/bin/bootchart_parse"
+    local bootchart_paser_res="${DATA_TMP}/bootchart_parse.result"
+    if [ -x "${bootchart_parse_cmd}" ]; then
+        ${bootchart_parse_cmd} > "${bootchart_paser_res}"
+        if [ $? -ne 0 ]; then
+            output_test_result "bootchart_parse" "fail"
+            cd ${DATA_TMP} || exit 1
+            [ -f  "bootchart_parse.result" ] && lava-test-run-attach bootchart_parse.result text/plain
+            exit 1
+        else
+            output_test_result "bootchart_parse" "pass"
+            while read -r line; do
+                local test_case_cmd=$(echo "${line}" |cut -d, -f1)
+                local start_time=$(echo "${line}" |cut -d, -f2)
+                local end_time=$(echo "${line}" |cut -d, -f3)
+                output_test_result "${test_case_cmd}_starttime" "pass" "${start_time}" "ms"
+                output_test_result "${test_case_cmd}_endtime" "pass" "${end_time}" "ms"
+            done < "${bootchart_paser_res}"
+        fi
+        rm -fr "${bootchart_paser_res}"
+    fi
+
+    # shellcheck disable=SC2086
     rm -fr ${FILES}
+
     cd ${DATA_TMP} || exit 1
     if [ -n "$(which lava-test-run-attach)" ]; then
-        lava-test-run-attach bootchart.tgz application/x-gzip
+        [ -f "bootchart.tgz" ] && lava-test-run-attach bootchart.tgz application/x-gzip
+        [ -f "lava_test_shell_raw_data.csv" ] && lava-test-run-attach lava_test_shell_raw_data.csv text/plain
     fi
 }
 
 main(){
     OPERATION="${1}"
     if [ "X${OPERATION}" = "X" ]; then
-        OPERATION="stop"
+        echo "Please specify the operation of start or stop"
+        exit 1
     fi
     BOOTCHART_TIME="${2}"
     if [ "X${BOOTCHART_TIME}" = "X" ]; then
@@ -103,12 +146,13 @@ main(){
             ;;
         "Xstop")
             stop_bootchart
-            #wait the file to be sync disk completely
+            #wait the file to be synced to disk completely
             sleep 5
             collect_data
             ;;
         *)
-            echo "bootchart: fail"
+            output_test_result "bootchart" "fail"
+            exit 1
             ;;
     esac
 }
