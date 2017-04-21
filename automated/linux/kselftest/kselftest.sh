@@ -27,7 +27,7 @@ parse_output() {
     sed -i -e 's/: /-/g' "${RESULT_FILE}"
     sed -i -e 's/\[//g' "${RESULT_FILE}"
     sed -i -e 's/]//g' "${RESULT_FILE}"
-    sed -i -e 's/selftests//g' "${RESULT_FILE}"
+    sed -i -e 's/selftests-//g' "${RESULT_FILE}"
 }
 
 install() {
