@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1371a2_1c039b10",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-05-02T16:49:42Z",
+      "side": 1,
+      "message": "Since we install adb tools as root we are exporting this to use it from the above path. While executing locally, executing this should be harmless.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 37
+      },
+      "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a1371a2_7fff2102",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-05-02T16:49:42Z",
+      "side": 1,
+      "message": "Parse u option so that it doesn\u0027t complain for sudo -u option used while running the command.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
