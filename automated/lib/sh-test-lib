@@ -209,6 +209,10 @@ install_deps() {
             warn_msg "Unsupported distro: ${dist}! Package installation skipped."
             ;;
         esac
+        # shellcheck disable=SC2181
+        if [ $? -ne 0 ]; then
+            error_msg "Failed to install dependencies, exiting..."
+        fi
     fi
 }
 
