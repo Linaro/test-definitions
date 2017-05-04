@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_c6c4a461",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-04T17:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a1371a2_1c039b10",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 37
+      },
+      "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_c6a9447d",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-04T17:58:04Z",
+      "side": 1,
+      "message": "should we also add \u0027u\u0027 option here?",
+      "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a1371a2_7fff2102",
         "filename": "automated/android/tradefed/tradefed.sh",
         "patchSetId": 14
@@ -42,6 +83,23 @@
         "endLine": 28,
         "endChar": 13
       },
+      "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_e6c72063",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-04T17:58:04Z",
+      "side": 1,
+      "message": "user can\u0027t remove this file. Please move to setup.sh.",
       "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
