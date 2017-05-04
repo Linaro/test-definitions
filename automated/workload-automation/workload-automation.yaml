@@ -1,0 +1,53 @@
+metadata:
+    name: workload-automation
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Workload Automation"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    devices:
+        - juno
+        - hi6220-hikey
+        - x15
+    scope:
+        - performance
+
+params:
+    SKIP_INSTALL: "false"
+    # Timeout for wait_boot_completed in seconds.
+    BOOT_TIMEOUT: "300"
+    # Specify adb device SN if more then one device connected.
+    ANDROID_SERIAL: ""
+    # Params for WA test run.
+    BUILD_TOOLS_URL: "http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz"
+    WA_HOME_URL: "http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
+    WA_TEMPLATES_REPO: "https://git.linaro.org/people/chase.qi/wa-templates.git"
+    CONFIG: "config/generic-android.py"
+    AGENDA: "agenda/generic-linpack.yaml"
+    # Params for result post processing.
+    CONSOLIDATION_WORKLOAD: "linpack"
+    REFERENCE_MODE: "a15"
+    CONSOLIDATION_LABELS: "Mean Latency"
+    ENERGY_LABELS: "arm,vexpress-energy A15 Jcore;arm,vexpress-energy A7 Jcore"
+    DB_PATH: "./output/wa/results.sqlite"
+    # Specify url and token for publishing artifacts.
+    # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
+    # 'secrets' dictionary, and set job visibility to personal or group.
+    # Refer to https://validation.linaro.org/static/docs/v2/publishing-artifacts.html
+    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    ARTIFACTORIAL_TOKEN: ""
+
+run:
+    steps:
+        - cd ./automated/workload-automation
+        # Test run.
+        - ./workload-automation.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -s "${ANDROID_SERIAL}" -r "${WA_TEMPLATES_REPO}" -c "${CONFIG}" -a "${AGENDA}" -b "${BUILD_TOOLS_URL}" -w "${WA_HOME_URL}"
+        # Result post processing.
+        - ./postprocessing.py -l "$CONSOLIDATION_LABELS" -e "$ENERGY_LABELS" -w "$CONSOLIDATION_WORKLOAD" -m "$REFERENCE_MODE" -p "$DB_PATH"
+        # Upload test output to artifactorial.
+        - tar caf "wa-output.tar.xz" "./output"
+        - ../utils/upload-to-artifactorial.sh -a "wa-output.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        # Send test result to LAVA.
+        - ../utils/send-to-lava.sh "./output/result.txt"
