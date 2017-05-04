@@ -121,6 +121,24 @@
       "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_6635f045",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-05-04T18:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_e6c72063",
+      "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
