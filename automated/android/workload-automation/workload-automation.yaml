@@ -1,0 +1,48 @@
+metadata:
+    name: workload-automation
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Workload Automation on Android"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    devices:
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+        - x15
+    scope:
+        - performance
+
+params:
+    SKIP_INSTALL: "false"
+    # Timeout for wait_boot_completed in seconds.
+    BOOT_TIMEOUT: "300"
+    # Specify adb device SN if more then one device connected.
+    ANDROID_SERIAL: ""
+    # Params for WA test run.
+    WA_TAG: "master"
+    BUILD_TOOLS_URL: "http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz"
+    WA_HOME_URL: "http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
+    WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa2-lava.git"
+    TEMPLATES_BRANCH: "wa-templates"
+    CONFIG: "config/generic-android.py"
+    AGENDA: "agenda/android-linpack.yaml"
+    # Specify url and token for publishing artifacts.
+    # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
+    # 'secrets' dictionary, and set job visibility to personal or group.
+    # Refer to https://validation.linaro.org/static/docs/v2/publishing-artifacts.html
+    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    ARTIFACTORIAL_TOKEN: ""
+
+run:
+    steps:
+        - cd ./automated/android/workload-automation
+        # Test run.
+        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -S "${ANDROID_SERIAL}" -T "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -g "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -b "${BUILD_TOOLS_URL}" -w "${WA_HOME_URL}"
+        # Upload test output to artifactorial.
+        - tar caf "wa-output.tar.xz" "./output"
+        - ../../utils/upload-to-artifactorial.sh -a "wa-output.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        # Send test result to LAVA.
+        - ../../utils/send-to-lava.sh "./output/result.txt"
