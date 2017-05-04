@@ -1,0 +1,28 @@
+metadata:
+    name: setup-remote-target
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Setup remote Linux target for Workload Automation"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    devices:
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+        - x15
+    scope:
+        - performance
+
+params:
+    SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/workload-automation
+        - ./setup-target.sh "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh "./output/result.txt"
