@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_86f46c88",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-05-04T18:16:18Z",
+      "side": 1,
+      "message": "That option is really not for the script. It is a workaround for sudo -u testuser ./tradefed.sh  call.This option is of no use for the user.",
+      "parentUuid": "1a106d94_c6a9447d",
+      "revId": "3a1469dbcb7d8f4131af90061a6349cf0675cb80",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a1371a2_7fff2102",
         "filename": "automated/android/tradefed/tradefed.sh",
         "patchSetId": 14
