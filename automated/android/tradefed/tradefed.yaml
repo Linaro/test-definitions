@@ -17,7 +17,6 @@ params:
     SKIP_INSTALL: "false"
     # Specify timeout in seconds for wait_boot_completed and wait_homescreen.
     TIMEOUT: "300"
-    JDK: "openjdk-8-jdk-headless"
     # Download CTS package or copy it from local disk.
     # CTS_URL: "/root/android-cts/linaro/7.1_r1/android-cts-7.1_r1.zip"
     TEST_URL: "http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
