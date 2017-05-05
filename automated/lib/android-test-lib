@@ -169,7 +169,7 @@ adb_shell_which() {
 disable_suspend() {
    echo "Now disable the suspend feature..."
    adb shell input keyevent 82  ##unlock the home screen
-   adb shell svc power stayon true ##disable the suspend
+   adb shell "echo lock_me > /sys/power/wake_lock"
    echo "The suspend feature is disabled."
 }
 
