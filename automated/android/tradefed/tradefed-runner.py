@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 import pexpect
 import argparse
 import logging
+import time
 
 sys.path.insert(0, '../../lib/')
 import py_test_lib  # nopep8
@@ -142,7 +143,8 @@ while child.isalive():
     adb_check = subprocess.Popen(shlex.split(adb_command))
     if adb_check.wait() != 0:
         subprocess.call(['adb', 'devices'])
-        logger.error('Terminating tradefed shell test as adb connection is lost!')
+        logger.error('adb connection lost!! Will wait for 5 minutes and terminating tradefed shell test as adb connection is lost!')
+        time.sleep(300)
         child.terminate(force=True)
         result = 'check-adb-connectivity fail'
         py_test_lib.add_result(RESULT_FILE, result)
