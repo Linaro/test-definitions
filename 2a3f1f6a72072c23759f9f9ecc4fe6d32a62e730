@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_0c36db03",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-08T12:45:03Z",
+      "side": 1,
+      "message": "This requires root privileges on the target shell and I don\u0027t think this is guaranteed.",
+      "revId": "2a3f1f6a72072c23759f9f9ecc4fe6d32a62e730",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
