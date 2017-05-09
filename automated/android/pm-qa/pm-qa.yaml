@@ -1,0 +1,35 @@
+metadata:
+    name: pm-qa
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Test power management (PM-QA). Currently, the test runs
+                  cpufreq, cpuidle, cpuhotplug, thermal and cputopology by
+                  default and individual test can be run by setting TESTS
+                  parameter in test job definition too. Test case documentation
+                  available in wiki: https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQaSpecification"
+    maintainer:
+        - lisa.nguyen@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+        - performance
+    devices:
+        - juno
+        - hi6220-hikey
+        - apq8016-sbc
+
+params:
+    SKIP_INSTALL: "false"
+    ANDROID_SERIAL: ""
+    BOOT_TIMEOUT: "300"
+    BRANCH: "android-arm64"
+    TESTS: "cpufreq cpuidle cpuhotplug thermal cputopology"
+
+run:
+    steps:
+        - cd ./automated/android/pm-qa/
+        - ./pm-qa.sh -S "${SKIP_INSTALL}" -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -b "${BRANCH}" -T "${TESTS}"
+
+parse:
+    pattern: "^(?P<test_case_id>[a-z]+_[0-9]+):\\s+(?P<result>pass|fail|skip)"
