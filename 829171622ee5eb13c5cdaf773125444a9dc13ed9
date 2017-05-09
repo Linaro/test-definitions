@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_22ff2e03",
+        "filename": "automated/android/pm-qa/pm-qa.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-09T13:52:56Z",
+      "side": 1,
+      "message": "It looks like there is a pattern for tracking results. Please use the pattern rather than \u0027send-to-lava\u0027 script. This allows to collect results even if there is a crash on the way.",
+      "revId": "829171622ee5eb13c5cdaf773125444a9dc13ed9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
