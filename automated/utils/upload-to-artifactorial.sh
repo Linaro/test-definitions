@@ -34,7 +34,9 @@ if which lava-test-reference; then
     fi
 
     if [ -z "${ARTIFACTORIAL_TOKEN}" ]; then
-        return=$(curl -F "path=@${ATTACHMENT}" "${ARTIFACTORIAL_URL}")
+        echo "WARNING: ARTIFACTORIAL_TOKEN is empty! File uploading skipped."
+        echo "test-attachment skip" | tee -a "${RESULT_FILE}"
+        exit 0
     else
         return=$(curl -F "path=@${ATTACHMENT}" -F "token=${ARTIFACTORIAL_TOKEN}" "${ARTIFACTORIAL_URL}")
     fi
