@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_228f2e25",
+        "filename": "automated/workload-automation/workload-automation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-10T09:11:51Z",
+      "side": 1,
+      "message": "we should allow for tagged versions here, not only tip.",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_e2754633",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-10T09:11:51Z",
+      "side": 1,
+      "message": "looks like it\u0027s android specific. Is the same variable used for WA over SSH?",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_62821602",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-10T09:11:51Z",
+      "side": 1,
+      "message": "This is specific use case for Naresh\u0027 monthly (now quarterly) reporting. Please remove. The same can be done in postprocessing.",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_82871a0f",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-10T09:11:51Z",
+      "side": 1,
+      "message": "as above",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_a27b3e28",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-10T09:11:51Z",
+      "side": 1,
+      "message": "as above",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_c278422e",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-10T09:11:51Z",
+      "side": 1,
+      "message": "as above",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_02730a4e",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-10T09:11:51Z",
+      "side": 1,
+      "message": "as mentioned above, this isn\u0027t needed for generic use case. Please remove.",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
