@@ -16,6 +16,24 @@
       "revId": "829171622ee5eb13c5cdaf773125444a9dc13ed9",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_22a1eea9",
+        "filename": "automated/android/pm-qa/pm-qa.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-10T09:00:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_22ff2e03",
+      "revId": "829171622ee5eb13c5cdaf773125444a9dc13ed9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
