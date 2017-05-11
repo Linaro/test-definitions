@@ -64,6 +64,7 @@ start_qemu_x86_64_aarch64()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -display vnc=none \
+        -pidfile /run/qemu.pid \
         -serial file:qemu_aarch64.txt
 }
 
@@ -81,6 +82,7 @@ start_qemu_aarch64_aarch64()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
+        -pidfile /run/qemu.pid \
         -serial file:kvm-aarch64_aarch64.txt
 }
 
@@ -117,6 +119,7 @@ start_qemu_aarch64_armv7l()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
+        -pidfile /run/qemu.pid \
         -serial file:kvm-aarch64_armv7l.txt
 }
 
@@ -135,6 +138,7 @@ start_qemu_armv7l_armv7l()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
+        -pidfile /run/qemu.pid \
         -serial file:kvm-armv7l_armv7l.txt
 }
 

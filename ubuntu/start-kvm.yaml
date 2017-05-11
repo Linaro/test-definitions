@@ -43,10 +43,11 @@ install:
 
 run:
     steps:
-        - 'lava-test-case kvm-init --shell [ -c /dev/kvm ]'
-        - 'sudo ./common/scripts/kvm-cloud/start-kvm.sh $GUEST_ARCH $GUEST_IMAGE $GUEST_FIRMWARE $GUEST_KERNEL $GUEST_CORES $GUEST_RAM'
-        - 'lava-send ipv4 ipaddr=$(./common/scripts/kvm-cloud/wait-ip.py)'
+        - "lava-test-case kvm-init --shell [ -c /dev/kvm ]"
+        - "sudo ./common/scripts/kvm-cloud/start-kvm.sh $GUEST_ARCH $GUEST_IMAGE $GUEST_FIRMWARE $GUEST_KERNEL $GUEST_CORES $GUEST_RAM "
+        - "lava-send ipv4 ipaddr=$(./common/scripts/kvm-cloud/wait-ip.py) "
         - lava-send lava_start
         - lava-sync clients
-        - 'cat *.txt'
+        - "cat *.txt"
+        - "sudo ./common/scripts/kvm-cloud/wait-kvm.sh /run/qemu.pid"
 
