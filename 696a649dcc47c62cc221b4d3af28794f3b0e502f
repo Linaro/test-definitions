@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_a5f7c88b",
+        "filename": "automated/linux/lapack/lapack.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-05-11T10:17:09Z",
+      "side": 1,
+      "message": "For more space + works.\ns/ \\+/-/g\nThanks for the suggestion.",
+      "parentUuid": "facab960_25dd7815",
+      "revId": "696a649dcc47c62cc221b4d3af28794f3b0e502f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_45e27cd6",
         "filename": "automated/linux/lapack/lapack.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-11T09:48:20Z",
       "side": 1,
       "message": "please use install_deps() from automated/lib/sh-test-lib",
+      "revId": "696a649dcc47c62cc221b4d3af28794f3b0e502f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_8503a472",
+        "filename": "automated/linux/lapack/lapack.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-05-11T10:17:09Z",
+      "side": 1,
+      "message": "here is the case,\nglibc-static is an extra package name to be passed in case of fedora or centos so i have to use install the local function and install_deps from library.",
+      "parentUuid": "facab960_45e27cd6",
       "revId": "696a649dcc47c62cc221b4d3af28794f3b0e502f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
