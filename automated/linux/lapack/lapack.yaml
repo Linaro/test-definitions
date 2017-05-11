@@ -1,0 +1,31 @@
+metadata:
+    name: lapack
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build and run lapack (Linear Algebra PACKage) tests natively"
+
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - arndale
+        - mustang
+        - overdrive
+        - d05
+        - d03
+        - hi6220-hikey
+        - apq8016-sbc
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/lapack/
+        - ./lapack.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
