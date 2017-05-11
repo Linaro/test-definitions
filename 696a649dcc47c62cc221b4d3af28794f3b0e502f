@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_25dd7815",
+        "filename": "automated/linux/lapack/lapack.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-11T09:48:20Z",
+      "side": 1,
+      "message": "doesn\u0027t sed accept s+ regex class? Docs say [:space:]+ should work in this case.",
+      "revId": "696a649dcc47c62cc221b4d3af28794f3b0e502f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_45e27cd6",
+        "filename": "automated/linux/lapack/lapack.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-11T09:48:20Z",
+      "side": 1,
+      "message": "please use install_deps() from automated/lib/sh-test-lib",
+      "revId": "696a649dcc47c62cc221b4d3af28794f3b0e502f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
