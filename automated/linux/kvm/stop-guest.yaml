@@ -1,7 +1,7 @@
 metadata:
     name: guest-complete
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Signal tests inside guest complete"
+    description: "Signal tests inside guest complete and power off"
     maintainer:
         - riku.voipio@linaro.org
     scope:
@@ -19,4 +19,5 @@ metadata:
 run:
     steps:
         - lava-sync clients
+        - shutdown -h +1
 
