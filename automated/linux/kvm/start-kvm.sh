@@ -23,7 +23,7 @@ configure_guest()
 {
     IP=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
     SSH_KEY=`head -1 /root/.ssh/authorized_keys||head -1 $HOME/.ssh/authorized_keys`
-    sed -e "s,LAVA_KEY,$SSH_KEY,g" -e "s,LOCALIP,$IP,g" common/scripts/kvm-cloud/cloudinit.txt > cloudinit.tmp
+    sed -e "s,LAVA_KEY,$SSH_KEY,g" -e "s,LOCALIP,$IP,g" cloudinit.txt > cloudinit.tmp
     cat cloudinit.tmp
     cloud-localds cloud.img cloudinit.tmp
 }
@@ -64,7 +64,8 @@ start_qemu_x86_64_aarch64()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -display vnc=none \
-        -serial file:qemu_aarch64.txt
+        -pidfile /run/qemu.pid \
+        -serial file:qemu_aarch64.log
 }
 
 start_qemu_aarch64_aarch64()
@@ -81,7 +82,8 @@ start_qemu_aarch64_aarch64()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
-        -serial file:kvm-aarch64_aarch64.txt
+        -pidfile /run/qemu.pid \
+        -serial file:kvm-aarch64_aarch64.log
 }
 
 start_qemu_x86_64_armv7l()
@@ -99,7 +101,7 @@ start_qemu_x86_64_armv7l()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -display vnc=none \
-        -serial file:qemu_armv7l.txt
+        -serial file:qemu_armv7l.log
 }
 
 start_qemu_aarch64_armv7l()
@@ -117,7 +119,8 @@ start_qemu_aarch64_armv7l()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
-        -serial file:kvm-aarch64_armv7l.txt
+        -pidfile /run/qemu.pid \
+        -serial file:kvm-aarch64_armv7l.log
 }
 
 start_qemu_armv7l_armv7l()
@@ -135,7 +138,8 @@ start_qemu_armv7l_armv7l()
         -drive if=none,id=cloud,file=cloud.img \
         -device virtio-net-device,netdev=tap0 -netdev tap,id=tap0,script=no,downscript=no,ifname=tap0 \
         -daemonize -enable-kvm -display vnc=none \
-        -serial file:kvm-armv7l_armv7l.txt
+        -pidfile /run/qemu.pid \
+        -serial file:kvm-armv7l_armv7l.log
 }
 
 # This testcase expects a predefined br0 to connect to
@@ -162,4 +166,4 @@ fi
 
 start_qemu_${ARCH}_${GUEST_ARCH} ${IMAGE}
 sleep 10
-tail *.txt
+tail *.log
