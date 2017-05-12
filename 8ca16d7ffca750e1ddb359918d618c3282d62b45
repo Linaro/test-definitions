@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_e8da8716",
+        "filename": "automated/workload-automation/workload-automation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-12T08:13:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_228f2e25",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_e2754633",
         "filename": "automated/workload-automation/workload-automation.yaml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-10T09:11:51Z",
       "side": 1,
       "message": "looks like it\u0027s android specific. Is the same variable used for WA over SSH?",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_65e8607d",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-12T08:13:19Z",
+      "side": 1,
+      "message": "Created sperate yaml and script files for Linux. Until https://bugs.linaro.org/show_bug.cgi?id\u003d2989 delivered, we should use local ssh run via loopback device.",
+      "parentUuid": "facab960_e2754633",
       "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_85ed648e",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-12T08:13:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_62821602",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_82871a0f",
         "filename": "automated/workload-automation/workload-automation.yaml",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2017-05-10T09:11:51Z",
       "side": 1,
       "message": "as above",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_a501883b",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-12T08:13:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_82871a0f",
       "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_c5fe8c38",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-12T08:13:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_a27b3e28",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_c278422e",
         "filename": "automated/workload-automation/workload-automation.yaml",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_e5fb9045",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-12T08:13:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_c278422e",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_02730a4e",
         "filename": "automated/workload-automation/workload-automation.yaml",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2017-05-10T09:11:51Z",
       "side": 1,
       "message": "as mentioned above, this isn\u0027t needed for generic use case. Please remove.",
+      "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_05f9544d",
+        "filename": "automated/workload-automation/workload-automation.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-12T08:13:19Z",
+      "side": 1,
+      "message": "I added a couple of lines in the script to convert WA\u0027s results.csv to our result.txt.",
+      "parentUuid": "facab960_02730a4e",
       "revId": "8ca16d7ffca750e1ddb359918d618c3282d62b45",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
