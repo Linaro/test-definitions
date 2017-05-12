@@ -96,7 +96,7 @@ getTime(){
         return
     fi
 
-    key_line=$(grep "${key}" "${LOG_DMESG}")
+    key_line=$(grep -i "${key}" "${LOG_DMESG}")
     if [ -n "${key_line}" ]; then
         timestamp=$(echo "${key_line}"|awk '{print $2}' | awk -F "]" '{print $1}')
         echo "${timestamp}"
@@ -112,7 +112,7 @@ getTimeStampFromLogcat(){
         return
     fi
 
-    key_line=$(grep "${key}" "${LOG_LOGCAT_ALL}")
+    key_line=$(grep -i "${key}" "${LOG_LOGCAT_ALL}")
     if [ -n "${key_line}" ]; then
         timestamp_sec=$(echo "${key_line}"|awk '{print $2}' | awk -F ":" '{print $3}')
         timestamp_min=$(echo "${key_line}"|awk '{print $2}' | awk -F ":" '{print $2}')
