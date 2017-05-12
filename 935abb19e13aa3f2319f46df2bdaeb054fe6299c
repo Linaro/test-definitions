@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_cb9f7d4f",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-12T13:05:45Z",
+      "side": 1,
+      "message": "same here, please change do /qa path",
+      "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_ebac418f",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-12T13:05:45Z",
+      "side": 1,
+      "message": "doesn\u0027t our \u0027build-tools\u0027 tarball contain adb? Fastboot is not needed.",
+      "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_aba23998",
+        "filename": "automated/android/workload-automation/workload-automation.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-12T13:05:45Z",
+      "side": 1,
+      "message": "same here, please change to /qa path",
+      "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_2b88e921",
+        "filename": "automated/linux/workload-automation/workload-automation.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-12T13:05:45Z",
+      "side": 1,
+      "message": "same here, please change to /qa repo path.",
+      "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_ab94f944",
+        "filename": "automated/linux/workload-automation/workload-automation.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-12T13:05:45Z",
+      "side": 1,
+      "message": "I guess we\u0027d rather move this to /qa path.",
+      "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
