@@ -87,7 +87,9 @@ requirements:
         - path: automated/linux/linpack/linpack.yaml
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
-        # lapac
+        - path: automated/linux/lapack/lapack.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
   - name: Apache webserver performance
     owner: alan.bennett@linaro.org
     category: Performance
