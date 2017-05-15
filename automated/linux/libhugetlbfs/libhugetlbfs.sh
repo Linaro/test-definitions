@@ -6,6 +6,7 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
+TMP_LOG="${OUTPUT}/tmp_log.txt"
 TEST_PASS_LOG="${OUTPUT}/test_pass_log.txt"
 TEST_FAIL_LOG="${OUTPUT}/test_fail_log.txt"
 TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
@@ -29,6 +30,8 @@ while getopts "b:s:v:" o; do
 done
 
 parse_output() {
+    # Avoid results summary lines start with "*"
+    grep -v "*"  "${TMP_LOG}" | tee -a "${RESULT_LOG}"
     # Parse each type of results
     egrep "PASS" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
     sed -i -e 's/ (inconclusive)//g' "${TEST_PASS_LOG}"
@@ -51,7 +54,7 @@ parse_output() {
     sed -i -e 's/)//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/://g' "${TEST_SKIP_LOG}"
     awk '{for (i=1; i<NF; i++) printf $i "-"; print $i " " "SKIP"}' "${TEST_SKIP_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
-    rm -rf "${RESULT_LOG}" "${TEST_PASS_LOG}" "${TEST_FAIL_LOG}" "${TEST_SKIP_LOG}"
+    rm -rf "${TMP_LOG}" "${RESULT_LOG}" "${TEST_PASS_LOG}" "${TEST_FAIL_LOG}" "${TEST_SKIP_LOG}"
 }
 
 libhugetlbfs_setup() {
@@ -93,7 +96,7 @@ libhugetlbfs_run_test() {
     cd tests
     # Run tests
     # Redirect stdout (not stderr)
-    ./run_tests.py -b "${WORD_SIZE}" | tee -a "${RESULT_LOG}"
+    ./run_tests.py -b "${WORD_SIZE}" | tee -a "${TMP_LOG}"
     parse_output
 }
 
