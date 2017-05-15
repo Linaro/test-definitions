@@ -114,3 +114,11 @@ requirements:
         - path: manual/enterprise/bigdata-spark-sparkpi.yaml
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
+  - name: lapack
+    owner: ryan.arnold@linaro.org
+    category: Enterprise
+    tests:
+      manual:
+        - path: automated/linux/lapack/lapack.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
