@@ -8,6 +8,10 @@ RESULT_FILE="${OUTPUT}/result.txt"
 LOGFILE="${OUTPUT}/kselftest.txt"
 TESTPROG="kselftest_armhf.tar.gz"
 KSELFTEST_PATH="/usr/bin/kselftests"
+if [ "$(uname -m)" = "aarch64" ]
+then
+    TESTPROG="kselftest_aarch64.tar.gz"
+fi
 
 usage() {
     echo "Usage: $0 [-t kselftest_aarch64.tar.gz | kselftest_armhf.tar.gz] [-s true|false]" 1>&2
