@@ -110,3 +110,11 @@ requirements:
           parameters:
               NUMBER: 10000
               CONCURENT: 500
+  - name: lapack
+    owner: ryan.arnold@linaro.org
+    category: Enterprise
+    tests:
+      automated:
+        - path: automated/linux/lapack/lapack.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
