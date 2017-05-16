@@ -16,6 +16,24 @@
       "revId": "0f6d76f78443bd6c6fe39ab309e8f3fd2d1a4e1f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_31ddba15",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-16T12:29:31Z",
+      "side": 1,
+      "message": "The variable needs to be initialized so that the script works without any args.\n\nI have changed it to \"NPROC\" to align with the YAML file.",
+      "parentUuid": "facab960_d1c64e49",
+      "revId": "0f6d76f78443bd6c6fe39ab309e8f3fd2d1a4e1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
