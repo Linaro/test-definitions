@@ -32,8 +32,9 @@ params:
     # TESTS: cpu memory threads mutex fileio oltp
     # TESTS: "oltp"
     TESTS: "percpu cpu memory threads mutex fileio"
-    # Number of threads to use.
-    NUM_THREADS: "1"
+    # Number of threads to run.
+    # Run $(nproc) threads by default.
+    NUM_THREADS: "NPROC"
     SKIP_INSTALL: "false"
 
 run:
