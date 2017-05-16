@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_d1c64e49",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-05-16T12:10:39Z",
+      "side": 1,
+      "message": "do we really need to initialize this variable? if we need to initialize it, maybe NUM_THREADS\u003d\"NPROC\" is better then.",
+      "revId": "0f6d76f78443bd6c6fe39ab309e8f3fd2d1a4e1f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
