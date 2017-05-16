@@ -17,7 +17,7 @@ export RESULT_FILE
 SKIP_INSTALL="false"
 
 # sysbench test parameters.
-NUM_THREADS="1"
+NUM_THREADS=$(nproc)
 # TESTS="cpu memory threads mutex fileio oltp"
 TESTS="cpu memory threads mutex fileio"
 
@@ -34,6 +34,7 @@ while getopts ":n:t:s:" opt; do
         *) usage ;;
     esac
 done
+[ "${NUM_THREADS}" = "NPROC" ] && NUM_THREADS=$(nproc)
 
 install_sysbench() {
     git clone https://github.com/akopytov/sysbench
