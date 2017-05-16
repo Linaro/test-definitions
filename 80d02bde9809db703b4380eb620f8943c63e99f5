@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_b11f0a09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-16T09:48:11Z",
+      "side": 1,
+      "message": "It was set to 1 by default in the hope that it produces more repeatable data. In terms of big little platforms, the assumption is wrong as it picks processor randomly.\n\nI will send a patch to set it to the number of processes.",
+      "range": {
+        "startLine": 20,
+        "startChar": 70,
+        "endLine": 22,
+        "endChar": 63
+      },
+      "revId": "80d02bde9809db703b4380eb620f8943c63e99f5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_d11c8e16",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-16T09:48:11Z",
+      "side": 1,
+      "message": "Cool!",
+      "range": {
+        "startLine": 124,
+        "startChar": 16,
+        "endLine": 124,
+        "endChar": 29
+      },
+      "revId": "80d02bde9809db703b4380eb620f8943c63e99f5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
