@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_51d87e53",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-16T10:00:20Z",
+      "side": 1,
+      "message": "Many of our test scripts relay on awk, very useful for result parsing. On Linux builds, I haven\u0027t seen any issues in using it. It is always built in. If it is missing, we can install it.\n\nOn aosp-master build, awk is missing, we use \u0027busy awk\u0027 instead.",
+      "parentUuid": "facab960_1117d6ee",
+      "revId": "80d02bde9809db703b4380eb620f8943c63e99f5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_d11c8e16",
         "filename": "automated/linux/sysbench/sysbench.sh",
         "patchSetId": 1
