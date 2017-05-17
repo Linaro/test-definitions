@@ -15,7 +15,7 @@ echo "Script path is: ${SCRIPTPATH}"
 LTP_REALTIME_TESTS="async_handler gtod_latency hrtimer-prio matrix_mult measurement periodic_cpu_load pi_perf prio-preempt prio-wake pthread_kill_latency rt-migrate sched_football sched_jitter sched_latency thread_clock"
 
 # LTP version
-LTP_VERSION="20170116"
+LTP_VERSION="20170516"
 SKIP_INSTALL="false"
 
 LTP_PATH=/opt/ltp
