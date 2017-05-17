@@ -16,6 +16,24 @@
       "revId": "b9804be23ae4a1087b547f1049d7b523f333d0ca",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_d76e3e96",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-05-17T13:37:15Z",
+      "side": 1,
+      "message": "No.\nlibhugetlbfs uses different print format for pass and fail / skip.\n\nIn case of PASS: test-case-name: PASS\nIn case of FAIL: test-case-name: FAIL due to some reason [1]\nIn case of SKIP: test-case-name: SKIP due to some reason\n[1] https://github.com/nareshkamboju/libhugetlbfs/blob/master/tests/hugetests.h#L98",
+      "parentUuid": "facab960_97cf56b0",
+      "revId": "b9804be23ae4a1087b547f1049d7b523f333d0ca",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
