@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_97cf56b0",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-17T13:01:38Z",
+      "side": 1,
+      "message": "why can\u0027t we have the same change as for fail and skip cases?",
+      "revId": "b9804be23ae4a1087b547f1049d7b523f333d0ca",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
