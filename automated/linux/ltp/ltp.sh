@@ -13,7 +13,7 @@ TST_CMDFILES=""
 # List of test cases to be skipped
 SKIPFILE=""
 # LTP version
-LTP_VERSION="20170116"
+LTP_VERSION="20170516"
 
 LTP_PATH=/opt/ltp
 
