@@ -39,10 +39,15 @@ func_tjbench(){
 }
 
 test_func(){
-    func_tjbench tjbench64 scale 1/2
-    func_tjbench tjbench64
-    func_tjbench tjbench32 scale 1/2
-    func_tjbench tjbench32
+    if which tj32 >/dev/null; then
+        cmdname="tj"
+    else
+        cmdname="tjbench"
+    fi
+    func_tjbench ${cmdname}64 scale 1/2
+    func_tjbench ${cmdname}64
+    func_tjbench ${cmdname}32 scale 1/2
+    func_tjbench ${cmdname}32
 }
 
 main(){
