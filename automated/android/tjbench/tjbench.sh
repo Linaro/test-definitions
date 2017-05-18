@@ -48,12 +48,14 @@ parse_log() {
         | tee -a "${RESULT_FILE}"
 }
 
-for test in tjbench32 tjbench64; do
-    if ! adb_shell_which "${test}"; then
-        report_fail "check_${test}_existence"
-        exit 0
-    fi
-done
+if adb_shell_which "tjbench32" && adb_shell_which "tjbench64"; then
+    cmd_name="tjbench"
+elif adb_shell_which "tj32" && adb_shell_which "tj64"; then
+    cmd_name="tj"
+else
+    report_fail "check_cmd_existence"
+    exit 0
+fi
 
 for img in ${IMGS}; do
     [ ! -f "./${img}" ] && \
@@ -61,11 +63,11 @@ for img in ${IMGS}; do
     adb_push "./${img}" "/data/local/tmp/tjbench/"
     img_path="/data/local/tmp/tjbench/${img}"
 
-    for test in tjbench32 tjbench64; do
+    for test in ${cmd_name}32 ${cmd_name}64; do
         img_name="$(echo "${img}" | sed 's/[.]/_/g')"
         case "${test}" in
-            tjbench32) prefix="32bit_${img_name}" ;;
-            tjbench64) prefix="64bit_${img_name}" ;;
+            ${cmd_name}32) prefix="32bit_${img_name}" ;;
+            ${cmd_name}64) prefix="64bit_${img_name}" ;;
         esac
 
         info_msg "device-${ANDROID_SERIAL}: About to run ${test}..."
