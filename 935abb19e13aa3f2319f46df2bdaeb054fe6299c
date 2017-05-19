@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_6c520415",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-19T08:09:03Z",
+      "side": 1,
+      "message": "Create a new repo under qa directory? or just add these example files to https://git.linaro.org/qa/wa2-lava.git/tree/",
+      "parentUuid": "facab960_cb9f7d4f",
+      "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_ebac418f",
         "filename": "automated/android/workload-automation/workload-automation.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-12T13:05:45Z",
       "side": 1,
       "message": "doesn\u0027t our \u0027build-tools\u0027 tarball contain adb? Fastboot is not needed.",
+      "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_4c4d4072",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-19T08:09:03Z",
+      "side": 1,
+      "message": "Removed fastboot package.\n\nbuild-tools tarball provides aapt, but doesn\u0027t contain adb. I actually not sure how WA use the build-tools folder, so I included both adb and aapt here.",
+      "parentUuid": "facab960_ebac418f",
       "revId": "935abb19e13aa3f2319f46df2bdaeb054fe6299c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
