@@ -50,7 +50,7 @@ parse_output() {
 }
 
 lapack_build_test() {
-    git clone https://git.linaro.org/qa/lapack.git
+    git clone https://github.com/Reference-LAPACK/lapack.git
     # shellcheck disable=SC2164
     cd lapack
     cp make.inc.example make.inc
