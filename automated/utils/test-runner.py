@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 import argparse
 import csv
 import cmd
@@ -20,7 +20,8 @@ try:
 except ImportError as e:
     print(e)
     print('Please run the below command to install modules required')
-    print('pip install -r ${REPO_PATH}/automated/utils/requirements.txt')
+    print('Python2: pip install -r ${REPO_PATH}/automated/utils/requirements.txt')
+    print('Python3: pip3 install -r ${REPO_PATH}/automated/utils/requirements.txt')
     sys.exit(1)
 
 
@@ -163,11 +164,11 @@ class TestDefinition(object):
             self.runner = AutomatedTestRun(test, args)
 
     def definition(self):
-        with open('%s/testdef.yaml' % self.test['test_path'], 'w') as f:
+        with open('%s/testdef.yaml' % self.test['test_path'], 'wb') as f:
             f.write(yaml.dump(self.testdef, encoding='utf-8', allow_unicode=True))
 
     def metadata(self):
-        with open('%s/testdef_metadata' % self.test['test_path'], 'w') as f:
+        with open('%s/testdef_metadata' % self.test['test_path'], 'wb') as f:
             f.write(yaml.dump(self.testdef['metadata'], encoding='utf-8', allow_unicode=True))
 
     def mkrun(self):
@@ -198,7 +199,7 @@ class TestDefinition(object):
                         f.write('%s\n' % cmd)
                 f.write('echo "<ENDRUN $TESTRUN_ID $UUID>"\n')
 
-            os.chmod('%s/run.sh' % self.test['test_path'], 0755)
+            os.chmod('%s/run.sh' % self.test['test_path'], 0o755)
 
     def run(self):
         self.runner.run()
@@ -271,7 +272,7 @@ class AutomatedTestRun(TestRun):
                 break
             try:
                 self.child.expect('\r\n')
-                print(self.child.before)
+                print(self.child.before.decode('utf-8'))
             except pexpect.TIMEOUT:
                 continue
             except pexpect.EOF:
@@ -336,7 +337,7 @@ class ManualTestShell(cmd.Cmd):
         if line.find("-f") >= 0:
             self._record_result("skip")
             return True
-        print "Test result not recorded. Use -f to force. Forced quit records result as 'skip'"
+        print("Test result not recorded. Use -f to force. Forced quit records result as 'skip'")
 
     do_EOF = do_quit
 
@@ -344,21 +345,21 @@ class ManualTestShell(cmd.Cmd):
         """
         Prints current test overall description
         """
-        print self.test_dict['metadata']['description']
+        print(self.test_dict['metadata']['description'])
 
     def do_steps(self, line):
         """
         Prints all steps of the current test case
         """
         for index, step in enumerate(self.steps):
-            print "%s. %s" % (index, step)
+            print("%s. %s" % (index, step))
 
     def do_expected(self, line):
         """
         Prints all expected results of the current test case
         """
         for index, expected in enumerate(self.expected):
-            print "%s. %s" % (index, expected)
+            print("%s. %s" % (index, expected))
 
     def do_current(self, line):
         """
@@ -377,10 +378,10 @@ class ManualTestShell(cmd.Cmd):
             self._print_step()
 
     def _print_step(self):
-        print "%s. %s" % (self.current_step_index, self.steps[self.current_step_index])
+        print("%s. %s" % (self.current_step_index, self.steps[self.current_step_index]))
 
     def _record_result(self, result):
-        print "Recording %s in %s/stdout.log" % (result, self.result_path)
+        print("Recording %s in %s/stdout.log" % (result, self.result_path))
         with open("%s/stdout.log" % self.result_path, "a") as f:
             f.write("<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=%s>" %
                     (self.test_dict['metadata']['name'], result))
@@ -412,7 +413,7 @@ class ManualTestShell(cmd.Cmd):
 
 class ManualTestRun(TestRun, cmd.Cmd):
     def run(self):
-        print self.test['test_name']
+        print(self.test['test_name'])
         with open('%s/testdef.yaml' % self.test['test_path'], 'r') as f:
             self.testdef = yaml.safe_load(f)
 
@@ -449,7 +450,10 @@ class ResultParser(object):
         else:
             path = os.getcwd()
             os.chdir(self.test['test_path'])
-            test_version = subprocess.check_output("git rev-parse HEAD", shell=True)
+            # In Python3's subprocess module, check_output() returns byte
+            # string; while getoutput() returns string but it it not available
+            # in Python2. So use decode() to remove the prefix 'b' for Python3.
+            test_version = subprocess.check_output("git rev-parse HEAD", shell=True).decode('utf-8')
             self.results['version'] = test_version.rstrip()
             os.chdir(path)
 
@@ -518,7 +522,7 @@ class ResultParser(object):
         test_params = ''
         if self.results['params']:
             params_dict = self.results['params']
-            test_params = ';'.join(['%s=%s' % (k, v) for k, v in params_dict.iteritems()])
+            test_params = ';'.join(['%s=%s' % (k, v) for k, v in params_dict.items()])
 
         for metric in self.results['metrics']:
             metric['name'] = self.results['name']
