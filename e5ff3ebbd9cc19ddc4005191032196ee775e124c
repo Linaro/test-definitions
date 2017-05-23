@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_e2c0db7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-05-23T07:59:38Z",
+      "side": 1,
+      "message": "ubuntu 14.04 is still an (active) LTS. I don\u0027t think we should drop support for 14.04",
+      "revId": "e5ff3ebbd9cc19ddc4005191032196ee775e124c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_02be9fff",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-05-23T07:59:38Z",
+      "side": 1,
+      "message": "why \u0027b\u0027? yaml is not binary file, no?",
+      "revId": "e5ff3ebbd9cc19ddc4005191032196ee775e124c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
