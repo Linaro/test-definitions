@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_228d637c",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-23T06:44:28Z",
+      "side": 0,
+      "message": "If test kind is manual, both line #159 and #161 will be executed.",
+      "revId": "a5c37453e2b963b07068a1e7c04ab6a42ffc22c8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
