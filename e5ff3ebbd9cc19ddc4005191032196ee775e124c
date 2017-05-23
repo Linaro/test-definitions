@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_4288a722",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-23T09:50:18Z",
+      "side": 1,
+      "message": "I just checked, it actually works on 14.04, the python version is 2.7.6.\n\nhase@trusty:~$ python\nPython 2.7.6 (default, Jun 22 2015, 17:58:13) \n[GCC 4.8.2] on linux2\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n\u003e\u003e\u003e import os\n\u003e\u003e\u003e os.chmod(\u0027test.sh\u0027, 0o755)\n\u003e\u003e\u003e os.chmod(\u0027test.sh\u0027, 0o644)\n\u003e\u003e\u003e os.chmod(\u0027test.sh\u0027, 0644)\n\u003e\u003e\u003e os.chmod(\u0027test.sh\u0027, 06744)\n\u003e\u003e\u003e",
+      "parentUuid": "facab960_e2c0db7e",
+      "revId": "e5ff3ebbd9cc19ddc4005191032196ee775e124c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_02be9fff",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-23T07:59:38Z",
       "side": 1,
       "message": "why \u0027b\u0027? yaml is not binary file, no?",
+      "revId": "e5ff3ebbd9cc19ddc4005191032196ee775e124c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_62bf6bd1",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-23T09:50:18Z",
+      "side": 1,
+      "message": "For line #167 and #171, because the \u0027encoding\u0027 argument is set to utf-8, not Unicode, we need to open file for writing with binary mode. Then I added \u0027b\u0027 for all file opening lines, which isn\u0027t necessary... Removed them now.",
+      "parentUuid": "facab960_02be9fff",
       "revId": "e5ff3ebbd9cc19ddc4005191032196ee775e124c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
