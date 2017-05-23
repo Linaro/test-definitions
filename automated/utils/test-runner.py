@@ -157,10 +157,10 @@ class TestDefinition(object):
                     self.is_manual = True
         if self.is_manual:
             self.runner = ManualTestRun(test, args)
-        if self.args.target is None:
-            self.runner = AutomatedTestRun(test, args)
-        else:
+        elif self.args.target is not None:
             self.runner = RemoteTestRun(test, args)
+        else:
+            self.runner = AutomatedTestRun(test, args)
 
     def definition(self):
         with open('%s/testdef.yaml' % self.test['test_path'], 'w') as f:
