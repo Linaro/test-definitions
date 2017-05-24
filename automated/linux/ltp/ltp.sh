@@ -72,6 +72,9 @@ run_ltp() {
     # shellcheck disable=SC2164
     cd "${LTP_PATH}"
 
+    # Slow machines need more timeout Default is 5min increasing to 15min
+    export LTP_TIMEOUT_MUL=3
+
     pipe0_status "./runltp -p -q -f ${TST_CMDFILES} -l ${OUTPUT}/LTP_${LOG_FILE}.log -C ${OUTPUT}/LTP_${LOG_FILE}.failed ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
     check_return "runltp_${LOG_FILE}"
 
