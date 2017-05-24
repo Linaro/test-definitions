@@ -18,11 +18,11 @@ LTP_VERSION="20170516"
 LTP_PATH=/opt/ltp
 
 usage() {
-    echo "Usage: ${0} [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION]" 1>&2
+    echo "Usage: ${0} [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION] [-M Minutes]" 1>&2
     exit 0
 }
 
-while getopts "T:S:s:v:" arg; do
+while getopts "M:T:S:s:v:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -45,6 +45,9 @@ while getopts "T:S:s:v:" arg; do
      # SKIP_INSTALL is flase in case of Debian builds
      s) SKIP_INSTALL="${OPTARG}";;
      v) LTP_VERSION="${OPTARG}";;
+     M)
+        # Slow machines need more timeout Default is 5min and multiply * MINUTES
+        export LTP_TIMEOUT_MUL="${OPTARG}";;
   esac
 done
 
