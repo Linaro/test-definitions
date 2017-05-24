@@ -20,7 +20,7 @@ while getopts "l:t:h:" o; do
 done
 
 parser() {
-    egrep "^XTEST_TEE_.* (OK|FAILED|SKIPPED)" "${LOG_FILE}" \
+    egrep "^regression_.* (OK|FAILED|SKIPPED)" "${LOG_FILE}" \
         > "${OUTPUT}/raw-result.txt"
 
     while read -r line; do
