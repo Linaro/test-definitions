@@ -26,7 +26,7 @@ TEST_SUITE="$2"
 pass_fail_parser() {
     local field="$1"
     # Collect test case ID and case name, then join them with minus.
-    grep "^\* XTEST_TEE" "${TEST_SUITE}"_output.txt \
+    grep "^\* regression" "${TEST_SUITE}"_output.txt \
         | cut -d "_" -f"${field}"- \
         | sed 's/ /-/g' > "${TEST_SUITE}"_case_list.txt
 
@@ -35,7 +35,7 @@ pass_fail_parser() {
     while read line; do
         test_id=$(echo "${line}" | awk -F'-' '{ print $1 }')
         test_case="${line}"
-        test_result=$(grep -m 1 "^XTEST_TEE.*${test_id} [OK|FAILED]" \
+        test_result=$(grep -m 1 "^regression.*${test_id} [OK|FAILED]" \
             "${TEST_SUITE}"_output.txt | awk '{ print $2 }')
 
         if [ "${test_result}" = "OK" ]; then
@@ -55,7 +55,7 @@ benchmark_parser() {
         test_id=$(echo "${line}" | awk -F'-' '{ print $1 }')
         test_case=$(echo "${line}" | awk '{ print $1 }')
         test_result=$(echo "${line}" | awk '{ print $2 }')
-        sed -n "/^\* XTEST.*_${test_id}/,/XTEST.*_${test_id} [OK|FAILED]/p" \
+        sed -n "/^\* regression.*_${test_id}/,/regression.*_${test_id} [OK|FAILED]/p" \
             "${TEST_SUITE}"_output.txt > "${test_id}"_benchmark_raw.txt
 
         grep "[0-9].*|" "${test_id}"_benchmark_raw.txt \
