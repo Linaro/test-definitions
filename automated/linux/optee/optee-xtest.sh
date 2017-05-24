@@ -19,32 +19,6 @@ while getopts "l:t:h:" o; do
   esac
 done
 
-parser() {
-    egrep "^XTEST_TEE_.* (OK|FAILED|SKIPPED)" "${LOG_FILE}" \
-        > "${OUTPUT}/raw-result.txt"
-
-    while read -r line; do
-        test_case=$(echo "${line}" | awk '{print $1}')
-        test_result=$(echo "${line}" | awk '{print $2}')
-
-        case "${test_result}" in
-          OK) test_result="pass" ;;
-          SKIPPED) test_result="skip" ;;
-          *) test_result="fail" ;;
-        esac
-
-        echo "${test_case} ${test_result}" >> "${RESULT_FILE}"
-
-        if [ "${TEST_SUITE}" = "benchmark" ]; then
-            sed -n "/^\* ${test_case}/,/ ${test_case} [OK|FAILED|SKIPPED]/p" "${LOG_FILE}" \
-                | grep "[0-9].*|" \
-                | awk -v test_case="${test_case}" -v test_result="${test_result}"\
-                '{data_size=$1; speed=$NF; print test_case"_"data_size" "test_result" "speed" KB/s"; }' \
-                >> "${RESULT_FILE}"
-        fi
-    done < "${OUTPUT}/raw-result.txt"
-}
-
 # Test run.
 create_out_dir "${OUTPUT}"
 
@@ -61,8 +35,23 @@ test_cmd="xtest -l ${TEST_LEVEL} -t ${TEST_SUITE} 2>&1"
 pipe0_status "${test_cmd}" "tee ${LOG_FILE}"
 check_return "xtest-run"
 
-# Parse output.
-parser
+# Parse xtest test log.
+awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /+-----------------------------------------------------/{flag=0} flag" "${LOG_FILE}" \
+    | sed 's/OK/pass/; s/FAILED/fail/; s/SKIPPED/skip/' \
+    | awk '{printf("%s %s\n", $1, $2)}' \
+    | tee -a "${RESULT_FILE}"
+
+# Parse test pass/fail/skip stats.
+for i in "subtests" "test cases"; do
+    grep -E "^[0-9]+ $i of which [0-9]+ failed" "${LOG_FILE}" \
+        | awk -v tc="$(echo "$i" | sed 's/ /-/')" \
+              '{printf("%s-fail-rate pass %s/%s\n"), tc, $(NF-1), $1}' \
+        | tee -a "${RESULT_FILE}"
+done
+
+grep -E "^[0-9]+ test case was skipped" "${LOG_FILE}" \
+    | awk '{printf("test-skipped pass %s\n", $1)}' \
+    | tee -a "${RESULT_FILE}"
 
 # Cleanup.
 kill "${tee_supplicant_pid}"
