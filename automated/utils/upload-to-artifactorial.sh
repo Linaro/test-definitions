@@ -3,7 +3,6 @@
 ATTACHMENT=""
 ARTIFACTORIAL_URL=""
 ARTIFACTORIAL_TOKEN=""
-RESULT_FILE="$(pwd)/output/result.txt"
 
 usage() {
     echo "Usage: $0 [-a <attachment>] [-u <artifactorial_url>] [-t <artifactorial_token>]" 1>&2
@@ -20,7 +19,8 @@ while getopts ":a:u:t:" opt; do
 done
 
 if [ -z "${ARTIFACTORIAL_URL}" ]; then
-    echo "test-attachment skip" | tee -a "${RESULT_FILE}"
+    echo "test-attachment skip"
+    which lava-test-case && lava-test-case "test-attachment" --result "skip"
     exit 0
 fi
 
@@ -35,7 +35,8 @@ if which lava-test-reference; then
 
     if [ -z "${ARTIFACTORIAL_TOKEN}" ]; then
         echo "WARNING: ARTIFACTORIAL_TOKEN is empty! File uploading skipped."
-        echo "test-attachment skip" | tee -a "${RESULT_FILE}"
+        echo "test-attachment skip"
+        which lava-test-case && lava-test-case "test-attachment" --result "skip"
         exit 0
     else
         return=$(curl -F "path=@${ATTACHMENT}" -F "token=${ARTIFACTORIAL_TOKEN}" "${ARTIFACTORIAL_URL}")
@@ -44,8 +45,10 @@ if which lava-test-reference; then
     if echo "${return}" | grep "$(basename "${ATTACHMENT}")"; then
         lava-test-reference "test-attachment" --result "pass" --reference "https://archive.validation.linaro.org/artifacts/${return}"
     else
-        echo "test-attachment fail" | tee -a "${RESULT_FILE}"
+        echo "test-attachment fail"
+        which lava-test-case && lava-test-case "test-attachment" --result "fail"
     fi
 else
-    echo "test-attachment skip" | tee -a "${RESULT_FILE}"
+    echo "test-attachment skip"
+    which lava-test-case && lava-test-case "test-attachment" --result "skip"
 fi
