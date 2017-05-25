@@ -46,7 +46,7 @@ fi
 adb shell "echo xtest -l ${LEVEL} -t ${TEST_SUITE} 2>&1 | su" | tee "${LOGFILE}"
 
 # Parse xtest test log.
-grep "^XTEST_TEE" "${LOGFILE}" \
+awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /+-----------------------------------------------------/{flag=0} flag" "${LOGFILE}" \
     | sed 's/OK/pass/; s/FAILED/fail/; s/SKIPPED/skip/' \
     | awk '{printf("%s %s\n", $1, $2)}' \
     | tee -a "${RESULT_FILE}"
