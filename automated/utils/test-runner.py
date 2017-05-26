@@ -433,6 +433,8 @@ class ResultParser(object):
         self.results['id'] = test['test_uuid']
         self.logger = logging.getLogger('RUNNER.ResultParser')
         self.results['params'] = {}
+        self.pattern = None
+        self.fixup = None
         with open(os.path.join(self.test['test_path'], "testdef.yaml"), "r") as f:
             self.testdef = yaml.safe_load(f)
             self.results['name'] = ""
@@ -441,6 +443,12 @@ class ResultParser(object):
                 self.results['name'] = self.testdef['metadata']['name']
             if 'params' in self.testdef.keys():
                 self.results['params'] = self.testdef['params']
+            if 'parse' in self.testdef.keys() and 'pattern' in self.testdef['parse']:
+                self.pattern = self.testdef['parse']['pattern']
+                self.logger.info("Enabling log parse pattern: %s" % self.pattern)
+                if 'fixupdict' in self.testdef['parse']:
+                    self.fixup = self.testdef['parse']['fixupdict']
+                    self.logger.info("Enabling log parse pattern fixup: %s" % self.fixup)
         if 'parameters' in test.keys():
             self.results['params'].update(test['parameters'])
         if 'params' in test.keys():
@@ -459,6 +467,12 @@ class ResultParser(object):
 
     def run(self):
         self.parse_stdout()
+        if self.pattern:
+            self.parse_pattern()
+        # If 'metrics' is empty, add 'no-result-found fail'.
+        if self.metrics == []:
+            self.metrics = [{'test_case_id': 'no-result-found', 'result': 'fail', 'measurement': '', 'units': ''}]
+        self.results['metrics'] = self.metrics
         self.dict_to_json()
         self.dict_to_csv()
         self.logger.info('Result files saved to: %s' % self.test['test_path'])
@@ -496,11 +510,20 @@ class ResultParser(object):
 
                     self.metrics.append(data.copy())
 
-        # Mark test run as fail when no result found.
-        if not self.metrics:
-            self.metrics = [{'test_case_id': 'test-run', 'result': 'fail', 'measurement': '', 'units': ''}]
+    def parse_pattern(self):
+        with open('%s/stdout.log' % self.test['test_path'], 'r') as f:
+            for line in f:
+                data = {}
+                m = re.search(r'%s' % self.pattern, line)
+                if m:
+                    data = m.groupdict()
+                    for x in ['measurement', 'units']:
+                        if x not in data:
+                            data[x] = ''
+                    if self.fixup:
+                        data['result'] = self.fixup[data['result']]
 
-        self.results['metrics'] = self.metrics
+                    self.metrics.append(data.copy())
 
     def dict_to_json(self):
         # Save test results to output/test_id/result.json
