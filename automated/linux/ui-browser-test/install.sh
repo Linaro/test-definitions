@@ -21,25 +21,23 @@
 
 set -eu
 . ../../lib/sh-test-lib
-# pre-requirements
-pre_requirements () {
+# Python based PIP requirements
+pip_requirements () {
     pip install robotframework
     pip install robotframework-selenium2library
 }
 
-# For armv7
-install_chromedriver_armv7l () {
+# For Debian and related distros
+install_chromedriver_debian () {
     google_chrome_softlink
     apt-get -y install chromedriver
     cp /usr/lib/chromium/chromedriver /usr/bin/
     chmod 777 /usr/bin/chromedriver
 }
 
-# For aarch64
-install_chromedriver_aarch64 () {
-    google_chrome_softlink
-    apt-get -y install chromedriver
-    cp /usr/lib/chromium/chromedriver /usr/bin/
+# For OE
+install_chromedriver_oe-rpb () {
+    cp /usr/bin/chromium/chromedriver /usr/bin/
     chmod 777 /usr/bin/chromedriver
 }
 
@@ -54,13 +52,18 @@ google_chrome_softlink () {
     cd -
 }
 
-pre_requirements
-ARCH=$(uname -m)
-type install_chromedriver_"${ARCH}"
+dist_name
+
+# Consider Ubuntu as a Debian distribution
+dist=${dist/ubuntu/debian}
+
+type install_chromedriver_"${dist}"
 if [ $? -ne 0 ]; then
-    echo "Not supported architecture ${ARCH}"
+    echo "Distro not supported: ${dist}"
     echo " $0 : failed"
     exit 1
 else
-    install_chromedriver_"${ARCH}"
+    install_chromedriver_"${dist}"
 fi
+
+pip_requirements

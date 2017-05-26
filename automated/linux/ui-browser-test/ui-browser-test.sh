@@ -57,13 +57,7 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 create_out_dir "${OUTPUT}"
 
-dist_name
-# shellcheck disable=SC2154
-if [ "${dist}" = "debian" ] || [ "${dist}" = "ubuntu" ]; then
-    "${WD}"/install-on-debian.sh
-else
-    echo "Not a debian machine"
-fi
+"${WD}"/install.sh
 
 (
   # Copy robot test scripts to /tmp
