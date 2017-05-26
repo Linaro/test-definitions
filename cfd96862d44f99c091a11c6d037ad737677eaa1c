@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_5305dbc0",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-26T08:09:45Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be \u0027in self.testdef[\u0027parse\u0027].keys()\u0027 ?",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_730adfd3",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-26T08:09:45Z",
+      "side": 1,
+      "message": "as above.",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_b31467f6",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-26T08:09:45Z",
+      "side": 1,
+      "message": "shouldn\u0027t parse_stdout and parse_pattern be mutually exclusive?",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_930f63e1",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-05-26T08:09:45Z",
+      "side": 1,
+      "message": "if not self.metrics\nThis also resolves to False if list is empty (and it\u0027s more \"pythonic\")",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
