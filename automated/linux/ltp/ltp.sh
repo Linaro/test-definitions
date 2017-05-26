@@ -18,7 +18,7 @@ LTP_VERSION="20170516"
 LTP_PATH=/opt/ltp
 
 usage() {
-    echo "Usage: ${0} [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION] [-M Minutes_To_Timeout]" 1>&2
+    echo "Usage: ${0} [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION] [-M Timeout_Multiplier]" 1>&2
     exit 0
 }
 
