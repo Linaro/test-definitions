@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_73d81f54",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-26T09:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_5305dbc0",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_730adfd3",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-26T08:09:45Z",
       "side": 1,
       "message": "as above.",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_53d31b38",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-26T09:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_730adfd3",
       "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_93dda345",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-26T09:10:37Z",
+      "side": 1,
+      "message": "parse_stdout() matches the lines from \u0027send-to-lava.sh result.txt\u0027 or \u0027lava-test-case\u0027. If they are not used, it matches nothing. \n\nTheoretically, test writer can use both \u0027send-to-lava.sh/lava-test-case\u0027 and parse pattern in yaml file for whatever reasons. \n\nSo I think we should always run parse_stdout() and run parse_pattern() only when it is defined. Actually, I don\u0027t see a reliable way to detect if \u0027send-to-lava.sh\u0027 or \u0027lava-test-case\u0027 used in test case(yaml and script file).",
+      "parentUuid": "facab960_b31467f6",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_930f63e1",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2017-05-26T08:09:45Z",
       "side": 1,
       "message": "if not self.metrics\nThis also resolves to False if list is empty (and it\u0027s more \"pythonic\")",
+      "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_331777ef",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-05-26T09:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_930f63e1",
       "revId": "cfd96862d44f99c091a11c6d037ad737677eaa1c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
