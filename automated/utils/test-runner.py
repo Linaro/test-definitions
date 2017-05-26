@@ -2,6 +2,7 @@
 import argparse
 import csv
 import cmd
+import hashlib
 import json
 import logging
 import os
@@ -65,12 +66,18 @@ class TestPlan(object):
                 test_plan = yaml.safe_load(f)
             try:
                 test_list = []
+                unique_tests = [] # List of test hashes
                 for requirement in test_plan['requirements']:
                     if 'tests' in requirement.keys():
                         if requirement['tests'] and \
                                 kind in requirement['tests'].keys() and \
                                 requirement['tests'][kind]:
                             for test in requirement['tests'][kind]:
+                                test_hash = hashlib.sha256(str(test)).hexdigest()
+                                if test_hash in unique_tests:
+                                    # Test is already in the test_list; don't add it again.
+                                    continue
+                                unique_tests.append(test_hash)
                                 test_list.append(test)
                 for test in test_list:
                     test['uuid'] = str(uuid4())
