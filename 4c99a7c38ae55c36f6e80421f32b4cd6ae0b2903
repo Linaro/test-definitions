@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_8efe586a",
+        "filename": "automated/linux/kselftest/kselftest-skipfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-05-30T13:41:42Z",
+      "side": 1,
+      "message": "Done.\nThis file is empty.",
+      "parentUuid": "facab960_aeb07cf5",
+      "revId": "4c99a7c38ae55c36f6e80421f32b4cd6ae0b2903",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_6ea674c3",
         "filename": "automated/linux/kselftest/kselftest.sh",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_ae031c72",
+        "filename": "automated/linux/kselftest/kselftest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-05-30T13:41:42Z",
+      "side": 1,
+      "message": "sed search for \"./test_name\" which is better than \"test_name\".\nThis way we can solve the problem.",
+      "parentUuid": "facab960_6ea674c3",
+      "revId": "4c99a7c38ae55c36f6e80421f32b4cd6ae0b2903",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_8eabb888",
         "filename": "automated/linux/kselftest/kselftest.sh",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-05-30T11:51:36Z",
       "side": 1,
       "message": "ditto",
+      "revId": "4c99a7c38ae55c36f6e80421f32b4cd6ae0b2903",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_cef7808b",
+        "filename": "automated/linux/kselftest/kselftest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-05-30T13:41:42Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "facab960_8eabb888",
       "revId": "4c99a7c38ae55c36f6e80421f32b4cd6ae0b2903",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
