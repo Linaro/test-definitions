@@ -20,11 +20,17 @@ params:
     # TESTPROG: kselftest_aarch64.tar.gz
     TESTPROG: kselftest_armhf.tar.gz
     SKIP_INSTALL: "false"
+    # List of known unsupported test cases to be skipped
+    SKIPLIST: ""
+    # SKIPFILE can be a filename from dir ./automated/linux/kselftest/ or an open URL
+    # SKIPFILE: "kselftest-skipfile"
+    SKIPFILE: ""
+
 
 run:
     steps:
         - cd ./automated/linux/kselftest/
-        - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}"
+        - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -L "${SKIPLIST}" -S "${SKIPFILE}"
 
 parse:
     pattern: "^selftests:\\s(?P<test_case_id>\\S+)\\s[[](?P<result>(FAIL|PASS|SKIP))[]]"
