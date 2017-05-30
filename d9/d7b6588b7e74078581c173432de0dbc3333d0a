@@ -1,0 +1,8 @@
+Code-Review+1: lava-bot
+Code-Review+1: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Code-Review+2: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Submitted-by: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Submitted-at: Tue, 30 May 2017 18:47:16 +0000
+Reviewed-on: https://review.linaro.org/19798
+Project: qa/test-definitions
+Branch: refs/heads/master
