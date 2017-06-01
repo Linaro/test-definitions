@@ -108,10 +108,16 @@ general_parser() {
     done
 
     ms=$(grep "events (avg/stddev)" "${logfile}" |  awk '{print $NF}')
-    add_metric "${tc}-events-avg/stddev" "pass" "${ms}" "times"
+    ms_avg=$(echo "${ms}" | awk -F'/' '{print $1}')
+    ms_stddev=$(echo "${ms}" | awk -F'/' '{print $2}')
+    add_metric "${tc}-events-avg" "pass" "${ms_avg}" "times"
+    add_metric "${tc}-events-stddev" "pass" "${ms_stddev}" "times"
 
     ms=$(grep "execution time (avg/stddev)" "${logfile}" |  awk '{print $NF}')
-    add_metric "${tc}-execution-time-avg/stddev" "pass" "${ms}" "s"
+    ms_avg=$(echo "${ms}" | awk -F'/' '{print $1}')
+    ms_stddev=$(echo "${ms}" | awk -F'/' '{print $2}')
+    add_metric "${tc}-events-avg" "pass" "${ms_avg}" "times"
+    add_metric "${tc}-events-stddev" "pass" "${ms_stddev}" "times"
 }
 
 # Test run.
