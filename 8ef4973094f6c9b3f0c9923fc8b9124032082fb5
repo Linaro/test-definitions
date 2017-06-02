@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_533158eb",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-02T03:45:13Z",
+      "side": 1,
+      "message": "It is safe to use \u0027local\u0027 in portable shell script. We talked about it.",
+      "revId": "8ef4973094f6c9b3f0c9923fc8b9124032082fb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
