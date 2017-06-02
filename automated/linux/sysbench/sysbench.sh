@@ -92,6 +92,7 @@ sysbench --version
 
 general_parser() {
     # if $1 is there, let's append to test name in the result file
+    # shellcheck disable=SC2039
     local tc="$tc$1"
     ms=$(grep -m 1 "total time" "${logfile}" | awk '{print substr($NF,1,length($NF)-1)}')
     add_metric "${tc}-total-time" "pass" "${ms}" "s"
@@ -127,9 +128,10 @@ for tc in ${TESTS}; do
     logfile="${OUTPUT}/sysbench-${tc}.txt"
     case "${tc}" in
         percpu)
-            for i in $(cat /proc/cpuinfo | awk '/^processor/{print $3}'); do
-                taskset -c $i sysbench --num-threads=1 --test=cpu run | tee "${logfile}"
-                general_parser $i
+            processor_id="$(awk '/^processor/{print $3}' /proc/cpuinfo)"
+            for i in ${processor_id}; do
+                taskset -c "$i" sysbench --num-threads=1 --test=cpu run | tee "${logfile}"
+                general_parser "$i"
             done
             ;;
         cpu|threads|mutex)
