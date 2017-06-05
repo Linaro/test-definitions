@@ -1,0 +1,12 @@
+FROM centos/python-27-centos7
+
+USER root
+
+RUN yum -y update; yum -y install vim
+
+COPY . /work
+WORKDIR /work
+#RUN pip install -r automated/utils/requirements.txt
+
+CMD . ./automated/bin/setenv.sh && test-runner -p plans/linux-example.yaml && bash
+
