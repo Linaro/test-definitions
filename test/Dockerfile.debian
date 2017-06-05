@@ -1,0 +1,10 @@
+FROM python:2.7
+
+RUN apt-get update && apt-get install -y vim
+
+COPY . /work
+WORKDIR /work
+RUN pip install -r automated/utils/requirements.txt
+
+CMD . ./automated/bin/setenv.sh && test-runner -p plans/linux-example.yaml && bash
+

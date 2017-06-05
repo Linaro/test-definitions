@@ -5,6 +5,7 @@ import cmd
 import json
 import logging
 import os
+import platform
 import re
 import shlex
 import shutil
@@ -431,6 +432,61 @@ class ManualTestRun(TestRun, cmd.Cmd):
         pass
 
 
+def get_packages():
+    """ Return a list of installed packages with versions
+
+        For example (ubuntu):
+        'packages': ['acl-2.2.52-2',
+                     'adduser-3.113+nmu3',
+                     ...
+                     'zlib1g:amd64-1:1.2.8.dfsg-2+b1',
+                     'zlib1g-dev:amd64-1:1.2.8.dfsg-2+b1']
+
+        (centos):
+        "packages": ["acl-2.2.51-12.el7",
+                     "apr-1.4.8-3.el7",
+                     ...
+                     "zlib-1.2.7-17.el7",
+                     "zlib-devel-1.2.7-17.el7"
+        ]
+    """
+
+    packages = []
+    if bool(set(['debian', 'Ubuntu']) & set(platform.linux_distribution())):
+        # Debian (apt) based system
+        packages = subprocess.check_output(
+            ['dpkg-query', '-W', '-f', '${package}-${version}\n']).splitlines()
+
+    elif bool(set(['CentOS Linux', 'Fedora']) & set(platform.linux_distribution())):
+        # RedHat (rpm) based system
+        packages = subprocess.check_output(
+            ['rpm', '-qa', '--qf', '%{NAME}-%{VERSION}-%{RELEASE}\n']).splitlines()
+    packages.sort()
+    return packages
+
+
+def get_environment():
+    """ Return a dictionary with environmental information
+
+        For example:
+        {'kernel': 'Linux-4.10.0-21-generic-x86_64-with-debian-8.8',
+         'linux_distribution': 'debian 8.8',
+         'packages': ['acl-2.2.52-2',
+                      'adduser-3.113+nmu3',
+                      ...
+                      'zlib1g:amd64-1:1.2.8.dfsg-2+b1',
+                      'zlib1g-dev:amd64-1:1.2.8.dfsg-2+b1'],
+         'uname':'Linux 319c17bff46f 4.10.0-21-generic #23-Ubuntu SMP Fri Apr 28 16:14:22 UTC 2017 x86_64'}
+    """
+
+    environment = {}
+    environment['linux_distribution'] = " ".join(platform.linux_distribution()).strip()
+    environment['kernel'] = platform.platform()
+    environment['uname'] = " ".join(platform.uname()).strip()
+    environment['packages'] = get_packages()
+    return environment
+
+
 class ResultParser(object):
     def __init__(self, test, args):
         self.test = test
@@ -439,6 +495,7 @@ class ResultParser(object):
         self.results = {}
         self.results['test'] = test['test_name']
         self.results['id'] = test['test_uuid']
+        self.results['environment'] = get_environment()
         self.logger = logging.getLogger('RUNNER.ResultParser')
         self.results['params'] = {}
         with open(os.path.join(self.test['test_path'], "testdef.yaml"), "r") as f:
