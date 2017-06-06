@@ -51,7 +51,7 @@ while getopts "t:s:L:S:h" opt; do
 done
 
 parse_output() {
-    grep "selftests:" "${LOGFILE}"  2>&1 | tee -a "${RESULT_FILE}"
+    grep "selftests:" "${LOGFILE}" > "${RESULT_FILE}"
     sed -i -e 's/: /-/g' "${RESULT_FILE}"
     sed -i -e 's/\[//g' "${RESULT_FILE}"
     sed -i -e 's/]//g' "${RESULT_FILE}"
