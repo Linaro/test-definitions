@@ -54,3 +54,19 @@ Please find test results in the following locations.
  - test-runner combines results of executed tests and save them in
    ${OUTPUT}/results.csv,
  - ${OUTPUT} path of test-runner can be modified with '-o'
+
+Contributing
+============
+
+Changes need to be able to pass the following check, which will check files in
+the most recent commit:
+
+    python3 validate.py -g -s SC1091
+
+To develop locally, there are Dockerfiles in test/ that can be used to simulate
+target environments. The easiest way to use is to run `test.sh
+[debian|centos]`. test.sh will run validate.py, and then build the Docker
+environment specified, run plans/linux-example.yaml, and then drop into a bash
+shell inside the container so that things like /root/output can be inspected.
+It is not (yet) a pass/fail test; merely a development helper and validation
+environment.
