@@ -201,10 +201,11 @@ class TestDefinition(object):
                 f.write('export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin\n')
                 steps = self.testdef['run'].get('steps', [])
                 if steps:
-                    for cmd in steps:
-                        if '--cmd' in cmd or '--shell' in cmd:
-                            cmd = re.sub(r'\$(\d+)\b', r'\\$\1', cmd)
-                        f.write('%s\n' % cmd)
+                    for step in steps:
+                        command = step
+                        if '--cmd' in step or '--shell' in step:
+                            command = re.sub(r'\$(\d+)\b', r'\\$\1', step)
+                        f.write('%s\n' % command)
                 f.write('echo "<ENDRUN $TESTRUN_ID $UUID>"\n')
 
             os.chmod('%s/run.sh' % self.test['test_path'], 0o755)
