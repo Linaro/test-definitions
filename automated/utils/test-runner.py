@@ -28,10 +28,16 @@ except ImportError as e:
 SSH_PARAMS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
 
-def call_ssh(args):
-    ssh_cmd = "ssh %s %s" % (SSH_PARAMS, args)
-    ssh_output = subprocess.check_output(shlex.split(ssh_cmd)).strip()
-    return ssh_output
+def run_command(command, target=None):
+    """ Run a shell command. If target is specified, ssh to the given target first. """
+
+    run = command
+    if target:
+        run = 'ssh {} {} "{}"'.format(SSH_PARAMS, target, command)
+
+    logger = logging.getLogger('RUNNER.run_command')
+    logger.debug(run)
+    return subprocess.check_output(shlex.split(run)).strip().decode('utf-8')
 
 
 class TestPlan(object):
@@ -293,19 +299,26 @@ class RemoteTestRun(AutomatedTestRun):
     def copy_to_target(self):
         os.chdir(self.test['test_path'])
         tarball_name = "target-test-files.tar"
-        tar_cmd = 'tar -caf %s run.sh uuid automated/lib automated/bin automated/utils %s' % (tarball_name, self.test['tc_relative_dir'])
-        subprocess.call(shlex.split(tar_cmd))
-        create_target_test_path_cmd = '%s "mkdir -p %s"' % (self.args.target, self.test['target_test_path'])
-        call_ssh(create_target_test_path_cmd)
-        scp_cmd = 'scp %s ./%s %s:%s' % (SSH_PARAMS, tarball_name, self.args.target, self.test['target_test_path'])
-        self.logger.info('Pushing test files to target with command: %s' % scp_cmd)
-        subprocess.call(shlex.split(scp_cmd))
-        uncompress_cmd = '%s "cd %s && tar -xf %s"' % (self.args.target, self.test['target_test_path'], tarball_name)
-        self.logger.info('Uncompressing test files on target with command: %s' % uncompress_cmd)
-        call_ssh(uncompress_cmd)
-        delete_tarball_cmd = "%s rm %s/%s" % (self.args.target, self.test['target_test_path'], tarball_name)
-        self.logger.info("Deleting remote tarball: %s" % delete_tarball_cmd)
-        call_ssh(delete_tarball_cmd)
+
+        self.logger.info("Archiving test files")
+        run_command(
+            'tar -caf %s run.sh uuid automated/lib automated/bin automated/utils %s' %
+            (tarball_name, self.test['tc_relative_dir']))
+
+        self.logger.info("Creating test path")
+        run_command("mkdir -p %s" % (self.test['target_test_path']), self.args.target)
+
+        self.logger.info("Copying test archive to target host")
+        run_command('scp %s ./%s %s:%s' % (SSH_PARAMS, tarball_name, self.args.target,
+                                           self.test['target_test_path']))
+
+        self.logger.info("Unarchiving test files on target")
+        run_command("cd %s && tar -xf %s" % (self.test['target_test_path'],
+                                             tarball_name), self.args.target)
+
+        self.logger.info("Removing test file archive from target")
+        run_command("rm %s/%s" % (self.test['target_test_path'],
+                                  tarball_name), self.args.target)
 
     def run(self):
         self.copy_to_target()
@@ -432,6 +445,98 @@ class ManualTestRun(TestRun, cmd.Cmd):
         pass
 
 
+def get_packages(linux_distribution, target=None):
+    """ Return a list of installed packages with versions
+
+        linux_distribution is a string that may be 'debian',
+            'ubuntu', 'centos', or 'fedora'.
+
+        For example (ubuntu):
+        'packages': ['acl-2.2.52-2',
+                     'adduser-3.113+nmu3',
+                     ...
+                     'zlib1g:amd64-1:1.2.8.dfsg-2+b1',
+                     'zlib1g-dev:amd64-1:1.2.8.dfsg-2+b1']
+
+        (centos):
+        "packages": ["acl-2.2.51-12.el7",
+                     "apr-1.4.8-3.el7",
+                     ...
+                     "zlib-1.2.7-17.el7",
+                     "zlib-devel-1.2.7-17.el7"
+        ]
+    """
+
+    logger = logging.getLogger('RUNNER.get_packages')
+    packages = []
+    if linux_distribution in ['debian', 'ubuntu']:
+        # Debian (apt) based system
+        packages = run_command("dpkg-query -W -f '${package}-${version}\n'", target).splitlines()
+
+    elif linux_distribution in ['centos', 'fedora']:
+        # RedHat (rpm) based system
+        packages = run_command("rpm -qa --qf '%{NAME}-%{VERSION}-%{RELEASE}\n'", target).splitlines()
+    else:
+        logger.warning("Unknown linux distribution '{}'; package list not populated.".format(linux_distribution))
+
+    packages.sort()
+    return packages
+
+
+def get_environment(target=None, skip_collection=False):
+    """ Return a dictionary with environmental information
+
+        target: optional ssh host string to gather environment remotely.
+        skip_collection: Skip data collection and return an empty dictionary.
+
+        For example (on a HiSilicon D03):
+        {
+            "bios_version": "Hisilicon D03 UEFI 16.12 Release",
+            "board_name": "D03",
+            "board_vendor": "Huawei",
+            "kernel": "4.9.0-20.gitedc2a1c.linaro.aarch64",
+            "linux_distribution": "centos",
+            "packages": [
+                "GeoIP-1.5.0-11.el7",
+                "NetworkManager-1.4.0-20.el7_3",
+                ...
+                "yum-plugin-fastestmirror-1.1.31-40.el7",
+                "zlib-1.2.7-17.el7"
+            ],
+            "uname": "Linux localhost.localdomain 4.9.0-20.gitedc2a1c.linaro.aarch64 #1 SMP Wed Dec 14 17:50:15 UTC 2016 aarch64 aarch64 aarch64 GNU/Linux"
+        }
+    """
+
+    environment = {}
+    if skip_collection:
+        return environment
+    environment['linux_distribution'] = run_command(
+        "grep ^ID= /etc/os-release", target).split('=')[-1].strip('"').lower()
+    environment['kernel'] = run_command("uname -r", target)
+    environment['uname'] = run_command("uname -a", target)
+
+    try:
+        environment['bios_version'] = run_command(
+            "cat /sys/devices/virtual/dmi/id/bios_version", target)
+    except subprocess.CalledProcessError:
+        environment['bios_version'] = ""
+
+    try:
+        environment['board_vendor'] = run_command(
+            "cat /sys/devices/virtual/dmi/id/board_vendor", target)
+    except subprocess.CalledProcessError:
+        environment['board_vendor'] = ""
+
+    try:
+        environment['board_name'] = run_command(
+            "cat /sys/devices/virtual/dmi/id/board_name", target)
+    except subprocess.CalledProcessError:
+        environment['board_name'] = ""
+
+    environment['packages'] = get_packages(environment['linux_distribution'], target)
+    return environment
+
+
 class ResultParser(object):
     def __init__(self, test, args):
         self.test = test
@@ -440,6 +545,9 @@ class ResultParser(object):
         self.results = {}
         self.results['test'] = test['test_name']
         self.results['id'] = test['test_uuid']
+        self.results['test_plan'] = args.test_plan
+        self.results['environment'] = get_environment(
+            target=self.args.target, skip_collection=self.args.skip_environment)
         self.logger = logging.getLogger('RUNNER.ResultParser')
         self.results['params'] = {}
         self.pattern = None
@@ -615,6 +723,9 @@ def get_args():
     parser.add_argument('-s', '--skip_install', dest='skip_install',
                         default=False, action='store_true',
                         help='skip install section defined in test definition.')
+    parser.add_argument('-e', '--skip_environment', dest='skip_environment',
+                        default=False, action='store_true',
+                        help='skip environmental data collection (board name, distro, etc)')
     args = parser.parse_args()
     return args
 
@@ -646,7 +757,7 @@ def main():
             logger.error('openssh client must be installed on the host.')
             sys.exit(1)
         try:
-            call_ssh("%s exit" % args.target)
+            run_command("exit", args.target)
         except subprocess.CalledProcessError as e:
             logger.error('ssh login failed.')
             print(e)
@@ -674,8 +785,7 @@ def main():
             tc_realpath = os.path.realpath(test['path'])
             tc_dirname = os.path.dirname(tc_realpath)
             test['tc_relative_dir'] = '%s%s' % (args.kind, tc_dirname.split(args.kind)[1])
-            target_user_home_cmd = '%s "echo $HOME"' % args.target
-            target_user_home = call_ssh(target_user_home_cmd)
+            target_user_home = run_command("echo $HOME", args.target)
             test['target_test_path'] = '%s/output/%s' % (target_user_home, test['test_uuid'])
         logger.debug('Test parameters: %s' % test)
 
@@ -701,6 +811,7 @@ def main():
             result_parser.run()
         else:
             logger.warning("Requested test definition %s doesn't exist" % test['path'])
+
 
 if __name__ == "__main__":
     main()
