@@ -1,2 +1,3 @@
 pexpect
 pyyaml
+requests
