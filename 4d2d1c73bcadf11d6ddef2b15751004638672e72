@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "facab960_36812290",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-07T12:07:37Z",
+      "side": 1,
+      "message": "why don\u0027t you use some built-in python library? httplib, urllib (if you\u0027re adventurous) or requests (http://docs.python-requests.org/en/master/). \n\nExample here: https://git.linaro.org/ci/job/configs.git/tree/openembedded-lkft/submit_for_testing.py#n102\n\nUploading results: https://review.linaro.org/#/c/19905/1/post-build-report.py",
+      "revId": "4d2d1c73bcadf11d6ddef2b15751004638672e72",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_3693e2fb",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 1
