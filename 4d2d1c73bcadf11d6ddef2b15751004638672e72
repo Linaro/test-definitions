@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_3693e2fb",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-07T11:08:48Z",
+      "side": 1,
+      "message": "Is units supported by squad? units could give reviewers a basic idea that what the data is.",
+      "revId": "4d2d1c73bcadf11d6ddef2b15751004638672e72",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_96c10ee7",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-07T11:08:48Z",
+      "side": 1,
+      "message": "In \u0027Builds\u0027 tab, clicking \u0027Biuld\u0027 ID or related date returns the below issue. I tried to upload a metadata file for the build, but didn\u0027t help.\n\nFile \"/root/squad/squad/frontend/views.py\" in build\n  71.         testrun_metadata \u003d json.loads(testrun.metadata_file)\n\nException Type: TypeError at /qa/erp/build/4/\nException Value: the JSON object must be str, not \u0027NoneType\u0027",
+      "revId": "4d2d1c73bcadf11d6ddef2b15751004638672e72",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
