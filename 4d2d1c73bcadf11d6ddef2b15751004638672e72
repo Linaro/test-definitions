@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_d9402959",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-08T10:52:58Z",
+      "side": 1,
+      "message": "Thanks for pointing me to the modules. Seems \u0027requests\u0027 is more easy to use.",
+      "parentUuid": "facab960_36812290",
+      "revId": "4d2d1c73bcadf11d6ddef2b15751004638672e72",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_3693e2fb",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_b9dd2545",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-08T10:52:58Z",
+      "side": 1,
+      "message": "The above issue has been fixed by https://github.com/Linaro/squad/commit/e1e275feeeaafe12f1e74ea32d69689badb8daf0\n\n\nSquad doesn\u0027t complain but metadata always is required for each upload, and it needs to be uploaded with test result within the same post request. Uploading metadata and test result separately causes testdata or metadata \"None\" issue.\n\n\nI think it make sense that user should always provide metadata file to show what this run is for. So I have updated the patch to post multiple files in one request.\n\n\nIt is also clear that test-runner should generate a metadata file for each test plan. And job_id is mandatory and needs to be unique.",
+      "parentUuid": "facab960_96c10ee7",
+      "revId": "4d2d1c73bcadf11d6ddef2b15751004638672e72",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_f6afba29",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2017-06-07T11:09:47Z",
       "side": 1,
       "message": "Can squad return where the data uploaded?",
+      "revId": "4d2d1c73bcadf11d6ddef2b15751004638672e72",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_f90b2d29",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-08T10:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_f6afba29",
       "revId": "4d2d1c73bcadf11d6ddef2b15751004638672e72",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
