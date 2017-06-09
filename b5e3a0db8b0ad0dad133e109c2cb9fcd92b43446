@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_44e26ca0",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-09T10:41:06Z",
+      "side": 1,
+      "message": "please try not to pass passwords/tokens on the command line. Use either .netrc or env variable.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_84f39472",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-09T10:41:06Z",
+      "side": 1,
+      "message": "there may be more than 1 attachment.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_04ff8435",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-09T10:41:06Z",
+      "side": 1,
+      "message": "as above, there may be more than 1 attachment.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_24fc883e",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-09T10:41:06Z",
+      "side": 1,
+      "message": "should we remove generated files after successful upload?",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_e401c03a",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-09T10:41:06Z",
+      "side": 1,
+      "message": "inconsistent indentation.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
