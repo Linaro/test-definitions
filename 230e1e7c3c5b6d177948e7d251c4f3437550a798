@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_c45f5c71",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-09T10:03:14Z",
+      "side": 1,
+      "message": "the distro name \u0027should\u0027 be lower case, but let\u0027s just add .lower() to make sure that happens.",
+      "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
