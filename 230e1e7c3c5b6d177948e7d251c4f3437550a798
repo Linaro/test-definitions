@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "facab960_847e34e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-09T10:03:48Z",
+      "side": 1,
+      "message": "With these information, result uploader can split \u0027result.json\u0027 into \u0027tests.json\u0027, \u0027metrics.json\u0027, \u0027metadata.json\u0027 and \u0027attachment.json(pkg list), and upload them together for each run.\n\nCan we also add test plan(if it is running with test plan) name to \u0027result.json\u0027 with \u0027job_id\u0027 as key name? unique job_id in metadata is required by squad.",
+      "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_04514462",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-09T10:03:48Z",
+      "side": 1,
+      "message": "Should work on EE boards. On CE boards(hikey, db410c), these file may not exist.",
+      "range": {
+        "startLine": 511,
+        "startChar": 2,
+        "endLine": 513,
+        "endChar": 97
+      },
+      "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_c45f5c71",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
