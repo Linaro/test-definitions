@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "facab960_5f8f9923",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T20:59:43Z",
+      "side": 1,
+      "message": "I would not do this here. Rather, add requests to requirements.txt and handle it similarly to test-runner.py. Once we make this an actual python package we can improve it further.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_44e26ca0",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 2
@@ -13,6 +30,41 @@
       "writtenOn": "2017-06-09T10:41:06Z",
       "side": 1,
       "message": "please try not to pass passwords/tokens on the command line. Use either .netrc or env variable.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_9f992171",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T20:59:43Z",
+      "side": 1,
+      "message": "Here\u0027s one way to do it: https://gist.github.com/danrue/d33ab49c9de981122539cf8911b6f7e4#L52-L53",
+      "parentUuid": "facab960_44e26ca0",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_7f945d37",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T20:59:43Z",
+      "side": 1,
+      "message": "Default to ./results.json?",
       "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -36,6 +88,57 @@
     },
     {
       "key": {
+        "uuid": "facab960_ff9f8d4e",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T20:59:43Z",
+      "side": 1,
+      "message": "Alternatively, consider something like this: https://gist.github.com/danrue/d33ab49c9de981122539cf8911b6f7e4#L45\n\nAn assert gives more information (traceback) and can also be caught by the caller if desired.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_dfa2c999",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T20:59:43Z",
+      "side": 1,
+      "message": "Consider returning squad_tests and squad_metrics rather than writing them to a file and then reading the files back again. See https://gist.github.com/danrue/d33ab49c9de981122539cf8911b6f7e4#L46 for an example",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_1fad1189",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T20:59:43Z",
+      "side": 1,
+      "message": "Can we build a metadata dictionary based on results.json and the command line arguments?",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_04ff8435",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 2
@@ -47,6 +150,23 @@
       "writtenOn": "2017-06-09T10:41:06Z",
       "side": 1,
       "message": "as above, there may be more than 1 attachment.",
+      "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_3faad570",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T20:59:43Z",
+      "side": 1,
+      "message": "Instead of actually writing everything out to files, consider this structure https://gist.github.com/danrue/d33ab49c9de981122539cf8911b6f7e4#L75-L79",
       "revId": "b5e3a0db8b0ad0dad133e109c2cb9fcd92b43446",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
