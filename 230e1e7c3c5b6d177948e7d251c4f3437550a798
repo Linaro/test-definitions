@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_bf81854c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T14:11:45Z",
+      "side": 1,
+      "message": "\u003e Can we also add test plan(if it is running with test plan) name to\n \u003e \u0027result.json\u0027 with \u0027job_id\u0027 as key name? unique job_id in metadata\n \u003e is required by squad.\n\nCan you give an example of what you\u0027re requesting? results.json already has:\n\n    \"test\": \"smoke\",\n    \"id\": \"smoke_7b8d859b-616b-46d6-b71a-0cc0ccf68897\"\n\nYou want something like this added?\n\n    \"test_plan\": \"plans/linux-example.yaml\"",
+      "parentUuid": "facab960_847e34e3",
+      "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_04514462",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "facab960_3fe4953a",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T14:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_04514462",
+      "range": {
+        "startLine": 511,
+        "startChar": 2,
+        "endLine": 513,
+        "endChar": 97
+      },
+      "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_c45f5c71",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2017-06-09T10:03:14Z",
       "side": 1,
       "message": "the distro name \u0027should\u0027 be lower case, but let\u0027s just add .lower() to make sure that happens.",
+      "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_5fd07953",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-09T14:11:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_c45f5c71",
       "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
