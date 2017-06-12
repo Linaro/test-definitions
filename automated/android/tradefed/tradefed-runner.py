@@ -152,22 +152,25 @@ while child.isalive():
     else:
         logger.info('adb device is alive')
 
-    try:
-        # Check if all tests finished every minute.
-        m = child.expect(['I/ResultReporter: Full Result:',
-                          'I/ConsoleReporter:.*Test run failed to complete.'],
-                         timeout=60)
-        if m == 0:
-            py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run pass')
-        elif m == 1:
-            py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run fail')
-
-        # Once all tests finshed, exit from tf shell and throw EOF.
-        child.sendline('exit')
-        child.expect(pexpect.EOF, timeout=60)
-    except pexpect.TIMEOUT:
+    # Check if all tests finished every minute.
+    m = child.expect(['I/ResultReporter: Full Result:',
+                      'I/ConsoleReporter:.*Test run failed to complete.',
+                      pexpect.TIMEOUT],
+                     timeout=60)
+    if m == 0:
+        py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run pass')
+    elif m == 1:
+        py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run fail')
+    elif m == 2:
+        # Flush pexpect input buffer.
+        child.expect(['.+', pexpect.TIMEOUT], timeout=1)
         logger.info('Printing tradefed recent output...')
         subprocess.call(['tail', TRADEFED_STDOUT])
+
+    # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
+    if m == 0 or m == 1:
+        child.sendline('exit')
+        child.expect(pexpect.EOF, timeout=60)
 
 logger.info('Tradefed test finished')
 tradefed_logcat.kill()
