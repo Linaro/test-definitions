@@ -166,6 +166,9 @@ while child.isalive():
         child.sendline('exit')
         child.expect(pexpect.EOF, timeout=60)
     except pexpect.TIMEOUT:
+        index = 0
+        while index == 0:
+            index = child.expect(['.+', pexpect.EOF, pexpect.TIMEOUT], timeout=1)
         logger.info('Printing tradefed recent output...')
         subprocess.call(['tail', TRADEFED_STDOUT])
 
