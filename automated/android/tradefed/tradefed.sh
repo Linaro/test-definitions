@@ -10,21 +10,23 @@ TIMEOUT="300"
 TEST_URL="http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
 TEST_PARAMS="run cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
 TEST_PATH="android-cts"
+RESULT_FORMAT="aggregated"
 RESULT_FILE="$(pwd)/output/result.txt"
 export RESULT_FILE
 
 usage() {
-    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path]" 1>&2
+    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>]" 1>&2
     exit 1
 }
 
-while getopts ':o:n:c:t:p:' opt; do
+while getopts ':o:n:c:t:p:r:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) ANDROID_SERIAL="${OPTARG}" ;;
         c) TEST_URL="${OPTARG}" ;;
         t) TEST_PARAMS="${OPTARG}" ;;
         p) TEST_PATH="${OPTARG}" ;;
+        r) RESULT_FORMAT="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -56,4 +58,4 @@ fi
 
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
-./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}"
+./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}"

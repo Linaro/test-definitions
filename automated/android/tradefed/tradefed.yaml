@@ -24,6 +24,8 @@ params:
     # set to the name of the top directory in TEST_URL archive
     # This should be 'android-cts' for CTS and android-vts for VTS
     TEST_PATH: "android-cts"
+    # Specify result format: aggregated or atomic
+    RESULTS_FORMAT: "aggregated"
     # Specify url and token for file uploading.
     URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
     TOKEN: ""
@@ -34,7 +36,7 @@ run:
         - ./setup.sh
         - useradd testuser
         - mkdir /home/testuser; chown testuser.testuser /home/testuser
-        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}"
+        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}"
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
         - cp -r ./${TEST_PATH}/logs ./output/ || true
