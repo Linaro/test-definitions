@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_1f4ef1c1",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-12T08:48:18Z",
+      "side": 1,
+      "message": "some comment on what 0, 1 and 2 mean would be handy. Now I know but I\u0027m sure I\u0027ll forget in a month ;)",
+      "revId": "c7a47e6b011e618bc7c03a8ca994c5b81d7e0055",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_5f607935",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-12T08:48:18Z",
+      "side": 1,
+      "message": "I think adding pexpect.EOF to the list won\u0027t hurt and might help. Otherwise if it happens exception will be thrown and we\u0027ll loose all results.",
+      "revId": "c7a47e6b011e618bc7c03a8ca994c5b81d7e0055",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
