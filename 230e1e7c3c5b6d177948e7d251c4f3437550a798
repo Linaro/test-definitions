@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_bf034572",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-12T08:46:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_bf81854c",
+      "revId": "230e1e7c3c5b6d177948e7d251c4f3437550a798",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_04514462",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 3
