@@ -29,6 +29,6 @@ params:
 
 run:
     steps:
-        - cd ./automated/linux/disk/
+        - cd ./automated/linux/disk-partitioning/
         - ./disk-partitioning.sh -d "${DEVICE}" -l "${DISKLABEL}" -f "${FILESYSTEM}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
