@@ -17,7 +17,16 @@ sys.path.insert(0, '../../lib/')
 import py_test_lib  # nopep8
 
 
-def result_parser(xml_file):
+OUTPUT = '%s/output' % os.getcwd()
+RESULT_FILE = '%s/result.txt' % OUTPUT
+TRADEFED_STDOUT = '%s/tradefed-stdout.txt' % OUTPUT
+TRADEFED_LOGCAT = '%s/tradefed-logcat.txt' % OUTPUT
+TEST_PARAMS = ''
+AGGREGATED = 'aggregated'
+ATOMIC = 'atomic'
+
+
+def result_parser(xml_file, result_format):
     etree_file = open(xml_file, 'rb')
     etree_content = etree_file.read()
     rx = re.compile("&#([0-9]+);|&#x([0-9a-fA-F]+);")
@@ -58,35 +67,48 @@ def result_parser(xml_file):
         else:
             module_name = elem.attrib['name']
 
-        tests_executed = len(elem.findall('.//Test'))
-        tests_passed = len(elem.findall('.//Test[@result="pass"]'))
-        tests_failed = len(elem.findall('.//Test[@result="fail"]'))
+        if result_format == AGGREGATED:
+            tests_executed = len(elem.findall('.//Test'))
+            tests_passed = len(elem.findall('.//Test[@result="pass"]'))
+            tests_failed = len(elem.findall('.//Test[@result="fail"]'))
 
-        result = '%s_executed pass %s' % (module_name, str(tests_executed))
-        py_test_lib.add_result(RESULT_FILE, result)
+            result = '%s_executed pass %s' % (module_name, str(tests_executed))
+            py_test_lib.add_result(RESULT_FILE, result)
 
-        result = '%s_passed pass %s' % (module_name, str(tests_passed))
-        py_test_lib.add_result(RESULT_FILE, result)
+            result = '%s_passed pass %s' % (module_name, str(tests_passed))
+            py_test_lib.add_result(RESULT_FILE, result)
 
-        failed_result = 'pass'
-        if tests_failed > 0:
-            failed_result = 'fail'
-        result = '%s_failed %s %s' % (module_name, failed_result,
-                                      str(tests_failed))
-        py_test_lib.add_result(RESULT_FILE, result)
+            failed_result = 'pass'
+            if tests_failed > 0:
+                failed_result = 'fail'
+            result = '%s_failed %s %s' % (module_name, failed_result,
+                                          str(tests_failed))
+            py_test_lib.add_result(RESULT_FILE, result)
 
+        if result_format == ATOMIC:
+            test_cases = elem.findall('.//TestCase')
+            for test_case in test_cases:
+                tests = test_case.findall('.//Test')
+                for atomic_test in tests:
+                    atomic_test_result = atomic_test.get("result")
+                    atomic_test_name = "%s/%s.%s" % (module_name,
+                                                     test_case.get("name"),
+                                                     atomic_test.get("name"))
+                    py_test_lib.add_result(
+                        RESULT_FILE, "%s %s" % (atomic_test_name,
+                                                atomic_test_result))
 
-OUTPUT = '%s/output' % os.getcwd()
-RESULT_FILE = '%s/result.txt' % OUTPUT
-TRADEFED_STDOUT = '%s/tradefed-stdout.txt' % OUTPUT
-TRADEFED_LOGCAT = '%s/tradefed-logcat.txt' % OUTPUT
-TEST_PARAMS = ''
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', dest='TEST_PARAMS', required=True,
                     help="tradefed shell test parameters")
 parser.add_argument('-p', dest='TEST_PATH', required=True,
                     help="path to tradefed package top directory")
+parser.add_argument('-r', dest='RESULTS_FORMAT', required=False,
+                    default=AGGREGATED, choices=[AGGREGATED, ATOMIC],
+                    help="The format of the saved results. 'aggregated' means number of \
+                    passed and failed tests are recorded for each module. 'atomic' means \
+                    each test result is recorded separately")
 args = parser.parse_args()
 # TEST_PARAMS = args.TEST_PARAMS
 
@@ -187,4 +209,4 @@ if os.path.exists(result_dir) and os.path.isdir(result_dir):
     for root, dirs, files in os.walk(result_dir):
         for name in files:
             if name == test_result:
-                result_parser(xml_file=os.path.join(root, name))
+                result_parser(os.path.join(root, name), args.RESULTS_FORMAT)
