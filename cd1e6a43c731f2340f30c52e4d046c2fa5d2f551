@@ -16,6 +16,24 @@
       "revId": "cd1e6a43c731f2340f30c52e4d046c2fa5d2f551",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_0a378de4",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-12T15:38:27Z",
+      "side": 1,
+      "message": "+1\nwe need to remember about other use cases apart from ERP.",
+      "parentUuid": "facab960_9ffe816a",
+      "revId": "cd1e6a43c731f2340f30c52e4d046c2fa5d2f551",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
