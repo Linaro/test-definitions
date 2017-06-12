@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_9ffe816a",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-12T08:46:08Z",
+      "side": 1,
+      "message": "On distributions out of the list, will this line throw exception and exit?\n\nIMHO, on unknow distribution like \u0027openembedded\u0027 based build, we should return null for pkg_list and continue the test.",
+      "revId": "cd1e6a43c731f2340f30c52e4d046c2fa5d2f551",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
