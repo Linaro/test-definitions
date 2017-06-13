@@ -67,6 +67,40 @@
       "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_05da1e78",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-13T15:12:12Z",
+      "side": 1,
+      "message": "What if there is more than one test_plan in results.json?",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_25e72242",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-06-13T15:12:12Z",
+      "side": 1,
+      "message": "What if there is more than one version in results.json?",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
