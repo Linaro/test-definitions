@@ -57,6 +57,10 @@ parse_output() {
     sed -i -e 's/)//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/://g' "${TEST_SKIP_LOG}"
     awk '{for (i=1; i<NF; i++) printf $i "-"; print $i " " "skip"}' "${TEST_SKIP_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
+
+    # Replace "=" with "_" in test case names
+    sed -i -e 's/=/_/g' "${RESULT_FILE}"
+    # Clean up
     rm -rf "${TMP_LOG}" "${RESULT_LOG}" "${TEST_PASS_LOG}" "${TEST_FAIL_LOG}" "${TEST_SKIP_LOG}"
 
 }
