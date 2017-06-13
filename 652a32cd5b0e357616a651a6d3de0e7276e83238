@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_8a1d5d76",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-13T13:02:57Z",
+      "side": 1,
+      "message": "IMHO, the build Id should match the id in http://builds.96boards.org/snapshots/reference-platform/components/debian-installer-staging/403/\n\nIt could be staging-403, or sth similar. That is unknow to uploader or test-runner.",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
