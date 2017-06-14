@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_a5b092de",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T09:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_a5b412f3",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_c5b916eb",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-14T08:57:59Z",
       "side": 1,
       "message": "squad supports more than 1 attachment. Should the uploader also support multiple files?",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_05a05e8f",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T09:36:32Z",
+      "side": 1,
+      "message": "It is already supported. With the action\u003d\u0027append\u0027 flag, it saves multiple files to list. Usage: -a foo.txt -a bar.txt ...",
+      "parentUuid": "facab960_c5b916eb",
       "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_05ce9e5a",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T09:36:32Z",
+      "side": 1,
+      "message": "\u0027project\u0027 and \u0027test_env\u0027 are get from result file(OS name and board name respectively), but can be modified with the args.\n\nTo me, \u0027team\u0027 and \u0027build\u0027 Id are unknown to result file. How to detect them? I have deleted the default value for \u0027team\u0027.",
+      "parentUuid": "facab960_e5cd3a88",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_25c80274",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2017-06-14T08:57:59Z",
       "side": 1,
       "message": "I\u0027m missing the docs about this. It\u0027s a good idea to have the token hidden but it needs to be documented in the \u0027help\u0027 on which variable to use.",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_6504ca7e",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T09:36:32Z",
+      "side": 1,
+      "message": "If it is not set, line #70 will raise an exception and ask user to set \u0027SQUAD_AUTH_TOKEN\u0027",
+      "parentUuid": "facab960_25c80274",
       "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_45d8a61d",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T09:36:32Z",
+      "side": 1,
+      "message": "It works with python3.\n\n$ python3 ~/git/qa/test-definitions/automated/utils/post-to-squad.py -r result.json -b staging-403-1 -a result.csv -u https://staging-qa-reports.linaro.org -t erp\nTraceback (most recent call last):\n  File \"/home/chase/git/qa/test-definitions/automated/utils/post-to-squad.py\", line 123, in \u003cmodule\u003e\n    main()\n  File \"/home/chase/git/qa/test-definitions/automated/utils/post-to-squad.py\", line 80, in main\n    assert auth_token, \"SQUAD_AUTH_TOKEN not provided in environment\"\nAssertionError: SQUAD_AUTH_TOKEN not provided in environment",
+      "parentUuid": "facab960_05cbfe72",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_45c5065a",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2017-06-14T08:57:59Z",
       "side": 1,
       "message": "huh, that will be a long output. I propose this should be debug rather than info.",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_8509ce97",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T09:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_45c5065a",
       "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
