@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_a5b412f3",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-14T08:57:59Z",
+      "side": 1,
+      "message": "please reduce the line width to 80 characters or less.",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_c5b916eb",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-14T08:57:59Z",
+      "side": 1,
+      "message": "squad supports more than 1 attachment. Should the uploader also support multiple files?",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_e5cd3a88",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-14T08:57:59Z",
+      "side": 1,
+      "message": "I don\u0027t think erp is a good default. Maybe there should not be any default in this case? I like Dan\u0027s idea that all these values should be taken from the results file rather than command line.",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_25c80274",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-14T08:57:59Z",
+      "side": 1,
+      "message": "I\u0027m missing the docs about this. It\u0027s a good idea to have the token hidden but it needs to be documented in the \u0027help\u0027 on which variable to use.",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_05cbfe72",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-14T08:57:59Z",
+      "side": 1,
+      "message": "could you make it python3 friendly?",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_45c5065a",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-14T08:57:59Z",
+      "side": 1,
+      "message": "huh, that will be a long output. I propose this should be debug rather than info.",
+      "revId": "511018706c8fbfd1b0e2638750132299e51ab610",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
