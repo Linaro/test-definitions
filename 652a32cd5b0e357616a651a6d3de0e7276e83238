@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_e571ba78",
+        "filename": "automated/bin/post-to-squad",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T07:08:00Z",
+      "side": 1,
+      "message": "Not really :)\n\nautomated/bin will be added to $PATH by setenv.sh. The main purpose of linking utils test-runner.py and post-to-squad.py to here is to make them look like a common command that can be used without absolute path, and without the extend name \u0027.py\u0027",
+      "parentUuid": "facab960_2a061121",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_65ff6a02",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-13T13:36:57Z",
       "side": 1,
       "message": "the usual way of handling multiple attachments would be to accept this parameter multiple times, e.g.\n\n-a foo.txt -a bar.txt",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_8531cea4",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T07:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_65ff6a02",
       "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_652cca4b",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T07:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_4a03550f",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_05da1e78",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 4
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_056f7e93",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T07:08:00Z",
+      "side": 1,
+      "message": "It is possible to sort the results by test plan and put them to different groups. \n\nHowever, to keep it simple, I think we should assume one result.json for one test plan only(patch test-runner to make sure this?).\n\nI have added two lines to make sure that only one test_plan/test_version contained.",
+      "parentUuid": "facab960_05da1e78",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_25e72242",
         "filename": "automated/utils/post-to-squad.py",
         "patchSetId": 4
@@ -98,6 +170,24 @@
       "writtenOn": "2017-06-13T15:12:12Z",
       "side": 1,
       "message": "What if there is more than one version in results.json?",
+      "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_256c829c",
+        "filename": "automated/utils/post-to-squad.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-14T07:08:00Z",
+      "side": 1,
+      "message": "ditto.",
+      "parentUuid": "facab960_25e72242",
       "revId": "652a32cd5b0e357616a651a6d3de0e7276e83238",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
