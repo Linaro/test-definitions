@@ -7,6 +7,13 @@ bind02 bind02
 # chdir01 is failed due to the way LAVA mounted /tmp file system
 chdir01A symlink01 -T chdir01
 
+# Bug id 2963
+# Skip till build issue get fixed in OE build or upstream LTP
+faccessat01 faccessat01
+# Bug id 2964
+# Skip till build issue get fixed in OE build or upstream LTP
+fchmodat01 fchmodat01
+
 # Fork test case overheats Hikey board and goes auto reboots.
 # fork13 is also a peformance test case so skip it.
 fork13 fork13 -i 1000000
