@@ -25,7 +25,7 @@ create_out_dir "${OUTPUT}"
 dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
-    debian|ubuntu) pkgs="docker-engine" ;;
+    debian|ubuntu) pkgs="docker.io" ;;
     fedora|centos) pkgs="docker" ;;
     *) error_msg "Unsupported distribution" ;;
 esac
