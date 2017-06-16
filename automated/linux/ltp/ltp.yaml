@@ -30,7 +30,7 @@ params:
     SKIPFILE: ""
     SKIP_INSTALL: false
     # Slow machines need more timeout Default is 5min and multiply * TIMEOUT_MULTIPLIER
-    TIMEOUT_MUTLIPLIER:
+    TIMEOUT_MULTIPLIER: 1
 
 run:
     steps:
