@@ -1,0 +1,4 @@
+# oom01 tries to kill bash and python which are needed by our test script.
+# Prevent oom01 from doing the above causes 'Kernel panic - not syncing: Out of memory and no killable processes...'
+# The issue needs to be fixed from ltp. Refer to https://projects.linaro.org/browse/QA-1662
+oom01 oom01

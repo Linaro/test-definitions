@@ -54,6 +54,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           parameters:
               TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+              SKIPFILE: skipfile-rpk
           mandatory: True
         - path: automated/linux/libhugetlbfs/libhugetlbfs.yaml
           mandatory: True
