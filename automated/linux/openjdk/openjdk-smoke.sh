@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -28,12 +29,22 @@ else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      debian|ubuntu) pkg="openjdk-${VERSION}-jdk" ;;
-      centos|fedora) pkg="java-1.${VERSION}.0-openjdk-devel" ;;
-      *) error_msg "Unsupported distribution" ;;
+        debian|ubuntu)
+            dist_info
+            # shellcheck disable=SC2154
+            if [ "${Codename}" = "jessie" ] && [ "${VERSION}" -ge "8" ]; then
+                install_deps "-t jessie-backports openjdk-${VERSION}-jdk"
+            else
+                install_deps "openjdk-${VERSION}-jdk"
+            fi
+            ;;
+        centos|fedora)
+            install_deps "java-1.${VERSION}.0-openjdk-devel"
+            ;;
+        *)
+            error_msg "Unsupported distribution"
+            ;;
     esac
-    install_deps "${pkg}"
-    exit_on_fail "jdk${VERSION}-installation"
 fi
 
 # Set the specific version as default in case more than one jdk installed.
