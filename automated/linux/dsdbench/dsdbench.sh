@@ -26,10 +26,20 @@ done
 dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
-    debian|ubuntu) pkgs="git golang libdevmapper-dev" ;;
-    fedora|centos) pkgs="git golang device-mapper-devel" ;;
+    debian|ubuntu)
+        dist_info
+        # shellcheck disable=SC2154
+        if [ "${Codename}" = "jessie" ]; then
+            install_deps "git libdevmapper-dev"
+            install_deps "-t jessie-backports golang"
+        else
+            install_deps "git golang libdevmapper-dev"
+        fi
+        ;;
+    fedora|centos)
+        install_deps "git golang device-mapper-devel"
+        ;;
 esac
-install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
