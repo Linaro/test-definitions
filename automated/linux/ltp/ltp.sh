@@ -95,16 +95,19 @@ else
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="xz-utils flex bison build-essential wget curl net-tools quota"
+        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
-        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota"
+        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)
         warn_msg "Unsupported distribution: package install skipped"
     esac
+    # link mkisofs to genisoimage on distributions that have replaced mkisofs with genisoimage.
+    which mkisofs || ln -s "$(which genisoimage)" /usr/bin/mkisofs
+
     info_msg "Run install_ltp"
     install_ltp
 fi
