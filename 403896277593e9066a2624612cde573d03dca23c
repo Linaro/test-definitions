@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_7a4628c1",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-06-19T09:22:53Z",
+      "side": 1,
+      "message": "How is step work on OE ?\nwhen someone failed to pass skip_install as true.",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "403896277593e9066a2624612cde573d03dca23c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
