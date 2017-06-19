@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -66,7 +67,7 @@ install_ltp() {
 
 # Parse LTP output
 parse_ltp_output() {
-    egrep "PASS|FAIL|CONF"  "$1" | awk '{print $1" "$2}' | sed s/CONF/SKIP/  >> "${RESULT_FILE}"
+    grep -E "PASS|FAIL|CONF"  "$1" | awk '{print $1" "$2}' | sed s/CONF/SKIP/  >> "${RESULT_FILE}"
 }
 
 # Run LTP test suite
@@ -94,11 +95,11 @@ else
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="xz-utils flex bison build-essential wget curl net-tools"
+        pkgs="xz-utils flex bison build-essential wget curl net-tools quota"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
-        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools"
+        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)
