@@ -22,6 +22,30 @@
       "revId": "403896277593e9066a2624612cde573d03dca23c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_bacc3037",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-19T11:08:02Z",
+      "side": 1,
+      "message": "+1 to Naresh. I think it needs to be checked whether /usr/bin/mkisofs exists.",
+      "parentUuid": "facab960_7a4628c1",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "403896277593e9066a2624612cde573d03dca23c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
