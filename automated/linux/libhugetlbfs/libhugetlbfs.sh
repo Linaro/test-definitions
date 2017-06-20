@@ -11,6 +11,7 @@ TEST_PASS_LOG="${OUTPUT}/test_pass_log.txt"
 TEST_FAIL_LOG="${OUTPUT}/test_fail_log.txt"
 TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 CWD=""
+LIBHUGETLBFS_PREINSTALLED_DIR="/usr/lib/libhugetlbfs"
 
 WORD_SIZE="64"
 VERSION="2.20"
@@ -156,11 +157,16 @@ install
 # Setup libhugetlbfs mount point
 libhugetlbfs_setup
 
-if [ -d /usr/lib/libhugetlbfs ]
+if [ "${WORD_SIZE}" = 64 ]
 then
-   echo "pre built /usr/lib/libhugetlbfs found on rootfs"
-   # shellcheck disable=SC2164
-   cd /usr/lib/libhugetlbfs
+    LIBHUGETLBFS_PREINSTALLED_DIR="/usr/lib${WORD_SIZE}/libhugetlbfs"
+fi
+
+if [ -d "${LIBHUGETLBFS_PREINSTALLED_DIR}" ]
+then
+    echo "pre built ${LIBHUGETLBFS_PREINSTALLED_DIR} found on rootfs"
+    # shellcheck disable=SC2164
+    cd "${LIBHUGETLBFS_PREINSTALLED_DIR}"
 else
     # Build libhugetlbfs tests
     libhugetlbfs_build_test
