@@ -156,11 +156,13 @@ install
 # Setup libhugetlbfs mount point
 libhugetlbfs_setup
 
-if [ -d /usr/lib/libhugetlbfs ]
+PRE_BUILD_PATH="$(find /usr/lib*/libhugetlbfs -type f -name run_tests.py)"
+
+if [ -n "${PRE_BUILD_PATH}" ]
 then
-   echo "pre built /usr/lib/libhugetlbfs found on rootfs"
-   # shellcheck disable=SC2164
-   cd /usr/lib/libhugetlbfs
+    echo "pre built libhugetlbfs found on rootfs"
+    # shellcheck disable=SC2164
+    cd /usr/lib*/libhugetlbfs
 else
     # Build libhugetlbfs tests
     libhugetlbfs_build_test
