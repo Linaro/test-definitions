@@ -46,6 +46,30 @@
       "revId": "403896277593e9066a2624612cde573d03dca23c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_ed0e0034",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-20T04:27:01Z",
+      "side": 1,
+      "message": "Please review patch #3. If both mkisofs and genisoimage not exist, like what we do for \u0027unsupported distributions\u0027, we send a warning and continue.",
+      "parentUuid": "facab960_bacc3037",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 109,
+        "endChar": 66
+      },
+      "revId": "403896277593e9066a2624612cde573d03dca23c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
