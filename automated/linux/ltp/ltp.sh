@@ -95,11 +95,11 @@ else
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage"
+        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
-        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage"
+        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage sudo"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)
