@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "facab960_2b6530e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-22T09:20:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facab960_cb576401",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_ab2b0081",
         "filename": "plans/rpb_ee/rpb_ee_functional.yaml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-22T08:32:56Z",
       "side": 1,
       "message": "it should be adjusted as well. I guess Martin should be the owner.",
+      "range": {
+        "startLine": 44,
+        "startChar": 11,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_6b5f380f",
+        "filename": "plans/rpb_ee/rpb_ee_functional.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-22T09:20:44Z",
+      "side": 1,
+      "message": "We have both \u0027approver\u0027 and \u0027owner\u0027 fields in these test plans. Milosz is checking with Martin for the right names.",
+      "parentUuid": "facab960_ab2b0081",
       "range": {
         "startLine": 44,
         "startChar": 11,
@@ -146,6 +194,24 @@
       "side": 1,
       "message": "It is 5 hours.\nDo you still need 5 hours LTP timeout on High-End server machines?",
       "parentUuid": "facab960_6b1ad86f",
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_4b6274d9",
+        "filename": "plans/rpb_ee/rpb_ee_ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-22T09:20:44Z",
+      "side": 1,
+      "message": "Yeah, 5 hours. Test duration varies... for some memory test cases, the larger memory capacity is, the longer the test cases take. Lets try 5 hours first.",
+      "parentUuid": "facab960_8b4d5c75",
       "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
