@@ -108,6 +108,24 @@
       "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_8b4d5c75",
+        "filename": "plans/rpb_ee/rpb_ee_ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-06-22T08:41:02Z",
+      "side": 1,
+      "message": "It is 5 hours.\nDo you still need 5 hours LTP timeout on High-End server machines?",
+      "parentUuid": "facab960_6b1ad86f",
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
