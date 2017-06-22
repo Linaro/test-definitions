@@ -1,7 +1,7 @@
 metadata:
-  name: rpb-ee-1612-enterprise
+  name: rpb-ee-1708-enterprise
   description: Test plan for EE RPB. Common features across all boards
-  os: CentOS
+  os: debian
   devices:
     - d03
     - d05

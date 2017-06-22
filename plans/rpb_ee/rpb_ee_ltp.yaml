@@ -1,0 +1,30 @@
+metadata:
+  name: rpb-ee-1708-ltp
+  description: Test plan for EE RPB. Common features across all boards
+  os: debian
+  devices:
+    - d03
+    - d05
+    - thunderX
+    - moonshot
+    - mustang
+    - overdrive
+  maintainer:
+    - milosz.wasilewski@linaro.org
+  approver:
+    - alan.benett@linaro.org
+  format: Linaro Test Plan v1
+
+requirements:
+  - name: Linux kernel
+    owner: alan.bennett@linaro.org
+    category: Low-level kernel
+    tests:
+      automated:
+        - path: automated/linux/ltp/ltp.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          parameters:
+              TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+              SKIPFILE: skipfile-rpk
+          mandatory: True
+          timeout: 18000

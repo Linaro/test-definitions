@@ -1,7 +1,7 @@
 metadata:
-  name: rpb-ee-1612-functional
+  name: rpb-ee-1708-functional
   description: Test plan for EE RPB. Common features across all boards
-  os: CentOS
+  os: debian
   devices:
     - d03
     - d05
@@ -50,12 +50,6 @@ requirements:
           timeout: 1800
           mandatory: True
           repository: https://git.linaro.org/qa/test-definitions.git
-        - path: automated/linux/ltp/ltp.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          parameters:
-              TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
-              SKIPFILE: skipfile-rpk
-          mandatory: True
         - path: automated/linux/libhugetlbfs/libhugetlbfs.yaml
           mandatory: True
           repository: https://git.linaro.org/qa/test-definitions.git
