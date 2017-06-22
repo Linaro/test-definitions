@@ -1,7 +1,7 @@
 metadata:
-  name: rpb-ee-1612-stress
+  name: rpb-ee-1708-stress
   description: Test plan for EE RPB. Common features across all boards
-  os: CentOS
+  os: Debian
   devices:
     - d03
     - d05
