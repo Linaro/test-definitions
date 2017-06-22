@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "facab960_ab2b0081",
+        "filename": "plans/rpb_ee/rpb_ee_functional.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-06-22T08:32:56Z",
+      "side": 1,
+      "message": "it should be adjusted as well. I guess Martin should be the owner.",
+      "range": {
+        "startLine": 44,
+        "startChar": 11,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_cb20449e",
+        "filename": "plans/rpb_ee/rpb_ee_functional.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-06-22T08:32:56Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 57,
+        "startChar": 11,
+        "endLine": 57,
+        "endChar": 34
+      },
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_eb2508ac",
+        "filename": "plans/rpb_ee/rpb_ee_ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-06-22T08:32:56Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_0b3a2ccd",
+        "filename": "plans/rpb_ee/rpb_ee_ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-06-22T08:32:56Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 20,
+        "startChar": 11,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_6b1ad86f",
         "filename": "plans/rpb_ee/rpb_ee_ltp.yaml",
         "patchSetId": 1
