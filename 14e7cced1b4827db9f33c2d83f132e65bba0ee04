@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "facab960_cb576401",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-06-22T08:41:13Z",
+      "side": 1,
+      "message": "should keep the casing debian -\u003e Debian\nSame in the test plans too, not only the commit message.",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_ab2b0081",
         "filename": "plans/rpb_ee/rpb_ee_functional.yaml",
         "patchSetId": 1
