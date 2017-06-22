@@ -1,7 +1,7 @@
 metadata:
-  name: rpb-ee-1612-stress
+  name: rpb-ee-1708-stress
   description: Test plan for EE RPB. Common features across all boards
-  os: CentOS
+  os: Debian
   devices:
     - d03
     - d05
@@ -11,13 +11,15 @@ metadata:
     - overdrive
   maintainer:
     - milosz.wasilewski@linaro.org
+    - dan.rue@linaro.org
+    - chase.qi@linaro.org
   approver:
-    - alan.benett@linaro.org
+    - milosz.wasilewski@linaro.org
   format: Linaro Test Plan v1
 
 requirements:
   - name: System robustness
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Performance
     tests:
       automated:
