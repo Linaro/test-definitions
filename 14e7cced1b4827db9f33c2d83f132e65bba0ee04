@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_6b1ad86f",
+        "filename": "plans/rpb_ee/rpb_ee_ltp.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-22T08:30:32Z",
+      "side": 1,
+      "message": "min_free_kbytes takes too long(hours) to complete and may cause system hang on system with large memory. \n\nI will send another patch to skip it. Without min_free_kbytes, 6 hours should be enough.",
+      "revId": "14e7cced1b4827db9f33c2d83f132e65bba0ee04",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
