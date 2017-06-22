@@ -1,7 +1,7 @@
 metadata:
-  name: rpb-ee-1612-functional
+  name: rpb-ee-1708-functional
   description: Test plan for EE RPB. Common features across all boards
-  os: CentOS
+  os: Debian
   devices:
     - d03
     - d05
@@ -12,12 +12,12 @@ metadata:
   maintainer:
     - milosz.wasilewski@linaro.org
   approver:
-    - alan.benett@linaro.org
+    - milosz.wasilewski@linaro.org
   format: Linaro Test Plan v1
 
 requirements:
   - name: SBBR compliance
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Bootloader
     tests:
       manual:
@@ -25,7 +25,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: PXE boot
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Bootloader
     tests:
       manual:
@@ -33,7 +33,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: boot from the installed hard drive media
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Bootloader
     tests:
       manual:
@@ -41,7 +41,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: Linux kernel
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Low-level kernel
     tests:
       manual:
@@ -50,17 +50,11 @@ requirements:
           timeout: 1800
           mandatory: True
           repository: https://git.linaro.org/qa/test-definitions.git
-        - path: automated/linux/ltp/ltp.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          parameters:
-              TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
-              SKIPFILE: skipfile-rpk
-          mandatory: True
         - path: automated/linux/libhugetlbfs/libhugetlbfs.yaml
           mandatory: True
           repository: https://git.linaro.org/qa/test-definitions.git
   - name: UART console
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Low-level kernel
     tests:
       manual:
@@ -68,7 +62,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: Toolchain
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Base OS
     tests:
       automated:
@@ -87,7 +81,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: SATA drive support
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Low-level kernel
     tests:
       automated:
@@ -104,7 +98,7 @@ requirements:
             FILESYSTEM: fat32
             SKIP_INSTALL: True
   - name: RAID support
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Low-level kernel
     tests:
       manual:
@@ -118,7 +112,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: False
   - name: onboard ethernet support
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Low-level kernel
     tests:
       automated:
@@ -130,7 +124,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: False
   - name: PCIe support
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Low-level kernel
     tests:
       automated:
@@ -146,7 +140,7 @@ requirements:
           mandatory: False
         # 1,4,8,16 lane card with SSD, partitioning and FIO/read write tests
   - name: software shutdown
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Base OS
     tests:
       manual:
@@ -154,7 +148,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: software reboot
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Base OS
     tests:
       manual:
@@ -162,7 +156,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: KVM system emulation
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Virtualization
     tests:
       manual:

@@ -1,7 +1,7 @@
 metadata:
-  name: rpb-ee-1612-performance
+  name: rpb-ee-1708-performance
   description: Test plan for EE RPB. Common features across all boards
-  os: CentOS
+  os: Debian
   devices:
     - d03
     - d05
@@ -12,12 +12,12 @@ metadata:
   maintainer:
     - milosz.wasilewski@linaro.org
   approver:
-    - alan.benett@linaro.org
+    - milosz.wasilewski@linaro.org
   format: Linaro Test Plan v1
 
 requirements:
   - name: Linux kernel
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Low-level kernel
     tests:
       manual:
@@ -26,7 +26,7 @@ requirements:
           mandatory: True
           repository: https://git.linaro.org/qa/test-definitions.git
   - name: KVM system emulation
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Virtualization
     tests:
       manual:
@@ -37,7 +37,7 @@ requirements:
           parameters:
               TARGET: guest
   - name: OpenSSL
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Base OS
     tests:
       automated:
@@ -45,14 +45,14 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: Networking performance
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     tests:
       automated:
         - path: automated/linux/iperf/iperf.yaml
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: Memory performance
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Performance
     tests:
        automated:
@@ -63,7 +63,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: Disk performance
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Performance
     tests:
       automated:
@@ -80,7 +80,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: CPU performance
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Performance
     tests:
        automated:
@@ -91,7 +91,7 @@ requirements:
           repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
   - name: Apache webserver performance
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Performance
     tests:
        automated:
@@ -102,7 +102,7 @@ requirements:
               NUMBER: 10000
               CONCURENT: 500
   - name: NGiNX webserver performance
-    owner: alan.bennett@linaro.org
+    owner: martin.stadtler@linaro.org
     category: Performance
     tests:
        automated:
