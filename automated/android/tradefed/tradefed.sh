@@ -56,6 +56,11 @@ if [ -d "${TEST_PATH}/results" ]; then
     mv "${TEST_PATH}/results" "${TEST_PATH}/results_$(date +%Y%m%d%H%M%S)"
 fi
 
+# FIXME removing timer-suspend from vts test as it breaks the testing in lava
+if [ -e "${TEST_PATH}/testcases/vts/testcases/kernel/linux_kselftest/kselftest_config.py" ]; then
+    sed -i "/suspend/d" "${TEST_PATH}"/testcases/vts/testcases/kernel/linux_kselftest/kselftest_config.py
+fi
+
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
 ./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}"
