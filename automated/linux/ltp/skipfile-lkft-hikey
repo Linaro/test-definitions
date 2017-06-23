@@ -24,6 +24,13 @@ fork13 fork13 -i 1000000
 # https://bugs.linaro.org/show_bug.cgi?id=2355
 msgctl10 msgctl10
 msgctl11 msgctl11
+
+# pselect tests failed on default governor SCHED
+# and PASS when governor changed to PERFORMANCE
+# Considering pselect as performance test cases and skip
+pselect01 pselect01
+pselect01_64 pselect01_64
+
 # LTP: readahead02: readahead failed to save any I/O
 # https://bugs.linaro.org/show_bug.cgi?id=2961
 readahead02 readahead02
