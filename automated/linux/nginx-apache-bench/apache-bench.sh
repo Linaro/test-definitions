@@ -32,11 +32,11 @@ dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
     debian)
-        pkgs="nginx apache2-utils"
-        install_deps "${pkgs}" "${SKIP_INSTALL}"
-
         # Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
+
+        pkgs="nginx apache2-utils"
+        install_deps "${pkgs}" "${SKIP_INSTALL}"
 
         systemctl restart nginx
         ;;
