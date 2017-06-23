@@ -18,17 +18,10 @@ dist_name
 # shellcheck disable=SC2154
 case "${dist}" in
     debian)
-        dist_info
-        # shellcheck disable=SC2154
-        if [ "${Codename}" = "jessie" ]; then
-            install_deps "mysql-server php5-mysql php5-fpm curl"
-            install_deps "-t jessie-backports nginx"
-        else
-            install_deps "nginx mysql-server php5-mysql php5-fpm curl"
-        fi
-
         # Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
+
+        install_deps "nginx mysql-server php5-mysql php5-fpm curl"
 
         systemctl restart nginx
         systemctl restart mysql
