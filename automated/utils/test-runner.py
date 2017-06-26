@@ -37,7 +37,10 @@ def run_command(command, target=None):
 
     logger = logging.getLogger('RUNNER.run_command')
     logger.debug(run)
-    return subprocess.check_output(shlex.split(run)).strip().decode('utf-8')
+    if sys.version_info[0] < 3:
+        return subprocess.check_output(shlex.split(run)).strip()
+    else:
+        return subprocess.getoutput(run).strip()
 
 
 class TestPlan(object):
@@ -287,7 +290,10 @@ class AutomatedTestRun(TestRun):
                 break
             try:
                 self.child.expect('\r\n')
-                print(self.child.before.decode('utf-8'))
+                if sys.version_info[0] < 3:
+                    print(self.child.before)
+                else:
+                    print(self.child.before.decode('utf-8'))
             except pexpect.TIMEOUT:
                 continue
             except pexpect.EOF:
@@ -576,9 +582,11 @@ class ResultParser(object):
             path = os.getcwd()
             os.chdir(self.test['test_path'])
             # In Python3's subprocess module, check_output() returns byte
-            # string; while getoutput() returns string but it it not available
-            # in Python2. So use decode() to remove the prefix 'b' for Python3.
-            test_version = subprocess.check_output("git rev-parse HEAD", shell=True).decode('utf-8')
+            # string, getoutput() returns string.
+            if sys.version_info[0] < 3:
+                test_version = subprocess.check_output("git rev-parse HEAD", shell=True)
+            else:
+                test_version = subprocess.getoutput("git rev-parse HEAD")
             self.results['version'] = test_version.rstrip()
             os.chdir(path)
 
