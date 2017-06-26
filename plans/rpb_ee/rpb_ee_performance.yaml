@@ -112,3 +112,11 @@ requirements:
           parameters:
               NUMBER: 10000
               CONCURENT: 500
+  - name: Unixbench
+    owner: martin.stadtler@linaro.org
+    category: Performance
+    tests:
+       automated:
+        - path: automated/linux/unixbench/unixbench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
