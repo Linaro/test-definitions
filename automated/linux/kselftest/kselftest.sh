@@ -14,6 +14,7 @@ SCRIPTPATH="$(dirname "${SCRIPT}")"
 # List of known unsupported test cases to be skipped
 SKIPFILE=""
 SKIPLIST=""
+TESTPROG_URL=""
 
 if [ "$(uname -m)" = "aarch64" ]
 then
@@ -23,15 +24,18 @@ fi
 usage() {
     echo "Usage: $0 [-t kselftest_aarch64.tar.gz | kselftest_armhf.tar.gz]
                     [-s True|False]
+                    [-u url]
                     [-L List of skip test cases]
                     [-S kselftest-skipfile]" 1>&2
     exit 1
 }
 
-while getopts "t:s:L:S:h" opt; do
+while getopts "t:s:u:L:S:h" opt; do
     case "${opt}" in
         t) TESTPROG="${OPTARG}" ;;
         s) SKIP_INSTALL="${OPTARG}" ;;
+        # Download kselftest tarball from given URL
+        u) TESTPROG_URL="${OPTARG}" ;;
         # List of known unsupported test cases to be skipped
         L) SKIPLIST="${OPTARG}" ;;
         S)
@@ -80,8 +84,13 @@ if [ -d "${KSELFTEST_PATH}" ]; then
     # shellcheck disable=SC2164
     cd "${KSELFTEST_PATH}"
 else
-    # Download and extract kselftest tarball.
-    wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
+    if [ -n "${TESTPROG_URL}" ]; then
+      # Download kselftest tarball from given URL
+      wget "${TESTPROG_URL}" -O kselftest.tar.gz
+    else
+      # Download and extract kselftest tarball.
+      wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
+    fi
     tar xf "kselftest.tar.gz"
     # shellcheck disable=SC2164
     cd "kselftest"
