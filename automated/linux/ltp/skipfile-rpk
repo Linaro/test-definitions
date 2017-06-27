@@ -6,3 +6,12 @@ oom01 oom01
 # These tests can cause a deadlock which prevents the remaining tests from
 # running. Details at https://bugs.linaro.org/show_bug.cgi?id=3068
 rwtest03 rwtest04
+
+# By default, Debian installer will set the size of swap partition to the size
+# of memory capacity. min_free_kbytes needs to occupy both memory and swap
+# space. When memory size is large, this test takes hours to finish.
+# For example, on D05 that 128G memory installed, this test takes 191 minutes.
+# It can be finished, but just too long. It is possbile to customize
+# partitioning steps to reduce swap partition size for this single test, but
+# that is probably not wanted.
+min_free_kbytes min_free_kbytes
