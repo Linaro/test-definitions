@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_016dab32",
+        "filename": "automated/linux/kselftest/kselftest.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-27T12:04:53Z",
+      "side": 1,
+      "message": "just exit with message? Downloading some random tarball isn\u0027t the best idea.",
+      "revId": "96da088dce80c3be9c195dbe5cc493d44a03578f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_e188c7e9",
+        "filename": "automated/linux/kselftest/kselftest.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-06-27T12:04:53Z",
+      "side": 1,
+      "message": "I\u0027d rather use the testdata.validation.l.o URL here. Snapshots might be deleted pretty soon.",
+      "revId": "96da088dce80c3be9c195dbe5cc493d44a03578f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
