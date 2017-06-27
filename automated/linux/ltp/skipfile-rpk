@@ -3,6 +3,15 @@
 # The issue needs to be fixed from ltp. Refer to https://projects.linaro.org/browse/QA-1662
 oom01 oom01
 
+# By default, Debian installer will set the size of swap partition to the size
+# of memory capacity. min_free_kbytes needs to occupy both memory and swap
+# space. When memory size is large, this test takes hours to finish.
+# For example, on D05 that 128G memory installed, this test takes 191 minutes.
+# It can be finished, but just too long. It is possbile to customize
+# partitioning steps to reduce swap partition size for this single test, but
+# that is probably not wanted.
+min_free_kbytes min_free_kbytes
+
 # keyctl03 fails under automation but passes when run manually..
 # https://bugs.linaro.org/show_bug.cgi?id=3451
 keyctl03 keyctl03
