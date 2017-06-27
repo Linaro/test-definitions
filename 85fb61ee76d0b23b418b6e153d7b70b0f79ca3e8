@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_01720b7c",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-06-27T01:52:52Z",
+      "side": 1,
+      "message": "It is changed to getoutpu() So that we don\u0027t need encode/decode, but I didn\u0027t notice the diff on exit status, that is a priority. \n\nSeems like encoding\u003d\u0027utf-8\u0027 is v3.6+ only. Didn\u0027t work with v3.5. Lets go back to subprocess.check_output().decode(\u0027utf-8\u0027), it has been proved to good with py3.",
+      "parentUuid": "facab960_21daaf78",
+      "revId": "85fb61ee76d0b23b418b6e153d7b70b0f79ca3e8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_869551e6",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 1
