@@ -31,11 +31,15 @@ params:
     SKIP_INSTALL: false
     # Slow machines need more timeout Default is 5min and multiply * TIMEOUT_MULTIPLIER
     TIMEOUT_MULTIPLIER: 1
+    # Create LTP temporary files under LTP_TMPDIR directory
+    # LTP_TMPDIR is needed case of OE builds where /tmp is mounted as tmpfs
+    # LTP_TMPDIR: "/opt/ltp/tmp"
+    LTP_TMPDIR: ""
 
 run:
     steps:
         - cd ./automated/linux/ltp/
-        - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}"
+        - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -d "${LTP_TMPDIR}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
 parse:

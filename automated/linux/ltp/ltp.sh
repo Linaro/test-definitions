@@ -15,15 +15,21 @@ TST_CMDFILES=""
 SKIPFILE=""
 # LTP version
 LTP_VERSION="20170516"
+LTP_TMPDIR=""
 
 LTP_PATH=/opt/ltp
 
 usage() {
-    echo "Usage: ${0} [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION] [-M Timeout_Multiplier]" 1>&2
+    echo "Usage: ${0} [-T mm,math,syscalls]
+                      [-S skipfile-lsk-juno]
+                      [-s True|False]
+                      [-v LTP_VERSION]
+                      [-M Timeout_Multiplier]
+                      [-d LTP_TMPDIR] " 1>&2
     exit 0
 }
 
-while getopts "M:T:S:s:v:" arg; do
+while getopts "M:T:S:s:v:d:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -48,6 +54,12 @@ while getopts "M:T:S:s:v:" arg; do
      v) LTP_VERSION="${OPTARG}";;
      # Slow machines need more timeout Default is 5min and multiply * MINUTES
      M) export LTP_TIMEOUT_MUL="${OPTARG}";;
+     # LTP_TMPDIR is needed case of OE builds where /tmp is mounted as tmpfs
+     # so LTP_TMPDIR should not be tmpfs partition
+     d)
+        mkdir -p "${OPTARG}"
+        LTP_TMPDIR="-d ${OPTARG}"
+        ;;
   esac
 done
 
@@ -75,7 +87,11 @@ run_ltp() {
     # shellcheck disable=SC2164
     cd "${LTP_PATH}"
 
-    pipe0_status "./runltp -p -q -f ${TST_CMDFILES} -l ${OUTPUT}/LTP_${LOG_FILE}.log -C ${OUTPUT}/LTP_${LOG_FILE}.failed ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
+    pipe0_status "./runltp -p -q -f ${TST_CMDFILES} \
+                                 -l ${OUTPUT}/LTP_${LOG_FILE}.log \
+                                 -C ${OUTPUT}/LTP_${LOG_FILE}.failed \
+                                    ${SKIPFILE} \
+                                    ${LTP_TMPDIR}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
     check_return "runltp_${LOG_FILE}"
 
     parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
