@@ -19,7 +19,11 @@ LTP_VERSION="20170516"
 LTP_PATH=/opt/ltp
 
 usage() {
-    echo "Usage: ${0} [-T mm,math,syscalls] [-S skipfile-lsk-juno] [-s <flase>] [-v LTP_VERSION] [-M Timeout_Multiplier]" 1>&2
+    echo "Usage: ${0} [-T mm,math,syscalls]
+                      [-S skipfile-lsk-juno]
+                      [-s True|False]
+                      [-v LTP_VERSION]
+                      [-M Timeout_Multiplier]" 1>&2
     exit 0
 }
 
@@ -75,7 +79,11 @@ run_ltp() {
     # shellcheck disable=SC2164
     cd "${LTP_PATH}"
 
-    pipe0_status "./runltp -p -q -f ${TST_CMDFILES} -l ${OUTPUT}/LTP_${LOG_FILE}.log -C ${OUTPUT}/LTP_${LOG_FILE}.failed ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
+    pipe0_status "./runltp -p -q -f ${TST_CMDFILES} \
+                                 -l ${OUTPUT}/LTP_${LOG_FILE}.log \
+                                 -C ${OUTPUT}/LTP_${LOG_FILE}.failed \
+                                 -d $(mktemp -d ${HOME}/ltp.tmp.XXXX) \
+                                    ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
     check_return "runltp_${LOG_FILE}"
 
     parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
