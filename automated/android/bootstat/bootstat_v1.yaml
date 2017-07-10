@@ -1,0 +1,18 @@
+metadata:
+    name: bootstat
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "collect the bootstat data and try to analyse
+                  Please Note:
+                    This yaml test definition is only for LAVA V1"
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - hikey
+
+run:
+    steps:
+        - ./automated/android/bootstat/device-script.sh
