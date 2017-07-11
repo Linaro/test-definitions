@@ -24,11 +24,12 @@ usage() {
                       [-S skipfile-lsk-juno]
                       [-s True|False]
                       [-v LTP_VERSION]
-                      [-M Timeout_Multiplier]" 1>&2
+                      [-M Timeout_Multiplier]
+                      [-R root_password]" 1>&2
     exit 0
 }
 
-while getopts "M:T:S:s:v:" arg; do
+while getopts "M:T:S:s:v:R:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -53,6 +54,7 @@ while getopts "M:T:S:s:v:" arg; do
      v) LTP_VERSION="${OPTARG}";;
      # Slow machines need more timeout Default is 5min and multiply * MINUTES
      M) export LTP_TIMEOUT_MUL="${OPTARG}";;
+     R) export PASSWD="${OPTARG}";;
   esac
 done
 
@@ -108,11 +110,11 @@ else
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev"
+        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev expect"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
-        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage sudo libaio"
+        pkgs="xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage sudo libaio expect"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)

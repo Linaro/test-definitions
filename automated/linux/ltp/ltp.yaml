@@ -31,11 +31,13 @@ params:
     SKIP_INSTALL: false
     # Slow machines need more timeout Default is 5min and multiply * TIMEOUT_MULTIPLIER
     TIMEOUT_MULTIPLIER: 1
+    # root's password. Needed by ltp/su01.
+    ROOT_PASSWD: root
 
 run:
     steps:
         - cd ./automated/linux/ltp/
-        - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}"
+        - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
 parse:
