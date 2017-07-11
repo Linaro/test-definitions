@@ -15,7 +15,7 @@ TST_CMDFILES=""
 SKIPFILE=""
 # LTP version
 LTP_VERSION="20170516"
-LTP_TMPDIR=$(mktemp -d ${HOME}/ltp-tmp.XXXX)
+LTP_TMPDIR="${HOME}/ltp-tmp"
 
 LTP_PATH=/opt/ltp
 
@@ -79,6 +79,8 @@ parse_ltp_output() {
 run_ltp() {
     # shellcheck disable=SC2164
     cd "${LTP_PATH}"
+    # shellcheck disable=SC2174
+    mkdir -m 777 -p "${LTP_TMPDIR}"
 
     pipe0_status "./runltp -p -q -f ${TST_CMDFILES} \
                                  -l ${OUTPUT}/LTP_${LOG_FILE}.log \
@@ -89,7 +91,7 @@ run_ltp() {
 
     parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
     # Cleanup
-    rm -rf ${LTP_TMPDIR}
+    rm -rf "${LTP_TMPDIR}"
 }
 
 # Test run.
