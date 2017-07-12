@@ -64,6 +64,7 @@ install_ltp() {
     wget -O ltp-erp-17.08.tar.gz https://api.github.com/repos/linaro/ltp/tarball/erp-17.08
     tar --strip-components=1 -zxf ltp-erp-17.08.tar.gz
 
+    make autotools
     ./configure
     make -j8 all
     make SKIP_IDCHECK=1 install
@@ -99,7 +100,7 @@ else
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev"
+        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev automake"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
