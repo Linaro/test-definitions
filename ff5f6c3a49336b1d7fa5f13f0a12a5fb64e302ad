@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_93e74a40",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-07-13T07:14:07Z",
+      "side": 1,
+      "message": "Fathi,\n\n${HOME} (/home/root) is not the best place to create ltp-tmp dir. still we have old problem.\n\nchdir03     2  TBROK  :  chdir03.c:153: rmdir(/home/root/ltp-tmp/ltp-G4ktVVX945/chdEY97gl/3090) failed: errno\u003dENOENT(2): No such file or directory\nchdir03     3  TBROK  :  chdir03.c:153: Remaining cases broken\n\nLets move it to /opt/ltp/ltp-tmp ?",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "ff5f6c3a49336b1d7fa5f13f0a12a5fb64e302ad",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
