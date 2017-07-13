@@ -15,7 +15,7 @@ TST_CMDFILES=""
 SKIPFILE=""
 # LTP version
 LTP_VERSION="20170516"
-LTP_TMPDIR="${HOME}/ltp-tmp"
+LTP_TMPDIR=/ltp-tmp
 
 LTP_PATH=/opt/ltp
 
