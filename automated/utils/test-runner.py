@@ -25,7 +25,8 @@ except ImportError as e:
     sys.exit(1)
 
 
-SSH_PARAMS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+# quit gracefully if the connection is closed by remote host
+SSH_PARAMS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveCountMax=3 -o ServerAliveInterval=5"
 
 
 def run_command(command, target=None):
@@ -516,10 +517,21 @@ def get_environment(target=None, skip_collection=False):
     environment = {}
     if skip_collection:
         return environment
-    environment['linux_distribution'] = run_command(
-        "grep ^ID= /etc/os-release", target).split('=')[-1].strip('"').lower()
-    environment['kernel'] = run_command("uname -r", target)
-    environment['uname'] = run_command("uname -a", target)
+    try:
+        environment['linux_distribution'] = run_command(
+            "grep ^ID= /etc/os-release", target).split('=')[-1].strip('"').lower()
+    except subprocess.CalledProcessError:
+        environment['linux_distribution'] = ""
+
+    try:
+        environment['kernel'] = run_command("uname -r", target)
+    except subprocess.CalledProcessError:
+        environment['kernel'] = ""
+
+    try:
+        environment['uname'] = run_command("uname -a", target)
+    except subprocess.CalledProcessError:
+        environment['uname'] = ""
 
     try:
         environment['bios_version'] = run_command(
@@ -539,7 +551,10 @@ def get_environment(target=None, skip_collection=False):
     except subprocess.CalledProcessError:
         environment['board_name'] = ""
 
-    environment['packages'] = get_packages(environment['linux_distribution'], target)
+    try:
+        environment['packages'] = get_packages(environment['linux_distribution'], target)
+    except subprocess.CalledProcessError:
+        environment['packages'] = []
     return environment
 
 
