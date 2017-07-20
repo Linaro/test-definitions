@@ -20,25 +20,26 @@ metadata:
 requirements:
   - name: System robustness
     owner: martin.stadtler@linaro.org
-    category: Performance
+    category: stress
     tests:
       automated:
-        - path: 24h-stress-test.yaml
-          repository: https://git.linaro.org/qa/24h-stress-test.git
+        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
           parameters:
               TEST: stress_ng
-        - path: 24h-stress-test.yaml
-          repository: https://git.linaro.org/qa/24h-stress-test.git
+        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
           parameters:
               TEST: stress_oom
-        - path: 24h-stress-test.yaml
-          repository: https://git.linaro.org/qa/24h-stress-test.git
+        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
           mandatory: True
           parameters:
               TEST: stress_network
-              INTERFACE: eth0 # might be different for each platform with systemd
-        # memory errors (using SoC counters) when CPU runs at full capacity
-        #   for a long time
-        # network bandwith/latency stability with system running at high load
+              # Might be different for each platform with systemd.
+              INTERFACE: eth0
+              # To test the maximum bandwidth, please download stress-network.img with
+              # the following link, place it on local http server and modify 'LINK'.
+              LINK: "http://people.linaro.org/~chase.qi/testdata/stress-network.img"
