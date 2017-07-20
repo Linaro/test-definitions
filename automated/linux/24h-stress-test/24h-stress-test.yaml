@@ -1,0 +1,49 @@
+metadata:
+    name: 24h-stress-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run stress_ng, stress_oom and stress_network tests"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Specify test to run.
+    # Supported tests: stress_ng, stress_oom and stress_network.
+    TEST: "stress_ng"
+    # Specify test duration in seconds for each test. 8 hours by default.
+    DURATION: "28800"
+    # Specify network interface, file link and md5 sum for stress_network test.
+    INTERFACE: "eth0"
+    # To test the maximum bandwidth, please download stress-network.img with the
+    # following link, then place it on local http server and modify 'LINK' parameter here
+    # or in test plan.
+    # File download link: http://testdata.validation.linaro.org/stress/stress-network.img
+    # Here is an example:
+    LINK: "http://192.168.3.1/testdata/stress-network.img"
+    MD5: "e5c834fbdaa6bfd8eac5eb9404eefdd4"
+
+run:
+    steps:
+        - cd ./automated/linux/24h-stress-test/
+        - case "$TEST" in
+        - stress_ng|stress_oom) ./24h-stress-test.sh -t "$TEST" -d "$DURATION" ;;
+        - stress_network) ./24h-stress-test.sh -t $TEST -d "$DURATION" -i "$INTERFACE" -l "$LINK" -m "$MD5" ;;
+        - esac
+        - ../../utils/send-to-lava.sh ./output/result.txt
