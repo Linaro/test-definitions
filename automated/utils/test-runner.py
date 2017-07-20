@@ -696,7 +696,7 @@ class ResultParser(object):
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--output', default=os.getenv("HOME") + '/output', dest='output',
+    parser.add_argument('-o', '--output', default=os.getenv("HOME", "") + '/output', dest='output',
                         help='''
                         specify a directory to store test and result files.
                         Default: $HOME/output
