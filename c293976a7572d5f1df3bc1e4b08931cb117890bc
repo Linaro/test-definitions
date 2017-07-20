@@ -16,6 +16,24 @@
       "revId": "c293976a7572d5f1df3bc1e4b08931cb117890bc",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dacfb570_e1f0e6cb",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-07-20T10:47:53Z",
+      "side": 1,
+      "message": "done: \nhttp://testdata.validation.linaro.org/stress/stress-\nnetwork.img",
+      "parentUuid": "dacfb570_21372eb2",
+      "revId": "c293976a7572d5f1df3bc1e4b08931cb117890bc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
