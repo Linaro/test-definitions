@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dacfb570_21372eb2",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-20T07:36:23Z",
+      "side": 1,
+      "message": "Move it to http://testdata.validation.linaro.org/?",
+      "revId": "c293976a7572d5f1df3bc1e4b08931cb117890bc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
