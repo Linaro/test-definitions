@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dacfb570_64ca24a3",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-07-20T18:45:50Z",
+      "side": 1,
+      "message": "Minor nit pick coming: I\u0027d rather see the pass case tested here and the failure in the else. As written it\u0027s counter-intuitive but worse, what if oom_number is negative or some other non-rational value due to some bug? This will be marked pass. Instead, consider: \n\nif [ \"$oom_number\" -gt 0 ]; then\n    # pass\nelse\n    # fail\nfi",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dacfb570_c4c0507f",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-07-20T18:45:50Z",
+      "side": 1,
+      "message": "I don\u0027t understand where this file is coming from initially, or how it is being served at $LINK?",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dacfb570_24d01c53",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-07-20T18:45:50Z",
+      "side": 1,
+      "message": "As written, this will run an 8 hour test of stress_ng and then exit, or am I reading it wrong? If so, why are the other tests not included by default to make it a true 24h test?",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
