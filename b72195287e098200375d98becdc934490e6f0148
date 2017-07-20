@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dacfb570_41cc3236",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-07-20T14:34:57Z",
+      "side": 1,
+      "message": "I like the ServerAliveInterval change. ServerAliveCountMax is defaulted to 3, so it seems unnecessary to specify.",
+      "revId": "b72195287e098200375d98becdc934490e6f0148",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
