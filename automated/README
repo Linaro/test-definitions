@@ -44,7 +44,7 @@ single test run:
 
 running test plan:
     # Run a set of tests defined in agenda file.
-    test-runner -a ./plans/linux-example.yaml
+    test-runner -p ./plans/linux-example.yaml
 
 Collecting result
 =================
