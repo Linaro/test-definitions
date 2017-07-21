@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dacfb570_c4f5b0cc",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-21T03:18:59Z",
+      "side": 1,
+      "message": "good catch!",
+      "parentUuid": "dacfb570_64ca24a3",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dacfb570_c4c0507f",
         "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "dacfb570_e402b4b3",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-21T03:18:59Z",
+      "side": 1,
+      "message": "The file is downloaded from $LINK with curl at line #194. This line is used to remove the file downloaded from the latest iteration.\n\nI have added one more line after md5 check to remove the file explicitly, but I think we better keep this line in case the last iteration ended abnormally(network issue or whatever reasons).",
+      "parentUuid": "dacfb570_c4c0507f",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dacfb570_24d01c53",
         "filename": "automated/linux/24h-stress-test/24h-stress-test.yaml",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2017-07-20T18:45:50Z",
       "side": 1,
       "message": "As written, this will run an 8 hour test of stress_ng and then exit, or am I reading it wrong? If so, why are the other tests not included by default to make it a true 24h test?",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dacfb570_a41fcc08",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-21T03:18:59Z",
+      "side": 1,
+      "message": "That sounds reasonable. I didn\u0027t do it that way, because we run the 3 tests one by one in test plan. In test plan, we think we did that in purpose so that abnormal exit of one test doesn\u0027t kill the following tests.\n\nIn the test case, I am fine to enable all these 3 tests and set duration to 24 hours.",
+      "parentUuid": "dacfb570_24d01c53",
       "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
