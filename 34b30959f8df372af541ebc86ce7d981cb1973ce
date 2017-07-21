@@ -16,6 +16,24 @@
       "revId": "34b30959f8df372af541ebc86ce7d981cb1973ce",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dacfb570_040078a9",
+        "filename": "plans/rpb_ee/rpb_ee_stress.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-21T02:50:12Z",
+      "side": 1,
+      "message": "I wanted to give a valid/working link for $LINK, but yeah, the concern is true. Some times, people just don\u0027t read comments.\n\nShould we use sth like \u0027http://\u003cip_addr\u003e/[path]/stress_network.img\u0027?",
+      "parentUuid": "dacfb570_443c4094",
+      "revId": "34b30959f8df372af541ebc86ce7d981cb1973ce",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
