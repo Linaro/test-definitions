@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a39f5659_0c3539bd",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-07-24T14:58:41Z",
+      "side": 1,
+      "message": "It should be a pass if oom triggered right?",
+      "revId": "0b5248dbd2b7cc544e506799db5ec262c8014b16",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
