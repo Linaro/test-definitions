@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "23bd9841_04e7b57f",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-24T04:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dacfb570_c4f5b0cc",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dacfb570_c4c0507f",
         "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
         "patchSetId": 2
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "96087499_47720ab7",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-24T04:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dacfb570_e402b4b3",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dacfb570_24d01c53",
         "filename": "automated/linux/24h-stress-test/24h-stress-test.yaml",
         "patchSetId": 2
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "That sounds reasonable. I didn\u0027t do it that way, because we run the 3 tests one by one in test plan. In test plan, we think we did that in purpose so that abnormal exit of one test doesn\u0027t kill the following tests.\n\nIn the test case, I am fine to enable all these 3 tests and set duration to 24 hours.",
       "parentUuid": "dacfb570_24d01c53",
+      "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cba4e48_de7873db",
+        "filename": "automated/linux/24h-stress-test/24h-stress-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-07-24T04:06:39Z",
+      "side": 1,
+      "message": "The test duration is for each test, not all tests. I have updated comment for it. \n\nAnd stress_network need more care, it might not a good idea to enable it by default as it would work unless the local file download link is the same.",
+      "parentUuid": "dacfb570_a41fcc08",
       "revId": "e2089a305653ab0792b64883985d580bb7893e4c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
