@@ -25,6 +25,19 @@ except ImportError as e:
     sys.exit(1)
 
 
+class StoreDictKeyPair(argparse.Action):
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        self._nargs = nargs
+        super(StoreDictKeyPair, self).__init__(option_strings, dest, nargs=nargs, **kwargs)
+    def __call__(self, parser, namespace, values, option_string=None):
+        print "values: {}".format(values)
+        my_dict = {}
+        for kv in values:
+            k,v = kv.split("=")
+            my_dict[k] = v
+        setattr(namespace, self.dest, my_dict)
+
+
 # quit gracefully if the connection is closed by remote host
 SSH_PARAMS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=5"
 
@@ -253,6 +266,11 @@ class TestDefinition(object):
             ret_val.append('SKIP_INSTALL="True"\n')
         ret_val.append('######\n')
 
+        ret_val.append('###custom parameters from command line###\n')
+        if self.args.test_def_params:
+            for param_name, param_value in self.args.test_def_params.items():
+                ret_val.append('%s=\'%s\'\n' % (param_name, param_value))
+        ret_val.append('######\n')
         return ret_val
 
 
@@ -727,6 +745,13 @@ def get_args():
                         path to the test definition to run.
                         Format example: "ubuntu/smoke-tests-basic.yaml"
                         ''')
+    parser.add_argument('-r', '--test_def_params', default={}, dest='test_def_params',
+                        action=StoreDictKeyPair, nargs="+", metavar="KEY=VALUE",
+                        help='''
+                        Set additional parameters when using test definition without
+                        a test plan. The name values are set similarily to environment
+                        variables: KEY=VALUE
+                        '''),
     parser.add_argument('-k', '--kind', default="automated", dest='kind',
                         choices=['automated', 'manual'],
                         help='''
