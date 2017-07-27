@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "945085b2_cbbf5e36",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-07-27T14:39:06Z",
+      "side": 1,
+      "message": "did you intend to leave this in?",
+      "revId": "d5a3ea2255a85f66bebe715f7e3efda90fb17917",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d3715ad_2332b1e2",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-07-27T14:39:06Z",
+      "side": 1,
+      "message": "Maybe provide an example of how to specify more than one KEY\u003dVALUE arg? It is not clear to me without reading argparse docs.",
+      "revId": "d5a3ea2255a85f66bebe715f7e3efda90fb17917",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
