@@ -10,8 +10,8 @@ install_latest_adb() {
 }
 
 initialize_adb() {
-    which lava-lxc-device-add && lava-lxc-device-add
     adb start-server
+    which lava-lxc-device-add && lava-lxc-device-add
     adb devices
 
     if [ -z "${ANDROID_SERIAL}" ]; then
@@ -21,6 +21,9 @@ initialize_adb() {
         elif [ "${number}" -eq 1 ]; then
             ANDROID_SERIAL="$(adb get-serialno)"
         else
+            # try to debug the problem with missing adb device
+            which lsusb && lsusb
+            which find && find /dev/
             error_msg "Device NOT found"
         fi
     fi
