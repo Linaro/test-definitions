@@ -43,8 +43,6 @@ adb_root() {
         echo "DUT already has adbd running as root"
     else
         adb root &
-        which lava-lxc-device-wait-add && lava-lxc-device-wait-add
-        which lava-lxc-device-add && lava-lxc-device-add
         adb wait-for-device
         adb devices
     fi
