@@ -34,8 +34,11 @@ class StoreDictKeyPair(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         my_dict = {}
         for kv in values:
-            k, v = kv.split("=")
-            my_dict[k] = v
+            if "=" in kv:
+                k, v = kv.split("=", 1)
+                my_dict[k] = v
+            else:
+                print("Invalid parameter: %s" % kv)
         setattr(namespace, self.dest, my_dict)
 
 
