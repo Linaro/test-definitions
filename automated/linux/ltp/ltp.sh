@@ -74,7 +74,9 @@ install_ltp() {
 
 # Parse LTP output
 parse_ltp_output() {
-    grep -E "PASS|FAIL|CONF"  "$1" | awk '{print $1" "$2}' | sed s/CONF/SKIP/  >> "${RESULT_FILE}"
+    grep -E "PASS|FAIL|CONF"  "$1" \
+        | awk '{print $1" "$2}' \
+        | sed 's/PASS/pass/; s/FAIL/fail/; s/CONF/skip/'  >> "${RESULT_FILE}"
 }
 
 # Run LTP test suite
