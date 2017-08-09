@@ -55,5 +55,5 @@ log_parser "single" "${OUTPUT}/unixbench-single.txt"
 # Run the number of CPUs copies.
 if [ "$(nproc)" -gt 1 ]; then
     ./Run -c "$(nproc)" | tee "${OUTPUT}/unixbench-multiple.txt"
-    log_parser "multiple" "${OUTPUT}/unixbench-single.txt"
+    log_parser "multiple" "${OUTPUT}/unixbench-multiple.txt"
 fi
