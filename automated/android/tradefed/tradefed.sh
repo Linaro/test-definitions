@@ -36,7 +36,16 @@ if [ -e "/home/testuser" ]; then
 fi
 disable_suspend
 wait_boot_completed "${TIMEOUT}"
-wait_homescreen "${TIMEOUT}"
+# wait_homescreen() searches logcat output for
+# 'Displayed com.android.launcher', but the log might be washed away when
+# a lot of logs generated after it. When the function not executed in
+# time, error occurs. This has been observer several times on lkft
+# testing. Refer to the following link:
+    # https://lkft.validation.linaro.org/scheduler/job/18918#L4721
+# We are already using wait_boot_completed() to check boot status, lets
+# comment out wait_homescreen() and see if wait_boot_completed() is
+# sufficient.
+# wait_homescreen "${TIMEOUT}"
 
 # Increase the heap size. KVM devices in LAVA default to ~250M of heap
 export _JAVA_OPTIONS="-Xmx350M"
