@@ -22,6 +22,29 @@
       "revId": "b03a949124ef8632846693eae6a3a94d95b7ae0a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b70119_541abed2",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000022
+      },
+      "writtenOn": "2017-08-21T14:07:38Z",
+      "side": 1,
+      "message": "Instead of doing \u0027sleep 10\u0027, a more appropriate fix would be to loop until a valid device appears - based on something other than \u0027no device found\u0027 or \u0027unknown\u0027, maybe a valid serial number?\n\nThis is because, it will always get hard to predict what is the right value of sleep, specially when the host machine is under load the values may need a higher number than 10.",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "b03a949124ef8632846693eae6a3a94d95b7ae0a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
