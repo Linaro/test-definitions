@@ -41,7 +41,12 @@ adb_root() {
     if [ "$(adb shell whoami)" = "root" ]; then
         echo "DUT already has adbd running as root"
     else
+        # 'adb root' and then 'sleep 10' is a work around for some versions of adb. In
+        # LAVA LXC, with that version adb, 'adb root' doesn't return, but it actually
+        # restarted as root. Without 'sleep 10', 'adb wait-for-device' and 'adb devices'
+        # may still look good, but the following adb commands will show 'no device found'.
         adb root &
+        sleep 10
         adb wait-for-device
         adb devices
     fi
