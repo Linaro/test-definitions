@@ -39,7 +39,7 @@ export RESULT_FILE
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "Package installation skipped"
 else
-    install_deps "git python python-lxml python-pil python-setuptools curl tar xz-utils" "${SKIP_INSTALL}"
+    install_deps "git python python-lxml python-pil python-setuptools python-requests ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
     git clone https://github.com/dtmilano/AndroidViewClient
     (
     cd AndroidViewClient/ || exit
