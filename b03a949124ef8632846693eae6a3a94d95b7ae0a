@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e01fc10_eca11c50",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-08-21T10:24:15Z",
+      "side": 1,
+      "message": "The version may come from debian jessie, I don\u0027t remember that well. Senthil may remember that better, the work around is proposed by him.\n\nIn Ubuntu xenial, with latest adb, \u0027adb root\u0027 without \u0027\u0026\u0027 works, we also don\u0027t need \u0027sleep 10\u0027 there. I am not sure if we should still care about other distributions and other adb versions.",
+      "range": {
+        "startLine": 44,
+        "startChar": 62,
+        "endLine": 44,
+        "endChar": 82
+      },
+      "revId": "b03a949124ef8632846693eae6a3a94d95b7ae0a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
