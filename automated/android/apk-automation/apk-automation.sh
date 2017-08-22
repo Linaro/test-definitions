@@ -4,7 +4,7 @@
 . ./../../lib/sh-test-lib
 . ./../../lib/android-test-lib
 
-SKIP_INSTALL="false"
+SKIP_INSTALL="true"
 ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
 LOOPS="1"
@@ -35,10 +35,10 @@ export OUTPUT
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 
-! check_root && error_msg "Please run this script as superuser!"
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "Package installation skipped"
 else
+    ! check_root && error_msg "Please run this script as superuser!"
     install_deps "git python python-lxml python-pil python-setuptools python-requests ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
     git clone https://github.com/dtmilano/AndroidViewClient
     (
