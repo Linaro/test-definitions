@@ -9,7 +9,19 @@ install_latest_adb() {
     adb version
 }
 
+adb_debug_info() {
+    info_msg "'find /dev/bus/usb' output"
+    find /dev/bus/usb
+    if which lsusb; then
+        info_msg "'lsusb' output"
+        lsusb
+    else
+        info_msg "usbutils not installed. 'lsusb' skipped!"
+    fi
+}
+
 initialize_adb() {
+    adb_debug_info
     adb start-server
     adb devices
 
@@ -20,9 +32,6 @@ initialize_adb() {
         elif [ "${number}" -eq 1 ]; then
             ANDROID_SERIAL="$(adb get-serialno)"
         else
-            # try to debug the problem with missing adb device
-            which lsusb && lsusb
-            which find && find /dev/
             error_msg "Device NOT found"
         fi
     fi
@@ -44,6 +53,8 @@ adb_root() {
         adb root
         adb wait-for-device
         adb devices
+        # After adb root, device number within the USB bus changes.
+        adb_debug_info
     fi
 }
 
