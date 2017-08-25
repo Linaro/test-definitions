@@ -22,6 +22,29 @@
       "revId": "4f25e5a7071614fe56f5282c72a368f7808a0256",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8416edfd_d26313f7",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000022
+      },
+      "writtenOn": "2017-08-25T04:58:51Z",
+      "side": 1,
+      "message": "Same here. It will show all devices connected to the host machine, not just the container.",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "4f25e5a7071614fe56f5282c72a368f7808a0256",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
