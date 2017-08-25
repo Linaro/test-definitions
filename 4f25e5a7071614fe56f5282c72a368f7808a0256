@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66cbf305_395b55fe",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000022
+      },
+      "writtenOn": "2017-08-25T04:58:13Z",
+      "side": 1,
+      "message": "Do not use lsusb from within the container, since it will show all devices including the ones that are connected to the host.",
+      "range": {
+        "startLine": 170,
+        "startChar": 25,
+        "endLine": 170,
+        "endChar": 30
+      },
+      "revId": "4f25e5a7071614fe56f5282c72a368f7808a0256",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
