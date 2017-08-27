@@ -191,19 +191,40 @@ class ApkTestRunner(object):
             sys.exit(1)
 
     def download_apk(self, apk_name):
-        # create directory for downloaded files
-        if not os.path.isdir(os.path.abspath(self.config['apk_dir'])):
-            os.makedirs(os.path.abspath(self.config['apk_dir']))
-
         # download APK if not already downloaded
-        apk_path = os.path.join(os.path.abspath(self.config['apk_dir']), apk_name)
+        apk_path = os.path.join(os.path.abspath(self.config['apk_dir']),
+                                apk_name)
         if not os.path.isfile(apk_path):
-            apk_url = urlparse.urljoin(self.config['base_url'], apk_name)
-            r = requests.get(apk_url, stream=True)
-            if r.status_code == 200:
-                with open(apk_path, 'wb') as f:
-                    r.raw.decode_content = True
-                    shutil.copyfileobj(r.raw, f)
+            # create directory for downloaded files
+            if not os.path.exists(os.path.dirname(apk_path)):
+                os.makedirs(os.path.dirname(apk_path))
+
+            if self.config['base_url'].startswith("scp://"):
+                # like scp://user@host:/abs_path
+                base_url = self.config['base_url']
+
+                remote_dir = base_url.split(":")[2]
+                user_host = base_url.split(":")[1].replace("/", "")
+                host = user_host.split("@")[1]
+                user = user_host.split("@")[0]
+
+                remote_path = "%s/%s" % (remote_dir, apk_name)
+                scp_cmdline = "scp %s@%s:%s %s" % (user, host,
+                                                   remote_path, apk_path)
+                ret = os.system(scp_cmdline)
+                if ret != 0:
+                    self.logger.info('Failed to run command: %s' % scp_cmdline)
+                    sys.exit(1)
+            else:
+                apk_url = urlparse.urljoin(self.config['base_url'], apk_name)
+                r = requests.get(apk_url, stream=True)
+                if r.status_code == 200:
+                    with open(apk_path, 'wb') as f:
+                        r.raw.decode_content = True
+                        shutil.copyfileobj(r.raw, f)
+                else:
+                    self.logger.info('Failed to download file: %s' % apk_url)
+                    sys.exit(1)
 
     def install_apk(self, apk_name):
         apk_path = os.path.join(os.path.abspath(self.config['apk_dir']), apk_name)
