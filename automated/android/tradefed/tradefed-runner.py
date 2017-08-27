@@ -180,8 +180,8 @@ while child.isalive():
         logger.info('adb device is alive')
 
     # Check if all tests finished every minute.
-    m = child.expect(['I/ResultReporter: Full Result:',
-                      'I/ConsoleReporter:.*Test run failed to complete.',
+    m = child.expect(['ResultReporter: Full Result:',
+                      'ConsoleReporter:.*Test run failed to complete.',
                       pexpect.TIMEOUT],
                      timeout=60)
     # CTS tests finished correctly.
