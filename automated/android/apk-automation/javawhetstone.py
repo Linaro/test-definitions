@@ -12,6 +12,14 @@ class ApkRunnerImpl(ApkTestRunner):
         self.config['activity'] = 'com.roywhet/.JavaWhetstoneActivity'
         super(ApkRunnerImpl, self).__init__(self.config)
 
+    def setUp(self):
+        self.call_adb('shell setenforce 0')
+        super(ApkRunnerImpl, self).setUp()
+
+    def tearDown(self):
+        self.call_adb('shell setenforce 1')
+        super(ApkRunnerImpl, self).tearDown()
+
     def execute(self):
         self.dump_always()
         btn_run = self.vc.findViewByIdOrRaise("com.roywhet:id/startButton")
