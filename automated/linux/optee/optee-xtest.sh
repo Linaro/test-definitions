@@ -36,7 +36,7 @@ pipe0_status "${test_cmd}" "tee ${LOG_FILE}"
 check_return "xtest-run"
 
 # Parse xtest test log.
-awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /+-----------------------------------------------------/{flag=0} flag" "${LOG_FILE}" \
+awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /\+-----------------------------------------------------/{flag=0} flag" "${LOG_FILE}" \
     | sed 's/OK/pass/; s/FAILED/fail/; s/SKIPPED/skip/' \
     | awk '{printf("%s %s\n", $1, $2)}' \
     | tee -a "${RESULT_FILE}"
@@ -45,7 +45,7 @@ awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /+----------------------
 for i in "subtests" "test cases"; do
     grep -E "^[0-9]+ $i of which [0-9]+ failed" "${LOG_FILE}" \
         | awk -v tc="$(echo "$i" | sed 's/ /-/')" \
-              '{printf("%s-fail-rate pass %s/%s\n"), tc, $(NF-1), $1}' \
+              '{printf("%s-fail-rate pass %s\n"), tc, $(NF-1)/$1}' \
         | tee -a "${RESULT_FILE}"
 done
 

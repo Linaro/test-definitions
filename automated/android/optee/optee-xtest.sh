@@ -46,7 +46,7 @@ fi
 adb shell "echo xtest -l ${LEVEL} -t ${TEST_SUITE} 2>&1 | su" | tee "${LOGFILE}"
 
 # Parse xtest test log.
-awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /+-----------------------------------------------------/{flag=0} flag" "${LOGFILE}" \
+awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /\+-----------------------------------------------------/{flag=0} flag" "${LOGFILE}" \
     | sed 's/OK/pass/; s/FAILED/fail/; s/SKIPPED/skip/' \
     | awk '{printf("%s %s\n", $1, $2)}' \
     | tee -a "${RESULT_FILE}"
@@ -55,7 +55,7 @@ awk "/Result of testsuite ${TEST_SUITE}:/{flag=1; next} /+----------------------
 for i in "subtests" "test cases"; do
     grep -E "^[0-9]+ $i of which [0-9]+ failed" "${LOGFILE}" \
         | awk -v tc="$(echo "$i" | sed 's/ /-/')" \
-              '{printf("%s-fail-rate pass %s/%s\n"), tc, $(NF-1), $1}' \
+              '{printf("%s-fail-rate pass %s\n"), tc, $(NF-1)/$1}' \
         | tee -a "${RESULT_FILE}"
 done
 
