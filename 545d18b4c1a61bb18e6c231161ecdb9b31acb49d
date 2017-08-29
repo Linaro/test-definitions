@@ -22,6 +22,30 @@
       "revId": "545d18b4c1a61bb18e6c231161ecdb9b31acb49d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee3dda0d_0b0fef93",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-08-29T12:47:34Z",
+      "side": 1,
+      "message": "1. it\u0027s not only cts but also vts (different prompt)\n2. is tradefed doing something between reporting the tests finished and showing the prompt?",
+      "parentUuid": "6219c566_5cd984da",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 30
+      },
+      "revId": "545d18b4c1a61bb18e6c231161ecdb9b31acb49d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
