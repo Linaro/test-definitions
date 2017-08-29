@@ -21,6 +21,8 @@ adb_debug_info() {
 }
 
 initialize_adb() {
+    # enable debug
+    set -x
     adb_debug_info
     adb start-server
     adb devices
@@ -44,6 +46,8 @@ initialize_adb() {
     else
         error_msg "Unable to connect to device ${ANDROID_SERIAL}"
     fi
+    # disable debug
+    set +x
 }
 
 adb_root() {
