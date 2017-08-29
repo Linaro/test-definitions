@@ -43,7 +43,7 @@ if which lava-test-reference; then
     fi
 
     if echo "${return}" | grep "$(basename "${ATTACHMENT}")"; then
-        lava-test-reference "test-attachment" --result "pass" --reference "https://archive.validation.linaro.org/artifacts/${return}"
+        lava-test-reference "test-attachment" --result "pass" --reference "${return}"
     else
         echo "test-attachment fail"
         which lava-test-case && lava-test-case "test-attachment" --result "fail"
