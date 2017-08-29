@@ -199,8 +199,18 @@ while child.isalive():
 
     # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
     if m == 0 or m == 1:
-        child.sendline('exit')
-        child.expect(pexpect.EOF, timeout=60)
+        try:
+            child.expect(prompt, timeout=60)
+            logger.debug('Sending "exit" command to TF shell...')
+            child.sendline('exit')
+            child.expect(pexpect.EOF, timeout=60)
+            logger.debug('Child process ended properly.')
+        except pexpect.TIMEOUT as e:
+            print(e)
+            logger.debug('Unsuccessful clean exit, force killing child process...')
+            child.terminate(force=True)
+            break
+
 
 logger.info('Tradefed test finished')
 tradefed_logcat.kill()
