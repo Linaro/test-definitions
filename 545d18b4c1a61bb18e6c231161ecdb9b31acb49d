@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6219c566_5cd984da",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-08-29T12:41:43Z",
+      "side": 1,
+      "message": "is it better to run sth like child.expect([\"cts-tf \u003e\", pexpect.TIMEOUT], timeout\u003d60) before child.sendline(\u0027exit\u0027) here?",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 30
+      },
+      "revId": "545d18b4c1a61bb18e6c231161ecdb9b31acb49d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
