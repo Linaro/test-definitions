@@ -46,6 +46,23 @@
       "revId": "545d18b4c1a61bb18e6c231161ecdb9b31acb49d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b8f6a0_2d359470",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-08-29T13:14:17Z",
+      "side": 1,
+      "message": "The terminate() function should be able to set the isalive() to false, but to make sure that test break out of the while loop, I guess we should also add a \u0027break\u0027 sentence after this line.",
+      "revId": "545d18b4c1a61bb18e6c231161ecdb9b31acb49d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
