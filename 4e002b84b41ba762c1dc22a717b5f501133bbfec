@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45fe6b44_a913d773",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-08-29T13:36:50Z",
+      "side": 1,
+      "message": "how about for the whole \"if m \u003d\u003d 0 or m \u003d\u003d 1:\" block?",
+      "range": {
+        "startLine": 208,
+        "startChar": 12,
+        "endLine": 208,
+        "endChar": 17
+      },
+      "revId": "4e002b84b41ba762c1dc22a717b5f501133bbfec",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
