@@ -46,6 +46,30 @@
       "revId": "444df81b449c49226097288b97e1832370f0cd17",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5720162_d72ddae1",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-08-29T15:46:47Z",
+      "side": 1,
+      "message": "We discuss \"adb start-server\" later. Chase have more information about it.\nLet this patch merge.",
+      "parentUuid": "f5b2c250_96342669",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 20
+      },
+      "revId": "444df81b449c49226097288b97e1832370f0cd17",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
