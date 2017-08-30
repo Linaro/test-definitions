@@ -86,6 +86,29 @@
       "revId": "e17ba2ac6fbd83ae9c7740058d42d19663643930",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02f4e117_cf62dd01",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000022
+      },
+      "writtenOn": "2017-08-30T13:20:31Z",
+      "side": 1,
+      "message": "typo.",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "e17ba2ac6fbd83ae9c7740058d42d19663643930",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
