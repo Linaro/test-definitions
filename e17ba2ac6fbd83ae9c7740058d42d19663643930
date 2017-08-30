@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "edb6e0f5_b5ebd9cc",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-08-30T12:59:18Z",
+      "side": 1,
+      "message": "shellcheck cover that concern https://github.com/koalaman/shellcheck/wiki/SC2044, that also is why \u0027for\u0027 loop not used here.",
+      "parentUuid": "3902a448_a1ebe99d",
+      "revId": "e17ba2ac6fbd83ae9c7740058d42d19663643930",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10601654_88fe574a",
         "filename": "automated/lib/android-test-lib",
         "patchSetId": 2
