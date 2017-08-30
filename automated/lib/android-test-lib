@@ -12,12 +12,6 @@ install_latest_adb() {
 adb_debug_info() {
     info_msg "'find /dev/bus/usb' output"
     find /dev/bus/usb
-    if which lsusb; then
-        info_msg "'lsusb' output"
-        lsusb
-    else
-        info_msg "usbutils not installed. 'lsusb' skipped!"
-    fi
 }
 
 initialize_adb() {
