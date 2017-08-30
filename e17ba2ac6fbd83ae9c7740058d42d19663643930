@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3902a448_a1ebe99d",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-08-30T12:24:57Z",
+      "side": 1,
+      "message": "I found the advice not to loop over \u0027find\u0027 results. It might fail when there are white spaces in file names. It\u0027s not the case here, but I guess it\u0027s worth mentioning as a comment that this is a deliberate decision.",
+      "revId": "e17ba2ac6fbd83ae9c7740058d42d19663643930",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10601654_88fe574a",
         "filename": "automated/lib/android-test-lib",
         "patchSetId": 2
@@ -13,6 +30,24 @@
       "writtenOn": "2017-08-30T12:07:28Z",
       "side": 1,
       "message": "output example\n\n# adb_debug_info \nINFO: Printing USB device info for debugging...\n/usr/bin/lsusb\n/dev/bus/usb/003/003: Device: ID 0bda:8153 Realtek Semiconductor Corp. \n/dev/bus/usb/003/002: Device: ID 2109:0812 VIA Labs, Inc. VL812 Hub\n/dev/bus/usb/003/001: Device: ID 1d6b:0003 Linux Foundation 3.0 root hub\n/dev/bus/usb/002/015: Device: ID 046d:c52b Logitech, Inc. Unifying Receiver\n/dev/bus/usb/002/014: Device: ID 04d9:0223 Holtek Semiconductor, Inc. \n/dev/bus/usb/002/013: Device: ID 0424:2514 Standard Microsystems Corp. USB 2.0 Hub\n/dev/bus/usb/002/009: Device: ID 04f2:b39a Chicony Electronics Co., Ltd \n/dev/bus/usb/002/006: Device: ID 0403:6015 Future Technology Devices International, Ltd Bridge(I2C/SPI/UART/FIFO)\n/dev/bus/usb/002/005: Device: ID 138a:0017 Validity Sensors, Inc. Fingerprint Reader\n/dev/bus/usb/002/003: Device: ID 2109:2812 VIA Labs, Inc. VL812 Hub\n/dev/bus/usb/002/001: Device: ID 1d6b:0002 Linux Foundation 2.0 root hub\n/dev/bus/usb/001/002: Device: ID 8087:8000 Intel Corp. \n/dev/bus/usb/001/001: Device: ID 1d6b:0002 Linux Foundation 2.0 root hub",
+      "revId": "e17ba2ac6fbd83ae9c7740058d42d19663643930",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e04149fe_1d0097f4",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-08-30T12:24:57Z",
+      "side": 1,
+      "message": "Looks OK to me.",
+      "parentUuid": "10601654_88fe574a",
       "revId": "e17ba2ac6fbd83ae9c7740058d42d19663643930",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
