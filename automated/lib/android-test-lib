@@ -10,13 +10,20 @@ install_latest_adb() {
 }
 
 adb_debug_info() {
-    info_msg "'find /dev/bus/usb' output"
-    find /dev/bus/usb
+    info_msg "Printing USB device info for debugging..."
     if which lsusb; then
-        info_msg "'lsusb' output"
-        lsusb
+        find /dev/bus/usb -type c | while read -r device; do
+            # In the 'Cannot open /dev/bus/usb/*' case, print nothing and use that error
+            # message directly. When shell option '-e' enabled in test script, putting
+            # 'lsusb -D <device>' in 'if' block also avoids unexpected test exit.
+            if device_info="$(lsusb -D "${device}" | grep "Device:")"; then
+                echo "$device: $device_info"
+            fi
+        done
     else
-        info_msg "usbutils not installed. 'lsusb' skipped!"
+        info_msg "usbutils not installed, unable to get device information with 'lsusb'."
+        info_msg "Listing 'find /dev/bus/usb' output directly..."
+        find /dev/bus/usb
     fi
 }
 
