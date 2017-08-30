@@ -10,13 +10,16 @@ install_latest_adb() {
 }
 
 adb_debug_info() {
-    info_msg "'find /dev/bus/usb' output"
-    find /dev/bus/usb
+    info_msg "Printing USB device info for debugging..."
     if which lsusb; then
-        info_msg "'lsusb' output"
-        lsusb
+        find /dev/bus/usb -type c | while read -r device; do
+            device_info="$(lsusb -D "${device}" | grep "Device:")"
+            echo "$device: $device_info"
+        done
     else
-        info_msg "usbutils not installed. 'lsusb' skipped!"
+        info_msg "usbutils not installed, uable to get device information with 'lsusb'."
+        info_msg "Listing 'find /dev/bus/usb' output directly..."
+        find /dev/bus/usb
     fi
 }
 
