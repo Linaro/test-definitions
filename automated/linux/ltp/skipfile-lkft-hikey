@@ -18,6 +18,12 @@ fork13 fork13 -i 1000000
 msgctl10 msgctl10
 msgctl11 msgctl11
 
+# Skip pselect01 till next LTP release Sept-2017
+# LKFT: LTP: pselect01_64: slept for too long
+# https://bugs.linaro.org/show_bug.cgi?id=3089
+pselect01 pselect01
+pselect01_64 pselect01_64
+
 sysfs01 sysfs01
 sysfs02 sysfs02
 sysfs03 sysfs03
