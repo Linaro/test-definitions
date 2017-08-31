@@ -16,6 +16,24 @@
       "revId": "514f7d08dc858db308a4edc3f905513afa875d23",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dece5dc_ef1e0cee",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-08-31T08:48:27Z",
+      "side": 1,
+      "message": "Looks OK to me.",
+      "parentUuid": "4bf83432_ad9bd4fe",
+      "revId": "514f7d08dc858db308a4edc3f905513afa875d23",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
