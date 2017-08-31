@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf83432_ad9bd4fe",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-08-31T08:37:45Z",
+      "side": 1,
+      "message": "output example in LAVA\nhttps://lkft.validation.linaro.org/scheduler/job/22057#L3305\n\nList of devices attached\n42FC5D7300454230\tdevice\nINFO: Printing USB device info for debugging...\n/usr/bin/lsusb\n/dev/bus/usb/001/126: Device: ID 18d1:4ee7 Google Inc.\nCannot open /dev/bus/usb/001/123\nCannot open /dev/bus/usb/001/119\nCannot open /dev/bus/usb/001/118\nCannot open /dev/bus/usb/001/116\n+ useradd testuser\n+ mkdir /home/testuser",
+      "revId": "514f7d08dc858db308a4edc3f905513afa875d23",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
