@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b36ebd9_7ee69cda",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-01T10:17:59Z",
+      "side": 1,
+      "message": "Removed \u0027|| true\u0027 in patch #2, we have some error checks in tradefed-runner.py using \u0027sys.exit(1), in these cases, test also should exit.",
+      "range": {
+        "startLine": 75,
+        "startChar": 80,
+        "endLine": 75,
+        "endChar": 88
+      },
+      "revId": "b75da954eaa66960047e3db2ac180e9740e8c0bd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
