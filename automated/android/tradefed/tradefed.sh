@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh -ex
 
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
@@ -72,4 +72,4 @@ fi
 
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
-./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}"
+./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}" || true
