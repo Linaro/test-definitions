@@ -25,12 +25,13 @@ usage() {
     echo "Usage: $0 [-t kselftest_aarch64.tar.gz | kselftest_armhf.tar.gz]
                     [-s True|False]
                     [-u url]
+                    [-p path]
                     [-L List of skip test cases]
                     [-S kselftest-skipfile]" 1>&2
     exit 1
 }
 
-while getopts "t:s:u:L:S:h" opt; do
+while getopts "t:s:u:p:L:S:h" opt; do
     case "${opt}" in
         t) TESTPROG="${OPTARG}" ;;
         s) SKIP_INSTALL="${OPTARG}" ;;
@@ -38,6 +39,7 @@ while getopts "t:s:u:L:S:h" opt; do
         u) TESTPROG_URL="${OPTARG}" ;;
         # List of known unsupported test cases to be skipped
         L) SKIPLIST="${OPTARG}" ;;
+        p) KSELFTEST_PATH="${OPTARG}" ;;
         S)
            OPT=$(echo "${OPTARG}" | grep "http")
            if [ -z "${OPT}" ] ; then
