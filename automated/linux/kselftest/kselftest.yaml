@@ -27,12 +27,13 @@ params:
     SKIPFILE: ""
     # TESTPROG_URL: "http://testdata.validation.linaro.org/tests/kselftest/kselftest_aarch64.tar.gz"
     TESTPROG_URL: ""
+    KSELFTEST_PATH: "/opt/kselftests/mainline/"
 
 
 run:
     steps:
         - cd ./automated/linux/kselftest/
-        - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}"
+        - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -p "${KSELFTEST_PATH}"
 
 parse:
     pattern: "^selftests:\\s(?P<test_case_id>\\S+)\\s[[](?P<result>(FAIL|PASS|SKIP))[]]"
