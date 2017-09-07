@@ -19,7 +19,7 @@ class ApkTestRunner(object):
 
         self.logger = logging.getLogger(self.config['name'])
         self.logger.setLevel(logging.INFO)
-        if self.config['verbose']:
+        if self.config.get('verbose') and self.config['verbose']:
             self.logger.setLevel(logging.DEBUG)
         ch = logging.StreamHandler()
         ch.setLevel(logging.DEBUG)
