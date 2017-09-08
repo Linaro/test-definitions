@@ -10,7 +10,29 @@ class ApkRunnerImpl(ApkTestRunner):
         self.config['activity'] = 'com.aurorasoftworks.quadrant.ui.professional/.QuadrantProfessionalLauncherActivity'
         super(ApkRunnerImpl, self).__init__(self.config)
 
+    def setUp(self):
+        self.call_adb('shell setenforce 0')
+        super(ApkRunnerImpl, self).setUp()
+
+    def tearDown(self):
+        self.call_adb('shell setenforce 1')
+        super(ApkRunnerImpl, self).tearDown()
+
     def execute(self):
+        self.dump_always()
+        view_license_btn = self.vc.findViewWithText("View license")
+        if view_license_btn:
+            ok_button = self.vc.findViewWithTextOrRaise("OK")
+            ok_button.touch()
+
+        self.dump_always()
+        run_full_item = self.vc.findViewWithTextOrRaise(u'Run full benchmark')
+        run_full_item.touch()
+
+        # Hack workaround to kill the first time start up
+        # then it will work from 2nd time
+        self.call_adb("shell am force-stop %s" % self.config['apk_package'])
+        self.call_adb("shell am start -W -S %s" % self.config['activity'])
         self.dump_always()
         view_license_btn = self.vc.findViewWithText("View license")
         if view_license_btn:
