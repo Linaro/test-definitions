@@ -64,7 +64,8 @@ class ApkRunnerImpl(ApkTestRunner):
                     match = pat_score_unit.match(measurement)
 
                 if not match:
-                    self.report_result(test_name, "fail")
+                    self.report_result("andebenchpro2015-%s" % test_name,
+                                       "fail")
                 else:
                     data = match.groupdict()
                     measurement = data.get('measurement')
@@ -72,7 +73,8 @@ class ApkRunnerImpl(ApkTestRunner):
                     if units is None:
                         units = "points"
 
-                    self.report_result(test_name, "pass", measurement, units)
+                    self.report_result("andebenchpro2015-%s" % test_name,
+                                       "pass", measurement, units)
 
     def execute(self):
         # Enable 64-bit
