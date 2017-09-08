@@ -34,8 +34,8 @@ run:
     steps:
         - cd ./automated/android/tradefed
         - ./setup.sh
-        - useradd testuser
-        - mkdir /home/testuser; chown testuser.testuser /home/testuser
+        - id -u testuser &>/dev/null || useradd testuser
+        - mkdir -p /home/testuser; chown testuser.testuser /home/testuser
         - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}"
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
