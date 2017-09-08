@@ -32,6 +32,7 @@ initialize_adb() {
     set -x
     adb_debug_info
     adb start-server
+    adb wait-for-device
     adb devices
 
     if [ -z "${ANDROID_SERIAL}" ]; then
@@ -46,7 +47,6 @@ initialize_adb() {
     fi
     export ANDROID_SERIAL
     info_msg "Default adb device: ${ANDROID_SERIAL}"
-    adb wait-for-device
 
     if adb shell echo "Testing adb connectivity"; then
         info_msg "Connected to device ${ANDROID_SERIAL} successfully"
