@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed8798fb_ccbb6334",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-09-13T13:50:28Z",
+      "side": 1,
+      "message": "3_469 available as stable build",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88723f8c_8f8fc7e8",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-09-13T13:50:28Z",
+      "side": 1,
+      "message": "like OE builds\nWe might not have \"make\" or \"gcc\" on target.\n\nif check_pre_installed()\nelse\nbuild_on_target()\nfi\n\nrun_test{}",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35598b8c_4e3701a1",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-09-13T13:50:28Z",
+      "side": 1,
+      "message": "Since we started testing on x86_64 for LKFT project.\nWould it be good idea to have check for x86 ?",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e3179a0_cea12453",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-09-13T13:50:28Z",
+      "side": 1,
+      "message": "do you want to create a parser() function ?",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3278fc5c_58ceb4ef",
+        "filename": "automated/linux/iozone/iozone.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-09-13T13:50:28Z",
+      "side": 1,
+      "message": "x86 ?\nx15 ?\n\nExpected to run on server machines only ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
