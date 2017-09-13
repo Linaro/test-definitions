@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce5963c5_e498bb66",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-13T14:21:39Z",
+      "side": 1,
+      "message": "I don\u0027t see it from here http://www.iozone.org/src/stable/?C\u003dM;O\u003dD\n\nuh, 3_469 is in the current directory, not stable directory. I think we should stick with stable release.",
+      "parentUuid": "ed8798fb_ccbb6334",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88723f8c_8f8fc7e8",
         "filename": "automated/linux/iozone/iozone.sh",
         "patchSetId": 2
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "50210a52_ef7709b8",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-13T14:21:39Z",
+      "side": 1,
+      "message": "Not just this one, some of our test cases are arm only. \n\n@Milosz, time to add x86 support?",
+      "parentUuid": "35598b8c_4e3701a1",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12cb3f83_219757d9",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-13T14:21:39Z",
+      "side": 1,
+      "message": "+1, I will update this part.",
+      "parentUuid": "88723f8c_8f8fc7e8",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e3179a0_cea12453",
         "filename": "automated/linux/iozone/iozone.sh",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8a4baa39_693fff8c",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-13T14:21:39Z",
+      "side": 1,
+      "message": "I guess it is not needed. It is just a couple of lines, and we only run them once.",
+      "parentUuid": "4e3179a0_cea12453",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3278fc5c_58ceb4ef",
         "filename": "automated/linux/iozone/iozone.yaml",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-13T13:50:28Z",
       "side": 1,
       "message": "x86 ?\nx15 ?\n\nExpected to run on server machines only ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4796dcce_ab0eb49e",
+        "filename": "automated/linux/iozone/iozone.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-13T14:21:39Z",
+      "side": 1,
+      "message": "It will work on all arm based machines. No x86 support yet.",
+      "parentUuid": "3278fc5c_58ceb4ef",
       "range": {
         "startLine": 14,
         "startChar": 4,
