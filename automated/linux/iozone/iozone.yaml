@@ -1,0 +1,38 @@
+metadata:
+    name: iozone
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "IOzone is a filesystem benchmark tool. The benchmark generates and
+                  measures a variety of file operations."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - debian
+        - centos
+        - fedora
+        - openembedded
+    devices:
+        - d03
+        - d05
+        - juno
+        - beaglebone-black
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - x15
+        - x86
+
+    scope:
+        - performance
+
+params:
+    SKIP_INSTALL: "false"
+    VERSION: "3_458"
+
+run:
+    steps:
+        - cd automated/linux/iozone
+        - ./iozone.sh -s "${SKIP_INSTALL}" -v "${VERSION}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
