@@ -164,10 +164,7 @@ while child.isalive():
     adb_command = "adb shell echo OK"
     adb_check = subprocess.Popen(shlex.split(adb_command))
     if adb_check.wait() != 0:
-        logger.debug('"find /dev/bus/usb" output')
-        subprocess.call(['find', '/dev/bus/usb'])
-        logger.debug('"lsusb" output')
-        subprocess.call('lsusb')
+        subprocess.call(['sh', '-c', '. ../../lib/sh-test-lib && . ../../lib/android-test-lib && adb_debug_info'])
         logger.debug('"adb devices" output')
         subprocess.call(['adb', 'devices'])
         logger.error('adb connection lost!! Will wait for 5 minutes and terminating tradefed shell test as adb connection is lost!')
