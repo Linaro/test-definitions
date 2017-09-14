@@ -146,7 +146,8 @@ detect_abi() {
     case "${abi}" in
       armv7|armv7l|armv7el|armv7lh) abi="armeabi" ;;
       arm64|armv8|arm64-v8a|aarch64) abi="arm64" ;;
-      *) error_msg "Unknown architecture: ${abi}" ;;
+      x86_64) abi="x86" ;;
+      *) error_msg "Unsupported architecture: ${abi}" ;;
     esac
 }
 
