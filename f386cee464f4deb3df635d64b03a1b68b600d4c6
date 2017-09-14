@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fef9c5e9_06512c90",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-14T02:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce5963c5_e498bb66",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88723f8c_8f8fc7e8",
         "filename": "automated/linux/iozone/iozone.sh",
         "patchSetId": 2
@@ -143,6 +167,54 @@
     },
     {
       "key": {
+        "uuid": "426f5061_e98e31c2",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-14T02:43:02Z",
+      "side": 1,
+      "message": "I have put package and iozone installation in the same block so that they can be skipped.",
+      "parentUuid": "12cb3f83_219757d9",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0daf6e06_c8be3d16",
+        "filename": "automated/linux/iozone/iozone.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-14T02:43:02Z",
+      "side": 1,
+      "message": "Lets start from this case then. To enable x86 support, this patch is needed https://review.linaro.org/#/c/21411/",
+      "parentUuid": "50210a52_ef7709b8",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e3179a0_cea12453",
         "filename": "automated/linux/iozone/iozone.sh",
         "patchSetId": 2
@@ -225,6 +297,30 @@
       "side": 1,
       "message": "It will work on all arm based machines. No x86 support yet.",
       "parentUuid": "3278fc5c_58ceb4ef",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "f386cee464f4deb3df635d64b03a1b68b600d4c6",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e9436c9_a710bd2b",
+        "filename": "automated/linux/iozone/iozone.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-14T02:43:02Z",
+      "side": 1,
+      "message": "added x15 and x86.",
+      "parentUuid": "4796dcce_ab0eb49e",
       "range": {
         "startLine": 14,
         "startChar": 4,
