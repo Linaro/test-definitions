@@ -252,7 +252,42 @@ class ApkTestRunner(object):
         self.call_adb('logcat -d -b events -v time > %s/logcat-events.log' % self.config['output'])
         self.call_adb('shell dmesg > %s/dmesg.log' % self.config['output'])
 
+    def set_performance_governor(self, target_governor="performance"):
+        f_scaling_governor = ('/sys/devices/system/cpu/'
+                              'cpu0/cpufreq/scaling_governor')
+        f_governor_backup = '/data/local/tmp/scaling_governor'
+        dir_sys_cpu = '/sys/devices/system/cpu/'
+        self.call_adb('shell "cat %s>%s"' % (f_scaling_governor,
+                                             f_governor_backup))
+
+        f_cpus_remote = '/data/local/tmp/cpus.txt'
+        self.call_adb('shell "ls -d %s/cpu[0-9]* >%s"' % (dir_sys_cpu,
+                                                          f_cpus_remote))
+        f_cpus_local = os.path.join(
+                                    os.path.abspath(self.config['output']),
+                                    'cpus.txt')
+        self.call_adb('pull %s %s' % (f_cpus_remote, f_cpus_local))
+        with open(f_cpus_local, 'r') as f:
+            for cpu in f.readlines():
+                self.call_adb('shell "echo %s>%s/cpufreq/'
+                              'scaling_governor"' % (target_governor,
+                                                     cpu.strip()))
+
+    def set_back_governor(self):
+        dir_sys_cpu = '/sys/devices/system/cpu/'
+        f_governor_backup = '/data/local/tmp/scaling_governor'
+        f_governor_local = os.path.join(os.path.abspath(self.config['output']),
+                                        'scaling_governor')
+        self.call_adb('pull %s %s' % (f_governor_backup, f_governor_local))
+        with open(f_governor_local, 'r') as f:
+            contents = f.readlines()
+            if len(contents) > 0:
+                self.set_performance_governor(
+                                target_governor=contents[0].strip())
+
     def setUp(self):
+        # set to peformance governor policay
+        self.set_performance_governor()
         # Install APK.
         self.download_apk(self.config['apk_file_name'])
         self.uninstall_apk(self.config['apk_package'])
@@ -275,3 +310,4 @@ class ApkTestRunner(object):
 
     def tearDown(self):
         self.uninstall_apk(self.config['apk_package'])
+        self.set_back_governor()
