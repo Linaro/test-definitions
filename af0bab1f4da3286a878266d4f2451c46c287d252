@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "591b5eda_048e7939",
+        "filename": "automated/android/bootchart/bootchart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-09-19T11:17:25Z",
+      "side": 1,
+      "message": "this should be injected by build job.",
+      "revId": "af0bab1f4da3286a878266d4f2451c46c287d252",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
