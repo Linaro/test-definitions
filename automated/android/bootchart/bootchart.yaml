@@ -23,12 +23,12 @@ params:
     OPERATION: "start"
     BOOTCHART_TIME: "120"
     # Specify url and token for publishing artifacts.
-    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
-    ARTIFACTORIAL_TOKEN: ""
+    URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    TOKEN: "4373c97b474497dbd12373689d7d492e"
 
 run:
     steps:
         - cd ./automated/android/bootchart/
         - ./bootchart.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -s "${ANDROID_SERIAL}" -o "${OPERATION}" -T "${BOOTCHART_TIME}"
-        - ../../utils/upload-to-artifactorial.sh -a "./output/output-bootchart.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - ../../utils/upload-to-artifactorial.sh -a "./output/output-bootchart.tar.xz" -u "${URL}" -t "${TOKEN}"
         - ../../utils/send-to-lava.sh ./output/result.txt
