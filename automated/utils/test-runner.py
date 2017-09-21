@@ -670,6 +670,9 @@ class ResultParser(object):
 
                     self.metrics.append(data.copy())
 
+                    if self.args.lava_run:
+                        self.send_to_lava(data)
+
     def parse_pattern(self):
         with open('%s/stdout.log' % self.test['test_path'], 'r') as f:
             for line in f:
@@ -684,6 +687,16 @@ class ResultParser(object):
                         data['result'] = self.fixup[data['result']]
 
                     self.metrics.append(data.copy())
+
+                    if self.args.lava_run:
+                        self.send_to_lava(data)
+
+    def send_to_lava(self, data):
+        cmd = 'lava-test-case {} --result {}'.format(data['test_case_id'], data['result'])
+        if data['measurement']:
+            cmd = '{} --measurement {} --units {}'.format(cmd, data['measurement'], data['units'])
+        self.logger.debug('lava-run: cmd: {}'.format(cmd))
+        subprocess.call(shlex.split(cmd))
 
     def dict_to_json(self):
         # Save test results to output/test_id/result.json
@@ -777,6 +790,9 @@ def get_args():
     parser.add_argument('-e', '--skip_environment', dest='skip_environment',
                         default=False, action='store_true',
                         help='skip environmental data collection (board name, distro, etc)')
+    parser.add_argument('-l', '--lava_run', dest='lava_run',
+                        default=False, action='store_true',
+                        help='send test result to LAVA with lava-test-case.')
     args = parser.parse_args()
     return args
 
