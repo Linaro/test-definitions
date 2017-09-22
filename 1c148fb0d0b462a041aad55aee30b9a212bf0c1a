@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a31b118_bc2e7577",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-22T04:27:22Z",
+      "side": 1,
+      "message": "We just need to set the env var here, subprocess call or Popen functions will use it by default.\n\nBTW, that also explain why the PATH var set at line #8 worked in tradefed-runner.py.",
+      "revId": "1c148fb0d0b462a041aad55aee30b9a212bf0c1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b49c6093_b2c03635",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-22T04:27:22Z",
+      "side": 1,
+      "message": "Milosz, vishal, \n\nI cannot move \u0027initialize_adb()\u0027 to tradefed.sh, \u0027adb\u0027 cannot see any devices as testuser. I have to reserve the variable from setup.sh and pass it to tradefed.sh\n\nWould you please explain why we need to run vts as testuser? It made the test case a bit complicated.",
+      "revId": "1c148fb0d0b462a041aad55aee30b9a212bf0c1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
