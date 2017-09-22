@@ -22,7 +22,7 @@ usage() {
 while getopts ':o:n:c:t:p:r:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
-        n) ANDROID_SERIAL="${OPTARG}" ;;
+        n) export ANDROID_SERIAL="${OPTARG}" ;;
         c) TEST_URL="${OPTARG}" ;;
         t) TEST_PARAMS="${OPTARG}" ;;
         p) TEST_PATH="${OPTARG}" ;;
@@ -34,6 +34,7 @@ done
 if [ -e "/home/testuser" ]; then
     export HOME=/home/testuser
 fi
+
 disable_suspend
 wait_boot_completed "${TIMEOUT}"
 # wait_homescreen() searches logcat output for
