@@ -33,6 +33,24 @@
       "revId": "1c148fb0d0b462a041aad55aee30b9a212bf0c1a",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfccafa3_c510d883",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2017-09-22T05:31:32Z",
+      "side": 1,
+      "message": "vts doesn\u0027t run well as root for some reason.",
+      "parentUuid": "b49c6093_b2c03635",
+      "revId": "1c148fb0d0b462a041aad55aee30b9a212bf0c1a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
