@@ -32,7 +32,7 @@ initialize_adb() {
     set -x
     adb_debug_info
     adb start-server
-    adb wait-for-device
+    timeout 60 adb wait-for-device || error_msg "Device NOT found!"
     adb devices
 
     if [ -z "${ANDROID_SERIAL}" ]; then
@@ -62,7 +62,7 @@ adb_root() {
         echo "DUT already has adbd running as root"
     else
         adb root
-        adb wait-for-device
+        timeout 60 adb wait-for-device || error_msg "Device NOT found!"
         adb devices
         # After adb root, device number within the USB bus changes.
         adb_debug_info
