@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a0bdb11_9822cd45",
+        "filename": "automated/android/boottime/boottime.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-09-27T17:17:12Z",
+      "side": 1,
+      "message": "You can use this function directly https://git.linaro.org/qa/test-definitions.git/tree/automated/lib/android-test-lib#n191",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 2
+      },
+      "revId": "708eb21784060ed1db3a77659182cfc864e222c0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
