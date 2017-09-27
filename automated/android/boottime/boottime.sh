@@ -28,6 +28,12 @@ done
 
 initialize_adb
 wait_boot_completed "${BOOT_TIMEOUT}"
+
+# call disablesuspend.sh if it exists
+if adb_shell_which disablesuspend.sh; then
+    adb shell /system/bin/disablesuspend.sh
+fi
+
 create_out_dir "${OUTPUT}"
 install_deps 'curl tar xz-utils' "${SKIP_INSTALL}"
 
