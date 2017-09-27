@@ -93,9 +93,21 @@ wait_boot_completed() {
 
 wait_homescreen() {
     [ "$#" -ne 1 ] && error_msg "Usage: wait_homescreen timeout_in_seconds"
+
+    # call disablesuspend.sh if it exists
+    # on some builds, the launcher package might not be com.android.launcher,
+    # in this case we expect the build to have this disablesuspend.sh script
+    # which is used to check the display of homescreen.
+    # if there is not such disablesuspend.sh script, then use the default check
+    if adb_shell_which disablesuspend.sh; then
+        if adb shell /system/bin/disablesuspend.sh; then
+            info_msg "Target booted to homescreen successfully."
+            return
+        fi
+    fi
+
     timeout="$1"
     end=$(( $(date +%s) + timeout ))
-
     homescreen_displayed=false
     while [ "$(date +%s)" -lt "$end" ]; do
         if adb logcat -sd ActivityManager:I | grep "Displayed com.android.launcher"; then
