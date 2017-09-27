@@ -395,10 +395,17 @@ if [ "X${OPERATION}" = "XCOLLECT" ]; then
     # shellcheck disable=SC2035
     logcat -d -v time *:V > "${dir_boottime_data}/logcat_all_${COLLECT_NO}.log"
     output_test_result "BOOTTIME_LOGCAT_ALL_COLLECT" "pass"
+    echo "==============content of the file ${dir_boottime_data}/logcat_all_${COLLECT_NO}.log start from here:"
+    cat "${dir_boottime_data}/logcat_all_${COLLECT_NO}.log"
+    echo "==============content of the file ${dir_boottime_data}/logcat_all_${COLLECT_NO}.log end here:"
     logcat -d -b events -v time > "${dir_boottime_data}/logcat_events_${COLLECT_NO}.log"
     output_test_result "BOOTTIME_LOGCAT_EVENTS_COLLECT" "pass"
     dmesg > "${dir_boottime_data}/dmesg_${COLLECT_NO}.log"
     output_test_result "BOOTTIME_DMESG_COLLECT" "pass"
+    echo "==============content of the file ${dir_boottime_data}/dmesg_${COLLECT_NO}.log start from here:"
+    cat "${dir_boottime_data}/dmesg_${COLLECT_NO}.log"
+    echo "==============content of the file ${dir_boottime_data}/dmesg_${COLLECT_NO}.log end here:"
+    ls -l ${dir_boottime_data}/*
 elif [ "X${OPERATION}" = "XANALYZE" ]; then
     count=$2
     ## Check if there is any case that the surfaceflinger service
@@ -416,6 +423,10 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
         if [ "${android_boottime_lines}" -ne 1 ]; then
             echo "There are ${android_boottime_lines} existences of 'Boot is finished' in file: ${LOG_LOGCAT_ALL}"
             echo "Please check the status first"
+            echo "==============content of the file ${LOG_LOGCAT_ALL} start from here:"
+            cat ${LOG_LOGCAT_ALL}
+            echo "==============content of the file ${LOG_LOGCAT_ALL} end from here:"
+
             service_started_once=false
         fi
 
@@ -430,8 +441,11 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
         ## check  the service of bootanim
         bootanim_lines=$(grep -c "init: Service 'bootanim'.* exited with status" "${LOG_DMESG}")
         if [ "${bootanim_lines}" -ne 1 ]; then
-            echo "bootanim service seems to be started more than once in file: ${LOG_DMESG}"
+            echo "bootanim service seems to be started ${bootanim_lines} times in file: ${LOG_DMESG}"
             echo "Please check the status first"
+            echo "==============content of the file ${LOG_DMESG} start from here:"
+            cat ${LOG_DMESG}
+            echo "==============content of the file ${LOG_DMESG} end from here:"
             service_started_once=false
         fi
         i=$((i+1))
@@ -477,7 +491,7 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
                 key=$(echo "$line"|cut -d, -f1)
                 measurement=$(echo "$line"|cut -d, -f2)
                 units=$(echo "$line"|cut -d, -f3)
-                output_test_result "${key}" "pass" "${measurement}" "${units}"
+                output_test_result "${key}_avg" "pass" "${measurement}" "${units}"
             done < "${F_STATISTIC_DATA_CSV}"
         fi
 
