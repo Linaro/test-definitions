@@ -27,7 +27,9 @@ while getopts ":S:s:t:o:n:" o; do
 done
 
 initialize_adb
-wait_boot_completed "${BOOT_TIMEOUT}"
+# wait till the launcher displayed
+wait_homescreen "${BOOT_TIMEOUT}"
+
 create_out_dir "${OUTPUT}"
 install_deps 'curl tar xz-utils' "${SKIP_INSTALL}"
 
