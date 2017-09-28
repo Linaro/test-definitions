@@ -277,12 +277,18 @@ getTimeStampFromLogcat(){
         return
     fi
 
+    year=$(date +%G)
     key_line=$(grep -i "${key}" "${LOG_LOGCAT_ALL}")
     if [ -n "${key_line}" ]; then
-        timestamp_sec=$(echo "${key_line}"|awk '{print $2}' | awk -F ":" '{print $3}')
-        timestamp_min=$(echo "${key_line}"|awk '{print $2}' | awk -F ":" '{print $2}')
-        timestamp=$(echo "${timestamp_sec} ${timestamp_min}" | awk '{printf "%.3f",$1 + $2 * 60;}')
-        echo "${timestamp}"
+        mmdd=$(echo "${key_line}" |awk '{printf "%s\n", $1}')
+        hhmmss_ms=$(echo "${key_line}" |awk '{printf "%s\n", $2}')
+        ms=$(echo "${hhmmss_ms}"|cut -d. -f2)
+        hhmmss=$(echo "${hhmmss_ms}"|cut -d. -f1)
+        hhmm=$(echo "${hhmmss}"|cut -d: -f1,2)
+        ss=$(echo "${hhmmss}"|cut -d: -f3)
+        mmddhhmm_ss=$(echo "${mmdd}${hhmm}${year}.${ss}"|tr -d ':-')
+        sec=$(date -d "${mmddhhmm_ss}" +%s)
+        echo "${sec}.${ms}"
     fi
 }
 
@@ -332,7 +338,6 @@ getBootTimeInfoFromDmesg(){
     fi
 
     POINT_SURFACEFLINGER_BOOT=$(getTimeStampFromLogcat "Boot is finished")
-    POINT_SURFACEFLINGER_START=$(getTimeStampFromLogcat "SurfaceFlinger is starting")
     POINT_LAUNCHER_DISPLAYED=$(getTimeStampFromLogcat "Displayed com.android.launcher")
 
     ## When there are 2 lines of "Boot is finished",
@@ -348,19 +353,21 @@ getBootTimeInfoFromDmesg(){
         SURFACEFLINGER_BOOT_TIME=$(echo "${SURFACEFLINGER_BOOT_TIME_MS}" | awk '{printf "%.3f",$1/1000;}')
         output_test_result "SURFACEFLINGER_BOOT_TIME" "pass" "${SURFACEFLINGER_BOOT_TIME}" "s"
 
-        if [ ! -z "${POINT_SURFACEFLINGER_BOOT}" ] && [ ! -z "${POINT_LAUNCHER_DISPLAYED}" ] && [ ! -z "${POINT_SURFACEFLINGER_START}" ] && [ ! -z "${INIT_TO_SURFACEFLINGER_START_TIME}" ]; then
+        if [ ! -z "${POINT_SURFACEFLINGER_BOOT}" ] && [ ! -z "${POINT_LAUNCHER_DISPLAYED}" ] && [ ! -z "${INIT_TO_SURFACEFLINGER_START_TIME}" ]; then
 
                 min=$(echo "${POINT_LAUNCHER_DISPLAYED} ${POINT_SURFACEFLINGER_BOOT}" | awk '{if ($1 < $2) printf $1; else print $2}')
 
-                ## In case timestamp of "Boot is finished" is smaller than timestamp of "Displayed com.android.launcher" we calculate ANDROID_UI_SHOWN as "Boot is finished" time minus difference
-                ## between two timestamps plus INIT_TO_SURFACEFLINGER_START_TIME
+                TIME_FROM_SURFACEFLINER_BOOTED_TO_LAUNCHER_DISPLAYED=0
                 if [ "${min}" = "${POINT_SURFACEFLINGER_BOOT}" ]; then
-                        ANDROID_UI_SHOWN=$(echo "${POINT_SURFACEFLINGER_BOOT} ${POINT_SURFACEFLINGER_START} ${POINT_SURFACEFLINGER_BOOT} ${POINT_LAUNCHER_DISPLAYED} ${INIT_TO_SURFACEFLINGER_START_TIME}" | awk '{printf "%.3f",$1 - $2 + $4 - $3 + $5;}')
-                ## I case timestamp of "Boot is finished" is greater than timestamp of "Displayed com.android.launcher" we use "Boot is finished" time plus INIT_TO_SURFACEFLINGER_START_TIME
-                ## as ANDROID_UI_SHOWN
-                else
-                        ANDROID_UI_SHOWN=$(echo "${POINT_SURFACEFLINGER_BOOT} ${POINT_SURFACEFLINGER_START} ${INIT_TO_SURFACEFLINGER_START_TIME}" | awk '{printf "%.3f",$1 - $2 + $3;}')
+                    ## In case timestamp of "Boot is finished" is smaller than timestamp of "Displayed com.android.launcher",
+                    ## we calculate TIME_FROM_SURFACEFLINER_BOOTED_TO_LAUNCHER_DISPLAYED as the difference between
+                    ## "Boot is finished" and "Displayed com.android.launcher"
+                    TIME_FROM_SURFACEFLINER_BOOTED_TO_LAUNCHER_DISPLAYED=$(echo "${POINT_SURFACEFLINGER_BOOT} ${POINT_LAUNCHER_DISPLAYED}" | awk '{printf "%.3f", $2 - $1;}')
+                #else
+                    ## In case timestamp of "Boot is finished" is greater than timestamp of "Displayed com.android.launcher",
+                    ## we set TIME_FROM_SURFACEFLINER_BOOTED_TO_LAUNCHER_DISPLAYED as 0 since it is already included in the "Boot is finished" time
                 fi
+                ANDROID_UI_SHOWN=$(echo "${INIT_TO_SURFACEFLINGER_START_TIME} ${SURFACEFLINGER_BOOT_TIME} ${TIME_FROM_SURFACEFLINER_BOOTED_TO_LAUNCHER_DISPLAYED}" | awk '{printf "%.3f",$1 + $2 + $3;}')
                 output_test_result "ANDROID_UI_SHOWN" "pass" "${ANDROID_UI_SHOWN}" "s"
         fi
     fi
