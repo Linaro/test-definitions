@@ -1,0 +1,23 @@
+metadata:
+  name: dragonboard-410c-test-plan-stress
+  description: Stress Test plan for Linux DB410c
+  os: openembedded
+  devices:
+    - dragonboard-410c
+  maintainer:
+    - anibal.limon@linaro.org, nicolas.dechesne@linaro.org
+  format: Linaro Test Plan v1
+requirements:
+  - name:
+    tests:
+      automated:
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_ng
+        - path: 24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/24h-stress-test.git
+          mandatory: True
+          parameters:
+              TEST: stress_oom
