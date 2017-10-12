@@ -78,3 +78,6 @@ acl_test01 acl_test01
 # approximately 50% of the time. See
 # https://bugs.linaro.org/show_bug.cgi?id=3303 for details.
 fanotify07 fanotify07
+
+# fs:isofs Do not try to build iso's on embedded boards.
+isofs
