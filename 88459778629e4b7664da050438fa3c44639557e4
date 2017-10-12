@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a8c12c9_e99082e0",
+        "filename": "automated/linux/ltp/skipfile-lkft-hikey",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-10-12T16:43:16Z",
+      "side": 1,
+      "message": "Please take look at this patch.\nltp: add quota to runtime depends\nhttps://review.linaro.org/#/c/21737/",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "88459778629e4b7664da050438fa3c44639557e4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
