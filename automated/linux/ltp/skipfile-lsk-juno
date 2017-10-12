@@ -55,3 +55,9 @@ cron_dirs_checks01 cron_dirs_checks01
 acl_test01 acl_test01
 # acl test cases comes under admin_tools
 # setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
+
+# fs:isofs Do not try to build iso's on embedded boards.
+isofs
+
+# fs:quota_remount_test01: Quota support not built into embedded kernels.
+quota_remount_test01
