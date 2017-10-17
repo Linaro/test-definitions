@@ -42,7 +42,7 @@ parse_log() {
              '{
                   gsub(":", "", $3);
                   printf("%s_%s_comp_perf pass %s Mpixels/sec\n", prefix, $3, $7);
-                  printf("%s_%s_comp_ratio pass %s %\n", prefix, $3, $8);
+                  printf("%s_%s_comp_ratio pass %s percent\n", prefix, $3, $8);
                   printf("%s_%s_decomp_perf pass %s Mpixels/sec\n", prefix, $3, $9);
               }' \
         | tee -a "${RESULT_FILE}"
