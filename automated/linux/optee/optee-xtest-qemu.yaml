@@ -1,0 +1,43 @@
+metadata:
+    name: optee-xtest-qemu
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "OP-TEE sanity test suite using QEMU"
+    maintainer:
+        - fathi.boudra@linaro.org
+    os:
+        - openembedded
+        - debian
+    scope:
+        - functional
+    devices:
+        - x86
+
+params:
+    # Base URL to download from
+    PUBLISH_DEST: "http://snapshots.linaro.org/components/optee/os/latest"
+    # Files to download
+    FILES: "bios.bin efi-virtio.rom rootfs.cpio.gz qemu-system-arm tee-header_v2.bin tee-pager_v2.bin zImage"
+    # QEMU binary to execute
+    QEMU_BIN: "qemu-system-arm"
+    # QEMU SMP parameter
+    QEMU_SMP: "4"
+
+run:
+    steps:
+        - . automated/lib/sh-test-lib
+        - install_deps "curl expect"
+        - dhcp_client=$(which udhcpc) && udhcpc
+        - for file in ${FILES}; do curl -sLSO ${PUBLISH_DEST}/${file}; done
+        - touch tee-pageable_v2.bin
+        - chmod +x ${QEMU_BIN}
+        - ${PWD}/${QEMU_BIN} -version
+        - curl -sLSO https://raw.githubusercontent.com/OP-TEE/build/master/qemu-check.exp
+        - sed -i -e 's/^log_user.*/log_user 1/' qemu-check.exp
+        - QEMU=${PWD}/${QEMU_BIN} QEMU_SMP=${QEMU_SMP} expect qemu-check.exp -- --bios bios.bin
+
+parse:
+    pattern: "(?P<test_case_id>regression_[0-9.]+)\\s+(?P<result>(OK|FAILED|SKIPPED))"
+    fixupdict:
+        OK: pass
+        FAILED: fail
+        SKIPPED: skip
