@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd9a6ce1_4995beca",
+        "filename": "automated/linux/optee/optee-xtest-qemu.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-18T11:24:08Z",
+      "side": 1,
+      "message": "I wanted to move run steps to a separate script and parse test log from there, it worked on local, but didn\u0027t work as expected in LAVA. Then I moved to use parse pattern which is supported by test-runner too. The benefit is it saves result instantly.",
+      "revId": "31760c2b4a178eff6c6d1e55e233ed8ad3d59fb1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
