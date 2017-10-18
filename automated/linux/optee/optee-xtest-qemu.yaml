@@ -1,0 +1,42 @@
+metadata:
+    name: optee-xtest-qemu
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "OP-TEE sanity test suite using QEMU"
+    maintainer:
+        - fathi.boudra@linaro.org
+    os:
+        - openembedded
+        - debian
+    scope:
+        - functional
+    devices:
+        - x86
+
+params:
+    # Base URL to download from
+    BUILD_URL: "http://snapshots.linaro.org/components/optee/os"
+    # Build number to download
+    BUILD_NUMBER: "latest"
+    # Files to download
+    FILES: "bios.bin efi-virtio.rom rootfs.cpio.gz qemu-system-arm tee-header_v2.bin tee-pager_v2.bin zImage"
+    # QEMU binary to execute
+    QEMU_BIN: "qemu-system-arm"
+    # QEMU SMP parameter
+    QEMU_SMP: "4"
+
+install:
+    deps:
+        - curl
+        - expect
+
+run:
+    steps:
+        - dhcp_client=$(which udhcpc) && udhcpc
+        - for file in ${FILES}; do curl -sLSO ${BUILD_URL}/${BUILD_NUMBER}/${file}; done
+        - touch tee-pageable_v2.bin
+        - chmod +x qemu-system-arm
+        - ${PWD}/qemu-system-arm -version
+        - curl -sLSO https://raw.githubusercontent.com/OP-TEE/build/master/qemu-check.exp
+        - sed -i -e 's/^log_user.*/log_user 1/' qemu-check.exp
+        - QEMU=${PWD}/${QEMU_BIN} QEMU_SMP=4 expect qemu-check.exp -- --bios bios.bin
+        # TODO: attach serial0.log and serial1.log files?
