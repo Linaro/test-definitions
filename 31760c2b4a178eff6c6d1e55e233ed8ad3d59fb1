@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2ad2f3b5_547b0e03",
+        "filename": "automated/linux/optee/optee-xtest-qemu.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2017-10-18T12:07:33Z",
+      "side": 1,
+      "message": "I need to change the variable name. It isn\u0027t really the build url/number, but the published location.",
+      "range": {
+        "startLine": 32,
+        "startChar": 46,
+        "endLine": 32,
+        "endChar": 74
+      },
+      "revId": "31760c2b4a178eff6c6d1e55e233ed8ad3d59fb1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd9a6ce1_4995beca",
         "filename": "automated/linux/optee/optee-xtest-qemu.yaml",
         "patchSetId": 4
