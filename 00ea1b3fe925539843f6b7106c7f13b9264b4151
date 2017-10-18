@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3610445_24dbb496",
+        "filename": "automated/linux/optee/optee-xtest-qemu.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-18T11:24:08Z",
+      "side": 1,
+      "message": "As local test-runner doesn\u0027t support this feature, I moved it to run steps using the install_deps() from sh-test-lib.",
+      "revId": "00ea1b3fe925539843f6b7106c7f13b9264b4151",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "368ea60e_7830232e",
+        "filename": "automated/linux/optee/optee-xtest-qemu.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-18T11:24:08Z",
+      "side": 1,
+      "message": "Looks like the output in lava is more or less the same as serial0.log, I guess we don\u0027t have to save it again.",
+      "revId": "00ea1b3fe925539843f6b7106c7f13b9264b4151",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
