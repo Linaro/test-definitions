@@ -1,0 +1,50 @@
+metadata:
+  name: erp-stress
+  description: Test plan for EE RPB. Common features across all boards
+  os: Debian
+  devices:
+    - d03
+    - d05
+    - thunderX
+    - moonshot
+    - mustang
+    - overdrive
+  maintainer:
+    - milosz.wasilewski@linaro.org
+    - dan.rue@linaro.org
+    - chase.qi@linaro.org
+  approver:
+    - milosz.wasilewski@linaro.org
+  format: Linaro Test Plan v1
+
+requirements:
+  - name: System robustness
+    owner: martin.stadtler@linaro.org
+    category: stress
+    tests:
+      automated:
+        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              TEST: stress_ng
+              DURATION: 28800
+        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              TEST: stress_oom
+              DURATION: 28800
+        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          mandatory: True
+          parameters:
+              TEST: stress_network
+              DURATION: 28800
+              # Might be different for each platform with systemd.
+              INTERFACE: eth0
+              # To test the maximum bandwidth, please download stress-network.img with
+              # the following link, place it on local http server and modify 'LINK'.
+              # File download link: http://testdata.validation.linaro.org/stress/stress-network.img
+              # Here is an example.
+              LINK: "http://192.168.3.1/testdata/stress-network.img"
