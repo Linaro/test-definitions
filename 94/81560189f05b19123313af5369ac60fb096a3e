@@ -1,0 +1,9 @@
+Code-Review+1: lava-bot
+Code-Review+1: Fathi Boudra <fathi.boudra@linaro.org>
+Code-Review+1: Chase Qi <chase.qi@linaro.org>
+Code-Review+2: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Submitted-by: Milosz Wasilewski <milosz.wasilewski@linaro.org>
+Submitted-at: Thu, 19 Oct 2017 10:42:06 +0000
+Reviewed-on: https://review.linaro.org/21855
+Project: qa/test-definitions
+Branch: refs/heads/master
