@@ -34,9 +34,12 @@ done
 create_out_dir "${OUTPUT}"
 
 # Run cyclictest.
-detect_abi
-# shellcheck disable=SC2154
-./bin/"${abi}"/cyclictest -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" \
+if ! binary=$(which cyclictest); then
+    detect_abi
+    # shellcheck disable=SC2154
+    binary="./bin/${abi}/cyclictest"
+fi
+"${binary}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" \
     -l "${LOOPS}" | tee "${LOGFILE}"
 
 # Parse test log.
