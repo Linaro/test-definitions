@@ -137,4 +137,4 @@ requirements:
               # Included 'oltp' to meansure database performance.
               # Excluded 'fileio' as it is already covered by the above
               # separate 'fio-test.yaml' test case.
-              TESTS: "percpu cpu memory threads mutex oltp"
+              TESTS: "cpu memory threads mutex oltp"
