@@ -4,6 +4,10 @@ chdir01A symlink01 -T chdir01
 fork13 fork13 -i 1000000
 msgctl10 msgctl10
 msgctl11 msgctl11
+
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+quotactl01 quotactl01
 # chdir01 is failed due to the way LAVA mounted /tmp file system
 
 sysfs01 sysfs01

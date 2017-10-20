@@ -24,6 +24,10 @@ msgctl11 msgctl11
 pselect01 pselect01
 pselect01_64 pselect01_64
 
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+quotactl01 quotactl01
+
 sysfs01 sysfs01
 sysfs02 sysfs02
 sysfs03 sysfs03

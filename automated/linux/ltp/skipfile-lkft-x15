@@ -18,6 +18,10 @@ fork13 fork13 -i 1000000
 msgctl10 msgctl10
 msgctl11 msgctl11
 
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+quotactl01 quotactl01
+
 # Skip pselect01 till next LTP release Sept-2017
 # LKFT: LTP: pselect01_64: slept for too long
 # https://bugs.linaro.org/show_bug.cgi?id=3089
