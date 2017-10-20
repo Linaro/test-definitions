@@ -89,3 +89,12 @@ utime01 utime01
 utime02 utime02
 utime06 utime06
 utimes01 utimes01
+
+# LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces tests failed
+# https://bugs.linaro.org/show_bug.cgi?id=3327
+# containers
+netns_sysfs netns_sysfs.sh
+netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
+netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
+netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
+netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink
