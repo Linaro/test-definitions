@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23274255_b0409a06",
+        "filename": "validate.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-10-20T15:04:51Z",
+      "side": 1,
+      "message": "This is a really big try block. How about doing an os.path.exists() check before the open instead? Alternatively, it looks like only the \"f.read()\" needs to be in the \"with open()\" block. The rest of it could and should happen afterwards, not inside the \"with\" scope.",
+      "revId": "343371d13b4015da97436b955c4f458b840ba65c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c127b4fe_432230a3",
+        "filename": "validate.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-10-20T15:04:51Z",
+      "side": 1,
+      "message": "Same as above. Only f.read() should be in the open block, and/or check for file exists explicitly.",
+      "revId": "343371d13b4015da97436b955c4f458b840ba65c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
