@@ -604,6 +604,9 @@ class ResultParser(object):
                 self.results['name'] = self.testdef['metadata']['name']
             if 'params' in self.testdef.keys():
                 self.results['params'] = self.testdef['params']
+            if self.args.test_def_params:
+                for param_name, param_value in self.args.test_def_params.items():
+                    self.results['params'][param_name] = param_value
             if 'parse' in self.testdef.keys() and 'pattern' in self.testdef['parse'].keys():
                 self.pattern = self.testdef['parse']['pattern']
                 self.logger.info("Enabling log parse pattern: %s" % self.pattern)
