@@ -1,0 +1,26 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: wlan-smoke
+    description: "Basic WLAN smoke tests"
+    maintainer:
+        - nicolas.dechesne@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+
+params:
+    DEVICE: wlan0
+    # expected state on first boot: <enabled> or <disabled>
+    BOOT: enabled
+
+run:
+    steps:
+        - cd ./automated/linux/wlan-smoke
+        - ./wlan-smoke-test.sh -d "${DEVICE}" -b "${BOOT}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
