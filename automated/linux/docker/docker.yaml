@@ -7,7 +7,6 @@ metadata:
         - chase.qi@linaro.org
     os:
         - debian
-        - ubuntu
         - fedora
         - centos
     scope:
