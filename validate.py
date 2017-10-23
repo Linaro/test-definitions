@@ -64,57 +64,69 @@ def pep8_check(filepath, args):
 
 def metadata_check(filepath, args):
     if filepath.lower().endswith("yaml"):
-        with open(filepath, "r") as f:
-            result_message_list = []
-            y = yaml.load(f.read())
-            if 'metadata' not in y.keys():
+        filecontent = None
+        try:
+            with open(filepath, "r") as f:
+                filecontent = f.read()
+        except FileNotFoundError:
+            publish_result(["* METADATA [PASSED]: " + filepath + " - deleted"], args)
+            return 0
+        result_message_list = []
+        y = yaml.load(filecontent)
+        if 'metadata' not in y.keys():
+            result_message_list.append("* METADATA [FAILED]: " + filepath)
+            result_message_list.append("\tmetadata section missing")
+            publish_result(result_message_list, args)
+            exit(1)
+        metadata_dict = y['metadata']
+        mandatory_keys = set([
+            'name',
+            'format',
+            'description',
+            'maintainer',
+            'os',
+            'devices'])
+        if not mandatory_keys.issubset(set(metadata_dict.keys())):
+            result_message_list.append("* METADATA [FAILED]: " + filepath)
+            result_message_list.append("\tmandatory keys missing: %s" %
+                                       mandatory_keys.difference(set(metadata_dict.keys())))
+            result_message_list.append("\tactual keys present: %s" %
+                                       metadata_dict.keys())
+            publish_result(result_message_list, args)
+            return 1
+        for key in mandatory_keys:
+            if len(metadata_dict[key]) == 0:
                 result_message_list.append("* METADATA [FAILED]: " + filepath)
-                result_message_list.append("\tmetadata section missing")
-                publish_result(result_message_list, args)
-                exit(1)
-            metadata_dict = y['metadata']
-            mandatory_keys = set([
-                'name',
-                'format',
-                'description',
-                'maintainer',
-                'os',
-                'devices'])
-            if not mandatory_keys.issubset(set(metadata_dict.keys())):
-                result_message_list.append("* METADATA [FAILED]: " + filepath)
-                result_message_list.append("\tmandatory keys missing: %s" %
-                                           mandatory_keys.difference(set(metadata_dict.keys())))
-                result_message_list.append("\tactual keys present: %s" %
-                                           metadata_dict.keys())
+                result_message_list.append("\t%s has no content" % key)
                 publish_result(result_message_list, args)
                 return 1
-            for key in mandatory_keys:
-                if len(metadata_dict[key]) == 0:
-                    result_message_list.append("* METADATA [FAILED]: " + filepath)
-                    result_message_list.append("\t%s has no content" % key)
-                    publish_result(result_message_list, args)
-                    return 1
-            result_message_list.append("* METADATA [PASSED]: " + filepath)
-            publish_result(result_message_list, args)
+        result_message_list.append("* METADATA [PASSED]: " + filepath)
+        publish_result(result_message_list, args)
     return 0
 
 
 def validate_yaml(filename, args):
-    with open(filename, "r") as f:
-        try:
-            y = yaml.load(f.read())
-            message = "* YAMLVALID: [PASSED]: " + filename
-            print_stderr(message)
-        except:
-            message = "* YAMLVALID: [FAILED]: " + filename
-            result_message_list = []
-            result_message_list.append(message)
-            result_message_list.append("\n\n")
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            for line in traceback.format_exception_only(exc_type, exc_value):
-                result_message_list.append(' ' + line)
-            publish_result(result_message_list, args)
-            return 1
+    filecontent = None
+    try:
+        with open(filename, "r") as f:
+            filecontent = f.read()
+    except FileNotFoundError:
+        publish_result(["* YAMLVALID [PASSED]: " + filename + " - deleted"], args)
+        return 0
+    try:
+        y = yaml.load(filecontent)
+        message = "* YAMLVALID: [PASSED]: " + filename
+        print_stderr(message)
+    except:
+        message = "* YAMLVALID: [FAILED]: " + filename
+        result_message_list = []
+        result_message_list.append(message)
+        result_message_list.append("\n\n")
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        for line in traceback.format_exception_only(exc_type, exc_value):
+            result_message_list.append(' ' + line)
+        publish_result(result_message_list, args)
+        return 1
     return 0
 
 
