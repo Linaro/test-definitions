@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31a75695_eaaf4533",
+        "filename": "automated/linux/hci-smoke/hci-smoke-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-23T00:45:32Z",
+      "side": 1,
+      "message": "This is optional, but if you want the script works without yaml file and test runner, and without any options, default values for the variables are needed in the script. simple two lines above the usage() will do the job. \n\nDEVICE\u003d\"hci0\"\nBOOT\u003d\"enabled\"",
+      "revId": "3bedffc19cd9575907758bc7e87f3f07e582151e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
