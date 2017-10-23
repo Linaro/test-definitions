@@ -64,7 +64,7 @@ else
         debian|ubuntu)
             install_deps "git build-essential automake libtool"
             if echo "${TESTS}" | grep "oltp"; then
-                install_deps "libmysqlclient-dev mysql-server"
+                install_deps "default-libmysqlclient-dev default-mysql-server"
                 systemctl start mysql
             fi
             install_sysbench
