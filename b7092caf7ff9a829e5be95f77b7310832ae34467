@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ff3345f_5386950d",
+        "filename": "automated/linux/sysbench/sysbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000030
+      },
+      "writtenOn": "2017-10-23T05:55:25Z",
+      "side": 1,
+      "message": "Change the server to default-mysql-server to make sure both server and libraries come from the same codebase.",
+      "revId": "b7092caf7ff9a829e5be95f77b7310832ae34467",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
