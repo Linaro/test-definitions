@@ -38,7 +38,6 @@ cd "${OUTPUT}"
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "iperf installation skipped"
 else
-    ! check_root && error_msg "You need to be root for installation!"
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
