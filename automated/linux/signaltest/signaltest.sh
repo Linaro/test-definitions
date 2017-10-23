@@ -30,9 +30,12 @@ done
 create_out_dir "${OUTPUT}"
 
 # Run signaltest.
-detect_abi
-# shellcheck disable=SC2154
-./bin/"${abi}"/signaltest -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}" \
+if ! binary=$(which signaltest); then
+    detect_abi
+    # shellcheck disable=SC2154
+    binary="./bin/${abi}/signaltest"
+fi
+"${binary}" -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}" \
     | tee "${LOGFILE}"
 
 # Parse test log.
