@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "014175fc_5e6a0621",
+        "filename": "automated/linux/hci-smoke/hci-smoke-test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-10-23T06:48:07Z",
+      "side": 1,
+      "message": "2017 ?",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "ad1048736506afc7af8e00ec2f116959f3b1ed25",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
