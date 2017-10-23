@@ -46,11 +46,14 @@ fi
 info_msg "Hackbench test options: ${OPTS}"
 
 # Test run.
-detect_abi
+if ! binary=$(which hackbench); then
+    detect_abi
+    # shellcheck disable=SC2154
+    binary="./bin/${abi}/hackbench"
+fi
 for i in $(seq "${ITERATION}"); do
     info_msg "Running iteration [$i/${ITERATION}]"
-    # shellcheck disable=SC2154
-    ./bin/"${abi}"/hackbench "${OPTS}" 2>&1 | tee -a "${TEST_LOG}"
+    "${binary}" "${OPTS}" 2>&1 | tee -a "${TEST_LOG}"
 done
 
 # Parse output.
