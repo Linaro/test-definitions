@@ -25,9 +25,12 @@ done
 create_out_dir "${OUTPUT}"
 
 # Run rt-migrate-test.
-detect_abi
-# shellcheck disable=SC2154
-./bin/"${abi}"/rt-migrate-test -l "${LOOPS}" | tee "${LOGFILE}"
+if ! binary=$(which rt-migrate-test); then
+    detect_abi
+    # shellcheck disable=SC2154
+    binary="./bin/${abi}/rt-migrate-test"
+fi
+"${binary}" -l "${LOOPS}" | tee "${LOGFILE}"
 
 # Parse test log.
 task_num=$(grep "Task" "${LOGFILE}" | tail -1 | awk '{print $2}')
