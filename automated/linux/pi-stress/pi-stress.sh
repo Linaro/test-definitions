@@ -42,10 +42,13 @@ else
     RR=""
 fi
 
-detect_abi
+if ! binary=$(which pi_stress); then
+    detect_abi
+    # shellcheck disable=SC2154
+    binary="./bin/${abi}/pi_stress"
+fi
 # pi_stress will send SIGTERM when test fails. The single will terminate the
 # test script. Catch and ignore it with trap.
 trap '' TERM
-# shellcheck disable=SC2154
-./bin/"${abi}"/pi_stress --duration "${DURATION}" "${MLOCKALL}" "${RR}"
+"${binary}" --duration "${DURATION}" "${MLOCKALL}" "${RR}"
 check_return 'pi-stress'
