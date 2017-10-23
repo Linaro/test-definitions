@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79b1d9cf_70269ad2",
+        "filename": "automated/linux/wlan-smoke/wlan-smoke.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2017-10-23T09:46:06Z",
+      "side": 1,
+      "message": "The device name in staging LAVA v2 jobs is dragonboard410c. We can have both.",
+      "revId": "2c2130364d5ee9154163711b8312ca48f9c75f24",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
