@@ -37,24 +37,28 @@ fio_build_install() {
 }
 
 install() {
-    dist_name
-    # shellcheck disable=SC2154
-    case "${dist}" in
-      debian|ubuntu)
-        pkgs="fio"
-        install_deps "${pkgs}" "${SKIP_INSTALL}"
-        ;;
-      fedora|centos)
-        pkgs="libaio-devel gcc tar wget"
-        install_deps "${pkgs}" "${SKIP_INSTALL}"
-        fio_build_install
-        ;;
-      # When build do not have package manager
-      # Assume development tools pre-installed
-      *)
-        fio_build_install
-        ;;
-    esac
+    if which fio &> /dev/null; then
+        info_msg "fio has been already installed"
+    else
+        dist_name
+        # shellcheck disable=SC2154
+        case "${dist}" in
+          debian|ubuntu)
+            pkgs="fio"
+            install_deps "${pkgs}" "${SKIP_INSTALL}"
+            ;;
+          fedora|centos)
+            pkgs="libaio-devel gcc tar wget"
+            install_deps "${pkgs}" "${SKIP_INSTALL}"
+            fio_build_install
+            ;;
+          # When build do not have package manager
+          # Assume development tools pre-installed
+          *)
+            fio_build_install
+            ;;
+        esac
+    fi
 }
 
 fio_test() {
