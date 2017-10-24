@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "da096698_fe70c322",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-24T05:27:38Z",
+      "side": 1,
+      "message": "Running command as root user with sudo doesn\u0027t look right to me. \n\nWhen running as non-root user, the above \u0027setup.sh\u0027 will exit at the first place as it requires admin privileges to install packages, install_dpes isn\u0027t using sudo as that is not safe. When not running as root, you even cannot make sure if the current user is in the sudoers file.",
+      "parentUuid": "419311e4_95e5f0b4",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "2c20d1ab1938613556ade0bb26a6929dbbf07bb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89c5d1ae_e9d27f1d",
         "filename": "automated/android/tradefed/tradefed.yaml",
         "patchSetId": 1
