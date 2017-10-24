@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "419311e4_95e5f0b4",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-10-24T04:02:20Z",
+      "side": 1,
+      "message": "but adding sudo does no harm there, and it would help when run not under root user, so better to have it here.",
+      "parentUuid": "7dff3d49_c06d66fd",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "2c20d1ab1938613556ade0bb26a6929dbbf07bb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89c5d1ae_e9d27f1d",
         "filename": "automated/android/tradefed/tradefed.yaml",
         "patchSetId": 1
