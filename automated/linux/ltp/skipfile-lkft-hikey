@@ -85,6 +85,9 @@ fanotify07 fanotify07
 
 # fs:isofs Do not try to build iso's on embedded boards.
 isofs
+# ltp-fs-tests/quota_remount_test01
+# https://bugs.linaro.org/show_bug.cgi?id=3354
+quota_remount_test01 quota_remount_test01.sh
 
 # mainline kernel tests baselining
 # https://projects.linaro.org/projects/CTT/queues/issue/CTT-585

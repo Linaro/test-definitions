@@ -67,6 +67,10 @@ fanotify07 fanotify07
 
 # fs:isofs Do not try to build iso's on embedded boards.
 isofs
+# ltp-fs-tests/quota_remount_test01
+# https://bugs.linaro.org/show_bug.cgi?id=3354
+quota_remount_test01 quota_remount_test01.sh
+
 # pth_str02 hangs when using NFS filesystem.
 # LKFT: linux-mainline: x86 : ltp sched tests hang due to NFS not responding
 # https://bugs.linaro.org/show_bug.cgi?id=3338
