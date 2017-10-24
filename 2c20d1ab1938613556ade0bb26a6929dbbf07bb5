@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7dff3d49_c06d66fd",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-24T02:08:57Z",
+      "side": 1,
+      "message": "root is the default target user, \u0027sudo\u0027 isn\u0027t needed here.",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "2c20d1ab1938613556ade0bb26a6929dbbf07bb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89c5d1ae_e9d27f1d",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-24T02:08:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 42,
+        "startChar": 10,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "2c20d1ab1938613556ade0bb26a6929dbbf07bb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5abfc139_4be31532",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-24T02:08:57Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "2c20d1ab1938613556ade0bb26a6929dbbf07bb5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
