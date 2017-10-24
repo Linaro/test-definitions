@@ -16,6 +16,24 @@
       "revId": "3bedffc19cd9575907758bc7e87f3f07e582151e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cbcdf30_8ddfaa54",
+        "filename": "automated/linux/hci-smoke/hci-smoke-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-24T01:20:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31a75695_eaaf4533",
+      "revId": "3bedffc19cd9575907758bc7e87f3f07e582151e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
