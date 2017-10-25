@@ -17,6 +17,12 @@ requirements:
         - path: automated/linux/usb-smoke/usb-smoke-test.yaml
           repository: https://git.linaro.org/qa/test-definitions.git
           timeout: 1200
+        - path: automated/linux/wlan-smoke/wlan-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+        - path: automated/linux/hci-smoke/hci-smoke.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
         - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
           repository: https://git.linaro.org/qa/test-definitions.git
           timeout: 1200
