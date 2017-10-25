@@ -3,7 +3,7 @@ metadata:
   description: Benchmarks Test plan for Linux 
   os: openembedded
   devices:
-    - dragonboard-410c
+    - dragonboard410c
   maintainer:
     - anibal.limon@linaro.org, nicolas.dechesne@linaro.org
   format: Linaro Test Plan v1
