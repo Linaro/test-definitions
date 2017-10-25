@@ -34,17 +34,14 @@ else
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        if [ "${dist}" = "debian" ]; then
-            pkgs="apache2 mysql-server php5-mysql php5-common libapache2-mod-php5"
-        elif [ "${dist}" = "ubuntu" ]; then
-            pkgs="apache2 mysql-server php-mysql php-common libapache2-mod-php"
-        fi
+        # Tested on Debian 9 and Ubuntu 17.10.
+        pkgs="apache2 apache2-utils libapache2-mod-php mariadb-server php php-mysql"
         install_deps "curl ${pkgs}"
-        echo "extension=mysqli.so" >> /etc/php5/apache2/php.ini
         systemctl restart apache2
         systemctl restart mysql
         ;;
       centos|fedora)
+        # Tested on CentOS 7.
         pkgs="httpd mariadb-server mariadb php php-mysql"
         install_deps "curl ${pkgs}"
         systemctl start httpd.service
@@ -62,9 +59,14 @@ curl -o "${OUTPUT}/index.html" "http://localhost/index.html"
 grep "Test Page for the Apache HTTP Server" "${OUTPUT}/index.html"
 check_return "apache2-test-page"
 
-# Test MySQL.
+# Setup MySQL authentication.
 mysqladmin -u root password lxmptest  > /dev/null 2>&1 || true
-mysql --user="root" --password="lxmptest" -e "show databases"
+mysql --user='root' --password='lxmptest' -e 'DROP USER admin@localhost' || true
+mysql --user='root' --password='lxmptest' -e "CREATE USER admin@localhost IDENTIFIED BY 'password'"
+mysql --user='root' --password='lxmptest' -e "GRANT ALL ON *.* TO admin@localhost WITH GRANT OPTION"
+
+# Test MySQL.
+mysql --user="admin" --password="password" -e "show databases"
 check_return "mysql-show-databases"
 
 # Test PHP.
@@ -102,5 +104,6 @@ curl -o "${OUTPUT}/delete-record" "http://localhost/delete-record.php"
 grep "Record deleted successfully" "${OUTPUT}/delete-record"
 check_return "php-delete-record"
 
-# Delete myDB for the next run.
-mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
+# Delete myDB and admin for the next run.
+mysql --user='admin' --password='password' -e 'DROP DATABASE myDB'
+mysql --user='root' --password='lxmptest' -e 'DROP USER admin@localhost'
