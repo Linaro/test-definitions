@@ -21,20 +21,14 @@ case "${dist}" in
         # Stop apache server in case it is installed and running.
         systemctl stop apache2 > /dev/null 2>&1 || true
 
-        install_deps "nginx mysql-server php5-mysql php5-fpm curl"
-
-        systemctl restart nginx
-        systemctl restart mysql
-
-        # Configure PHP.
-        cp /etc/php5/fpm/php.ini /etc/php5/fpm/php.ini.bak
-        sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
-        systemctl restart php5-fpm
+        install_deps "nginx mariadb-server php-mysql php-fpm curl"
 
         # Configure NGINX for PHP.
         mv -f /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
         cp ./debian-nginx.conf /etc/nginx/sites-available/default
         systemctl restart nginx
+        systemctl restart mysql
+        systemctl restart php7.0-fpm
         ;;
     centos)
         # x86_64 nginx package can be installed from epel repo. However, epel
@@ -84,10 +78,15 @@ curl -o "${OUTPUT}/index.html" "http://localhost/index.html"
 test_command="grep 'Test Page for the Nginx HTTP Server' ${OUTPUT}/index.html"
 run_test_case "${test_command}" "test-nginx-server" "${skip_list}"
 
+# Setup MySQL authentication.
+mysqladmin -u root password lxmptest  > /dev/null 2>&1 || true
+mysql --user='root' --password='lxmptest' -e 'DROP USER admin@localhost' || true
+mysql --user='root' --password='lxmptest' -e "CREATE USER admin@localhost IDENTIFIED BY 'password'"
+mysql --user='root' --password='lxmptest' -e "GRANT ALL ON *.* TO admin@localhost WITH GRANT OPTION"
+
 # Test MySQL.
 skip_list="$(echo "${skip_list}" | awk '{ for (i=2; i<=NF; i++) print $i}')"
-mysqladmin -u root password lxmptest > /dev/null 2>&1 || true
-test_command="mysql --user='root' --password='lxmptest' -e 'show databases'"
+test_command="mysql --user='admin' --password='password' -e 'show databases'"
 run_test_case "${test_command}" "mysql-show-databases" "${skip_list}"
 
 # Test PHP.
@@ -132,8 +131,9 @@ test_command="grep 'Record deleted successfully' ${OUTPUT}/delete-record"
 run_test_case "${test_command}" "php-delete-record"
 
 # Cleanup.
-# Delete myDB for the next run.
-mysql --user='root' --password='lxmptest' -e 'DROP DATABASE myDB'
+# Delete myDB and admin for the next run.
+mysql --user='admin' --password='password' -e 'DROP DATABASE myDB'
+mysql --user='root' --password='lxmptest' -e 'DROP USER admin@localhost'
 
 # Restore from backups.
 rm -rf /usr/share/nginx/html
@@ -141,7 +141,6 @@ mv /usr/share/nginx/html.bak /usr/share/nginx/html
 # shellcheck disable=SC2154
 case "${dist}" in
     debian)
-        mv -f /etc/php5/fpm/php.ini.bak /etc/php5/fpm/php.ini
         mv -f /etc/nginx/sites-available/default.bak /etc/nginx/sites-available/default
         ;;
     centos)
