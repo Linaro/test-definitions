@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "lxmptest";
+$username = "admin";
+$password = "password";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password);
