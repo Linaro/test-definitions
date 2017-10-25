@@ -15,6 +15,7 @@ metadata:
         - ubuntu
         - fedora
         - centos
+        - openembedded
     scope:
         - performance
         - virtualization

@@ -28,8 +28,13 @@ done
 create_out_dir "${OUTPUT}"
 
 # Run pmqtest.
-detect_abi
-./bin/"${abi}"/pmqtest -S -l "${LOOPS}" | tee "${LOGFILE}"
+if ! binary=$(which pmqtest); then
+    detect_abi
+    # shellcheck disable=SC2154
+    binary="./bin/${abi}/pmqtest"
+fi
+
+"${binary}" -S -l "${LOOPS}" | tee "${LOGFILE}"
 
 # Parse test log.
 tail -n "$(nproc)" "${LOGFILE}" \

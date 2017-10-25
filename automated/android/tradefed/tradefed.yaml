@@ -35,8 +35,11 @@ run:
         - cd ./automated/android/tradefed
         # Run setup.sh in the original shell to reserve env variables.
         - . ./setup.sh
-        - id -u testuser &>/dev/null || useradd testuser
-        - mkdir -p /home/testuser; chown testuser.testuser /home/testuser
+        - echo "after ./setup.sh"
+        # delete the test user to clean environment
+        - userdel testuser -r -f || true
+        # create test use to run the cts/vts tests
+        - useradd -m testuser && echo "testuser created successfully"
         - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}"
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
@@ -46,3 +49,4 @@ run:
         - ../../utils/upload-to-artifactorial.sh -a "${ATTACHMENT}" -u "${URL}" -t "${TOKEN}"
         # Send test result to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
+        - userdel testuser -f -r || true

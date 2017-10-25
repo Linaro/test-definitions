@@ -24,6 +24,10 @@ msgctl11 msgctl11
 pselect01 pselect01
 pselect01_64 pselect01_64
 
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+quotactl01 quotactl01
+
 sysfs01 sysfs01
 sysfs02 sysfs02
 sysfs03 sysfs03
@@ -81,3 +85,17 @@ fanotify07 fanotify07
 
 # fs:isofs Do not try to build iso's on embedded boards.
 isofs
+# ltp-fs-tests/quota_remount_test01
+# https://bugs.linaro.org/show_bug.cgi?id=3354
+quota_remount_test01 quota_remount_test01.sh
+
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+# LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces tests failed
+# https://bugs.linaro.org/show_bug.cgi?id=3327
+# containers
+netns_sysfs netns_sysfs.sh
+netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
+netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
+netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
+netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink

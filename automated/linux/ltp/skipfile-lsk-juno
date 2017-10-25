@@ -4,6 +4,10 @@ chdir01A symlink01 -T chdir01
 fork13 fork13 -i 1000000
 msgctl10 msgctl10
 msgctl11 msgctl11
+
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+quotactl01 quotactl01
 # chdir01 is failed due to the way LAVA mounted /tmp file system
 
 sysfs01 sysfs01
@@ -63,3 +67,38 @@ fanotify07 fanotify07
 
 # fs:isofs Do not try to build iso's on embedded boards.
 isofs
+# ltp-fs-tests/quota_remount_test01
+# https://bugs.linaro.org/show_bug.cgi?id=3354
+quota_remount_test01 quota_remount_test01.sh
+
+# pth_str02 hangs when using NFS filesystem.
+# LKFT: linux-mainline: x86 : ltp sched tests hang due to NFS not responding
+# https://bugs.linaro.org/show_bug.cgi?id=3338
+pth_str01 pth_str01
+pth_str02 pth_str02
+pth_str03 pth_str03
+time-schedule01         time-schedule
+
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+# syscalls
+open12 open12
+openat02 openat02
+renameat201 renameat201
+renameat202 renameat202 -i 10
+sendfile09 sendfile09
+sendfile09_64 sendfile09_64
+
+utime01 utime01
+utime02 utime02
+utime06 utime06
+utimes01 utimes01
+
+# LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces tests failed
+# https://bugs.linaro.org/show_bug.cgi?id=3327
+# containers
+netns_sysfs netns_sysfs.sh
+netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
+netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
+netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
+netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink

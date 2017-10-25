@@ -1,0 +1,40 @@
+metadata:
+  name: qcomlt-test-plan-bench
+  description: Benchmarks Test plan for Linux 
+  os: openembedded
+  devices:
+    - dragonboard-410c
+  maintainer:
+    - anibal.limon@linaro.org, nicolas.dechesne@linaro.org
+  format: Linaro Test Plan v1
+requirements:
+  - name:
+    tests:
+      automated:
+        - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+        - path: automated/linux/sysbench/sysbench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+          params:
+                NUM_THREADS: 4
+                TESTS: cpu memory threads mutex
+        - path: automated/linux/device-read-perf/device-read-perf.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+        - path: automated/linux/hackbench/hackbench.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+        - path: automated/linux/linpack/linpack.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+        - path: automated/linux/openssl/openssl-speed.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+        - path: automated/linux/stream/stream-uniprocessor.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200
+        - path: automated/linux/pi-stress/pi-stress.yaml
+          repository: https://git.linaro.org/qa/test-definitions.git
+          timeout: 1200

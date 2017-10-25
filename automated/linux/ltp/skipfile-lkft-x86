@@ -1,0 +1,41 @@
+# pth_str02 hangs when using NFS filesystem.
+# LKFT: linux-mainline: x86 : ltp sched tests hang due to NFS not responding
+# https://bugs.linaro.org/show_bug.cgi?id=3338
+pth_str01 pth_str01
+pth_str02 pth_str02
+pth_str03 pth_str03
+time-schedule01         time-schedule
+
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+# syscalls
+open12 open12
+openat02 openat02
+renameat201 renameat201
+renameat202 renameat202 -i 10
+sendfile09 sendfile09
+sendfile09_64 sendfile09_64
+
+utime01 utime01
+utime02 utime02
+utime06 utime06
+utimes01 utimes01
+
+# containers
+netns_sysfs netns_sysfs.sh
+netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
+netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
+netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
+netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink
+netns_breakns_ip_ipv4_ioctl netns_breakns.sh ip ipv4 ioctl
+netns_breakns_ip_ipv4_netlink netns_breakns.sh ip ipv4 netlink
+netns_breakns_ip_ipv6_ioctl netns_breakns.sh ip ipv6 ioctl
+netns_breakns_ip_ipv6_netlink netns_breakns.sh ip ipv6 netlink
+netns_breakns_ns_exec_ipv4_ioctl netns_breakns.sh ns_exec ipv4 ioctl
+netns_breakns_ns_exec_ipv4_netlink netns_breakns.sh ns_exec ipv4 netlink
+netns_breakns_ns_exec_ipv6_ioctl netns_breakns.sh ns_exec ipv6 ioctl
+netns_breakns_ns_exec_ipv6_netlink netns_breakns.sh ns_exec ipv6 netlink
+netns_comm_ip_ipv4_ioctl netns_comm.sh ip ipv4 ioctl
+netns_comm_ip_ipv4_netlink netns_comm.sh ip ipv4 netlink
+netns_comm_ns_exec_ipv4_ioctl netns_comm.sh ns_exec ipv4 ioctl
+netns_comm_ns_exec_ipv4_netlink netns_comm.sh ns_exec ipv4 netlink
