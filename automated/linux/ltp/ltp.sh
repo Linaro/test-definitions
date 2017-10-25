@@ -67,8 +67,12 @@ install_ltp() {
     # shellcheck disable=SC2164
     cd /opt/ltp
     # shellcheck disable=SC2140
-    wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
-    tar --strip-components=1 -Jxf ltp-full-"${LTP_VERSION}".tar.xz
+
+    # For the purposes of the ERP 18.01 release, use an ltp branch.
+    # This branch is based on the 20170929 release, plus backported fixes.
+    wget -O ltp-erp-18.01.tar.gz https://api.github.com/repos/linaro/ltp/tarball/erp-18.01
+    tar --strip-components=1 -zxf ltp-erp-18.01.tar.gz
+
     ./configure
     make -j8 all
     make SKIP_IDCHECK=1 install
