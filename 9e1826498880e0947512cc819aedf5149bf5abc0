@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9dc2d65_9ad8bba3",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-26T02:23:55Z",
+      "side": 1,
+      "message": "Per ltp readme, https://github.com/linux-test-project/ltp, when not using release tarball, we need to run \u0027make autotools\u0027 command first.\n\nI didn\u0027t figure out why and how it worked for erp-17.08 without the command.",
+      "revId": "9e1826498880e0947512cc819aedf5149bf5abc0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
