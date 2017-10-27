@@ -110,3 +110,11 @@ netns_comm_ip_ipv4_ioctl netns_comm.sh ip ipv4 ioctl
 netns_comm_ip_ipv4_netlink netns_comm.sh ip ipv4 netlink
 netns_comm_ns_exec_ipv4_ioctl netns_comm.sh ns_exec ipv4 ioctl
 netns_comm_ns_exec_ipv4_netlink netns_comm.sh ns_exec ipv4 netlink
+
+# Test is inconsistent on x15
+# https://bugs.linaro.org/show_bug.cgi?id=3339
+fcntl36 fcntl36
+
+# Test is inconsistent on x15
+# https://bugs.linaro.org/show_bug.cgi?id=3335
+leapsec_timer leapsec_timer
