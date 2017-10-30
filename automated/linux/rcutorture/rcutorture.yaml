@@ -1,7 +1,8 @@
 metadata:
     name: rcutorture
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "RCU or Read-Copy Update Torture test for Linux Kernel."
+    description: "RCU or Read-Copy Update Torture test for Linux Kernel.Kernel config
+		  required for this test CONFIG_RCU_TORTURE_TEST=m"
     maintainer:
         - milosz.wasilewski@linaro.org
         - chase.qi@linaro.org
