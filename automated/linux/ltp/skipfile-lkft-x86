@@ -9,6 +9,7 @@ time-schedule01         time-schedule
 # mainline kernel tests baselining
 # https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
 # syscalls
+linkat01 linkat01
 open12 open12
 openat02 openat02
 renameat201 renameat201
