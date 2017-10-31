@@ -93,6 +93,7 @@ utime01 utime01
 utime02 utime02
 utime06 utime06
 utimes01 utimes01
+utimensat01 utimensat_tests.sh
 
 # LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces tests failed
 # https://bugs.linaro.org/show_bug.cgi?id=3327
