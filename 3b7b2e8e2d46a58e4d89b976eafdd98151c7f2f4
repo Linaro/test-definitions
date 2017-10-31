@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b995373e_897d83b2",
+        "filename": "automated/linux/rcutorture/rcutorture.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-31T11:52:49Z",
+      "side": 1,
+      "message": "A space is missing.",
+      "range": {
+        "startLine": 4,
+        "startChar": 71,
+        "endLine": 4,
+        "endChar": 72
+      },
+      "revId": "3b7b2e8e2d46a58e4d89b976eafdd98151c7f2f4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "432094ba_2c234acc",
+        "filename": "automated/linux/rcutorture/rcutorture.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-10-31T11:52:49Z",
+      "side": 1,
+      "message": "Please use spaces instead of tabs.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 4
+      },
+      "revId": "3b7b2e8e2d46a58e4d89b976eafdd98151c7f2f4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
