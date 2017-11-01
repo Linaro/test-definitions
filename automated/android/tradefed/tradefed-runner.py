@@ -142,6 +142,7 @@ if args.TEST_PATH == "android-cts":
     command = "android-cts/tools/cts-tradefed"
     prompt = "cts-tf >"
 if args.TEST_PATH == "android-vts":
+    os.environ["VTS_ROOT"] = os.getcwd()
     command = "android-vts/tools/vts-tradefed"
     prompt = "vts-tf >"
 
