@@ -97,7 +97,8 @@ run_ltp() {
 
     parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
     # Cleanup
-    rm -rf "${LTP_TMPDIR}"
+    # don't fail the whole test job if rm fails
+    rm -rf "${LTP_TMPDIR}" || true
 }
 
 # Test run.
