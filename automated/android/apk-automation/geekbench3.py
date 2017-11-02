@@ -107,14 +107,14 @@ class ApkRunnerImpl(ApkTestRunner):
                         self.report_result('geekbench-single-core', run_result)
                     else:
                         run_result = "pass"
-                        self.report_result('geekbench-single-core', run_result, singlecore_result[singlecore_keyword])
+                        self.report_result('geekbench-single-core', run_result, singlecore_result[singlecore_keyword], 'points')
                     if len(multicore_result) != 1:
                         run_result = "fail"
                         self.logger.error("Incorrect value for multi core test result! Please check the test result file!")
                         self.report_result('geekbench-multi-core', run_result)
                     else:
                         run_result = "pass"
-                        self.report_result('geekbench-multi-core', run_result, multicore_result[multicore_keyword])
+                        self.report_result('geekbench-multi-core', run_result, multicore_result[multicore_keyword], 'points')
 
             logfile.close()
         else:
