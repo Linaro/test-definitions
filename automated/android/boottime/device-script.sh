@@ -402,22 +402,24 @@ if [ "X${OPERATION}" = "XCOLLECT" ]; then
     # shellcheck disable=SC2035
     logcat -d -v time *:V > "${dir_boottime_data}/logcat_all_${COLLECT_NO}.log"
     output_test_result "BOOTTIME_LOGCAT_ALL_COLLECT" "pass"
-    echo "==============content of the file ${dir_boottime_data}/logcat_all_${COLLECT_NO}.log start from here:"
-    cat "${dir_boottime_data}/logcat_all_${COLLECT_NO}.log"
-    echo "==============content of the file ${dir_boottime_data}/logcat_all_${COLLECT_NO}.log end here:"
     logcat -d -b events -v time > "${dir_boottime_data}/logcat_events_${COLLECT_NO}.log"
     output_test_result "BOOTTIME_LOGCAT_EVENTS_COLLECT" "pass"
     dmesg > "${dir_boottime_data}/dmesg_${COLLECT_NO}.log"
     output_test_result "BOOTTIME_DMESG_COLLECT" "pass"
-    echo "==============content of the file ${dir_boottime_data}/dmesg_${COLLECT_NO}.log start from here:"
-    cat "${dir_boottime_data}/dmesg_${COLLECT_NO}.log"
-    echo "==============content of the file ${dir_boottime_data}/dmesg_${COLLECT_NO}.log end here:"
+
+    echo "==============list of files under ${dir_boottime_data}/ starts from here:"
     ls -l ${dir_boottime_data}/*
+    echo "==============list of files under ${dir_boottime_data}/ ends from here:"
 elif [ "X${OPERATION}" = "XANALYZE" ]; then
     count=$2
+
     ## Check if there is any case that the surfaceflinger service
     ## was started several times
-    i=1
+    if [ "${count}" -eq 0 ]; then
+        i=0
+    else
+        i=1
+    fi
     service_started_once=true
     no_boot_timeout_force_display=true
     while ${service_started_once}; do
@@ -472,7 +474,11 @@ elif [ "X${OPERATION}" = "XANALYZE" ]; then
     fi
 
     if ${no_checking_problem}; then
-        i=1
+        if [ "${count}" -eq 0 ]; then
+            i=0
+        else
+            i=1
+        fi
         G_RESULT_NOT_RECORD=TRUE
         G_RECORD_LOCAL_CSV=TRUE
         export G_RECORD_LOCAL_CSV G_RESULT_NOT_RECORD
