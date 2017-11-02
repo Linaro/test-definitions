@@ -121,7 +121,7 @@ else
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev expect"
+        pkgs="xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev expect automake"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
