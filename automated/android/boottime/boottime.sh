@@ -6,6 +6,7 @@ BOOT_TIMEOUT="300"
 OPERATION="COLLECT"
 COLLECT_NO="1"
 OUTPUT="$(pwd)/output"
+SKIP_INSTALL='true'
 
 . ../../lib/sh-test-lib
 . ../../lib/android-test-lib
@@ -26,15 +27,13 @@ while getopts ":S:s:t:o:n:" o; do
   esac
 done
 
-PKG_DEPS="usbutils"
-install_deps "${PKG_DEPS}"
 
 initialize_adb
 # wait till the launcher displayed
 wait_homescreen "${BOOT_TIMEOUT}"
 
 create_out_dir "${OUTPUT}"
-install_deps 'curl tar xz-utils' "${SKIP_INSTALL}"
+install_deps 'curl tar xz-utils usbutils' "${SKIP_INSTALL}"
 
 adb_push "./device-script.sh" "/data/local/tmp/"
 info_msg "device-${ANDROID_SERIAL}: About to run boottime ${OPERATION} ${COLLECT_NO}..."
