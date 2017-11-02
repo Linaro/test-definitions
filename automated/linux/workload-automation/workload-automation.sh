@@ -56,6 +56,7 @@ else
     which wa
     mkdir -p ~/.workload_automation
     wa --version
+    wa list instruments
 fi
 
 rm -rf wa-templates

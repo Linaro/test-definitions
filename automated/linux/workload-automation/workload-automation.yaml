@@ -26,6 +26,8 @@ params:
     TEMPLATES_BRANCH: "wa-templates"
     CONFIG: "config/generic-linux-localhost.py"
     AGENDA: "agenda/linux-dhrystone.yaml"
+    # allow extra extenstions for WA
+    WA_EXTENSION_PATHS: ""
     # Specify url and token for publishing artifacts.
     # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
     # 'secrets' dictionary, and set job visibility to personal or group.
@@ -35,6 +37,7 @@ params:
 
 run:
     steps:
+        - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
         - cd ./automated/linux/workload-automation
         # Test run.
         - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -T "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}"

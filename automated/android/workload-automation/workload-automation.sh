@@ -80,6 +80,8 @@ else
         test -f workload_automation_home.tar.gz || wget -S --progress=dot:giga "${WA_HOME_URL}"
         tar -xf workload_automation_home.tar.gz
     )
+    wa --version
+    wa list instruments
 fi
 
 initialize_adb

@@ -29,6 +29,8 @@ params:
     TEMPLATES_BRANCH: "wa-templates"
     CONFIG: "config/generic-android.py"
     AGENDA: "agenda/android-linpack.yaml"
+    # allow extra extenstions for WA
+    WA_EXTENSION_PATHS: ""
     # Specify url and token for publishing artifacts.
     # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
     # 'secrets' dictionary, and set job visibility to personal or group.
@@ -38,6 +40,7 @@ params:
 
 run:
     steps:
+        - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
         - cd ./automated/android/workload-automation
         # Test run.
         - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -S "${ANDROID_SERIAL}" -T "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -g "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -b "${BUILD_TOOLS_URL}" -w "${WA_HOME_URL}"
