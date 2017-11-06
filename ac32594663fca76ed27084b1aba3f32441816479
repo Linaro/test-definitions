@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16c109bf_32ce3966",
+        "filename": "automated/android/boottime/boottime.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-11-06T08:39:54Z",
+      "side": 1,
+      "message": "-S skip_install \u003ctrue|false\u003e",
+      "range": {
+        "startLine": 15,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "ac32594663fca76ed27084b1aba3f32441816479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34c45310_14e4340a",
+        "filename": "automated/android/boottime/boottime.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-11-06T08:39:54Z",
+      "side": 1,
+      "message": "SKIP_INSTALL: \"false\"\n\n./boottime.sh -S \"${SKIP_INSTALL}\"",
+      "range": {
+        "startLine": 35,
+        "startChar": 27,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "ac32594663fca76ed27084b1aba3f32441816479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
