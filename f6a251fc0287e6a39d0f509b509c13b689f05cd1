@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2e64c73_d2b66ee5",
+        "filename": "automated/android/boottime/boottime.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-11-06T08:39:54Z",
+      "side": 1,
+      "message": "Please parameterize this,\nLet the job submitter have a chance to decided.\nSKIP_INSTALL\u003d\u0027true\u0027\n\n./boottime.sh -S \"${SKIP_INSTALL}\" ...",
+      "range": {
+        "startLine": 35,
+        "startChar": 27,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "f6a251fc0287e6a39d0f509b509c13b689f05cd1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
