@@ -12,7 +12,11 @@ class ApkRunnerImpl(ApkTestRunner):
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def setUp(self):
+        # set to peformance governor policay
+        self.set_performance_governor()
+        # download apk related files
         self.download_apk('main.1.com.glbenchmark.glbenchmark25.obb')
+        self.download_apk(self.config['apk_file_name'])
         self.uninstall_apk(self.config['apk_package'])
         self.install_apk(self.config['apk_file_name'])
 
