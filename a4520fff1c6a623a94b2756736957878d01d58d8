@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdb2dacf_0ae584a6",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2017-11-07T16:59:09Z",
+      "side": 1,
+      "message": "do we need this condition ?",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
