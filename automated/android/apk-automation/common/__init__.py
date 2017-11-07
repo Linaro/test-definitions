@@ -217,6 +217,7 @@ class ApkTestRunner(object):
                     sys.exit(1)
             else:
                 apk_url = urlparse.urljoin(self.config['base_url'], apk_name)
+                self.logger.info('Start downloading file: %s' % apk_url)
                 r = requests.get(apk_url, stream=True)
                 if r.status_code == 200:
                     with open(apk_path, 'wb') as f:
@@ -225,6 +226,8 @@ class ApkTestRunner(object):
                 else:
                     self.logger.info('Failed to download file: %s' % apk_url)
                     sys.exit(1)
+        else:
+            self.logger.info('APK file already exists: %s' % apk_name)
 
     def install_apk(self, apk_name):
         apk_path = os.path.join(os.path.abspath(self.config['apk_dir']), apk_name)
