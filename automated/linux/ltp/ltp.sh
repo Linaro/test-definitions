@@ -107,6 +107,15 @@ run_ltp() {
     rm -rf "${LTP_TMPDIR}" || true
 }
 
+# Prepare system
+prep_system() {
+    # Stop systemd-timesyncd if running
+    if systemctl is-active systemd-timesyncd 2>/dev/null; then
+        info_msg "Stopping systemd-timesyncd"
+        systemctl stop systemd-timesyncd
+    fi
+}
+
 # Test run.
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
@@ -147,5 +156,7 @@ else
     info_msg "Run install_ltp"
     install_ltp
 fi
+info_msg "Running prep_system"
+prep_system
 info_msg "Running run_ltp"
 run_ltp
