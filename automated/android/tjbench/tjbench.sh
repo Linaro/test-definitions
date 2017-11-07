@@ -48,9 +48,9 @@ parse_log() {
         | tee -a "${RESULT_FILE}"
 }
 
-if adb_shell_which "tjbench32" && adb_shell_which "tjbench64"; then
+if adb_shell_which "tjbench32" || adb_shell_which "tjbench64"; then
     cmd_name="tjbench"
-elif adb_shell_which "tj32" && adb_shell_which "tj64"; then
+elif adb_shell_which "tj32" || adb_shell_which "tj64"; then
     cmd_name="tj"
 else
     report_fail "check_cmd_existence"
@@ -64,6 +64,9 @@ for img in ${IMGS}; do
     img_path="/data/local/tmp/tjbench/${img}"
 
     for test in ${cmd_name}32 ${cmd_name}64; do
+        if ! adb_shell_which "${test}"; then
+            continue
+        fi
         img_name="$(echo "${img}" | sed 's/[.]/_/g')"
         case "${test}" in
             ${cmd_name}32) prefix="32bit_${img_name}" ;;

@@ -60,10 +60,14 @@ parse_log() {
     done < "${logfile}"
 }
 
+if ! adb_shell_which "libcbench" || ! adb_shell_which "libcbench64"; then
+    report_fail "check_cmd_existence"
+    exit 1
+fi
+
 for test in libcbench libcbench64; do
     if ! adb_shell_which "${test}"; then
-        report_fail "check-${test}-existence"
-        exit 0
+        continue
     fi
 
     info_msg "device-${ANDROID_SERIAL}: About to run ${test}..."
