@@ -6,3 +6,7 @@ oom01 oom01
 # These tests can cause a deadlock which prevents the remaining tests from
 # running. Details at https://bugs.linaro.org/show_bug.cgi?id=3068
 rwtest03 rwtest04
+
+# tests that fail because time syncing services are not turned off
+# https://bugs.linaro.org/show_bug.cgi?id=3335
+leapsec_timer leapsec_timer
