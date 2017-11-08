@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d1bd690a_7d0c678a",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-08T06:10:52Z",
+      "side": 1,
+      "message": "In which case?\n\nI am assuming\n1) armv8 has both tj32 and tj64. The build itself should try to be consistent. Otherwise, you wouldn\u0027t get consistent test result cross builds.\n2) armv7 only has tj32",
+      "parentUuid": "effdeba1_3fb7b5ce",
+      "range": {
+        "startLine": 51,
+        "startChar": 30,
+        "endLine": 51,
+        "endChar": 61
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73544b86_452f1506",
         "filename": "automated/android/tjbench/tjbench.sh",
         "patchSetId": 2
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "What we should do is to run the existing test, no need to report failure when the test command does not exist.",
       "parentUuid": "b2e38e02_03d63585",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c672f7dc_7f04fbac",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-08T06:10:52Z",
+      "side": 1,
+      "message": "If the number of tests isn\u0027t predictable, maybe, at the first place, trying to cover both 32bit and 64bit in the same test run is a bad idea.\n\nWhat if both 32bit and 64bit binaries not exist? when that happen, we get empty results. In this test case, line #51 will make sure at least one of them exist, otherwise report depends issue. If you want to go for this way, please do the same check for libc-bench and stringbench.",
+      "parentUuid": "bfeb109c_c5d57567",
       "range": {
         "startLine": 67,
         "startChar": 0,
