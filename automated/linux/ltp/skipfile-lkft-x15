@@ -118,3 +118,7 @@ fcntl36 fcntl36
 # Test is inconsistent on x15
 # https://bugs.linaro.org/show_bug.cgi?id=3335
 leapsec_timer leapsec_timer
+
+# Test ends with SIGKILL on x15 (intermittent failure
+# https://bugs.linaro.org/show_bug.cgi?id=3401
+getrandom02 getrandom02

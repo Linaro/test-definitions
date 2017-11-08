@@ -44,3 +44,7 @@ netns_comm_ns_exec_ipv4_netlink netns_comm.sh ns_exec ipv4 netlink
 # tests that fail because time syncing services are not turned off
 # https://bugs.linaro.org/show_bug.cgi?id=3335
 leapsec_timer leapsec_timer
+
+# Test ends with SIGKILL on x15 (intermittent failure
+# https://bugs.linaro.org/show_bug.cgi?id=3401
+getrandom02 getrandom02
