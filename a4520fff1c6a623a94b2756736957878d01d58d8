@@ -70,6 +70,30 @@
       "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d3756a_001028a4",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-08T06:10:52Z",
+      "side": 1,
+      "message": "We need to make sure at least one binary exist. When both of them not exist, empty result isn\u0027t an ideal solution.",
+      "parentUuid": "6001d500_38f3dbd2",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
