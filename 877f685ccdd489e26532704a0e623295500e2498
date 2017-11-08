@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b40b705_d64e483d",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-08T13:22:50Z",
+      "side": 1,
+      "message": "What if there is no systemd? I guess it\u0027s unlikely but we should account for it as well",
+      "revId": "877f685ccdd489e26532704a0e623295500e2498",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dcc0e1b_4ff8d148",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-08T13:22:50Z",
+      "side": 1,
+      "message": "how about other time keeping services: chrony, ntpd...",
+      "revId": "877f685ccdd489e26532704a0e623295500e2498",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
