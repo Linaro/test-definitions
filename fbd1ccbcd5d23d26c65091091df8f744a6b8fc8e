@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98ee847b_173f9e60",
+        "filename": "automated/android/apk-automation/glbenchmark25.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-08T00:12:10Z",
+      "side": 1,
+      "message": "It is good to mention this change in commit msg. Or split it into two patches.",
+      "revId": "fbd1ccbcd5d23d26c65091091df8f744a6b8fc8e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
