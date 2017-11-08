@@ -46,6 +46,30 @@
       "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6001d500_38f3dbd2",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-08T00:28:27Z",
+      "side": 1,
+      "message": "Refer to my comments on tjbench.",
+      "parentUuid": "f7802ab2_4ed1f12b",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
