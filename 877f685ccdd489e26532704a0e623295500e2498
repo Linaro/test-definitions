@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d387cd4_35e2c359",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-11-08T17:07:42Z",
+      "side": 1,
+      "message": "Then this will fail and be a no-op, same as if systemd-timesyncd is already stopped. Originally I had the following, but I simplified it because I thought it was redundant:\n\nif command -v systemctl 2\u003e/dev/null \u0026\u0026 systemctl is-active systemd-timesyncd 2\u003e/dev/null; then\n\nLikewise I think this can go in master because it\u0027s a no-op on hosts without systemd or systemd-timesyncd.",
+      "parentUuid": "3b40b705_d64e483d",
+      "revId": "877f685ccdd489e26532704a0e623295500e2498",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dcc0e1b_4ff8d148",
         "filename": "automated/linux/ltp/ltp.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-08T13:22:50Z",
       "side": 1,
       "message": "how about other time keeping services: chrony, ntpd...",
+      "revId": "877f685ccdd489e26532704a0e623295500e2498",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82963fcd_dd6d8d6f",
+        "filename": "automated/linux/ltp/ltp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-11-08T17:07:42Z",
+      "side": 1,
+      "message": "I didn\u0027t have any handy to test with. They can be added later with their own conditionals. That\u0027s why I put it in prep_system function, so there can be a number of separate cases.",
+      "parentUuid": "3dcc0e1b_4ff8d148",
       "revId": "877f685ccdd489e26532704a0e623295500e2498",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
