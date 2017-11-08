@@ -1,0 +1,24 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ptest
+    description: "OpenEmbedded Package tests support (ptest)
+                  The pacakge tests from OpenEmbedded enables the support to run
+                  package unittests into the target device.
+                  For more information: https://wiki.yoctoproject.org/wiki/Ptest"
+    maintainer:
+        - anibal.limon@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+
+params:
+    TESTS: ""
+
+run:
+    steps:
+        - cd ./automated/linux/ptest
+        - ./ptest.py -o ./result.txt -t ${TESTS}
+        - ../../utils/send-to-lava.sh ./result.txt
