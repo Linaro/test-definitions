@@ -16,6 +16,24 @@
       "revId": "fbd1ccbcd5d23d26c65091091df8f744a6b8fc8e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2c2570_1175b4ef",
+        "filename": "automated/android/apk-automation/glbenchmark25.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-11-08T04:37:05Z",
+      "side": 1,
+      "message": "Updated comment",
+      "parentUuid": "98ee847b_173f9e60",
+      "revId": "fbd1ccbcd5d23d26c65091091df8f744a6b8fc8e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
