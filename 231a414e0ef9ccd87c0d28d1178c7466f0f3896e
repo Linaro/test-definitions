@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "effdeba1_3fb7b5ce",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-11-08T04:34:35Z",
+      "side": 1,
+      "message": "No, there might be the case that there will be only tj64 there.",
+      "parentUuid": "1c5f1012_4a31a9a7",
+      "range": {
+        "startLine": 51,
+        "startChar": 30,
+        "endLine": 51,
+        "endChar": 61
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73544b86_452f1506",
         "filename": "automated/android/tjbench/tjbench.sh",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2017-11-08T00:28:27Z",
       "side": 1,
       "message": "With just a \u0027continue\u0027 sentence, this block will do nothing.\n\nSome thoughts.\n\n1) If you only want to make sure 32bit binary always exist, try:\nif [ \"${test}\" \u003d \"${cmd_name}32\"  ] \u0026\u0026 ! adb_shell_which \"${test}\"; then\n        report_fail \"check-${test}-existence\"\n        exit 0\nfi\n\n2) I guess it is possible to detect what platform we are testing(32 or 64 bit), then decide which binary should exist.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfeb109c_c5d57567",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-11-08T04:34:35Z",
+      "side": 1,
+      "message": "What we should do is to run the existing test, no need to report failure when the test command does not exist.",
+      "parentUuid": "b2e38e02_03d63585",
       "range": {
         "startLine": 67,
         "startChar": 0,
