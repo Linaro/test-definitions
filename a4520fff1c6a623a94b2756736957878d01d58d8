@@ -94,6 +94,30 @@
       "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dfdafee_b721c1e7",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-11-10T06:24:57Z",
+      "side": 1,
+      "message": "The change here is to avoid the failure report on the non-existence of the command. Compare to the failure report, empty result is acceptable here I think.",
+      "parentUuid": "45d3756a_001028a4",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
