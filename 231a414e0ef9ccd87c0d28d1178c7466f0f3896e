@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cd279bbf_68263269",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2017-11-10T06:24:57Z",
+      "side": 1,
+      "message": "One build is consistent, but different builds could have different commands integrated.\nAt the moment, there is no case that only have tjbench64, but that\u0027s possible to only have tj64 command on a 64it platform.\n\nIt\u0027s better to have one test implementation across all builds.",
+      "parentUuid": "d1bd690a_7d0c678a",
+      "range": {
+        "startLine": 51,
+        "startChar": 30,
+        "endLine": 51,
+        "endChar": 61
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73544b86_452f1506",
         "filename": "automated/android/tjbench/tjbench.sh",
         "patchSetId": 2
