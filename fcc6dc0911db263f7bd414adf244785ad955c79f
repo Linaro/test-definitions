@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d36bd3b5_872ff8d0",
+        "filename": "automated/linux/overlayfs/overlayfs.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-10T15:42:58Z",
+      "side": 1,
+      "message": "for suffix in \"\" \"-termslash\"",
+      "revId": "fcc6dc0911db263f7bd414adf244785ad955c79f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
