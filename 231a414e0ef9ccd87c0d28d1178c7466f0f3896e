@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "649deb2b_0addb7b5",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-10T06:52:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd279bbf_68263269",
+      "range": {
+        "startLine": 51,
+        "startChar": 30,
+        "endLine": 51,
+        "endChar": 61
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73544b86_452f1506",
         "filename": "automated/android/tjbench/tjbench.sh",
         "patchSetId": 2
@@ -108,6 +132,30 @@
       "writtenOn": "2017-11-08T00:28:27Z",
       "side": 1,
       "message": "ditto.",
+      "range": {
+        "startLine": 53,
+        "startChar": 28,
+        "endLine": 53,
+        "endChar": 53
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "389819cc_256a3e78",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-10T06:52:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73544b86_452f1506",
       "range": {
         "startLine": 53,
         "startChar": 28,
@@ -179,6 +227,30 @@
       "side": 1,
       "message": "If the number of tests isn\u0027t predictable, maybe, at the first place, trying to cover both 32bit and 64bit in the same test run is a bad idea.\n\nWhat if both 32bit and 64bit binaries not exist? when that happen, we get empty results. In this test case, line #51 will make sure at least one of them exist, otherwise report depends issue. If you want to go for this way, please do the same check for libc-bench and stringbench.",
       "parentUuid": "bfeb109c_c5d57567",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "231a414e0ef9ccd87c0d28d1178c7466f0f3896e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceaa913d_d959d5f8",
+        "filename": "automated/android/tjbench/tjbench.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-10T06:52:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c672f7dc_7f04fbac",
       "range": {
         "startLine": 67,
         "startChar": 0,
