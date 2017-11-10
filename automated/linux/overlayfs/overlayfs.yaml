@@ -1,0 +1,35 @@
+metadata:
+    name: overlayfs
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run overlay filesystem test from unionmount testsuite. Kernel config
+                  CONFIG_OVERLAY_FS=y is required for this test."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - debian
+        - centos
+        - fedora
+        - openembedded
+    devices:
+        - d03
+        - d05
+        - juno
+        - beaglebone-black
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - x15
+        - x86
+
+    scope:
+        - functional
+
+run:
+    steps:
+        - cd automated/linux/overlayfs
+        - ./overlayfs.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
