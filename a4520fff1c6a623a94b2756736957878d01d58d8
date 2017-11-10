@@ -118,6 +118,30 @@
       "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acd97cb_40dfb1f2",
+        "filename": "automated/android/stringbench/stringbench.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-10T06:52:28Z",
+      "side": 1,
+      "message": "In LAVA, the problem of \u0027empty result\u0027 with normal exit is it is often get ignored.",
+      "parentUuid": "9dfdafee_b721c1e7",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 40
+      },
+      "revId": "a4520fff1c6a623a94b2756736957878d01d58d8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
