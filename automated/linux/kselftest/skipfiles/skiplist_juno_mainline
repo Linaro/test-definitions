@@ -1,0 +1,24 @@
+# Adding skiplist according to the below ticket
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+test_verifier
+test_tag
+test_maps
+test_lru_map
+test_lpm_map
+test_progs
+test_align
+test_kmod.sh
+ftracetest
+run.sh
+run_fuse_test.sh
+pstore_tests
+# LKFT: linux-next: vm compaction_test : ERROR: Less that 1/730 of memory is available
+# https://bugs.linaro.org/show_bug.cgi?id=3145
+run_vmtests
+# LKFT: selftests: seccomp TRACE_syscall.skip_after_RET_TRACE
+# https://bugs.linaro.org/show_bug.cgi?id=2980
+seccomp_bpf
+# LKFT: linux-next: kselftest: breakpoint_test_arm64 build failed
+# https://bugs.linaro.org/show_bug.cgi?id=3208
+breakpoint_test_arm64
