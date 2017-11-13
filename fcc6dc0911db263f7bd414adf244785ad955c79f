@@ -16,6 +16,24 @@
       "revId": "fcc6dc0911db263f7bd414adf244785ad955c79f",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d20af4b8_258a1ff0",
+        "filename": "automated/linux/overlayfs/overlayfs.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-13T03:25:02Z",
+      "side": 1,
+      "message": "Milosz, the 0 and 1 value are needed in line $43 by the test suite. If we use \"\" and \"-termslash\" here, we have to translate them to 0 and 1 there.",
+      "parentUuid": "d36bd3b5_872ff8d0",
+      "revId": "fcc6dc0911db263f7bd414adf244785ad955c79f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
