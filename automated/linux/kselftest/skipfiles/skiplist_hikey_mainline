@@ -1,0 +1,15 @@
+test_verifier
+test_tag
+test_maps
+test_lru_map
+test_lpm_map
+test_progs
+test_align
+test_kmod.sh
+breakpoint_test_arm64
+ftracetest
+run.sh
+run_fuse_test.sh
+run_vmtests
+seccomp_bpf
+pstore_tests
