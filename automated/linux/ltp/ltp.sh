@@ -108,6 +108,11 @@ prep_system() {
         info_msg "Stopping systemd-timesyncd"
         systemctl stop systemd-timesyncd
     fi
+    # userns07 requires kernel.unprivileged_userns_clone
+    if [ "$(sysctl -n kernel.unprivileged_userns_clone)" -eq 0 ]; then
+        info_msg "Enabling kernel.unprivileged_userns_clone"
+        sysctl -w kernel.unprivileged_userns_clone=1
+    fi
 }
 
 # Test run.
