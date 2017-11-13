@@ -164,6 +164,9 @@ while child.isalive():
     adb_command = "adb shell echo OK"
     adb_check = subprocess.Popen(shlex.split(adb_command))
     if adb_check.wait() != 0:
+        logger.debug('adb connection lost! Trying to dump logs of all invocations...')
+        child.sendline('d l')
+        time.sleep(30)
         subprocess.call(['sh', '-c', '. ../../lib/sh-test-lib && . ../../lib/android-test-lib && adb_debug_info'])
         logger.debug('"adb devices" output')
         subprocess.call(['adb', 'devices'])
