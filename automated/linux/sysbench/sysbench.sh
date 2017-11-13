@@ -193,7 +193,7 @@ for tc in ${TESTS}; do
 
             for i in transactions deadlocks "read/write requests" "other operations"; do
                 ms=$(grep "${i}:" sysbench-oltp.txt | awk '{print substr($(NF-2),2)}')
-                i=$(echo "$i" | sed 's/ /-/g')
+                i=$(echo "$i" | sed 's/ /-/g; s|/|-|')
                 add_metric "${tc}-${i}" "pass" "${ms}" "ops"
             done
 
