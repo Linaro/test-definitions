@@ -16,10 +16,15 @@ initialize_adb
 wait_boot_completed "${BOOT_TIMEOUT}"
 create_out_dir "${OUTPUT}"
 
+# make sure the script /system/bin/linaro-android-userspace-tests.sh exists
+if ! adb_shell_which "/system/bin/linaro-android-userspace-tests.sh"; then
+    report_fail "check_cmd_existence"
+    exit 1
+fi
+
 # Run test script.
-adb_push "./linaro-android-userspace-tests.sh" "/data/local/tmp/"
 info_msg "device-${ANDROID_SERIAL}: About to run media codecs functional tests..."
-adb shell "echo /data/local/tmp/linaro-android-userspace-tests.sh | su" \
+adb shell "echo /system/bin/linaro-android-userspace-tests.sh | su" \
     | tee "${LOGFILE}"
 
 # Parse test log.
