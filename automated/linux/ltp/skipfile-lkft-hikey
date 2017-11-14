@@ -11,6 +11,11 @@ chdir01A symlink01 -T chdir01
 # fork13 is also a peformance test case so skip it.
 fork13 fork13 -i 1000000
 
+# LKFT: 4.4: Hikey: LTP : fcntl35.c:98: FAIL: an unprivileged user init the capacity of a pipe to 65536 unexpectedly, expected 4096
+# https://bugs.linaro.org/show_bug.cgi?id=3378
+fcntl35 fcntl35
+fcntl35_64 fcntl35_64
+
 # msgctl10 and msgct11 tests overheats HiKey board due to
 # large number of fork() calls and message queues read/writes.
 # [RPB] LTP: msgctl10 fork failed
