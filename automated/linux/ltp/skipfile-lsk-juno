@@ -79,9 +79,13 @@ pth_str02 pth_str02
 pth_str03 pth_str03
 time-schedule01         time-schedule
 
+# syscalls
 # mainline kernel tests baselining
 # https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
-# syscalls
+# LKFT: 4.4: Hikey: LTP : fcntl35.c:98: FAIL: an unprivileged user init the capacity of a pipe to 65536 unexpectedly, expected 4096
+# https://bugs.linaro.org/show_bug.cgi?id=3378
+fcntl35 fcntl35
+fcntl35_64 fcntl35_64
 open12 open12
 openat02 openat02
 renameat201 renameat201
@@ -100,12 +104,26 @@ utimensat01 utimensat_tests.sh
 
 # LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces tests failed
 # https://bugs.linaro.org/show_bug.cgi?id=3327
+# LKFT: Baseline LTP and Kselftest results on LTS 4.4 kernel
+# https://projects.linaro.org/browse/CTT-617
 # containers
 netns_sysfs netns_sysfs.sh
 netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
 netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
 netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
 netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink
+netns_breakns_ip_ipv4_ioctl netns_breakns.sh ip ipv4 ioctl
+netns_breakns_ip_ipv4_netlink netns_breakns.sh ip ipv4 netlink
+netns_breakns_ip_ipv6_ioctl netns_breakns.sh ip ipv6 ioctl
+netns_breakns_ip_ipv6_netlink netns_breakns.sh ip ipv6 netlink
+netns_breakns_ns_exec_ipv4_ioctl netns_breakns.sh ns_exec ipv4 ioctl
+netns_breakns_ns_exec_ipv4_netlink netns_breakns.sh ns_exec ipv4 netlink
+netns_breakns_ns_exec_ipv6_ioctl netns_breakns.sh ns_exec ipv6 ioctl
+netns_breakns_ns_exec_ipv6_netlink netns_breakns.sh ns_exec ipv6 netlink
+netns_comm_ip_ipv4_ioctl netns_comm.sh ip ipv4 ioctl
+netns_comm_ip_ipv4_netlink netns_comm.sh ip ipv4 netlink
+netns_comm_ns_exec_ipv4_ioctl netns_comm.sh ns_exec ipv4 ioctl
+netns_comm_ns_exec_ipv4_netlink netns_comm.sh ns_exec ipv4 netlink
 
 # tests that fail because time syncing services are not turned off
 # https://bugs.linaro.org/show_bug.cgi?id=3335

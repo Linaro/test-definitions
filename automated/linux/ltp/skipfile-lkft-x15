@@ -111,6 +111,10 @@ netns_comm_ip_ipv4_netlink netns_comm.sh ip ipv4 netlink
 netns_comm_ns_exec_ipv4_ioctl netns_comm.sh ns_exec ipv4 ioctl
 netns_comm_ns_exec_ipv4_netlink netns_comm.sh ns_exec ipv4 netlink
 
+# LKFT: 4.4: Hikey: LTP : fcntl35.c:98: FAIL: an unprivileged user init the capacity of a pipe to 65536 unexpectedly, expected 4096
+# https://bugs.linaro.org/show_bug.cgi?id=3378
+fcntl35 fcntl35
+fcntl35_64 fcntl35_64
 # Test is inconsistent on x15
 # https://bugs.linaro.org/show_bug.cgi?id=3339
 fcntl36 fcntl36

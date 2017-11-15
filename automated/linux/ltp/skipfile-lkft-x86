@@ -6,9 +6,13 @@ pth_str02 pth_str02
 pth_str03 pth_str03
 time-schedule01         time-schedule
 
+# syscalls
 # mainline kernel tests baselining
 # https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
-# syscalls
+# LKFT: 4.4: Hikey: LTP : fcntl35.c:98: FAIL: an unprivileged user init the capacity of a pipe to 65536 unexpectedly, expected 4096
+# https://bugs.linaro.org/show_bug.cgi?id=3378
+fcntl35 fcntl35
+fcntl35_64 fcntl35_64
 linkat01 linkat01
 open12 open12
 openat02 openat02
