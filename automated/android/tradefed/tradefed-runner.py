@@ -158,6 +158,10 @@ except pexpect.TIMEOUT:
     py_test_lib.add_result(RESULT_FILE, result)
 
 while child.isalive():
+    # VTS not reporting real-time test progress. The current workaround is find
+    # /tmp/vts-runner-log<some-id>/VtsKernelLtp/latest/test_run_details.txt and tail it.
+    if args.TEST_PATH == "android-vts":
+        runner_log_file = subprocess.check_output(['./monitor-runner-output.py', '-p']).strip()
     subprocess.call('echo')
     subprocess.call(['echo', '--- line break ---'])
     logger.info('Checking adb connectivity...')
@@ -175,6 +179,11 @@ while child.isalive():
         child.terminate(force=True)
         result = 'check-adb-connectivity fail'
         py_test_lib.add_result(RESULT_FILE, result)
+        if args.TEST_PATH == "android-vts" and runner_log_file != 'None':
+            try:
+                shutil.copy(runner_log_file, OUTPUT)
+            except IOError as e:
+                print(e)
         break
     else:
         logger.info('adb device is alive')
@@ -194,8 +203,15 @@ while child.isalive():
     elif m == 2:
         # Flush pexpect input buffer.
         child.expect(['.+', pexpect.TIMEOUT, pexpect.EOF], timeout=1)
-        logger.info('Printing tradefed recent output...')
-        subprocess.call(['tail', TRADEFED_STDOUT])
+        if args.TEST_PATH == "android-vts":
+            if runner_log_file != 'None':
+                logger.info('Printing recent logs from {0}...'.format(runner_log_file))
+                subprocess.call(['tail', runner_log_file])
+            else:
+                logger.warning("Haven't find any vts runner log yet...")
+        else:
+            logger.info('Printing tradefed recent output...')
+            subprocess.call(['tail', TRADEFED_STDOUT])
 
     # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
     if m == 0 or m == 1:
