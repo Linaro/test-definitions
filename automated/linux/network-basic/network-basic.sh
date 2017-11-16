@@ -1,11 +1,10 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
-INTERFACE="eth0"
 
 usage() {
     echo "Usage: $0 [-s <true|false>] [-i <interface>]" 1>&2
@@ -40,6 +39,8 @@ create_out_dir "${OUTPUT}"
 
 install
 
+# When not specified, test the default interface.
+test -z "${INTERFACE}" && INTERFACE=$(route | grep default | awk '{print $NF}')
 # Get default Route Gateway IP address of a given interface
 GATEWAY=$(ip route list  | grep default | awk '{print $3}')
 
