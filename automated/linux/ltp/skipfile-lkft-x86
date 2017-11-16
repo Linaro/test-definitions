@@ -16,6 +16,9 @@ fcntl35_64 fcntl35_64
 linkat01 linkat01
 open12 open12
 openat02 openat02
+# LKFT: 4.4: LTP readahead02 fails on x86
+# https://bugs.linaro.org/show_bug.cgi?id=3457
+readahead02 readahead02
 renameat201 renameat201
 renameat202 renameat202 -i 10
 sendfile09 sendfile09
