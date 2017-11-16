@@ -23,7 +23,8 @@ adb_debug_info() {
     else
         info_msg "usbutils not installed, unable to get device information with 'lsusb'."
         info_msg "Listing 'find /dev/bus/usb' output directly..."
-        find /dev/bus/usb
+        # avoid returning 1 when 'find' doesn't work
+        find /dev/bus/usb || true
     fi
 }
 
