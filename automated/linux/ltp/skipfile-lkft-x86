@@ -52,3 +52,7 @@ leapsec_timer leapsec_timer
 # Test ends with SIGKILL on x15 (intermittent failure
 # https://bugs.linaro.org/show_bug.cgi?id=3401
 getrandom02 getrandom02
+
+# LKFT: linux-mainline: Hikey and x15: LTP ioctl03: TFAIL: ioctl03.c:114: (UNKNOWN 0x30)
+# https://bugs.linaro.org/show_bug.cgi?id=3470
+ioctl03      ioctl03
