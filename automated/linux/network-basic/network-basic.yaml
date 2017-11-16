@@ -27,7 +27,7 @@ metadata:
         - apq8016-sbc
 
 params:
-    INTERFACE: eth0
+    INTERFACE: ""
     SKIP_INSTALL: "False"
 
 run:
