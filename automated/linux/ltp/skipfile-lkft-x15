@@ -130,3 +130,7 @@ getrandom02 getrandom02
 # LKFT: linux-mainline: Hikey and x15: LTP ioctl03: TFAIL: ioctl03.c:114: (UNKNOWN 0x30)
 # https://bugs.linaro.org/show_bug.cgi?id=3470
 ioctl03      ioctl03
+
+# LKFT: 4.9-rc: x86: LTP: perf_event_open02.c:333: test failed (ratio was greater than ) - intermittent failure
+# https://bugs.linaro.org/show_bug.cgi?id=3382
+perf_event_open02 perf_event_open02
