@@ -5,7 +5,6 @@ gpio-mockup.sh
 owner
 pidns
 pstore_post_reboot_tests
-rtctest
 step_after_suspend_test
 mem-on-off-test.sh
 sas
@@ -25,3 +24,6 @@ run_fuse_test.sh
 run_vmtests
 seccomp_bpf
 pstore_tests
+# LKFT: linux-mainline: x15: rtctest - PIE delta error: 0.018197 should be close to 0.015625
+# https://bugs.linaro.org/show_bug.cgi?id=3402
+rtctest

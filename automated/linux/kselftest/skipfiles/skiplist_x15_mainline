@@ -29,3 +29,6 @@ raw_skew
 # LKFT: linux-mainline: x15: cpufreq test failed
 # https://bugs.linaro.org/show_bug.cgi?id=3383
 main.sh
+# LKFT: linux-mainline: x15: rtctest - PIE delta error: 0.018197 should be close to 0.015625
+# https://bugs.linaro.org/show_bug.cgi?id=3402
+rtctest
