@@ -1,0 +1,28 @@
+metadata:
+  name: test-plan-overlay-example
+  description: Test plan overlay example
+  os: debian
+  devices:
+      - all
+  maintainer:
+    - first.last@linaro.org
+  format: Linaro Test Plan v2
+
+skip:
+      # Skip disk-partitioning test.
+    - path: automated/linux/disk-partitioning/disk-partitioning.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+
+amend:
+      # Test the second network interface.
+    - path: automated/linux/network-basic/network-basic.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          INTERFACE: enahisic2i1
+
+add:
+      # Add sysbench oltp test.
+    - path: automated/linux/sysbench/sysbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          TESTS: oltp
