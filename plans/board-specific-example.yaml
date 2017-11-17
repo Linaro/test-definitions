@@ -1,0 +1,15 @@
+'D05':
+    - path: automated/linux/disk-partitioning/disk-partitioning.yaml
+      # Skip disk-partitioning test.
+      skip: True
+      parameters:
+    - path: automated/linux/network-basic/network-basic.yaml
+      skip: False
+      # Test the second network interface.
+      parameters:
+          INTERFACE: enahisic2i1
+
+'Qualcomm Technologies, Inc. APQ 8016 SBC':
+    - path: automated/linux/disk-partitioning/disk-partitioning.yaml
+      skip: True
+      parameters:
