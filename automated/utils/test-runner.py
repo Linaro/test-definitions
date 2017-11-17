@@ -62,6 +62,25 @@ def run_command(command, target=None):
         return subprocess.check_output(shlex.split(run)).strip().decode('utf-8')
 
 
+def board_name(target=None):
+    try:
+        # DMI board name examples: MT30-GS1-00, ProLiant m400 Server
+        board_name = run_command('cat /sys/devices/virtual/dmi/id/board_name', target)
+    except subprocess.CalledProcessError:
+        try:
+            # Device tree board name examples:
+            # TI AM5728 BeagleBoard-X15 rev C
+            # Qualcomm Technologies, Inc. APQ 8016 SBC
+            # HiKey Development Boardroot
+            board_name = run_command('cat /proc/device-tree/model', target)
+            # Strip off Null character.
+            board_name = board_name.rstrip('\x00')
+        except subprocess.CalledProcessError:
+            board_name = ''
+
+    return board_name
+
+
 class TestPlan(object):
     """
     Analysis args specified, then generate test plan.
@@ -73,6 +92,47 @@ class TestPlan(object):
         self.timeout = args.timeout
         self.skip_install = args.skip_install
         self.logger = logging.getLogger('RUNNER.TestPlan')
+        self.board_specific = args.board_specific
+        self.board_name = args.board_name
+        if args.board_specific:
+            if self.board_name is None:
+                self.board_name = board_name(target=args.target)
+                self.logger.info('Board name: {}'.format(self.board_name))
+                assert self.board_name != '', "Failed to detect board name, please specify it wiht '-b'"
+
+    def amend_test_list(self, test_list):
+        logger = logging.getLogger('RUNNER.TestPlan.Amend')
+        with open(self.board_specific) as f:
+            data = yaml.load(f)
+
+        assert self.board_name in data, "Didn't find {} in {}".format(self.board_name, self.board_specific)
+        specific_tests = data[self.board_name]
+        specific_test_paths = [test['path'] for test in specific_tests]
+        fixed_test_list = []
+        for test in test_list:
+            if test['path'] not in specific_test_paths:
+                fixed_test_list.append(test)
+            else:
+                for specific_test in specific_tests:
+                    if test['path'] == specific_test['path']:
+                        if specific_test.get('skip'):
+                            logger.info('Skipped: {}'.format(test))
+                            break
+                        if specific_test.get('parameters'):
+                            fixed_test = dict(test)
+                            if test.get('parameters'):
+                                fixed_test['parameters'].update(specific_test.get('parameters'))
+                            else:
+                                fixed_test['parameters'] = specific_test.get('parameters')
+                            logger.info('Parameters updated: {}'.format(fixed_test))
+                            fixed_test_list.append(fixed_test)
+                        # Ignore test without both 'skip' and 'parameters' keys.
+                        if specific_test.get('skip') is None and specific_test.get('parameters') is None:
+                            logger.warning(
+                                'Both skip and parameters keys not found in {}, skipping it...'.format(specific_test))
+                            fixed_test_list.append(test)
+
+        return fixed_test_list
 
     def test_list(self, kind="automated"):
         if self.test_def:
@@ -117,7 +177,10 @@ class TestPlan(object):
             self.logger.error('Plese specify a test or test plan.')
             sys.exit(1)
 
-        return test_list
+        if self.board_specific is None:
+            return test_list
+        else:
+            return self.amend_test_list(test_list)
 
 
 class TestSetup(object):
@@ -568,11 +631,7 @@ def get_environment(target=None, skip_collection=False):
     except subprocess.CalledProcessError:
         environment['board_vendor'] = ""
 
-    try:
-        environment['board_name'] = run_command(
-            "cat /sys/devices/virtual/dmi/id/board_name", target)
-    except subprocess.CalledProcessError:
-        environment['board_name'] = ""
+    environment['board_name'] = board_name(target=target)
 
     try:
         environment['packages'] = get_packages(environment['linux_distribution'], target)
@@ -801,6 +860,14 @@ def get_args():
     parser.add_argument('-l', '--lava_run', dest='lava_run',
                         default=False, action='store_true',
                         help='send test result to LAVA with lava-test-case.')
+    parser.add_argument('-a', '--amend_test_plan', default=None,
+                        dest='board_specific', help=textwrap.dedent('''\
+                        Specify board specific test definition file to:
+                        * skip tests
+                        * amend test parameters
+                        '''))
+    parser.add_argument('-b', '--board', default=None,
+                        dest='board_name', help='Specify board name.')
     args = parser.parse_args()
     return args
 
