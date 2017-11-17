@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f50fb363_3e054048",
+        "filename": "automated/linux/network-basic/network-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-11-17T15:02:22Z",
+      "side": 1,
+      "message": "Consider anchoring the grep regex. I.e. what if you have interface eth1 and eth10 on the same host? \n\nSomething like \u0027grep \"^default.*${INTERFACE}$\" would make it safer and more explicit.\n\nAlso consider adding an anchor in line 43 i.e. \u0027grep -m 1 \"^default\u0027 to ensure that \"default\" doesn\u0027t sneak in somewhere else in some line.",
+      "revId": "bc425587e0fbe85f15a0d849d007226ed232aba3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
