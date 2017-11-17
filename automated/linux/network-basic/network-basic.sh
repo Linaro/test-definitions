@@ -40,9 +40,9 @@ create_out_dir "${OUTPUT}"
 install
 
 # When not specified, test the default interface.
-test -z "${INTERFACE}" && INTERFACE=$(route | grep default | awk '{print $NF}')
-# Get default Route Gateway IP address of a given interface
-GATEWAY=$(ip route list  | grep default | awk '{print $3}')
+test -z "${INTERFACE}" && INTERFACE=$(route | grep -m 1 default | awk '{print $NF}')
+# Get Route Gateway IP address of a given interface.
+GATEWAY=$(route | grep "default.*${INTERFACE}" | awk '{print $2}')
 
 run "netstat -an" "print-network-statistics"
 run "ip addr" "list-all-network-interfaces"
