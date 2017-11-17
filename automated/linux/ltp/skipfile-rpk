@@ -11,3 +11,14 @@ oom01 oom01
 # partitioning steps to reduce swap partition size for this single test, but
 # that is probably not wanted.
 min_free_kbytes min_free_kbytes
+
+# Known timing issue in test
+# https://bugs.linaro.org/show_bug.cgi?id=3420
+netns_breakns_ns_exec_ipv6_netlink netns_breakns.sh ns_exec ipv6 netlink
+netns_breakns_ns_exec_ipv6_ioctl netns_breakns.sh ns_exec ipv6 ioctl
+netns_breakns_ip_ipv6_netlink netns_breakns.sh ip ipv6 netlink
+netns_breakns_ip_ipv6_ioctl netns_breakns.sh ip ipv6 ioctl
+netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
+netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
+netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink
+netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
