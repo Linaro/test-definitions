@@ -2,3 +2,15 @@
 # Prevent oom01 from doing the above causes 'Kernel panic - not syncing: Out of memory and no killable processes...'
 # The issue needs to be fixed from ltp. Refer to https://projects.linaro.org/browse/QA-1662
 oom01 oom01
+
+# Known timing issue in test
+# https://bugs.linaro.org/show_bug.cgi?id=3420
+netns_breakns_ns_exec_ipv6_netlink netns_breakns.sh ns_exec ipv6 netlink
+netns_breakns_ns_exec_ipv6_ioctl netns_breakns.sh ns_exec ipv6 ioctl
+netns_breakns_ip_ipv6_netlink netns_breakns.sh ip ipv6 netlink
+netns_breakns_ip_ipv6_ioctl netns_breakns.sh ip ipv6 ioctl
+netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
+netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
+netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink
+netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
+
