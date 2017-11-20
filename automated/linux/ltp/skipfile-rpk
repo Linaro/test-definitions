@@ -12,6 +12,10 @@ oom01 oom01
 # that is probably not wanted.
 min_free_kbytes min_free_kbytes
 
+# keyctl03 fails under automation but passes when run manually..
+# https://bugs.linaro.org/show_bug.cgi?id=3451
+keyctl03 keyctl03
+
 # Known timing issue in test
 # https://bugs.linaro.org/show_bug.cgi?id=3420
 netns_breakns_ns_exec_ipv6_netlink netns_breakns.sh ns_exec ipv6 netlink
