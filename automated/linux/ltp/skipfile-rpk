@@ -3,6 +3,10 @@
 # The issue needs to be fixed from ltp. Refer to https://projects.linaro.org/browse/QA-1662
 oom01 oom01
 
+# keyctl03 fails under automation but passes when run manually..
+# https://bugs.linaro.org/show_bug.cgi?id=3451
+keyctl03 keyctl03
+
 # Known timing issue in test
 # https://bugs.linaro.org/show_bug.cgi?id=3420
 netns_breakns_ns_exec_ipv6_netlink netns_breakns.sh ns_exec ipv6 netlink
@@ -13,4 +17,3 @@ netns_comm_ns_exec_ipv6_netlink netns_comm.sh ns_exec ipv6 netlink
 netns_comm_ns_exec_ipv6_ioctl netns_comm.sh ns_exec ipv6 ioctl
 netns_comm_ip_ipv6_netlink netns_comm.sh ip ipv6 netlink
 netns_comm_ip_ipv6_ioctl netns_comm.sh ip ipv6 ioctl
-
