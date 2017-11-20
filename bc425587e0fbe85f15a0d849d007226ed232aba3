@@ -16,6 +16,24 @@
       "revId": "bc425587e0fbe85f15a0d849d007226ed232aba3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9eeaf3_9bb50dbd",
+        "filename": "automated/linux/network-basic/network-basic.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-20T12:50:34Z",
+      "side": 1,
+      "message": "Good points!\n\nDone",
+      "parentUuid": "f50fb363_3e054048",
+      "revId": "bc425587e0fbe85f15a0d849d007226ed232aba3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
