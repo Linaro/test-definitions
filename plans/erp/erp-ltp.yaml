@@ -15,18 +15,15 @@ metadata:
     - chase.qi@linaro.org
   approver:
     - milosz.wasilewski@linaro.org
-  format: Linaro Test Plan v1
+  owner:
+    - martin.stadtler@linaro.org
+  format: Linaro Test Plan v2
 
-requirements:
-  - name: Linux kernel
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      automated:
-        - path: automated/linux/ltp/ltp.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          parameters:
-              TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
-              SKIPFILE: skipfile-rpk
-          mandatory: True
-          timeout: 18000
+tests:
+  automated:
+    - path: automated/linux/ltp/ltp.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+          SKIPFILE: skipfile-rpk
+      timeout: 18000
