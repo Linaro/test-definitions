@@ -15,126 +15,59 @@ metadata:
     - chase.qi@linaro.org
   approver:
     - milosz.wasilewski@linaro.org
-  format: Linaro Test Plan v1
+  owner:
+    - martin.stadtler@linaro.org
+   format: Linaro Test Plan v2
 
-requirements:
-  - name: Linux kernel
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      manual:
-      automated:
-        - path: automated/linux/hackbench/hackbench.yaml
-          mandatory: True
-          repository: https://git.linaro.org/qa/test-definitions.git
-  - name: KVM system emulation
-    owner: martin.stadtler@linaro.org
-    category: Virtualization
-    tests:
-      manual:
-          # hackbench should be executed inside KVM guest
-        - path: automated/linux/hackbench/hackbench.yaml
-          mandatory: True
-          repository: https://git.linaro.org/qa/test-definitions.git
-          parameters:
-              TARGET: guest
-  - name: OpenSSL
-    owner: martin.stadtler@linaro.org
-    category: Base OS
-    tests:
-      automated:
-        - path: automated/linux/openssl/openssl-speed.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Networking performance
-    owner: martin.stadtler@linaro.org
-    tests:
-      automated:
-        - path: automated/linux/iperf/iperf.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Memory performance
-    owner: martin.stadtler@linaro.org
-    category: Performance
-    tests:
-       automated:
-        - path: automated/linux/lmbench/lmbench-memory.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/stream/stream-uniprocessor.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Disk performance
-    owner: martin.stadtler@linaro.org
-    category: Performance
-    tests:
-      automated:
-        - path: automated/linux/fio-test/fio-test.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/device-read-perf/device-read-perf.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/blogbench/blogbench.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/iozone/iozone.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: CPU performance
-    owner: martin.stadtler@linaro.org
-    category: Performance
-    tests:
-       automated:
-        - path: automated/linux/linpack/linpack.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/lapack/lapack.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Apache webserver performance
-    owner: martin.stadtler@linaro.org
-    category: Performance
-    tests:
-       automated:
-        - path: automated/linux/apache-apache-bench/apache-bench.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-              NUMBER: 10000
-              CONCURENT: 500
-  - name: NGiNX webserver performance
-    owner: martin.stadtler@linaro.org
-    category: Performance
-    tests:
-       automated:
-        - path: automated/linux/nginx-apache-bench/apache-bench.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-              NUMBER: 10000
-              CONCURENT: 500
-  - name: Unixbench
-    owner: martin.stadtler@linaro.org
-    category: Performance
-    tests:
-       automated:
-        - path: automated/linux/unixbench/unixbench.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: sysbench
-    owner: martin.stadtler@linaro.org
-    category: Performance
-    tests:
-       automated:
-        - path: automated/linux/sysbench/sysbench.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-              # Included 'oltp' to meansure database performance.
-              # Excluded 'fileio' as it is already covered by the above
-              # separate 'fio-test.yaml' test case.
-              TESTS: "cpu memory threads mutex oltp"
+tests:
+  automated:
+    - path: automated/linux/hackbench/hackbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/openssl/openssl-speed.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/iperf/iperf.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/lmbench/lmbench-memory.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/stream/stream-uniprocessor.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/fio-test/fio-test.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/dd-wr-speed/dd-wr-speed.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/device-read-perf/device-read-perf.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/blogbench/blogbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/iozone/iozone.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/linpack/linpack.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/lapack/lapack.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/apache-apache-bench/apache-bench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          NUMBER: 10000
+          CONCURENT: 500
+    - path: automated/linux/nginx-apache-bench/apache-bench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      mandatory: True
+      parameters:
+          NUMBER: 10000
+          CONCURENT: 500
+    - path: automated/linux/unixbench/unixbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/sysbench/sysbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          # Included 'oltp' to meansure database performance.
+          # Excluded 'fileio' as it is already covered by the above
+          # separate 'fio-test.yaml' test case.
+          TESTS: "cpu memory threads mutex oltp"
+  manual:
+      # hackbench should be executed inside KVM guest
+    - path: automated/linux/hackbench/hackbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          TARGET: guest

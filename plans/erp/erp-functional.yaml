@@ -15,159 +15,65 @@ metadata:
     - chase.qi@linaro.org
   approver:
     - milosz.wasilewski@linaro.org
-  format: Linaro Test Plan v1
+  owner:
+    - martin.stadtler@linaro.org
+  format: Linaro Test Plan v2
 
-requirements:
-  - name: SBBR compliance
-    owner: martin.stadtler@linaro.org
-    category: Bootloader
-    tests:
-      manual:
-        - path: manual/generic/linux/luvos.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: PXE boot
-    owner: martin.stadtler@linaro.org
-    category: Bootloader
-    tests:
-      manual:
-        - path: manual/generic/linux/pxe-boot.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: boot from the installed hard drive media
-    owner: martin.stadtler@linaro.org
-    category: Bootloader
-    tests:
-      manual:
-        - path: manual/generic/linux/disk-boot.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Linux kernel
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      manual:
-      automated:
-        - path: automated/linux/smoke/smoke.yaml
-          timeout: 1800
-          mandatory: True
-          repository: https://git.linaro.org/qa/test-definitions.git
-        - path: automated/linux/libhugetlbfs/libhugetlbfs.yaml
-          mandatory: True
-          repository: https://git.linaro.org/qa/test-definitions.git
-  - name: UART console
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      manual:
-        - path: manual/generic/serial-console.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Toolchain
-    owner: martin.stadtler@linaro.org
-    category: Base OS
-    tests:
-      automated:
-        - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-              STATIC: True
-        - path: automated/linux/pointer-tagging/pointer-tagging-tests.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/kernel-compilation/kernel-compilation.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: SATA drive support
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      automated:
-        - path: automated/linux/disk-partitioning/disk-partitioning.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-            DEVICE: /dev/sdb
-        - path: automated/linux/disk-partitioning/disk-partitioning.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-            DEVICE: /dev/sdb
-            FILESYSTEM: fat32
-            SKIP_INSTALL: True
-  - name: RAID support
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      manual:
-        - path: manual/generic/linux/software-raid0.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: False
-        - path: manual/generic/linux/software-raid1.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: False
-        - path: manual/generic/linux/software-raid5.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: False
-  - name: onboard ethernet support
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      automated:
-        - path: automated/linux/network-basic/network-basic.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-      manual:
-        - path: manual/generic/linux/multi-nic-download.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: False
-  - name: PCIe support
-    owner: martin.stadtler@linaro.org
-    category: Low-level kernel
-    tests:
-      automated:
-        - path: automated/linux/network-basic/network-basic.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-      manual:
-        - path: manual/generic/linux/multi-nic-download.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: manual/generic/linux/ip-forwarding.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: False
-        # 1,4,8,16 lane card with SSD, partitioning and FIO/read write tests
-  - name: software shutdown
-    owner: martin.stadtler@linaro.org
-    category: Base OS
-    tests:
-      manual:
-        - path: manual/generic/linux/power-off-cmd.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: software reboot
-    owner: martin.stadtler@linaro.org
-    category: Base OS
-    tests:
-      manual:
-        - path: manual/generic/linux/reboot.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: KVM system emulation
-    owner: martin.stadtler@linaro.org
-    category: Virtualization
-    tests:
-      manual:
-        - path: manual/generic/linux/kvm-arm32-guest-on-arm64-host.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        # compare IO (fio) for host and guest *
-        # compare network performance (netperf) for host and guest
-        # network bandwith/latency stability with system running at high load
+tests:
+  automated:
+    - path: automated/linux/smoke/smoke.yaml
+      timeout: 1800
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/libhugetlbfs/libhugetlbfs.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          STATIC: True
+    - path: automated/linux/pointer-tagging/pointer-tagging-tests.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/kernel-compilation/kernel-compilation.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/disk-partitioning/disk-partitioning.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          DEVICE: /dev/sdb
+    - path: automated/linux/disk-partitioning/disk-partitioning.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          DEVICE: /dev/sdb
+          FILESYSTEM: fat32
+          SKIP_INSTALL: True
+    - path: automated/linux/network-basic/network-basic.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+  manual:
+    - path: manual/generic/linux/luvos.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/pxe-boot.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/disk-boot.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/serial-console.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/software-raid0.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/software-raid1.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/software-raid5.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/multi-nic-download.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/multi-nic-download.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/ip-forwarding.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/power-off-cmd.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/reboot.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/kvm-arm32-guest-on-arm64-host.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/kvm-arm64-guest-on-arm64-host.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
