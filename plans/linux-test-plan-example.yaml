@@ -1,0 +1,42 @@
+metadata:
+  # name key is needed by test-runner
+  name: linux-test-plan-example
+  description: Linux test plan example
+  os: debian
+  devices:
+    - d05
+    - hi6220-hikey
+    - dragonboard410c
+  maintainer:
+    - first.last@linaro.org
+  approver:
+    - first.last@linaro.org
+  owner:
+    - first.last@linaro.org
+  # format key is needed by test-runner
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: automated/linux/smoke/smoke.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      timeout: 900
+    - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      timeout: 900
+    - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+        SKIP_INSTALL: True
+        STATIC: True
+      timeout: 900
+    - path: automated/linux/hackbench/hackbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+        ITERATION: "10"
+      timeout: 900
+  manual:
+    - path: manual/generic/linux/disk-boot.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/serial-console.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
