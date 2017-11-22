@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6f785135_d93822c1",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-22T04:28:53Z",
+      "side": 1,
+      "message": "Before we updated all test plans to v2 format, this change shouldn\u0027t be merged as it will break test run with old test plans.\n\nOnce we get \u0027linux-test-plan-example.yaml\u0027 reviewed and we agreed on the format, I will update other test plans(qcomlt and erp) and include them in this patch.",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34628495_5f7b7146",
         "filename": "plans/linux-test-plan-example.yaml",
         "patchSetId": 1
