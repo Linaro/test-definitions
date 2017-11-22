@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "431dca4f_4a40cdd7",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-22T08:19:45Z",
+      "side": 1,
+      "message": "The try...except... block will send an error and exit if any key in the try block not found.\n\nIt is a good idea to make it backwards compatible anyways. It is not much code. \n\nI think we could\n1) Rely on the value of \u0027format\u0027 key of metadata\nor\n2) Detect the key is \u0027requirement\u0027 or \u0027tests\u0027\n\nThen get tests from them with slight different way. Maybe 2) is better, as the format key may not exist in someone\u0027s plan.\n\nBTW, I will update existing plans in qa/testdef to v2 in this patch.",
+      "parentUuid": "f5c568a4_1e754117",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7dd9748_08e50921",
         "filename": "plans/linux-test-plan-example.yaml",
         "patchSetId": 1
@@ -60,6 +84,24 @@
       "writtenOn": "2017-11-22T07:56:50Z",
       "side": 1,
       "message": "i am not sure we need all this data.. unless if we can ensure that whatever is put here is used to require gerrit reviews.. maybe we can keep 1 name (maintainer?) and reduce the chances of these fields to become obsolete..",
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f6a71e_82900ebc",
+        "filename": "plans/linux-test-plan-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-22T08:19:45Z",
+      "side": 1,
+      "message": "Gentlemen, \n\nMore comments? It is time to review what we want in metadata :)",
+      "parentUuid": "c7dd9748_08e50921",
       "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -118,6 +160,30 @@
       "side": 1,
       "message": "i think we should keep it. i would like to be able to run tests from multiple test repos eventually.",
       "parentUuid": "cde43c12_72b36f99",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20a1a6b1_8fd29d89",
+        "filename": "plans/linux-test-plan-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-22T08:19:45Z",
+      "side": 1,
+      "message": "k, well planned :)",
+      "parentUuid": "d39befa8_9c9f07ea",
       "range": {
         "startLine": 20,
         "startChar": 6,
