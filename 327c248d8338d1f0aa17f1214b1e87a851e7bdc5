@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "f5c568a4_1e754117",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-11-22T07:56:50Z",
+      "side": 1,
+      "message": "is it a lot of work to support both v1 and v2?\n\nwe probably need to check the plan format to be safe anyways, and at least fail if we only support v2 and we are given a v1.",
+      "parentUuid": "6f785135_d93822c1",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7dd9748_08e50921",
+        "filename": "plans/linux-test-plan-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-11-22T07:56:50Z",
+      "side": 1,
+      "message": "i am not sure we need all this data.. unless if we can ensure that whatever is put here is used to require gerrit reviews.. maybe we can keep 1 name (maintainer?) and reduce the chances of these fields to become obsolete..",
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34628495_5f7b7146",
         "filename": "plans/linux-test-plan-example.yaml",
         "patchSetId": 1
@@ -53,6 +94,30 @@
       "writtenOn": "2017-11-22T04:21:01Z",
       "side": 1,
       "message": "The repository key isn\u0027t using in anywhere, can we get rid of it as well?\n\ntest-runner is repo independent tool, but it just copy the repo it located in, and no \u0027git clone\u0027 support.",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d39befa8_9c9f07ea",
+        "filename": "plans/linux-test-plan-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-11-22T07:56:50Z",
+      "side": 1,
+      "message": "i think we should keep it. i would like to be able to run tests from multiple test repos eventually.",
+      "parentUuid": "cde43c12_72b36f99",
       "range": {
         "startLine": 20,
         "startChar": 6,
