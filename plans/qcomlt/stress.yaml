@@ -5,19 +5,17 @@ metadata:
   devices:
     - dragonboard410c
   maintainer:
-    - anibal.limon@linaro.org, nicolas.dechesne@linaro.org
-  format: Linaro Test Plan v1
-requirements:
-  - name:
-    tests:
-      automated:
-        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-              TEST: stress_ng
-        - path: automated/linux/24h-stress-test/24h-stress-test.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-          parameters:
-              TEST: stress_oom
+    - anibal.limon@linaro.org
+    - nicolas.dechesne@linaro.org
+  format: Linaro Test Plan v2
+
+tests:
+  automated:
+    - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          TEST: stress_ng
+    - path: automated/linux/24h-stress-test/24h-stress-test.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+      parameters:
+          TEST: stress_oom
