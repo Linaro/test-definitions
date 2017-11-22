@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd7f18ca_bcef7955",
+        "filename": "automated/linux/ltp/skipfile-rpk",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-22T05:59:45Z",
+      "side": 1,
+      "message": "I tried to duplicate the following failures on qdf2400, I cannot duplicate any of them.\n\nmsgctl10    1  TPASS  :  msgctl10 ran successfully!\nmsgctl11    1  TPASS  :  msgctl11 ran successfully!\nmsgsnd01.c:52: PASS: queue bytes and number of queues matched\npipe11     50  TPASS\nmmapstress09    1  TPASS  :  Test passed\n\nI see msgctl10 and msgctl11 appears in other skip files too, so they are the ones cause issues. IMO, we should skip both on RPK too.\n\nWe can leave msgsnd01, pipe11 and mmapstress09 for now, lets see what happens in the next run.",
+      "revId": "f80b25b9e9a882c69f6d72b27ad749dedad0185c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
