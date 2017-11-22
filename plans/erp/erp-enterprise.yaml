@@ -15,104 +15,36 @@ metadata:
     - chase.qi@linaro.org
   approver:
     - milosz.wasilewski@linaro.org
-  format: Linaro Test Plan v1
+  owner:
+    - martin.stadtler@linaro.org
+  format: Linaro Test Plan v2
 
-requirements:
-  - name: Docker
-    owner: martin.stadtler@linaro.org
-    category: Virtualization
-    tests:
-      automated:
-        - path: automated/linux/docker/docker.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: automated/linux/dsdbench/dsdbench.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: OpenJDK
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      automated:
-        - path: automated/linux/openjdk/openjdk-smoke.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: MySQL database
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      automated:
-        - path: automated/linux/lamp/lamp.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Apache webserver
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      automated:
-        - path: automated/linux/lamp/lamp.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: NGiNX webserver
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      automated:
-        - path: automated/linux/lemp/lemp.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Tomcat webserver
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-  - name: OpenSSH
-    owner: martin.stadtler@linaro.org
-    category: Base OS
-    tests:
-      manual:
-        - path: manual/generic/linux/openssh-centos.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: OpenSSL
-    owner: martin.stadtler@linaro.org
-    category: Base OS
-    tests:
-      manual:
-        - path: manual/generic/linux/openssl-centos.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: OpenStack (Core)
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      manual:
-        - path: manual/enterprise/openstack-ceph.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Ceph
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      manual:
-        - path: manual/enterprise/openstack-ceph.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Hadoop
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      manual:
-        - path: manual/enterprise/bigdata-hadoop-terasort.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-        - path: manual/enterprise/bigdata-hive.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
-  - name: Spark
-    owner: martin.stadtler@linaro.org
-    category: Enterprise
-    tests:
-      manual:
-        - path: manual/enterprise/bigdata-spark-sparkpi.yaml
-          repository: https://git.linaro.org/qa/test-definitions.git
-          mandatory: True
+tests:
+  automated:
+    - path: automated/linux/docker/docker.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/dsdbench/dsdbench.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/openjdk/openjdk-smoke.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/lamp/lamp.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/lamp/lamp.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/lemp/lemp.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+  manual:
+    - path: manual/generic/linux/openssh-centos.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/generic/linux/openssl-centos.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/enterprise/openstack-ceph.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/enterprise/openstack-ceph.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/enterprise/bigdata-hadoop-terasort.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/enterprise/bigdata-hive.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: manual/enterprise/bigdata-spark-sparkpi.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git

@@ -146,22 +146,30 @@ class TestPlan(object):
             with open(self.test_plan, 'r') as f:
                 test_plan = yaml.safe_load(f)
             try:
+                plan_version = test_plan['metadata'].get('format')
+                self.logger.info('Test plan version: {}'.format(plan_version))
+                if plan_version == "Linaro Test Plan v2":
+                    tests = test_plan['tests'][kind]
+                elif plan_version == "Linaro Test Plan v1" or plan_version is None:
+                    tests = []
+                    for requirement in test_plan['requirements']:
+                        if 'tests' in requirement.keys():
+                            if requirement['tests'] and \
+                                    kind in requirement['tests'].keys() and \
+                                    requirement['tests'][kind]:
+                                for test in requirement['tests'][kind]:
+                                    tests.append(test)
+
                 test_list = []
                 unique_tests = []  # List of test hashes
-                for requirement in test_plan['requirements']:
-                    if 'tests' in requirement.keys():
-                        if requirement['tests'] and \
-                                kind in requirement['tests'].keys() and \
-                                requirement['tests'][kind]:
-                            for test in requirement['tests'][kind]:
-                                test_hash = hash(json.dumps(test, sort_keys=True))
-                                if test_hash in unique_tests:
-                                    # Test is already in the test_list; don't add it again.
-                                    self.logger.warning(
-                                        "Skipping duplicate test {}".format(test))
-                                    continue
-                                unique_tests.append(test_hash)
-                                test_list.append(test)
+                for test in tests:
+                    test_hash = hash(json.dumps(test, sort_keys=True))
+                    if test_hash in unique_tests:
+                        # Test is already in the test_list; don't add it again.
+                        self.logger.warning("Skipping duplicate test {}".format(test))
+                        continue
+                    unique_tests.append(test_hash)
+                    test_list.append(test)
                 for test in test_list:
                     test['uuid'] = str(uuid4())
             except KeyError as e:
