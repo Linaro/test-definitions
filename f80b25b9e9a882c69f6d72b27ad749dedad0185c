@@ -16,6 +16,24 @@
       "revId": "f80b25b9e9a882c69f6d72b27ad749dedad0185c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "206a63e0_775a3787",
+        "filename": "automated/linux/ltp/skipfile-rpk",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-22T12:27:55Z",
+      "side": 1,
+      "message": "I think msgctl11 might also cause issues. IIRC these two tests do more less the same thing just with higher number of messages.",
+      "parentUuid": "fd7f18ca_bcef7955",
+      "revId": "f80b25b9e9a882c69f6d72b27ad749dedad0185c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
