@@ -49,6 +49,7 @@ wget  -q "${SNAPSHOTS_URL}"/"${BUILD_TARBALL}"
 [ -z "$HOME" ] && export HOME="/"
 git config --global user.email "ci_notify@linaro.org"
 git config --global user.name "Linaro CI"
+git config --global --add color.ui auto
 tar -xvf "${BUILD_TARBALL}"
 export PATH=${PWD}/out/host/linux-x86/bin/:${PATH}
 
