@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "4970419f_eaa917f4",
+        "filename": "plans/linux-test-plan-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-23T03:12:58Z",
+      "side": 1,
+      "message": "I agreed with Milosz that only name and format keys are must to have as they are needed by test runner, comments added in the example. The rest keys are optional.",
+      "parentUuid": "68f6a71e_82900ebc",
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34628495_5f7b7146",
         "filename": "plans/linux-test-plan-example.yaml",
         "patchSetId": 1
@@ -167,6 +185,24 @@
       "writtenOn": "2017-11-22T04:21:01Z",
       "side": 1,
       "message": "The owner key is new. I am not sure if we really need it.",
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39c0fc24_7f1481f1",
+        "filename": "plans/linux-test-plan-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-23T03:12:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34628495_5f7b7146",
       "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -232,6 +268,30 @@
       "side": 1,
       "message": "k, well planned :)",
       "parentUuid": "d39befa8_9c9f07ea",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "327c248d8338d1f0aa17f1214b1e87a851e7bdc5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b92c82a4_ca04572d",
+        "filename": "plans/linux-test-plan-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-23T03:12:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a1a6b1_8fd29d89",
       "range": {
         "startLine": 20,
         "startChar": 6,
