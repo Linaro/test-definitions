@@ -42,23 +42,27 @@ class ApkRunnerImpl(ApkTestRunner):
                         break
 
     def execute(self):
-        self.dump_always()
-        # Accept Vellamo EULA
-        btn_setup_1 = self.vc.findViewByIdOrRaise("android:id/button1")
-        btn_setup_1.touch()
-
-        # Open settings
-        self.dump_always()
-        btn_settings = self.vc.findViewByIdOrRaise('com.quicinc.vellamo:id/main_toolbar_wheel')
-        btn_settings.touch()
-
-        # Disable animations
-        self.dump_always()
-        btn_animations = self.vc.findViewWithTextOrRaise(u'Make Vellamo even more beautiful')
-        btn_animations.touch()
+        need_continue = True
+        while need_continue:
+            self.dump_always()
+            btn_setup_1 = self.vc.findViewById("android:id/button1")
+            btn_settings = self.vc.findViewById('com.quicinc.vellamo:id/main_toolbar_wheel')
+            btn_animations = self.vc.findViewWithText(u'Make Vellamo even more beautiful')
+            if btn_setup_1:
+                # Accept Vellamo EULA
+                btn_setup_1.touch()
+            elif btn_settings:
+                # Open settings
+                btn_settings.touch()
+            elif btn_animations:
+                # Disable animations
+                btn_animations.touch()
+                need_continue = False
 
         # Back to the home screen
         self.device.press("KEYCODE_BACK")
+
+        self.logger.info("Benchmark started now")
 
         chapters = ['Browser', 'Multicore', 'Metal']
         for chapter in chapters:
@@ -67,9 +71,9 @@ class ApkRunnerImpl(ApkTestRunner):
             # Start benchmark
             self.dump_always()
             try:
-                btn_start = self.vc.findViewById("com.quicinc.vellamo:id/main_toolbar_operation_button")
-                if btn_start:
-                    btn_start.touch()
+                gotit_button = self.vc.findViewWithText(u'GOT IT')
+                if gotit_button:
+                    gotit_button.touch()
             except ViewNotFoundException:
                 self.report_result('vellamo3-%s' % chapter, 'fail')
                 self.logger.error('Start button for chapter %s NOT found, moving to the next chapter...')
@@ -81,11 +85,10 @@ class ApkRunnerImpl(ApkTestRunner):
                 time.sleep(1)
                 try:
                     self.dump_always()
-                    goback_title = self.vc.findViewById("com.quicinc.vellamo:id/main_toolbar_goback_title")
                     goback_btn = self.vc.findViewById("com.quicinc.vellamo:id/main_toolbar_goback_button")
-                    if goback_btn or goback_title:
-                        btn_no = self.vc.findViewByIdOrRaise("com.quicinc.vellamo:id/button_no")
-                        btn_no.touch()
+                    if goback_btn:
+                        goback_btn.touch()
+                        time.sleep(5)
                         finished = True
                 except ViewNotFoundException:
                     pass
@@ -96,6 +99,7 @@ class ApkRunnerImpl(ApkTestRunner):
 
             self.logger.info("Benchmark finished: %s" % chapter)
             self.device.press("KEYCODE_BACK")
+            time.sleep(5)
             self.device.press("KEYCODE_BACK")
 
     def parseResult(self):

@@ -32,26 +32,21 @@ class ApkRunnerImpl(ApkTestRunner):
             self.all_fail()
             sys.exit(1)
 
-        time.sleep(10)
-        self.dump_always()
-
-        try:
-            self.vc.findViewByIdOrRaise("android:id/progress")
-        except ViewNotFoundException:
-            self.logger.error("Something goes wrong! It is unusual that the test has not been started after 10+ seconds! Please manually check it!")
-            self.all_fail()
-            sys.exit(1)
-
         finished = False
         while (not finished):
-            time.sleep(45)
+            time.sleep(10)
             self.dump_always()
             flag = self.vc.findViewWithText("RESULT")
+            in_progress = self.vc.findViewById("android:id/progress")
             if flag is not None:
                 self.logger.info("Geekbench 3 Test Finished!")
                 finished = True
-            else:
+            elif in_progress:
                 self.logger.info("Geekbench 3 Test is still in progress...")
+            else:
+                self.logger.error("Something goes wrong! It is unusual that the test has not been started after 10+ seconds! Please manually check it!")
+                #self.all_fail()
+                #sys.exit(1)
 
         # Generate the .gb3 file
         self.device.press('KEYCODE_MENU')
