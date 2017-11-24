@@ -31,7 +31,7 @@ class ApkRunnerImpl(ApkTestRunner):
                 subitem = self.vc.findViewWithText(text, ch)
                 if subitem:
                     subitem_result = self.vc.findViewByIdOrRaise("com.redlicense.benchmark.sqlite:id/test_result", ch)
-                    score = subitem_result.getText().replace("sec", "").strip()
+                    score = subitem_result.getText().replace("sec", "").replace("Running", "").strip()
                     score_in_ms = float(score) * 1000
                     self.report_result("RL-sqlite-" + text.replace(" ", "-"), 'pass', str(score_in_ms), "ms")
                     found_score_view = True

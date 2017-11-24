@@ -19,29 +19,39 @@ class ApkRunnerImpl(ApkTestRunner):
         super(ApkRunnerImpl, self).tearDown()
 
     def execute(self):
-        self.dump_always()
-        view_license_btn = self.vc.findViewWithText("View license")
-        if view_license_btn:
-            ok_button = self.vc.findViewWithTextOrRaise("OK")
-            ok_button.touch()
-
-        self.dump_always()
-        run_full_item = self.vc.findViewWithTextOrRaise(u'Run full benchmark')
-        run_full_item.touch()
+        need_continue = True
+        while need_continue:
+            self.dump_always()
+            view_license_btn = self.vc.findViewWithText("View license")
+            run_full_item = self.vc.findViewWithText(u'Run full benchmark')
+            if view_license_btn:
+                ok_button = self.vc.findViewWithTextOrRaise("OK")
+                ok_button.touch()
+            elif run_full_item:
+                run_full_item.touch()
+                need_continue = False
+            else:
+                # continue check
+                pass
 
         # Hack workaround to kill the first time start up
         # then it will work from 2nd time
         self.call_adb("shell am force-stop %s" % self.config['apk_package'])
         self.call_adb("shell am start -W -S %s" % self.config['activity'])
-        self.dump_always()
-        view_license_btn = self.vc.findViewWithText("View license")
-        if view_license_btn:
-            ok_button = self.vc.findViewWithTextOrRaise("OK")
-            ok_button.touch()
-
-        self.dump_always()
-        run_full_item = self.vc.findViewWithTextOrRaise(u'Run full benchmark')
-        run_full_item.touch()
+        need_continue = True
+        while need_continue:
+            self.dump_always()
+            view_license_btn = self.vc.findViewWithText("View license")
+            run_full_item = self.vc.findViewWithText(u'Run full benchmark')
+            if view_license_btn:
+                ok_button = self.vc.findViewWithTextOrRaise("OK")
+                ok_button.touch()
+            elif run_full_item:
+                run_full_item.touch()
+                need_continue = False
+            else:
+                # continue check
+                pass
 
         finished = False
         while not finished:

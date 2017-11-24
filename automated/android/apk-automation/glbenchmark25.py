@@ -36,42 +36,37 @@ class ApkRunnerImpl(ApkTestRunner):
         self.call_adb("shell am start -W -S %s" % self.config['activity'])
 
     def execute(self):
-        time.sleep(2)
-
-        self.vc.dump(window='-1')
-        test_type = self.vc.findViewWithText("Performance Tests")
-        if test_type:
-            test_type.touch()
-            time.sleep(2)
-
-        # By some reason in order to select all test, a back step is required
-        self.dump_always()
-        test_selection = self.vc.findViewByIdOrRaise("com.glbenchmark.glbenchmark25:id/buttonAll")
-        self.device.press('KEYCODE_BACK')
-        time.sleep(3)
-
-        test_type.touch()
-        time.sleep(2)
-        test_selection.touch()
-        self.logger.info("All selected!")
-        time.sleep(3)
+        selected_all = False
+        while not selected_all:
+            self.dump_always()
+            select_all_btn = self.vc.findViewWithText("All")
+            display_tests_menu = self.vc.findViewWithText("Performance Tests")
+            if select_all_btn:
+                select_all_btn.touch()
+                self.logger.info("All selected!")
+                selected_all = True
+            elif display_tests_menu:
+                display_tests_menu.touch()
+                self.logger.info("Display all tests to select all")
+            else:
+                # continue
+                pass
 
         # Disable crashed test suites
-        self.vc.dump(window='-1')
+        self.dump_always()
         crashed_test_name = "C24Z24MS4"
         self.logger.info('Test suite %s is going to be disabled!' % crashed_test_name)
         crashed_test = self.vc.findViewWithText(crashed_test_name)
         if crashed_test is not None:
             crashed_test.touch()
             self.logger.info('Test suite %s has been excluded!' % crashed_test_name)
-            time.sleep(2)
         else:
             self.logger.info('Can not find test suite %s, please check the screen!' % crashed_test_name)
 
         # Start selected test suites
+        self.dump_always()
         start_button = self.vc.findViewByIdOrRaise("com.glbenchmark.glbenchmark25:id/buttonStart")
         start_button.touch()
-        time.sleep(2)
 
         finished = False
         while not finished:

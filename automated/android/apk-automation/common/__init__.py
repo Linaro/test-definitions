@@ -68,7 +68,7 @@ class ApkTestRunner(object):
             except Exception as e:
                 self.take_screencap()
                 self.report_result(self.config['name'], 'fail')
-                self.logger.error(e)
+                self.logger.error(e, exc_info=True)
                 sys.exit(1)
 
         self.collect_log()
@@ -158,6 +158,7 @@ class ApkTestRunner(object):
         success = False
         while not success:
             try:
+                time.sleep(5)
                 self.vc.dump()
                 success = True
             except RuntimeError:
@@ -303,6 +304,7 @@ class ApkTestRunner(object):
         # Start intent.
         self.logger.info('Starting %s' % self.config['apk_package'])
         self.call_adb("shell am start -W -S %s" % self.config['activity'])
+        time.sleep(5)
 
     def execute(self):
         raise NotImplementedError
