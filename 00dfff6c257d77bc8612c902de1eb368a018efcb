@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea0069f9_d5665ac1",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:15:10Z",
+      "side": 1,
+      "message": "I think we should use both repository and path to identify unique test. Tests with the same path coming from different repositories might not be the same thing.",
+      "revId": "00dfff6c257d77bc8612c902de1eb368a018efcb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "766d88d2_7c7763c0",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:15:10Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "00dfff6c257d77bc8612c902de1eb368a018efcb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e5f332b_dc0ec880",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:15:10Z",
+      "side": 1,
+      "message": "can\u0027t you just use test_list here? It will save some memory. test_list is copied to fixed_test_list in the beginning of this function and fixed_test_list is returned.",
+      "revId": "00dfff6c257d77bc8612c902de1eb368a018efcb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
