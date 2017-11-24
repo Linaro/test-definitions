@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01599cf2_bdd69eae",
+        "filename": "plans/erp/erp-functional.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T14:56:08Z",
+      "side": 1,
+      "message": "I think the parameters are missing here. If not, the test is duplicated.",
+      "revId": "3dcdf19aff98d57de72d2c9e3463d8ad0a2504d2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
