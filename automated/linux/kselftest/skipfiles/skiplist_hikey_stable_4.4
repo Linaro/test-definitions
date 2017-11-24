@@ -29,3 +29,6 @@ pstore_tests
 # LKFT: timer: inconsistency-check failed on Hikey
 # https://bugs.linaro.org/show_bug.cgi?id=2950
 inconsistency-check
+# LKFT: android-hikey-linaro-4.4: WARNING: at net/packet/af_packet.c:4104 packet_set_ring - Tx-ring is not supported on Linux-4.4
+# https://bugs.linaro.org/show_bug.cgi?id=3141
+run_afpackettests

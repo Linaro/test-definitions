@@ -27,3 +27,6 @@ pstore_tests
 # LKFT: linux-mainline: x15: rtctest - PIE delta error: 0.018197 should be close to 0.015625
 # https://bugs.linaro.org/show_bug.cgi?id=3402
 rtctest
+# LKFT: android-hikey-linaro-4.4: WARNING: at net/packet/af_packet.c:4104 packet_set_ring - Tx-ring is not supported on Linux-4.4
+# https://bugs.linaro.org/show_bug.cgi?id=3141
+run_afpackettests
