@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "892f2fe5_d1d5b44e",
+        "filename": "automated/android/tradefed/monitor-runner-output.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:48:53Z",
+      "side": 1,
+      "message": "tradefed_runner uses _ for function names, so I guess new file should follow the same convention (not camel case).",
+      "revId": "d4b618da53dc3ccd05150a37d29e9de0f0c1439d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c488e30f_1c8e03d2",
+        "filename": "automated/android/tradefed/monitor-runner-output.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:48:53Z",
+      "side": 1,
+      "message": "please change to specific exception unless there is a good reason to \u0027catch all\u0027",
+      "revId": "d4b618da53dc3ccd05150a37d29e9de0f0c1439d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a174802_0aa56c18",
+        "filename": "automated/android/tradefed/monitor-runner-output.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:48:53Z",
+      "side": 1,
+      "message": "please make it p3 friendly and use print()",
+      "revId": "d4b618da53dc3ccd05150a37d29e9de0f0c1439d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4d79dd7_3ff6fb9d",
+        "filename": "automated/android/tradefed/monitor-runner-output.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:48:53Z",
+      "side": 1,
+      "message": "why not use ArgParse ?",
+      "revId": "d4b618da53dc3ccd05150a37d29e9de0f0c1439d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0e50c9_ae7904c5",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-24T16:48:53Z",
+      "side": 1,
+      "message": "maybe you can check how many lines there are in the current file (does the file change during the execution?) and print the new lines in next iterations. Sth like (pseudocode)\ncurrent_length \u003d subprocess.check_output(\"wc -l \u003c runner_log_file\")\nnew_lines \u003d current_length - old_length\nsubprocess.call([\u0027tail -n new_lines\u0027, runner_log_file])\nold_length \u003d current_length\n\nof course old_length needs to be a global variable.",
+      "revId": "d4b618da53dc3ccd05150a37d29e9de0f0c1439d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
