@@ -16,6 +16,24 @@
       "revId": "3dcdf19aff98d57de72d2c9e3463d8ad0a2504d2",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6047f75_69ff74cd",
+        "filename": "plans/erp/erp-functional.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-27T03:21:10Z",
+      "side": 1,
+      "message": "Well spotted! It was for onboard and PCIE respectively, I deleted one as duplicated tests will be skipped by test runner anyways.",
+      "parentUuid": "01599cf2_bdd69eae",
+      "revId": "3dcdf19aff98d57de72d2c9e3463d8ad0a2504d2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
