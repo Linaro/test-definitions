@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e94e6e4c_ec06967e",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-27T07:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0069f9_d5665ac1",
+      "revId": "00dfff6c257d77bc8612c902de1eb368a018efcb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "766d88d2_7c7763c0",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6ece0951_15fcf6ef",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-27T07:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "766d88d2_7c7763c0",
+      "revId": "00dfff6c257d77bc8612c902de1eb368a018efcb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e5f332b_dc0ec880",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2017-11-24T16:15:10Z",
       "side": 1,
       "message": "can\u0027t you just use test_list here? It will save some memory. test_list is copied to fixed_test_list in the beginning of this function and fixed_test_list is returned.",
+      "revId": "00dfff6c257d77bc8612c902de1eb368a018efcb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dbb2905_dd1e4f02",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-27T07:19:54Z",
+      "side": 1,
+      "message": "As this is the last time we use test_list, it should be fine to modify it directly. \n\nDone.",
+      "parentUuid": "8e5f332b_dc0ec880",
       "revId": "00dfff6c257d77bc8612c902de1eb368a018efcb",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
