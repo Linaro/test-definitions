@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b93f7b88_84569ae4",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-28T02:56:05Z",
+      "side": 1,
+      "message": "You meant \u0027fixed_test_list\u0027, right? If we use it, the problem is we delete tests from it at line #90 when iterating it.\n\nI actually tried to iterate test_list and remove tests in skip_list from test_list directly, but it didn\u0027t work out, the output isn\u0027t expected. Then I searched online, people says, don\u0027t modify the list when iterating it.",
+      "parentUuid": "b4ab080f_e994c3e2",
+      "revId": "4f1ae136900693f0c49d2f30efecd2566db55085",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "685653e4_a1b0a75d",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-27T15:03:24Z",
       "side": 1,
       "message": "Shouldn\u0027t this be an error, or at least a warning?",
+      "revId": "4f1ae136900693f0c49d2f30efecd2566db55085",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac194eba_e20292d9",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-28T02:56:05Z",
+      "side": 1,
+      "message": "uh, no? For each test in test_list, these two for blocks check if the test match any tests from skip_tests(to be skipped). If it is not, that is fine, then check the next test from test_list.",
+      "parentUuid": "685653e4_a1b0a75d",
       "revId": "4f1ae136900693f0c49d2f30efecd2566db55085",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6393ad22_09c0215e",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-28T02:56:05Z",
+      "side": 1,
+      "message": "The same as above, it only matches when test from fixed_test_list is the same as the amend_test.\n\nIt is not straight, but it is best way I came out. The other way is we generate a new list from fixed_test_list and check if amend_test in the list, sth like? \n\nanother_test_list \u003d [{\u0027path\u0027: test[\u0027path\u0027], \u0027repository\u0027: test[\u0027repository\u0027]} for test in fixed_test_list]\nfor amend_test in amend_tests:\n    if amend_test in another_test_list:\n        ...",
+      "parentUuid": "4e5507b0_cfe331bd",
+      "revId": "4f1ae136900693f0c49d2f30efecd2566db55085",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5a34ffb_4452290e",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "3a54be77_f66ab91c",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-28T02:56:05Z",
+      "side": 1,
+      "message": "It is a bit complicated here too.\n\nuuid added(line #166) for each test in test_list so that they are unique even for multiple test runs, so that test output directories don\u0027t overwrite each other. \n\nTests from ovelay-add doesn\u0027t have uuid added yet. If we don\u0027t delete uuid key from test_list, they will never match.\n\nWe shouldn\u0027t modify fixed_test_list to delete the uuid key as the list will be return for testing, we need the key in there.",
+      "parentUuid": "e5a34ffb_4452290e",
+      "revId": "4f1ae136900693f0c49d2f30efecd2566db55085",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "227acd5b_cd662d4f",
         "filename": "automated/utils/test-runner.py",
         "patchSetId": 9
@@ -81,6 +153,24 @@
       "writtenOn": "2017-11-27T15:03:24Z",
       "side": 1,
       "message": "Might it be better to check fixed_test_list here? What if someone tries to add the same test twice, or what if someone skips one and then adds it?",
+      "revId": "4f1ae136900693f0c49d2f30efecd2566db55085",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "267f27e1_0e24bb0e",
+        "filename": "automated/utils/test-runner.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-28T02:56:05Z",
+      "side": 1,
+      "message": "The same as the first comment, we cannot add tests to the same list when we iterating it.\n\nYou concerns are valid. I added a for loop to make sure tests from overlay-add are unique. But I don\u0027t know how to cover \u0027skips one and then adds it\u0027, it may happens, test planner should try to avoid this?",
+      "parentUuid": "227acd5b_cd662d4f",
       "revId": "4f1ae136900693f0c49d2f30efecd2566db55085",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
