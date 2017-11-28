@@ -2,6 +2,7 @@
 import argparse
 import csv
 import cmd
+import copy
 import json
 import logging
 import os
@@ -73,6 +74,59 @@ class TestPlan(object):
         self.timeout = args.timeout
         self.skip_install = args.skip_install
         self.logger = logging.getLogger('RUNNER.TestPlan')
+        self.overlay = args.overlay
+
+    def apply_overlay(self, test_list):
+        fixed_test_list = copy.deepcopy(test_list)
+        logger = logging.getLogger('RUNNER.TestPlan.Overlay')
+        with open(self.overlay) as f:
+            data = yaml.load(f)
+
+        if data.get('skip'):
+            skip_tests = data['skip']
+            for test in test_list:
+                for skip_test in skip_tests:
+                    if test['path'] == skip_test['path'] and test['repository'] == skip_test['repository']:
+                        fixed_test_list.remove(test)
+                        logger.info("Skipped: {}".format(test))
+                    else:
+                        continue
+
+        if data.get('amend'):
+            amend_tests = data['amend']
+            for test in fixed_test_list:
+                for amend_test in amend_tests:
+                    if test['path'] == amend_test['path'] and test['repository'] == skip_test['repository']:
+                        if amend_test.get('parameters'):
+                            if test.get('parameters'):
+                                test['parameters'].update(amend_test['parameters'])
+                            else:
+                                test['parameters'] = amend_test['parameters']
+                            logger.info('Updated: {}'.format(test))
+                        else:
+                            logger.warning("'parameters' not found in {}, nothing to amend.".format(amend_test))
+
+        if data.get('add'):
+            add_tests = data['add']
+            unique_add_tests = []
+            for test in add_tests:
+                if test not in unique_add_tests:
+                    unique_add_tests.append(test)
+                else:
+                    logger.warning("Skipping duplicate test {}".format(test))
+
+            for test in test_list:
+                del test['uuid']
+
+            for add_test in unique_add_tests:
+                if add_test in test_list:
+                    logger.warning("{} already included in test plan, do nothing.".format(add_test))
+                else:
+                    add_test['uuid'] = str(uuid4())
+                    fixed_test_list.append(add_test)
+                    logger.info("Added: {}".format(add_test))
+
+        return fixed_test_list
 
     def test_list(self, kind="automated"):
         if self.test_def:
@@ -125,7 +179,10 @@ class TestPlan(object):
             self.logger.error('Plese specify a test or test plan.')
             sys.exit(1)
 
-        return test_list
+        if self.overlay is None:
+            return test_list
+        else:
+            return self.apply_overlay(test_list)
 
 
 class TestSetup(object):
@@ -809,6 +866,13 @@ def get_args():
     parser.add_argument('-l', '--lava_run', dest='lava_run',
                         default=False, action='store_true',
                         help='send test result to LAVA with lava-test-case.')
+    parser.add_argument('-O', '--overlay', default=None,
+                        dest='overlay', help=textwrap.dedent('''\
+                        Specify test plan ovelay file to:
+                        * skip tests
+                        * amend test parameters
+                        * add new tests
+                        '''))
     args = parser.parse_args()
     return args
 
