@@ -22,6 +22,30 @@
       "revId": "5deb1f24bbbcdfab8210c791a6537ec5369a91b2",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e27e5ed2_923b1899",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2017-11-28T23:37:46Z",
+      "side": 1,
+      "message": "Done, thx.",
+      "parentUuid": "690da46f_29ea0446",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "5deb1f24bbbcdfab8210c791a6537ec5369a91b2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
