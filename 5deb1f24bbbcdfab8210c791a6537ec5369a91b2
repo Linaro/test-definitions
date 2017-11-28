@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "690da46f_29ea0446",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000160
+      },
+      "writtenOn": "2017-11-28T23:17:56Z",
+      "side": 1,
+      "message": "Rephrase:\n# Exclude via OPTIONS:\n# * glx, because those are driver specific\n# * streaming-texture-leak, because it needs swap, not readily available",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "5deb1f24bbbcdfab8210c791a6537ec5369a91b2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
