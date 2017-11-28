@@ -756,7 +756,7 @@ class ResultParser(object):
                     for x in ['measurement', 'units']:
                         if x not in data:
                             data[x] = ''
-                    if self.fixup:
+                    if self.fixup and data['result'] in self.fixup:
                         data['result'] = self.fixup[data['result']]
 
                     self.metrics.append(data.copy())
