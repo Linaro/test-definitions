@@ -1,0 +1,41 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: piglit
+    description: "Piglit is an open-source test suite for OpenGL implementations.
+                  For more information: https://piglit.freedesktop.org/"
+    maintainer:
+        - anibal.limon@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+
+# Exclude via OPTIONS:
+# * glx, because those are driver specific
+# * streaming-texture-leak, because it needs swap, not readily available
+params:
+    DISPLAY: ":0"
+    PIGLIT_SOURCE_DIR: "/usr/lib64/piglit"
+    OPTIONS: "-x streaming-texture-leak -x glx"
+    SUITE: "tests/quick.py"
+
+run:
+    steps:
+        - . ../../lib/sh-test-lib
+        - install_deps piglit
+        - export DISPLAY=${DISPLAY}
+        - export PIGLIT_SOURCE_DIR=${PIGLIT_SOURCE_DIR}
+        - cd ./automated/linux/piglit
+        - piglit run ${OPTIONS} -l verbose ${PIGLIT_SOURCE_DIR}/${SUITE} ./results
+
+parse:
+    pattern: '^(?P<result>(pass|fail|skip|warn|crash)):\s+(?P<test_case_id>.*)\s*'
+    fixupdict:
+        warn: pass
+        crash: fail
