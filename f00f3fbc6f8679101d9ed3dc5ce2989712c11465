@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1b4eef38_ea4e96e0",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-11-29T16:52:10Z",
+      "side": 1,
+      "message": "@Anibal, we don\u0027t plan to support it. The preferred way is to handle all dependencies in the test script. This way you don\u0027t rely on LAVA and can run the test form the shell script only (locally).",
+      "parentUuid": "4684fd1f_40f60c37",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "f00f3fbc6f8679101d9ed3dc5ce2989712c11465",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76270be6_eadd2ab0",
         "filename": "automated/linux/piglit/piglit.yaml",
         "patchSetId": 2
