@@ -748,9 +748,10 @@ class ResultParser(object):
 
     def parse_pattern(self):
         with open('%s/stdout.log' % self.test['test_path'], 'r') as f:
+            rex_pattern = re.compile(r'%s' % self.pattern)
             for line in f:
                 data = {}
-                m = re.search(r'%s' % self.pattern, line)
+                m = rex_pattern.search(line)
                 if m:
                     data = m.groupdict()
                     for x in ['measurement', 'units']:
