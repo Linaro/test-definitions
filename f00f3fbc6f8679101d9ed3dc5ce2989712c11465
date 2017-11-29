@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f8a276e3_babfde61",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-11-29T07:54:01Z",
+      "side": 1,
+      "message": "This is sth new to me. It used to be a LAVA-specific feature(out of metdata), which isn\u0027t supported by test-runner. We use \u0027install_deps()\u0027 from sh-test-lib to support test run out of LAVA.\n\nIt might be a good idea to list depends in metadata, but the essential part is test case should solve the installation so that the test case just works.\n\nIf it is OE only, it is fine to just check\u0026\u0026run it as there is no pkg installation support on OE-based builds.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "f00f3fbc6f8679101d9ed3dc5ce2989712c11465",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76270be6_eadd2ab0",
         "filename": "automated/linux/piglit/piglit.yaml",
         "patchSetId": 2
