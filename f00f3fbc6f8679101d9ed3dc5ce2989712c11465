@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76270be6_eadd2ab0",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2017-11-29T07:10:33Z",
+      "side": 1,
+      "message": "i suppose this won\u0027t work with our debian image, no? iirc, we don\u0027t run Xorg as root in debian by default.\n\ni am not saying it\u0027s a blocking issue. but if this first version is only meant for OE images, it should be more obvious. I would rather have this merged for OE and add debian later, if possible",
+      "revId": "f00f3fbc6f8679101d9ed3dc5ce2989712c11465",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
