@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4684fd1f_40f60c37",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2017-11-29T16:43:14Z",
+      "side": 1,
+      "message": "Yes, this is defined on LAVA v2 docs [1], currently only works in Debian/Ubuntu, will be good if test-runner supports this functionality.\n\n[1] https://staging.validation.linaro.org/static/docs/v2/writing-tests.html",
+      "parentUuid": "f8a276e3_babfde61",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "f00f3fbc6f8679101d9ed3dc5ce2989712c11465",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76270be6_eadd2ab0",
         "filename": "automated/linux/piglit/piglit.yaml",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-11-29T07:10:33Z",
       "side": 1,
       "message": "i suppose this won\u0027t work with our debian image, no? iirc, we don\u0027t run Xorg as root in debian by default.\n\ni am not saying it\u0027s a blocking issue. but if this first version is only meant for OE images, it should be more obvious. I would rather have this merged for OE and add debian later, if possible",
+      "revId": "f00f3fbc6f8679101d9ed3dc5ce2989712c11465",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7bfe6c2_0616f585",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2017-11-29T16:43:14Z",
+      "side": 1,
+      "message": "Yes, i can add later a USER parameter, if USER is set run the command with su USER -c \u0027\u0027.",
+      "parentUuid": "76270be6_eadd2ab0",
       "revId": "f00f3fbc6f8679101d9ed3dc5ce2989712c11465",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
