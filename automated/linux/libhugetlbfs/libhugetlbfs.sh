@@ -98,6 +98,7 @@ libhugetlbfs_build_test() {
     # shellcheck disable=SC2164
     # cd libhugetlbfs-"${VERSION}"
     git clone -b erp-17.12 https://github.com/Linaro/libhugetlbfs
+    cd libhugetlbfs
     make BUILDTYPE=NATIVEONLY
 }
 
