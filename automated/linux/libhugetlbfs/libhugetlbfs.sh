@@ -79,8 +79,9 @@ libhugetlbfs_cleanup() {
     if [ -n "${CWD}" ]; then
        # shellcheck disable=SC2164
        cd "${CWD}"
-       rm -rf libhugetlbfs-"${VERSION}" > /dev/null 2>&1 || true
-       rm -rf libhugetlbfs-"${VERSION}".tar.gz > /dev/null 2>&1 || true
+       # rm -rf libhugetlbfs-"${VERSION}" > /dev/null 2>&1 || true
+       # rm -rf libhugetlbfs-"${VERSION}".tar.gz > /dev/null 2>&1 || true
+       rm -rf libhugetlbfs
     fi
 }
 
@@ -91,11 +92,12 @@ libhugetlbfs_build_test() {
     #TODO
     # Private tree with CentOS build fix
     # When patch is upstream remove private tree and enable upstream tree
-    wget http://github.com/nareshkamboju/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
+    # wget http://github.com/nareshkamboju/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
     CWD=$(pwd)
-    tar -xvf libhugetlbfs-"${VERSION}".tar.gz
+    # tar -xvf libhugetlbfs-"${VERSION}".tar.gz
     # shellcheck disable=SC2164
-    cd libhugetlbfs-"${VERSION}"
+    # cd libhugetlbfs-"${VERSION}"
+    git clone -b erp-17.12 https://github.com/Linaro/libhugetlbfs
     make BUILDTYPE=NATIVEONLY
 }
 
@@ -113,11 +115,11 @@ install() {
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-        pkgs="binutils gcc make python sed tar wget"
+        pkgs="git binutils gcc make python sed tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       fedora|centos)
-        pkgs="binutils gcc glibc-static make python sed tar wget"
+        pkgs="git binutils gcc glibc-static make python sed tar wget"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
     esac
