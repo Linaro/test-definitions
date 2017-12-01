@@ -1,6 +1,6 @@
 # LKFT: Baseline LTP and Kselftest results on LTS 4.9 kernel
 # https://projects.linaro.org/browse/CTT-618
-# skip all tests: efivarfs is not mounted on /sys/firmware/efi/efivars
+# skip all tests: efivarfs is not mounted on sys-firmware-efi-efivars
 efivarfs.sh
 fw_fallback.sh
 gpio-mockup.sh
@@ -29,9 +29,9 @@ run.sh
 # LKFT: 4.9.58-rc1 : kselftest : raw_skew regression on X15
 # https://bugs.linaro.org/show_bug.cgi?id=3376
 raw_skew
-# LKFT: linux-next: kselftest: memfd: Bus error ./fuse_test ./mnt/memfd
+# LKFT: linux-next: kselftest: memfd: Bus error fuse_test mnt-memfd
 # https://bugs.linaro.org/show_bug.cgi?id=3123
 run_fuse_test.sh
-# LKFT: linux-next: vm compaction_test: ERROR: Less that 1/730 of memory is available
+# LKFT: linux-next: vm compaction_test: ERROR: Less that 1 out of 730 of memory is available
 # https://bugs.linaro.org/show_bug.cgi?id=3145
 run_vmtests
