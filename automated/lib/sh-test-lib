@@ -193,8 +193,13 @@ install_deps() {
         dist_name
         case "${dist}" in
           debian|ubuntu)
-            # Use the default answers for all questions.
-            DEBIAN_FRONTEND=noninteractive apt-get update -q -y
+            last_apt_time=/tmp/apt-get-updated.last
+            apt_cache_time=28800 # 8 hours
+            # Only run apt-get update if it hasn't been run in $apt_cache_time seconds
+            if [ ! -e ${last_apt_time} ] || \
+               [ "$(stat --format=%Y ${last_apt_time})" -lt $(( $(date +%s) - apt_cache_time )) ]; then
+                DEBIAN_FRONTEND=noninteractive apt-get update -q -y && touch ${last_apt_time}
+            fi
             # shellcheck disable=SC2086
             DEBIAN_FRONTEND=noninteractive apt-get install -q -y ${pkgs}
             ;;
