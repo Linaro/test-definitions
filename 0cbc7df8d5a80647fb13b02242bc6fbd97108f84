@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4352965_b7cb9128",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-12-04T14:39:57Z",
+      "side": 1,
+      "message": "As it is using relative path, we need to use either\n\n. automated/lib/sh-test-lib\n\nor place these two lines after line #34",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "0cbc7df8d5a80647fb13b02242bc6fbd97108f84",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
