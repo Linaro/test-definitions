@@ -109,6 +109,7 @@ fi
 # Ignore SKIPFILE when SKIPLIST provided
 if [ -f "${SKIPFILE}" ] &&  [ -z "${SKIPLIST}" ]; then
     while read -r test_name; do
+        case "${test_name}" in \#*) continue ;; esac
         # shellcheck disable=SC2086
         sed -i "/.\/${test_name}/c\echo \"selftests: ${test_name} [SKIP]\"" run_kselftest.sh
     done < "${SKIPFILE}"
