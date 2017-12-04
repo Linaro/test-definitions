@@ -22,6 +22,30 @@
       "revId": "0cbc7df8d5a80647fb13b02242bc6fbd97108f84",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "552411a6_bd4faf78",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2017-12-04T14:41:35Z",
+      "side": 1,
+      "message": "Yes, i noticed after send the patchset 4 is fixed now in the patchset 5.",
+      "parentUuid": "d4352965_b7cb9128",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "0cbc7df8d5a80647fb13b02242bc6fbd97108f84",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
