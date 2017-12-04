@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "375ffc4b_14f713f8",
+        "filename": "automated/linux/piglit/piglit.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-12-04T08:03:55Z",
+      "side": 1,
+      "message": "We should try to avoid to use this LAVA-specific features. It breaks local run as it is not supported by test-runner becuase we prefer to move test code to a separate script file and use install_deps() to handle pkg installation. You can do that in yaml file as well though, two lines in \u0027run: steps\u0027 list\n\n- . [path]/sh-test-lib\n- install_deps piglit \n\nIf you really need/want to use the LAVA-specific feature, the \u0027install\u0027 keyword should be on the same level with \u0027metadata\u0027, \u0027parmeters\u0027, \u0027run\u0027 keywords, not part of metadata.\n\nIn addition, if your guys start with OE, we can just ignore the \u0027installation\u0027 part for now, as it is not supported on OE-based builds.",
+      "parentUuid": "1b4eef38_ea4e96e0",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "f00f3fbc6f8679101d9ed3dc5ce2989712c11465",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76270be6_eadd2ab0",
         "filename": "automated/linux/piglit/piglit.yaml",
         "patchSetId": 2
