@@ -150,6 +150,13 @@ if command is None:
     logger.error("Not supported path: %s" % args.TEST_PATH)
     sys.exit(1)
 
+if command == 'android-vts/tools/vts-tradefed' and \
+        os.path.exists('android-vts/testcases/vts/script/monitor-runner-output.py'):
+    vts_monitor_enabled = True
+    vts_run_details = open('{}/vts_run_details.txt'.format(OUTPUT), 'w')
+    monitor_cmd = 'android-vts/testcases/vts/script/monitor-runner-output.py -m'
+    monitor_vts_output = subprocess.Popen(shlex.split(monitor_cmd), stderr=subprocess.STDOUT, stdout=vts_run_details)
+
 child = pexpect.spawn(command, logfile=tradefed_stdout)
 try:
     child.expect(prompt, timeout=60)
@@ -217,6 +224,9 @@ logger.info('Tradefed test finished')
 tradefed_logcat.kill()
 tradefed_logcat_out.close()
 tradefed_stdout.close()
+if vts_monitor_enabled:
+    monitor_vts_output.kill()
+    vts_run_details.close()
 
 # Locate and parse test result.
 result_dir = '%s/results' % args.TEST_PATH
