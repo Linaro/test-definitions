@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13e5100e_be0dceb6",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-12-05T13:06:29Z",
+      "side": 1,
+      "message": "this will break CTS as this variable will be undefined.",
+      "revId": "3e115230c0996ec94f443d78c7e8a20ea735411d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
