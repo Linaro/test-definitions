@@ -16,6 +16,24 @@
       "revId": "7cd64dbf53a6bab526fd7270b05865b0d44c6917",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11316dfc_4fe274f1",
+        "filename": "automated/linux/gst-validate/gst-validate.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2017-12-06T19:06:12Z",
+      "side": 1,
+      "message": "Yes, it displays a final report with 0 test cases ran and exit with 0 status.",
+      "parentUuid": "c2c0dda2_27ca11ab",
+      "revId": "7cd64dbf53a6bab526fd7270b05865b0d44c6917",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
