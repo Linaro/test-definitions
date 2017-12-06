@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93658ff8_ad416412",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2017-12-06T14:40:18Z",
+      "side": 1,
+      "message": "if the APT sources are pointing to the official debian servers, you probably want to change this to 6 hours, as the debian mirrors pulse every 6 hours.\n\notherwise, LGTM",
+      "revId": "aacb5621755d1bcc1ff7d667f3821f6c57cf1104",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
