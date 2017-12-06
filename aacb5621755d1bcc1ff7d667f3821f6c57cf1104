@@ -16,6 +16,24 @@
       "revId": "aacb5621755d1bcc1ff7d667f3821f6c57cf1104",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e027542_b699a5ab",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2017-12-06T14:56:28Z",
+      "side": 1,
+      "message": "\u003e if the APT sources are pointing to the official debian servers, you\n \u003e probably want to change this to 6 hours, as the debian mirrors\n \u003e pulse every 6 hours.\n \u003e \n \u003e otherwise, LGTM\n\nI picked 8 hours because I did not want any updates during a given test run. 6 hours would probably be fine too, but I  think 8 hours is a little safer for some of the longer running tests.",
+      "parentUuid": "93658ff8_ad416412",
+      "revId": "aacb5621755d1bcc1ff7d667f3821f6c57cf1104",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
