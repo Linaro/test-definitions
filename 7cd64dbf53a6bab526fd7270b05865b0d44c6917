@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2c0dda2_27ca11ab",
+        "filename": "automated/linux/gst-validate/gst-validate.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2017-12-06T09:36:18Z",
+      "side": 1,
+      "message": "does it fail gracefully when there is no testsuites where it expects it?",
+      "revId": "7cd64dbf53a6bab526fd7270b05865b0d44c6917",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
