@@ -1,0 +1,17 @@
+The gst-validate-launcher uses a set of test cases and media files, the gstreamer
+team provides gst-integration-testsuites [1] but you could provide your own. 
+
+To get gst-integration-testsuites uses git-annex to get media:
+
+$ git clone git://anongit.freedesktop.org/gstreamer/gst-integration-testsuites
+$ cd gst-integration-testsuites
+$ git checkout 1.12 
+$ git annex get
+
+The gst-integration-testsuites needs to be pre-populated into the rootfs inside
+/gst-validate folder,
+
+$ mkdir /ROOTFS_PATH/gst-validate
+$ cp -rf gst-integration-testsuites /ROOTFS_PATH/gst-validate
+
+[1] https://cgit.freedesktop.org/gstreamer/gst-integration-testsuites
