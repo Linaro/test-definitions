@@ -874,21 +874,26 @@ def get_args():
                         * amend test parameters
                         * add new tests
                         '''))
+    parser.add_argument('-v', '--verbose', action='store_true', dest='verbose',
+                        default=False, help='Set log level.')
     args = parser.parse_args()
     return args
 
 
 def main():
+    args = get_args()
+
     # Setup logger.
     logger = logging.getLogger('RUNNER')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s - %(name)s: %(levelname)s: %(message)s')
     ch.setFormatter(formatter)
     logger.addHandler(ch)
 
-    args = get_args()
     logger.debug('Test job arguments: %s' % args)
     if args.kind != "manual" and args.target is None:
         if os.geteuid() != 0:
