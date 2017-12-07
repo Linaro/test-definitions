@@ -25,3 +25,6 @@ breakpoint_test_arm64
 # LKFT: 4.9.58-rc1 : kselftest : raw_skew regression on X15
 # https://bugs.linaro.org/show_bug.cgi?id=3376
 raw_skew
+# LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
+# https://bugs.linaro.org/show_bug.cgi?id=3503
+fw_filesystem.sh
