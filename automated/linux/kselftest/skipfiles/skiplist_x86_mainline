@@ -18,6 +18,9 @@ pstore_tests
 # LKFT: 4.4-rc 4.9-rc 4.13-rc 4.14-rc: x86: kselftest mpx-mini-test_64 - no MPX support - failed - 3869 Aborted (core dumped)
 # https://bugs.linaro.org/show_bug.cgi?id=3497
 mpx-mini-test_64
+# LKFT: linux-mainline: kselftest sync_test failed
+# https://bugs.linaro.org/show_bug.cgi?id=3504
+sync_test
 # LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
 # https://bugs.linaro.org/show_bug.cgi?id=3503
 fw_filesystem.sh
