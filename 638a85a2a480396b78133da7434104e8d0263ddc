@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b7701a1_9a18c039",
+        "filename": "automated/linux/libhugetlbfs/libhugetlbfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2017-12-08T09:06:23Z",
+      "side": 1,
+      "message": "Interesting, maybe it is off the topic.\n\nwget(1.18) from debian9 will transfer http to https automatically.\n\nwget http://github.com/Linaro/libhugetlbfs/releases/download/2.21/libhugetlbfs-2.21.tar.gz\nURL transformed to HTTPS due to an HSTS policy\n--2017-12-08 17:00:27--  https://github.com/Linaro/libhugetlbfs/releases/download/2.21/libhugetlbfs-2.21.tar.gz\nResolving github.com (github.com)... 192.30.255.113, 192.30.255.112\nConnecting to github.com (github.com)|192.30.255.113|:443... connected.\n\nSeems it enabled HSTS by default https://www.gnu.org/software/wget/manual/html_node/HTTPS-_0028SSL_002fTLS_0029-Options.html",
+      "revId": "638a85a2a480396b78133da7434104e8d0263ddc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
