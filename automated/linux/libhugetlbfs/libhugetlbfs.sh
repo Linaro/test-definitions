@@ -13,7 +13,7 @@ TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 CWD=""
 
 WORD_SIZE="64"
-VERSION="2.20"
+VERSION="2.21"
 
 usage() {
     echo "Usage: $0 [-b <4|64>] [-s <true>] [-v <libhugetlbfs-version>]" 1>&2
@@ -87,11 +87,11 @@ libhugetlbfs_cleanup() {
 libhugetlbfs_build_test() {
     # shellcheck disable=SC2140
     # Upstream tree
-#    wget https://github.com/libhugetlbfs/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
+    # wget https://github.com/libhugetlbfs/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
     #TODO
-    # Private tree with CentOS build fix
-    # When patch is upstream remove private tree and enable upstream tree
-    wget http://github.com/nareshkamboju/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
+    # Private tree master branch == upstream next branch
+    # Remove private tree and enable upstream tree when upstream repo makes 2.21 or above release
+    wget http://github.com/Linaro/libhugetlbfs/releases/download/"${VERSION}"/libhugetlbfs-"${VERSION}".tar.gz
     CWD=$(pwd)
     tar -xvf libhugetlbfs-"${VERSION}".tar.gz
     # shellcheck disable=SC2164
