@@ -9,9 +9,6 @@ mem-on-off-test.sh
 # LKFT: 4.9-rc: Hikey: sysctl.sh need CONFIG_TEST_SYSCTL=y
 # https://bugs.linaro.org/show_bug.cgi?id=3251
 sysctl.sh
-# LKFT: sync test failed [ERROR] Failure allocating timeline and [ERROR] Failure merging fences
-# https://bugs.linaro.org/show_bug.cgi?id=2948
-sync_test
 test_verifier
 test_tag
 test_maps
@@ -35,9 +32,17 @@ run_vmtests
 # LKFT: timer: inconsistency-check failed on Hikey
 # https://bugs.linaro.org/show_bug.cgi?id=2950
 inconsistency-check
+# LKFT: sync test failed [ERROR] Failure allocating timeline and [ERROR] Failure merging fences
+# https://bugs.linaro.org/show_bug.cgi?id=2948
 # LKFT: linux-mainline: kselftest sync_test failed
 # https://bugs.linaro.org/show_bug.cgi?id=3504
 sync_test
 # LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
 # https://bugs.linaro.org/show_bug.cgi?id=3503
 fw_filesystem.sh
+# LKFT: 4.9: Juno: Hikey: x86_64: kselftests reuseport_bpf_numa failed
+# https://bugs.linaro.org/show_bug.cgi?id=3521
+reuseport_bpf_numa
+# LKFT: linux-mainline: kselftest BPF test_dev_cgroup failed (new test case) on all devices
+# https://bugs.linaro.org/show_bug.cgi?id=3500
+test_dev_cgroup

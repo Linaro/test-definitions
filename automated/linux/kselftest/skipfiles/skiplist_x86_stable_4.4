@@ -1,5 +1,4 @@
 bitmap.sh
-fw_filesystem.sh
 fw_fallback.sh
 gpio-mockup.sh
 owner
@@ -41,3 +40,13 @@ sync_test
 # LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
 # https://bugs.linaro.org/show_bug.cgi?id=3503
 fw_filesystem.sh
+# LKFT: 4.4: hikey: x15: x86: reuseport_bpf reuseport_bpf_cpu reuseport_bpf_numa failed
+# https://bugs.linaro.org/show_bug.cgi?id=3520
+reuseport_bpf
+reuseport_bpf_cpu
+# LKFT: linux-mainline: x15: kselfteest NET reuseport_bpf_numa failed (new test)
+# https://bugs.linaro.org/show_bug.cgi?id=3501
+reuseport_bpf_numa
+# LKFT: linux-mainline: kselftest BPF test_dev_cgroup failed (new test case) on all devices
+# https://bugs.linaro.org/show_bug.cgi?id=3500
+test_dev_cgroup
