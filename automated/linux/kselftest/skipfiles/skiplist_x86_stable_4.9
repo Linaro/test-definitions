@@ -20,6 +20,7 @@ test_kmod.sh
 pstore_tests
 ftracetest
 run.sh
+seccomp_bpf
 step_after_suspend_test
 # LKFT: linux-next: kselftest: memfd: Bus error ./fuse_test ./mnt/memfd
 # https://bugs.linaro.org/show_bug.cgi?id=3123
@@ -36,3 +37,9 @@ sync_test
 # LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
 # https://bugs.linaro.org/show_bug.cgi?id=3503
 fw_filesystem.sh
+# LKFT: 4.9: Juno: Hikey: x86_64: kselftests reuseport_bpf_numa failed
+# https://bugs.linaro.org/show_bug.cgi?id=3521
+reuseport_bpf_numa
+# LKFT: linux-mainline: kselftest BPF test_dev_cgroup failed (new test case) on all devices
+# https://bugs.linaro.org/show_bug.cgi?id=3500
+test_dev_cgroup
