@@ -31,3 +31,6 @@ sync_test
 # LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
 # https://bugs.linaro.org/show_bug.cgi?id=3503
 fw_filesystem.sh
+# LKFT: linux-mainline: kselftest BPF test_dev_cgroup failed (new test case) on all devices
+# https://bugs.linaro.org/show_bug.cgi?id=3500
+test_dev_cgroup
