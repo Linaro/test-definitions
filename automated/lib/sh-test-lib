@@ -7,7 +7,7 @@ error_fatal() {
     msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
     if which lava-test-raise;then
-        lava-test-raise msg
+        lava-test-raise ${msg}
     else
         printf "FATAL ERROR: %s\n" "${msg}" >&2
     fi
