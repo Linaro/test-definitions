@@ -1,5 +1,1 @@
-fork13
-msgctl10
-msgctl11
-overcommit_memory02
-fanotify07
+skipfiles/skipfile-lkft-minimal
