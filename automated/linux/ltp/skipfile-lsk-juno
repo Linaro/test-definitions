@@ -71,6 +71,15 @@ isofs
 # https://bugs.linaro.org/show_bug.cgi?id=3354
 quota_remount_test01 quota_remount_test01.sh
 
+# sched
+# pth_str02 hangs when using NFS filesystem.
+# LKFT: linux-mainline: x86 : ltp sched tests hang due to NFS not responding
+# https://bugs.linaro.org/show_bug.cgi?id=3338
+pth_str01
+pth_str02
+pth_str03
+time-schedule01
+
 # syscalls
 # mainline kernel tests baselining
 # https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
