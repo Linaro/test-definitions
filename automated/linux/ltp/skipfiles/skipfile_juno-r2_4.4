@@ -1,0 +1,113 @@
+# Blacklist or skip tests list
+
+chdir01A
+fork13
+msgctl10
+msgctl11
+
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+quotactl01
+# chdir01 is failed due to the way LAVA mounted /tmp file system
+
+# sysfs01 sysfs02 sysfs03 sysfs04 sysfs05 and sysfs06 no more valid.
+# sysfs system call is obsolete; don't use it.
+# This test can only run on kernels that support the sysfs system call
+sysfs01
+sysfs02
+sysfs03
+sysfs04
+sysfs05
+sysfs06
+
+# The syslog tests are not valuable for us
+syslog01
+syslog02
+syslog03
+syslog04
+syslog05
+syslog06
+syslog07
+syslog08
+syslog09
+syslog10
+
+# ustat01 and ustat02 failed only on Juno, because this syscall not implemented on arm-64 architecture.
+# ustat(2) failed and setthe errno to 38 : Function not implemented
+ustat01
+ustat02
+
+# The testcase seems to be broken unless you have big enough swap so that
+# CommitLimit (which depends on size of the swap) is greater than
+# Commit_AS. In your case the swap size was not big enough to be greater
+# than the amount of currently overcommited memory (Commit_AS).
+
+# The test should be changed to skip the particular testcase and give a
+# beteter message if there is no room to alloace any memory in this case.
+# https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19476.html
+# https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19551.html
+overcommit_memory02
+
+# crontab: command not found
+# External package cron not installed on rootfs.
+# This test case comes under admin_tools, which is not critical for us
+cron02
+cron_deny01
+cron_allow01
+cron_dirs_checks01
+
+# acl test cases comes under admin_tools
+# setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
+acl_test01
+
+# fanotify07 was added to syscalls in 20170929 and fails approximately 50% of
+# the time. See
+# https://bugs.linaro.org/show_bug.cgi?id=3303 for details.
+fanotify07
+
+# fs:isofs Do not try to build iso's on embedded boards.
+isofs
+# ltp-fs-tests/quota_remount_test01
+# https://bugs.linaro.org/show_bug.cgi?id=3354
+quota_remount_test01
+
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+
+# LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces tests failed
+# https://bugs.linaro.org/show_bug.cgi?id=3327
+# containers
+netns_sysfs
+netns_comm_ns_exec_ipv6_netlink
+netns_comm_ns_exec_ipv6_ioctl
+netns_comm_ip_ipv6_ioctl
+netns_comm_ip_ipv6_netlink
+netns_breakns_ip_ipv4_ioctl
+netns_breakns_ip_ipv4_netlink
+netns_breakns_ip_ipv6_ioctl
+netns_breakns_ip_ipv6_netlink
+netns_breakns_ns_exec_ipv4_ioctl
+netns_breakns_ns_exec_ipv4_netlink
+netns_breakns_ns_exec_ipv6_ioctl
+netns_breakns_ns_exec_ipv6_netlink
+netns_comm_ip_ipv4_ioctl
+netns_comm_ip_ipv4_netlink
+netns_comm_ns_exec_ipv4_ioctl
+netns_comm_ns_exec_ipv4_netlink
+
+# tests that fail because time syncing services are not turned off
+# https://bugs.linaro.org/show_bug.cgi?id=3335
+leapsec_timer
+
+# Test ends with SIGKILL on x15 (intermittent failure
+# https://bugs.linaro.org/show_bug.cgi?id=3401
+getrandom02
+
+# LKFT: linux-mainline: Hikey and x15: LTP ioctl03: TFAIL: ioctl03.c:114: (UNKNOWN 0x30)
+# https://bugs.linaro.org/show_bug.cgi?id=3470
+ioctl03
+
+# LKFT: 4.4: Hikey: LTP : fcntl35.c:98: FAIL: an unprivileged user init the capacity of a pipe to 65536 unexpectedly, expected 4096
+# https://bugs.linaro.org/show_bug.cgi?id=3378
+fcntl35
+fcntl35_64
