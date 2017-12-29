@@ -85,6 +85,28 @@ def result_parser(xml_file, result_format):
                                           str(tests_failed))
             py_test_lib.add_result(RESULT_FILE, result)
 
+            # output result to show if the module is done or not
+            tests_done = elem.get('done', 'false')
+            if tests_done == 'false':
+                result = '%s_done fail' % module_name
+            else:
+                result = '%s_done pass' % module_name
+            py_test_lib.add_result(RESULT_FILE, result)
+
+            # print failed test cases for debug
+            test_cases = elem.findall('.//TestCase')
+            for test_case in test_cases:
+                failed_tests = test_case.findall('.//Test[@result="fail"]')
+                for failed_test in failed_tests:
+                    test_name = '%s/%s.%s' % (module_name, test_case.get("name"), failed_test.get("name"))
+                    failures = failed_test.findall('.//Failure')
+                    failure_msg = ''
+                    for failure in failures:
+                        failure_msg = '%s \n %s' % (failure_msg, failure.get('message'))
+
+                    logger.info('%s %s' % (test_name, failure_msg.strip()))
+
+
         if result_format == ATOMIC:
             test_cases = elem.findall('.//TestCase')
             for test_case in test_cases:
