@@ -13,22 +13,12 @@ time-schedule01
 # https://bugs.linaro.org/show_bug.cgi?id=3378
 fcntl35
 fcntl35_64
-linkat01
 open12
 openat02
 
 # LKFT: 4.4: LTP readahead02 fails on x86
 # https://bugs.linaro.org/show_bug.cgi?id=3457
 readahead02
-renameat201
-renameat202
-sendfile09
-sendfile09_64
-
-utime01
-utime02
-utime06
-utimes01
 
 # containers
 netns_sysfs
