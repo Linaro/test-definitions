@@ -13,8 +13,6 @@ time-schedule01
 # https://bugs.linaro.org/show_bug.cgi?id=3378
 fcntl35
 fcntl35_64
-open12
-openat02
 
 # LKFT: 4.4: LTP readahead02 fails on x86
 # https://bugs.linaro.org/show_bug.cgi?id=3457
