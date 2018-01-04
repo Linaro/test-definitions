@@ -38,7 +38,7 @@ else
     detect_abi
     case "$abi" in
         armeabi|arm64) make linux-arm ;;
-        x86) make linux ;;
+        x86_64) make linux ;;
         *) warn_msg "Unsupported architecture" ;;
     esac
     export PATH=$PWD:$PATH
