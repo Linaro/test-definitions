@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83e5bb74_bea0e352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-01-05T00:01:47Z",
+      "side": 1,
+      "message": "the output varies by distribution/hardware, we have created https://git.linaro.org/qa/test-definitions.git/tree/automated/lib/sh-test-lib#n155 to adress that.\n\nto be consistent, you may want to remove binary file name suffix and  put them to arm64, armeabi and x86 respectively. \n\nusage:\ndetect_abi\n${abi}/skipgen [options]",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "ee915dc83fc0761f6860c7f580a21b09d7dcdaf7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
