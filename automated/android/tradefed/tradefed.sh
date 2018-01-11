@@ -19,7 +19,7 @@ usage() {
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:' opt; do
+while getopts ':o:n:c:t:p:r:a:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) export ANDROID_SERIAL="${OPTARG}" ;;
@@ -27,6 +27,7 @@ while getopts ':o:n:c:t:p:r:' opt; do
         t) TEST_PARAMS="${OPTARG}" ;;
         p) TEST_PATH="${OPTARG}" ;;
         r) RESULT_FORMAT="${OPTARG}" ;;
+        a) ANDROID_VERSION="${OPTARG}" ;;
         *) usage ;;
     esac
 done
