@@ -48,6 +48,10 @@ wait_boot_completed "${TIMEOUT}"
 # sufficient.
 # wait_homescreen "${TIMEOUT}"
 
+if [ "$ANDROID_VERSION" = "AOSP MASTER" ]; then
+   install_deps openjdk-9-jdk-headless
+fi
+
 # Increase the heap size. KVM devices in LAVA default to ~250M of heap
 export _JAVA_OPTIONS="-Xmx350M"
 java -version
