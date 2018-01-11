@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3b099427_a0368f06",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-01-11T14:50:20Z",
+      "side": 1,
+      "message": "and entry for \"a\" and usage part.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 122
+      },
+      "revId": "040d26baa3e0be146a61609fdf4ad1746ee9547c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5172ddca_8fdaa6a9",
         "filename": "automated/android/tradefed/tradefed.sh",
         "patchSetId": 1
