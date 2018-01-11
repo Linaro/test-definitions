@@ -19,7 +19,7 @@ usage() {
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:a:' opt; do
+while getopts ':o:n:c:t:p:r:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) export ANDROID_SERIAL="${OPTARG}" ;;
@@ -27,7 +27,6 @@ while getopts ':o:n:c:t:p:r:a:' opt; do
         t) TEST_PARAMS="${OPTARG}" ;;
         p) TEST_PATH="${OPTARG}" ;;
         r) RESULT_FORMAT="${OPTARG}" ;;
-        a) ANDROID_VERSION="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -48,10 +47,6 @@ wait_boot_completed "${TIMEOUT}"
 # comment out wait_homescreen() and see if wait_boot_completed() is
 # sufficient.
 # wait_homescreen "${TIMEOUT}"
-
-if echo "$ANDROID_VERSION" | grep aosp-master ; then
-   install_deps openjdk-9-jdk-headless
-fi
 
 # Increase the heap size. KVM devices in LAVA default to ~250M of heap
 export _JAVA_OPTIONS="-Xmx350M"
