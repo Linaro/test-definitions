@@ -27,6 +27,7 @@ while getopts ':o:n:c:t:p:r:' opt; do
         t) TEST_PARAMS="${OPTARG}" ;;
         p) TEST_PATH="${OPTARG}" ;;
         r) RESULT_FORMAT="${OPTARG}" ;;
+        a) ANDROID_VERSION="${OPTARG}" ;;
         *) usage ;;
     esac
 done
