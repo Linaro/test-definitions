@@ -45,6 +45,29 @@
       "revId": "040d26baa3e0be146a61609fdf4ad1746ee9547c",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "753228e3_44855446",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-01-11T14:52:47Z",
+      "side": 1,
+      "message": "i think the default values is not required when this options is not provided.",
+      "range": {
+        "startLine": 30,
+        "startChar": 11,
+        "endLine": 30,
+        "endChar": 26
+      },
+      "revId": "040d26baa3e0be146a61609fdf4ad1746ee9547c",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
