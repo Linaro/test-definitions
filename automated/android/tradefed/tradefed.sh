@@ -48,7 +48,7 @@ wait_boot_completed "${TIMEOUT}"
 # sufficient.
 # wait_homescreen "${TIMEOUT}"
 
-if [ "$ANDROID_VERSION" = "AOSP MASTER" ]; then
+if echo "$ANDROID_VERSION" | grep aosp-master ; then
    install_deps openjdk-9-jdk-headless
 fi
 
