@@ -23,9 +23,6 @@ step_after_suspend_test
 # LKFT: linux-mainline: kernel panic on X15 when running ftrace kseltest
 # https://bugs.linaro.org/show_bug.cgi?id=3304
 ftracetest
-# LKFT: 4.9.58-rc1 : kselftest : raw_skew regression on X15
-# https://bugs.linaro.org/show_bug.cgi?id=3376
-raw_skew
 # LKFT: linux-mainline: x15: rtctest - PIE delta error: 0.018197 should be close to 0.015625
 # https://bugs.linaro.org/show_bug.cgi?id=3402
 rtctest
