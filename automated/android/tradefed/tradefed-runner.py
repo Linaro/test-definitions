@@ -219,9 +219,11 @@ while child.isalive():
                      timeout=60)
     # CTS tests finished correctly.
     if m == 0:
+        logger.info('Output for debug purposea: m=%d: ResultReporter: Full Result: matched' % m)
         py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run pass')
     # CTS tests ended with failure.
     elif m == 1:
+        logger.info('Output for debug purposea: m=%d: ConsoleReporter:.*Test run failed to complete. matched' % m)
         py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run fail')
     # CTS not finished yet, continue to wait.
     elif m == 2:
@@ -229,10 +231,13 @@ while child.isalive():
         child.expect(['.+', pexpect.TIMEOUT, pexpect.EOF], timeout=1)
         logger.info('Printing tradefed recent output...')
         subprocess.call(['tail', TRADEFED_STDOUT])
+    else:
+        logger.info('Output for debug purpose: m=%d' % m)
 
     # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
-    if m == 0 or m == 1:
+    if m == 0:
         try:
+            logger.debug('Try to stop the execution...m=%d' % m)
             child.expect(prompt, timeout=60)
             logger.debug('Sending "exit" command to TF shell...')
             child.sendline('exit')
@@ -243,6 +248,8 @@ while child.isalive():
             logger.debug('Unsuccessful clean exit, force killing child process...')
             child.terminate(force=True)
             break
+    else:
+        logger.debug('Test execution continued...')
 
 
 logger.info('Tradefed test finished')
