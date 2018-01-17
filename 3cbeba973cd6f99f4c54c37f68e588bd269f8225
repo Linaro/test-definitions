@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "779f46a1_914f6f73",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-01-17T10:48:49Z",
+      "side": 1,
+      "message": "The second pattern was added to handle failed cts test run. I remember, when the whole test run fails, we wouldn\u0027t see \u0027I/ResultReporter: Full Result:\u0027, that is why the second pattern added.",
+      "revId": "3cbeba973cd6f99f4c54c37f68e588bd269f8225",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
