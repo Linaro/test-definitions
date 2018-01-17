@@ -16,6 +16,24 @@
       "revId": "3cbeba973cd6f99f4c54c37f68e588bd269f8225",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd0493f8_8148a2b8",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-01-17T10:49:35Z",
+      "side": 1,
+      "message": "Here is the patch https://git.linaro.org/qa/test-definitions.git/commit/automated?id\u003d0bb32329287ed6742eb58f0f73b3e2d5d1930eee",
+      "parentUuid": "779f46a1_914f6f73",
+      "revId": "3cbeba973cd6f99f4c54c37f68e588bd269f8225",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
