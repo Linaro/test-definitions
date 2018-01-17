@@ -33,9 +33,5 @@ run:
         - export PIGLIT_SOURCE_DIR=${PIGLIT_SOURCE_DIR}
         - cd ./automated/linux/piglit
         - piglit run ${OPTIONS} -l verbose ${PIGLIT_SOURCE_DIR}/${SUITE} ./results
-
-parse:
-    pattern: '^(?P<result>(pass|fail|skip|warn|crash)):\s+(?P<test_case_id>.*)\s*'
-    fixupdict:
-        warn: pass
-        crash: fail
+        - ./piglit_lava_parse.py ./results/tests > ./result.txt
+        - ../../utils/send-to-lava.sh ./result.txt
