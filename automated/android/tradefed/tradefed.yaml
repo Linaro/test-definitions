@@ -41,6 +41,9 @@ run:
         # create test use to run the cts/vts tests
         - useradd -m testuser && echo "testuser created successfully"
         - chown testuser:testuser .
+        - wget testdata.validation.linaro.org/apks/wifi/wifi.apk
+        - adb install wifi.apk
+        - adb shell am start -n com.steinwurf.adbjoinwifi/.MainActivity -e ssid "${LAVA_SSID}" -e password_type WPA -e password "${LAVA_SSID_PASSWORD}"
         - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}"
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
