@@ -26,3 +26,12 @@ esac
 install_latest_adb
 initialize_adb
 adb_root
+
+lava_test_dir="$(find /lava-* -maxdepth 0 -type d -regex '/lava-[0-9]+' 2>/dev/null | sort | tail -1)"
+if test -f "${lava_test_dir}/secrets"; then
+    # shellcheck disable=SC1090
+    . "${lava_test_dir}/secrets"
+    wget http://testdata.validation.linaro.org/apks/wifi/wifi.apk
+    adb install wifi.apk
+    adb shell am start -n com.steinwurf.adbjoinwifi/.MainActivity -e ssid "${AP_SSID}" -e password_type WPA -e password "${AP_KEY}"
+fi
