@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e4b2e17_838b2080",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-01-19T05:24:40Z",
+      "side": 1,
+      "message": "wget missing http ?",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "0234a69aa434fcdae7bcfe2c6aecc6368efffea7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "047dbbc6_88b22795",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-01-19T05:24:40Z",
+      "side": 1,
+      "message": "Should be a variable to the LINK ?\nwget ${WIFI_URL} ?",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "0234a69aa434fcdae7bcfe2c6aecc6368efffea7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ae4cd23_d43f1fcf",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-01-19T05:24:40Z",
+      "side": 1,
+      "message": "Add this variable to params section ?",
+      "range": {
+        "startLine": 46,
+        "startChar": 80,
+        "endLine": 46,
+        "endChar": 94
+      },
+      "revId": "0234a69aa434fcdae7bcfe2c6aecc6368efffea7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecad939e_95c67cba",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-01-19T05:24:40Z",
+      "side": 1,
+      "message": "Ditto.",
+      "range": {
+        "startLine": 46,
+        "startChar": 129,
+        "endLine": 46,
+        "endChar": 150
+      },
+      "revId": "0234a69aa434fcdae7bcfe2c6aecc6368efffea7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
