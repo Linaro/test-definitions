@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5a2f694_759ef22a",
+        "filename": "automated/android/tradefed/setup.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-01-22T11:05:26Z",
+      "side": 1,
+      "message": "if AP_SSID and AP_KEY have to be included in \u0027secrets\u0027 there is no point having them as parameters (will never be used). so I\u0027d rather do the sourcing of the variables inside \u0027if\u0027 and run the rest of the code on condition that AP_SSID and AP_KEY are set.",
+      "revId": "1a952998de7ce232bd829786fff926cf0b1e0034",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
