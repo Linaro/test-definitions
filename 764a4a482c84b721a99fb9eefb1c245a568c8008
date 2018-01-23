@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54e2795b_d49b810f",
+        "filename": "automated/android/tradefed/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-01-23T05:18:40Z",
+      "side": 1,
+      "message": "Please fix white space.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 55
+      },
+      "revId": "764a4a482c84b721a99fb9eefb1c245a568c8008",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
