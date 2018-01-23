@@ -33,7 +33,7 @@ if test -f "${lava_test_dir}/secrets"; then
     . "${lava_test_dir}/secrets"
 fi
 
-if [ -z "${AP_SSID}" ] && [ -z "${AP_KEY}" ]; then 
+if [ ! -z "${AP_SSID}" ] && [ ! -z "${AP_KEY}" ]; then 
     wget http://testdata.validation.linaro.org/apks/wifi/wifi.apk
     adb install wifi.apk
     adb shell am start -n com.steinwurf.adbjoinwifi/.MainActivity -e ssid "${AP_SSID}" -e password_type WPA -e password "${AP_KEY}"
