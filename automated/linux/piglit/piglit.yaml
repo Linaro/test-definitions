@@ -33,5 +33,10 @@ run:
         - export PIGLIT_SOURCE_DIR=${PIGLIT_SOURCE_DIR}
         - cd ./automated/linux/piglit
         - piglit run ${OPTIONS} -l verbose ${PIGLIT_SOURCE_DIR}/${SUITE} ./results
-        - ./piglit_lava_parse.py ./results/tests > ./result.txt
+        - if [ -f ./results/results.json.bz2 ]; then
+        -     bzip2 -d ./results/results.json.bz2
+        -     ./piglit_lava_parse.py ./results/results.json > ./result.txt
+        - else
+        -     ./piglit_lava_parse.py ./results/tests > ./result.txt
+        - fi
         - ../../utils/send-to-lava.sh ./result.txt

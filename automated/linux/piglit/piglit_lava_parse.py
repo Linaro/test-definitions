@@ -48,18 +48,25 @@ def natural_keys(text):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("Usage: %s <result_dir>" % sys.argv[0])
+        print("Usage: %s <result_dir|result_file>" % sys.argv[0])
         sys.exit(1)
 
-    for root, dirs, files in os.walk(sys.argv[1]):
-        result_types = {}
-        for name in sorted(files, key=natural_keys):
-            if name.endswith('.tmp'):
-                continue
-            piglit_result = None
-            full_f = os.path.join(root, name)
-            with open(full_f, 'r') as f:
-                piglit_results = json.loads(f.read())
-                for test in piglit_results.keys():
-                    result = map_result_to_lava(piglit_results[test]['result'])
-                    print("%s %s" % (test, result))
+    if os.path.isdir(sys.argv[1]):
+        for root, dirs, files in os.walk(sys.argv[1]):
+            result_types = {}
+            for name in sorted(files, key=natural_keys):
+                if name.endswith('.tmp'):
+                    continue
+                piglit_result = None
+                full_f = os.path.join(root, name)
+                with open(full_f, 'r') as f:
+                    piglit_results = json.loads(f.read())
+                    for test in piglit_results.keys():
+                        result = map_result_to_lava(piglit_results[test]['result'])
+                        print("%s %s" % (test, result))
+    else:
+        with open(sys.argv[1], 'r') as f:
+            piglit_results = json.loads(f.read())
+            for test in sorted(piglit_results['tests'].keys()):
+                result = map_result_to_lava(piglit_results['tests'][test]['result'])
+                print("%s %s" % (test, result))
