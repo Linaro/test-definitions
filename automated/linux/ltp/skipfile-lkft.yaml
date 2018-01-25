@@ -1,0 +1,369 @@
+# This skipfile is consumable using skipgen
+# (https://github.com/Linaro/skipgen), included in this repo in
+# /automated/bin/<arch>/skipgen.
+#
+# reason:
+#   Please provide a human readable explanation of the reason for the skip.
+# url:
+#   A url referencing the issue. Often a link to the bug. Only one url may be
+#   specified.
+# environments:
+#   Should be 'production', 'staging', or 'all' for both. Our
+#   staging environment contains a very minimal skiplist. Only tests which make
+#   testing unstable should include staging.
+# boards:
+#   Should match a list of board names, or 'all' to include all boards.
+# branches:
+#   Should match a list of branch names, or 'all' to include all branches.
+# tests:
+#   List of tests to skip
+
+skiplist:
+  - reason: "Linux-4.4: LTP: bind02: socket() failed: errno=EACCES(13): Permission denied"
+    url: https://bugs.linaro.org/show_bug.cgi?id=2962
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - x15
+    branches: all
+    tests:
+      - bind02
+
+  - reason: chdir01 is failed due to the way LAVA mounted /tmp file system
+    url:
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - chdir01A
+
+  - reason: Fork test case overheats Hikey board and goes auto reboots.
+            fork13 is also a peformance test case so skip it.
+    url:
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - fork13
+
+  - reason: >
+      LKFT: 4.4: Hikey: LTP : fcntl35.c:98: FAIL: an unprivileged user
+      init the capacity of a pipe to 65536 unexpectedly, expected 4096
+    url: https://bugs.linaro.org/show_bug.cgi?id=3378
+    environments:
+      - production
+    boards: all
+    branches: all
+    tests:
+      - fcntl35
+      - fcntl35_64
+
+  - reason: >
+      msgctl10 and msgct11 tests overheats HiKey board due to
+      large number of fork() calls and message queues read/writes.
+      [RPB] LTP: msgctl10 fork failed
+    url: https://bugs.linaro.org/show_bug.cgi?id=2355
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - msgctl10
+      - msgctl11
+
+  - reason: "Skip pselect01 till next LTP release Sept-2017
+            LKFT: LTP: pselect01_64: slept for too long"
+    url: https://bugs.linaro.org/show_bug.cgi?id=3089
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - x15
+    branches: all
+    tests:
+      - pselect01
+      - pselect01_64
+
+  - reason: mainline kernel tests baselining
+    url: https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - quotactl01
+
+  - reason: sysfs01 sysfs02 sysfs03 sysfs04 sysfs05 and sysfs06 no more valid.
+            sysfs system call is obsolete; don't use it.
+            This test can only run on kernels that support the sysfs system call
+    url:
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - sysfs01
+      - sysfs02
+      - sysfs03
+      - sysfs04
+      - sysfs05
+      - sysfs06
+
+  - reason: The syslog tests are not valuable for us
+    url:
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - syslog01
+      - syslog02
+      - syslog03
+      - syslog04
+      - syslog05
+      - syslog06
+      - syslog07
+      - syslog08
+      - syslog09
+      - syslog10
+
+  - reason: >
+      ustat01 and ustat02 failed only on Juno, because this syscall not
+      implemented on arm-64 architecture.
+      ustat(2) failed and setthe errno to 38 : Function not implemented
+    url:
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - ustat01
+      - ustat02
+
+  - reason: >
+      The testcase seems to be broken unless you have big enough swap so that
+      CommitLimit (which depends on size of the swap) is greater than
+      Commit_AS. In your case the swap size was not big enough to be greater
+      than the amount of currently overcommited memory (Commit_AS).
+      The test should be changed to skip the particular testcase and give a
+      better message if there is no room to alloace any memory in this case.
+      https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19476.html
+      https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19551.html
+    url:
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - overcommit_memory02
+
+  - reason: >
+      crontab: command not found
+      External package cron not installed on rootfs.
+      This test case comes under admin_tools, which is not critical for us
+    url:
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - cron02
+      - cron_deny01
+      - cron_allow01
+      - cron_dirs_checks01
+
+  - reason: >
+      acl test cases comes under admin_tools
+      setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
+    url:
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - acl_test01
+
+  - reason: >
+      fanotify07 was added to syscalls in 20170929 and fails approximately 50%
+      of the time. See
+    url: https://bugs.linaro.org/show_bug.cgi?id=3303
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - fanotify07
+
+  - reason: fs:isofs Do not try to build iso's on embedded boards.
+    url:
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - isofs
+
+  - reason: ltp-fs-tests/quota_remount_test01
+    url: https://bugs.linaro.org/show_bug.cgi?id=3354
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - juno-r2
+    branches: all
+    tests:
+      - quota_remount_test01
+
+  - reason: >
+      pth_str02 hangs when using NFS filesystem.
+      LKFT: linux-mainline: juno: x86: ltp sched tests hang due to NFS not responding
+    url: https://bugs.linaro.org/show_bug.cgi?id=3338
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x86
+    branches: all
+    tests:
+      - pth_str01
+      - pth_str02
+      - pth_str03
+      - time-schedule01
+
+  - reason: >
+      mainline kernel tests baselining
+      https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+      LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces tests failed
+    url: https://bugs.linaro.org/show_bug.cgi?id=3327
+    environments:
+      - production
+    boards: all
+    branches: all
+    tests:
+      - netns_breakns_ip_ipv4_ioctl
+      - netns_breakns_ip_ipv4_netlink
+      - netns_breakns_ip_ipv6_ioctl
+      - netns_breakns_ip_ipv6_netlink
+      - netns_breakns_ns_exec_ipv4_ioctl
+      - netns_breakns_ns_exec_ipv4_netlink
+      - netns_breakns_ns_exec_ipv6_ioctl
+      - netns_breakns_ns_exec_ipv6_netlink
+      - netns_comm_ip_ipv4_ioctl
+      - netns_comm_ip_ipv4_netlink
+      - netns_comm_ip_ipv6_ioctl
+      - netns_comm_ip_ipv6_netlink
+      - netns_comm_ns_exec_ipv4_ioctl
+      - netns_comm_ns_exec_ipv4_netlink
+      - netns_comm_ns_exec_ipv6_ioctl
+      - netns_comm_ns_exec_ipv6_netlink
+      - netns_sysfs
+
+  - reason: tests that fail because time syncing services are not turned off
+    url: https://bugs.linaro.org/show_bug.cgi?id=3335
+    environments:
+      - production
+    boards: all
+    branches: all
+    tests:
+      - leapsec_timer
+
+  - reason: Test ends with SIGKILL on x15 (intermittent failure)
+    url: https://bugs.linaro.org/show_bug.cgi?id=3401
+    environments:
+      - production
+    boards: all
+    branches: all
+    tests:
+      - getrandom02
+
+  - reason: >
+      LKFT: linux-mainline: Hikey and x15: LTP ioctl03: TFAIL: ioctl03.c:114:
+      (UNKNOWN 0x30)
+    url: https://bugs.linaro.org/show_bug.cgi?id=3470
+    environments:
+      - production
+    boards: all
+    branches: all
+    tests:
+      - ioctl03
+
+  - reason: >
+      LKFT: 4.9-rc: x86: LTP: perf_event_open02.c:333: test failed (ratio
+      was greater than ) - intermittent failure
+    url: https://bugs.linaro.org/show_bug.cgi?id=3382
+    environments:
+      - production
+    boards:
+      - hi6220-hikey
+      - x15
+    branches: all
+    tests:
+      - perf_event_open02
+
+  - reason: Test is inconsistent on x15
+    url: https://bugs.linaro.org/show_bug.cgi?id=3339
+    environments:
+      - production
+    boards:
+      - x15
+    branches: all
+    tests:
+      - fcntl36
+
+  - reason: >
+      fs:gf18: Runs out of disk space when run on emmc. Re-enable once CTT-552
+      is resolved and LTP is run on an SSD.
+    url:
+    environments:
+      - production
+    boards:
+      - x15
+    branches: all
+    tests:
+      - gf18
+
+  - reason: "LKFT: 4.4: LTP readahead02 fails on x86"
+    url: https://bugs.linaro.org/show_bug.cgi?id=3457
+    environments:
+      - production
+    boards:
+      - juno-r2
+      - x86
+    branches: all
+    tests:
+      - readahead02
