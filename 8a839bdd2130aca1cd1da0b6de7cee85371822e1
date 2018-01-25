@@ -22,6 +22,30 @@
       "revId": "8a839bdd2130aca1cd1da0b6de7cee85371822e1",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c17e422_6dc1dce3",
+        "filename": "automated/linux/ltp/skipfile-lkft.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2018-01-25T22:08:30Z",
+      "side": 1,
+      "message": "\u003e typo?\n\nIt\u0027s a multiline yaml string. It\u0027s needed when there are special characters like : that yaml would otherwise try to parse. See https://stackoverflow.com/a/21699210",
+      "parentUuid": "473a5f32_2b45e3be",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "8a839bdd2130aca1cd1da0b6de7cee85371822e1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
