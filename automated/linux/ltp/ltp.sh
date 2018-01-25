@@ -15,6 +15,11 @@ echo "Script path is: ${SCRIPTPATH}"
 TST_CMDFILES=""
 # List of test cases to be skipped
 SKIPFILE=""
+# List of test cases to be skipped in yaml/skipgen format
+SKIPFILE_YAML=""
+BOARD=""
+BRANCH=""
+ENVIRONMENT=""
 # LTP version
 LTP_VERSION="20170929"
 LTP_TMPDIR=/ltp-tmp
@@ -24,6 +29,10 @@ LTP_PATH=/opt/ltp
 usage() {
     echo "Usage: ${0} [-T mm,math,syscalls]
                       [-S skipfile-lsk-juno]
+                      [-Y skipfile-yaml]
+                        [-b board]
+                        [-g branch]
+                        [-e environment]
                       [-s True|False]
                       [-v LTP_VERSION]
                       [-M Timeout_Multiplier]
@@ -31,7 +40,7 @@ usage() {
     exit 0
 }
 
-while getopts "M:T:S:s:v:R:" arg; do
+while getopts "M:T:S:Y:b:g:e:s:v:R:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -39,6 +48,8 @@ while getopts "M:T:S:s:v:R:" arg; do
         LOG_FILE=$(echo "${OPTARG}"| sed 's,\/,_,')
         ;;
      S)
+        test -n "${SKIPFILE_YAML}" && \
+            error_msg "-Y and -S are mutually exclusive. Only specify one or the other."
         OPT=$(echo "${OPTARG}" | grep "http")
         if [ -z "${OPT}" ] ; then
         # LTP skipfile
@@ -49,6 +60,22 @@ while getopts "M:T:S:s:v:R:" arg; do
           SKIPFILE="skipfile"
           SKIPFILE="-S ${SCRIPTPATH}/${SKIPFILE}"
         fi
+        ;;
+     Y)
+        test -n "${SKIPFILE}" && \
+            error_msg "-Y and -S are mutually exclusive. Only specify one or the other."
+        test -f "${OPTARG}" || \
+            error_msg "${OPTARG} is not a regular file."
+        export SKIPFILE_YAML="${OPTARG}"
+        ;;
+     b)
+        export BOARD="${OPTARG}"
+        ;;
+     g)
+        export BRANCH="${OPTARG}"
+        ;;
+     e)
+        export ENVIRONMENT="${OPTARG}"
         ;;
      # SKIP_INSTALL is true in case of Open Embedded builds
      # SKIP_INSTALL is flase in case of Debian builds
@@ -118,6 +145,12 @@ prep_system() {
 # Test run.
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
+
+if [ -n "${SKIPFILE_YAML}" ]; then
+    generate_skipfile
+    test -f "${SKIPFILE}" || error_msg "Skipfile ${SKIPFILE} does not exist"
+    exit 1
+fi
 
 info_msg "About to run ltp test..."
 info_msg "Output directory: ${OUTPUT}"
