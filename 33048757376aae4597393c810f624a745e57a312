@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0747d7de_af19573e",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2018-01-25T22:10:51Z",
+      "side": 1,
+      "message": "I changed this because shellcheck complained about using egrep.",
+      "revId": "33048757376aae4597393c810f624a745e57a312",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
