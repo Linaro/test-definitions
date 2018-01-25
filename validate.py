@@ -32,6 +32,14 @@ def publish_result(result_message_list, args):
     print_stderr(result_message)
 
 
+def detect_abi():
+    # Retrieve the current canonical abi from
+    # automated/lib/sh-test-lib:detect_abi
+    return subprocess.check_output(
+        ". automated/lib/sh-test-lib && detect_abi && echo $abi",
+        shell=True).decode('utf-8').strip()
+
+
 def pep8_check(filepath, args):
     _fmt = "%(row)d:%(col)d: %(code)s %(text)s"
     options = {
@@ -62,17 +70,9 @@ def pep8_check(filepath, args):
     return 0
 
 
-def metadata_check(filepath, args):
-    if filepath.lower().endswith("yaml"):
-        filecontent = None
-        try:
-            with open(filepath, "r") as f:
-                filecontent = f.read()
-        except FileNotFoundError:
-            publish_result(["* METADATA [PASSED]: " + filepath + " - deleted"], args)
-            return 0
+def validate_yaml_contents(filepath, args):
+    def validate_lava_yaml(y, args):
         result_message_list = []
-        y = yaml.load(filecontent)
         if 'metadata' not in y.keys():
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\tmetadata section missing")
@@ -102,7 +102,37 @@ def metadata_check(filepath, args):
                 return 1
         result_message_list.append("* METADATA [PASSED]: " + filepath)
         publish_result(result_message_list, args)
-    return 0
+        return 0
+
+    def validate_skipgen_yaml(filepath, args):
+        abi = detect_abi()
+        # Run skipgen on skipgen yaml file to check for output and errors
+        skips = subprocess.check_output(
+            "automated/bin/{}/skipgen {}".format(abi, filepath),
+            shell=True).decode('utf-8').strip()
+        if len(skips.split('\n')) < 1:
+            publish_result(["* SKIPGEN [FAILED]: " + filepath + " - No skips found"], args)
+            return 1
+        publish_result(["* SKIPGEN [PASSED]: " + filepath], args)
+        return 0
+
+    filecontent = None
+    try:
+        with open(filepath, "r") as f:
+            filecontent = f.read()
+    except FileNotFoundError:
+        publish_result(["* YAMLVALIDCONTENTS [PASSED]: " + filepath + " - deleted"], args)
+        return 0
+    y = yaml.load(filecontent)
+    if 'metadata' in y.keys():
+        # lava yaml file
+        return validate_lava_yaml(y, args)
+    elif 'skiplist' in y.keys():
+        # skipgen yaml file
+        return validate_skipgen_yaml(filepath, args)
+    else:
+        publish_result(["* YAMLVALIDCONTENTS [FAILED]: " + filepath + " - Unknown yaml type detected"], args)
+        return 1
 
 
 def validate_yaml(filename, args):
@@ -168,7 +198,7 @@ def validate_file(args, path):
         exitcode = validate_yaml(path, args)
         if exitcode == 0:
             # if yaml isn't valid there is no point in checking metadata
-            exitcode = metadata_check(path, args)
+            exitcode = validate_yaml_contents(path, args)
     elif run_pep8 and path.endswith(".py"):
         exitcode = pep8_check(path, args)
     elif path.endswith(".php"):
