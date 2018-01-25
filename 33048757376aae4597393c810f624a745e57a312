@@ -16,6 +16,29 @@
       "revId": "33048757376aae4597393c810f624a745e57a312",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7188f0a8_0d9f5534",
+        "filename": "automated/lib/sh-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000023
+      },
+      "writtenOn": "2018-01-25T22:14:47Z",
+      "side": 1,
+      "message": "if [[ \"$1\" \u003d~ ^[0-9]+$ ]]; then",
+      "range": {
+        "startLine": 271,
+        "startChar": 45,
+        "endLine": 271,
+        "endChar": 49
+      },
+      "revId": "33048757376aae4597393c810f624a745e57a312",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
