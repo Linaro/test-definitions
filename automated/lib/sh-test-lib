@@ -268,7 +268,7 @@ validate_check_sum() {
 
 convert_to_mb() {
     [ "$#" -ne 2 ] && error_msg "Usage: convert_to_mb value units"
-    if ! echo "$1" | egrep -q "^[0-9.]+$"; then
+    if ! echo "$1" | grep -E -q "^[0-9.]+$"; then
         error_msg "The first argument isn't a number"
     fi
     value="$1"
@@ -355,4 +355,29 @@ create_out_dir() {
         mv "${OUTPUT}" "${OUTPUT}_$(date -r "${OUTPUT}" +%Y%m%d%H%M%S)"
     mkdir -p "${OUTPUT}"
     [ -d "${OUTPUT}" ] || error_msg "Could not create output directory ${OUTPUT}"
+}
+
+generate_skipfile() {
+    # Generate a skipfile and set the SKIPFILE variable based on SKIPFILE_YAML,
+    # BOARD, BRANCH, and ENVIRONMENT.
+    #
+    # In:
+    #   SKIPFILE_YAML: (required) skipgen/yaml formatted skipfile
+    #   SKIPFILE_PATH: (required) destination file for generated skipfile
+    #   BOARD: (optional) board name to pass to skipgen
+    #   BRANCH: (optional) branch name to pass to skipgen
+    #   ENVIRONMENT: (optional) environment name to pass to skipgen
+    #
+    info_msg "Generating a skipfile based on ${SKIPFILE_YAML}"
+    detect_abi
+    SKIPGEN_ARGS=""
+    test -n "${BOARD}" && SKIPGEN_ARGS="${SKIPGEN_ARGS} --board ${BOARD}"
+    test -n "${BRANCH}" && SKIPGEN_ARGS="${SKIPGEN_ARGS} --branch ${BRANCH}"
+    test -n "${ENVIRONMENT}" && SKIPGEN_ARGS="${SKIPGEN_ARGS} --environment ${ENVIRONMENT}"
+    # shellcheck disable=SC2086
+    ../../bin/${abi}/skipgen ${SKIPGEN_ARGS} "${SKIPFILE_YAML}" > "${SKIPFILE_PATH}"
+    test $? -eq 0 || error_msg "skipgen failed to generate a skipfile"
+    info_msg "Using the following generated skipfile contents (until EOF):"
+    cat ${SKIPFILE_PATH}
+    info_msg "EOF"
 }
