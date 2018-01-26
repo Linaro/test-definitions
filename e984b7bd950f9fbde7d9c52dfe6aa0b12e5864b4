@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9bec792_6b6734e4",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2018-01-26T09:37:17Z",
+      "side": 1,
+      "message": "Just thinking from the source code perspective, does it still have meaning to report the result of tradefed-test-run, and if tradefed-test-run was reported as fail, is it better to output some debug information for check? considering the case that the result/output is not uploaded to somewhere by default.",
+      "range": {
+        "startLine": 245,
+        "startChar": 41,
+        "endLine": 245,
+        "endChar": 58
+      },
+      "revId": "e984b7bd950f9fbde7d9c52dfe6aa0b12e5864b4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
