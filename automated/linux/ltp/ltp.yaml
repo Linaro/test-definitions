@@ -20,14 +20,24 @@ params:
     # LTP version
     LTP_VERSION: 20170929
     TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
-    # TST_CMDFILES: math,timers
-    # SKIPFILE can be a filename from dir ./automated/linux/ltp/ or an open URL
-    # SKIPFILE: "skipfile-lsk-juno"
-    # "skipfile-lsk-juno" is a known file present in dir ./automated/linux/ltp/
-    # or
-    # SKIPFILE: "http://people.linaro.org/~naresh.kamboju/skipfile"
-    # NOTE: busybox wget may not work with https link so pefer to use http
+
+    # SKIPFILE can be a filename from dir ./automated/linux/ltp/, an http URL,
+    # or a skipgen style yaml file.
+    # Examples:
+    #   SKIPFILE: "skipfile-lsk-juno" # is a known file present in
+    #                                 # dir ./automated/linux/ltp/
+    #   SKIPFILE: "http://people.linaro.org/~naresh.kamboju/skipfile"
+    #   SKIPFILE: "skipfile-lkft.yaml" # yaml file that will be parsed with
+    #                                  # skipgen. Must use "yaml" extention.
+    # NOTE: busybox wget may not work with https link so prefer to use http
     SKIPFILE: ""
+
+    # BOARD, BRANCH, and ENVIRONMENT may be specified and may be used when
+    # generating a skipfile using a yaml skipfile and skipgen.
+    BOARD: ""
+    BRANCH: ""
+    ENVIRONMENT: ""
+
     SKIP_INSTALL: false
     # Slow machines need more timeout Default is 5min and multiply * TIMEOUT_MULTIPLIER
     TIMEOUT_MULTIPLIER: 1
@@ -37,7 +47,7 @@ params:
 run:
     steps:
         - cd ./automated/linux/ltp/
-        - ./ltp.sh -T "${TST_CMDFILES}" -S "${SKIPFILE}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}"
+        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -S "${SKIPFILE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
 
 parse:
