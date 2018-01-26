@@ -190,6 +190,7 @@ except pexpect.TIMEOUT:
     result = 'lunch-tf-shell fail'
     py_test_lib.add_result(RESULT_FILE, result)
 
+fail_to_complete = False
 while child.isalive():
     subprocess.call('echo')
     subprocess.call(['echo', '--- line break ---'])
@@ -217,21 +218,8 @@ while child.isalive():
                       'ConsoleReporter:.*Test run failed to complete.',
                       pexpect.TIMEOUT],
                      timeout=60)
-    # CTS tests finished correctly.
-    if m == 0:
-        py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run pass')
-    # CTS tests ended with failure.
-    elif m == 1:
-        py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run fail')
-    # CTS not finished yet, continue to wait.
-    elif m == 2:
-        # Flush pexpect input buffer.
-        child.expect(['.+', pexpect.TIMEOUT, pexpect.EOF], timeout=1)
-        logger.info('Printing tradefed recent output...')
-        subprocess.call(['tail', TRADEFED_STDOUT])
-
     # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
-    if m == 0 or m == 1:
+    if m == 0:
         try:
             child.expect(prompt, timeout=60)
             logger.debug('Sending "exit" command to TF shell...')
@@ -243,7 +231,20 @@ while child.isalive():
             logger.debug('Unsuccessful clean exit, force killing child process...')
             child.terminate(force=True)
             break
+    # Mark test run as fail when a module or the whole run failed to complete.
+    elif m == 1:
+        fail_to_complete = True
+    # CTS not finished yet, continue to wait.
+    elif m == 2:
+        # Flush pexpect input buffer.
+        child.expect(['.+', pexpect.TIMEOUT, pexpect.EOF], timeout=1)
+        logger.info('Printing tradefed recent output...')
+        subprocess.call(['tail', TRADEFED_STDOUT])
 
+if fail_to_complete:
+    py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run fail')
+else:
+    py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run pass')
 
 logger.info('Tradefed test finished')
 tradefed_logcat.kill()
