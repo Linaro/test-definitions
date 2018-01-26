@@ -30,3 +30,8 @@ test_dev_cgroup
 # LKFT: linux-mainline: x86: kselftest NET reuseport_bpf failed (new test)
 # https://bugs.linaro.org/show_bug.cgi?id=3502
 reuseport_bpf
+# LKFT: mainline: x86: kselftests fsgsbase_64 failed - GS/BASE changed from
+# 0x1/0x0 to 0x0/0x0
+# Fails intermittently
+# https://bugs.linaro.org/show_bug.cgi?id=3596
+fsgsbase_64
