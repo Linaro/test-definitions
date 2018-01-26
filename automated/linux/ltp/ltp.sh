@@ -15,6 +15,11 @@ echo "Script path is: ${SCRIPTPATH}"
 TST_CMDFILES=""
 # List of test cases to be skipped
 SKIPFILE=""
+# List of test cases to be skipped in yaml/skipgen format
+SKIPFILE_YAML=""
+BOARD=""
+BRANCH=""
+ENVIRONMENT=""
 # LTP version
 LTP_VERSION="20170929"
 LTP_TMPDIR=/ltp-tmp
@@ -24,6 +29,9 @@ LTP_PATH=/opt/ltp
 usage() {
     echo "Usage: ${0} [-T mm,math,syscalls]
                       [-S skipfile-lsk-juno]
+                      [-b board]
+                      [-g branch]
+                      [-e environment]
                       [-s True|False]
                       [-v LTP_VERSION]
                       [-M Timeout_Multiplier]
@@ -31,7 +39,7 @@ usage() {
     exit 0
 }
 
-while getopts "M:T:S:s:v:R:" arg; do
+while getopts "M:T:S:b:g:e:s:v:R:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -39,16 +47,37 @@ while getopts "M:T:S:s:v:R:" arg; do
         LOG_FILE=$(echo "${OPTARG}"| sed 's,\/,_,')
         ;;
      S)
-        OPT=$(echo "${OPTARG}" | grep "http")
-        if [ -z "${OPT}" ] ; then
-        # LTP skipfile
-          SKIPFILE="-S ${SCRIPTPATH}/${OPTARG}"
+        if [ -z "${OPTARG##*http*}" ]; then
+          if [ -z "${OPTARG##*yaml*}" ]; then
+            # Skipfile is of type yaml
+            SKIPFILE_TMP="http-skipfile.yaml"
+            SKIPFILE_YAML="${SCRIPTPATH}/${SKIPFILE_TMP}"
+          else
+            # Skipfile is normal skipfile
+            SKIPFILE_TMP="http-skipfile"
+            SKIPFILE="-S ${SCRIPTPATH}/${SKIPFILE_TMP}"
+          fi
+          # Download LTP skipfile from specified URL
+          if ! wget "${OPTARG}" -O "${SKIPFILE_TMP}"; then
+            error_msg "Failed to fetch ${OPTARG}"
+            exit 1
+          fi
+        elif [ "${OPTARG##*.}" = "yaml" ]; then
+          # yaml skipfile; use skipgen to generate a skipfile
+          SKIPFILE_YAML="${SCRIPTPATH}/${OPTARG}"
         else
-        # Download LTP skipfile from speficied URL
-          wget "${OPTARG}" -O "skipfile"
-          SKIPFILE="skipfile"
-          SKIPFILE="-S ${SCRIPTPATH}/${SKIPFILE}"
+          # Regular LTP skipfile
+          SKIPFILE="-S ${SCRIPTPATH}/${OPTARG}"
         fi
+        ;;
+     b)
+        export BOARD="${OPTARG}"
+        ;;
+     g)
+        export BRANCH="${OPTARG}"
+        ;;
+     e)
+        export ENVIRONMENT="${OPTARG}"
         ;;
      # SKIP_INSTALL is true in case of Open Embedded builds
      # SKIP_INSTALL is flase in case of Debian builds
@@ -59,6 +88,16 @@ while getopts "M:T:S:s:v:R:" arg; do
      R) export PASSWD="${OPTARG}";;
   esac
 done
+
+if [ -n "${SKIPFILE_YAML}" ]; then
+    export SKIPFILE_PATH="${SCRIPTPATH}/generated_skipfile"
+    generate_skipfile
+    if [ ! -f "${SKIPFILE_PATH}" ]; then
+        error_msg "Skipfile ${SKIPFILE} does not exist";
+        exit 1
+    fi
+    SKIPFILE="-S ${SKIPFILE_PATH}"
+fi
 
 # Install LTP test suite
 install_ltp() {
