@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "607cfbf6_961734bf",
+        "filename": "automated/linux/ltp/skipfile-lkft.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-01-26T12:29:35Z",
+      "side": 1,
+      "message": "Is there any example of a single branch skip here?",
+      "revId": "8a839bdd2130aca1cd1da0b6de7cee85371822e1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "473a5f32_2b45e3be",
         "filename": "automated/linux/ltp/skipfile-lkft.yaml",
         "patchSetId": 1
