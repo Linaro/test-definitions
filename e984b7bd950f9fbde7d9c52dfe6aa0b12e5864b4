@@ -22,6 +22,30 @@
       "revId": "e984b7bd950f9fbde7d9c52dfe6aa0b12e5864b4",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3197aae_0196cf9a",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-01-26T10:42:54Z",
+      "side": 1,
+      "message": "the errors are from tradefed stdout, which also will be saved and uploaded to artifactorial.",
+      "parentUuid": "c9bec792_6b6734e4",
+      "range": {
+        "startLine": 245,
+        "startChar": 41,
+        "endLine": 245,
+        "endChar": 58
+      },
+      "revId": "e984b7bd950f9fbde7d9c52dfe6aa0b12e5864b4",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
