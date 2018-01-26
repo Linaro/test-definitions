@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "15e2051f_9ebf3a0e",
+        "filename": "automated/linux/ltp/skipfile-lkft.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2018-01-26T21:41:09Z",
+      "side": 1,
+      "message": "\u003e Is there any example of a single branch skip here?\n\nI guess we didn\u0027t end up with any. It would look like this:\n\n    branches:\n      - 4.14\n\nOr\n\n    branches: 4.14\n\nI didn\u0027t document any examples in the comment. Do you think it needs more explanation?",
+      "parentUuid": "607cfbf6_961734bf",
+      "revId": "8a839bdd2130aca1cd1da0b6de7cee85371822e1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "473a5f32_2b45e3be",
         "filename": "automated/linux/ltp/skipfile-lkft.yaml",
         "patchSetId": 1
