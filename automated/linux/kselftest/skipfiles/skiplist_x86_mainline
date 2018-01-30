@@ -1,13 +1,11 @@
 # Adding skiplist according to the below ticket
 # mainline kernel tests baselining
 # https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
-test_verifier
 test_tag
 test_maps
 test_lru_map
 test_lpm_map
 test_progs
-test_align
 test_kmod.sh
 ftracetest
 run.sh
