@@ -104,6 +104,18 @@ if ! awk '/result_processors = [[]/,/[]]/' ./config.py | grep -q 'csv'; then
     sed -i "s/result_processors = [[]/result_processors = [\n    'csv',/" ./config.py
 fi
 
+# Check if AEP probe exists. If it does, update the probe path in the AEP config file.
+PROBE=$(ls -1 /dev/serial/by-id/usb-NXP_SEMICOND_ARM_Energy_Probe* | head -1)
+if [ -n $PROBE ]; then
+    AEP_CONFIG_PATH=$(grep "config-" agenda.yaml | sed 's/\t\n//g' | awk -F ':' '{print $NF}')
+    AEP_CONFIG_PATH=$(echo $AEP_CONFIG_PATH | sed 's/\"//g')
+    # To avoid running into the "Permissions denied" error when we write to the AEP config.
+    cd $WA_EXTENSION_PATHS
+    AEP_CONFIG_NAME=$(basename $AEP_CONFIG_PATH)
+    sed -i "s:AEP_DEVICE_PATH:$PROBE:"g $AEP_CONFIG_NAME
+    cd -
+fi
+
 info_msg "device-${ANDROID_SERIAL}: About to run WA with ${AGENDA}..."
 wa run ./agenda.yaml -v -f -d "${OUTPUT}/wa" -c ./config.py || report_fail "wa-test-run"
 
