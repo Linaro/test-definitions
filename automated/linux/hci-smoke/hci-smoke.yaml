@@ -16,7 +16,7 @@ metadata:
 
 params:
     DEVICE: hci0
-    # expected state on first boot: <enabled> or <disabled>
+    # expected state on first boot: <enabled> or <disabled> or <auto>
     BOOT: enabled
 
 run:

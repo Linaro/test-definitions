@@ -52,12 +52,24 @@ test_hciconfig() {
 # test HCI device is $BOOT at boot
 test_hciconfig_boot() {
     info_msg "Running hciconfig_boot test..."
+
+    # rely on distro policy for AutoEnable
+    if [ "${BOOT}" = "auto" ]; then
+        # get rid of spaces and comments
+        sed 's/\s\+//g;/^#/d' /etc/bluetooth/main.conf | grep "^AutoEnable=true"
+        if [ "$?" -eq 0 ]; then
+            BOOT="enabled"
+        else
+            BOOT="disabled"
+        fi
+    fi
+
     if [ "${BOOT}" = "enabled" ]; then
         hciconfig "${DEVICE}" | grep "UP RUNNING"
     else
         hciconfig "${DEVICE}" | grep "DOWN"
     fi
-    check_return "hciconfig-boot"
+    check_return "hciconfig-boot-${BOOT}"
 }
 
 # test HCI device is up
