@@ -8,7 +8,7 @@ export RESULT_FILE
 SKIP_INSTALL="false"
 ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
-
+PROBE=""
 WA_TAG="master"
 WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa2-lava.git"
 TEMPLATES_BRANCH="wa-templates"
@@ -18,11 +18,11 @@ BUILD_TOOLS_URL="http://testdata.validation.linaro.org/apks/workload-automation/
 WA_HOME_URL="http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>] [-p <aep_path>]" 1>&2
     exit 1
 }
 
-while getopts ":s:S:t:T:r:g:c:a:b:w:" opt; do
+while getopts ":s:S:t:T:r:g:c:a:b:w:p:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         S) ANDROID_SERIAL="${OPTARG}" ;;
@@ -34,6 +34,7 @@ while getopts ":s:S:t:T:r:g:c:a:b:w:" opt; do
         a) AGENDA="${OPTARG}" ;;
         b) BUILD_TOOLS_URL="${OPTARG}" ;;
         w) WA_HOME_URL="${OPTARG}" ;;
+        p) PROBE="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -102,6 +103,18 @@ sed -i "s/adb_name=.*/adb_name=\'${ANDROID_SERIAL}\',/" ./config.py
 # Ensure that csv is enabled in result processors.
 if ! awk '/result_processors = [[]/,/[]]/' ./config.py | grep -q 'csv'; then
     sed -i "s/result_processors = [[]/result_processors = [\n    'csv',/" ./config.py
+fi
+
+# If AEP exists, find the correct AEP config file and update the AEP config path in the agenda.
+if [ -n "${PROBE}" ]; then
+(
+    cd "${WA_EXTENSION_PATHS}"
+    # find config file with matching probe ID
+    CONFIG_FILE=$(basename `grep -rl "${PROBE}" .`)
+    cd -
+    # update AEP config path on agenda
+    sed -i 's|\$WA_EXTENSION_PATHS/*.*|\$WA_EXTENSION_PATHS/'$CONFIG_FILE'\"|' agenda.yaml
+)
 fi
 
 info_msg "device-${ANDROID_SERIAL}: About to run WA with ${AGENDA}..."

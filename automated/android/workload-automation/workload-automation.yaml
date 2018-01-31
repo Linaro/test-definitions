@@ -42,8 +42,10 @@ run:
     steps:
         - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
         - cd ./automated/android/workload-automation
+        # LAVA supports one probe per device for now.
+        - PROBE=$(find /dev/serial/by-id/ -name "usb-NXP_SEMICOND_ARM_Energy_Probe*" | head -n 1)
         # Test run.
-        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -S "${ANDROID_SERIAL}" -T "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -g "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -b "${BUILD_TOOLS_URL}" -w "${WA_HOME_URL}"
+        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -S "${ANDROID_SERIAL}" -T "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -g "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -b "${BUILD_TOOLS_URL}" -w "${WA_HOME_URL}" -p "${PROBE}"
         # Upload test output to artifactorial.
         - tar caf "wa-output.tar.xz" "./output"
         - ../../utils/upload-to-artifactorial.sh -a "wa-output.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
