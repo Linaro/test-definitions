@@ -23,6 +23,8 @@ tests:
     - path: automated/linux/hci-smoke/hci-smoke.yaml
       repository: https://git.linaro.org/qa/test-definitions.git
       timeout: 1200
+      params:
+          BOOT: auto
     - path: automated/linux/toolchain-smoke/toolchain-smoke.yaml
       repository: https://git.linaro.org/qa/test-definitions.git
       timeout: 1200
