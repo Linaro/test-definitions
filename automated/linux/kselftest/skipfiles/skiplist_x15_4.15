@@ -1,0 +1,38 @@
+# Adding skiplist according to the below ticket
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+test_tag
+test_maps
+test_lru_map
+test_lpm_map
+test_progs
+test_kmod.sh
+breakpoint_test_arm64
+run.sh
+run_fuse_test.sh
+run_vmtests
+seccomp_bpf
+pstore_tests
+# LKFT: linux-mainline: x15: step_after_suspend_test failed - ptrace(PTRACE_SINGLESTEP) not supported on this architecture
+# https://bugs.linaro.org/show_bug.cgi?id=3384
+step_after_suspend_test
+# LKFT: linux-next: x15: kselftest: ftracetest hangs forever
+# https://bugs.linaro.org/show_bug.cgi?id=3297
+# LKFT: linux-mainline: kernel panic on X15 when running ftrace kseltest
+# https://bugs.linaro.org/show_bug.cgi?id=3304
+ftracetest
+# LKFT: linux-mainline: x15: rtctest - PIE delta error: 0.018197 should be close to 0.015625
+# https://bugs.linaro.org/show_bug.cgi?id=3402
+rtctest
+# LKFT: linux-mainline: kselftest sync_test failed
+# https://bugs.linaro.org/show_bug.cgi?id=3504
+sync_test
+# LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
+# https://bugs.linaro.org/show_bug.cgi?id=3503
+fw_filesystem.sh
+# LKFT: linux-mainline: x15: kselfteest NET reuseport_bpf_numa failed (new test)
+# https://bugs.linaro.org/show_bug.cgi?id=3501
+reuseport_bpf_numa
+# LKFT: linux-mainline: kselftest BPF test_dev_cgroup failed (new test case) on all devices
+# https://bugs.linaro.org/show_bug.cgi?id=3500
+test_dev_cgroup

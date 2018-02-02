@@ -1,0 +1,35 @@
+# Adding skiplist according to the below ticket
+# mainline kernel tests baselining
+# https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
+test_tag
+test_maps
+test_lru_map
+test_lpm_map
+test_progs
+test_kmod.sh
+ftracetest
+run.sh
+run_fuse_test.sh
+run_vmtests
+seccomp_bpf
+pstore_tests
+# LKFT: 4.4-rc 4.9-rc 4.13-rc 4.14-rc: x86: kselftest mpx-mini-test_64 - no MPX support - failed - 3869 Aborted (core dumped)
+# https://bugs.linaro.org/show_bug.cgi?id=3497
+mpx-mini-test_64
+# LKFT: linux-mainline: kselftest sync_test failed
+# https://bugs.linaro.org/show_bug.cgi?id=3504
+sync_test
+# LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh failed
+# https://bugs.linaro.org/show_bug.cgi?id=3503
+fw_filesystem.sh
+# LKFT: linux-mainline: kselftest BPF test_dev_cgroup failed (new test case) on all devices
+# https://bugs.linaro.org/show_bug.cgi?id=3500
+test_dev_cgroup
+# LKFT: linux-mainline: x86: kselftest NET reuseport_bpf failed (new test)
+# https://bugs.linaro.org/show_bug.cgi?id=3502
+reuseport_bpf
+# LKFT: mainline: x86: kselftests fsgsbase_64 failed - GS/BASE changed from
+# 0x1/0x0 to 0x0/0x0
+# Fails intermittently
+# https://bugs.linaro.org/show_bug.cgi?id=3596
+fsgsbase_64
