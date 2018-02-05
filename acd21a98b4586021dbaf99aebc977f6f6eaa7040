@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a94bf318_96be0f4f",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-02-05T10:12:18Z",
+      "side": 1,
+      "message": "hmm, I\u0027m not so sure this is a good idea. What if there are more probes connected?\n\nProper AEP is available through device dictionary. Example:\nhttps://pmwg.validation.linaro.org/scheduler/device/hi6220-hikey-01/devicedict\n\nsearch for \u0027static_info\u0027. I\u0027m not sure if LAVA allows to get this from device dictionary, but it would be preferred.\n\nIf that can\u0027t be done, we\u0027ll need to support external parameter that can be set for the local run.",
+      "revId": "acd21a98b4586021dbaf99aebc977f6f6eaa7040",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c614198_98793ec3",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-02-05T10:12:18Z",
+      "side": 1,
+      "message": "can this be executed in subshell to avoid potential issues with paths?",
+      "revId": "acd21a98b4586021dbaf99aebc977f6f6eaa7040",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
