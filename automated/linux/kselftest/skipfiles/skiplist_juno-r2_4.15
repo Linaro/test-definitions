@@ -1,19 +1,19 @@
 # Adding skiplist according to the below ticket
 # mainline kernel tests baselining
 # https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
-test_tag
 test_maps
-test_lru_map
-test_lpm_map
+# LKFT: kselftest: test_progs: libbpf: failed to open ./test_pkt_access.o: No such file or directory
+# https://bugs.linaro.org/show_bug.cgi?id=3120
 test_progs
+# LKFT: linux-next: x86: kselftest: test_kmod.sh test failed
+# https://bugs.linaro.org/show_bug.cgi?id=3219
 test_kmod.sh
+# LKFT: 4.15: arm64: ftracetest failed - trace_kprobe: Failed to allocate trace_probe.(-22)
+# https://bugs.linaro.org/show_bug.cgi?id=3612
 ftracetest
-run.sh
-run_fuse_test.sh
+# LKFT: linux-next: x86: kselftest: pstore_tests failed
+# https://bugs.linaro.org/show_bug.cgi?id=3222
 pstore_tests
-# LKFT: linux-next: vm compaction_test : ERROR: Less that 1/730 of memory is available
-# https://bugs.linaro.org/show_bug.cgi?id=3145
-run_vmtests
 # LKFT: selftests: seccomp TRACE_syscall.skip_after_RET_TRACE
 # https://bugs.linaro.org/show_bug.cgi?id=2980
 seccomp_bpf
