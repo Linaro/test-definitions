@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "502b9a47_5eea0670",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-02-05T19:38:16Z",
+      "side": 1,
+      "message": "I checked with Neil earlier today. This isn\u0027t yet possible. So let\u0027s go for external parameter. If present this will be used as a path to AEP. This will allow local execution (through test-runner.py)",
+      "parentUuid": "91016b54_4b15b31b",
+      "revId": "acd21a98b4586021dbaf99aebc977f6f6eaa7040",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c614198_98793ec3",
         "filename": "automated/android/workload-automation/workload-automation.sh",
         "patchSetId": 1
