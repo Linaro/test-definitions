@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "91016b54_4b15b31b",
+        "filename": "automated/android/workload-automation/workload-automation.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000098
+      },
+      "writtenOn": "2018-02-05T19:21:08Z",
+      "side": 1,
+      "message": "I did think about the case where a device would have multiple probes except LAVA doesn\u0027t support that yet. It only supports one probe per device.\n\nHow do you set an external parameter? I don\u0027t think we can easily get the static_info that I know of.",
+      "parentUuid": "a94bf318_96be0f4f",
+      "revId": "acd21a98b4586021dbaf99aebc977f6f6eaa7040",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c614198_98793ec3",
         "filename": "automated/android/workload-automation/workload-automation.sh",
         "patchSetId": 1
