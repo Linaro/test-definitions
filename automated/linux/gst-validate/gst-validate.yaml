@@ -19,12 +19,18 @@ metadata:
 # * -nd: To execute without display attached required Xvfb
 # * -v: Verbose mode
 # * -j: To execute only one job a time, avoid OOM
+# GST_INTEGRATION_SUITES:
+# * URL with the tarball of Gstreamer integration suites (cases, media),
+#   https://github.com/GStreamer/gst-integration-testsuites
 params:
     MAIN_DIR: "/gst-validate"
     OPTIONS: "-nd -v -j 1"
+    GST_INTEGRATION_SUITES: "http://testdata.validation.linaro.org/gst-validate/gst-integration-testsuites_1.12.tar.gz"
 
 run:
     steps:
+        - wget ${GST_INTEGRATION_SUITES}
+        - tar -xzf $(basename ${GST_INTEGRATION_SUITES}) -C /
         - gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS}
 
 parse:
