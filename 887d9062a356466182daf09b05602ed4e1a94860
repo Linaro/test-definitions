@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbbbc96b_9fb04351",
+        "filename": "automated/linux/gst-validate/gst-validate.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-02-07T13:49:10Z",
+      "side": 1,
+      "message": "empty space at the end of the line",
+      "revId": "887d9062a356466182daf09b05602ed4e1a94860",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61e3bf84_969aa13c",
+        "filename": "automated/linux/gst-validate/gst-validate.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-02-07T13:49:10Z",
+      "side": 1,
+      "message": "do you think it would be a good idea to push it to testdata.validation.linaro.org? I\u0027m OK to add you to proper group so you would have write access. This is the same VM as people.l.o.",
+      "revId": "887d9062a356466182daf09b05602ed4e1a94860",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
