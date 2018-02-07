@@ -49,3 +49,7 @@ test_dev_cgroup
 # LKFT: linux-stable-rc-4.4: Juno: kselftest cpufreq test failed - No cpu is managed by cpufreq core, exiting
 # https://bugs.linaro.org/show_bug.cgi?id=3489
 main.sh
+# LKFT: arm64: 4.4: execveat and printf.sh: Permission denied
+# https://bugs.linaro.org/show_bug.cgi?id=3617
+execveat
+printf.sh
