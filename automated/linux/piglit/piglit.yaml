@@ -28,8 +28,9 @@ params:
 run:
     steps:
         - . ./automated/lib/sh-test-lib
-        - install_deps piglit
-        - export DISPLAY=${DISPLAY}
+        - install_deps piglit xvfb
+        - export DISPLAY=:9
+        - Xvfb ${DISPLAY} -screen 0 1920x1080x24 &
         - export PIGLIT_SOURCE_DIR=${PIGLIT_SOURCE_DIR}
         - cd ./automated/linux/piglit
         - piglit run ${OPTIONS} -l verbose ${PIGLIT_SOURCE_DIR}/${SUITE} ./results
