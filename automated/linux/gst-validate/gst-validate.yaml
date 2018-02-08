@@ -31,7 +31,7 @@ run:
     steps:
         - wget ${GST_INTEGRATION_SUITES}
         - tar -xzf $(basename ${GST_INTEGRATION_SUITES}) -C /
-        - gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS}
+        - exit_code=$(gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS})
 
 parse:
     pattern: '^(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))'
