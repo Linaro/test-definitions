@@ -19,14 +19,24 @@ def render(obj, template="testplan.html", name=None):
 # get list of repositories and cache them
 def repository_list(testplan):
     repositories = set()
-    for req in testplan['requirements']:
-        if 'tests' in req.keys() and req['tests'] is not None:
-            if 'manual' in req['tests'].keys() and req['tests']['manual'] is not None:
-                for test in req['tests']['manual']:
-                    repositories.add(test['repository'])
-            if 'automated' in req['tests'].keys() and req['tests']['automated'] is not None:
-                for test in req['tests']['automated']:
-                    repositories.add(test['repository'])
+    tp_version = testplan['metadata']['format']
+    if tp_version == "Linaro Test Plan v2":
+        if 'manual' in testplan['tests'].keys() and testplan['tests']['manual'] is not None:
+            for test in testplan['tests']['manual']:
+                repositories.add(test['repository'])
+
+        if 'automated' in testplan['tests'].keys() and testplan['tests']['automated'] is not None:
+            for test in testplan['tests']['automated']:
+                repositories.add(test['repository'])
+    if tp_version == "Linaro Test Plan v1":
+        for req in testplan['requirements']:
+            if 'tests' in req.keys() and req['tests'] is not None:
+                if 'manual' in req['tests'].keys() and req['tests']['manual'] is not None:
+                    for test in req['tests']['manual']:
+                        repositories.add(test['repository'])
+                if 'automated' in req['tests'].keys() and req['tests']['automated'] is not None:
+                    for test in req['tests']['automated']:
+                        repositories.add(test['repository'])
     return repositories
 
 
@@ -179,11 +189,24 @@ def main():
                 repo_url, repo_path = clone_repository(repo, args.repository_path, args.ignore_clone)
                 repositories.update({repo_url: repo_path})
             # ToDo: check test plan structure
-            for requirement in tp_obj['requirements']:
-                check_coverage(requirement, repositories, args)
+
+            tp_version = tp_obj['metadata']['format']
+            if tp_version == "Linaro Test Plan v1":
+                for requirement in tp_obj['requirements']:
+                    check_coverage(requirement, repositories, args)
+            if tp_version == "Linaro Test Plan v2":
+                if 'manual' in tp_obj['tests'].keys() and tp_obj['tests']['manual'] is not None:
+                    for test in tp_obj['tests']['manual']:
+                        test_exists(test, repositories, args)
+                if 'automated' in tp_obj['tests'].keys() and tp_obj['tests']['automated'] is not None:
+                    for test in tp_obj['tests']['automated']:
+                        test_exists(test, repositories, args)
             tp_name = tp_obj['metadata']['name'] + ".html"
             tp_file_name = os.path.join(os.path.abspath(args.output), tp_name)
-            render(tp_obj, name=tp_file_name)
+            if tp_version == "Linaro Test Plan v1":
+                render(tp_obj, name=tp_file_name)
+            if tp_version == "Linaro Test Plan v2":
+                render(tp_obj, name=tp_file_name, template="testplan_v2.html")
             testplan_file.close()
 # go through requiremets and for each test:
 #  - if file exists render test as separate html file

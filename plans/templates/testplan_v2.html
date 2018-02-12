@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div id="metadata">
+                <h1>Metadata</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key,value in obj.metadata.items() %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>
+                                {% if value is sequence and value is not string %}
+                                    <ul>
+                                    {% for item in value %}
+                                        <li>{{ item }}
+                                    {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="tests">
+                <h1>Tests</h1>
+                    {% if obj.tests is defined %}
+                        {% if obj.tests.manual is defined and obj.tests.manual is not none %}
+                        <h3>Manual tests</h3>
+                            {% for test in obj.tests.manual %}
+                            <div {% if test.missing %}class="alert alert-danger"{% endif %}>
+                            <h5>{{ loop.index }}</h5>
+                            {% include "_test_details.html" %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if obj.tests.automated is defined and obj.tests.automated is not none %}
+                        <h3>Automated tests</h3>
+                            {% for test in obj.tests.automated %}
+                            <div {% if test.missing %}class="alert alert-danger"{% endif %}>
+                            <h5>{{ loop.index }}</h5>
+                            {% include "_test_details.html" %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
