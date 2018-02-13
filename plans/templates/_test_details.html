@@ -1,10 +1,7 @@
 <table class="table table-striped">
-    {% if 'filename' in test and test.filename != "" %}
-    <h4><a href="{{ test.filename }}">details</a></h4>
-    {% endif %}
     <tbody>
         {% for key,value in test.items() %}
-            {% if key != 'missing' and key != 'filename' %}
+            {% if key != 'missing' and key != 'filename' and key != 'steps' and key != 'expected'%}
             <tr>
                 <td>{{ key }}</td>
                 <td>
@@ -20,3 +17,21 @@
         {% endfor %}
     </tbody>
 </table>
+{% if 'filename' in test and test.filename != "" %}
+<h4><a href="{{ test.filename }}">details</a></h4>
+{% elif 'steps' in test %}
+<h4>Steps to execute</h4>
+<ol>
+    {% for step in test.steps %}
+    <li>{{ step }} </li>
+    {% endfor %}
+</ol>
+    {% if 'expected' in test %}
+    <h4>Expected results</h4>
+    <ol>
+        {% for step in test.expected %}
+        <li>{{ step }} </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+{% endif %}
