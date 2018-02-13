@@ -85,11 +85,22 @@ def test_exists(test, repositories, args):
     if 'parameters' in test.keys():
         params_string = "_".join(["{0}-{1}".format(param_name, param_value).replace("/", "").replace(" ", "") for param_name, param_value in test['parameters'].iteritems()])
         test_yaml['params'].update(test['parameters'])
+        if args.single_output:
+            # update parameters in test
+            if 'params' in test_yaml.keys():
+                for param_name, param_value in test_yaml['params'].iteritems():
+                    if param_name not in test['parameters'].keys():
+                        test['parameters'].update({param_name: param_value})
     print params_string
     test_name = "{0}_{1}.html".format(test_yaml['metadata']['name'], params_string)
-    test['filename'] = test_name
+    if not args.single_output:
+        test['filename'] = test_name
     test_path = os.path.join(os.path.abspath(args.output), test_name)
-    render(test_yaml, template="test.html", name=test_path)
+    if args.single_output:
+        # update test plan object
+        test.update(test_yaml['run'])
+    else:
+        render(test_yaml, template="test.html", name=test_path)
     return not test['missing']
 
 
@@ -170,6 +181,13 @@ def main():
                         action="store_true",
                         default=False,
                         help="Ignore cloning repositories and use previously cloned")
+    parser.add_argument("-s",
+                        "--single-file-output",
+                        dest="single_output",
+                        action="store_true",
+                        default=False,
+                        help="""Render test plan into single HTML file. This option ignores
+                        any metadata that is available in test cases""")
     parser.add_argument("-c",
                         "--csv",
                         dest="csv_name",
