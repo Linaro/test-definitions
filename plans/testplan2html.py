@@ -9,7 +9,8 @@ from jinja2 import Environment, FileSystemLoader
 def render(obj, template="testplan.html", name=None):
     if name is None:
         name = template
-    _env = Environment(loader=FileSystemLoader('templates'))
+    templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+    _env = Environment(loader=FileSystemLoader(templates_dir))
     _template = _env.get_template(template)
     _obj = _template.render(obj=obj)
     with open("{}".format(name), "wb") as _file:
