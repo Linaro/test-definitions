@@ -34,7 +34,7 @@ run:
         - gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS} || true
 
 parse:
-    pattern: '^(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))'
+    pattern: '(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))'
     fixupdict:
         Failed: fail
         Passed: pass
