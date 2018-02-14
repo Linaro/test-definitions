@@ -35,7 +35,6 @@ params:
 
 run:
     steps:
-        - export SECRETS_FILE=${PWD}/../../../secrets
         - cd ./automated/android/microbenchmarks
         - . ./microbenchmarks.sh -s false
         - tar -cJf artifacts.txz artifacts/

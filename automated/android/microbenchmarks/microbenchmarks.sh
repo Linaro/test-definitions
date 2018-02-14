@@ -1,6 +1,5 @@
 #!/bin/sh -x
 # shellcheck source=/<job-id>-0/secrets
-. "${SECRETS_FILE}"
 export SOURCE_PROJECT_NAME
 export SOURCE_BUILD_NUMBER
 export SOURCE_BUILD_URL
@@ -12,6 +11,11 @@ export SOURCE_GERRIT_CHANGE_ID
 export ART_URL
 
 set +x
+lava_test_dir="$(find /lava-* -maxdepth 0 -type d -regex '/lava-[0-9]+' 2>/dev/null | sort | tail -1)"
+if test -f "${lava_test_dir}/secrets" && grep -q "ART_TOKEN" "${lava_test_dir}/secrets"; then
+        # shellcheck disable=SC1090
+        . "${lava_test_dir}/secrets"
+fi
 export ART_TOKEN
 set -x
 
