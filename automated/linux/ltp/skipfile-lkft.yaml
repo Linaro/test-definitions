@@ -362,12 +362,3 @@ skiplist:
     branches: all
     tests:
       - readahead02
-
-  - reason: "fanotify06 fails in 20180118 due to fuse issue"
-    url: http://lists.linux.it/pipermail/ltp/2018-January/006915.html
-    environments:
-      - production
-    boards: all
-    branches: all
-    tests:
-      - fanotify06
