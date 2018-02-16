@@ -323,9 +323,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3382
     environments:
       - production
-    boards:
-      - hi6220-hikey
-      - x15
+    boards: all
     branches: all
     tests:
       - perf_event_open02
