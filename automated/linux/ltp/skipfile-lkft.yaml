@@ -360,3 +360,15 @@ skiplist:
     branches: all
     tests:
       - readahead02
+
+  - reason: "LKFT: netns_netlink fails on x15 in mainline and 4.15"
+    url: https://bugs.linaro.org/show_bug.cgi?id=3484
+    environments:
+      - production
+    boards:
+      - x15
+    branches:
+      - mainline
+      - 4.15
+    tests:
+      - netns_netlink
