@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "690fe290_0ff5c85d",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-02-20T16:55:28Z",
+      "side": 1,
+      "message": "could you check if it exists and ignore if \u0027lava-test-case\u0027 is not available? This way we\u0027ll still be able (sort of) use it outside LAVA.",
+      "revId": "8b5e87df5de4d631ea627f9df3fc1e575a41c982",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
