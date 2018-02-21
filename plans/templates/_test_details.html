@@ -9,6 +9,12 @@
                     {% for subkey,subvalue in value.items() %}
                     <strong>{{ subkey }}</strong>: {{ subvalue }}<br/>
                     {% endfor %}
+                {% elif value is iterable and value is not string %}
+                    <ul>
+                    {% for subitem in value %}
+                        <li>{{ subitem }} </li>
+                    {% endfor %}
+                    </ul>
                 {% else %}
                     {{ value }}
                 {% endif %}
