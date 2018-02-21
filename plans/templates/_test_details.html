@@ -18,14 +18,14 @@
     </tbody>
 </table>
 {% if 'filename' in test and test.filename != "" %}
-<h4><a href="{{ test.filename }}">details</a></h4>
+    <h4><a href="{{ test.filename }}">details</a></h4>
 {% elif 'steps' in test %}
-<h4>Steps to execute</h4>
-<ol>
-    {% for step in test.steps %}
-    <li>{{ step }} </li>
-    {% endfor %}
-</ol>
+    <h4>Steps to execute</h4>
+    <ol>
+        {% for step in test.steps %}
+        <li>{{ step }} </li>
+        {% endfor %}
+    </ol>
     {% if 'expected' in test %}
     <h4>Expected results</h4>
     <ol>
