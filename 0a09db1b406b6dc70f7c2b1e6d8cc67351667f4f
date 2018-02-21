@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d39d60a5_b2cb2053",
+        "filename": "plans/templates/_test_details.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000038
+      },
+      "writtenOn": "2018-02-21T13:08:19Z",
+      "side": 1,
+      "message": "Is this sort the reason why description appears before name in the single HTML output plan?",
+      "revId": "0a09db1b406b6dc70f7c2b1e6d8cc67351667f4f",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
