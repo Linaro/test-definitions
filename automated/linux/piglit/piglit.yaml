@@ -33,7 +33,7 @@ run:
         - Xvfb ${DISPLAY} -screen 0 1920x1080x24 &
         - export PIGLIT_SOURCE_DIR=${PIGLIT_SOURCE_DIR}
         - cd ./automated/linux/piglit
-        - piglit run ${OPTIONS} -l verbose ${PIGLIT_SOURCE_DIR}/${SUITE} ./results
+        - piglit run ${OPTIONS} ${PIGLIT_SOURCE_DIR}/${SUITE} ./results
         - if [ -f ./results/results.json.bz2 ]; then
         -     bzip2 -d ./results/results.json.bz2
         -     ./piglit_lava_parse.py ./results/results.json > ./result.txt
