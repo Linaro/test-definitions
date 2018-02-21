@@ -1,6 +1,6 @@
 <table class="table table-striped">
     <tbody>
-        {% for key,value in test.items() %}
+        {% for key,value in test|dictsort %}
             {% if key != 'missing' and key != 'filename' and key != 'steps' and key != 'expected'%}
             <tr>
                 <td>{{ key }}</td>
@@ -9,6 +9,12 @@
                     {% for subkey,subvalue in value.items() %}
                     <strong>{{ subkey }}</strong>: {{ subvalue }}<br/>
                     {% endfor %}
+                {% elif value is iterable and value is not string %}
+                    <ul>
+                    {% for subitem in value %}
+                        <li>{{ subitem }} </li>
+                    {% endfor %}
+                    </ul>
                 {% else %}
                     {{ value }}
                 {% endif %}

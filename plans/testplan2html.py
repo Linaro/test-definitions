@@ -100,6 +100,10 @@ def test_exists(test, repositories, args):
     if args.single_output:
         # update test plan object
         test.update(test_yaml['run'])
+        test.update({"name": test_yaml['metadata']['name']})
+        test.update({"description": test_yaml['metadata']['description']})
+        test.update({"scope": test_yaml['metadata']['scope']})
+        test.update({"os": test_yaml['metadata']['os']})
     else:
         render(test_yaml, template="test.html", name=test_path)
     return not test['missing']
