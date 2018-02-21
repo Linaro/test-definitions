@@ -339,13 +339,15 @@ skiplist:
       - fcntl36
 
   - reason: >
-      fs:gf18: Runs out of disk space when run on emmc. Re-enable once CTT-552
-      is resolved and LTP is run on an SSD.
+      fs:gf18: This test requires >4GB to run. Skip on devices that don't have
+      that much space available.
     url:
     environments:
       - production
     boards:
       - x15
+      - qemu_x86_64
+      - qemu_arm64
     branches: all
     tests:
       - gf18
