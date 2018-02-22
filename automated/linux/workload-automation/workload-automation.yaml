@@ -28,6 +28,9 @@ params:
     AGENDA: "agenda/linux-dhrystone.yaml"
     # allow extra extenstions for WA
     WA_EXTENSION_PATHS: ""
+    # directory where the WA results are stored
+    # defaults to {TEST_DIR}/output
+    OUTPUT: ""
     # Specify url and token for publishing artifacts.
     # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
     # 'secrets' dictionary, and set job visibility to personal or group.
@@ -39,10 +42,13 @@ run:
     steps:
         - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
         - cd ./automated/linux/workload-automation
+        - echo ${OUTPUT}
+        - if [ -z "${OUTPUT}" ]; then OUTPUT="./output"; fi
+        - echo ${OUTPUT}
         # Test run.
-        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -T "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}"
+        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -T "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -o "${OUTPUT}"
         # Upload test output to artifactorial.
-        - tar caf "wa-output.tar.xz" "./output"
+        - tar caf "wa-output.tar.xz" "${OUTPUT}"
         - ../../utils/upload-to-artifactorial.sh -a "wa-output.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         # Send test result to LAVA.
-        - ../../utils/send-to-lava.sh "./output/result.txt"
+        - ../../utils/send-to-lava.sh "${OUTPUT}/result.txt"

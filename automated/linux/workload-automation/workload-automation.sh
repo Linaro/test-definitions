@@ -14,11 +14,11 @@ CONFIG="config/generic-linux-localhost.py"
 AGENDA="agenda/linux-dhrystone.yaml"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-t <wa_tag>] [-r <wa_templates_repo>] [-T <templates_branch>] [-c <config>] [-a <agenda>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-t <wa_tag>] [-r <wa_templates_repo>] [-T <templates_branch>] [-c <config>] [-a <agenda>] [-o <output_dir> ]" 1>&2
     exit 1
 }
 
-while getopts ":s:t:r:T:c:a:" opt; do
+while getopts ":s:t:r:T:c:a:o:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         t) WA_TAG="${OPTARG}" ;;
@@ -26,6 +26,7 @@ while getopts ":s:t:r:T:c:a:" opt; do
         T) TEMPLATES_BRANCH="${OPTARG}" ;;
         c) CONFIG="${OPTARG}" ;;
         a) AGENDA="${OPTARG}" ;;
+        o) NEW_OUTPUT="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -34,7 +35,12 @@ done
 
 ! check_root && error_msg "Please run this test as root."
 cd "${TEST_DIR}"
+if [ ! -z "${NEW_OUTPUT}" ]; then
+    OUTPUT="${NEW_OUTPUT}"
+fi
 create_out_dir "${OUTPUT}"
+RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "WA installation skipped"
