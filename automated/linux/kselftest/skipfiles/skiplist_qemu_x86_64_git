@@ -1,0 +1,22 @@
+# skip on qemu x86_64 running mainline and next kernel
+bitmap.sh
+fw_fallback.sh
+fw_filesystem.sh
+main.sh
+printf.sh
+pstore_tests
+run_vmtests
+sync_test
+sysctl.sh
+test_bpf.sh
+test_dev_cgroup
+test_libbpf.sh
+test_maps
+test_offload.py
+test_progs
+test_static_keys.sh
+test_tcpbpf_user
+test_user_copy.sh
+breakpoint_test
+ftracetest
+step_after_suspend_test
