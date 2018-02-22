@@ -1,9 +1,30 @@
+import collections
 import os
 import subprocess
 import yaml
 from argparse import ArgumentParser
 from csv import DictWriter
 from jinja2 import Environment, FileSystemLoader
+
+
+class PrependOrderedDict(collections.OrderedDict):
+
+    def prepend(self, key, value, dict_setitem=dict.__setitem__):
+
+        root = self._OrderedDict__root
+        first = root[1]
+
+        if key in self:
+            link = self._OrderedDict__map[key]
+            link_prev, link_next, _ = link
+            link_prev[1] = link_next
+            link_next[0] = link_prev
+            link[0] = root
+            link[1] = first
+            root[1] = first[0] = link
+        else:
+            root[1] = first[0] = self._OrderedDict__map[key] = [root, first, key]
+            dict_setitem(self, key, value)
 
 
 def render(obj, template="testplan.html", name=None):
@@ -100,6 +121,11 @@ def test_exists(test, repositories, args):
     if args.single_output:
         # update test plan object
         test.update(test_yaml['run'])
+        # prepend in reversed order so 'name' is on top
+        test.prepend("os", test_yaml['metadata']['os'])
+        test.prepend("scope", test_yaml['metadata']['scope'])
+        test.prepend("description", test_yaml['metadata']['description'])
+        test.prepend("name", test_yaml['metadata']['name'])
     else:
         render(test_yaml, template="test.html", name=test_path)
     return not test['missing']
@@ -158,6 +184,14 @@ def check_coverage(requirement, repositories, args):
                 add_csv_row(requirement, test, args)
 
 
+def dict_representer(dumper, data):
+    return dumper.represent_dict(data.iteritems())
+
+
+def dict_constructor(loader, node):
+    return PrependOrderedDict(loader.construct_pairs(node))
+
+
 def main():
     parser = ArgumentParser()
     parser.add_argument("-f",
@@ -194,6 +228,10 @@ def main():
                         dest="csv_name",
                         required=False,
                         help="Name of CSV to store overall list of requirements and test. If name is absent, the file will not be generated")
+
+    _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
+    yaml.add_representer(PrependOrderedDict, dict_representer)
+    yaml.add_constructor(_mapping_tag, dict_constructor)
 
     args = parser.parse_args()
     if not os.path.exists(os.path.abspath(args.output)):
