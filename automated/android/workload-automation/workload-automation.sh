@@ -22,7 +22,7 @@ usage() {
     exit 1
 }
 
-while getopts ":s:S:t:T:r:g:c:a:b:w:p:" opt; do
+while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         S) ANDROID_SERIAL="${OPTARG}" ;;
@@ -35,6 +35,7 @@ while getopts ":s:S:t:T:r:g:c:a:b:w:p:" opt; do
         b) BUILD_TOOLS_URL="${OPTARG}" ;;
         w) WA_HOME_URL="${OPTARG}" ;;
         p) PROBE="${OPTARG}" ;;
+        o) NEW_OUTPUT="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -43,6 +44,9 @@ done
 . "${TEST_DIR}/../../lib/android-test-lib"
 
 cd "${TEST_DIR}"
+if [ ! -z "${NEW_OUTPUT}" ]; then
+    OUTPUT="${NEW_OUTPUT}"
+fi
 create_out_dir "${OUTPUT}"
 
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
