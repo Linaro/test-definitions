@@ -52,6 +52,24 @@
       "revId": "4945e8ecea064085ce0bd34944529bc5834b69d2",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ee7272e_285b5e96",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-02-26T15:22:06Z",
+      "side": 1,
+      "message": "using \u0027atomic\u0027 for opengl test plan wouldn\u0027t work :( https://lkft.validation.linaro.org/scheduler/job/126333\n\nI don\u0027t have any use cases here. If it works for you, maybe it is fine to get it merged. I will leave it to Milosz to decide. sorry milosz :)\n\nFrom my point of view, reading CTS LAVA job\u0027s test log to collect test failures is painful, I would rather go to test attachment and check result.xml, firefox can render a beautiful webpage for that.",
+      "parentUuid": "556fe32c_7646f92b",
+      "revId": "4945e8ecea064085ce0bd34944529bc5834b69d2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
