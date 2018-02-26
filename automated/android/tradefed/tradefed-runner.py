@@ -25,6 +25,10 @@ TEST_PARAMS = ''
 AGGREGATED = 'aggregated'
 ATOMIC = 'atomic'
 
+## The total number of failed test cases to be printed for this job
+## Print too much failures would cause the lava job timed out
+## Default to not print any failures
+FAILURES_PRINTED = 0
 
 def result_parser(xml_file, result_format):
     etree_file = open(xml_file, 'rb')
@@ -93,23 +97,32 @@ def result_parser(xml_file, result_format):
                 result = '%s_done pass' % module_name
             py_test_lib.add_result(RESULT_FILE, result)
 
-            # print failed test cases for debug
-            test_cases = elem.findall('.//TestCase')
-            for test_case in test_cases:
-                failed_tests = test_case.findall('.//Test[@result="fail"]')
-                for failed_test in failed_tests:
-                    test_name = '%s/%s.%s' % (module_name,
-                                              test_case.get("name"),
-                                              failed_test.get("name"))
-                    failures = failed_test.findall('.//Failure')
-                    failure_msg = ''
-                    for failure in failures:
-                        failure_msg = '%s \n %s' % (failure_msg,
-                                                    failure.get('message'))
+            if FAILURES_PRINTED > 0 and failures_count < FAILURES_PRINTED:
+                # print failed test cases for debug
+                test_cases = elem.findall('.//TestCase')
+                for test_case in test_cases:
+                    failed_tests = test_case.findall('.//Test[@result="fail"]')
+                    for failed_test in failed_tests:
+                        test_name = '%s/%s.%s' % (module_name,
+                                                  test_case.get("name"),
+                                                  failed_test.get("name"))
+                        failures = failed_test.findall('.//Failure')
+                        failure_msg = ''
+                        for failure in failures:
+                            failure_msg = '%s \n %s' % (failure_msg,
+                                                        failure.get('message'))
 
-                    logger.info('%s %s' % (test_name, failure_msg.strip()))
+                        logger.info('%s %s' % (test_name, failure_msg.strip()))
+                        failures_count = failures_count + 1
+                        if failures_count > FAILURES_PRINTED:
+                            logger.info('There are more than %d test cases failed, '
+                                        'the output for the rest failed test cases '
+                                        'will be skipped.' % (FAILURES_PRINTED))
+                            break #break the for loop of failed_tests
+                    if failures_count > FAILURES_PRINTED:
+                        break #break the for loop of test_cases
 
-        if result_format == ATOMIC:
+        elif result_format == ATOMIC:
             test_cases = elem.findall('.//TestCase')
             for test_case in test_cases:
                 tests = test_case.findall('.//Test')
@@ -121,6 +134,9 @@ def result_parser(xml_file, result_format):
                     py_test_lib.add_result(
                         RESULT_FILE, "%s %s" % (atomic_test_name,
                                                 atomic_test_result))
+        else:
+            # not possible place
+            pass
 
 
 parser = argparse.ArgumentParser()
@@ -133,6 +149,10 @@ parser.add_argument('-r', dest='RESULTS_FORMAT', required=False,
                     help="The format of the saved results. 'aggregated' means number of \
                     passed and failed tests are recorded for each module. 'atomic' means \
                     each test result is recorded separately")
+parser.add_argument('-f', dest='FAILURES_PRINTED', type=int, required=False, default=0,
+                    help="Speciy the number of failed test cases to be printed,\
+                    0 means not print any failures.")
+
 args = parser.parse_args()
 # TEST_PARAMS = args.TEST_PARAMS
 
