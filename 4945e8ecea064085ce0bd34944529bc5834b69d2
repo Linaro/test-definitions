@@ -34,6 +34,24 @@
       "revId": "4945e8ecea064085ce0bd34944529bc5834b69d2",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "556fe32c_7646f92b",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2018-02-26T15:06:19Z",
+      "side": 1,
+      "message": "hmm, before move to use atomic method, I would like to see the failures and the test result in one job. don\u0027t want to resubmit the job again just to get the failed test cases. for this opengl special case we need to do that though, but at the moment, we do not care much on the detailed failed test cases for opengl yet.",
+      "parentUuid": "07e47ad7_989ecc8c",
+      "revId": "4945e8ecea064085ce0bd34944529bc5834b69d2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
