@@ -60,6 +60,7 @@ def result_parser(xml_file, result_format):
         sys.exit(1)
     logger.info('Test modules in %s: %s'
                 % (xml_file, str(len(root.findall('Module')))))
+    failures_count = 0
     for elem in root.findall('Module'):
         # Naming: Module Name + Test Case Name + Test Name
         if 'abi' in elem.attrib.keys():
@@ -93,21 +94,33 @@ def result_parser(xml_file, result_format):
                 result = '%s_done pass' % module_name
             py_test_lib.add_result(RESULT_FILE, result)
 
-            # print failed test cases for debug
-            test_cases = elem.findall('.//TestCase')
-            for test_case in test_cases:
-                failed_tests = test_case.findall('.//Test[@result="fail"]')
-                for failed_test in failed_tests:
-                    test_name = '%s/%s.%s' % (module_name,
-                                              test_case.get("name"),
-                                              failed_test.get("name"))
-                    failures = failed_test.findall('.//Failure')
-                    failure_msg = ''
-                    for failure in failures:
-                        failure_msg = '%s \n %s' % (failure_msg,
-                                                    failure.get('message'))
+            if args.FAILURES_PRINTED > 0 and failures_count < args.FAILURES_PRINTED:
+                # print failed test cases for debug
+                test_cases = elem.findall('.//TestCase')
+                for test_case in test_cases:
+                    failed_tests = test_case.findall('.//Test[@result="fail"]')
+                    for failed_test in failed_tests:
+                        test_name = '%s/%s.%s' % (module_name,
+                                                  test_case.get("name"),
+                                                  failed_test.get("name"))
+                        failures = failed_test.findall('.//Failure')
+                        failure_msg = ''
+                        for failure in failures:
+                            failure_msg = '%s \n %s' % (failure_msg,
+                                                        failure.get('message'))
 
-                    logger.info('%s %s' % (test_name, failure_msg.strip()))
+                        logger.info('%s %s' % (test_name, failure_msg.strip()))
+                        failures_count = failures_count + 1
+                        if failures_count > args.FAILURES_PRINTED:
+                            logger.info('There are more than %d test cases '
+                                        'failed, the output for the rest '
+                                        'failed test cases will be '
+                                        'skipped.' % (args.FAILURES_PRINTED))
+                            #break the for loop of failed_tests
+                            break
+                    if failures_count > args.FAILURES_PRINTED:
+                        #break the for loop of test_cases
+                        break
 
         if result_format == ATOMIC:
             test_cases = elem.findall('.//TestCase')
@@ -133,6 +146,15 @@ parser.add_argument('-r', dest='RESULTS_FORMAT', required=False,
                     help="The format of the saved results. 'aggregated' means number of \
                     passed and failed tests are recorded for each module. 'atomic' means \
                     each test result is recorded separately")
+
+## The total number of failed test cases to be printed for this job
+## Print too much failures would cause the lava job timed out
+## Default to not print any failures
+parser.add_argument('-f', dest='FAILURES_PRINTED', type=int,
+                    required=False, default=0,
+                    help="Speciy the number of failed test cases to be\
+                    printed, 0 means not print any failures.")
+
 args = parser.parse_args()
 # TEST_PARAMS = args.TEST_PARAMS
 
