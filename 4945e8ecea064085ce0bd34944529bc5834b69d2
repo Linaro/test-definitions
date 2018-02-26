@@ -16,6 +16,24 @@
       "revId": "4945e8ecea064085ce0bd34944529bc5834b69d2",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07e47ad7_989ecc8c",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-02-26T13:20:06Z",
+      "side": 1,
+      "message": "It is the total number of test failures in a run(a module or a test plan) causing issues.\n\nIn the job https://lkft.validation.linaro.org/results/128544/1_cts-opengl-v8a, the first module itself generated 4k+ test failures, which already is a killer.\n\nI would say we should remove these lines or use logger.debug instead. In the later case, we should set the default log level to info.\n\nIMHO, printing only part of the failures leads to more confusions. People who want to debug it can change log level to \u0027debug\u0027 for that or go to test attachment for full logs.",
+      "parentUuid": "8bca3576_1d5e59b2",
+      "revId": "4945e8ecea064085ce0bd34944529bc5834b69d2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
