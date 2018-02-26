@@ -95,6 +95,7 @@ def result_parser(xml_file, result_format):
 
             # print failed test cases for debug
             test_cases = elem.findall('.//TestCase')
+            failed_count = 0
             for test_case in test_cases:
                 failed_tests = test_case.findall('.//Test[@result="fail"]')
                 for failed_test in failed_tests:
@@ -108,6 +109,13 @@ def result_parser(xml_file, result_format):
                                                     failure.get('message'))
 
                     logger.info('%s %s' % (test_name, failure_msg.strip()))
+                failed_count = failed_count + len(failed_tests)
+                if failed_count > 200:
+                    logger.info('There are more than 200 test cases failed '
+                                'for module %s, the output for the rest '
+                                'failed test cases will be '
+                                'skipped.' % module_name)
+                    break
 
         if result_format == ATOMIC:
             test_cases = elem.findall('.//TestCase')
