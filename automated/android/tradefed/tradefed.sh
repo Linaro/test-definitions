@@ -13,13 +13,15 @@ TEST_PATH="android-cts"
 RESULT_FORMAT="aggregated"
 RESULT_FILE="$(pwd)/output/result.txt"
 export RESULT_FILE
+# the default number of failed test cases to be printed
+FAILURES_PRINTED="0"
 
 usage() {
-    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>]" 1>&2
+    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed]" 1>&2
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:' opt; do
+while getopts ':o:n:c:t:p:r:f:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) export ANDROID_SERIAL="${OPTARG}" ;;
@@ -27,6 +29,7 @@ while getopts ':o:n:c:t:p:r:' opt; do
         t) TEST_PARAMS="${OPTARG}" ;;
         p) TEST_PATH="${OPTARG}" ;;
         r) RESULT_FORMAT="${OPTARG}" ;;
+        f) FAILURES_PRINTED="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -73,4 +76,4 @@ fi
 
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
-./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}"
+./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}" -f "${FAILURES_PRINTED}"
