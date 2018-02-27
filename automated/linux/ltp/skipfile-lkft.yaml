@@ -250,6 +250,8 @@ skiplist:
     boards:
       - hi6220-hikey
       - juno-r2
+      - qemu_x86_64
+      - qemu_arm64
     branches: all
     tests:
       - quota_remount_test01
@@ -352,6 +354,21 @@ skiplist:
     tests:
       - gf18
 
+  - reason: >
+      fs:gf01:gf14:gf15: This test requires >4GB to run. Skip on devices that don't have
+      that much space available.
+    url:
+    environments:
+      - production
+    boards:
+      - qemu_x86_64
+      - qemu_arm64
+    branches: all
+    tests:
+      - gf01
+      - gf14
+      - gf15
+
   - reason: "LKFT: 4.4: LTP readahead02 fails on x86"
     url: https://bugs.linaro.org/show_bug.cgi?id=3457
     environments:
@@ -359,6 +376,8 @@ skiplist:
     boards:
       - juno-r2
       - x86
+      - qemu_x86_64
+      - qemu_arm64
     branches: all
     tests:
       - readahead02
