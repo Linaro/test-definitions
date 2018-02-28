@@ -52,9 +52,9 @@ else
     ! check_root && error_msg "Please run this test as root."
     dpkg --add-architecture i386
     install_deps "${PKGS}"
-    pip install --upgrade pip && hash -r
-    pip install --upgrade setuptools
-    pip install pexpect pyserial pyyaml docutils python-dateutil
+    pip install --upgrade --quiet pip && hash -r
+    pip install --upgrade --quiet setuptools
+    pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
     info_msg "Installing workload-automation..."
     rm -rf workload-automation
     git clone https://github.com/ARM-software/workload-automation
@@ -62,7 +62,7 @@ else
     cd workload-automation
     git checkout "${WA_TAG}"
     )
-    pip2 install ./workload-automation
+    pip2 install --quiet ./workload-automation
     export PATH=$PATH:/usr/local/bin
     which wa
 
