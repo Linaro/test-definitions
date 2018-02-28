@@ -49,7 +49,7 @@ else
     git clone https://github.com/ARM-software/workload-automation
     (
     cd workload-automation
-    git checkout -b test-branch "${WA_TAG}"
+    git checkout "${WA_TAG}"
     )
     pip2 install ./workload-automation
     export PATH=$PATH:/usr/local/bin
