@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29531f07_31bb5121",
+        "filename": "automated/linux/ltp/skipfile-lkft.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-03-02T09:11:43Z",
+      "side": 1,
+      "message": "fork13 passes on db410c https://lkft.validation.linaro.org/scheduler/job/130454#L5667",
+      "revId": "90a49d38e372287b3b6edd5c3ad70cb4c06b5c8b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
