@@ -108,6 +108,7 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - x15
+      - dragonboard-410c
     branches: all
     tests:
       - quotactl01
