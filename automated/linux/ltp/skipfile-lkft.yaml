@@ -54,6 +54,8 @@ skiplist:
       - juno-r2
       - x15
       - dragonboard-410c
+      - qemu_x86_64
+      - qemu_arm64
     branches: all
     tests:
       - fork13
@@ -81,6 +83,8 @@ skiplist:
       - juno-r2
       - x15
       - dragonboard-410c
+      - qemu_x86_64
+      - qemu_arm64
     branches: all
     tests:
       - msgctl10
