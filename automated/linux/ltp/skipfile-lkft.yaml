@@ -128,6 +128,7 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - x15
+      - dragonboard-410c
     branches: all
     tests:
       - sysfs01
@@ -145,6 +146,7 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - x15
+      - dragonboard-410c
     branches: all
     tests:
       - syslog01
@@ -234,6 +236,9 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - x15
+      - dragonboard-410c
+      - qemu_x86_64
+      - qemu_arm64
     branches: all
     tests:
       - fanotify07
