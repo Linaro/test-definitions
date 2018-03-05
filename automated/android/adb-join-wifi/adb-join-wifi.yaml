@@ -1,0 +1,32 @@
+metadata:
+    name: adb-join-wifi
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run tradefed based tests in LAVA."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    # Specify device serial no. when more than one device connected.
+    ANDROID_SERIAL: ""
+    # Specify timeout in seconds for wait_boot_completed.
+    BOOT_TIMEOUT: "300"
+    # Specify the server to ping.
+    SERVER: "www.google.com"
+    ## WIFI AP SSID
+    AP_SSID: ""
+    ## KEY for WIFI AP
+    AP_KEY: ""
+
+run:
+    steps:
+        - cd ./automated/android/adb-join-wifi
+        - ./adb-join-wifi.sh -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -S "${SERVER}" -a "${AP_SSID}" -k "${AP_KEY}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
