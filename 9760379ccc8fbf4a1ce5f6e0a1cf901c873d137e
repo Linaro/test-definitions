@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92914792_fa903128",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-03-05T09:32:20Z",
+      "side": 1,
+      "message": "I think failures_count should be defined outside the \u0027module\u0027 loop (line 67). Right now it will be counted separately for each module and the description says it\u0027s global.",
+      "revId": "9760379ccc8fbf4a1ce5f6e0a1cf901c873d137e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
