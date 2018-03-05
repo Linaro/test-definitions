@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dcc7f98_b0df428d",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-03-05T10:26:10Z",
+      "side": 1,
+      "message": "failures_count is undefined here. It should be defined above line 68 - \"for elem in root.findall(\u0027Module\u0027)\" loop.",
+      "revId": "a30491a7570f192b151152904251953224dc1542",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af295642_4c5e2e73",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-03-05T10:26:10Z",
+      "side": 1,
+      "message": "hmm, I think this is not needed.",
+      "revId": "a30491a7570f192b151152904251953224dc1542",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb623f57_09e03bfa",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-03-05T10:26:10Z",
+      "side": 1,
+      "message": "if you leave \u0027if result_format \u003d\u003d ATOMIC\u0027, this isn\u0027t needed.",
+      "revId": "a30491a7570f192b151152904251953224dc1542",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
