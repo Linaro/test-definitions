@@ -227,3 +227,28 @@ parse_common_args() {
         esac
     done
 }
+
+# Try to find the WIFI AP info and connect to it
+# depends on WIFI AP information specified by lava job like following:
+# secrets:
+#   AP_SSID: "${AP_SSID}"
+#   AP_KEY: "${AP_KEY}"
+adb_join_wifi() {
+    AP_SSID=$1
+    AP_KEY=$2
+    if [ -z "${AP_SSID}" ] || [ -z "${AP_KEY}" ]; then
+        # Try to find the WIFI AP information specified by the job definition if not specified via command line
+        lava_test_dir="$(find /lava-* -maxdepth 0 -type d -regex '/lava-[0-9]+' 2>/dev/null | sort | tail -1)"
+        if test -f "${lava_test_dir}/secrets"; then
+            # shellcheck disable=SC1090
+            . "${lava_test_dir}/secrets"
+        fi
+    fi
+
+    # Try to connect to wifi if found the WIFI AP information
+    if [ ! -z "${AP_SSID}" ] && [ ! -z "${AP_KEY}" ]; then
+        wget http://testdata.validation.linaro.org/apks/wifi/wifi.apk
+        adb install wifi.apk
+        adb shell am start -n com.steinwurf.adbjoinwifi/.MainActivity -e ssid "${AP_SSID}" -e password_type WPA -e password "${AP_KEY}"
+    fi
+}
