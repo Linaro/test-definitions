@@ -1,5 +1,6 @@
 #!/bin/sh
 # Linux kernel self test
+set -x
 
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
@@ -13,6 +14,11 @@ SCRIPT="$(readlink -f "${0}")"
 SCRIPTPATH="$(dirname "${SCRIPT}")"
 # List of known unsupported test cases to be skipped
 SKIPFILE=""
+# List of test cases to be skipped in yaml/skipgen format
+SKIPFILE_YAML=""
+BOARD=""
+BRANCH=""
+ENVIRONMENT=""
 SKIPLIST=""
 TESTPROG_URL=""
 
@@ -27,11 +33,14 @@ usage() {
                     [-u url]
                     [-p path]
                     [-L List of skip test cases]
-                    [-S kselftest-skipfile]" 1>&2
+                    [-S kselftest-skipfile]
+                    [-b board]
+                    [-g branch]
+                    [-e environment]" 1>&2
     exit 1
 }
 
-while getopts "t:s:u:p:L:S:h" opt; do
+while getopts "t:s:u:p:L:S:b:g:e:h" opt; do
     case "${opt}" in
         t) TESTPROG="${OPTARG}" ;;
         s) SKIP_INSTALL="${OPTARG}" ;;
@@ -41,20 +50,65 @@ while getopts "t:s:u:p:L:S:h" opt; do
         L) SKIPLIST="${OPTARG}" ;;
         p) KSELFTEST_PATH="${OPTARG}" ;;
         S)
-           OPT=$(echo "${OPTARG}" | grep "http")
-           if [ -z "${OPT}" ] ; then
-           # kselftest skipfile
-             SKIPFILE="${SCRIPTPATH}/${OPTARG}"
+
+           #OPT=$(echo "${OPTARG}" | grep "http")
+           #if [ -z "${OPT}" ] ; then
+           ## kselftest skipfile
+           #  SKIPFILE="${SCRIPTPATH}/${OPTARG}"
+           #else
+           ## Download kselftest skipfile from speficied URL
+           #  wget "${OPTARG}" -O "skipfile"
+           #  SKIPFILE="skipfile"
+           #  SKIPFILE="${SCRIPTPATH}/${SKIPFILE}"
+           #fi
+
+           if [ -z "${OPTARG##*http*}" ]; then
+             if [ -z "${OPTARG##*yaml*}" ]; then
+               # Skipfile is of type yaml
+               SKIPFILE_TMP="http-skipfile.yaml"
+               SKIPFILE_YAML="${SCRIPTPATH}/${SKIPFILE_TMP}"
+             else
+               # Skipfile is normal skipfile
+               SKIPFILE_TMP="http-skipfile"
+               SKIPFILE="${SCRIPTPATH}/${SKIPFILE_TMP}"
+             fi
+             # Download LTP skipfile from specified URL
+             if ! wget "${OPTARG}" -O "${SKIPFILE_TMP}"; then
+               error_msg "Failed to fetch ${OPTARG}"
+               exit 1
+             fi
+           elif [ "${OPTARG##*.}" = "yaml" ]; then
+             # yaml skipfile; use skipgen to generate a skipfile
+             SKIPFILE_YAML="${SCRIPTPATH}/${OPTARG}"
            else
-           # Download kselftest skipfile from speficied URL
-             wget "${OPTARG}" -O "skipfile"
-             SKIPFILE="skipfile"
-             SKIPFILE="${SCRIPTPATH}/${SKIPFILE}"
+             # Regular LTP skipfile
+             SKIPFILE="${SCRIPTPATH}/${OPTARG}"
            fi
            ;;
+
+        b)
+            export BOARD="${OPTARG}"
+            ;;
+        g)
+            export BRANCH="${OPTARG}"
+            ;;
+        e)
+            export ENVIRONMENT="${OPTARG}"
+            ;;
         h|*) usage ;;
     esac
 done
+
+if [ -n "${SKIPFILE_YAML}" ]; then
+    export SKIPFILE_PATH="${SCRIPTPATH}/generated_skipfile"
+    generate_skipfile
+    if [ ! -f "${SKIPFILE_PATH}" ]; then
+        error_msg "Skipfile ${SKIPFILE} does not exist";
+        exit 1
+    fi
+    SKIPFILE="${SKIPFILE_PATH}"
+fi
+
 
 parse_output() {
     grep "selftests:" "${LOGFILE}" > "${RESULT_FILE}"
