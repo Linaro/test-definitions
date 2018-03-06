@@ -45,20 +45,24 @@ initialize_adb
 wait_boot_completed "${BOOT_TIMEOUT}"
 create_out_dir "${HOST_OUTPUT}"
 
-# Read blacklist and write to blacklist.txt
-arr=$(echo "$BLACKLIST" | tr "," " ")
-info_msg "--- blacklist ---"
-for s in $arr
-do
-    echo "$s"
-    echo "$s" >> "$BLACKLIST_FILE"
-done
+if [ -n "$BLACKLIST" ]; then
+    # Read blacklist and write to blacklist.txt
+    arr=$(echo "$BLACKLIST" | tr "," " ")
+    info_msg "--- blacklist ---"
+    for s in $arr
+    do
+        echo "$s"
+        echo "$s" >> "$BLACKLIST_FILE"
+    done
 
-adb_push "$BLACKLIST_FILE" "/data/local/tmp/"
-BLACKLIST="/data/local/tmp/blacklist.txt"
+    adb_push "$BLACKLIST_FILE" "/data/local/tmp/"
+    BLACKLIST_OPT="--pkg-blacklist-file /data/local/tmp/blacklist.txt"
+else
+    BLACKLIST_OPT=""
+fi
 
 info_msg "device-${ANDROID_SERIAL}: About to run monkey..."
-adb shell monkey "${MONKEY_PARAMS}" --pkg-blacklist-file "${BLACKLIST}" --throttle "${THROTTLE}" "${EVENT_COUNT}" 2>&1 \
+adb shell monkey "${MONKEY_PARAMS}" ${BLACKLIST_OPT} --throttle "${THROTTLE}" "${EVENT_COUNT}" 2>&1 \
     | tee "${LOGFILE}"
 
 # Parse test log.
