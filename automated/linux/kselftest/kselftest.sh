@@ -1,6 +1,5 @@
 #!/bin/sh
 # Linux kernel self test
-set -x
 
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
