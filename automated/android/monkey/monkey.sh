@@ -21,15 +21,16 @@ usage() {
 # Some default parameters
 ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
-BLACKLIST="com.android.development_settings com.android.music com.android.deskclock"
+BLACKLIST=""
 MONKEY_PARAMS="-s 1 --pct-touch 10 --pct-motion 20 --pct-nav 20 --pct-majornav 30 --pct-appswitch 20"
 EVENT_COUNT="1000"
-THROTTLE="200"
+# default as it is in monkey command
+THROTTLE="0"
 
 while getopts ":s:t:b:p:e:T:h" opt; do
     case "$opt" in
-    	s) ANDROID_SERIAL="${OPTARG}" ;;
-    	t) BOOT_TIMEOUT="${OPTARG}" ;;
+        s) ANDROID_SERIAL="${OPTARG}" ;;
+        t) BOOT_TIMEOUT="${OPTARG}" ;;
         b) BLACKLIST="${OPTARG}" ;;
         p) MONKEY_PARAMS="${OPTARG}" ;;
         e) EVENT_COUNT="${OPTARG}" ;;
@@ -45,20 +46,30 @@ initialize_adb
 wait_boot_completed "${BOOT_TIMEOUT}"
 create_out_dir "${HOST_OUTPUT}"
 
-# Read blacklist and write to blacklist.txt
-arr=$(echo "$BLACKLIST" | tr "," " ")
-info_msg "--- blacklist ---"
-for s in $arr
-do
-    echo "$s"
-    echo "$s" >> "$BLACKLIST_FILE"
-done
+if [ -n "$BLACKLIST" ]; then
+    # Read blacklist and write to blacklist.txt
+    arr=$(echo "$BLACKLIST" | tr "," " ")
+    info_msg "--- blacklist ---"
+    for s in $arr
+    do
+        echo "$s"
+        echo "$s" >> "$BLACKLIST_FILE"
+    done
 
-adb_push "$BLACKLIST_FILE" "/data/local/tmp/"
-BLACKLIST="/data/local/tmp/blacklist.txt"
+    adb_push "$BLACKLIST_FILE" "/data/local/tmp/"
+    BLACKLIST_OPT="--pkg-blacklist-file /data/local/tmp/blacklist.txt"
+else
+    BLACKLIST_OPT=""
+fi
+
+if [ -n "$THROTTLE" ]; then
+    THROTTLE_OPT="--throttle ${THROTTLE}"
+else
+    THROTTLE_OPT=""
+fi
 
 info_msg "device-${ANDROID_SERIAL}: About to run monkey..."
-adb shell monkey "${MONKEY_PARAMS}" --pkg-blacklist-file "${BLACKLIST}" --throttle "${THROTTLE}" "${EVENT_COUNT}" 2>&1 \
+adb shell monkey "${MONKEY_PARAMS}" ${BLACKLIST_OPT} ${THROTTLE_OPT} "${EVENT_COUNT}" 2>&1 \
     | tee "${LOGFILE}"
 
 # Parse test log.
