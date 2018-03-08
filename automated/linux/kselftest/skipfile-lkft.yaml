@@ -191,7 +191,9 @@ skiplist:
       test)
     url: https://bugs.linaro.org/show_bug.cgi?id=3501
     environments: production
-    boards: x15
+    boards:
+      - x15
+      - qemu_arm
     branches: all
     tests:
       - reuseport_bpf_numa
@@ -218,6 +220,7 @@ skiplist:
       - x15
       - qemu_x86_64
       - qemu_arm64
+      - qemu_arm
       - dragonboard-410c
     branches: all
     tests:
@@ -239,7 +242,9 @@ skiplist:
       0xc109f720)
     url: https://bugs.linaro.org/show_bug.cgi?id=3484
     environments: production
-    boards: x15
+    boards:
+      - x15
+      - qemu_arm
     branches: 4.15
     tests:
       - bitmap.sh
@@ -347,6 +352,7 @@ skiplist:
     environments: production
     boards:
       - dragonboard-410c
+      - qemu_arm
       - qemu_arm64
       - qemu_x86_64
     branches: all
@@ -418,7 +424,9 @@ skiplist:
   - reason:
     url:
     environments: production
-    boards: qemu_arm64
+    boards:
+      - qemu_arm
+      - qemu_arm64
     branches:
       - 4.9
       - mainline
@@ -428,7 +436,9 @@ skiplist:
   - reason:
     url:
     environments: production
-    boards: qemu_arm64
+    boards:
+      - qemu_arm
+      - qemu_arm64
     branches: all
     tests:
       - mq_open_tests
@@ -440,8 +450,9 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3636
     environments: production
     boards:
-      - qemu_x86_64
+      - qemu_arm
       - qemu_arm64
+      - qemu_x86_64
     branches:
       - 4.14
       - 4.15
@@ -455,8 +466,9 @@ skiplist:
     url:
     environments: production
     boards:
-      - qemu_x86_64
+      - qemu_arm
       - qemu_arm64
+      - qemu_x86_64
     branches:
       - mainline
     tests:
@@ -472,6 +484,7 @@ skiplist:
     environments: production
     boards:
       - x15
+      - qemu_arm
       - qemu_arm64
       - qemu_x86_64
     branches:
