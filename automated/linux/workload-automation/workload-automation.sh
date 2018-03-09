@@ -55,6 +55,7 @@ else
     export PATH=$PATH:/usr/local/bin
     which wa
     mkdir -p ~/.workload_automation
+    export WA_USER_DIRECTORY=~/.workload_automation
     wa --version
     wa list instruments
 fi
