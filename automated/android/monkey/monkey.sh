@@ -86,3 +86,8 @@ if grep -q "Network stats: elapsed time=" "${LOGFILE}"; then
 else
     report_fail "monkey-network-stats"
 fi
+
+if ! grep "Events injected: ${EVENT_COUNT}" "${LOGFILE}"; then
+    ## output the logcat information for debug when failed to run inject all the events
+    adb logcat -d -b all
+fi
