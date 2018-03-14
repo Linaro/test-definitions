@@ -16,6 +16,24 @@
       "revId": "391047aee4f24b9da5bdd39b1ea02dc54682637d",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95b7f3ec_cbd0f97c",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2018-03-14T17:17:44Z",
+      "side": 1,
+      "message": "Thanks for pointing out, removed the return lines in  the adb_join_wifi function.",
+      "parentUuid": "44b190ab_80c2dd49",
+      "revId": "391047aee4f24b9da5bdd39b1ea02dc54682637d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
