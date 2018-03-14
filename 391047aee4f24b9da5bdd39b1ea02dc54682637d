@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44b190ab_80c2dd49",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-03-14T16:43:09Z",
+      "side": 1,
+      "message": "this won\u0027t work when AP_SSID and AP_KEY are empty (no need to connect to wifi). Since we\u0027re running with -ex and adb_join_wifi returns 1 when params are empty, the script wil exit here. Is this expected?",
+      "revId": "391047aee4f24b9da5bdd39b1ea02dc54682637d",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
