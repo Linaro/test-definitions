@@ -147,6 +147,7 @@ skiplist:
     environments: production
     boards:
       - x86
+      - qemu_x86_64
       - x15
     branches: all
     tests:
