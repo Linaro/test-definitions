@@ -503,3 +503,10 @@ skiplist:
       - next
     tests:
       - dnotify_test
+
+  - reason: "LKFT: kselftest: sigreturn_64 intermittent failure on qemu_x86_64"
+    url: https://bugs.linaro.org/show_bug.cgi?id=3684
+    environments: production
+    boards: qemu_x86_64
+    branches: all
+    tests: sigreturn_64
