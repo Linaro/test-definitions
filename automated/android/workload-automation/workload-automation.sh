@@ -48,10 +48,12 @@ create_out_dir "${OUTPUT}"
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "WA installation skipped"
 else
-    PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 lib32stdc++6 lib32z1 lib32gcc1 lib32ncurses5 aapt android-tools-adb time sysstat python-jinja2 curl"
+    PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 lib32stdc++6 lib32z1 lib32gcc1 lib32ncurses5 aapt time sysstat python-jinja2 curl"
     ! check_root && error_msg "Please run this test as root."
     dpkg --add-architecture i386
     install_deps "${PKGS}"
+    # only install adb if it's not already available
+    which adb || install_deps adb
     pip install --upgrade --quiet pip && hash -r
     pip install --upgrade --quiet setuptools
     pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
