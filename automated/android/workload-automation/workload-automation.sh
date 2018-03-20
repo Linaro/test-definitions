@@ -51,6 +51,7 @@ else
     PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 lib32stdc++6 lib32z1 lib32gcc1 lib32ncurses5 aapt time sysstat python-jinja2 curl"
     ! check_root && error_msg "Please run this test as root."
     dpkg --add-architecture i386
+    apt-get update -q
     install_deps "${PKGS}"
     # only install adb if it's not already available
     which adb || install_deps adb

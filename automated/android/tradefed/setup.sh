@@ -16,6 +16,7 @@ dist_name
 case "${dist}" in
     ubuntu)
         dpkg --add-architecture i386
+        apt-get update -q
         install_deps "${PKG_DEPS} ${JDK}"
         ;;
     *)
