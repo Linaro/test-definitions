@@ -44,8 +44,8 @@ if [ -e "/home/testuser" ]; then
     export HOME=/home/testuser
 fi
 
-disable_suspend
 wait_boot_completed "${TIMEOUT}"
+disable_suspend
 # wait_homescreen() searches logcat output for
 # 'Displayed com.android.launcher', but the log might be washed away when
 # a lot of logs generated after it. When the function not executed in
