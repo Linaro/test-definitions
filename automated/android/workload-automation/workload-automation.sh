@@ -8,6 +8,7 @@ ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
 PROBE=""
 WA_TAG="master"
+WA_GIT_REPO="https://github.com/ARM-software/workload-automation"
 WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa2-lava.git"
 TEMPLATES_BRANCH="wa-templates"
 CONFIG="config/generic-android.py"
@@ -16,11 +17,11 @@ BUILD_TOOLS_URL="http://testdata.validation.linaro.org/apks/workload-automation/
 WA_HOME_URL="http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>] [-p <aep_path>] [-o <output_dir>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>] [-p <aep_path>] [-o <output_dir>] [-R <wa_git_repository>]" 1>&2
     exit 1
 }
 
-while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:" opt; do
+while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:R:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         S) ANDROID_SERIAL="${OPTARG}" ;;
@@ -32,6 +33,7 @@ while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:" opt; do
         a) AGENDA="${OPTARG}" ;;
         b) BUILD_TOOLS_URL="${OPTARG}" ;;
         w) WA_HOME_URL="${OPTARG}" ;;
+        R) WA_GIT_REPO="${OPTARG}" ;;
         p) PROBE="${OPTARG}" ;;
         o) NEW_OUTPUT="${OPTARG}" ;;
         *) usage ;;
@@ -64,7 +66,7 @@ else
     pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
     info_msg "Installing workload-automation..."
     rm -rf workload-automation
-    git clone https://github.com/ARM-software/workload-automation
+    git clone "${WA_GIT_REPO}" workload-automation
     (
     cd workload-automation
     git checkout "${WA_TAG}"

@@ -23,6 +23,7 @@ params:
     ANDROID_SERIAL: ""
     # Params for WA test run.
     WA_TAG: "master"
+    WA_GIT_REPO: "https://github.com/ARM-software/workload-automation"
     BUILD_TOOLS_URL: "http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz"
     WA_HOME_URL: "http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
     WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa2-lava.git"
@@ -50,7 +51,7 @@ run:
         - if [ -z "${OUTPUT}" ]; then OUTPUT="./output"; fi
         - echo ${OUTPUT}
         # Test run.
-        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -S "${ANDROID_SERIAL}" -T "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -g "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -b "${BUILD_TOOLS_URL}" -w "${WA_HOME_URL}" -p "${PROBE}" -o "${OUTPUT}"
+        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -S "${ANDROID_SERIAL}" -T "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -g "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -b "${BUILD_TOOLS_URL}" -w "${WA_HOME_URL}" -p "${PROBE}" -R "${WA_GIT_REPO}" -o "${OUTPUT}"
         # Upload test output to artifactorial.
         - tar caf "wa-output.tar.xz" "${OUTPUT}"
         - ../../utils/upload-to-artifactorial.sh -a "wa-output.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
