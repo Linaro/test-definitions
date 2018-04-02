@@ -30,7 +30,7 @@ metadata:
 params:
     WORD_SIZE: "64"
     SKIP_INSTALL: "False"
-    VERSION: "2.21"
+    VERSION: "02df38e93e25e07f4d54edae94fb4ec90b7a2824"
 
 run:
     steps:
