@@ -106,8 +106,12 @@ install_ltp() {
     # shellcheck disable=SC2164
     cd /opt/ltp
     # shellcheck disable=SC2140
-    wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
-    tar --strip-components=1 -Jxf ltp-full-"${LTP_VERSION}".tar.xz
+    # wget https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
+    # tar --strip-components=1 -Jxf ltp-full-"${LTP_VERSION}".tar.xz
+
+    # The following erp-18.06 branch is based ltp 20180118, plus backported fixes.
+    git clone -b erp-18.06 https://github.com/Linaro/ltp && cd ltp
+    make autotools
     ./configure
     make -j8 all
     make SKIP_IDCHECK=1 install
