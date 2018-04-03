@@ -25,9 +25,9 @@ metadata:
         - d05
 
 params:
-    # Specify longterm/stable Kernel version that availabe on:
-    # https://www.kernel.org/
-    VERSION: "4.4.34"
+    # Specify released Kernel version that availabe on:
+    # https://github.com/torvalds/linux/releases
+    VERSION: "4.4"
     SKIP_INSTALL: "false"
 
 run:
