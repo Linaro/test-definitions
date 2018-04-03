@@ -139,7 +139,11 @@ if [ -n "${PROBE}" ]; then
     CONFIG_FILE=$(basename "$(grep -rl "${PROBE}" .)")
     cd -
     # update AEP config path on agenda
-    sed -i "s|\$WA_EXTENSION_PATHS/*.*|\$WA_EXTENSION_PATHS/'${CONFIG_FILE}'\"|" agenda.yaml
+    sed -i "s|\$WA_EXTENSION_PATHS/*.*|\$WA_EXTENSION_PATHS/${CONFIG_FILE}\"|" agenda.yaml
+    # update AEP config path on config.yaml
+    if [ -f /root/.workload_automation/config.yaml ]; then
+        sed -i "s|\$WA_EXTENSION_PATHS/*.*|\$WA_EXTENSION_PATHS/${CONFIG_FILE}\"|" /root/.workload_automation/config.yaml
+    fi
 )
 fi
 
