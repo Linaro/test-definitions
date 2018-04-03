@@ -6,7 +6,7 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 LOGFILE="${OUTPUT}/kernel-compilation.txt"
-VERSION='4.4.34'
+VERSION='4.4'
 NPROC=$(nproc)
 
 usage() {
@@ -37,9 +37,8 @@ create_out_dir "${OUTPUT}"
 cd "${OUTPUT}"
 
 # Download and extract Kernel tarball.
-major_version=$(echo "${VERSION}" | awk -F'.' '{print $1}')
-wget "https://cdn.kernel.org/pub/linux/kernel/v${major_version}.x/linux-${VERSION}.tar.xz"
-tar xf "linux-${VERSION}.tar.xz"
+wget "https://github.com/torvalds/linux/archive/v${VERSION}.tar.gz"
+tar xf "v${VERSION}.tar.gz"
 cd "linux-${VERSION}"
 
 # Compile Kernel with defconfig.
