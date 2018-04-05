@@ -27,27 +27,14 @@ skiplist:
       - production
     boards:
       - hi6220-hikey
-      - x15
-    branches: all
+    branches:
+      - 4.4
     tests:
       - bind02
 
-  - reason: "chdir01 is failed due to the way LAVA mounted /tmp file system"
-    url:
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - x15
-    branches: all
-    tests:
-      - chdir01A
-
   - reason: >
-      Fork test case overheats Hikey board and goes auto reboots.
-      fork13 is also a peformance test case so skip it.
-    url:
+      LKFT: LTP: fork13: runs long and hangs machine on branches
+    url: https://bugs.linaro.org/show_bug.cgi?id=3719
     environments: all
     boards:
       - hi6220-hikey
@@ -67,7 +54,8 @@ skiplist:
     environments:
       - production
     boards: all
-    branches: all
+    branches:
+      - 4.4
     tests:
       - fcntl35
       - fcntl35_64
@@ -91,7 +79,6 @@ skiplist:
       - msgctl11
 
   - reason: >
-      Skip pselect01 till next LTP release Sept-2017
       LKFT: LTP: pselect01_64: slept for too long
     url: https://bugs.linaro.org/show_bug.cgi?id=3089
     environments:
@@ -99,6 +86,8 @@ skiplist:
     boards:
       - hi6220-hikey
       - x15
+      - qemu_x86_64
+      - qemu_arm64
     branches: all
     tests:
       - pselect01
@@ -113,6 +102,7 @@ skiplist:
       - juno-r2
       - x15
       - dragonboard-410c
+      - qemu_arm64
     branches: all
     tests:
       - quotactl01
@@ -121,14 +111,14 @@ skiplist:
       sysfs01 sysfs02 sysfs03 sysfs04 sysfs05 and sysfs06 no more valid.
       sysfs system call is obsolete; don't use it.
       This test can only run on kernels that support the sysfs system call
-    url:
+    url: https://bugs.linaro.org/show_bug.cgi?id=3722
     environments:
       - production
     boards:
       - hi6220-hikey
       - juno-r2
-      - x15
       - dragonboard-410c
+      - qemu_arm64
     branches: all
     tests:
       - sysfs01
@@ -138,94 +128,22 @@ skiplist:
       - sysfs05
       - sysfs06
 
-  - reason: "The syslog tests are not valuable for us"
-    url:
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - x15
-      - dragonboard-410c
-    branches: all
-    tests:
-      - syslog01
-      - syslog02
-      - syslog03
-      - syslog04
-      - syslog05
-      - syslog06
-      - syslog07
-      - syslog08
-      - syslog09
-      - syslog10
-
   - reason: >
       ustat01 and ustat02 failed only on Juno, because this syscall not
       implemented on arm-64 architecture.
       ustat(2) failed and setthe errno to 38 : Function not implemented
-    url:
+    url: https://bugs.linaro.org/show_bug.cgi?id=3721
     environments:
       - production
     boards:
       - hi6220-hikey
       - juno-r2
-      - x15
+      - dragonboard-410c
+      - qemu_arm64
     branches: all
     tests:
       - ustat01
       - ustat02
-
-  - reason: >
-      The testcase seems to be broken unless you have big enough swap so that
-      CommitLimit (which depends on size of the swap) is greater than
-      Commit_AS. In your case the swap size was not big enough to be greater
-      than the amount of currently overcommited memory (Commit_AS).
-      The test should be changed to skip the particular testcase and give a
-      better message if there is no room to alloace any memory in this case.
-      https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19476.html
-      https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg19551.html
-    url:
-    environments: all
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - x15
-    branches: all
-    tests:
-      - overcommit_memory02
-
-  - reason: >
-      crontab: command not found
-      External package cron not installed on rootfs.
-      This test case comes under admin_tools, which is not critical for us
-    url:
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - x15
-    branches: all
-    tests:
-      - cron02
-      - cron_deny01
-      - cron_allow01
-      - cron_dirs_checks01
-
-  - reason: >
-      acl test cases comes under admin_tools
-      setfacl: /tmp/ltp-UH9jbROZVN/tacl/mount-ext3/test_file_link: Operation not supported
-    url:
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - x15
-    branches: all
-    tests:
-      - acl_test01
 
   - reason: >
       fanotify07 was added to syscalls in 20170929 and fails approximately 50%
@@ -235,22 +153,19 @@ skiplist:
     boards:
       - hi6220-hikey
       - juno-r2
-      - x15
       - dragonboard-410c
-      - qemu_x86_64
       - qemu_arm64
-    branches: all
+    branches:
+      - 4.4
+      - 4.9
     tests:
       - fanotify07
 
   - reason: "fs:isofs Do not try to build iso's on embedded boards."
-    url:
+    url: https://bugs.linaro.org/show_bug.cgi?id=3318
     environments:
       - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - x15
+    boards: all
     branches: all
     tests:
       - isofs
@@ -314,20 +229,12 @@ skiplist:
       - netns_comm_ns_exec_ipv6_netlink
       - netns_sysfs
 
-  - reason: "tests that fail because time syncing services are not turned off"
-    url: https://bugs.linaro.org/show_bug.cgi?id=3335
-    environments:
-      - production
-    boards: all
-    branches: all
-    tests:
-      - leapsec_timer
-
   - reason: "Test ends with SIGKILL on x15 (intermittent failure)"
     url: https://bugs.linaro.org/show_bug.cgi?id=3401
     environments:
       - production
-    boards: all
+    boards:
+      - x15
     branches: all
     tests:
       - getrandom02
@@ -354,33 +261,18 @@ skiplist:
       - fcntl36
 
   - reason: >
-      fs:gf18: This test requires >4GB to run. Skip on devices that don't have
-      that much space available.
-    url:
+      fs:gf01:gf14:gf15:gf18: This test requires >4GB to run. Skip on devices
+      that don't have that much space available.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3720
     environments:
       - production
-    boards:
-      - x15
-      - qemu_x86_64
-      - qemu_arm64
-    branches: all
-    tests:
-      - gf18
-
-  - reason: >
-      fs:gf01:gf14:gf15: This test requires >4GB to run. Skip on devices that don't have
-      that much space available.
-    url:
-    environments:
-      - production
-    boards:
-      - qemu_x86_64
-      - qemu_arm64
+    boards: all
     branches: all
     tests:
       - gf01
       - gf14
       - gf15
+      - gf18
 
   - reason: "LKFT: 4.4: LTP readahead02 fails on x86"
     url: https://bugs.linaro.org/show_bug.cgi?id=3457
@@ -401,8 +293,6 @@ skiplist:
       - production
     boards:
       - x15
-    branches:
-      - 4.15
-      - 4.16
+    branches: all
     tests:
       - netns_netlink
