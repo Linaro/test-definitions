@@ -21,6 +21,7 @@ metadata:
 params:
     SKIP_INSTALL: "false"
     # Params for WA test run.
+    WA_REPO: "https://github.com/ARM-software/workload-automation"
     WA_TAG: "master"
     WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa2-lava.git"
     TEMPLATES_BRANCH: "wa-templates"
@@ -40,7 +41,7 @@ run:
         - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
         - cd ./automated/linux/workload-automation
         # Test run.
-        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -T "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}"
+        - ./workload-automation.sh -s "${SKIP_INSTALL}" -w "${WA_REPO}" -t "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -T "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}"
         # Upload test output to artifactorial.
         - tar caf "wa-output.tar.xz" "./output"
         - ../../utils/upload-to-artifactorial.sh -a "wa-output.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"

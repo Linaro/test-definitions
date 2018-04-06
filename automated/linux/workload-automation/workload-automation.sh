@@ -7,6 +7,7 @@ RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 SKIP_INSTALL="false"
 
+WA_REPO="https://github.com/ARM-software/workload-automation"
 WA_TAG="master"
 WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa2-lava.git"
 TEMPLATES_BRANCH="wa-templates"
@@ -18,9 +19,10 @@ usage() {
     exit 1
 }
 
-while getopts ":s:t:r:T:c:a:" opt; do
+while getopts ":s:w:t:r:T:c:a:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
+        w) WA_REPO="${OPTARG}" ;;
         t) WA_TAG="${OPTARG}" ;;
         r) WA_TEMPLATES_REPO="${OPTARG}" ;;
         T) TEMPLATES_BRANCH="${OPTARG}" ;;
@@ -46,7 +48,7 @@ else
     pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
     info_msg "Installing workload-automation..."
     rm -rf workload-automation
-    git clone https://github.com/ARM-software/workload-automation
+    git clone "${WA_REPO}"
     (
     cd workload-automation
     git checkout "${WA_TAG}"
