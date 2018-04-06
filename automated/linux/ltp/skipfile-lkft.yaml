@@ -403,5 +403,6 @@ skiplist:
       - x15
     branches:
       - 4.15
+      - 4.16
     tests:
       - netns_netlink

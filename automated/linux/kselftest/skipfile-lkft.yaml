@@ -210,6 +210,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.15
+      - 4.16
     tests:
       - test_align
       - test_verifier
@@ -246,7 +247,9 @@ skiplist:
     boards:
       - x15
       - qemu_arm
-    branches: 4.15
+    branches:
+      - 4.15
+      - 4.16
     tests:
       - bitmap.sh
 
@@ -457,6 +460,7 @@ skiplist:
     branches:
       - 4.14
       - 4.15
+      - 4.16
       - mainline
     tests:
       - test_libbpf.sh
@@ -490,6 +494,7 @@ skiplist:
       - qemu_x86_64
     branches:
       - 4.15
+      - 4.16
       - mainline
     tests:
       - printf.sh
