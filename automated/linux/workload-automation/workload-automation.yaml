@@ -23,6 +23,9 @@ params:
     # Params for WA test run.
     WA_TAG: "master"
     WA_GIT_REPO: "https://github.com/ARM-software/workload-automation"
+    # Install devlib, which is WA depenency
+    DEVLIB_REPO: "https://github.com/ARM-software/devlib.git"
+    DEVLIB_TAG: "master"
     WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa2-lava.git"
     TEMPLATES_BRANCH: "wa-templates"
     CONFIG: "config/generic-linux-localhost.py"
@@ -47,7 +50,7 @@ run:
         - if [ -z "${OUTPUT}" ]; then OUTPUT="./output"; fi
         - echo ${OUTPUT}
         # Test run.
-        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -T "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -R "${WA_GIT_REPO}" -o "${OUTPUT}"
+        - ./workload-automation.sh -s "${SKIP_INSTALL}" -t "${WA_TAG}" -r "${WA_TEMPLATES_REPO}" -T "${TEMPLATES_BRANCH}" -c "${CONFIG}" -a "${AGENDA}" -R "${WA_GIT_REPO}" -d "${DEVLIB_REPO}" -D "${DEVLIB_TAG}" -o "${OUTPUT}"
         # Upload test output to artifactorial.
         - tar caf "wa-output.tar.xz" "${OUTPUT}"
         - ../../utils/upload-to-artifactorial.sh -a "wa-output.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"

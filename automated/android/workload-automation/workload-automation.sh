@@ -15,13 +15,15 @@ CONFIG="config/generic-android.py"
 AGENDA="agenda/generic-linpack.yaml"
 BUILD_TOOLS_URL="http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz"
 WA_HOME_URL="http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
+DEVLIB_REPO="https://github.com/ARM-software/devlib.git"
+DEVLIB_TAG="master"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>] [-p <aep_path>] [-o <output_dir>] [-R <wa_git_repository>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>] [-p <aep_path>] [-o <output_dir>] [-R <wa_git_repository>] [-d <devlib_repo>] [-D <devlib_tag>]" 1>&2
     exit 1
 }
 
-while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:R:" opt; do
+while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:R:D:d:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         S) ANDROID_SERIAL="${OPTARG}" ;;
@@ -36,6 +38,8 @@ while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:R:" opt; do
         R) WA_GIT_REPO="${OPTARG}" ;;
         p) PROBE="${OPTARG}" ;;
         o) NEW_OUTPUT="${OPTARG}" ;;
+        D) DEVLIB_TAG="${OPTARG}" ;;
+        d) DEVLIB_REPO="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -64,6 +68,14 @@ else
     pip install --upgrade --quiet pip && hash -r
     pip install --upgrade --quiet setuptools
     pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
+    info_msg "Installing devlib..."
+    rm -rf devlib
+    git clone "${DEVLIB_REPO}" devlib
+    (
+    cd devlib
+    git checkout "${DEVLIB_TAG}"
+    )
+    pip2 install --quiet ./devlib
     info_msg "Installing workload-automation..."
     rm -rf workload-automation
     git clone "${WA_GIT_REPO}" workload-automation

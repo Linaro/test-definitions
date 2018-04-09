@@ -11,13 +11,15 @@ WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa2-lava.git"
 TEMPLATES_BRANCH="wa-templates"
 CONFIG="config/generic-linux-localhost.py"
 AGENDA="agenda/linux-dhrystone.yaml"
+DEVLIB_REPO="https://github.com/ARM-software/devlib.git"
+DEVLIB_TAG="master"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-t <wa_tag>] [-r <wa_templates_repo>] [-T <templates_branch>] [-c <config>] [-a <agenda>] [-o <output_dir> ] [-R <wa_git_repository>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-t <wa_tag>] [-r <wa_templates_repo>] [-T <templates_branch>] [-c <config>] [-a <agenda>] [-o <output_dir> ] [-R <wa_git_repository>] [-d <devlib_repo>] [-D <devlib_tag>]" 1>&2
     exit 1
 }
 
-while getopts ":s:t:r:T:c:a:o:R:" opt; do
+while getopts ":s:t:r:T:c:a:o:R:D:d:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         t) WA_TAG="${OPTARG}" ;;
@@ -27,6 +29,8 @@ while getopts ":s:t:r:T:c:a:o:R:" opt; do
         a) AGENDA="${OPTARG}" ;;
         R) WA_GIT_REPO="${OPTARG}" ;;
         o) NEW_OUTPUT="${OPTARG}" ;;
+        D) DEVLIB_TAG="${OPTARG}" ;;
+        d) DEVLIB_REPO="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -50,6 +54,14 @@ else
     pip install --upgrade --quiet pip && hash -r
     pip install --upgrade --quiet setuptools
     pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
+    info_msg "Installing devlib..."
+    rm -rf devlib
+    git clone "${DEVLIB_REPO}" devlib
+    (
+    cd devlib
+    git checkout "${DEVLIB_TAG}"
+    )
+    pip2 install --quiet ./devlib
     info_msg "Installing workload-automation..."
     rm -rf workload-automation
     git clone "${WA_GIT_REPO}" workload-automation
