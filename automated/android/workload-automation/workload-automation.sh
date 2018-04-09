@@ -99,7 +99,7 @@ else
     (
         cd /root/
         # Copy workload_automation_home.tar.gz to /root for local run.
-        test -f workload_automation_home.tar.gz || wget -S --progress=dot:giga "${WA_HOME_URL}"
+        test -f workload_automation_home.tar.gz || wget -S --progress=dot:giga "${WA_HOME_URL}" -O workload_automation_home.tar.gz
         tar -xf workload_automation_home.tar.gz
     )
     wa --version
