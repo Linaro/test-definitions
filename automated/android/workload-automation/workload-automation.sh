@@ -3,8 +3,6 @@
 
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
-RESULT_FILE="${OUTPUT}/result.txt"
-export RESULT_FILE
 SKIP_INSTALL="false"
 ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
@@ -18,11 +16,11 @@ BUILD_TOOLS_URL="http://testdata.validation.linaro.org/apks/workload-automation/
 WA_HOME_URL="http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>] [-p <aep_path>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-S <android_serial>] [-t <boot_timeout>] [-T <wa_tag>] [-r <wa_templates_repo>] [-g <templates_branch>] [-c <config>] [-a <agenda>] [-b <build_tools_url>] [-w <wa_home_url>] [-p <aep_path>] [-o <output_dir>]" 1>&2
     exit 1
 }
 
-while getopts ":s:S:t:T:r:g:c:a:b:w:p:" opt; do
+while getopts ":s:S:t:T:r:g:c:a:b:w:p:o:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
         S) ANDROID_SERIAL="${OPTARG}" ;;
@@ -35,6 +33,7 @@ while getopts ":s:S:t:T:r:g:c:a:b:w:p:" opt; do
         b) BUILD_TOOLS_URL="${OPTARG}" ;;
         w) WA_HOME_URL="${OPTARG}" ;;
         p) PROBE="${OPTARG}" ;;
+        o) NEW_OUTPUT="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -43,7 +42,12 @@ done
 . "${TEST_DIR}/../../lib/android-test-lib"
 
 cd "${TEST_DIR}"
+if [ ! -z "${NEW_OUTPUT}" ]; then
+    OUTPUT="${NEW_OUTPUT}"
+fi
 create_out_dir "${OUTPUT}"
+RESULT_FILE="${OUTPUT}/result.txt"
+export RESULT_FILE
 
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "WA installation skipped"
