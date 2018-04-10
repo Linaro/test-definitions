@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "314d9342_171d891c",
+        "filename": "automated/linux/ltp/skipfile-lkft.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2018-04-10T17:24:03Z",
+      "side": 0,
+      "message": "I think this section needs updating too. Most of these tests are passing on most boards/branches (I see there are still issues with netns_sysfs and with x15)",
+      "revId": "d3a509aaadf60d69b125554995a1177731afccdf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
