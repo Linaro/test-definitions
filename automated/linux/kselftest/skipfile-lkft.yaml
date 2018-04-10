@@ -224,6 +224,7 @@ skiplist:
       - qemu_arm64
       - qemu_arm
       - dragonboard-410c
+      - juno-r2
     branches: all
     tests:
       - step_after_suspend_test
