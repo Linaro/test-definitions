@@ -24,13 +24,17 @@ params:
     PIGLIT_SOURCE_DIR: "/usr/lib64/piglit"
     OPTIONS: "-x streaming-texture-leak -x glx"
     SUITE: "tests/quick.py"
+    USE_XVFB: "False"
 
 run:
     steps:
         - . ./automated/lib/sh-test-lib
-        - install_deps piglit xvfb
-        - export DISPLAY=:9
-        - Xvfb ${DISPLAY} -screen 0 1920x1080x24 &
+        - install_deps piglit
+        - if [ "${USE_XVFB}" = "True" ]; then
+        -     install_deps xvfb
+        -     export DISPLAY=:9
+        -     Xvfb ${DISPLAY} -screen 0 1920x1080x24 &
+        - fi
         - export PIGLIT_SOURCE_DIR=${PIGLIT_SOURCE_DIR}
         - cd ./automated/linux/piglit
         - piglit run ${OPTIONS} ${PIGLIT_SOURCE_DIR}/${SUITE} ./results
