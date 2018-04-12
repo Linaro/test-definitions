@@ -229,6 +229,17 @@ skiplist:
     tests:
       - step_after_suspend_test
 
+  - reason:
+    url:
+    environments: all
+    boards:
+      - x86
+    branches:
+      - 4.4
+      - 4.9
+    tests:
+      - step_after_suspend_test
+
   - reason: >
       LKFT: linux-mainline: x15: printf.sh bitmap.sh netns_netlink - section 4
       reloc 2 sym 'memset': relocation 28 out of range (0xbf046044 ->
