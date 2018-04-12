@@ -230,6 +230,18 @@ skiplist:
       - step_after_suspend_test
 
   - reason: >
+      LKFT: 4.9 and 4.4: x86: breakpoint step_after_suspend_tests
+    url: https://bugs.linaro.org/show_bug.cgi?id=3739
+    environments: all
+    boards:
+      - x86
+    branches:
+      - 4.4
+      - 4.9
+    tests:
+      - step_after_suspend_test
+
+  - reason: >
       LKFT: linux-mainline: x15: printf.sh bitmap.sh netns_netlink - section 4
       reloc 2 sym 'memset': relocation 28 out of range (0xbf046044 ->
       0xc109f720)
