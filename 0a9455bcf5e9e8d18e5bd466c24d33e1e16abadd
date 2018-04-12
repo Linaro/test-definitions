@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "461845b0_08e93e87",
+        "filename": "automated/linux/kselftest/skipfile-lkft.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2018-04-12T18:18:40Z",
+      "side": 1,
+      "message": "No reason/url?",
+      "revId": "0a9455bcf5e9e8d18e5bd466c24d33e1e16abadd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
