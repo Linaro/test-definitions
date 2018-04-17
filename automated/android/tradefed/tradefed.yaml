@@ -45,6 +45,7 @@ run:
         # create test use to run the cts/vts tests
         - useradd -m testuser && echo "testuser created successfully"
         - chown testuser:testuser .
+        - ./monitor_fastboot.sh &
         - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}"
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
@@ -59,3 +60,4 @@ run:
         - userdel testuser -f -r || true
         # When adb device lost, end test job to mark it as 'incomplete'.
         - if ! adb shell echo ok; then error_fatal "adb device $ANDROID_SERIAL lost!"; fi
+        - killall monitor_fastboot.sh
