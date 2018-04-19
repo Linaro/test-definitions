@@ -26,6 +26,10 @@ adb_debug_info() {
         # avoid returning 1 when 'find' doesn't work
         find /dev/bus/usb || true
     fi
+    info_msg "===== list fastboot devices start ========="
+    fastboot devices
+    info_msg "===== list fastboot devices end ========="
+    info_msg "===== default ANDROID_SERIAL=${ANDROID_SERIAL} ========="
 }
 
 initialize_adb() {
