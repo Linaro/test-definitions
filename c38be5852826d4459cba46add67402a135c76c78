@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d338b21_b5af6b30",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-04-19T08:02:13Z",
+      "side": 1,
+      "message": "I am not sure about the use case, but put fastboot debug code in adb_debug_info function doesn\u0027t look good to me.",
+      "revId": "c38be5852826d4459cba46add67402a135c76c78",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c168107e_d7b3c6d2",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-04-19T08:02:13Z",
+      "side": 1,
+      "message": "ANDROID_SERIAL is set either in yaml file or in initialized_adb() line #48, and line #54 prints the value. \n\nLine #38 will call this function adb_debug_info(), means the variable not set yet at that time.",
+      "revId": "c38be5852826d4459cba46add67402a135c76c78",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
