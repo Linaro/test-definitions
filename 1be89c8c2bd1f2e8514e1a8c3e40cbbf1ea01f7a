@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a274a6d_17c17e62",
+        "filename": "automated/android/tradefed/tradefed.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-04-19T10:03:43Z",
+      "side": 1,
+      "message": "the if [ ${TEST_REBOOT_EXPECTED} \u003d\u003d \"true\" ]; should also be here. Otherwise we\u0027ll return \"1\" as exit code and LAVA will consider the whole test shell as failed.",
+      "revId": "1be89c8c2bd1f2e8514e1a8c3e40cbbf1ea01f7a",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
