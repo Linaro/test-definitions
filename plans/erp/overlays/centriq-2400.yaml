@@ -1,9 +1,9 @@
 metadata:
-  name: centriq2400
+  name: centriq-2400
   description: Test plan ovelay for EE RPB.
   os: Debian
   devices:
-    - centriq2400
+    - centriq-2400
   maintainer:
     - milosz.wasilewski@linaro.org
     - dan.rue@linaro.org
