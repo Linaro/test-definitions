@@ -407,6 +407,9 @@ skiplist:
     boards:
       - dragonboard-410c
       - x15
+      - qemu_x86_64
+      - qemu_arm64
+      - qemu_arm
     branches: all
     tests:
       - rtctest
