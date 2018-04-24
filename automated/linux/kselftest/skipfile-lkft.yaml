@@ -469,15 +469,8 @@ skiplist:
       open test_l4lb.o : No such file or directory
     url: https://bugs.linaro.org/show_bug.cgi?id=3636
     environments: production
-    boards:
-      - qemu_arm
-      - qemu_arm64
-      - qemu_x86_64
-    branches:
-      - 4.14
-      - 4.15
-      - 4.16
-      - mainline
+    boards: all
+    branches: all
     tests:
       - test_libbpf.sh
       - test_offload.py
@@ -532,3 +525,62 @@ skiplist:
     boards: qemu_x86_64
     branches: all
     tests: sigreturn_64
+
+  - reason: >
+      LKFT: mainline: BPF: test_xdp_redirect.sh and test_xdp_meta.sh skipped
+      - Could not run test without the ip xdpgeneric support
+    url: https://bugs.linaro.org/show_bug.cgi?id=3630
+    environments: production
+    boards: all
+    branches:
+      - 4.16
+      - 4.14
+      - 4.4
+    tests:
+      - test_xdp_meta.sh
+      - test_xdp_redirect.sh
+
+  - reason: >
+      LKFT: linux-mainline: all: net fib-onlink-tests.sh and fib_tests.sh failed
+    url: https://bugs.linaro.org/show_bug.cgi?id=3742
+    environments: production
+    boards: all
+    branches: all
+    tests:
+      - fib-onlink-tests.sh
+      - fib_tests.sh
+
+  - reason: >
+      LKFT: linux-next: gpio: gpio-mockup-chardev: No such file or directory -
+      Build failed.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3122
+    environments: production
+    boards:
+      - x15
+      - qemu_arm
+    branches:
+      - 4.16
+    tests:
+      - gpio-mockup.sh
+
+  - reason: >
+      LKFT: LKFT: 4.14 4.9 4.4 : membarrier_test test failed on all devices
+      when kselftest upgrade to 4.16
+    url: https://bugs.linaro.org/show_bug.cgi?id=3771
+    environments: production
+    boards: all
+    branches:
+      - 4.14
+      - 4.9
+      - 4.4
+    tests:
+      - membarrier_test
+
+  - reason: >
+      LKFT: LKFT: mainline: dragon board 410c: proc read failed - ICMPv6:
+      process `read' is using deprecated sysctl
+    url: https://bugs.linaro.org/show_bug.cgi?id=3744
+    environments: production
+    boards: dragonboard-410c
+    branches: all
+    tests: read
