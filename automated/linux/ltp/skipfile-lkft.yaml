@@ -296,3 +296,19 @@ skiplist:
     branches: all
     tests:
       - netns_netlink
+
+  - reason: "LKFT: qemu: LTP skip failed timing test cases"
+    url: https://bugs.linaro.org/show_bug.cgi?id=3768
+    environments:
+      - production
+    boards:
+      - qemu_x86_64
+      - qemu_arm64
+      - qemu_arm
+    branches: all
+    tests:
+      - clock_nanosleep02
+      - epoll_wait02
+      - futex_wait05
+      - nanosleep01
+      - poll02
