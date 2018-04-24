@@ -40,7 +40,7 @@ params:
 
     SKIP_INSTALL: false
     # Slow machines need more timeout Default is 5min and multiply * TIMEOUT_MULTIPLIER
-    TIMEOUT_MULTIPLIER: 1
+    TIMEOUT_MULTIPLIER: 3
     # root's password. Needed by ltp/su01.
     ROOT_PASSWD: root
 
