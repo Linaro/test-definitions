@@ -5,15 +5,17 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
+TESTS="pwd, lsb_release -a, uname -a, ip a, lscpu, vmstat, lsblk"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-t TESTS]" 1>&2
     exit 1
 }
 
-while getopts "s:h" o; do
+while getopts "s:t:h" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
+    t) TESTS="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -42,10 +44,8 @@ run() {
 create_out_dir "${OUTPUT}"
 
 install
-run "pwd"
-run "lsb_release -a"
-run "uname -a"
-run "ip a"
-run "lscpu"
-run "vmstat"
-run "lsblk"
+while [ -n "${TESTS}" ]; do
+    test_cmd="$(echo "${TESTS}" | awk -F',' '{print $1}')"
+    run "${test_cmd}"
+    TESTS="$(echo "${TESTS}" | sed -r "s/${test_cmd},? *//")"
+done
