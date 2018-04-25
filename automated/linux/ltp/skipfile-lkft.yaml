@@ -193,6 +193,8 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - x86
+      - qemu_arm64
+      - qemu_arm
     branches: all
     tests:
       - pth_str01
