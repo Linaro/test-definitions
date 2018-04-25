@@ -381,3 +381,5 @@ generate_skipfile() {
     cat "${SKIPFILE_PATH}"
     info_msg "EOF"
 }
+
+string_contains() { [ -z "${2##*$1*}" ]; }

@@ -27,9 +27,10 @@ metadata:
 
 params:
     SKIP_INSTALL: "False"
+    TESTS: "pwd lsb_release uname ip lscpu vmstat lsblk"
 
 run:
     steps:
         - cd ./automated/linux/smoke/
-        - ./smoke.sh -s "${SKIP_INSTALL}"
+        - ./smoke.sh -s "${SKIP_INSTALL}" -t "${TESTS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
