@@ -1,0 +1,42 @@
+metadata:
+    name: cts
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run tradefed based tests in LAVA."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    SKIP_INSTALL: "false"
+    # Specify timeout in seconds for wait_boot_completed and wait_homescreen.
+    TIMEOUT: "300"
+    # Download CTS package or copy it from local disk.
+    # CTS_URL: "/root/android-cts/linaro/7.1_r1/android-cts-7.1_r1.zip"
+    TEST_URL: "http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
+    TEST_PARAMS: "run cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
+    # set to the name of the top directory in TEST_URL archive
+    # This should be 'android-cts' for CTS and android-vts for VTS
+    TEST_PATH: "android-cts"
+    # Specify result format: aggregated or atomic
+    RESULTS_FORMAT: "aggregated"
+    # Specify url and token for file uploading.
+    URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    TOKEN: ""
+    AP_SSID: ""
+    AP_KEY: ""
+    # Specify the failures number to be printed
+    FAILURES_PRINTED: "0"
+    TEST_REBOOT_EXPECTED: "false"
+
+run:
+    steps:
+      - cd automated/android/test-fastboot
+      - ./monitor_fastboot.sh &
+      - ./reboot_adb.sh
