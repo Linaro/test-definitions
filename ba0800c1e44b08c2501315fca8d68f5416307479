@@ -34,6 +34,24 @@
       "revId": "ba0800c1e44b08c2501315fca8d68f5416307479",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2677da81_f4181c64",
+        "filename": "automated/linux/smoke/smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-04-26T12:34:50Z",
+      "side": 1,
+      "message": "I realized the problem here is some cmds need extra options. \n\nI tried the following, it worked. In this way, user can put any cmds in $TESTS.\n\nTESTS\u003d\"pwd, lsb_release -a, uname -a, ip a, lscpu, vmstat, lsblk\"\n\nwhile [ -n \"${TESTS}\" ]; do\n    test\u003d\"$(echo $TESTS | awk -F\u0027,\u0027 \u0027{print $1}\u0027)\"\n    run \"${test}\"\n    TESTS\u003d\"$(echo \"${TESTS}\" | sed -r \"s/${test},? *//\")\"\ndone",
+      "parentUuid": "26c636c3_6e763585",
+      "revId": "ba0800c1e44b08c2501315fca8d68f5416307479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
