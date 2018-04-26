@@ -15,6 +15,9 @@ metadata:
   format: Linaro Test Plan v2
 
 skip:
+      # Skip disk-partitioning test until MLAB-43 is resolved
+    - path: automated/linux/disk-partitioning/disk-partitioning.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
 
 amend:
 
