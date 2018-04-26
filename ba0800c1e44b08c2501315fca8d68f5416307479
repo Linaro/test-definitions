@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72713fea_3ad15c48",
+        "filename": "automated/linux/smoke/smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-04-26T10:27:59Z",
+      "side": 1,
+      "message": "hmm, can we make it even more generic and iterate over items in TESTS?",
+      "revId": "ba0800c1e44b08c2501315fca8d68f5416307479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
