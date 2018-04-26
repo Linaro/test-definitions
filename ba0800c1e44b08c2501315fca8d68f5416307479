@@ -16,6 +16,24 @@
       "revId": "ba0800c1e44b08c2501315fca8d68f5416307479",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26c636c3_6e763585",
+        "filename": "automated/linux/smoke/smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-04-26T11:07:23Z",
+      "side": 1,
+      "message": "+1 on simply iterate over $TESTS",
+      "parentUuid": "72713fea_3ad15c48",
+      "revId": "ba0800c1e44b08c2501315fca8d68f5416307479",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
