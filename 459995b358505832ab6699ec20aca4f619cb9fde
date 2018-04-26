@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da8b8d4a_8728a647",
+        "filename": "automated/linux/v4l2/v4l2-compliance.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-04-26T10:25:19Z",
+      "side": 1,
+      "message": "@Ryan, do you mind changing tabs to spaces (preferred) or spaces to tabs in order to make the formatting uniform in this script?",
+      "revId": "459995b358505832ab6699ec20aca4f619cb9fde",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
