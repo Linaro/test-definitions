@@ -1,0 +1,25 @@
+metadata:
+    name: badblocks
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run a read-only test for bad blocks"
+    maintainer:
+        - ryan.harkin@linaro.org
+    os:
+        - openembedded
+        - debian
+    scope:
+        - functional
+    devices:
+        - imx7s-warp
+        - sun8i-h2-plus-bananapi-m2-zero
+
+parameters:
+    BLOCK_DEVICE: 'default'
+    BADBLOCKS_PARAMS: ''
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/badblocks/
+        - ./badblocks.sh -b "${BLOCK_DEVICE}" -p "${BADBLOCKS_PARAMS}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
