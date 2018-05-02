@@ -19,7 +19,7 @@ metadata:
 
 run:
     steps:
-        - "./android/scripts/memtester.sh"
+        - ${SHELL} "./android/scripts/memtester.sh"
 
 parse:
     pattern: "^(?P<test_case_id>\\w+\\s+\\w+)\\s*:\\s+(?P<result>\\w+)$"
