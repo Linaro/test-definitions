@@ -1,0 +1,29 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: memtester
+    description: "Stress test to find memory subsystem faults"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+        - stress
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+
+parameters:
+    SKIP_INSTALL: "False"
+    # The amount of memory to allocate and test.
+    MEMORY: "1M"
+    # Number of loops to iterate through.
+    ITERATIONS: 1
+
+run:
+    steps:
+        - cd ./automated/linux/memtester/
+        - ./memtester.sh -s "${SKIP_INSTALL}" -m "${MEMORY}" -i "${ITERATIONS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
