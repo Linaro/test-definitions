@@ -43,6 +43,7 @@ skiplist:
       - dragonboard-410c
       - qemu_x86_64
       - qemu_arm64
+      - qemu_arm
     branches: all
     tests:
       - fork13
@@ -73,6 +74,7 @@ skiplist:
       - dragonboard-410c
       - qemu_x86_64
       - qemu_arm64
+      - qemu_arm
     branches: all
     tests:
       - msgctl10
@@ -88,6 +90,7 @@ skiplist:
       - x15
       - qemu_x86_64
       - qemu_arm64
+      - qemu_arm
     branches: all
     tests:
       - pselect01
@@ -103,6 +106,7 @@ skiplist:
       - x15
       - dragonboard-410c
       - qemu_arm64
+      - qemu_arm
     branches: all
     tests:
       - quotactl01
@@ -285,6 +289,7 @@ skiplist:
       - x86
       - qemu_x86_64
       - qemu_arm64
+      - qemu_arm
     branches: all
     tests:
       - readahead02
@@ -295,6 +300,7 @@ skiplist:
       - production
     boards:
       - x15
+      - qemu_arm
     branches: all
     tests:
       - netns_netlink
