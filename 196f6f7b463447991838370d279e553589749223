@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73575e1f_2960b99a",
+        "filename": "automated/linux/memtester/memtester.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-05-03T09:28:45Z",
+      "side": 1,
+      "message": "I tested on Ubuntu, in memtester\u0027s stdout, I see the a lot of undesired characters, refer to https://pastebin.linaro.org/view/f71e48b4\n\nI believe the parse in the old test case only catch part of the tests. I had to rewrote this part to catch all of them.",
+      "revId": "196f6f7b463447991838370d279e553589749223",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
