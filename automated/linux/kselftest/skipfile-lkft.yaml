@@ -584,3 +584,15 @@ skiplist:
     boards: dragonboard-410c
     branches: all
     tests: read
+
+  - reason: >
+      LKFT: next: selftests: net: udpgso_bench_tx/ rx not suppose to run independently
+    url: https://bugs.linaro.org/show_bug.cgi?id=3790
+    environments: all
+    boards: all
+    branches:
+      - mainline
+      - next
+    tests:
+      - udpgso_bench_tx
+      - udpgso_bench_rx
