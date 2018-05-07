@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1eef32a6_40246f0b",
+        "filename": "automated/linux/badblocks/badblocks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-05-07T07:06:56Z",
+      "side": 1,
+      "message": "[-p \u003cbadblocks_params\u003e] is missing here.",
+      "revId": "696cd4b734ca67798816c6b60a608d31d36c1d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a714608_a3fdd0ba",
+        "filename": "automated/linux/badblocks/badblocks.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-05-07T07:06:56Z",
+      "side": 1,
+      "message": "\u0027-b\u0027 should be a better choice.\n\n-b FILE\n    FILE exists and is block special",
+      "range": {
+        "startLine": 42,
+        "startChar": 34,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "696cd4b734ca67798816c6b60a608d31d36c1d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3a7ccd9_75ab4233",
+        "filename": "automated/linux/badblocks/badblocks.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-05-07T07:06:56Z",
+      "side": 1,
+      "message": "Unless you only need to test the default rootfs, you will need sth like the following section here to change the default params in test plan.\n\nparameters:\n    BLOCK_DEVICE: \u0027default\u0027\n    BADBLOCKS_PARAMS: \u0027\u0027",
+      "revId": "696cd4b734ca67798816c6b60a608d31d36c1d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7763f62_5b07f8a1",
+        "filename": "automated/linux/badblocks/badblocks.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-05-07T07:06:56Z",
+      "side": 1,
+      "message": "Pass the above params to test script:\n ./badlocks.sh -d \"${BLOCK_DEVICE}\" -p \"${BADBLOCKS_PARAMS}\"\n\nThen, in test script, you will need to set the following var in the very beginning,\n\nBLOCK_DEVICE\u003d\u0027default\u0027\n\nAnd using [ \"${BLOCK_DEVICE}\" \u003d \"default\" ] instead of [ -z \"${BLOCK_DEVICE}\" ] for checking.\n\nIt is redundant, but it is a compromise, we want to support both local run using the script directly and test run with test-runner or within LAVA using yaml file.",
+      "revId": "696cd4b734ca67798816c6b60a608d31d36c1d00",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
