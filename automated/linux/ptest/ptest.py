@@ -61,8 +61,12 @@ def get_available_ptests(ptest_dir):
     return ptests
 
 
-def filter_ptests(ptests, requested_ptests):
+def filter_ptests(ptests, requested_ptests, exclude):
     filter_ptests = []
+
+    for ptest in exclude:
+        if ptest in ptests:
+            ptests.remove(ptest)
 
     if not requested_ptests:
         return ptests
@@ -100,6 +104,8 @@ def main():
                                      add_help=False)
     parser.add_argument('-t', '--tests', action='store', nargs='*',
                         help='Ptests to run')
+    parser.add_argument('-e', '--exclude', action='store', nargs='*',
+                        help='Ptests to exclude')
     parser.add_argument('-d', '--ptest-dir',
                         help='Directory where ptests are stored (optional)',
                         action='store')
@@ -129,8 +135,13 @@ def main():
     if args.tests:
         tests = [x for x in args.tests if x]
 
+    # filter empty strings caused by -e ""
+    exclude = []
+    if args.exclude:
+        exclude = [e for e in args.exclude if e]
+
     required_ptests = dict.fromkeys(tests, False)
-    ptests_to_run = filter_ptests(ptests, required_ptests)
+    ptests_to_run = filter_ptests(ptests, required_ptests, exclude)
     for ptest_name in ptests_to_run:
         check_ptest(ptest_dir, ptest_name, args.output_log)
 

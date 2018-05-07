@@ -16,9 +16,10 @@ metadata:
 
 params:
     TESTS: ""
+    EXCLUDE: ""
 
 run:
     steps:
         - cd ./automated/linux/ptest
-        - ./ptest.py -o ./result.txt -t ${TESTS}
+        - ./ptest.py -o ./result.txt -t ${TESTS} -e ${EXCLUDE}
         - ../../utils/send-to-lava.sh ./result.txt
