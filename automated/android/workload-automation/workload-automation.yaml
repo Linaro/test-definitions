@@ -49,6 +49,7 @@ params:
 run:
     steps:
         - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
+        - export WA_PLUGIN_PATHS=$WA_EXTENSION_PATHS
         - cd ./automated/android/workload-automation
         - echo ${OUTPUT}
         - if [ -z "${OUTPUT}" ]; then OUTPUT="./output"; fi
