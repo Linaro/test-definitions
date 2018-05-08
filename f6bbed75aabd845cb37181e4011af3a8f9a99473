@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eec4d531_ada271d3",
+        "filename": "automated/linux/ptest/ptest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-05-08T08:33:17Z",
+      "side": 1,
+      "message": "hmm, since exclude_ptests is a dictionary, can\u0027t you just use  filter_ptests function? You would need to change line 153 and assign True to the tests names to be executed. This way we would save on creating very similar functions.",
+      "revId": "f6bbed75aabd845cb37181e4011af3a8f9a99473",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
