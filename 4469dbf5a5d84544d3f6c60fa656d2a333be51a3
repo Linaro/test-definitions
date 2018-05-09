@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11fa7df1_094a8c71",
+        "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-05-09T15:49:33Z",
+      "side": 1,
+      "message": "apt-get can be quite noisy with progress bars, these can be silenced with the -q option:\n\n apt-get install -q -y curl",
+      "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff87f33_608bde4d",
+        "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-05-09T15:49:33Z",
+      "side": 1,
+      "message": "These test cases don\u0027t cover the situation where the test job needs to terminate if one of these goes wrong. The test shell to deploy the bootloader may fail but that does not halt the test job.\nSee the example in the recovery_mode review and create a script which can run inside LAVA and outside LAVA.\n\nhttps://git.linaro.org/lava-team/refactoring.git/tree/testdefs/hikey-6220-recovery.yaml\n\nhttps://git.linaro.org/lava-team/refactoring.git/tree/scripts/hikey-6220-recovery.sh#n48",
+      "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
