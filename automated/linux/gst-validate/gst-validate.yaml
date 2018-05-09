@@ -26,17 +26,22 @@ params:
     MAIN_DIR: "/gst-validate"
     OPTIONS: "-nd -v -j 1"
     GST_INTEGRATION_SUITES: "http://testdata.validation.linaro.org/gst-validate/gst-integration-testsuites_1.12.tar.gz"
+    GST_IGNORE_TESTS_REPO: ""
+    GST_IGNORE_TESTS_BRANCH: "master"
+    GST_IGNORE_TESTS_FILE: ""
 
 run:
     steps:
+        - . ./automated/lib/sh-test-lib
+        - cd ./automated/linux/gst-validate
         - wget ${GST_INTEGRATION_SUITES}
         - tar -xzf $(basename ${GST_INTEGRATION_SUITES}) -C /
-        - gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS} || true
-
-parse:
-    pattern: '(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))'
-    fixupdict:
-        Failed: fail
-        Passed: pass
-        Skipped: skip
-        Timeout: fail
+        - IGNORE_FILE=""
+        - if [ ! -z "${GST_IGNORE_TESTS_REPO}" ] && [ ! -z "${GST_IGNORE_TESTS_FILE}" ]; then
+        -     repo_path=${PWD}/$(basename ${GST_IGNORE_TESTS_REPO})
+        -     git clone -b ${GST_IGNORE_TESTS_BRANCH} ${GST_IGNORE_TESTS_REPO} $repo_path
+        -     IGNORE_FILE=${repo_path}/${GST_IGNORE_TESTS_FILE}
+        - fi
+        - gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS} 2>&1 | tee ./gst-validate-raw.log
+        - ./gst_validate_lava_parse.py ./gst-validate-raw.log ${IGNORE_FILE} > ./result.txt
+        - ../../utils/send-to-lava.sh ./result.txt
