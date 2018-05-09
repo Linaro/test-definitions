@@ -1,0 +1,29 @@
+metadata:
+    format: Lava Test Shell Definition 1.0
+    name: flash-imx8m-board
+    description: "Used to deploy binaries to a fastboot imx8m target"
+    maintainer:
+        - conrad.djedjebi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - imx8m
+
+params:
+    soc_name: "imx8mq"
+    bootloader_file: "u-boot-${soc_name}.imx"
+
+run:
+    steps:
+    - lava-test-case fastboot-reboot --shell apt-get install -y curl
+    - lava-test-case get-bootloader-file --shell curl http://snapshots.linaro.org/android/imx8m/4/${bootloader_file}
+    - lava-test-case adb-wait-for-device --shell adb wait-for-device
+    - lava-test-case push-bootloader-file --shell adb push ${bootloader_file} /data
+    - lava-test-case create-node --shell node=`adb shell "cat /proc/partitions" | grep -w mmcblk1 | awk '{print $1,$2}'`
+    - lava-test-case patch-bootloader-step1 --shell adb shell "mknod /dev/boot b ${node}"
+    - lava-test-case patch-bootloader-step2 --shell adb shell "dd if=/data/${bootloader_file} of=/dev/boot bs=1k seek=33; sync"
+    - lava-test-case adb-reboot --shell adb reboot
+    - lava-test-case adb-wait-for-device --shell adb wait-for-device
+
