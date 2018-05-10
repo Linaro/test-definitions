@@ -1,0 +1,30 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: arm-probe-install
+    description: "Install arm-probe tool on devices that have ARM
+                  energy probes connected to them.
+                  It also installs configuration files for the probe"
+    maintainer:
+        - lisa.nguyen@linaro.org
+        - milosz.wasilewski@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - hi6220-hikey
+        - hi960-hikey
+        - juno
+
+params:
+    AEP_REPOSITORY: https://git.linaro.org/tools/arm-probe.git
+    AEP_REF: master
+    AEP_CONFIG_REPOSITORY: https://git.linaro.org/power/energy-probe-ext.git
+    AEP_CONFIG_REF: master
+    # path should be absolute
+    AEP_CONFIG_TARGET_PATH: /root/energy-probe-ext
+
+run:
+    steps:
+        - cd ./automated/android/workload-automation
+        - ./aep-install.sh -r "${AEP_REPOSITORY}" -t "${AEP_REF}"
+        - ./aep-energy-config.sh -r "${AEP_CONFIG_REPOSITORY}" -t "${AEP_CONFIG_REF}" -p "${AEP_CONFIG_TARGET_PATH}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
