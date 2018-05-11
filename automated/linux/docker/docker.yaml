@@ -1,12 +1,15 @@
 metadata:
     name: docker
     format: "Lava-Test-Shell Test Definition 1.0"
-    description: "Ensure that Docker can be used"
+    description: "Docker smoke test. When docker not pre-installed,
+                  docker-ce will be installed from upstream on supported
+                  distributions."
     maintainer:
         - nicolas.dechesne@linaro.org
         - chase.qi@linaro.org
     os:
         - debian
+        - ubuntu
         - fedora
         - centos
     scope:
