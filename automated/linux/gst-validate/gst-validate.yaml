@@ -42,6 +42,6 @@ run:
         -     git clone -b ${GST_IGNORE_TESTS_BRANCH} ${GST_IGNORE_TESTS_REPO} $repo_path
         -     IGNORE_FILE=${repo_path}/${GST_IGNORE_TESTS_FILE}
         - fi
-        - gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS} 2>&1 | tee ./gst-validate-raw.log
+        - gst-validate-launcher -M ${MAIN_DIR} ${OPTIONS} > ./gst-validate-raw.log || true
         - ./gst_validate_lava_parse.py ./gst-validate-raw.log ${IGNORE_FILE} > ./result.txt
         - ../../utils/send-to-lava.sh ./result.txt
