@@ -66,13 +66,12 @@ install() {
     case "${dist}" in
       debian|ubuntu)
         pkgs="binutils gcc make python sed tar wget gfortran"
-        install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       fedora|centos)
-        pkgs="binutils gcc glibc-static make python sed tar wget gfortran"
-        install_deps "${pkgs}" "${SKIP_INSTALL}"
+        pkgs="binutils gcc glibc-static make python sed tar wget gcc-gfortran"
         ;;
     esac
+    install_deps "${pkgs}" "${SKIP_INSTALL}"
 }
 
 # Test run.
