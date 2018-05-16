@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a38629f7_e6193afa",
+        "filename": "automated/linux/kselftest/skipfile-lkft.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-05-16T10:04:52Z",
+      "side": 1,
+      "message": "We stopped building 4.15\nPlease remove 4.15.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 12
+      },
+      "revId": "e7411309a2649c676bebf8268d888e7ded15c4f1",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
