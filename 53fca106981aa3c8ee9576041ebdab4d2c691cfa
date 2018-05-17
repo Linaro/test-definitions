@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea8256f3_04b97dda",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-05-17T14:07:56Z",
+      "side": 1,
+      "message": "This line introduced by this patch https://git.linaro.org/qa/test-definitions.git/commit/?id\u003d468f33fde99d1f7b2c9e877c594f2f8b08dcc954 was used to solve the searching buffer issue. The first pattern \u0027.+\u0027 will match any characters, means log buffer will be flushed every at most 61 seconds. Unless your test case generate huge amount of logs every minute, this should be enough?\n\nLets see if the searchwindowsize parameter helps in your case.",
+      "revId": "53fca106981aa3c8ee9576041ebdab4d2c691cfa",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
