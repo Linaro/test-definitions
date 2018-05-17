@@ -204,7 +204,7 @@ if command == 'android-vts/tools/vts-tradefed' and \
     monitor_cmd = 'android-vts/testcases/vts/script/monitor-runner-output.py -m'
     monitor_vts_output = subprocess.Popen(shlex.split(monitor_cmd), stderr=subprocess.STDOUT, stdout=vts_run_details)
 
-child = pexpect.spawn(command, logfile=tradefed_stdout)
+child = pexpect.spawn(command, logfile=tradefed_stdout, searchwindowsize=1024)
 try:
     child.expect(prompt, timeout=60)
     child.sendline(args.TEST_PARAMS)
@@ -244,11 +244,12 @@ while child.isalive():
     m = child.expect(['ResultReporter: Full Result:',
                       'ConsoleReporter:.*Test run failed to complete.',
                       pexpect.TIMEOUT],
+                     searchwindowsize=1024,
                      timeout=60)
     # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
     if m == 0:
         try:
-            child.expect(prompt, timeout=60)
+            child.expect(prompt, searchwindowsize=1024, timeout=60)
             logger.debug('Sending "exit" command to TF shell...')
             child.sendline('exit')
             child.expect(pexpect.EOF, timeout=60)
