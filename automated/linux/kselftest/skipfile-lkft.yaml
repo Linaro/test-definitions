@@ -53,7 +53,7 @@ skiplist:
       LKFT: linux-mainline: kernel panic on X15 when running ftrace kseltest
       https://bugs.linaro.org/show_bug.cgi?id=3304
     url: https://bugs.linaro.org/show_bug.cgi?id=3297
-    environments: all
+    environments: production
     boards: all
     branches: all
     tests:
