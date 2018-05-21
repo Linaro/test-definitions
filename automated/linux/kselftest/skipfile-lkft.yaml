@@ -192,33 +192,6 @@ skiplist:
       - fw_filesystem.sh
 
   - reason: >
-      LKFT: linux-mainline: x86: kselftest NET reuseport_bpf failed (new test)
-    url: https://bugs.linaro.org/show_bug.cgi?id=3502
-    environments: production
-    boards:
-      - x86
-      - qemu_x86_64
-      - x15
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.16
-      - mainline
-    tests:
-      - reuseport_bpf
-  - reason: >
-      LKFT: linux-mainline: x86: kselftest NET reuseport_bpf failed (new test)
-    url: https://bugs.linaro.org/show_bug.cgi?id=3502
-    environments: production
-    boards: all
-    branches:
-      - 4.4
-      - 4.9
-    tests:
-      - reuseport_bpf
-
-  - reason: >
       LKFT: mainline: x86: kselftests fsgsbase_64 failed - GS/BASE changed from
       0x1/0x0 to 0x0/0x0
       Fails intermittently
