@@ -17,7 +17,7 @@ def main():
     row_index = 0
     headers = []
     measurements = {}
-    with open(args.source_filename, "rb") as f:
+    with open(args.source_filename, "r") as f:
         reader = csv.reader(f)
         for row in reader:
             if row_index == 0:
@@ -29,8 +29,10 @@ def main():
                         headers[item_index] = headers[item_index] + "_" + item
                     item_index = item_index + 1
             else:
-                # concatenate first 3 cells
-                name = row[0] + "_" + row[1] + "_" + row[2]
+                # concatenate first 2 cells
+                # 3rd cell contains git commit which changes often
+                name = row[0] + "_" + row[1]
+                # start from column 4 (indexed from 0)
                 item_index = 3
                 for item in row[item_index:]:
                     if item != "":
