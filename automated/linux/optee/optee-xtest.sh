@@ -54,4 +54,4 @@ grep -E "^[0-9]+ test case was skipped" "${LOG_FILE}" \
     | tee -a "${RESULT_FILE}"
 
 # Cleanup.
-kill "${tee_supplicant_pid}"
+kill "${tee_supplicant_pid}" || true
