@@ -1,0 +1,22 @@
+metadata:
+    name: pritee_test_utility
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "PlayReady Interface for Trusted Execution Environment Test Utility"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - dragonboard-410c
+
+params:
+    OPTS: "-drmpath:/usr/share/playready"
+
+run:
+    steps:
+        - cd automated/linux/pritee_test_utility
+        - ./pritee_test_utility.sh ${OPTS}
+        - ../../utils/send-to-lava.sh ./output/result.txt
