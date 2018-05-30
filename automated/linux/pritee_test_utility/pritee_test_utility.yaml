@@ -1,0 +1,29 @@
+metadata:
+    name: pritee_test_utility
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "PlayReady Interface for Trusted Execution Environment Test Utility"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - hi6220-hikey
+        - dragonboard-410c
+
+params:
+    OPTS: "-drmpath:/usr/share/playready"
+
+run:
+    steps:
+        - chmod a+x /usr/bin/pritee_test_utility.exe
+        - cd automated/linux/pritee_test_utility
+        - /usr/bin/pritee_test_utility.exe ${OPTS} | tee pritee_test_utility.log
+        - pwd; ls -l;
+        - ./pritee_test_utility.sh pritee_test_utility.log
+parse:
+    pattern: "^(?P<test_case_id>[a-zA-Z_-]+)::\\s(?P<result>\\w+)"
+    fixupdict:
+        PASS: pass
+        FAIL: fail
