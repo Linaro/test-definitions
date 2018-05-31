@@ -1,0 +1,26 @@
+metadata:
+  name: centriq-2400
+  description: Test plan ovelay for EE RPB.
+  os: Debian
+  devices:
+    - centriq-2400
+  maintainer:
+    - milosz.wasilewski@linaro.org
+    - dan.rue@linaro.org
+    - chase.qi@linaro.org
+  approver:
+    - milosz.wasilewski@linaro.org
+  owner:
+    - martin.stadtler@linaro.org
+  format: Linaro Test Plan v2
+
+skip:
+      # Skip disk-partitioning test.
+    - path: automated/linux/disk-partitioning/disk-partitioning.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+    - path: automated/linux/libhugetlbfs/libhugetlbfs.yaml
+      repository: https://git.linaro.org/qa/test-definitions.git
+
+amend:
+
+add:
