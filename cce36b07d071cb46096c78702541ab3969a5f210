@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "841421bd_b498e15e",
+        "filename": "automated/linux/pritee_test_utility/pritee_test_utility.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-05-31T10:55:43Z",
+      "side": 1,
+      "message": "Looks like this script is only used to do log parsing to let the parse pattern capture the results.\n\nI suggest we move all the steps in yaml file to the script, and save the output of line #16 to a result file. Then in yaml, you need a line like this https://git.linaro.org/qa/test-definitions.git/tree/automated/linux/optee/optee-xtest.yaml#n27 to sent your results to lave. In this way, we will be able to run the test on local using the script directly without the lava or test runner.\n\nHere is the general idea for tests under automated folder, the so called v2. https://git.linaro.org/qa/test-definitions.git/tree/automated/doc/test-writing-guidelines.rst#n148",
+      "revId": "cce36b07d071cb46096c78702541ab3969a5f210",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cba1ceb_9eabb503",
         "filename": "automated/linux/pritee_test_utility/pritee_test_utility.yaml",
         "patchSetId": 2
