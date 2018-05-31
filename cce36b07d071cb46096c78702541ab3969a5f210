@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cba1ceb_9eabb503",
+        "filename": "automated/linux/pritee_test_utility/pritee_test_utility.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-05-31T08:28:43Z",
+      "side": 1,
+      "message": "Arthur, please save the log to the file so the test can be used outside LAVA. Pattern parsing thing is LAVA specific.",
+      "revId": "cce36b07d071cb46096c78702541ab3969a5f210",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
