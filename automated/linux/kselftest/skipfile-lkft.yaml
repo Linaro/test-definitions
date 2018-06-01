@@ -647,3 +647,13 @@ skiplist:
       - 4.16
       - mainline
     tests: read
+
+  - reason: >
+      LKFT: next: selftests: bpf: test_tunnel.sh crash on x86
+      BUG: unable to handle kernel NULL pointer dereference
+    url: https://bugs.linaro.org/show_bug.cgi?id=3856
+    environments: all
+    boards: x86
+    branches:
+      - next
+    tests: test_tunnel.sh
