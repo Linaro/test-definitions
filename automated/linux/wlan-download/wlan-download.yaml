@@ -1,0 +1,34 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: wlan-download
+    description: "Basic WLAN download test, requires ip, iw, wpa_supplicant and dhclient"
+    maintainer:
+        - anibal.limon@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+        - dragonboard820c
+
+params:
+    DEVICE: wlan0
+    ETHERNET_DEVICE: ""
+    SSID_NAME: ""
+    SSID_PASSWORD: ""
+    FILE_URL: ""
+    FILE_CHECKSUM: ""
+    TIME_DELAY: "0s"
+    NAMESERVER: ""
+
+run:
+    steps:
+        - . ./automated/lib/sh-test-lib
+        - install_deps wpasupplicant iw isc-dhcp-client curl
+        - cd ./automated/linux/wlan-download
+        - ./wlan-download-test.sh -d "${DEVICE}" -e "${ETHERNET_DEVICE}" -s "${SSID_NAME}" -p "${SSID_PASSWORD}" -u "${FILE_URL}" -c "${FILE_CHECKSUM}" -t "${TIME_DELAY}" -n "${NAMESERVER}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
