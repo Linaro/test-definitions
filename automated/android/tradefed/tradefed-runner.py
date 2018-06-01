@@ -246,6 +246,7 @@ while child.isalive():
                       pexpect.TIMEOUT],
                      timeout=60)
     # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
+
     if m == 0:
         try:
             child.expect(prompt, timeout=60)
@@ -289,3 +290,6 @@ if os.path.exists(result_dir) and os.path.isdir(result_dir):
         for name in files:
             if name == test_result:
                 result_parser(os.path.join(root, name), args.RESULTS_FORMAT)
+
+if fail_to_complete:
+    subprocess.call(['lava-test-raise', 'incomplete-cts-module-execution'])
