@@ -2,7 +2,7 @@
 
 RESULT_FILE="$1"
 
-command -v lava-test-case
+which lava-test-case > /dev/null 2>&1
 lava_test_case="$?"
 
 if [ -f "${RESULT_FILE}" ]; then
