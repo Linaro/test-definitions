@@ -1,0 +1,31 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: wlan-download
+    description: "Basic WLAN download test, requires nmcli and curl"
+    maintainer:
+        - anibal.limon@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+        - dragonboard820c
+
+params:
+    DEVICE: wlan0
+    SSID_NAME: ""
+    SSID_PASSWORD: ""
+    FILE_URL: ""
+    FILE_CHECKSUM: ""
+
+run:
+    steps:
+        - . ./automated/lib/sh-test-lib
+        - install_deps network-manager curl
+        - cd ./automated/linux/wlan-download
+        - ./wlan-download-test.sh -d "${DEVICE}" -s "${SSID_NAME}" -p "${SSID_PASSWORD}" -u "${FILE_URL}" -c "${FILE_CHECKSUM}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
