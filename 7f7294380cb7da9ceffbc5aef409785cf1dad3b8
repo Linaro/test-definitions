@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52956cd0_e34aad36",
+        "filename": "automated/linux/wlan-download/wlan-download-test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2018-06-04T08:13:26Z",
+      "side": 1,
+      "message": "i think we can return a test case success/fail for this command as well.",
+      "revId": "7f7294380cb7da9ceffbc5aef409785cf1dad3b8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
