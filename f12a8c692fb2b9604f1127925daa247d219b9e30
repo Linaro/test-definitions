@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c75303b_0c9a1a91",
+        "filename": "automated/linux/wlan-download/wlan-download-test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-06-05T09:59:24Z",
+      "side": 1,
+      "message": "use \n# shellcheck disable\u003dSC2046\nto disable the message if there is no other way of solving the problem",
+      "revId": "f12a8c692fb2b9604f1127925daa247d219b9e30",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
