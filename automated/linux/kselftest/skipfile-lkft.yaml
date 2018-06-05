@@ -657,3 +657,17 @@ skiplist:
     branches:
       - next
     tests: test_tunnel.sh
+
+  - reason: >
+      LKFT: LTP: netns_sysfs and kselftests rtnetlink.sh 1 TBROK: failed to
+      add a new (host) dummy device on Hikey and Juno
+    url: https://bugs.linaro.org/show_bug.cgi?id=3834
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - mainline
+    tests: rtnetlink.sh
