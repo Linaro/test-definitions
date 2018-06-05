@@ -42,7 +42,7 @@ install
 # When not specified, test the default interface.
 test -z "${INTERFACE}" && INTERFACE=$(route | grep -m 1 "^default" | awk '{print $NF}')
 # Get Route Gateway IP address of a given interface.
-GATEWAY=$(route | grep -m 1 "^default.*${INTERFACE}$" | awk '{print $2}')
+GATEWAY=$(route -n | grep -m 1 "^0\.0\.0\.0.*${INTERFACE}$" | awk '{print $2}')
 
 run "netstat -an" "print-network-statistics"
 run "ip addr" "list-all-network-interfaces"
@@ -51,7 +51,20 @@ run "ip link set lo up" "ip-link-loopback-up"
 run "route" "route-dump-after-ip-link-loopback-up"
 run "ip link set ${INTERFACE} up" "ip-link-interface-up"
 run "ip link set ${INTERFACE} down" "ip-link-interface-down"
+
+dist_name
+# shellcheck disable=SC2154
+case "${dist}" in
+    centos|fedora)
+       # dhclient exits with non-zero when it is already running.
+       # Kill it first for the next dhclient test.
+       pkill dhclient || true
+       # It takes time to kill dhclient.
+       sleep 10
+       ;;
+esac
+
 run "dhclient -v ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
 run "route" "print-routing-tables-after-dhclient-request"
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
-run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI -o curl_big_video.avi" "download-a-file"
+run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_720p_MPEG4_MP3_25fps_3300K.AVI -o ${OUTPUT}/curl_big_video.avi" "download-a-file"
