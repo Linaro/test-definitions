@@ -318,3 +318,72 @@ skiplist:
     tests:
       - hackbench01
       - hackbench02
+
+  - reason: >
+      LTP CVE cve-2014-0196 newly running test case have different results on
+      different boards.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3858
+    environments: production
+    boards:
+      - juno-r2
+      - x15
+      - x86
+      - qemu_arm
+      - qemu_arm64
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - mainline
+    tests:
+      - cve-2014-0196
+
+  - reason: >
+      LKFT: LTP: CVE cve-2011-2183 test failed on x86_64 and arm32 x15 devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=3857
+    environments: production
+    boards:
+      - x15
+      - x86
+      - qemu_arm
+      - qemu_x86_64
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - mainline
+    tests:
+      - cve-2011-2183
+
+  - reason: >
+      LKFT: qemu_arm32/64: LTP cve-2016-7117 Test timeouted, sending SIGKILL!
+    url: https://bugs.linaro.org/show_bug.cgi?id=3884
+    environments: production
+    boards:
+      - qemu_arm64
+      - qemu_arm
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - mainline
+    tests:
+      - cve-2016-7117
+
+  - reason: >
+      LKFT: qemu_arm: LTP CVE cve-2015-7550 Test timeouted, sending SIGKILL!
+    url: https://bugs.linaro.org/show_bug.cgi?id=3883
+    environments: production
+    boards:
+      - qemu_arm
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - mainline
+    tests:
+      - cve-2015-7550
