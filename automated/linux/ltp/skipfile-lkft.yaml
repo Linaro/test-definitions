@@ -49,9 +49,9 @@ skiplist:
       - fork13
 
   - reason: >
-      msgctl10 and msgct11 tests overheats HiKey board due to
-      large number of fork() calls and message queues read/writes.
-      [RPB] LTP: msgctl10 fork failed
+      msgctl10/msgstress03 and msgct11/msgstress04 tests overheats HiKey board
+      due to large number of fork() calls and message queues read/writes. [RPB]
+      LTP: msgctl10 fork failed
     url: https://bugs.linaro.org/show_bug.cgi?id=2355
     environments: all
     boards:
@@ -66,6 +66,8 @@ skiplist:
     tests:
       - msgctl10
       - msgctl11
+      - msgstress03
+      - msgstress04
 
   - reason: >
       LKFT: LTP: pselect01_64: slept for too long
