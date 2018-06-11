@@ -205,7 +205,7 @@ stress_network()
 
         # File download test.
         test -e stress-network.img && rm -rf stress-network.img
-        curl -O --interface "$ip" "$LINK"
+        curl -OL --interface "$ip" "$LINK"
         check_return "file-download-$iteration"
         local_md5=$(md5sum stress-network.img | awk '{print $1}')
         test "$local_md5" = "$MD5"
