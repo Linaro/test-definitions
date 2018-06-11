@@ -31,6 +31,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - test_maps
@@ -46,6 +47,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - test_progs
@@ -59,6 +61,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - test_kmod.sh
@@ -83,6 +86,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - pstore_tests
@@ -96,6 +100,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - seccomp_bpf
@@ -122,6 +127,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - sync_test
@@ -137,6 +143,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - test_dev_cgroup
@@ -152,6 +159,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - test_tag
@@ -172,6 +180,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - mpx-mini-test_64
@@ -187,6 +196,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - fw_filesystem.sh
@@ -205,6 +215,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - fsgsbase_64
@@ -233,6 +244,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - reuseport_bpf_numa
@@ -249,6 +261,7 @@ skiplist:
       - 4.14
       - 4.15
       - 4.16
+      - 4.17
     tests:
       - test_align
       - test_verifier
@@ -301,6 +314,7 @@ skiplist:
     branches:
       - 4.15
       - 4.16
+      - 4.17
     tests:
       - bitmap.sh
 
@@ -415,6 +429,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - main.sh
@@ -458,6 +473,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - rtctest
@@ -523,6 +539,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - test_libbpf.sh
@@ -557,6 +574,7 @@ skiplist:
     branches:
       - 4.15
       - 4.16
+      - 4.17
       - mainline
     tests:
       - printf.sh
@@ -587,6 +605,7 @@ skiplist:
     boards: all
     branches:
       - 4.16
+      - 4.17
       - 4.14
       - 4.4
     tests:
@@ -603,6 +622,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - fib-onlink-tests.sh
@@ -618,6 +638,7 @@ skiplist:
       - qemu_arm
     branches:
       - 4.16
+      - 4.17
     tests:
       - gpio-mockup.sh
 
@@ -645,6 +666,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests: read
 
@@ -669,5 +691,6 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests: rtnetlink.sh
