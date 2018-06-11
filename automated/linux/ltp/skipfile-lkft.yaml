@@ -335,6 +335,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - cve-2014-0196
@@ -353,6 +354,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - cve-2011-2183
@@ -369,6 +371,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - cve-2016-7117
@@ -384,6 +387,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - cve-2015-7550
@@ -399,6 +403,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.16
+      - 4.17
       - mainline
     tests:
       - select04
