@@ -69,6 +69,24 @@
       "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966ff749_2947516e",
+        "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-06-13T09:34:14Z",
+      "side": 1,
+      "message": "https://lava.codehelp.co.uk/scheduler/job/2293/definition uses the recovery mode.",
+      "parentUuid": "61696145_7a26121d",
+      "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
