@@ -37,6 +37,40 @@
     },
     {
       "key": {
+        "uuid": "3762e91e_43e2a0b1",
+        "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-06-13T16:06:18Z",
+      "side": 1,
+      "message": "This should be handled by the regular downloader which then copies the file into the lxc, resulting in a known path. The bootloader_file will simply be in the /lava-lxc/ directory of the LXC.\n\nSee https://lava.codehelp.co.uk/scheduler/job/2293#L621\n\nThe fatal problem with this script is that /4/ will disappear without warning because all snapshots only have a limited lifetime. The Test Shell Definition should be static, it shouldn\u0027t need changes between builds. Equally, the bootloader_file needs to come from the same build as the other artifacts already downloaded.",
+      "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20400f2f_0c4bd6d5",
+        "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-06-13T16:06:18Z",
+      "side": 1,
+      "message": "This needs a lot of error checking and use of lava-test-raise - so just use the existing test shell definitions for this and put that block first in the test action.",
+      "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bff87f33_608bde4d",
         "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
         "patchSetId": 1
@@ -84,6 +118,41 @@
       "side": 1,
       "message": "https://lava.codehelp.co.uk/scheduler/job/2293/definition uses the recovery mode.",
       "parentUuid": "61696145_7a26121d",
+      "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "174cfe0a_7bce09e4",
+        "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-06-13T16:06:18Z",
+      "side": 1,
+      "message": "You cannot create shell variables from lava-test-case commands. You need to write a custom script to do that. So ${node} will be undefined as this file stands currently.\n\nBesides, how often does the value returned actually change? Just make it a test job parameter.",
+      "parentUuid": "966ff749_2947516e",
+      "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9729770d_95e38674",
+        "filename": "android/scripts/deploy_bootloader_imx8mq_evk.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-06-13T16:06:18Z",
+      "side": 1,
+      "message": "This is the only line that is actually required.",
       "revId": "4469dbf5a5d84544d3f6c60fa656d2a333be51a3",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
