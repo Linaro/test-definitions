@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7d7dcc4_2e8d8007",
+        "filename": "automated/linux/kselftest/skipfile-lkft.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1000160
+      },
+      "writtenOn": "2018-06-14T16:36:18Z",
+      "side": 1,
+      "message": "This looks like a different issue to me.",
+      "range": {
+        "startLine": 788,
+        "startChar": 0,
+        "endLine": 790,
+        "endChar": 53
+      },
+      "revId": "51e100de6e5cc960f104174e8c4fdede77201b36",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
