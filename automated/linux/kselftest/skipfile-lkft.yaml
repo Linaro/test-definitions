@@ -443,7 +443,6 @@ skiplist:
       - owner
       - pidns
       - pstore_post_reboot_tests
-      - reuseport_bpf_cpu
       - run_afpackettests
       - sas
 
@@ -694,3 +693,109 @@ skiplist:
       - 4.17
       - mainline
     tests: rtnetlink.sh
+
+  - reason: >
+      LKFT: linux-mainline: devpts_pts failed on all devices
+      Failed to perform TIOCGPTPEER ioctl
+    url: https://bugs.linaro.org/show_bug.cgi?id=3732
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+      - mainline
+    tests: devpts_pts
+
+  - reason: >
+      LKFT: arm32: kselftest proc selftests: proc-self-map-files-002 failed
+    url: https://bugs.linaro.org/show_bug.cgi?id=3782
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+      - mainline
+    tests: proc-self-map-files-002
+
+  - reason: >
+      LKFT: kselftest: proc-self-map-files-001 failed on all devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=3908
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+    tests: proc-self-map-files-001
+
+  - reason: >
+      LKFT: mainline: kselftest proc selftests: proc-self-syscall failed on arm32
+    url: https://bugs.linaro.org/show_bug.cgi?id=3783
+    environments: production
+    boards:
+      - dragonboard-410c
+      - hi6220-hikey
+      - juno-r2
+      - qemu_arm64
+      - qemu_arm
+      - x15
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+      - mainline
+    tests: proc-self-syscall
+
+  - reason: >
+      LKFT: 4.4: Juno: Hikey: x15: x86 reuseport_bpf reuseport_bpf_cpu failed
+    url: https://bugs.linaro.org/show_bug.cgi?id=3520
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+    tests:
+      - reuseport_bpf
+      - reuseport_bpf_cpu
+
+  - reason: >
+      LKFT: mainline: hikey: kvm ./set_sregs_test: No such file or directory
+    url: https://bugs.linaro.org/show_bug.cgi?id=3741
+    environments: production
+    boards:
+      - dragonboard-410c
+      - hi6220-hikey
+      - juno-r2
+      - qemu_arm64
+      - qemu_arm
+      - x15
+    branches: all
+    tests:
+      - set_sregs_test
+      - sync_regs_test
+      - vmx_tsc_adjust_test
+
+  - reason: >
+      LKFT: kselftest: test_progs: libbpf: failed to open ./test_pkt_access.o:
+      No such file or directory
+    url: https://bugs.linaro.org/show_bug.cgi?id=3120
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+    tests:
+      - test_sock_addr.sh
+      - test_sock
