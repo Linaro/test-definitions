@@ -190,7 +190,13 @@ skiplist:
       failed
     url: https://bugs.linaro.org/show_bug.cgi?id=3503
     environments: production
-    boards: all
+    boards:
+      - dragonboard-410c
+      - juno-r2
+      - qemu_arm
+      - x15
+      - x86
+      - qemu_x86_64
     branches:
       - 4.4
       - 4.9
@@ -199,7 +205,7 @@ skiplist:
       - 4.17
       - mainline
     tests:
-      - fw_filesystem.sh
+      - fw_run_tests.sh
 
   - reason: >
       LKFT: mainline: x86: kselftests fsgsbase_64 failed - GS/BASE changed from
@@ -443,7 +449,6 @@ skiplist:
       - owner
       - pidns
       - pstore_post_reboot_tests
-      - reuseport_bpf_cpu
       - run_afpackettests
       - sas
 
@@ -694,3 +699,130 @@ skiplist:
       - 4.17
       - mainline
     tests: rtnetlink.sh
+
+  - reason: >
+      LKFT: linux-mainline: devpts_pts failed on all devices
+      Failed to perform TIOCGPTPEER ioctl
+    url: https://bugs.linaro.org/show_bug.cgi?id=3732
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+      - mainline
+    tests: devpts_pts
+
+  - reason: >
+      LKFT: all-dev: kselftest proc selftests: proc-self-map-files-002 failed
+      on 4.16 to 4.4 kernels.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3782
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+    tests: proc-self-map-files-002
+
+  - reason: >
+      LKFT: arm32: kselftest proc selftests: proc-self-map-files-002 failed
+      on 4.17 and above kernels.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3782
+    environments: production
+    boards:
+      - qemu_arm
+      - x15
+    branches:
+      - 4.17
+      - mainline
+    tests: proc-self-map-files-002
+
+  - reason: >
+      LKFT: kselftest: proc-self-map-files-001 failed on all devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=3908
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+    tests: proc-self-map-files-001
+
+  - reason: >
+      LKFT: mainline: kselftest proc selftests: proc-self-syscall failed on arm32
+    url: https://bugs.linaro.org/show_bug.cgi?id=3783
+    environments: production
+    boards:
+      - qemu_arm
+      - x15
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+      - mainline
+    tests: proc-self-syscall
+
+  - reason: >
+      LKFT: 4.4: Juno: Hikey: x15: x86 reuseport_bpf reuseport_bpf_cpu failed
+    url: https://bugs.linaro.org/show_bug.cgi?id=3520
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+    tests:
+      - reuseport_bpf
+      - reuseport_bpf_cpu
+
+  - reason: >
+      LKFT: mainline: hikey: kvm ./set_sregs_test: No such file or directory
+    url: https://bugs.linaro.org/show_bug.cgi?id=3741
+    environments: production
+    boards:
+      - dragonboard-410c
+      - hi6220-hikey
+      - juno-r2
+      - qemu_arm64
+      - qemu_arm
+      - x15
+    branches: all
+    tests:
+      - set_sregs_test
+      - sync_regs_test
+      - vmx_tsc_adjust_test
+
+  - reason: >
+      LKFT: kselftest: test_progs: libbpf: failed to open ./test_pkt_access.o:
+      No such file or directory
+    url: https://bugs.linaro.org/show_bug.cgi?id=3912
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+    tests:
+      - test_sock_addr.sh
+      - test_sock
+
+  - reason: >
+      LKFT: net: pmtu.sh: vti4 and vti6 not supported - RTNETLINK answers:
+      Operation not supported
+    url: https://bugs.linaro.org/show_bug.cgi?id=3830
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+    tests:
+      - pmtu.sh
