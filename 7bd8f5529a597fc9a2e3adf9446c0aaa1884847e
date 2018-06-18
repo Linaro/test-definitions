@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34adc928_827cc473",
+        "filename": "automated/linux/wlan-download/wlan-download-test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-06-18T12:14:54Z",
+      "side": 1,
+      "message": "please change tabs to spaces",
+      "revId": "7bd8f5529a597fc9a2e3adf9446c0aaa1884847e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fbd1815_22c36975",
+        "filename": "automated/linux/wlan-download/wlan-download-test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-06-18T12:14:54Z",
+      "side": 1,
+      "message": "please change tabs to spaces.",
+      "revId": "7bd8f5529a597fc9a2e3adf9446c0aaa1884847e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
