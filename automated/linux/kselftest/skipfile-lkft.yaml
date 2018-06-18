@@ -671,16 +671,6 @@ skiplist:
     tests: read
 
   - reason: >
-      LKFT: next: selftests: bpf: test_tunnel.sh crash on x86
-      BUG: unable to handle kernel NULL pointer dereference
-    url: https://bugs.linaro.org/show_bug.cgi?id=3856
-    environments: all
-    boards: x86
-    branches:
-      - next
-    tests: test_tunnel.sh
-
-  - reason: >
       LKFT: LTP: netns_sysfs and kselftests rtnetlink.sh 1 TBROK: failed to
       add a new (host) dummy device on Hikey and Juno
     url: https://bugs.linaro.org/show_bug.cgi?id=3834
