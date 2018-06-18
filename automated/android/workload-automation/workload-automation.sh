@@ -75,7 +75,9 @@ else
     cd devlib
     git checkout "${DEVLIB_TAG}"
     )
-    pip2 install --quiet ./devlib
+    # current stable wa use an older version of devlib that will overwrite this
+    # one. Delay the install of latest devlib after wa has been installed
+    #pip2 install --quiet ./devlib
     info_msg "Installing workload-automation..."
     rm -rf workload-automation
     git clone "${WA_GIT_REPO}" workload-automation
@@ -86,6 +88,9 @@ else
     pip2 install --quiet ./workload-automation
     export PATH=$PATH:/usr/local/bin
     which wa
+
+    # Make sure that we use the latest devlib and not an old stable version
+    pip2 install --quiet ./devlib
 
     info_msg "Installing SDK build-tools..."
     (
