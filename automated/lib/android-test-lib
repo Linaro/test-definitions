@@ -76,10 +76,10 @@ adb_root() {
 
 wait_boot_completed() {
     [ "$#" -ne 1 ] && error_msg "Usage: wait_for_boot_completed timeout_in_seconds"
-    timeout="$1"
-    end=$(( $(date +%s) + timeout ))
+    local timeout="$1"
+    local end=$(( $(date +%s) + timeout ))
 
-    boot_completed=false
+    local boot_completed=false
     while [ "$(date +%s)" -lt "$end" ]; do
         if adb shell getprop sys.boot_completed | grep "1"; then
             boot_completed=true
@@ -111,9 +111,9 @@ wait_homescreen() {
         fi
     fi
 
-    timeout="$1"
-    end=$(( $(date +%s) + timeout ))
-    homescreen_displayed=false
+    local timeout="$1"
+    local end=$(( $(date +%s) + timeout ))
+    local homescreen_displayed=false
     while [ "$(date +%s)" -lt "$end" ]; do
         if adb logcat -sd ActivityManager:I | grep "Displayed com.android.launcher"; then
             homescreen_displayed=true
@@ -133,7 +133,7 @@ wait_homescreen() {
 detect_abi() {
     # "| tr -d '\r'" is needed here, refer to the below issue.
     # https://code.google.com/p/android/issues/detail?id=2482
-    abi="$(adb shell uname -m | tr -d '\r')"
+    local abi="$(adb shell uname -m | tr -d '\r')"
     case $abi in
       armv7|armv7l|armv7el|armv7lh) abi="armeabi" ;;
       arm64|armv8|arm64-v8a|aarch64) abi="arm64" ;;
@@ -148,8 +148,8 @@ detect_abi() {
 # permission granted, like '/data/local/tmp', and run it from there.
 install() {
     [ "$#" -ne 1 ] && error_msg "Usage: install <file_path>"
-    file_path="$1"
-    file_name="$(basename "${file_path}")"
+    local file_path="$1"
+    local file_name="$(basename "${file_path}")"
 
     if adb shell mount | grep system | grep -q ro; then
         # Remounts the /system partition on the device read-write
@@ -166,37 +166,37 @@ install() {
 }
 
 adb_push() {
-    [ "$#" -ne 2 ] && error_msg "Usage: adb_push <local> <remote>"
-    local="$1"
-    remote="$2"
+    [ "$#" -ne 2 ] && error_msg "Usage: adb_push <localFile> <remoteFile>"
+    local localFile="$1"
+    local remoteFile="$2"
 
-    adb shell mkdir -p "${remote}"
-    info_msg "Pushing ${local} to devcie ${ANDROID_SERIAL}"
-    adb push "${local}" "${remote}"
+    adb shell mkdir -p "${remoteFile}"
+    info_msg "Pushing ${localFile} to device ${ANDROID_SERIAL}"
+    adb push "${localFile}" "${remoteFile}"
 
     # Set 755 permission on the folder/file pushed to device.
-    if [ -d "${local}" ]; then
-        adb shell chmod -R 755 "${remote}"
-    elif [ -f "${local}" ]; then
-        adb shell chmod -R 755 "$(echo "${remote}" | sed 's|/$||')/$(basename "${local}")"
+    if [ -d "${localFile}" ]; then
+        adb shell chmod -R 755 "${remoteFile}"
+    elif [ -f "${localFile}" ]; then
+        adb shell chmod -R 755 "$(echo "${remoteFile}" | sed 's|/$||')/$(basename "${localFile}")"
     fi
 }
 
 adb_pull() {
-    [ "$#" -ne 2 ] && error_msg "Usage: adb_pull <remote> <local>"
-    remote="$1"
-    local="$2"
+    [ "$#" -ne 2 ] && error_msg "Usage: adb_pull <remoteFile> <localFile>"
+    local remoteFile="$1"
+    local localFile="$2"
 
-    info_msg "Pulling ${remote} from devcie ${ANDROID_SERIAL}"
-    adb pull "${remote}" "${local}"
+    info_msg "Pulling ${remoteFile} from device ${ANDROID_SERIAL}"
+    adb pull "${remoteFile}" "${localFile}"
 }
 
 adb_shell_which() {
     [ "$#" -ne 1 ] && error_msg "Usage: adb_shell_which <cmd>"
-    cmd="$1"
+    local cmd="$1"
     # Only latest version adb able to return exit code.
     # Check if output of which is empty is a more reliable way.
-    which_output="$(adb shell "echo which ${cmd} | su")"
+    local which_output="$(adb shell "echo which ${cmd} | su")"
     info_msg "Output of which: *${which_output}*"
     if [ -n "${which_output}" ]; then
         return 0
@@ -238,8 +238,8 @@ parse_common_args() {
 #   AP_SSID: "${AP_SSID}"
 #   AP_KEY: "${AP_KEY}"
 adb_join_wifi() {
-    AP_SSID=$1
-    AP_KEY=$2
+    local AP_SSID=$1
+    local AP_KEY=$2
     if [ -z "${AP_SSID}" ] || [ -z "${AP_KEY}" ]; then
         # Try to find the WIFI AP information specified by the job definition if not specified via command line
         lava_test_dir="$(find /lava-* -maxdepth 0 -type d -regex '/lava-[0-9]+' 2>/dev/null | sort | tail -1)"
