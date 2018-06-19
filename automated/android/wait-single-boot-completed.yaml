@@ -1,0 +1,30 @@
+metadata:
+    name: wait-single-boot-completed
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Wait until one locally attached Android device is completely booted.
+        Usable only if at most one device is visible to adb, but has the advantage that the device's
+        serial number does not need to be known in advance."
+    maintainer:
+        - karsten@fairphone.com
+        - softwareteam@fairphone.com
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    TIMEOUT: "900"
+    RAISE_ON_FAILURE: "true"
+
+run:
+    steps:
+        - . ./automated/lib/sh-test-lib
+        - . ./automated/lib/android-test-lib
+        - retVal=0; wait_boot_completed "${TIMEOUT}" || retVal=$?
+        - |
+            if [ "${retVal}" -ne 0 -a "${RAISE_ON_FAILURE}" = "true" ]; then
+                lava-test-raise "Device did not boot up within ${TIMEOUT} seconds."
+            fi
