@@ -1,0 +1,116 @@
+metadata:
+    name: cts
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run tradefed based tests in LAVA."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    SKIP_INSTALL: "false"
+    # Specify timeout in seconds for wait_boot_completed and wait_homescreen.
+    TIMEOUT_SECS: "300"
+    # Download CTS package or copy it from local disk.
+    # CTS_URL: "/root/android-cts/linaro/7.1_r1/android-cts-7.1_r1.zip"
+    TEST_URL: "http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
+    TEST_PARAMS: "run cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
+    TEST_RETRY_PARAMS: ""
+    # Determine the number of shards automatically and add the
+    # `${TEST_PARAM_SHARDS_COUNT} N` parameter to the CTS invocation.
+    TEST_PARAMS_AUTO_SHARDS: "true"
+    TEST_PARAM_SHARDS_COUNT: "--shards"
+    MAX_NUM_RUNS: "10"
+    RUNS_IF_UNCHANGED: "3"
+    # set to the name of the top directory in TEST_URL archive
+    # This should be 'android-cts' for CTS and android-vts for VTS
+    TEST_PATH: "android-cts"
+    STATE_CHECK_FREQUENCY_SECS: "60"
+    # Specify result format: aggregated or atomic
+    RESULTS_FORMAT: "aggregated"
+    # Specify url and token for file uploading.
+    URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    TOKEN: ""
+    ARTIFACTORIAL_UPLOAD_ATTEMPTS: 5
+    ARTIFACTORIAL_UPLOAD_RETRY_WAIT_MINUTES: 5
+    AP_SSID: ""
+    AP_KEY: ""
+    JAVA_OPTIONS: "-Xmx350M"
+    # Specify the failures number to be printed
+    FAILURES_PRINTED: "0"
+    # File listing local and remote adb devices to be used by TradeFed.
+    # This file must contain lines in the format <device>[;<workerId>]
+    # For devices attached via adb tcpip, <device> is the device network address
+    # with port and <workerId> is the LAVA MultiNode worker job id.
+    # For devices locally connected via USB, <device> the serial number of the
+    # device and <workerId> must be empty.
+    DEVICE_WORKER_MAPPING_FILE: "/tmp/deviceWorkerMapping"
+
+run:
+    steps:
+        - . ./automated/lib/sh-test-lib     # for error_msg
+        - |
+            if [ -z "${DEVICE_WORKER_MAPPING_FILE}" -o ! -f "${DEVICE_WORKER_MAPPING_FILE}" ]; then
+                lava-test-raise "Parameter DEVICE_WORKER_MAPPING_FILE must be defined and point to an existing file."
+            fi
+        - lava-install-packages --no-install-recommends aapt curl default-jre-headless python3-pexpect sudo usbutils wget xz-utils zip
+        # delete the test user to clean environment
+        - userdel testuser -r -f || true
+        # create test use to run the cts/vts tests
+        - useradd -m testuser && echo "testuser created successfully"
+        - cd ./automated/android/multinode/tradefed
+        - chown testuser:testuser .
+        - |
+            if [ "${TEST_PARAMS_AUTO_SHARDS}" = "true" ]; then
+                num_shards="$(lava-role list | grep -v '^$' | wc -l)"
+                info_msg "Determined number of shards based on MultiNode role counts: ${num_shards}"
+                if [ "${num_shards}" -ne 1 ]; then
+                    TEST_PARAMS="${TEST_PARAMS} ${TEST_PARAM_SHARDS_COUNT} ${num_shards}"
+                    if [ -n "${TEST_RETRY_PARAMS}" ]; then
+                        TEST_RETRY_PARAMS="${TEST_RETRY_PARAMS} ${TEST_PARAM_SHARDS_COUNT} ${num_shards}"
+                    fi
+                fi
+            fi
+        # Run the actual TradeFed script. PATH is passed through to make lava MultiNode commands
+        # available in the CTS execution scripts.
+        - sudo -u testuser env "PATH=${PATH}" ./tradefed-multinode.sh -o "${TIMEOUT_SECS}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -u "${TEST_RETRY_PARAMS}" -i "${MAX_NUM_RUNS}" -n "${RUNS_IF_UNCHANGED}" -p "${TEST_PATH}" -s "${STATE_CHECK_FREQUENCY_SECS}" -r "${RESULTS_FORMAT}" -m "${DEVICE_WORKER_MAPPING_FILE}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" -j "${JAVA_OPTIONS}"
+        # Upload test log and result files to artifactorial.
+        - cp -r ./${TEST_PATH}/results ./output/ || true
+        - cp -r ./${TEST_PATH}/logs ./output/ || true
+        # Include logs dumped from TF shell 'd l' command.
+        - if ls /tmp/tradefed*; then cp -r /tmp/tradefed* ./output || true; fi
+        - tar caf tradefed-output-$(date +%Y%m%d%H%M%S).tar.xz ./output
+        - ATTACHMENT=$(ls tradefed-output-*.tar.xz)
+        - |
+            for i in $(seq "${ARTIFACTORIAL_UPLOAD_ATTEMPTS}"); do
+                attachment_result=0
+                ../../../utils/upload-to-artifactorial.sh -a "${ATTACHMENT}" -u "${URL}" -t "${TOKEN}" -v -r || attachment_result=$?
+                if [ "${attachment_result}" -eq 0 ]; then break; fi
+                if [ "${i}" -lt "${ARTIFACTORIAL_UPLOAD_ATTEMPTS}" ]; then
+                    echo "WARNING: Upload to Artifactorial failed, waiting ${ARTIFACTORIAL_UPLOAD_RETRY_WAIT_MINUTES} minutes and retrying..."
+                    sleep "${ARTIFACTORIAL_UPLOAD_RETRY_WAIT_MINUTES}m"
+                else
+                    echo "WARNING: Upload to Artifactorial failed too often, not retrying anymore."
+                fi
+            done
+        # Send test result to LAVA.
+        - ../../../utils/send-to-lava.sh ./output/result.txt || true
+        - userdel testuser -f -r || true
+        # When adb devices are lost, mark the test job as 'incomplete'
+        - |
+            lost_devices=""
+            for device in $(awk -F';' 'length {print $1}' "${DEVICE_WORKER_MAPPING_FILE}"); do
+                if ! adb -s "${device}" shell echo ok; then
+                    lost_devices="${lost_devices}${device}, "
+                fi
+            done
+            lost_devices="${lost_devices%??}"
+            if [ "${lost_devices}" ]; then
+                error_msg "Following adb devices are lost: ${lost_devices}"
+            fi
