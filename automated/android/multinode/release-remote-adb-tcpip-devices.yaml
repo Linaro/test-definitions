@@ -1,0 +1,20 @@
+metadata:
+    name: release-remote-adb-tcpip-devices
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Disconnect from remote adb devices and cleanup."
+    maintainer:
+        - karsten@fairphone.com
+        - softwareteam@fairphone.com
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+run:
+    steps:
+        - lava-sync release_dut
+        # Cleanup adb server: LAVA expects only one device connected to adb.
+        - adb kill-server
