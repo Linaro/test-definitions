@@ -391,6 +391,7 @@ skiplist:
       - mainline
     tests:
       - cve-2015-7550
+      - keyctl02
 
   - reason: "qemu_arm32/64: LTP select04 is not returning 0 on timeout"
     url: https://bugs.linaro.org/show_bug.cgi?id=3852
