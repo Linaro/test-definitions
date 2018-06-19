@@ -99,6 +99,61 @@ wait_boot_completed() {
     fi
 }
 
+# Print to stdout either IP address, or nothing in case of failure.
+# Return failure code of `ip` or `adb` in case of failure.
+get_ip_address() {
+    [ "$#" -ne 1 ] && error_msg "Usage: get_ip_address timeout_in_seconds"
+    # shellcheck disable=SC2039
+    local timeout_in_seconds="$1"
+    # shellcheck disable=SC2039
+    local ret_val=0
+    # shellcheck disable=SC2039
+    local output
+    output="$(timeout "${timeout_in_seconds}" adb shell ip -o address show scope global up)" \
+        || ret_val=$?
+    # Pass non-zero exit codes of `ip` to the caller.
+    if [ "${ret_val}" -ne 0 ]; then
+        return "${ret_val}"
+    fi
+    # NOTE: The two grep commands filter adb debug messages and unwanted output of the ip command on
+    # Android 6 that does not apply the `scope global up` filter. true at the end drops non-zero
+    # exit codes of grep for empty inputs.
+    echo "${output}" | awk '{print $4}' | awk -F"/" '{print $1}' \
+        | grep -v '127.0.0.1' \
+        | grep -E '([0-9]{1,3}\.){3,3}[0-9]{1,3}' || true
+}
+
+# Wait for the device to be connected to a network, or fail if the timeout has been reached.
+wait_network_connected() {
+    [ "$#" -ne 1 ] && error_msg "Usage: wait_network_connected timeout_in_seconds"
+    # shellcheck disable=SC2039
+    local timeout_in_seconds="$1"
+
+    info_msg "Waiting ${timeout_in_seconds} seconds for the device to get an IP address."
+
+    # shellcheck disable=SC2039
+    local has_ip_address=false
+    # shellcheck disable=SC2039
+    local end
+    end=$(( $(date +%s) + timeout_in_seconds ))
+
+    while [ "$(date +%s)" -lt "$end" ]; do
+        # make variable ip_address available as result of this function
+        ip_address="$(get_ip_address "${timeout_in_seconds}")"
+        if [ "${ip_address}" ]; then
+            has_ip_address=true
+            break
+        fi
+        sleep 3
+    done
+
+    if [ "${has_ip_address}" = true ]; then
+        info_msg "Target has an IP address."
+    else
+        error_msg "wait_network_connected timed out after ${timeout_in_seconds} seconds"
+    fi
+}
+
 wait_homescreen() {
     [ "$#" -ne 1 ] && error_msg "Usage: wait_homescreen timeout_in_seconds"
 
@@ -224,6 +279,7 @@ adb_shell_which() {
 }
 
 disable_suspend() {
+    # shellcheck disable=SC2039
     local value="${1:-true}"
 
     info_msg "Setting the power stayon feature to ${value}."
