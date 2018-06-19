@@ -1,0 +1,204 @@
+job_name: MutliNode_xTS_template
+timeouts:
+  job:
+    hours: 2
+priority: medium
+visibility: public
+reboot_to_fastboot: false
+
+protocols:
+  lava-lxc:
+    master:
+      name: lxc-xts-master
+      template: debian
+      distribution: debian
+      release: stretch
+    worker:
+      name: lxc-xts-worker
+      template: debian
+      distribution: debian
+      release: stretch
+  lava-multinode:
+    # There must be one master a an arbitrary number of additional workers, so
+    # that 1+n devices will be available in the TradeFed shell.
+    roles:
+      master:
+        count: 1
+        device_type: # TODO (a Android device, e.g., nexus4)
+        timeout:
+          minutes: 30
+      worker:
+        expect_role: master
+        host_role: master
+        count: 2
+        device_type: # TODO (a Android device, e.g., nexus4)
+        timeout:
+          minutes: 30
+
+actions:
+- deploy:
+    namespace: tlxc
+    to: lxc
+    os: debian
+    role:
+    - master
+    - worker
+    timeout:
+      minutes: 10
+    packages:
+    - adb
+    - fastboot
+    - unzip
+    - wget
+    - zip
+
+- boot:
+    namespace: tlxc
+    role:
+    - master
+    - worker
+    prompts:
+    - 'root@(.*):/#'
+    timeout:
+      minutes: 5
+    method: lxc
+
+# TODO: Device-type specific deployment.
+# - deploy:
+#     namespace: droid
+#     to: fastboot
+#     role:
+#     - master
+#     - worker
+#     timeout:
+#       minutes: 30
+#     images:
+#       # TODO
+#     os: debian
+
+- boot:
+    namespace: droid
+    role:
+    - master
+    - worker
+    timeout:
+      minutes: 10
+    method: fastboot
+
+- test:
+    namespace: tlxc
+    role:
+    - master
+    - worker
+    timeout:
+      minutes: 20
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/wait-single-boot-completed.yaml
+      name: wait-single-boot-completed
+
+- test:
+    namespace: tlxc
+    role:
+    - worker
+    timeout:
+      minutes: 5
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/wait-single-network-connected.yaml
+      name: wait-single-network-connected
+
+- test:
+    namespace: tlxc
+    role:
+    - worker
+    timeout:
+      minutes: 15
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/multinode/share-local-device-over-adb-tcpip.yaml
+      name: share-local-device-over-adb-tcpip
+      params:
+        TIMEOUT_SECS: "600"
+
+- test:
+    namespace: tlxc
+    role:
+    - worker
+    timeout:
+      hours: 1
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/multinode/wait-and-keep-local-device-accessible.yaml
+      name: wait-and-keep-local-device-accessible
+      params:
+        # The sum of these timeouts must be smaller than the lava-multinode timeout for the master.
+        BOOT_TIMEOUT_SECS: "480"
+        NETWORK_TIMEOUT_SECS: "300"
+        ADB_CONNECT_TEST_TIMEOUT_SECS: "60"
+
+- test:
+    namespace: tlxc
+    role:
+    - worker
+    timeout:
+      minutes: 15
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/multinode/wait-for-release-and-reset.yaml
+      name: wait-for-release-and-reset
+
+- test:
+    namespace: tlxc
+    role:
+    - master
+    timeout:
+      minutes: 15
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/multinode/connect-to-remote-adb-tcpip-devices.yaml
+      name: connect-to-remote-adb-tcpip-devices
+      params:
+        ADB_CONNECT_TIMEOUT_SECS: 300
+
+- test:
+    namespace: tlxc
+    role:
+    - master
+    timeout:
+      hours: 1
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/multinode/tradefed/tradefed-multinode.yaml
+      params:
+        TEST_PARAMS: "run cts --disable-reboot --include-filter CtsNetTestCases"
+        TEST_RETRY_PARAMS: "run cts --disable-reboot"
+        TEST_PATH: "android-cts"
+        TEST_URL: "https://dl.google.com/dl/android/cts/android-cts-7.1_r23-linux_x86-arm.zip"
+        STATE_CHECK_FREQUENCY_SECS: "300"
+        MAX_NUM_RUNS: "25"
+        RUNS_IF_UNCHANGED: "5"
+        FAILURES_PRINTED: "50"
+        # For Artifactorial:
+        # URL: ""
+        # TOKEN: ""
+      name: cts
+
+- test:
+    namespace: tlxc
+    role:
+    - master
+    timeout:
+      minutes: 10
+    definitions:
+    - repository: https://review.linaro.org/qa/test-definitions
+      from: git
+      path: automated/android/multinode/release-remote-adb-tcpip-devices.yaml
+      name: release-remote-adb-tcpip-devices
