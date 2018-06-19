@@ -1,0 +1,18 @@
+metadata:
+    name: wait-for-release-and-reset
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Wait until a remote MultiNode role (master) requests to release the device.
+        Then, bring the device back into adb USB state."
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+run:
+    steps:
+      - lava-sync release_dut
+      - adb kill-server || true
+      - adb usb

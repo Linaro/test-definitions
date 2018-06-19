@@ -1,0 +1,21 @@
+metadata:
+    name: connect-to-remote-adb-tcpip-devices
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "adb MultiNode setup: connect to remote devices made accessible via adb TCP/IP."
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    ADB_CONNECT_TIMEOUT_SECS: "60"
+    DEVICE_WORKER_MAPPING_FILE: "/tmp/deviceWorkerMapping"
+
+run:
+    steps:
+        - . ./automated/lib/sh-test-lib
+        - . ./automated/lib/android-multinode-test-lib
+        - connect_to_remote_adb_tcpip_devices "${ADB_CONNECT_TIMEOUT_SECS}" "${DEVICE_WORKER_MAPPING_FILE}"
