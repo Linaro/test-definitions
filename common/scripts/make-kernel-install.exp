@@ -1,6 +1,0 @@
-#!/usr/bin/expect
-# make install is to install linux kernel on target device
-
-spawn make ARCH=arm install
-expect "Press Ctrl-C to abort build, or Enter to continue"
-send "\n"
