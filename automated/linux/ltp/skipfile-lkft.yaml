@@ -410,3 +410,19 @@ skiplist:
       - mainline
     tests:
       - select04
+
+  - reason: >
+      LKFT: LTP: cve-2015-3290 failed intermittently on qemu_x86_64
+    url: https://bugs.linaro.org/show_bug.cgi?id=3910
+    environments: production
+    boards:
+      - qemu_x86_64
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.16
+      - 4.17
+      - mainline
+    tests:
+      - cve-2015-3290
