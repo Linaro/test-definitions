@@ -16,6 +16,24 @@
       "revId": "3618388316a0ffa5dab3c6c233eda3062cc58447",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39e71184_9d272a0e",
+        "filename": "automated/linux/ltp-open-posix/ltp-open-posix.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-06-27T09:35:24Z",
+      "side": 1,
+      "message": "Not needed anymore.\nI will clean up this parser part.\n\n- Naresh",
+      "parentUuid": "e32c6262_40aa37cd",
+      "revId": "3618388316a0ffa5dab3c6c233eda3062cc58447",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
