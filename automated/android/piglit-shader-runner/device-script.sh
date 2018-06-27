@@ -29,13 +29,13 @@
 PIGLIT_PLATFORM=android
 export PIGLIT_PLATFORM
 
-bin_path="/system/xbin/piglit/piglit-shader-test/shader_runner"
-data_dir="/data/piglit/shader"
+bin_path="/vendor/bin/shader_runner"
+data_dir="/data/vendor/piglit/shader"
 # glsl_es1_data_dir="${data_dir}/glsl-es-1.00/"
 # glsl_es3_data_dir="${data_dir}/glsl-es-3.00/"
 
 # shellcheck disable=SC2035
-/system/bin/busybox find ${data_dir} -name *.shader_test | while read -r file
+find ${data_dir} -name "*.shader_test" | while read -r file
 do
    RESULT=$(${bin_path} "${file}" -auto )
 

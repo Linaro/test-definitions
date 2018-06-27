@@ -27,9 +27,9 @@
 # looks recursively down the directory tree
 PIGLIT_PLATFORM=android
 export PIGLIT_PLATFORM
-bin_path="/system/xbin/piglit/glslparsertest/glslparsertest"
-data_dir="/data/piglit/glslparser/"
-/system/bin/busybox find ${data_dir} -name "*.frag" -or -name "*.vert" | while read -r file
+bin_path="/vendor/bin/glslparsertest"
+data_dir="/data/vendor/piglit/glslparser/"
+find ${data_dir} -name "*.frag" -or -name "*.vert" | while read -r file
 do
    RESULTFOUND=$(grep expect_result "${file}")
    case $RESULTFOUND in
