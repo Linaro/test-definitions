@@ -30,7 +30,7 @@ PSTRING='PIGLIT: {"result": "pass"'
 SSTRING='PIGLIT: {"result": "skip"'
 FSTRING='PIGLIT: {"result": "fail"'
 
-gles3_bin_dir=/system/xbin/piglit/piglit-spec-gles3
+gles3_bin_dir=/vendor/bin
 
 normal_test(){
     cmd="${gles3_bin_dir}/$1"
@@ -45,7 +45,7 @@ normal_test(){
 }
 
 test_oes_compressed_etc2_texture_miptree_gles3(){
-    PIGLIT_SOURCE_DIR="/data/piglit"
+    PIGLIT_SOURCE_DIR="/data/vendor/piglit"
     export PIGLIT_SOURCE_DIR
     cmd="${gles3_bin_dir}/oes_compressed_etc2_texture-miptree_gles3"
     test_base_name="oes_compressed_etc2_texture-miptree_gles3"
