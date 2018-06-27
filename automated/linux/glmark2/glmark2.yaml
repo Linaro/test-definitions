@@ -1,0 +1,28 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: glmark2
+    description: "Glmark2 test for Linux is an OpenGL 2.0 and ES 2.0 benchmark. The Glmark2 test suite is used to
+                  measure different aspects of OpenGL (ES) 2.0 performance like video, graphics and display."
+    maintainer:
+        - anibal.limon@linaro.org
+    os:
+        - openembedded
+    scope:
+        - performance
+    devices:
+        - dragonboard410c
+        - dragonboard820c
+
+params:
+    DISPLAY: ":0"
+
+run:
+    steps:
+        - export DISPLAY=${DISPLAY}
+        - glmark2
+
+# XXX: The output only has measurement so map FrameTime to pass to give required fields
+parse:
+    pattern: "(?P<test_case_id>.*): (?P<units>FPS): (?P<measurement>\\d+) (?P<result>FrameTime)"
+    fixupdict:
+        FrameTime: pass
