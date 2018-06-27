@@ -30,7 +30,7 @@ PSTRING='PIGLIT: {"result": "pass"'
 SSTRING='PIGLIT: {"result": "skip"'
 FSTRING='PIGLIT: {"result": "fail"'
 
-gles2_bin_dir="/system/xbin/piglit/piglit-spec-gles2"
+gles2_bin_dir="/vendor/bin/"
 
 normal_test(){
     cmd="${gles2_bin_dir}/$1"
