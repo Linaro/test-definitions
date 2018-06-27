@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e32c6262_40aa37cd",
+        "filename": "automated/linux/ltp-open-posix/ltp-open-posix.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-06-27T09:00:04Z",
+      "side": 1,
+      "message": "line #30 handles result parsing in LAVA, do we still need the parse pattern here?",
+      "revId": "3618388316a0ffa5dab3c6c233eda3062cc58447",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
