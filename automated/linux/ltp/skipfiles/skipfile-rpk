@@ -21,3 +21,12 @@ keyctl03 keyctl03
 # to exit early (as observed by the number of test results)
 # https://bugs.linaro.org/show_bug.cgi?id=3487
 msgctl10
+# msgctl10 has been renamed to msgstress03 on master branch.
+msgstress03
+
+# msgctl11 fails randomly and cannot be duplicated.
+msgctl11
+# msgctl11 has been renamed to msgstress04 on master branch.
+msgstress04
+
+
