@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60252b4d_04416fb0",
+        "filename": "automated/android/boottime/device-script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-06-28T07:25:40Z",
+      "side": 1,
+      "message": "I tried to play with pcre2grep on linux, as you mentioned in commit msg, yes, \u0027-F\u0027 is required for pcre2grep as \u0027(\u0027 is a reversed character of Perl-compatible regular expressions. We can use \u0027\\(\u0027 here as well. \n\nThe real question here is, why we need \u0027-F\u0027 for grep, is grep a soft/hard link to pcre2grep on AOSP master? should we use pcre2grep directly?",
+      "revId": "b99e14d88ed055b1668dd63d3a86cb0a7fea16dd",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
