@@ -38,4 +38,4 @@ run:
         - cd ./automated/android/microbenchmarks
         - . ./microbenchmarks.sh -s false
         - tar -cJf artifacts.txz artifacts/
-        - ../../../../utils/upload-to-artifactorial.sh -a artifacts.txz -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - if [ ! -z ${ARTIFACTORIAL_TOKEN} ]; then ../../../../utils/upload-to-artifactorial.sh -a artifacts.txz -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"; fi
