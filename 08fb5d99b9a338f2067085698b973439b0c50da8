@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6fc837b_561bfe8d",
+        "filename": "automated/android/piglit-glslparser/device-script.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-06-28T07:02:42Z",
+      "side": 0,
+      "message": "This change doesn\u0027t seem related with the commit msg.",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 91
+      },
+      "revId": "08fb5d99b9a338f2067085698b973439b0c50da8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89ff6181_f531f6ab",
+        "filename": "automated/android/piglit-shader-runner/device-script.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-06-28T07:02:42Z",
+      "side": 0,
+      "message": "ditto.",
+      "revId": "08fb5d99b9a338f2067085698b973439b0c50da8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
