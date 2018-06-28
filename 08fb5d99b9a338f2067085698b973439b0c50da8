@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0f1a8724_02099dca",
+        "filename": "automated/android/piglit-glslparser/device-script.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2018-06-28T07:34:05Z",
+      "side": 0,
+      "message": "yes, not much related, just find it uses the busybox find here when do this change, and we will drop busybox in the future when possible, so if there is the default aosp command, we\u0027d better to use the default aosp command.",
+      "parentUuid": "b6fc837b_561bfe8d",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 91
+      },
+      "revId": "08fb5d99b9a338f2067085698b973439b0c50da8",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89ff6181_f531f6ab",
         "filename": "automated/android/piglit-shader-runner/device-script.sh",
         "patchSetId": 5
