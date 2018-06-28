@@ -346,7 +346,7 @@ getBootTimeInfoFromDmesg(){
     ## use the last one line, and report the case later after checked all the logs
     SURFACEFLINGER_BOOT_TIME_INFO=$(grep "Boot is finished" "${LOG_LOGCAT_ALL}"|tail -n1)
     if [ -n "${SURFACEFLINGER_BOOT_TIME_INFO}" ]; then
-        while echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|grep -q "("; do
+        while echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|grep -q -F "("; do
             SURFACEFLINGER_BOOT_TIME_INFO=$(echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|cut -d\( -f2-)
         done
         SURFACEFLINGER_BOOT_TIME_MS=$(echo "${SURFACEFLINGER_BOOT_TIME_INFO}"|cut -d\  -f1)
