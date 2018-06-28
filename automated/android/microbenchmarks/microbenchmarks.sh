@@ -72,8 +72,12 @@ sed -i "s| /data/art-test| /data/art-test > /dev/null|g" scripts/benchmarks/benc
 sed -i "s|mode \"\$1\"|mode \"\$1\" --noverbose|g" scripts/benchmarks/benchmarks_run_target.sh
 export OUT=${PWD}/out/target/product/${LUNCH_TARGET}/
 ./scripts/benchmarks/benchmarks_run_target.sh  --skip-build true --iterations "${ITERATIONS}" --mode "${MODE}"
-git clone https://git.linaro.org/people/vishal.bhoj/pbr.git; mkdir -p pbr/artifacts/
-cp ./*.json pbr/artifacts/
-wget "${SNAPSHOTS_URL}"/pinned-manifest.xml -O pbr/artifacts/pinned-manifest.xml
-cd pbr || exit
-python post-build-report.py
+
+if [ ! -z "${ART_TOKEN}" ]; then
+    tar -cJf artifacts.txz artifacts/
+    git clone https://git.linaro.org/people/vishal.bhoj/pbr.git; mkdir -p pbr/artifacts/
+    cp ./*.json pbr/artifacts/
+    wget "${SNAPSHOTS_URL}"/pinned-manifest.xml -O pbr/artifacts/pinned-manifest.xml
+    cd pbr || exit
+    python post-build-report.py
+fi
