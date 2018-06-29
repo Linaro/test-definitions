@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "988cd2d8_ea139c94",
+        "filename": "automated/android/microbenchmarks/microbenchmarks.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-06-29T03:16:59Z",
+      "side": 1,
+      "message": "how do you set the token? maybe we need \"export ARTIFACTORIAL_TOKEN\" in the shell script after line #17?",
+      "revId": "c13d72d972dc1a10bb5456fe4015abb1192992fe",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
