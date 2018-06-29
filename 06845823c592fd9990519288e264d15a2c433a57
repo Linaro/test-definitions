@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "972471ef_7835c915",
+        "filename": "automated/linux/glmark2/glmark2.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2018-06-29T15:07:59Z",
+      "side": 1,
+      "message": "The ../../utils/send-to-lava.sh dosen\u0027t use any env var from this?",
+      "parentUuid": "89ade981_5d742524",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "06845823c592fd9990519288e264d15a2c433a57",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff079fc7_c93db4f5",
         "filename": "automated/linux/glmark2/glmark2_lava_parse.py",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2018-06-29T03:51:47Z",
       "side": 1,
       "message": "It is up to you, I am wondering should we save the final score \u0027glmark2 Score: 914\u0027 in results as well? It looks helpful for simple comparison.",
+      "revId": "06845823c592fd9990519288e264d15a2c433a57",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1605f5f5_1a1c1056",
+        "filename": "automated/linux/glmark2/glmark2_lava_parse.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000371
+      },
+      "writtenOn": "2018-06-29T15:07:59Z",
+      "side": 1,
+      "message": "Yes, i will add a regex to send the score too, thx.",
+      "parentUuid": "ff079fc7_c93db4f5",
       "revId": "06845823c592fd9990519288e264d15a2c433a57",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
