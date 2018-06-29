@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89ade981_5d742524",
+        "filename": "automated/linux/glmark2/glmark2.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-06-29T03:51:47Z",
+      "side": 1,
+      "message": "I don\u0027t see any of the following lines call functions from the test lib. This line should be not needed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "06845823c592fd9990519288e264d15a2c433a57",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff079fc7_c93db4f5",
+        "filename": "automated/linux/glmark2/glmark2_lava_parse.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-06-29T03:51:47Z",
+      "side": 1,
+      "message": "It is up to you, I am wondering should we save the final score \u0027glmark2 Score: 914\u0027 in results as well? It looks helpful for simple comparison.",
+      "revId": "06845823c592fd9990519288e264d15a2c433a57",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
