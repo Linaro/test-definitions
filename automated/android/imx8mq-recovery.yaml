@@ -1,0 +1,22 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: imx8mq-recovery
+    description: "Deploy a new bootloader to imx8mq board"
+    maintainer:
+        - conrad.djedjebi@linaro.org
+    os:
+        - android
+    scope:
+        - functional
+    devices:
+        - imx8m
+
+params:
+    soc_name: "imx8mq"
+    bootloader_file: "u-boot-${soc_name}.imx"
+    RECOVERY: /lava-lxc/${bootloader_file}
+
+run:
+    steps:
+        # Check for adb device and run the recovery operations
+        - ./imx8mq-recovery.sh -r ${RECOVERY}
