@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f46027f4_cbde0587",
+        "filename": "automated/android/imx8mq-recovery.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-07-02T04:48:07Z",
+      "side": 1,
+      "message": "We created some functions to take care of common tasks like check boot status and device existence. Refer to http://git.linaro.org/qa/test-definitions.git/tree/automated/lib/android-test-lib\n\nHere is an example http://git.linaro.org/qa/test-definitions.git/tree/automated/android/optee/optee-xtest.sh#n25\n\nLine #29 \u0027initialize_adb\u0027 will set env var ANDROID_SERIAL if the desired device exist, the following adb commands will use the device by default.",
+      "revId": "57669b7a36f1d34d685d662f18b895e97febe583",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22e0800f_de19d969",
+        "filename": "automated/android/imx8mq-recovery.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-07-02T04:48:07Z",
+      "side": 1,
+      "message": "Would you please use spaces instead of tabs?",
+      "revId": "57669b7a36f1d34d685d662f18b895e97febe583",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
