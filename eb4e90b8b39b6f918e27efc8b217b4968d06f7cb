@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6df033cb_fed01909",
+        "filename": "automated/linux/smoke/smoke.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-07-03T03:54:21Z",
+      "side": 1,
+      "message": "Note:\n\nThe correct pkg name is iproute not iproute2 on fedora and centos.",
+      "range": {
+        "startLine": 28,
+        "startChar": 58,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "eb4e90b8b39b6f918e27efc8b217b4968d06f7cb",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
