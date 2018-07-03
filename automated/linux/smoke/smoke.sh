@@ -24,8 +24,8 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-      debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}";;
-      fedora|centos) install_deps "redhat-lsb-core" "${SKIP_INSTALL}";;
+      debian|ubuntu) install_deps "lsb-release procps iproute2" "${SKIP_INSTALL}";;
+      fedora|centos) install_deps "redhat-lsb-core procps iproute" "${SKIP_INSTALL}";;
       unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
