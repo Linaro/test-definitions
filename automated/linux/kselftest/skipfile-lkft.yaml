@@ -584,17 +584,6 @@ skiplist:
     tests:
       - printf.sh
 
-  - reason: >
-      LKFT: 4.16.0-rc5-next-20180315: all device: dnotify_test hangs forever
-    url: https://bugs.linaro.org/show_bug.cgi?id=3683
-    environments: all
-    boards: all
-    branches:
-      - mainline
-      - next
-    tests:
-      - dnotify_test
-
   - reason: "LKFT: kselftest: sigreturn_64 intermittent failure on qemu_x86_64"
     url: https://bugs.linaro.org/show_bug.cgi?id=3684
     environments: production
