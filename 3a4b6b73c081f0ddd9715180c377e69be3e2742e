@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e36b5982_04d7e3b0",
+        "filename": "automated/linux/ltp/skipfile-lkft.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2018-07-04T17:46:02Z",
+      "side": 1,
+      "message": "Could we put something in here that says that the test is not supported on 4.4 and 4.9? so that when reviewing these, we don\u0027t have to hunt for the information.",
+      "revId": "3a4b6b73c081f0ddd9715180c377e69be3e2742e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
