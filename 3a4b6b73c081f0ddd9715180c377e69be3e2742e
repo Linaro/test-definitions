@@ -16,6 +16,24 @@
       "revId": "3a4b6b73c081f0ddd9715180c377e69be3e2742e",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28301515_d97714d4",
+        "filename": "automated/linux/ltp/skipfile-lkft.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2018-07-04T17:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e36b5982_04d7e3b0",
+      "revId": "3a4b6b73c081f0ddd9715180c377e69be3e2742e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
