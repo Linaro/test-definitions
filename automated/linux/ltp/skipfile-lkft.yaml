@@ -154,6 +154,28 @@ skiplist:
     tests:
       - fanotify07
 
+  - reason: >
+      LKFT: LTP: inotify07 FAIL: didn't get event: mask=40000004
+    url: https://bugs.linaro.org/show_bug.cgi?id=3931
+    environments: all
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+    tests:
+      - inotify07
+
+  - reason: >
+      LKFT: LTP: inotify08 FAIL: didn't get event: mask=4
+    url: https://bugs.linaro.org/show_bug.cgi?id=3881
+    environments: all
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+    tests:
+      - inotify08
+
   - reason: "fs:isofs Do not try to build iso's on embedded boards."
     url: https://bugs.linaro.org/show_bug.cgi?id=3318
     environments:
