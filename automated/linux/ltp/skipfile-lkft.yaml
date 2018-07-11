@@ -168,13 +168,14 @@ skiplist:
 
   - reason: >
       LKFT: LTP: inotify08 FAIL: didn't get event: mask=4
-      inotify08 is not supported on 4.4 and 4.9
+      inotify08 is not supported on 4.14, 4.9 and 4.4
     url: https://bugs.linaro.org/show_bug.cgi?id=3881
     environments: all
     boards: all
     branches:
       - 4.4
       - 4.9
+      - 4.14
     tests:
       - inotify08
 
