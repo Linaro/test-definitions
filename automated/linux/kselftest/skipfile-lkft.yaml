@@ -793,3 +793,17 @@ skiplist:
       - 4.17
     tests:
       - pmtu.sh
+
+  - reason: >
+      db410c: rtcpie: /dev/rtc0: No such file - timers tests not unsupported
+      Dragonboard 410c doesn't seem to have a functional hardware clock
+    url: https://bugs.linaro.org/show_bug.cgi?id=3924
+    environments: production
+    boards: dragonboard-410c
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+    tests:
+      - rtcpie
