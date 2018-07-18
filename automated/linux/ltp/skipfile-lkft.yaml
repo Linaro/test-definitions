@@ -451,3 +451,20 @@ skiplist:
       - mainline
     tests:
       - cve-2015-3290
+
+  - reason: >
+      LKFT: LTP creat08 and open10 failed
+      testdir.B.3132/setgid: Incorrect modes, setgid bit should be set
+      skip these tests until this bug fixes on upstream LTP
+    url: https://bugs.linaro.org/show_bug.cgi?id=3940
+    environments: production
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - mainline
+    tests:
+      - open10
+      - creat08
