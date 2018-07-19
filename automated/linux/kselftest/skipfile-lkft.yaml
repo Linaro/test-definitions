@@ -799,7 +799,11 @@ skiplist:
       Dragonboard 410c doesn't seem to have a functional hardware clock
     url: https://bugs.linaro.org/show_bug.cgi?id=3924
     environments: production
-    boards: dragonboard-410c
+    boards:
+      - dragonboard-410c
+      - qemu_arm
+      - qemu_arm64
+      - qemu_x86_64
     branches:
       - 4.4
       - 4.9
