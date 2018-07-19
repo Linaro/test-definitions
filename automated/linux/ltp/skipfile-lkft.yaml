@@ -270,12 +270,15 @@ skiplist:
     tests:
       - perf_event_open02
 
-  - reason: "Test is inconsistent on x15"
+  - reason: >
+      Test is inconsistent on x15
+      Intermittent failures on qemu_arm
     url: https://bugs.linaro.org/show_bug.cgi?id=3339
     environments:
       - production
     boards:
       - x15
+      - qemu_arm
     branches: all
     tests:
       - fcntl36
