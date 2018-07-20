@@ -166,7 +166,8 @@ skiplist:
       MPX support - failed - 3869 Aborted (core dumped)
     url: https://bugs.linaro.org/show_bug.cgi?id=3497
     environments: production
-    boards: x86
+    boards:
+      - x86
     branches:
       - 4.4
       - 4.9
@@ -280,7 +281,8 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3484
     environments: production
     boards: all
-    branches: 4.4
+    branches:
+      - 4.4
     tests:
       - bitmap.sh
   - reason: >
@@ -390,8 +392,10 @@ skiplist:
       is managed by cpufreq core, exiting
     url: https://bugs.linaro.org/show_bug.cgi?id=3489
     environments: production
-    boards: juno-r2
-    branches: 4.4
+    boards:
+      - juno-r2
+    branches:
+      - 4.4
     tests:
       - main.sh
   - reason: >
@@ -417,7 +421,8 @@ skiplist:
     url:
     environments: production
     boards: all
-    branches: 4.4
+    branches:
+      - 4.4
     tests:
       - owner
       - pidns
@@ -432,7 +437,8 @@ skiplist:
     environments: production
     boards:
       - hi6220-hikey
-    branches: 4.4
+    branches:
+      - 4.4
     tests:
       - rtctest
   - reason: >
@@ -461,7 +467,8 @@ skiplist:
     boards:
       - x86
       - qemu_x86_64
-    branches: 4.4
+    branches:
+      - 4.4
     tests:
       - sigreturn_64
 
@@ -471,14 +478,16 @@ skiplist:
     boards:
       - dragonboard-410c
       - hi6220-hikey
-    branches: 4.4
+    branches:
+      - 4.4
     tests:
       - test_bpf.sh
 
   - reason:
     url:
     environments: all
-    boards: qemu_x86_64
+    boards:
+      - qemu_x86_64
     branches: all
     tests:
       - breakpoint_test
@@ -557,7 +566,8 @@ skiplist:
   - reason: "LKFT: kselftest: sigreturn_64 intermittent failure on qemu_x86_64"
     url: https://bugs.linaro.org/show_bug.cgi?id=3684
     environments: production
-    boards: qemu_x86_64
+    boards:
+      - qemu_x86_64
     branches: all
     tests: sigreturn_64
 
@@ -621,7 +631,8 @@ skiplist:
       process `read' is using deprecated sysctl
     url: https://bugs.linaro.org/show_bug.cgi?id=3744
     environments: production
-    boards: dragonboard-410c
+    boards:
+      - dragonboard-410c
     branches:
       - 4.4
       - 4.9
