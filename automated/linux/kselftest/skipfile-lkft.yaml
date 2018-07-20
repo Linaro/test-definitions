@@ -30,7 +30,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -46,7 +45,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -60,7 +58,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -85,7 +82,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -99,7 +95,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -126,7 +121,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -142,7 +136,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -158,7 +151,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -179,7 +171,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -201,7 +192,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -220,7 +210,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -249,7 +238,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -266,7 +254,6 @@ skiplist:
       - 4.9
       - 4.14
       - 4.15
-      - 4.16
       - 4.17
     tests:
       - test_align
@@ -307,7 +294,6 @@ skiplist:
       - qemu_arm
     branches:
       - 4.15
-      - 4.16
       - 4.17
     tests:
       - bitmap.sh
@@ -422,7 +408,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -465,7 +450,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -531,7 +515,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -566,7 +549,6 @@ skiplist:
       - qemu_x86_64
     branches:
       - 4.15
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -586,7 +568,6 @@ skiplist:
     environments: production
     boards: all
     branches:
-      - 4.16
       - 4.17
       - 4.14
       - 4.4
@@ -603,7 +584,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests:
@@ -619,7 +599,6 @@ skiplist:
       - x15
       - qemu_arm
     branches:
-      - 4.16
       - 4.17
     tests:
       - gpio-mockup.sh
@@ -647,7 +626,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests: read
@@ -662,7 +640,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests: rtnetlink.sh
@@ -677,7 +654,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests: devpts_pts
@@ -692,7 +668,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
     tests: proc-self-map-files-002
 
   - reason: >
@@ -717,7 +692,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
     tests: proc-self-map-files-001
 
   - reason: >
@@ -731,7 +705,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
       - mainline
     tests: proc-self-syscall
@@ -774,7 +747,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
     tests:
       - test_sock_addr.sh
       - test_sock
@@ -789,7 +761,6 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
-      - 4.16
       - 4.17
     tests:
       - pmtu.sh
