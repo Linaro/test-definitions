@@ -9,10 +9,10 @@ BOOT_TIMEOUT="300"
 PROBE=""
 WA_TAG="master"
 WA_GIT_REPO="https://github.com/ARM-software/workload-automation"
-WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa2-lava.git"
-TEMPLATES_BRANCH="wa-templates"
-CONFIG="config/generic-android.py"
-AGENDA="agenda/generic-linpack.yaml"
+WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa-templates"
+TEMPLATES_BRANCH="master"
+CONFIG="config/generic-android.yaml"
+AGENDA="agenda/generic-dhrystone.yaml"
 BUILD_TOOLS_URL="http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz"
 WA_HOME_URL="http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
 DEVLIB_REPO="https://github.com/ARM-software/devlib.git"
@@ -58,26 +58,17 @@ export RESULT_FILE
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "WA installation skipped"
 else
-    PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 lib32stdc++6 lib32z1 lib32gcc1 lib32ncurses5 aapt time sysstat python-jinja2 curl"
+    PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python3 python3-pip sqlite3 lib32stdc++6 lib32z1 lib32gcc1 lib32ncurses5 aapt time sysstat python-jinja2 curl"
     ! check_root && error_msg "Please run this test as root."
     dpkg --add-architecture i386
     apt-get update -q
     install_deps "${PKGS}"
     # only install adb if it's not already available
     which adb || install_deps adb
-    pip install --upgrade --quiet pip && hash -r
-    pip install --upgrade --quiet setuptools
-    pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
-    info_msg "Installing devlib..."
-    rm -rf devlib
-    git clone "${DEVLIB_REPO}" devlib
-    (
-    cd devlib
-    git checkout "${DEVLIB_TAG}"
-    )
-    # current stable wa use an older version of devlib that will overwrite this
-    # one. Delay the install of latest devlib after wa has been installed
-    #pip2 install --quiet ./devlib
+    pip3 install --upgrade --quiet pip && hash -r
+    pip3 install --upgrade --quiet setuptools
+    pip3 install --quiet pexpect pyserial pyyaml docutils python-dateutil
+
     info_msg "Installing workload-automation..."
     rm -rf workload-automation
     git clone "${WA_GIT_REPO}" workload-automation
@@ -85,12 +76,19 @@ else
     cd workload-automation
     git checkout "${WA_TAG}"
     )
-    pip2 install --quiet ./workload-automation
+    pip3 install --quiet ./workload-automation
     export PATH=$PATH:/usr/local/bin
     which wa
 
     # Make sure that we use the latest devlib and not an old stable version
-    pip2 install --quiet ./devlib
+    info_msg "Installing devlib..."
+    rm -rf devlib
+    git clone "${DEVLIB_REPO}" devlib
+    (
+    cd devlib
+    git checkout "${DEVLIB_TAG}"
+    )
+    pip3 install --quiet ./devlib
 
     info_msg "Installing SDK build-tools..."
     (
@@ -108,7 +106,7 @@ else
         tar -xf workload_automation_home.tar.gz
     )
     wa --version
-    wa list instruments
+    wa list augmentations
 fi
 
 initialize_adb
@@ -121,14 +119,14 @@ git clone "${WA_TEMPLATES_REPO}" wa-templates
 (
     cd wa-templates
     git checkout "${TEMPLATES_BRANCH}"
-    cp "${CONFIG}" ../config.py
+    cp "${CONFIG}" ../config.yaml
     cp "${AGENDA}" ../agenda.yaml
 )
 
-sed -i "s/adb_name=.*/adb_name=\'${ANDROID_SERIAL}\',/" ./config.py
+sed -i "s/device: 'android_serial'/device: ${ANDROID_SERIAL}/" ./config.yaml
 # Ensure that csv is enabled in result processors.
-if ! awk '/result_processors = [[]/,/[]]/' ./config.py | grep -q 'csv'; then
-    sed -i "s/result_processors = [[]/result_processors = [\n    'csv',/" ./config.py
+if ! grep -q 'csv' ./config.yaml; then
+    sed -i "s/augmentations:/augmentations:\n  - csv/" ./config.yaml
 fi
 
 if [ -z "${PROBE}" ]; then
@@ -155,7 +153,7 @@ if [ -n "${PROBE}" ]; then
 fi
 
 info_msg "device-${ANDROID_SERIAL}: About to run WA with ${AGENDA}..."
-wa run ./agenda.yaml -v -f -d "${OUTPUT}/wa" -c ./config.py || report_fail "wa-test-run"
+wa run ./agenda.yaml -v -f -d "${OUTPUT}/wa" -c ./config.yaml || report_fail "wa-test-run"
 
 # Generate result.txt for sending results to LAVA.
 # Use id-iteration_metric as test case name.

@@ -29,10 +29,10 @@ params:
     DEVLIB_TAG: "master"
     BUILD_TOOLS_URL: "http://testdata.validation.linaro.org/apks/workload-automation/build-tools.tar.gz"
     WA_HOME_URL: "http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
-    WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa2-lava.git"
-    TEMPLATES_BRANCH: "wa-templates"
+    WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa-templates"
+    TEMPLATES_BRANCH: "master"
     CONFIG: "config/generic-android.py"
-    AGENDA: "agenda/android-linpack.yaml"
+    AGENDA: "agenda/android-dhrystone.yaml"
     # allow extra extenstions for WA
     WA_EXTENSION_PATHS: ""
     PROBE: ""

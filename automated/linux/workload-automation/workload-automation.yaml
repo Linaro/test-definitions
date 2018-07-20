@@ -26,8 +26,8 @@ params:
     # Install devlib, which is WA depenency
     DEVLIB_REPO: "https://github.com/ARM-software/devlib.git"
     DEVLIB_TAG: "master"
-    WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa2-lava.git"
-    TEMPLATES_BRANCH: "wa-templates"
+    WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa-templates"
+    TEMPLATES_BRANCH: "master"
     CONFIG: "config/generic-linux-localhost.py"
     AGENDA: "agenda/linux-dhrystone.yaml"
     # allow extra extenstions for WA
