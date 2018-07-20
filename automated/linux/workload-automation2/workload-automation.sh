@@ -7,9 +7,9 @@ SKIP_INSTALL="false"
 
 WA_TAG="master"
 WA_GIT_REPO="https://github.com/ARM-software/workload-automation"
-WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa-templates"
-TEMPLATES_BRANCH="master"
-CONFIG="config/generic-linux-localhost.yaml"
+WA_TEMPLATES_REPO="https://git.linaro.org/qa/wa2-lava.git"
+TEMPLATES_BRANCH="wa-templates"
+CONFIG="config/generic-linux-localhost.py"
 AGENDA="agenda/linux-dhrystone.yaml"
 DEVLIB_REPO="https://github.com/ARM-software/devlib.git"
 DEVLIB_TAG="master"
@@ -49,27 +49,11 @@ export RESULT_FILE
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "WA installation skipped"
 else
-    PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python3 python3-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl"
+    PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl"
     install_deps "${PKGS}"
-    pip3 install --upgrade --quiet pip && hash -r
-    pip3 install --upgrade --quiet setuptools
-    pip3 install --quiet pexpect pyserial pyyaml docutils python-dateutil
-
-    info_msg "Installing workload-automation..."
-    rm -rf workload-automation
-    git clone "${WA_GIT_REPO}" workload-automation
-    (
-    cd workload-automation
-    git checkout "${WA_TAG}"
-    )
-    pip3 install --quiet ./workload-automation
-    export PATH=$PATH:/usr/local/bin
-    which wa
-    mkdir -p ~/.workload_automation
-    export WA_USER_DIRECTORY=~/.workload_automation
-    wa --version
-    wa list augmentations
-
+    pip install --upgrade --quiet pip && hash -r
+    pip install --upgrade --quiet setuptools
+    pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
     info_msg "Installing devlib..."
     rm -rf devlib
     git clone "${DEVLIB_REPO}" devlib
@@ -77,7 +61,21 @@ else
     cd devlib
     git checkout "${DEVLIB_TAG}"
     )
-    pip3 install --quiet ./devlib
+    pip2 install --quiet ./devlib
+    info_msg "Installing workload-automation..."
+    rm -rf workload-automation
+    git clone "${WA_GIT_REPO}" workload-automation
+    (
+    cd workload-automation
+    git checkout "${WA_TAG}"
+    )
+    pip2 install --quiet ./workload-automation
+    export PATH=$PATH:/usr/local/bin
+    which wa
+    mkdir -p ~/.workload_automation
+    export WA_USER_DIRECTORY=~/.workload_automation
+    wa --version
+    wa list instruments
 fi
 
 rm -rf wa-templates
@@ -85,7 +83,7 @@ git clone "${WA_TEMPLATES_REPO}" wa-templates
 (
     cd wa-templates
     git checkout "${TEMPLATES_BRANCH}"
-    cp "${CONFIG}" ../config.yaml
+    cp "${CONFIG}" ../config.py
     cp "${AGENDA}" ../agenda.yaml
 )
 
@@ -97,12 +95,12 @@ echo "root:linaro123" | chpasswd
 /etc/init.d/ssh restart && sleep 3
 
 # Ensure that csv is enabled in result processors.
-if ! grep -q 'csv' ./config.yaml; then
-    sed -i "s/augmentations:/augmentations:\n  - csv/" ./config.yaml
+if ! awk '/result_processors = [[]/,/[]]/' ./config.py | grep -q 'csv'; then
+    sed -i "s/result_processors = [[]/result_processors = [\n    'csv',/" ./config.py
 fi
 
 info_msg "About to run WA with ${AGENDA}..."
-wa run ./agenda.yaml -v -f -d "${OUTPUT}/wa" -c ./config.yaml || report_fail "wa-test-run"
+wa run ./agenda.yaml -v -f -d "${OUTPUT}/wa" -c ./config.py || report_fail "wa-test-run"
 
 # Save results from results.csv to result.txt.
 # Use id-iteration_metric as test case name.
