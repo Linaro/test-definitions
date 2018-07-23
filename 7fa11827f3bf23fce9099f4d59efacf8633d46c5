@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0fac0e9_f3313650",
+        "filename": "automated/android/imx8mq-recovery/imx8mq-recovery.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-07-23T07:20:45Z",
+      "side": 1,
+      "message": "This script has obviously not been tested prior to review - the path is not being set:\n\n root@lxc-imx8m-test-2707:/# /lava-2707/bin/lava-test- runner /lava-2707/0\n + export TESTRUN_ID\u003d0_deploy-bootloader\n + TESTRUN_ID\u003d0_deploy-bootloader\n + cd /lava-2707/0/tests/0_deploy-bootloader\n ++ cat uuid\n + UUID\u003d2707_1.8.4.1\n + set +x\n \u003cLAVA_SIGNAL_STARTRUN 0_deploy-bootloader 2707_1.8.4.1\u003e\n + ./imx8mq-recovery.sh -r \u0027/lava-lxc/${bootloader_file}\u0027 -s \u0027\u0027\n /lava-2707/0/tests/0_deploy-bootloader/run.sh: line 19: \n ./imx8mq-recovery.sh: No such file or directory\n Received signal: \u003cSTARTRUN\u003e 0_deploy-bootloader \n 2707_1.8.4.1\n\nhttps://lava.codehelp.co.uk/scheduler/job/2707#L2072",
+      "revId": "7fa11827f3bf23fce9099f4d59efacf8633d46c5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
