@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2bd79507_4483406a",
+        "filename": "automated/android/imx8mq-recovery/imx8mq-recovery.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-07-23T10:50:05Z",
+      "side": 1,
+      "message": "Error:\n\n INFO: About to update bootloader of device \n 130651d6f060954b\n adb push /lava-lxc/${bootloader_file} /data\n adb: error: cannot stat \u0027/lava-lxc/${bootloader_file}\u0027: \n No such file or directory\n \u003cLAVA_SIGNAL_TESTRAISE push-bootloader-file\u003e\n\nhttps://lava.codehelp.co.uk/scheduler/job/2722#L1877\n\nThis can be traced back to:\nhttps://lava.codehelp.co.uk/scheduler/job/2722#L1813\n\n+ ./imx8mq-recovery.sh -r \u0027/lava-lxc/${bootloader_file}\u0027 -s \u0027\u0027",
+      "revId": "7fa11827f3bf23fce9099f4d59efacf8633d46c5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1935c81_235b8c70",
         "filename": "automated/android/imx8mq-recovery/imx8mq-recovery.sh",
         "patchSetId": 3
@@ -17,6 +34,29 @@
         "startLine": 43,
         "startChar": 0,
         "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "7fa11827f3bf23fce9099f4d59efacf8633d46c5",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c28f1887_86f66655",
+        "filename": "automated/android/imx8mq-recovery/imx8mq-recovery.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-07-23T10:50:05Z",
+      "side": 1,
+      "message": "You need to construct this variable yourself, not expect the params to magically appear. There is no substitution happening here. You have nested the variables too deeply for it to work.\n\nhttps://lava.codehelp.co.uk/scheduler/job/2722#L1813",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
         "endChar": 42
       },
       "revId": "7fa11827f3bf23fce9099f4d59efacf8633d46c5",
