@@ -471,3 +471,22 @@ skiplist:
     tests:
       - open10
       - creat08
+
+  - reason: >
+      LKFT: next: LTP open11 failed - Got:
+      TEST_ERRNO=EACCES(13): Permission denied instead of errno 0
+      morty to rocko (openembedded) caused this bug
+    url: https://bugs.linaro.org/show_bug.cgi?id=3948
+    environments: production
+    boards:
+      - qemu_x86_64
+      - qemu_arm64
+      - qemu_arm
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - mainline
+    tests:
+      - open11
