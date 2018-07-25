@@ -28,7 +28,7 @@ params:
     DEVLIB_TAG: "master"
     WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa-templates"
     TEMPLATES_BRANCH: "master"
-    CONFIG: "config/generic-linux-localhost.py"
+    CONFIG: "config/generic-linux-localhost.yaml"
     AGENDA: "agenda/linux-dhrystone.yaml"
     # allow extra extenstions for WA
     WA_EXTENSION_PATHS: ""
@@ -45,7 +45,7 @@ params:
 run:
     steps:
         - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
-        - cd ./automated/linux/workload-automation
+        - cd ./automated/linux/workload-automation3
         - echo ${OUTPUT}
         - if [ -z "${OUTPUT}" ]; then OUTPUT="./output"; fi
         - echo ${OUTPUT}

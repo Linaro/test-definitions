@@ -24,7 +24,7 @@ params:
 
 run:
     steps:
-        - cd ./automated/android/workload-automation
+        - cd ./automated/android/workload-automation3
         - ./aep-install.sh -r "${AEP_REPOSITORY}" -t "${AEP_REF}"
         - ./aep-energy-config.sh -r "${AEP_CONFIG_REPOSITORY}" -t "${AEP_CONFIG_REF}" -p "${AEP_CONFIG_TARGET_PATH}"
         - ../../utils/send-to-lava.sh ./output/result.txt

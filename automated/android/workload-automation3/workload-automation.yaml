@@ -31,7 +31,7 @@ params:
     WA_HOME_URL: "http://testdata.validation.linaro.org/apks/workload-automation/workload_automation_home.tar.gz"
     WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa-templates"
     TEMPLATES_BRANCH: "master"
-    CONFIG: "config/generic-android.py"
+    CONFIG: "config/generic-android.yaml"
     AGENDA: "agenda/android-dhrystone.yaml"
     # allow extra extenstions for WA
     WA_EXTENSION_PATHS: ""
@@ -50,7 +50,7 @@ run:
     steps:
         - export WA_EXTENSION_PATHS=$WA_EXTENSION_PATHS
         - export WA_PLUGIN_PATHS=$WA_EXTENSION_PATHS
-        - cd ./automated/android/workload-automation
+        - cd ./automated/android/workload-automation3
         - echo ${OUTPUT}
         - if [ -z "${OUTPUT}" ]; then OUTPUT="./output"; fi
         - echo ${OUTPUT}
