@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63166869_6ce89e9e",
+        "filename": "automated/linux/aep-pre-post/lisa.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-07-25T08:09:03Z",
+      "side": 1,
+      "message": "there is no virtualenv available at this point",
+      "revId": "7ee6c6c7c337c2ace974e9f88fbdd272da896c50",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
