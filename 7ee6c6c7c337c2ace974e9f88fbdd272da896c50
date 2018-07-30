@@ -16,6 +16,24 @@
       "revId": "7ee6c6c7c337c2ace974e9f88fbdd272da896c50",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e5f7272_10c5ef4a",
+        "filename": "automated/linux/aep-pre-post/lisa.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-07-30T10:00:52Z",
+      "side": 1,
+      "message": "the virtualenv needs exist already when skipping installation, otherwise the following steps will fail. In patch set #3, I have added a error msg when .venv folder not exists.",
+      "parentUuid": "63166869_6ce89e9e",
+      "revId": "7ee6c6c7c337c2ace974e9f88fbdd272da896c50",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
