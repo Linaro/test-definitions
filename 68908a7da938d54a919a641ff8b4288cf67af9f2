@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6cdff7f_edf50670",
+        "filename": "automated/linux/dockerized-tests/over-ssh.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-08-01T10:46:01Z",
+      "side": 1,
+      "message": "This will be set to \u0027linaro/test-definitions:tag\u0027 by default once we have it.",
+      "revId": "68908a7da938d54a919a641ff8b4288cf67af9f2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
