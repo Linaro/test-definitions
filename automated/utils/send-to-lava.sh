@@ -29,7 +29,7 @@ if [ -f "${RESULT_FILE}" ]; then
                     lava-test-case "${test}" --result "${result}" --measurement "${measurement}"
                 fi
             else
-               echo "<TEST_CASE_ID=${test} RESULT=${result} UNITS=${units} MEASUREMENT=${measurement}>"
+               echo "<TEST_CASE_ID=${test} RESULT=${result} MEASUREMENT=${measurement} UNITS=${units}>"
             fi
         fi
     done < "${RESULT_FILE}"
