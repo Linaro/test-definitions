@@ -1,0 +1,53 @@
+metadata:
+    name: over-ssh
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run tests from https://git.linaro.org/qa/test-definitions.git with
+                  docker. Test run will be triggered over ssh"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - debian
+        - centos
+        - fedora
+        - openembedded
+    devices:
+        - d03
+        - d05
+        - juno
+        - beaglebone-black
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - x15
+
+    scope:
+        - functional
+        - performance
+
+params:
+    # Skip docker installation or not.
+    SKIP_INSTALL: "false"
+    # Relative patch to test definition file
+    # Example: automated/linux/linpack/linpack.yaml
+    TEST: "automated/linux/smoke/smoke.yaml"
+    # Usage: KEY1=VALUE1 KEY2=VALUE2
+    # Example for smoke test: 'TESTS="pwd, lsb_release -a, uname -a, ip a, lscpu, vmstat, lsblk"'
+    TESTDEF_PARAMS: ""
+    TARGET_IP: "lava-target-ip"
+    SSH_USER: ""
+    SSH_PASSWD: ""
+    # Dockerfile example: https://git.linaro.org/ci/dockerfiles.git/tree/stretch-arm64-testdef
+    DOCKER_IMG: "linaro/testdef-arm64-debian-stretch:b6e5458"
+
+run:
+    steps:
+        - cd automated/linux/dockerized-tests
+        - if [ -z "${TESTDEF_PARAMS}" ]; then
+        - ./over-ssh.sh -s "${SKIP_INSTALL}" -t "${TEST}" -i "${TARGET_IP}" -u "${SSH_USER}" -p "${SSH_PASSWD}" -d "${DOCKER_IMG}"
+        - else
+        - ./over-ssh.sh -s "${SKIP_INSTALL}" -t "${TEST}" -i "${TARGET_IP}" -u "${SSH_USER}" -p "${SSH_PASSWD}" -d "${DOCKER_IMG}" -r "${TESTDEF_PARAMS}"
+        - fi
+        - ../../utils/send-to-lava.sh ./output/result.txt
