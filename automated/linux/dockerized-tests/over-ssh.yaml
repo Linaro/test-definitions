@@ -1,0 +1,45 @@
+metadata:
+    name: over-ssh
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run tests from https://git.linaro.org/qa/test-definitions.git with
+                  docker. Test run will be triggered over ssh"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - debian
+        - centos
+        - fedora
+        - openembedded
+    devices:
+        - d03
+        - d05
+        - juno
+        - beaglebone-black
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - x15
+
+    scope:
+        - functional
+        - performance
+
+params:
+    # Skip docker installation or not.
+    SKIP_INSTALL: "false"
+    # Relative patch to test definition file
+    # Example: automated/linux/linpack/linpack.yaml
+    TEST: "automated/linux/smoke/smoke.yaml"
+    TARGET_IP: "lava-target-ip"
+    SSH_USER: "osf"
+    SSH_PASSWD: "osf"
+    DOCKER_IMG: "chaseqi/test-definitions:9f8918d"
+
+run:
+    steps:
+        - cd automated/linux/dockerized-tests
+        - ./over-ssh.sh -s "${SKIP_INSTALL}" -t "${TEST}" -i "${TARGET_IP}" -u "${SSH_USER}" -p "${SSH_PASSWD}" -d "${DOCKER_IMG}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
