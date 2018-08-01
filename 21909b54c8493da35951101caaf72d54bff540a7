@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91c7cc97_dc60bd9c",
+        "filename": "automated/linux/dockerized-tests/over-ssh.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-08-01T15:59:08Z",
+      "side": 1,
+      "message": "should we do anything special when the image doesn\u0027t include test-runner?",
+      "revId": "21909b54c8493da35951101caaf72d54bff540a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2063c889_a930527d",
+        "filename": "automated/linux/dockerized-tests/over-ssh.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-08-01T15:59:08Z",
+      "side": 1,
+      "message": "please leave username and password empty.",
+      "revId": "21909b54c8493da35951101caaf72d54bff540a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c82d45d7_0cca6afe",
+        "filename": "automated/linux/dockerized-tests/over-ssh.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-08-01T15:59:08Z",
+      "side": 1,
+      "message": "would be good to have a linaro example.",
+      "revId": "21909b54c8493da35951101caaf72d54bff540a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
