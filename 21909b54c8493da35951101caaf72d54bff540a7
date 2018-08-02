@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2bf46bce_0a98f8cb",
+        "filename": "automated/linux/dockerized-tests/over-ssh.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-08-02T13:14:54Z",
+      "side": 1,
+      "message": "Lets record a test run failure and send an error msg with a dockerfile example.",
+      "parentUuid": "91c7cc97_dc60bd9c",
+      "revId": "21909b54c8493da35951101caaf72d54bff540a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2063c889_a930527d",
         "filename": "automated/linux/dockerized-tests/over-ssh.yaml",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8b6c2477_ce7ae459",
+        "filename": "automated/linux/dockerized-tests/over-ssh.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-08-02T13:14:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2063c889_a930527d",
+      "revId": "21909b54c8493da35951101caaf72d54bff540a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82d45d7_0cca6afe",
         "filename": "automated/linux/dockerized-tests/over-ssh.yaml",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-08-01T15:59:08Z",
       "side": 1,
       "message": "would be good to have a linaro example.",
+      "revId": "21909b54c8493da35951101caaf72d54bff540a7",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed50c71_28f1a382",
+        "filename": "automated/linux/dockerized-tests/over-ssh.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-08-02T13:14:54Z",
+      "side": 1,
+      "message": "Updated. Thanks to Ben, we have them under linaro now. \nhttps://hub.docker.com/r/linaro/testdef-arm64-debian-stretch/\nhttps://hub.docker.com/r/linaro/testdef-armhf-debian-stretch/",
+      "parentUuid": "c82d45d7_0cca6afe",
       "revId": "21909b54c8493da35951101caaf72d54bff540a7",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
