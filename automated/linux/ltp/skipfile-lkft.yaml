@@ -229,24 +229,12 @@ skiplist:
     environments:
       - production
     boards: all
-    branches: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
     tests:
-      - netns_breakns_ip_ipv4_ioctl
-      - netns_breakns_ip_ipv4_netlink
-      - netns_breakns_ip_ipv6_ioctl
-      - netns_breakns_ip_ipv6_netlink
-      - netns_breakns_ns_exec_ipv4_ioctl
-      - netns_breakns_ns_exec_ipv4_netlink
-      - netns_breakns_ns_exec_ipv6_ioctl
-      - netns_breakns_ns_exec_ipv6_netlink
-      - netns_comm_ip_ipv4_ioctl
-      - netns_comm_ip_ipv4_netlink
-      - netns_comm_ip_ipv6_ioctl
-      - netns_comm_ip_ipv6_netlink
-      - netns_comm_ns_exec_ipv4_ioctl
-      - netns_comm_ns_exec_ipv4_netlink
-      - netns_comm_ns_exec_ipv6_ioctl
-      - netns_comm_ns_exec_ipv6_netlink
       - netns_sysfs
 
   - reason: "Test ends with SIGKILL on x15 (intermittent failure)"
