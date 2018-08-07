@@ -29,6 +29,7 @@ done
 
 
 initialize_adb
+adb_root
 # wait till the launcher displayed
 wait_homescreen "${BOOT_TIMEOUT}"
 
