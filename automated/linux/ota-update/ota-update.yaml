@@ -1,0 +1,30 @@
+metadata:
+    name: ota-update
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Tests OTA update on device"
+    maintainer:
+        - vishal.bhoj@linaro.org
+    os:
+        - ubuntu
+        - debian
+        - centos
+        - fedora
+        - openembedded
+    devices:
+        - hi6220-hikey
+
+    scope:
+        - functional
+        - performance
+
+params:
+        # TODO: Need ostree package info to be trigger deployment
+        SKIP_INSTALL: "false"
+        UPDATE_SHA: ""
+        BASELINE_SHA: ""
+
+run:
+    steps:
+        - cd automated/linux/ota-update
+        - . ./ota-update.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
