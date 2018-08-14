@@ -234,6 +234,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
     tests:
       - netns_sysfs
 
@@ -354,6 +355,7 @@ skiplist:
       - 4.14
       - 4.16
       - 4.17
+      - 4.18
       - mainline
     tests:
       - cve-2014-0196
@@ -373,6 +375,7 @@ skiplist:
       - 4.14
       - 4.16
       - 4.17
+      - 4.18
       - mainline
     tests:
       - cve-2011-2183
@@ -390,6 +393,7 @@ skiplist:
       - 4.14
       - 4.16
       - 4.17
+      - 4.18
       - mainline
     tests:
       - cve-2016-7117
@@ -406,6 +410,7 @@ skiplist:
       - 4.14
       - 4.16
       - 4.17
+      - 4.18
       - mainline
     tests:
       - cve-2015-7550
@@ -423,6 +428,7 @@ skiplist:
       - 4.14
       - 4.16
       - 4.17
+      - 4.18
       - mainline
     tests:
       - select04
@@ -439,6 +445,7 @@ skiplist:
       - 4.14
       - 4.16
       - 4.17
+      - 4.18
       - mainline
     tests:
       - cve-2015-3290
@@ -455,6 +462,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - open10
@@ -475,6 +483,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - open11

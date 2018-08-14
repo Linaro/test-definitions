@@ -31,6 +31,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - test_maps
@@ -46,6 +47,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - test_progs
@@ -59,6 +61,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - test_kmod.sh
@@ -83,6 +86,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - pstore_tests
@@ -96,6 +100,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - seccomp_bpf
@@ -122,6 +127,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - sync_test
@@ -137,6 +143,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - test_dev_cgroup
@@ -152,6 +159,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - test_tag
@@ -172,6 +180,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - mpx-mini-test_64
@@ -193,6 +202,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - fw_run_tests.sh
@@ -211,6 +221,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - fsgsbase_64
@@ -239,6 +250,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - reuseport_bpf_numa
@@ -255,6 +267,7 @@ skiplist:
       - 4.14
       - 4.15
       - 4.17
+      - 4.18
     tests:
       - test_align
       - test_verifier
@@ -293,8 +306,8 @@ skiplist:
       - x15
       - qemu_arm
     branches:
-      - 4.15
       - 4.17
+      - 4.18
     tests:
       - bitmap.sh
 
@@ -409,6 +422,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - main.sh
@@ -451,6 +465,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - rtctest
@@ -516,6 +531,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - test_libbpf.sh
@@ -550,6 +566,7 @@ skiplist:
     branches:
       - 4.15
       - 4.17
+      - 4.18
       - mainline
     tests:
       - printf.sh
@@ -568,9 +585,10 @@ skiplist:
     environments: production
     boards: all
     branches:
-      - 4.17
-      - 4.14
       - 4.4
+      - 4.14
+      - 4.17
+      - 4.18
     tests:
       - test_xdp_meta.sh
       - test_xdp_redirect.sh
@@ -585,6 +603,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests:
       - fib-onlink-tests.sh
@@ -600,6 +619,7 @@ skiplist:
       - qemu_arm
     branches:
       - 4.17
+      - 4.18
     tests:
       - gpio-mockup.sh
 
@@ -627,6 +647,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests: read
 
@@ -641,6 +662,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests: rtnetlink.sh
 
@@ -655,6 +677,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests: devpts_pts
 
@@ -680,6 +703,7 @@ skiplist:
       - x15
     branches:
       - 4.17
+      - 4.18
       - mainline
     tests: proc-self-map-files-002
 
@@ -706,6 +730,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
       - mainline
     tests: proc-self-syscall
 
@@ -762,6 +787,7 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
     tests:
       - pmtu.sh
 
@@ -780,5 +806,6 @@ skiplist:
       - 4.9
       - 4.14
       - 4.17
+      - 4.18
     tests:
       - rtcpie
