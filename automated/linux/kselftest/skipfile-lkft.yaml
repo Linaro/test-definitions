@@ -206,6 +206,7 @@ skiplist:
       - mainline
     tests:
       - fw_run_tests.sh
+      - firmware_fw_run_tests.sh
 
   - reason: >
       LKFT: mainline: x86: kselftests fsgsbase_64 failed - GS/BASE changed from
@@ -237,6 +238,7 @@ skiplist:
       - 4.9
     tests:
       - reuseport_bpf_numa
+      - net_reuseport_bpf_numa
   - reason: >
       LKFT: linux-mainline: x15: kselfteest NET reuseport_bpf_numa failed (new
       test)
@@ -254,6 +256,7 @@ skiplist:
       - mainline
     tests:
       - reuseport_bpf_numa
+      - net_reuseport_bpf_numa
 
   - reason: >
       LKFT: linux-next, 4.9 and 4.4: bpf: test_align and test_verifier: No such
@@ -310,6 +313,7 @@ skiplist:
       - 4.18
     tests:
       - bitmap.sh
+      - lib_bitmap.sh
 
   - reason: "skip all tests: memory hotplug is not supported"
     url:
@@ -320,6 +324,7 @@ skiplist:
       - 4.9
     tests:
       - mem-on-off-test.sh
+      - memory-hotplug_mem-on-off-test.sh
 
   - reason: "skip all tests: efivarfs is not mounted on /sys/firmware/efi/efivars"
     url:
@@ -329,6 +334,7 @@ skiplist:
       - 4.9
     tests:
       - efivarfs.sh
+      - efivarfs_efivarfs.sh
   - reason: "skip all tests: efivarfs is not mounted on /sys/firmware/efi/efivars"
     url:
     environments: production
@@ -339,6 +345,7 @@ skiplist:
       - 4.4
     tests:
       - efivarfs.sh
+      - efivarfs_efivarfs.sh
 
   - reason: >
       LKFT: linux-next: gpio: gpio-mockup-chardev: No such file or directory -
@@ -351,6 +358,7 @@ skiplist:
       - 4.9
     tests:
       - gpio-mockup.sh
+      - gpio_gpio-mockup.sh
 
   - reason: >
       LKFT: linux-mainline: x86, x15, juno-r2: kselftest fw_filesystem.sh
@@ -373,6 +381,7 @@ skiplist:
       - 4.9
     tests:
       - sysctl.sh
+      - sysctl_sysctl.sh
 
   - reason: "LKFT: timer: inconsistency-check failed on Hikey"
     url: https://bugs.linaro.org/show_bug.cgi?id=2950
@@ -385,6 +394,7 @@ skiplist:
       - 4.9
     tests:
       - inconsistency-check
+      - timers_inconsistency-check
 
   - reason: "kselftests: ldt_gdt_64 fails on x86"
     url: https://bugs.linaro.org/show_bug.cgi?id=3564
@@ -434,10 +444,15 @@ skiplist:
     branches: 4.4
     tests:
       - owner
+      - nsfs_owner
       - pidns
+      - nsfs_pidns
       - pstore_post_reboot_tests
+      - pstore_pstore_post_reboot_tests
       - run_afpackettests
+      - net_run_afpackettests
       - sas
+      - sigaltstack_sas
 
   - reason: >
       LKFT: linux-mainline, 4.9 and 4.4: x15: rtctest - PIE delta error:
@@ -489,6 +504,7 @@ skiplist:
     branches: 4.4
     tests:
       - test_bpf.sh
+      - net_test_bpf.sh
 
   - reason:
     url:
@@ -549,8 +565,11 @@ skiplist:
       - mainline
     tests:
       - test_static_keys.sh
+      - static_keys_test_static_keys.sh
       - test_user_copy.sh
+      - user_test_user_copy.sh
       - printf.sh
+      - lib_printf.sh
 
   - reason: >
       LKFT: linux-mainline: x15: printf.sh bitmap.sh zram.sh netns_netlink -
@@ -570,6 +589,7 @@ skiplist:
       - mainline
     tests:
       - printf.sh
+      - lib_printf.sh
 
   - reason: "LKFT: kselftest: sigreturn_64 intermittent failure on qemu_x86_64"
     url: https://bugs.linaro.org/show_bug.cgi?id=3684
@@ -622,6 +642,7 @@ skiplist:
       - 4.18
     tests:
       - gpio-mockup.sh
+      - gpio_gpio-mockup.sh
 
   - reason: >
       LKFT: LKFT: 4.14 4.9 4.4 : membarrier_test test failed on all devices
@@ -743,7 +764,9 @@ skiplist:
       - 4.4
     tests:
       - reuseport_bpf
+      - net_reuseport_bpf
       - reuseport_bpf_cpu
+      - net_reuseport_bpf_cpu
 
   - reason: >
       LKFT: mainline: hikey: kvm ./set_sregs_test: No such file or directory
@@ -759,8 +782,11 @@ skiplist:
     branches: all
     tests:
       - set_sregs_test
+      - kvm_set_sregs_test
       - sync_regs_test
+      - kvm_sync_regs_test
       - vmx_tsc_adjust_test
+      - kvm_vmx_tsc_adjust_test
 
   - reason: >
       LKFT: kselftest: test_progs: libbpf: failed to open ./test_pkt_access.o:
