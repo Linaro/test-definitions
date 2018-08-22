@@ -799,6 +799,8 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
+      - 4.17
+      - 4.18
     tests:
       - test_sock_addr.sh
       - bpf_test_sock_addr.sh
@@ -838,3 +840,113 @@ skiplist:
       - 4.18
     tests:
       - rtcpie
+
+  - reason: >
+      LKFT: bpf: get_cgroup_id_user failed errno 2 on all devices
+      Test expected file not found,
+      "/sys/kernel/debug/tracing/events/syscalls/sys_enter_nanosleep/id"
+    url: https://bugs.linaro.org/show_bug.cgi?id=3920
+    environments: production
+    boards:
+      - all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - 4.18
+    tests:
+      - get_cgroup_id_user
+
+  - reason: >
+      LKFT: BPF: test_lirc_mode2_user failed on all devices
+      Usage: ./test_lirc_mode2_user /dev/lircN
+    url: https://bugs.linaro.org/show_bug.cgi?id=3918
+    environments: production
+    boards:
+      - all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - 4.18
+    tests:
+      - test_lirc_mode2_user
+
+  - reason: >
+      LKFT: bpf: test_lwt_seg6local.sh CONFIG_LWTUNNEL is not enabled in this kernel
+    url: https://bugs.linaro.org/show_bug.cgi?id=3919
+    environments: production
+    boards:
+      - all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - 4.18
+    tests:
+      - test_lwt_seg6local.sh
+
+  - reason: >
+      bpf: test_select_reuseport prepare_bpf_obj(100): FAIL: get first bpf_program
+    url: https://bugs.linaro.org/show_bug.cgi?id=3974
+    environments: production
+    boards:
+      - all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - 4.18
+    tests:
+      - test_select_reuseport
+
+  - reason: >
+      bpf: test_skb_cgroup_id.sh Error fetching program/map
+    url: https://bugs.linaro.org/show_bug.cgi?id=3975
+    environments: production
+    boards:
+      - x86
+      - qemu_x86_64
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - 4.18
+    tests:
+      - test_skb_cgroup_id.sh
+
+  - reason: >
+      bpf: test_socket_cookie: Failed to load ./socket_cookie_prog.o
+    url: https://bugs.linaro.org/show_bug.cgi?id=3976
+    environments: production
+    boards:
+      - x86
+      - qemu_x86_64
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - 4.18
+    tests:
+      - test_socket_cookie
+
+  - reason: >
+      bpf: test_select_reuseport prepare_bpf_obj(100): FAIL: get first bpf_program
+    url: https://bugs.linaro.org/show_bug.cgi?id=3974
+    environments: production
+    boards:
+      - all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.17
+      - 4.18
+    tests:
+      - test_select_reuseport
