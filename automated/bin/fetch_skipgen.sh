@@ -3,7 +3,7 @@ set -e
 
 # Retrieve a given version of skipgen from
 # https://github.com/Linaro/skipgen/releases and copy to the
-# arm64/armeabi/x86_64 directories.
+# arm64/armeabi/x86_64/i386 directories.
 
 if [ -z "$1" ]; then
     echo "Usage: ${0} <skipgen_version_number>"
@@ -17,7 +17,7 @@ fi
 
 SKIPGEN_VERSION=$1
 ROOT_PATH=$(dirname "$0")
-ARCHS="arm64 armeabi x86_64"
+ARCHS="arm64 armeabi x86_64 i386"
 
 for arch in ${ARCHS}; do
 
@@ -32,6 +32,9 @@ for arch in ${ARCHS}; do
             ;;
         x86_64)
             skipgen_arch="amd64"
+            ;;
+        i386)
+            skipgen_arch="386"
             ;;
         *)
             echo "Unknown architecture ${arch}"
