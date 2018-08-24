@@ -3,6 +3,7 @@
 # shellcheck disable=SC2154
 # shellcheck disable=SC2034
 # shellcheck disable=SC2016
+# shellcheck disable=SC2181
 
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
@@ -54,9 +55,9 @@ echo "${SSH_PASSWD}" | eval "${ssh_cmd}" sudo -S date +%Y%m%d -s "${client_date}
 
 # Trigger test run.
 if [ -z "${TESTDEF_PARAMS}" ]; then
-    cmd1='eval "${ssh_cmd}" docker run "${DOCKER_IMG}" test-runner -d "${TEST}"'
+    cmd1='eval "${ssh_cmd}" docker run --privileged --init "${DOCKER_IMG}" test-runner -d "${TEST}"'
 else
-    cmd1='eval "${ssh_cmd}" docker run "${DOCKER_IMG}" test-runner -d "${TEST}" -r "${TESTDEF_PARAMS}"'
+    cmd1='eval "${ssh_cmd}" docker run --privileged --init "${DOCKER_IMG}" test-runner -d "${TEST}" -r "${TESTDEF_PARAMS}"'
 fi
 pipe0_status "${cmd1}" 'tee -a "${LOGFILE}"'
 if [ "$?" != 0 ]; then
