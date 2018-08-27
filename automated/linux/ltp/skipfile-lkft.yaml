@@ -44,6 +44,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches: all
     tests:
       - fork13
@@ -62,6 +63,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches: all
     tests:
       - msgctl10
@@ -80,6 +82,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches: all
     tests:
       - pselect01
@@ -198,6 +201,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - dragonboard-410c
+      - qemu_i386
     branches: all
     tests:
       - quota_remount_test01
@@ -296,6 +300,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches: all
     tests:
       - readahead02
@@ -318,6 +323,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches: all
     tests:
       - clock_nanosleep02
@@ -369,6 +375,7 @@ skiplist:
       - x86
       - qemu_arm
       - qemu_x86_64
+      - qemu_i386
     branches:
       - 4.4
       - 4.9
@@ -478,6 +485,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches:
       - 4.4
       - 4.9
