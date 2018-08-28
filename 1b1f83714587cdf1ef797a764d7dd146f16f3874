@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4125ec36_9666912a",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-08-28T09:40:03Z",
+      "side": 1,
+      "message": "will this exit when adbd on target dies?",
+      "revId": "1b1f83714587cdf1ef797a764d7dd146f16f3874",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
