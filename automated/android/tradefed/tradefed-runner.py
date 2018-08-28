@@ -185,12 +185,10 @@ logger.info('Starting tradefed shell test...')
 command = None
 prompt = None
 if args.TEST_PATH == "android-cts":
-    command = "android-cts/tools/cts-tradefed"
-    prompt = "cts-tf >"
+    command = "android-cts/tools/cts-tradefed run commandAndExit " + args.TEST_PARAMS
 if args.TEST_PATH == "android-vts":
     os.environ["VTS_ROOT"] = os.getcwd()
-    command = "android-vts/tools/vts-tradefed"
-    prompt = "vts-tf >"
+    command = "android-vts/tools/vts-tradefed run commandAndExit " + args.TEST_PARAMS
 
 if command is None:
     logger.error("Not supported path: %s" % args.TEST_PATH)
@@ -205,69 +203,7 @@ if command == 'android-vts/tools/vts-tradefed' and \
     monitor_vts_output = subprocess.Popen(shlex.split(monitor_cmd), stderr=subprocess.STDOUT, stdout=vts_run_details)
 
 child = pexpect.spawn(command, logfile=tradefed_stdout, searchwindowsize=1024)
-try:
-    child.expect(prompt, timeout=60)
-    child.sendline(args.TEST_PARAMS)
-except pexpect.TIMEOUT:
-    result = 'lunch-tf-shell fail'
-    py_test_lib.add_result(RESULT_FILE, result)
-
-fail_to_complete = False
-while child.isalive():
-    subprocess.call('echo')
-    subprocess.call(['echo', '--- line break ---'])
-    logger.info('Checking adb connectivity...')
-    adb_command = "adb shell echo OK"
-    adb_check = subprocess.Popen(shlex.split(adb_command))
-    if adb_check.wait() != 0:
-        logger.debug('adb connection lost! maybe device is rebooting. Lets check again in 5 minute')
-        time.sleep(300)
-        adb_check = subprocess.Popen(shlex.split(adb_command))
-        if adb_check.wait() != 0:
-            logger.debug('adb connection lost! Trying to dump logs of all invocations...')
-            child.sendline('d l')
-            time.sleep(30)
-            subprocess.call(['sh', '-c', '. ../../lib/sh-test-lib && . ../../lib/android-test-lib && adb_debug_info'])
-            logger.debug('"adb devices" output')
-            subprocess.call(['adb', 'devices'])
-            logger.error('adb connection lost!! Will wait for 5 minutes and terminating tradefed shell test as adb connection is lost!')
-            time.sleep(300)
-            child.terminate(force=True)
-            result = 'check-adb-connectivity fail'
-            py_test_lib.add_result(RESULT_FILE, result)
-            break
-    else:
-        logger.info('adb device is alive')
-        time.sleep(300)
-
-    # Check if all tests finished every minute.
-    m = child.expect(['ResultReporter: Full Result:',
-                      'ConsoleReporter:.*Test run failed to complete.',
-                      pexpect.TIMEOUT],
-                     searchwindowsize=1024,
-                     timeout=60)
-    # Once all tests finshed, exit from tf shell to throw EOF, which sets child.isalive() to false.
-    if m == 0:
-        try:
-            child.expect(prompt, searchwindowsize=1024, timeout=60)
-            logger.debug('Sending "exit" command to TF shell...')
-            child.sendline('exit')
-            child.expect(pexpect.EOF, timeout=60)
-            logger.debug('Child process ended properly.')
-        except pexpect.TIMEOUT as e:
-            print(e)
-            logger.debug('Unsuccessful clean exit, force killing child process...')
-            child.terminate(force=True)
-            break
-    # Mark test run as fail when a module or the whole run failed to complete.
-    elif m == 1:
-        fail_to_complete = True
-    # CTS not finished yet, continue to wait.
-    elif m == 2:
-        # Flush pexpect input buffer.
-        child.expect(['.+', pexpect.TIMEOUT, pexpect.EOF], timeout=1)
-        logger.info('Printing tradefed recent output...')
-        subprocess.call(['tail', TRADEFED_STDOUT])
+fail_to_complete = child.wait();
 
 if fail_to_complete:
     py_test_lib.add_result(RESULT_FILE, 'tradefed-test-run fail')
