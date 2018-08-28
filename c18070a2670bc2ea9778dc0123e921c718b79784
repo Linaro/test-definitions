@@ -46,6 +46,30 @@
       "revId": "c18070a2670bc2ea9778dc0123e921c718b79784",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "600118d8_75d422f6",
+        "filename": "automated/android/noninteractive-tradefed/tradefed-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-08-28T13:19:18Z",
+      "side": 1,
+      "message": "VTS creates new log for each test. This is to track the output of these tests. Chase might comment as he came up with this solution.",
+      "parentUuid": "2a4761b7_6bd39b9b",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 47
+      },
+      "revId": "c18070a2670bc2ea9778dc0123e921c718b79784",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
