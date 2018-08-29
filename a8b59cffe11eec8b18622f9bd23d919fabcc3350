@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00de8431_2ae74a5b",
+        "filename": "automated/android/noninteractive-tradefed/tradefed-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-08-29T07:14:26Z",
+      "side": 1,
+      "message": "Since you moved to popen, this line should be removed now.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "a8b59cffe11eec8b18622f9bd23d919fabcc3350",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "498a9c86_86c940b3",
+        "filename": "automated/android/noninteractive-tradefed/tradefed-runner.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-08-29T07:14:26Z",
+      "side": 1,
+      "message": "Open it first?",
+      "range": {
+        "startLine": 196,
+        "startChar": 80,
+        "endLine": 196,
+        "endChar": 95
+      },
+      "revId": "a8b59cffe11eec8b18622f9bd23d919fabcc3350",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
