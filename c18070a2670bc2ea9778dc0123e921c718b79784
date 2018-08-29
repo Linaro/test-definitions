@@ -70,6 +70,30 @@
       "revId": "c18070a2670bc2ea9778dc0123e921c718b79784",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c67517dc_38088a3a",
+        "filename": "automated/android/noninteractive-tradefed/tradefed-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-08-29T04:44:05Z",
+      "side": 1,
+      "message": "As Milosz pointed, this block is used to print instant vts test progress and logs. Not sure if it is still true, VTS only prints test result in the end of a test run, not detailed test log.\n\nAs the value of command has changed to include test run command, not just the TF shell path now, if we want to keep it, this line should be modifed to sth like:\n\nif \u0027vts-tradefed\u0027 in command and ...",
+      "parentUuid": "600118d8_75d422f6",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 47
+      },
+      "revId": "c18070a2670bc2ea9778dc0123e921c718b79784",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
