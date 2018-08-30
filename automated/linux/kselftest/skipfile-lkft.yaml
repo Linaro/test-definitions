@@ -174,7 +174,9 @@ skiplist:
       MPX support - failed - 3869 Aborted (core dumped)
     url: https://bugs.linaro.org/show_bug.cgi?id=3497
     environments: production
-    boards: x86
+    boards:
+      - x86
+      - i386
     branches:
       - 4.4
       - 4.9
@@ -198,6 +200,8 @@ skiplist:
       - x15
       - x86
       - qemu_x86_64
+      - qemu_i386
+      - i386
     branches:
       - 4.4
       - 4.9
@@ -218,6 +222,8 @@ skiplist:
     boards:
       - x86
       - qemu_x86_64
+      - qemu_i386
+      - i386
     branches:
       - 4.4
       - 4.9
@@ -286,6 +292,8 @@ skiplist:
       - qemu_arm
       - dragonboard-410c
       - juno-r2
+      - qemu_i386
+      - i386
     branches: all
     tests:
       - step_after_suspend_test
@@ -403,6 +411,8 @@ skiplist:
     boards:
       - x86
       - qemu_x86_64
+      - qemu_i386
+      - i386
     branches:
       - 4.4
       - 4.9
@@ -428,6 +438,8 @@ skiplist:
       - qemu_arm
       - qemu_arm64
       - qemu_x86_64
+      - qemu_i386
+      - i386
     branches:
       - 4.4
       - 4.9
@@ -476,6 +488,7 @@ skiplist:
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches:
       - 4.4
       - 4.9
@@ -492,6 +505,8 @@ skiplist:
     boards:
       - x86
       - qemu_x86_64
+      - qemu_i386
+      - i386
     branches: 4.4
     tests:
       - sigreturn_64
@@ -510,7 +525,9 @@ skiplist:
   - reason:
     url:
     environments: all
-    boards: qemu_x86_64
+    boards:
+      - qemu_x86_64
+      - qemu_i386
     branches: all
     tests:
       - breakpoint_test
@@ -562,6 +579,7 @@ skiplist:
       - qemu_arm
       - qemu_arm64
       - qemu_x86_64
+      - qemu_i386
     branches:
       - mainline
     tests:
@@ -583,6 +601,7 @@ skiplist:
       - qemu_arm
       - qemu_arm64
       - qemu_x86_64
+      - qemu_i386
     branches:
       - 4.15
       - 4.17
@@ -832,6 +851,7 @@ skiplist:
       - qemu_arm
       - qemu_arm64
       - qemu_x86_64
+      - qemu_i386
     branches:
       - 4.4
       - 4.9
@@ -911,6 +931,8 @@ skiplist:
     boards:
       - x86
       - qemu_x86_64
+      - qemu_i386
+      - i386
     branches:
       - 4.4
       - 4.9
@@ -927,6 +949,8 @@ skiplist:
     boards:
       - x86
       - qemu_x86_64
+      - qemu_i386
+      - i386
     branches:
       - 4.4
       - 4.9
