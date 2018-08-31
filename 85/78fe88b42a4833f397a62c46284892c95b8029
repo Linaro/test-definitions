@@ -1,0 +1,8 @@
+Code-Review+1: lava-bot
+Code-Review+1: Anders Roxell <anders.roxell@linaro.org>
+Code-Review+2: Dan Rue <dan.rue@linaro.org>
+Submitted-by: Dan Rue <dan.rue@linaro.org>
+Submitted-at: Fri, 31 Aug 2018 14:55:48 +0000
+Reviewed-on: https://review.linaro.org/28318
+Project: qa/test-definitions
+Branch: refs/heads/master
