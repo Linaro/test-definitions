@@ -360,6 +360,7 @@ skiplist:
       - x86
       - qemu_arm
       - qemu_arm64
+      - dragonboard-410c
     branches:
       - 4.4
       - 4.9
