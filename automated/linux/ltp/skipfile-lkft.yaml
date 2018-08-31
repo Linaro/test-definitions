@@ -276,6 +276,7 @@ skiplist:
     boards:
       - x15
       - qemu_arm
+      - qemu_i386
     branches: all
     tests:
       - fcntl36
@@ -435,6 +436,7 @@ skiplist:
     boards:
       - qemu_arm64
       - qemu_arm
+      - qemu_i386
     branches:
       - 4.4
       - 4.9
@@ -502,3 +504,16 @@ skiplist:
       - mainline
     tests:
       - open11
+
+  - reason: >
+      LTP: futex_wake04 never return on i386 and timedout
+      Test HANGs on i386 so skip on staging and production runs
+    url: https://bugs.linaro.org/show_bug.cgi?id=3984
+    environments:
+      - all
+    boards:
+      - i386
+    branches:
+      - all
+    tests:
+      - futex_wake04
