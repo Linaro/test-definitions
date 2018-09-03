@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d04994d3_601c6c39",
+        "filename": "automated/linux/ota-update/ota-update.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2018-09-03T14:02:12Z",
+      "side": 1,
+      "message": "waiting for 10 minutes for OTA update to finish.",
+      "parentUuid": "addf9c16_962fa787",
+      "revId": "9fa5520ed2b88eb6a8819e4de01e626eb52ad4db",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6c0d7c_4ece4f11",
         "filename": "automated/linux/ota-update/ota-update.sh",
         "patchSetId": 18
