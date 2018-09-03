@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "addf9c16_962fa787",
+        "filename": "automated/linux/ota-update/ota-update.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-09-03T14:01:20Z",
+      "side": 1,
+      "message": "why do we need 20 attempts here?",
+      "revId": "9fa5520ed2b88eb6a8819e4de01e626eb52ad4db",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6c0d7c_4ece4f11",
+        "filename": "automated/linux/ota-update/ota-update.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-09-03T14:01:20Z",
+      "side": 1,
+      "message": "please use spaces instead of tabs",
+      "revId": "9fa5520ed2b88eb6a8819e4de01e626eb52ad4db",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
