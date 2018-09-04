@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25e98f4c_98fb352f",
+        "filename": "automated/linux/ota-update/ota-update.sh",
+        "patchSetId": 19
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-09-04T08:26:43Z",
+      "side": 1,
+      "message": "This is new to me, it works. I am wondring the advantage of (\"10.7.0.68\") over \"10.7.0.68\").",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 8,
+        "endChar": 17
+      },
+      "revId": "09f9569f2f8e92528be0523373cdc32115ab7d52",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
