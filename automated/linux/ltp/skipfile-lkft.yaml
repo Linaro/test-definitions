@@ -518,3 +518,20 @@ skiplist:
       - all
     tests:
       - futex_wake04
+
+  - reason: >
+    linux-next: LTP execve04 hangs on x86 and i386
+    url: https://bugs.linaro.org/show_bug.cgi?id=3997
+    environments:
+      - all
+    boards:
+      - i386
+      - x86
+      - qemu_i386
+      - qemu_x86
+    branches:
+      - next
+    tests:
+      - execve04
+      - execve04_32
+      - execve04_64
