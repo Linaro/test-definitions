@@ -11,13 +11,20 @@ metadata:
         - functional
     devices:
         - imx7s-warp
+        - hikey
 
 params:
     VIDEO_DEVICE: "/dev/video0"
-    MEDIA_DEVICE_NUM: "0"
+    # Specify media device.
+    # Set it to empty by default as old vesion v4l-utils doesn't support to test media device.
+    # Example: /dev/media0
+    MEDIA_DEVICE: ""
+    # Specify video driver module to modprobe.
+    # Example: vivid.ko
+    VIDEO_DRIVER: ""
 
 run:
     steps:
         - cd ./automated/linux/v4l2/
-        - ./v4l2-compliance.sh -d "${VIDEO_DEVICE}" -m "${MEDIA_DEVICE_NUM}"
+        - ./v4l2-compliance.sh -d "${VIDEO_DEVICE}" -m "${MEDIA_DEVICE_NUM}" -D "${VIDEO_DRIVER}"
         - ../../utils/send-to-lava.sh ./output/result.txt
