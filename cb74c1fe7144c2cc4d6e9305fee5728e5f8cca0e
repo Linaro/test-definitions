@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84215083_9c6cc5e1",
+        "filename": "automated/linux/v4l2/v4l2-compliance.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-09-14T10:06:14Z",
+      "side": 1,
+      "message": "@Ryan, will setting the media device to empty by default break your setup?\n\nAre you using latest version v4l-utils with OE based build? if yes, how do you build the latest version into your image? \n\nBoth the receipes from OE and the one installed from debian repo are older version 1.14.2, which doesn\u0027t support to test media device.\n\nI manged to build v4l-utils master on arm64, but when running v4l2-compliance cmd, it reported lib errors...",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 20
+      },
+      "revId": "cb74c1fe7144c2cc4d6e9305fee5728e5f8cca0e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
