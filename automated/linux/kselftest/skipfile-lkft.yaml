@@ -1042,3 +1042,14 @@ skiplist:
       - 4.18
     tests:
       - psock_snd.sh
+
+  - reason: >
+      LKFT: next: bpf: test_kmod.sh hangs on all devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=4006
+    environments: all
+    boards: all
+    branches:
+      - mainline
+      - next
+    tests:
+      - test_kmod.sh
