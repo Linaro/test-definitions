@@ -132,7 +132,7 @@ run_ltp() {
                                  -C ${OUTPUT}/LTP_${LOG_FILE}.failed \
                                  -d ${LTP_TMPDIR} \
                                     ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
-    check_return "runltp_${LOG_FILE}"
+#    check_return "runltp_${LOG_FILE}"
 
     parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
     # Cleanup
