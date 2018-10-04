@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7d60b7d0_15fd8d61",
+        "filename": "automated/android/boottest/boottest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2018-10-04T01:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0015975f_bd427da2",
+      "revId": "dea7aba654a69d9f01c0a6693bee858051df05cf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16f9142a_dd2a6d59",
         "filename": "automated/android/boottest/boottest.sh",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-10-03T15:07:17Z",
       "side": 1,
       "message": "please use spaces instead of tabs",
+      "revId": "dea7aba654a69d9f01c0a6693bee858051df05cf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d928c4ba_ce5b8a9e",
+        "filename": "automated/android/boottest/boottest.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2018-10-04T01:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16f9142a_dd2a6d59",
       "revId": "dea7aba654a69d9f01c0a6693bee858051df05cf",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
