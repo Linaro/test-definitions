@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6338e4af_9c7cd6f5",
+        "filename": "automated/android/boottest/boottest.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-10-04T11:36:08Z",
+      "side": 1,
+      "message": "missing \"return boot_completed\"?",
+      "revId": "5c4b7855c53b5e5b168a78a96bdfd684ed0525bf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
