@@ -978,7 +978,7 @@ skiplist:
   - reason: >
       LKFT: Kselftest: rseq: Warning: file basic_test is not executable
     url: https://bugs.linaro.org/show_bug.cgi?id=3923
-    environments: production
+    environments: all
     boards:
       - dragonboard-410c
       - hi6220-hikey
@@ -992,6 +992,8 @@ skiplist:
       - 4.14
       - 4.17
       - 4.18
+      - mainline
+      - next
     tests:
       - basic_test
       - basic_percpu_ops_test
