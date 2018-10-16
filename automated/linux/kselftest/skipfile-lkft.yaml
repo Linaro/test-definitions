@@ -1055,3 +1055,16 @@ skiplist:
       - next
     tests:
       - test_kmod.sh
+
+  - reason: >
+      LKFT: x86: syscall_arg_fault_32 intermittent failure on qemu_i386
+      caused by QEMU x86 HW implementation
+    url: https://bugs.linaro.org/show_bug.cgi?id=4025
+    environments: production
+    boards:
+      - qemu_x86_64
+      - qemu_i386
+    branches:
+      - all
+    tests:
+      - syscall_arg_fault_32

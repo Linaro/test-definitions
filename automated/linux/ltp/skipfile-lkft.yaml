@@ -518,3 +518,16 @@ skiplist:
       - all
     tests:
       - futex_wake04
+
+  - reason: >
+      LTP: hugemmap06 cant reserve full amount of hugepages
+      needed by the test in environments with fragmented
+      memory (specially ones having short memory)
+    url: https://bugs.linaro.org/show_bug.cgi?id=4023
+    environments: production
+    boards:
+      - dragonboard-410c
+    branches:
+      - all
+    tests:
+      - hugemmap06
