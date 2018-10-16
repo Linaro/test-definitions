@@ -518,3 +518,29 @@ skiplist:
       - all
     tests:
       - futex_wake04
+
+  - reason: >
+      LTP: hugemmap06 cant reserve full amount of hugepages
+      needed by the test in environments with fragmented
+      memory (specially ones having short memory)
+    url: https://bugs.linaro.org/show_bug.cgi?id=4023
+    environments: production
+    boards:
+      - x15
+    branches:
+      - all
+    tests:
+      - hugemmap06
+
+  - reason: >
+      LTP: cve-2017-2671 might timeout on slow environments
+      and it should be skipped until qemu runs with acceleration
+    url: https://bugs.linaro.org/show_bug.cgi?id=4024
+    environments: production
+    boards:
+      - qemu_arm
+      - qemu_arm64
+    branches:
+      - all
+    tests:
+      - cve-2017-2671
