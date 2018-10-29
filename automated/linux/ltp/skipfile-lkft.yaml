@@ -158,6 +158,8 @@ skiplist:
       - 4.9
     tests:
       - fanotify07
+      - fanotify08
+      - fanotify09
 
   - reason: >
       LKFT: LTP: inotify07 FAIL: didn't get event: mask=40000004
