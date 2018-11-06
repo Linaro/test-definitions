@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b3f06dc_09b23884",
+        "filename": "automated/linux/docker-integration-test/local-daemon.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-11-06T17:28:29Z",
+      "side": 1,
+      "message": "Please move the list of dependencies to a variable (for cleaner code)",
+      "revId": "4632a4d4f98ac561a642a0eef1908aa5e1dc0d71",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c564e9d_77184a13",
+        "filename": "automated/linux/docker-integration-test/local-daemon.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-11-06T17:28:29Z",
+      "side": 1,
+      "message": "git add -u",
+      "revId": "4632a4d4f98ac561a642a0eef1908aa5e1dc0d71",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
