@@ -1,0 +1,42 @@
+metadata:
+    name: local-daemon
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "docker-ce engine integration test for local daemon. Docker's tests are
+                  designed to run inside docker container. This test case clones
+                  docker-ce repo and checks out the released tag to test and then lunchs
+                  a container for testing. Inside the container, it creats a new binary
+                  and runs a local docker daemon, and then runs all tests against the
+                  daemon."
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - debian
+        - centos
+        - fedora
+        - openembedded
+    devices:
+        - d03
+        - d05
+        - juno
+        - beaglebone-black
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - x15
+
+    scope:
+        - functional
+
+params:
+    SKIP_INSTALL: "false"
+    # docker-ce release version.
+    RELEASE: "v18.03.0-ce"
+
+run:
+    steps:
+        - cd automated/linux/docker-integration-test
+        - ./local-daemon.sh -r "${RELEASE}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
