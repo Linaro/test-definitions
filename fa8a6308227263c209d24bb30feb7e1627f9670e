@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b7327638_f6af5a1d",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-11-09T09:25:12Z",
+      "side": 1,
+      "message": "Why do the symlinks just to /usr/bin/fastboot not work? That worked in my testing. The only thing you should do with the platform-tools-folder is install the libraries used by the binaries into proper paths in /usr/lib/ but I haven\u0027t seen that to be necessary.\n\nSimplicity is the key here, avoid adding complexity to the existing support and avoid any dependency on bash or environment variables.",
+      "parentUuid": "983328d2_2eac5a5d",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35e607a6_2b23b6af",
         "filename": "automated/linux/android-platform-tools/install.sh",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-11-09T09:05:37Z",
       "side": 1,
       "message": "With shebang line \u0027#!/bin/sh\u0027, `~` doesn\u0027t expand. cd, cd ~ or cd $HOME don\u0027t work. Refer to https://validation.linaro.org/scheduler/job/1897330#L162\n\n@Neil, any idea?",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b68ff2b7_4acdd594",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-11-09T09:25:12Z",
+      "side": 1,
+      "message": "Looks like it\u0027s running in a limited environment. There\u0027s no particular reason to need ~ you can simply hardcode a top level directory like /root/ with a check that it exists.",
+      "parentUuid": "35e607a6_2b23b6af",
       "range": {
         "startLine": 41,
         "startChar": 3,
