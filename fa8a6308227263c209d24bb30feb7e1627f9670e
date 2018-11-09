@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "983328d2_2eac5a5d",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-09T09:05:37Z",
+      "side": 1,
+      "message": "This isn\u0027t enough. It doesn\u0027t work for new scripts. I need some magic here. Help wanted :)\n\n\nInstead of link adb/fastboot to /usr/bin/, adding the platform-tools folder seems to be the right way to go.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35e607a6_2b23b6af",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-09T09:05:37Z",
+      "side": 1,
+      "message": "With shebang line \u0027#!/bin/sh\u0027, `~` doesn\u0027t expand. cd, cd ~ or cd $HOME don\u0027t work. Refer to https://validation.linaro.org/scheduler/job/1897330#L162\n\n@Neil, any idea?",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6393e6f1_82e877e1",
+        "filename": "automated/linux/android-platform-tools/install.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-09T09:05:37Z",
+      "side": 1,
+      "message": "To be removed.",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
