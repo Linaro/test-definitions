@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "35c550bb_0b6d34af",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-11-09T10:23:13Z",
+      "side": 1,
+      "message": "It is up to the symlinked tools to handle their own shared library dependencies irrespective of symlinks and paths. If the tool doesn\u0027t work this way, the tool is badly broken.\nI tested with pre-installed packaged tools and replacing with symlinks works because that is how Debian and other distributions offer support for alternatives between binaries.\nDon\u0027t confuse binary filenames with shared library loading.",
+      "parentUuid": "d154dff3_ed4f603d",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35e607a6_2b23b6af",
         "filename": "automated/linux/android-platform-tools/install.sh",
         "patchSetId": 1
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Even with portable shell, I think \u0027~\u0027 is widely used, it works fine out of LAVA. I will do more debugging and file a issue with more informations.",
       "parentUuid": "b68ff2b7_4acdd594",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "273f6ab9_80d43ef7",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2018-11-09T10:23:13Z",
+      "side": 1,
+      "message": "LAVA cannot guarantee any environment variables are set - that is entirely in the control of the lab admins. So you will need to abandon use of ~ - filing an issue won\u0027t help because LAVA cannot always know what the value should be.\n\nSpecific test jobs can set test job parameters but that\u0027s a bit heavyweight for this use case.",
+      "parentUuid": "00f14dfb_df4db4a8",
       "range": {
         "startLine": 41,
         "startChar": 3,
