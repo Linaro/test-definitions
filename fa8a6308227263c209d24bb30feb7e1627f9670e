@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d154dff3_ed4f603d",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-09T10:01:39Z",
+      "side": 1,
+      "message": "I chose to update PATH for two reasons.\n\n* platform-tools is not just fastboot, we will need latest adb in some cases as well. And there are even more tools under the platform-tools folder.\n* When /usr/bin/fastboot or adb exists(installed from debian repo), we will have to uninstall or delete them. In this case, I thought adding the path of platform-tool directory to the beginning of PATH var is easier to do. Howerver, updating PATH var for all shells isn\u0027t easy...\n\nI am open to symlinks :)",
+      "parentUuid": "b7327638_f6af5a1d",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35e607a6_2b23b6af",
         "filename": "automated/linux/android-platform-tools/install.sh",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Looks like it\u0027s running in a limited environment. There\u0027s no particular reason to need ~ you can simply hardcode a top level directory like /root/ with a check that it exists.",
       "parentUuid": "35e607a6_2b23b6af",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00f14dfb_df4db4a8",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-09T10:01:39Z",
+      "side": 1,
+      "message": "Even with portable shell, I think \u0027~\u0027 is widely used, it works fine out of LAVA. I will do more debugging and file a issue with more informations.",
+      "parentUuid": "b68ff2b7_4acdd594",
       "range": {
         "startLine": 41,
         "startChar": 3,
