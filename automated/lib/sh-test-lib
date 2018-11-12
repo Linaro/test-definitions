@@ -234,6 +234,31 @@ install_deps() {
     fi
 }
 
+remove_pkgs() {
+    pkgs="$1"
+    [ -z "${pkgs}" ] && error_msg "Usage: remove_pkgs pkgs"
+    ! check_root && error_msg "remove_pkgs() requires root permission."
+    info_msg "Removing ${pkgs} ..."
+    dist_name
+    case "${dist}" in
+      debian|ubuntu)
+        # shellcheck disable=SC2086
+        DEBIAN_FRONTEND=noninteractive apt-get -y purge ${pkgs}
+        ;;
+      centos)
+        # shellcheck disable=SC2086
+        yum -y remove ${pkgs}
+        ;;
+      fedora)
+        # shellcheck disable=SC2086
+        dnf -y remove ${pkgs}
+        ;;
+      *)
+        warn_msg "Unsupported distro: ${dist}! Package uninstallation skipped."
+        ;;
+    esac
+}
+
 # Return the exit code of the first command when using pipe.
 pipe0_status() {
     [ "$#" -ne 2 ] && error_msg "Usage: pipe0_status cmd1 cmd2"
