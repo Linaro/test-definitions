@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "66d1bcd7_d36eecd0",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-12T10:00:21Z",
+      "side": 1,
+      "message": "Thanks, Neil. I also tried to play the the adb/fastboot installed via apt. yeah, /usr/bin/fastboot also is a link(links to ../lib/android-sdk/platform-tools/adb*). I will move to symlinks. \n\nThe new code remove adb/fastboot if installed. and creat new links.",
+      "parentUuid": "35c550bb_0b6d34af",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35e607a6_2b23b6af",
         "filename": "automated/linux/android-platform-tools/install.sh",
         "patchSetId": 1
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "LAVA cannot guarantee any environment variables are set - that is entirely in the control of the lab admins. So you will need to abandon use of ~ - filing an issue won\u0027t help because LAVA cannot always know what the value should be.\n\nSpecific test jobs can set test job parameters but that\u0027s a bit heavyweight for this use case.",
       "parentUuid": "00f14dfb_df4db4a8",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b04aea_71391ae5",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-12T10:00:21Z",
+      "side": 1,
+      "message": "I am interested in finding out more about this, but I will leave it for now as it is not needed in this patch any more.",
+      "parentUuid": "273f6ab9_80d43ef7",
       "range": {
         "startLine": 41,
         "startChar": 3,
