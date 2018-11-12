@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "6d79261c_87263e7d",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-12T10:34:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d1bcd7_d36eecd0",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35e607a6_2b23b6af",
         "filename": "automated/linux/android-platform-tools/install.sh",
         "patchSetId": 1
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "I am interested in finding out more about this, but I will leave it for now as it is not needed in this patch any more.",
       "parentUuid": "273f6ab9_80d43ef7",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "fa8a6308227263c209d24bb30feb7e1627f9670e",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4227ce_6d0e5f35",
+        "filename": "automated/linux/android-platform-tools/install.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-12T10:34:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b04aea_71391ae5",
       "range": {
         "startLine": 41,
         "startChar": 3,
