@@ -1,0 +1,26 @@
+metadata:
+    name: install-android-platform-tools
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Install android platform tools provided by Google from
+                  https://developer.android.com/studio/releases/platform-tools"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - ubuntu
+        - debian
+    devices:
+        - lxc
+
+    scope:
+        - functional
+
+params:
+    # Link examples
+    # https://dl.google.com/android/repository/platform-tools_r28.0.0-linux.zip
+    LINK: "https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+
+run:
+    steps:
+        - cd automated/linux/android-platform-tools
+        - if ! ./install.sh -l "${LINK}"; then command -v lava-test-raise && lava-test-raise "Failed to install android platform tools!"; fi
+        - ../../utils/send-to-lava.sh ./output/result.txt
