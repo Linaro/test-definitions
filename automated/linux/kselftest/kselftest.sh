@@ -61,6 +61,9 @@ while getopts "t:s:u:p:L:S:b:g:e:h" opt; do
            #  SKIPFILE="${SCRIPTPATH}/${SKIPFILE}"
            #fi
 
+           if [ -z "${OPTARGS}" ]; then
+             continue
+           fi
            if [ -z "${OPTARG##*http*}" ]; then
              if [ -z "${OPTARG##*yaml*}" ]; then
                # Skipfile is of type yaml
