@@ -1,0 +1,32 @@
+metadata:
+    name: spectre-meltdown-checker
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run spectre meltdown checker"
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+        - hi6220-hikey
+        - juno
+        - x15
+        - x86
+        - i386
+    environment:
+        - lava-test-shell
+params:
+    # Spectre meltdown checker version
+    SMC_VERSION: v0.40
+    SKIP_INSTALL: "False"
+    WGET_UPSTREAM: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/spectre-meltdown-checker-test
+        - ./spectre-meltdown-checker-test.sh -s "${SKIP_INSTALL}" -v "${SMC_VERSION}" -w "${WGET_UPSTREAM}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
