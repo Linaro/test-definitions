@@ -39,7 +39,7 @@ usage() {
     exit 1
 }
 
-while getopts "t:s:u:p:L:S:b:g:e:h" opt; do
+while getopts "t:s:u:p:L:Sb:g:e:h" opt; do
     case "${opt}" in
         t) TESTPROG="${OPTARG}" ;;
         s) SKIP_INSTALL="${OPTARG}" ;;
