@@ -61,7 +61,7 @@ while getopts "t:s:u:p:L:S:b:g:e:h" opt; do
            #  SKIPFILE="${SCRIPTPATH}/${SKIPFILE}"
            #fi
 
-           if [ -z "${OPTARGS}" ]; then
+           if [ -z "${OPTARG}" ]; then
              continue
            fi
            if [ -z "${OPTARG##*http*}" ]; then
