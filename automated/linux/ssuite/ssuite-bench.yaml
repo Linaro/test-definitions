@@ -1,0 +1,75 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: S-suite
+    description: "The S-suite is a suite of I/O-performance benchmarks.
+                  This test uses the S-suite to run, for every I/O scheduler
+                  available for the target device, two main benchmarks:
+                  1) A throughput benchmark, which measures throughput
+                     with random and sequential sync I/O. In this respect,
+                     sync I/O is the kind of I/O for which it is most
+                     difficult to reach a higher throughput.
+                  2) A responsiveness benchmark, which measures the start-up
+                     time of various popular application, in the presence
+                     of sequential I/O in the background (sequential
+                     is the kind of background I/O that makes it more
+                     difficult to guarantee a high responsiveness"
+    maintainer:
+        - paolo.valente@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - I/O performance
+    devices:
+        - x86
+
+params:
+        # Set of tests: 'throughput' benchmarks throughput, while
+        # 'replayed-startup' benchmarks the start-up times of popular
+        # applications, by replaying their I/O. The replaying saves us
+        # from meeting all non-trivial dependencies of these applications
+        # (such as having an X session running). Results are
+        # indistinguishable w.r.t. to actually starting these applications.
+        TESTS: "throughput replayed-startup"
+
+        # Target device/partition: device/partition on which to
+        # execute the benchmarks. If a partition is specified, then
+        # the partition must contain a mounted filesystem. If a device
+        # (actual drive) is specified, then that drive must contain a
+        # partition ${TEST_DEV}1 in it, with a mounted fs in that
+        # partition. In both cases, test files are created in that
+        # filesystem.
+        TEST_DEV: "sda"
+
+        # If the following parameter is set to yes and TEST_DEV points
+        # to an actual drive, but the drive does not contain a mounted
+        # partition, then the drive is formatted, a partition with an
+        # ext4 fs is created on the drive, and that fs is used for the
+        # test.
+        FORMAT: "no"
+
+        # If the following parameter is set, then the S suite is
+        # cloned and used unconditionally. In particular, the version
+        # of the suite is set to the commit pointed to by the
+        # parameter. A simple choice for the value of the parameter
+        # is, e.g., HEAD.  If, instead, the parameter is
+        # not set, then the suite present in S_PATH is used.
+        S_VERSION: ""
+
+        # If next parameter is set, then the S suite is cloned
+        # from the URL in S_URL. Otherwise it is cloned from the
+        # standard repository for the suite. Note that cloning is done
+        # only if S_VERSION is not empty
+        S_URL: ""
+
+        # If next parameter is set, then the S suite is cloned to or
+        # looked for in S_PATH. Otherwise it is cloned to $(pwd)/S
+        S_PATH: ""
+
+run:
+    steps:
+        - cd ./automated/linux/ssuite/
+        - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${S_VERSION}"
