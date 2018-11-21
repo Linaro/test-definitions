@@ -6,12 +6,12 @@ import subprocess
 import traceback
 import yaml
 
-run_pep8 = False
+run_pycodestyle = False
 try:
-    import pep8
-    run_pep8 = True
-except:
-    print("PEP8 is not available!")
+    import pycodestyle
+    run_pycodestyle = True
+except ImportError:
+    print("pycodestyle is not available!")
 
 
 def print_stderr(message):
@@ -40,19 +40,19 @@ def detect_abi():
         shell=True).decode('utf-8').strip()
 
 
-def pep8_check(filepath, args):
+def pycodestyle_check(filepath, args):
     _fmt = "%(row)d:%(col)d: %(code)s %(text)s"
     options = {
-        'ignore': args.pep8_ignore,
+        'ignore': args.pycodestyle_ignore,
         "show_source": True}
-    pep8_checker = pep8.StyleGuide(options)
-    fchecker = pep8_checker.checker_class(
+    pycodestyle_checker = pycodestyle.StyleGuide(options)
+    fchecker = pycodestyle_checker.checker_class(
         filepath,
-        options=pep8_checker.options)
+        options=pycodestyle_checker.options)
     fchecker.check_all()
     if fchecker.report.file_errors > 0:
         result_message_list = []
-        result_message_list.append("* PEP8: [FAILED]: " + filepath)
+        result_message_list.append("* PYCODESTYLE: [FAILED]: " + filepath)
         fchecker.report.print_statistics()
         for line_number, offset, code, text, doc in fchecker.report._deferred_print:
             result_message_list.append(
@@ -65,7 +65,7 @@ def pep8_check(filepath, args):
         publish_result(result_message_list, args)
         return 1
     else:
-        message = "* PEP8: [PASSED]: " + filepath
+        message = "* PYCODESTYLE: [PASSED]: " + filepath
         print_stderr(message)
     return 0
 
@@ -147,7 +147,7 @@ def validate_yaml(filename, args):
         y = yaml.load(filecontent)
         message = "* YAMLVALID: [PASSED]: " + filename
         print_stderr(message)
-    except:
+    except yaml.YAMLError:
         message = "* YAMLVALID: [FAILED]: " + filename
         result_message_list = []
         result_message_list.append(message)
@@ -199,8 +199,8 @@ def validate_file(args, path):
         if exitcode == 0:
             # if yaml isn't valid there is no point in checking metadata
             exitcode = validate_yaml_contents(path, args)
-    elif run_pep8 and path.endswith(".py"):
-        exitcode = pep8_check(path, args)
+    elif run_pycodestyle and path.endswith(".py"):
+        exitcode = pycodestyle_check(path, args)
     elif path.endswith(".php"):
         exitcode = validate_php(path, args)
     elif path.endswith(".sh") or \
@@ -248,11 +248,11 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-p",
-                        "--pep8-ignore",
+                        "--pycodestyle-ignore",
                         nargs="*",
                         default=["E501"],
-                        help="Space separated list of pep8 exclusions",
-                        dest="pep8_ignore")
+                        help="Space separated list of pycodestyle exclusions",
+                        dest="pycodestyle_ignore")
     parser.add_argument("-s",
                         "--shellcheck-ignore",
                         nargs="*",
