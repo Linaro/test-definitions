@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "986ed53e_4e37c5c0",
+        "filename": "automated/linux/spectre-meltdown-checker/spectre-meltdown-checker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-22T09:55:54Z",
+      "side": 1,
+      "message": "Need to \u0027cd ${SMC_PATH}\u0027 first , otherwise, the tar commmand will overwrite this script file as the file names are the same.",
+      "revId": "9cd80b505f80a73adfcfbd5222275fb8584ddf50",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fe814ca_479fe485",
+        "filename": "automated/linux/spectre-meltdown-checker/spectre-meltdown-checker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-22T09:55:54Z",
+      "side": 1,
+      "message": "I had a try on moonshot that runs ERP debian. The tool complains that\n\nCVE-2017-5753 aka \u0027Spectre Variant 1, bounds check bypass\u0027\n* Kernel has array_index_mask_nospec:  UNKNOWN  (couldn\u0027t check (missing \u0027lzop\u0027 tool, please install it, usually it\u0027s in the \u0027lzop\u0027 package))\n* Kernel has the Red Hat/Ubuntu patch:  UNKNOWN  (couldn\u0027t check (missing \u0027lzop\u0027 tool, please install it, usually it\u0027s in the \u0027lzop\u0027 package))\n* Kernel has mask_nospec64 (arm64):  UNKNOWN  (couldn\u0027t check (missing \u0027lzop\u0027 tool, please install it, usually it\u0027s in the \u0027lzop\u0027 package))\n* Checking count of LFENCE instructions following a jump in kernel...  UNKNOWN  (couldn\u0027t check (missing \u0027lzop\u0027 tool, please install it, usually it\u0027s in the \u0027lzop\u0027 package))\n\n\n\u0027apt install lzop\u0027 fixed these complaints.",
+      "revId": "9cd80b505f80a73adfcfbd5222275fb8584ddf50",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9aee7c2_4a74e71d",
+        "filename": "automated/linux/spectre-meltdown-checker/spectre-meltdown-checker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-22T09:55:54Z",
+      "side": 1,
+      "message": "Better to \u0027set -e\u0027 for the shell so that it exists ealier on failures. with \u0027set -e\u0027, shellcheck would not show this error.",
+      "revId": "9cd80b505f80a73adfcfbd5222275fb8584ddf50",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
