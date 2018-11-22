@@ -287,11 +287,9 @@ Test Contribution Checklist
 * When applicable, check test cases with the following tools with line length
   rule relaxed.
 
-    - checkbashisms - check for bashisms in /bin/sh scripts.
-    - shellcheck - Shell script analysis tool.
-    - pep8 - check Python code against the style conventions in PEP 8.
-    - pyflakes - simple Python 2 source checker
-    - pylint - code analysis for Python
+    - shellcheck: Shell script analysis tool.
+    - pycodestyle: check Python code against the style conventions in PEP 8.
+    - php: check syntax with 'php -l file'.
 
 * Run test cases on local system without LAVA.
 * Optionally, run test cases in LAVA and provide job example.
