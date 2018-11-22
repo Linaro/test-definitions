@@ -60,4 +60,5 @@
   [stretch-armhf-testdef](https://git.linaro.org/ci/dockerfiles.git/tree/stretch-armhf-testdef)
 
 ## Jenkins build job for new tag on qa/test-definitions
-  [testdef-docker-image](https://ci.linaro.org/job/testdef-docker-image/)
+  [testdef-docker-image-arm64](https://ci.linaro.org/job/testdef-docker-image/)
+  [testdef-docker-image-armhf](https://ci.linaro.org/job/testdef-docker-image-armhf/)
