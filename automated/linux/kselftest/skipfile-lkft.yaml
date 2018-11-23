@@ -134,3 +134,19 @@ skiplist:
       - mainline
     tests:
       - run_afpackettests
+
+  - reason: >
+      LKFT: arm64/arm: selftest sync_test hangs on 4.9
+    url: https://bugs.linaro.org/show_bug.cgi?id=4080
+    environments: production
+    boards:
+      - dragonboard-410c
+      - hi6220-hikey
+      - juno-r2
+      - qemu_arm64
+      - x15
+      - qemu_arm
+    branches:
+      - 4.9
+    tests:
+      - sync_test
