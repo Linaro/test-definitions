@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bece6721_f0ecb50b",
+        "filename": "automated/android/tradefed/tradefed.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-11-26T10:59:10Z",
+      "side": 1,
+      "message": "\u0027 ;;\u0027 is missing.",
+      "revId": "4674408505a481be66e5fdd9086e3165641ec1a9",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
