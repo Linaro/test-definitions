@@ -34,6 +34,7 @@ params:
     # Specify the failures number to be printed
     FAILURES_PRINTED: "0"
     TEST_REBOOT_EXPECTED: "false"
+    JAVA_OPTIONS: "-Xmx350M"
 
 run:
     steps:
