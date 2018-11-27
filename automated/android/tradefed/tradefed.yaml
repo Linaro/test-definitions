@@ -48,7 +48,7 @@ run:
         - useradd -m testuser && echo "testuser created successfully"
         - chown testuser:testuser .
         - if [[ ${TEST_REBOOT_EXPECTED} == "true" ]]; then ./monitor_fastboot.sh & fi
-        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}"
+        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" -j "${JAVA_OPTIONS}"
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
         - cp -r ./${TEST_PATH}/logs ./output/ || true
