@@ -7,10 +7,10 @@ import time
 from common import ApkTestRunner
 from com.dtmilano.android.viewclient import ViewNotFoundException
 
-## geekbench-3-4-2-0.apk
-## Version is 4.2.0
-## size: 100171060
-## md5sum: 6df73d9b5c3f9fe7383683856985a153
+## geekbench-3-4-3-0.apk
+## Version is 4.3.0
+## size: 100459959
+## md5sum: c0013d79b8518edcdbcf7a2019d2e0ca
 ## Url:
 ##   https://geekbench-3.en.uptodown.com/android
 ##   https://play.google.com/store/apps/details?id=com.primatelabs.geekbench
@@ -19,7 +19,7 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config['apk_file_name'] = "geekbench-3-4-2-0.apk"
+        self.config['apk_file_name'] = "geekbench-3-4-3-0.apk"
         self.config['apk_package'] = "com.primatelabs.geekbench"
         self.config['activity'] = "com.primatelabs.geekbench/.HomeActivity"
         super(ApkRunnerImpl, self).__init__(self.config)
