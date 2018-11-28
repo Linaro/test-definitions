@@ -84,20 +84,54 @@ def filter_ptests(ptests, requested_ptests, exclude):
 
     return filter_ptests
 
+def parse_line(line):
+    test_status_list = {
+        'pass': re.compile("^PASS:(.+)"),
+        'fail': re.compile("^FAIL:(.+)"),
+        'skip': re.compile("^SKIP:(.+)")
+    }
+
+    for test_status, status_regex in test_status_list.items():
+            test_name = status_regex.search(line)
+            if test_name:
+                return [test_name.group(1), test_status]
+
+    return None
+
+def run_ptest(command):
+    results = []
+    process = subprocess.Popen(command,
+                               shell=True,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT)
+    while True:
+        output = process.stdout.readline()
+        try:
+            output = unicode(output, "utf-8").strip()
+        except:
+            output = output.decode("utf-8").strip()
+        if len(output) == 0 and process.poll() is not None:
+            break
+        if output:
+            print(output)
+            result_tuple = parse_line(output)
+            if result_tuple:
+                results.append(result_tuple)
+
+    rc = process.poll()
+    return rc, results
 
 def check_ptest(ptest_dir, ptest_name, output_log):
-    status = 'pass'
-
-    try:
-        output = subprocess.check_call('ptest-runner -d %s %s' %
-                                       (ptest_dir, ptest_name), shell=True,
-                                       stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError:
-        status = 'fail'
+    log_name = os.path.join(os.getcwd(), '%s.log' % ptest_name)
+    status, results = run_ptest('ptest-runner -d %s %s' % (ptest_dir, ptest_name))
 
     with open(output_log, 'a+') as f:
-        f.write("%s %s\n" % (ptest_name, status))
-
+        f.write("lava-test-set start %s\n" % ptest_name)
+        f.write("%s %s\n" % (ptest_name, "pass" if status == 0 else "fail"))
+        for test, test_status in results:
+            test = test.encode("ascii", errors="ignore").decode()
+            f.write("%s %s\n" % (re.sub(r'[^\w-]', '', test), test_status))
+        f.write("lava-test-set stop %s\n" % ptest_name)
 
 def main():
     parser = argparse.ArgumentParser(description="LAVA/OE ptest script",
