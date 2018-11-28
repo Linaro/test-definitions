@@ -29,9 +29,22 @@ params:
     # Number of parallel client streams to run
     THREADS: "1"
     SKIP_INSTALL: "false"
+    # Specify iperf server
+    # Set the var to lava-host-role for test run with LAVA multinode job
+    SERVER: 127.0.0.1
+    # When running with LAVA multinode job, set the following vars to the values
+    # sent by lava-send from host role.
+    MSG_ID: server-ready
+    MSG_KEY: ipaddr
 
 run:
     steps:
+        - fixed_server="${SERVER}"
+        - if [ "${SERVER}" = "lava-host-role" ]; then
+        -     lava-wait "${MSG_ID}"
+        -     fixed_server=$(grep "${MSG_KEY}" /tmp/lava_multi_node_cache.txt | awk -F"=" '{print $NF}')
+        - fi
         - cd ./automated/linux/iperf/
-        - ./iperf.sh -t "${TIME}" -p "${THREADS}" -s "${SKIP_INSTALL}"
+        - ./iperf.sh -t "${TIME}" -p "${THREADS}" -s "${SKIP_INSTALL}" -c "${fixed_server}"
         - ../../utils/send-to-lava.sh ./output/result.txt
+        - '[ "${SERVER}" = "lava-host-role" ] && lava-send client-done'

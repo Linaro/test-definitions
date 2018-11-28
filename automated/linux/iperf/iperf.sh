@@ -1,11 +1,11 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOGFILE="${OUTPUT}/iperf.txt"
-# Test locahost by defualt, which tests the effificency of TCP/IP stack.
+# Test localhost by default, which tests the efficiency of TCP/IP stack.
 # To test physical network bandwidth, specify remote test server with '-c'.
 # Execute 'iperf3 -s' on remote host to run iperf3 test server.
 SERVER="127.0.0.1"
