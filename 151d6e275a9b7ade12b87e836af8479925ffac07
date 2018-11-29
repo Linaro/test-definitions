@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0c44c2fc_3c4c8094",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2018-11-29T15:33:10Z",
+      "side": 1,
+      "message": "sorry, not get here, the title is not one line?",
+      "parentUuid": "9b3fbdcd_aafde36e",
+      "revId": "151d6e275a9b7ade12b87e836af8479925ffac07",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6cf6cf_386345d4",
         "filename": "automated/android/noninteractive-tradefed/tradefed.yaml",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-11-29T14:24:22Z",
       "side": 1,
       "message": "It is not an issue in this yaml file and your test jobs. It is just a tip: t when doing it this way, the value \u0027false\u0027 or \u0027true\u0027 for the var must be quoted in the yaml file or test job definition. false or true value without quotes in yaml will be converted to \u0027False\u0027 and \u0027True\u0027. And in shell, ture/false is valid, True/False isn\u0027t.",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 37
+      },
+      "revId": "151d6e275a9b7ade12b87e836af8479925ffac07",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "676ab8b6_88fb8e2b",
+        "filename": "automated/android/noninteractive-tradefed/tradefed.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2018-11-29T15:33:10Z",
+      "side": 1,
+      "message": "thanks for the info!",
+      "parentUuid": "9a6cf6cf_386345d4",
       "range": {
         "startLine": 49,
         "startChar": 10,
