@@ -41,6 +41,7 @@ class ApkRunnerImpl(ApkTestRunner):
             self.dump_always()
             select_all_btn = self.vc.findViewWithText("All")
             display_tests_menu = self.vc.findViewWithText("Performance Tests")
+            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
             if select_all_btn:
                 select_all_btn.touch()
                 self.logger.info("All selected!")
@@ -48,6 +49,10 @@ class ApkRunnerImpl(ApkTestRunner):
             elif display_tests_menu:
                 display_tests_menu.touch()
                 self.logger.info("Display all tests to select all")
+            elif warn_msg:
+                self.logger.info("Older version warning popped up")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn.touch()
             else:
                 # continue
                 pass
