@@ -5,10 +5,15 @@
 . ../../lib/sh-test-lib
 . ../../lib/android-test-lib
 
-if echo "$ANDROID_VERSION" | grep aosp-master ; then
-    JDK="openjdk-9-jdk-headless"
-else
+if [ -z "${ANDROID_VERSION}" ]; then
+    # install jdk8 when nothing specified
+    # to avoid regression
     JDK="openjdk-8-jdk-headless"
+elif [ "X${ANDROID_VERSION}" = "XO" ] ; then
+    JDK="openjdk-8-jdk-headless"
+else
+    # Use Jdk9 for all other builds
+    JDK="openjdk-9-jdk-headless"
 fi
 PKG_DEPS="usbutils curl wget zip xz-utils python-lxml python-setuptools python-pexpect aapt lib32z1-dev libc6-dev-i386 lib32gcc1 libc6:i386 libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 python-dev python-protobuf protobuf-compiler python-virtualenv python-pip python-pexpect psmisc"
 
