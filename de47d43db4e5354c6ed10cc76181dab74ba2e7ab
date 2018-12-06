@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbc0b19c_e9564ec3",
+        "filename": "automated/android/noninteractive-tradefed/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-12-06T16:17:29Z",
+      "side": 1,
+      "message": "we had problems with double brackets. Could you change to single ones?",
+      "revId": "de47d43db4e5354c6ed10cc76181dab74ba2e7ab",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
