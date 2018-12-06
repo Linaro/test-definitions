@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/bash -x
 # shellcheck disable=SC2154
 # shellcheck disable=SC1091
 
@@ -9,7 +9,7 @@ if [ -z "${ANDROID_VERSION}" ]; then
     # install jdk8 when nothing specified
     # to avoid regression
     JDK="openjdk-8-jdk-headless"
-elif [ "X${ANDROID_VERSION}" = "XO" ] ; then
+elif [[ "${ANDROID_VERSION}" = *"8.1"* || "${ANDROID_VERSION}" = *"O"* ]] ; then
     JDK="openjdk-8-jdk-headless"
 else
     # Use Jdk9 for all other builds
