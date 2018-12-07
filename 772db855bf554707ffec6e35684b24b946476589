@@ -70,6 +70,30 @@
       "revId": "772db855bf554707ffec6e35684b24b946476589",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7250663_4898e59a",
+        "filename": "automated/android/noninteractive-tradefed/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2018-12-07T05:45:40Z",
+      "side": 1,
+      "message": "It is not that simple. if you see the script sets up adb next. The script needs to be run in the current shell context itself for ANDROID_SERIAL to be exported and later to be used by tradefed next. We need to first fix the broken thing, we can look at cleanup next",
+      "parentUuid": "e3b9df58_fb88f896",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "772db855bf554707ffec6e35684b24b946476589",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
