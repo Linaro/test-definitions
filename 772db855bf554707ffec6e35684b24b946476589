@@ -22,6 +22,30 @@
       "revId": "772db855bf554707ffec6e35684b24b946476589",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b458ab6_f4e18177",
+        "filename": "automated/android/noninteractive-tradefed/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000180
+      },
+      "writtenOn": "2018-12-07T04:56:15Z",
+      "side": 1,
+      "message": "This is set as a parameter to the job: https://lkft.validation.linaro.org/scheduler/job/539017/definition#defline147",
+      "parentUuid": "8098ef13_c01b527f",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "772db855bf554707ffec6e35684b24b946476589",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
