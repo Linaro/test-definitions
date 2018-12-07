@@ -9,7 +9,7 @@ if [ -z "${ANDROID_VERSION}" ]; then
     # install jdk8 when nothing specified
     # to avoid regression
     JDK="openjdk-8-jdk-headless"
-elif [[ "${ANDROID_VERSION}" = *"8.1"* || "${ANDROID_VERSION}" = *"O"* ]] ; then
+elif echo "${ANDROID_VERSION}" | grep -qe  "8.1\|O" ; then
     JDK="openjdk-8-jdk-headless"
 else
     # Use Jdk9 for all other builds
