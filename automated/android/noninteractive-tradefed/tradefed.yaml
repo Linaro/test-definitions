@@ -39,7 +39,7 @@ run:
     steps:
         - cd ./automated/android/noninteractive-tradefed
         # Run setup.sh in the original shell to reserve env variables.
-        - . ./setup.sh
+        - export ANDROID_VERSION; ./setup.sh
         - echo "after ./setup.sh"
         # delete the test user to clean environment
         - userdel testuser -r -f || true
