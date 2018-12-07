@@ -46,6 +46,30 @@
       "revId": "772db855bf554707ffec6e35684b24b946476589",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3b9df58_fb88f896",
+        "filename": "automated/android/noninteractive-tradefed/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-07T05:40:11Z",
+      "side": 1,
+      "message": "Thanks for the pointer. I finally figured how it works. LAVA picks up the param from test job and run setup.sh with the same env(. ./setup.sh). The same env includes the shell. This also explains why \u0027[[\u0027 didn\u0027t work when /bin/bash specified in the first line as the script was executed with /bin/sh(inherited from its parent script run.sh).\n\nIMHO, add the param to tradefed.yaml and pass it to setup.sh(./setup.sh params) will be more readable and more explicit. Not has to be done in this patch.",
+      "parentUuid": "6b458ab6_f4e18177",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "772db855bf554707ffec6e35684b24b946476589",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
