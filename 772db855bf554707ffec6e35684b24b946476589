@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8098ef13_c01b527f",
+        "filename": "automated/android/noninteractive-tradefed/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-07T04:52:47Z",
+      "side": 1,
+      "message": "Where is the var from? When it is set?",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "772db855bf554707ffec6e35684b24b946476589",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
