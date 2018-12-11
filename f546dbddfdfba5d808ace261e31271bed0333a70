@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eb3f234_c97634a0",
+        "filename": "automated/utils/upload-to-artifactorial.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-11T11:02:42Z",
+      "side": 1,
+      "message": "I see it is optional, but I am still wondering in which case you want the script exist with non-zero. \n\nPlease note that LAVA converts yaml file to run.sh and executes it with \u0027-e\u0027 enabled. If the upload helper exists with non-zero, it terminates the run.sh and the following steps get no chance to run.\n\nAn example: https://git.linaro.org/qa/test-definitions.git/tree/automated/android/tradefed/tradefed.yaml#n60",
+      "revId": "f546dbddfdfba5d808ace261e31271bed0333a70",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
