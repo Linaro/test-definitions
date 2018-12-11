@@ -5,11 +5,14 @@
 . ../../lib/sh-test-lib
 . ../../lib/android-test-lib
 
+# ANDROID_VERSION was set in the format like change here:
+# https://review.linaro.org/#/c/ci/job/configs/+/29367/
 if [ -z "${ANDROID_VERSION}" ]; then
     # install jdk8 when nothing specified
     # to avoid regression
     JDK="openjdk-8-jdk-headless"
-elif echo "${ANDROID_VERSION}" | grep -qe  "8.1\|O" ; then
+elif echo "${ANDROID_VERSION}" | grep -q  "android-8\." ; then
+    # install jdk8 for Oreo builds, both 8.0 and 8.1
     JDK="openjdk-8-jdk-headless"
 else
     # Use Jdk9 for all other builds
