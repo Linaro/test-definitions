@@ -35,6 +35,11 @@ params:
     FAILURES_PRINTED: "0"
     TEST_REBOOT_EXPECTED: "false"
     JAVA_OPTIONS: "-Xmx350M"
+    # setup.sh determines JDK version by Android version.
+    # Here are some examples for the param, see setup.sh for more details.
+    # ANDROID_VERSION: android-8.1.0_r33
+    # ANDROID_VERSION: aosp-master
+    ANDROID_VERSION: ""
 
 run:
     steps:
