@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "527c13ed_597db5e2",
+        "filename": "automated/android/noninteractive-tradefed/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-11T08:23:28Z",
+      "side": 1,
+      "message": "Would you please revmove the \u0027e\u0027 from \u0027-qe\u0027? I don\u0027t see it is needed.",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "3a39d473cc6073ac11f78532ee4bfb2751f967f0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
