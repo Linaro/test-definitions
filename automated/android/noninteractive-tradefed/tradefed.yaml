@@ -34,6 +34,8 @@ params:
     # Specify the failures number to be printed
     FAILURES_PRINTED: "0"
     TEST_REBOOT_EXPECTED: "false"
+    # setup.sh determines JDK version by Android version.
+    ANDROID_VERSION: ""
 
 run:
     steps:
