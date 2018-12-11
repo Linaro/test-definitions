@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff3f704f_9adfa2e0",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000339
+      },
+      "writtenOn": "2018-12-11T13:59:30Z",
+      "side": 1,
+      "message": "could we use \u0027local_file\u0027 for these to be consistent with variable naming in the rest of the file?",
+      "revId": "795bacf46d780ba68fff2ad282094f45545d6163",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
