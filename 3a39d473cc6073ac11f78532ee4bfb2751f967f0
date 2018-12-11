@@ -22,6 +22,30 @@
       "revId": "3a39d473cc6073ac11f78532ee4bfb2751f967f0",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33670f07_d14dc19a",
+        "filename": "automated/android/noninteractive-tradefed/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2018-12-11T09:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "527c13ed_597db5e2",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "3a39d473cc6073ac11f78532ee4bfb2751f967f0",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
