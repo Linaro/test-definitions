@@ -16,6 +16,24 @@
       "revId": "f546dbddfdfba5d808ace261e31271bed0333a70",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d4e109_1f1c667d",
+        "filename": "automated/utils/upload-to-artifactorial.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000404
+      },
+      "writtenOn": "2018-12-11T12:15:57Z",
+      "side": 1,
+      "message": "We are wrapping related calls like that: `ret\u003d0; somecommand || ret\u003d$?`. This allows to continue with the test execution even if that command fails. See also the later change that uses the change here: https://review.linaro.org/c/qa/test-definitions/+/29417/1/automated/android/multinode/tradefed/tradefed-multinode.yaml#93\n\nThe main motivation is to execute all cleanup steps of a test execution even if some test steps (such as artifacts upload) fail. In the multinode tradefed runner linked above we sometimes ended up having worker devices being idling for very long time, just because the multinode master role did not finish cleanly and therefore didn\u0027t inform them that the job was done. So they were not available for new test submission although they didn\u0027t actually do anything.",
+      "parentUuid": "4eb3f234_c97634a0",
+      "revId": "f546dbddfdfba5d808ace261e31271bed0333a70",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
