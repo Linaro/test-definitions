@@ -30,8 +30,8 @@ create_out_dir "${OUTPUT}"
 # Try to install v4l-utils when v4l2-compliance not found.
 # install_deps() skips installation on unsupported distro
 # like OE based builds by default.
-command -v v4l2-compliance || install_deps "v4l-utils"
-command -v v4l2-compliance
+which v4l2-compliance > /dev/null || install_deps "v4l-utils"
+which v4l2-compliance > /dev/null
 exit_on_fail "v4l2-existence-check"
 
 if [ -n "${VIDEO_DRIVER}" ] && ! lsmod | grep "${VIDEO_DRIVER%.*}"; then
