@@ -34,6 +34,24 @@
       "revId": "b72fe4b3caaba081313603ab2d2ee8042c6820dc",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "641671a9_3a6e3881",
+        "filename": "automated/android/linaro-android-kernel-tests/linaro-android-kernel-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000060
+      },
+      "writtenOn": "2018-12-12T12:54:05Z",
+      "side": 1,
+      "message": "Ah, ok, got it. Thanks!",
+      "parentUuid": "2fafedf7_518a4176",
+      "revId": "b72fe4b3caaba081313603ab2d2ee8042c6820dc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
