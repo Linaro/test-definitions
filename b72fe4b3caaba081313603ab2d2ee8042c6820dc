@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52b8b21b_e84d8177",
+        "filename": "automated/android/linaro-android-kernel-tests/linaro-android-kernel-tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000060
+      },
+      "writtenOn": "2018-12-12T12:45:19Z",
+      "side": 1,
+      "message": "\u003d \"XPermissive\"?",
+      "revId": "b72fe4b3caaba081313603ab2d2ee8042c6820dc",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
