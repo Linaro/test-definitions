@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be9372a9_01cbf6c4",
+        "filename": "automated/android/tradefed/result_parser.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-13T10:17:20Z",
+      "side": 1,
+      "message": "Imported but not used.",
+      "revId": "215f9ad5e8a8093be0ad4ad3c148ecf3a66b791b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e91f621_be485db4",
+        "filename": "automated/android/tradefed/tradefed-runner.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-13T10:17:20Z",
+      "side": 1,
+      "message": "After the vars moved to result_parser.py, this part becoming not easy to read. Instead of introduce two more vars, can we simple use string here? Milosz, ideas?\n\nproposed changes:\n\ndefault\u003d\u0027aggregated\u0027,\nchoices\u003d[\u0027aggregated\u0027, \u0027atomic\u0027],\n\nplus the following changes in result_parser.py\n\ndiff --git a/automated/android/tradefed/result_parser.py b/automated/android/tradefed/result_parser.py\nindex f190fd6..5189008 100644\n--- a/automated/android/tradefed/result_parser.py\n+++ b/automated/android/tradefed/result_parser.py\n@@ -9,8 +9,8 @@ sys.path.insert(0, \u0027../../lib/\u0027)\n import py_test_lib  # nopep8\n \n \n-AGGREGATED \u003d \u0027aggregated\u0027\n-ATOMIC \u003d \u0027atomic\u0027\n+# AGGREGATED \u003d \u0027aggregated\u0027\n+# ATOMIC \u003d \u0027atomic\u0027\n \n \n class TradefedResultParser:\n@@ -18,7 +18,7 @@ class TradefedResultParser:\n         self.result_output_file \u003d result_output_file\n         self.logger \u003d logging.getLogger()\n         self.failures_to_print \u003d 0\n-        self.results_format \u003d AGGREGATED\n+        self.results_format \u003d \u0027aggregated\u0027\n         self.test_result_file_name \u003d \u0027test_result.xml\u0027\n \n     def parse_recursively(self, result_dir):\n@@ -81,7 +81,7 @@ class TradefedResultParser:\n             else:\n                 module_name \u003d elem.attrib[\u0027name\u0027]\n \n-            if self.results_format \u003d\u003d AGGREGATED:\n+            if self.results_format \u003d\u003d \u0027aggregated\u0027:\n                 r \u003d self.print_aggregated(\n                     module_name, elem, remaining_failures_to_print\n                 )\n@@ -94,7 +94,7 @@ class TradefedResultParser:\n                         \u0027skipped.\u0027 % (self.failures_to_print)\n                     )\n \n-            elif self.results_format \u003d\u003d ATOMIC:\n+            elif self.results_format \u003d\u003d \u0027atomic\u0027:\n                 self.print_atomic(module_name, elem)\n         return True",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 77
+      },
+      "revId": "215f9ad5e8a8093be0ad4ad3c148ecf3a66b791b",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
