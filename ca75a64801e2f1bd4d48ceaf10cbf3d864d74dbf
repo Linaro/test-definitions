@@ -22,6 +22,30 @@
       "revId": "ca75a64801e2f1bd4d48ceaf10cbf3d864d74dbf",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53ca33c7_86f10580",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000404
+      },
+      "writtenOn": "2018-12-13T18:22:03Z",
+      "side": 1,
+      "message": "I chose this approach based on the argumentation here: https://stackoverflow.com/a/2953673",
+      "parentUuid": "feeb9130_51fb3868",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 38
+      },
+      "revId": "ca75a64801e2f1bd4d48ceaf10cbf3d864d74dbf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
