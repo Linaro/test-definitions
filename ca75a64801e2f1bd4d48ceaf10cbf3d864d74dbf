@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feeb9130_51fb3868",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-13T08:36:20Z",
+      "side": 1,
+      "message": "\u0027if \"${has_ip_address}\" should just work.",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 38
+      },
+      "revId": "ca75a64801e2f1bd4d48ceaf10cbf3d864d74dbf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
