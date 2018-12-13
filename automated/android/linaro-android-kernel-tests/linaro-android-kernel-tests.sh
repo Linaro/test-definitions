@@ -17,7 +17,17 @@ create_out_dir "${OUTPUT}"
 
 # Run test script.
 if test -n "$(adb shell "which ${TEST_SCRIPT}")"; then
+    # disable selinux for kernel test
+    selinux=$(adb shell getenforce)
+    if [ "X${selinux}" = "XEnforcing" ]; then
+        adb shell setenforce 0
+    fi
     adb shell "${TEST_SCRIPT}" | tee "${LOGFILE}"
+    # enable selinux again after the test
+    # to avoid affecting next test
+    if [ "X${selinux}" = "XEnforcing" ]; then
+        adb shell setenforce 1
+    fi
 else
     warn_msg "${TEST_SCRIPT} NOT found"
     report_fail "test-script-existence-check"
