@@ -1,4 +1,6 @@
 #!/bin/sh
+# SC2039: In POSIX sh, 'local' is undefined.
+# shellcheck disable=SC2039
 
 install_latest_adb() {
     install_deps "wget zip"
