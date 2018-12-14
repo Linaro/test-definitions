@@ -46,6 +46,30 @@
       "revId": "ca75a64801e2f1bd4d48ceaf10cbf3d864d74dbf",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57e79277_c1f71fa6",
+        "filename": "automated/lib/android-test-lib",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-14T03:26:26Z",
+      "side": 1,
+      "message": "Thanks for sharing. I agree the syntax is more safe, less beautiful though.",
+      "parentUuid": "53ca33c7_86f10580",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 38
+      },
+      "revId": "ca75a64801e2f1bd4d48ceaf10cbf3d864d74dbf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
     }
   ]
 }
