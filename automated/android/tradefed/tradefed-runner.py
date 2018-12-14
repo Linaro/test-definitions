@@ -37,9 +37,9 @@ parser.add_argument('-r', dest='RESULTS_FORMAT', required=False,
                     passed and failed tests are recorded for each module. 'atomic' means \
                     each test result is recorded separately")
 
-## The total number of failed test cases to be printed for this job
-## Print too much failures would cause the lava job timed out
-## Default to not print any failures
+# The total number of failed test cases to be printed for this job
+# Print too much failures would cause the lava job timed out
+# Default to not print any failures
 parser.add_argument('-f', dest='FAILURES_PRINTED', type=int,
                     required=False, default=0,
                     help="Speciy the number of failed test cases to be\
