@@ -1,5 +1,6 @@
 .*
 build-error.txt
+*.pyc
 
 # git files that we don't want to ignore even it they are dot-files
 #
