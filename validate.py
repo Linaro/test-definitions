@@ -144,7 +144,7 @@ def validate_yaml(filename, args):
         publish_result(["* YAMLVALID [PASSED]: " + filename + " - deleted"], args)
         return 0
     try:
-        y = yaml.load(filecontent)
+        yaml.load(filecontent)
         message = "* YAMLVALID: [PASSED]: " + filename
         print_stderr(message)
     except yaml.YAMLError:
@@ -163,7 +163,9 @@ def validate_yaml(filename, args):
 def validate_shell(filename, ignore_options):
     ignore_string = ""
     if args.shellcheck_ignore is not None:
-        ignore_string = "-e %s" % " ".join(args.shellcheck_ignore)
+        # Exclude types of warnings in the following format:
+        # -e CODE1,CODE2..
+        ignore_string = "-e %s" % ",".join(args.shellcheck_ignore)
     if len(ignore_string) < 4:  # contains only "-e "
         ignore_string = ""
     cmd = 'shellcheck %s' % ignore_string
