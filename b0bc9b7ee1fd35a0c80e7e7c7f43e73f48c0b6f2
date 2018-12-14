@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6bda4300_e196d10c",
+        "filename": "sanity-check.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-14T09:58:34Z",
+      "side": 1,
+      "message": "shellcheck -h\nUsage: shellcheck [OPTIONS...] FILES...\n  -e CODE1,CODE2..  --exclude\u003dCODE1,CODE2..  exclude types of warnings\n\nvalidate.py -h says\n\n  -s [SHELLCHECK_IGNORE [SHELLCHECK_IGNORE ...]], --shellcheck-ignore [SHELLCHECK_IGNORE [SHELLCHECK_IGNORE ...]]\n                        Space separated list of shellcheck exclusions\n\n\nSo I tried \u0027-s SC1091 SC2039\u0027 first which didn\u0027t work, I think we should either join the codes with \u0027,\u0027(what I did in the patch) or we modify validate.py usage?",
+      "parentUuid": "48fcfbee_f48a0b96",
+      "revId": "b0bc9b7ee1fd35a0c80e7e7c7f43e73f48c0b6f2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "796f9e91_301b5466",
         "filename": "sanity-check.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-14T09:13:58Z",
       "side": 1,
       "message": "this is controversial. It also discards warning for \"\u003d\u003d\" in /bin/sh. That isn\u0027t good IMHO :(",
+      "revId": "b0bc9b7ee1fd35a0c80e7e7c7f43e73f48c0b6f2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c8e08c4_4af1d5aa",
+        "filename": "sanity-check.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-14T09:58:34Z",
+      "side": 1,
+      "message": "Removed. Lets do that line by line.",
+      "parentUuid": "796f9e91_301b5466",
       "revId": "b0bc9b7ee1fd35a0c80e7e7c7f43e73f48c0b6f2",
       "serverId": "f33910f19b7abb192b83adbd000000bf",
       "unresolved": false
