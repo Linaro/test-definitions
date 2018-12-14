@@ -30,8 +30,9 @@ parser.add_argument('-t', dest='TEST_PARAMS', required=True,
 parser.add_argument('-p', dest='TEST_PATH', required=True,
                     help="path to tradefed package top directory")
 parser.add_argument('-r', dest='RESULTS_FORMAT', required=False,
-                    default='aggregated',
-                    choices=['aggregated', 'atomic'],
+                    default=result_parser.TradefedResultParser.AGGREGATED,
+                    choices=[result_parser.TradefedResultParser.AGGREGATED,
+                             result_parser.TradefedResultParser.ATOMIC],
                     help="The format of the saved results. 'aggregated' means number of \
                     passed and failed tests are recorded for each module. 'atomic' means \
                     each test result is recorded separately")

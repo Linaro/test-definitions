@@ -10,11 +10,14 @@ import py_test_lib  # nopep8
 
 
 class TradefedResultParser:
+    AGGREGATED = "aggregated"
+    ATOMIC = "atomic"
+
     def __init__(self, result_output_file):
         self.result_output_file = result_output_file
         self.logger = logging.getLogger()
         self.failures_to_print = 0
-        self.results_format = 'aggregated'
+        self.results_format = TradefedResultParser.AGGREGATED
         self.test_result_file_name = 'test_result.xml'
 
     def parse_recursively(self, result_dir):
@@ -77,7 +80,7 @@ class TradefedResultParser:
             else:
                 module_name = elem.attrib['name']
 
-            if self.results_format == 'aggregated':
+            if self.results_format == TradefedResultParser.AGGREGATED:
                 r = self.print_aggregated(
                     module_name, elem, remaining_failures_to_print
                 )
@@ -90,7 +93,7 @@ class TradefedResultParser:
                         'skipped.' % (self.failures_to_print)
                     )
 
-            elif self.results_format == 'atomic':
+            elif self.results_format == TradefedResultParser.ATOMIC:
                 self.print_atomic(module_name, elem)
         return True
 
