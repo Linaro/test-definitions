@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48fcfbee_f48a0b96",
+        "filename": "sanity-check.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-12-14T09:13:58Z",
+      "side": 1,
+      "message": "does this work for you? I had to use coma separated values to make shellcheck accept the params.",
+      "revId": "b0bc9b7ee1fd35a0c80e7e7c7f43e73f48c0b6f2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "796f9e91_301b5466",
+        "filename": "sanity-check.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000015
+      },
+      "writtenOn": "2018-12-14T09:13:58Z",
+      "side": 1,
+      "message": "this is controversial. It also discards warning for \"\u003d\u003d\" in /bin/sh. That isn\u0027t good IMHO :(",
+      "revId": "b0bc9b7ee1fd35a0c80e7e7c7f43e73f48c0b6f2",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
