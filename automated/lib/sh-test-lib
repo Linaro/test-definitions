@@ -4,7 +4,8 @@ LANG=C
 export LANG
 
 error_fatal() {
-    msg="$1"
+    # shellcheck disable=SC2039
+    local msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
     if which lava-test-raise;then
         lava-test-raise "${msg}"
@@ -15,20 +16,23 @@ error_fatal() {
 }
 
 error_msg() {
-    msg="$1"
+    # shellcheck disable=SC2039
+    local msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
     printf "ERROR: %s\n" "${msg}" >&2
     exit 1
 }
 
 warn_msg() {
-    msg="$1"
+    # shellcheck disable=SC2039
+    local msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
     printf "WARNING: %s\n" "${msg}" >&2
 }
 
 info_msg() {
-    msg="$1"
+    # shellcheck disable=SC2039
+    local msg="$1"
     [ -z "${msg}" ] && msg="Unknown info"
     printf "INFO: %s\n" "${msg}" >&1
 }
@@ -42,10 +46,13 @@ check_root() {
 }
 
 exit_on_fail() {
-    exit_code="$?"
+    # shellcheck disable=SC2039
+    local exit_code="$?"
     [ "$#" -lt 1 ] && error_msg "Usage: exit_on_fail test_case [skip_list]"
-    test_case="$1"
-    skip_list="$2"
+    # shellcheck disable=SC2039
+    local test_case="$1"
+    # shellcheck disable=SC2039
+    local skip_list="$2"
 
     if [ "${exit_code}" -ne 0 ]; then
         echo "${test_case} fail" | tee -a "${RESULT_FILE}"
@@ -68,10 +75,13 @@ exit_on_fail() {
 }
 
 exit_on_skip() {
-    exit_code="$?"
+    # shellcheck disable=SC2039
+    local exit_code="$?"
     [ "$#" -lt 1 ] && error_msg "Usage: exit_on_skip test_case [msg]"
-    test_case="$1"
-    msg="$2"
+    # shellcheck disable=SC2039
+    local test_case="$1"
+    # shellcheck disable=SC2039
+    local msg="$2"
 
     if [ "${exit_code}" -ne 0 ]; then
         echo "${test_case} skip" | tee -a "${RESULT_FILE}"
@@ -90,9 +100,11 @@ exit_on_skip() {
 }
 
 check_return() {
-    exit_code="$?"
+    # shellcheck disable=SC2039
+    local exit_code="$?"
     [ "$#" -ne 1 ] && error_msg "Usage: check_return test_case"
-    test_case="$1"
+    # shellcheck disable=SC2039
+    local test_case="$1"
 
     if [ "${exit_code}" -ne 0 ]; then
         echo "${test_case} fail" | tee -a "${RESULT_FILE}"
@@ -107,9 +119,12 @@ check_return() {
 # would NOT work. run_test_case should be used instead.
 run_test_case() {
     [ "$#" -lt 2 ] && error_msg "Usage: run_test_case <test_command> <test_case_id> [skip_list]"
-    test_command="$1"
-    test_case_id="$2"
-    skip_list="$3"
+    # shellcheck disable=SC2039
+    local test_command="$1"
+    # shellcheck disable=SC2039
+    local test_case_id="$2"
+    # shellcheck disable=SC2039
+    local skip_list="$3"
 
     if eval "${test_command}"; then
         echo "${test_case_id} pass" | tee -a "${RESULT_FILE}"
@@ -129,13 +144,15 @@ run_test_case() {
 
 report_pass() {
     [ "$#" -ne 1 ] && error_msg "Usage: report_pass test_case"
-    test_case="$1"
+    # shellcheck disable=SC2039
+    local test_case="$1"
     echo "${test_case} pass" | tee -a "${RESULT_FILE}"
 }
 
 report_fail() {
     [ "$#" -ne 1 ] && error_msg "Usage: report_fail test_case"
-    test_case="$1"
+    # shellcheck disable=SC2039
+    local test_case="$1"
     echo "${test_case} fail" | tee -a "${RESULT_FILE}"
 }
 
@@ -144,10 +161,14 @@ add_metric() {
         warn_msg "The number of parameters less then 3"
         error_msg "Usage: add_metric test_case result measurement [units]"
     fi
-    test_case="$1"
-    result="$2"
-    measurement="$3"
-    units="$4"
+    # shellcheck disable=SC2039
+    local test_case="$1"
+    # shellcheck disable=SC2039
+    local result="$2"
+    # shellcheck disable=SC2039
+    local measurement="$3"
+    # shellcheck disable=SC2039
+    local units="$4"
 
     echo "${test_case} ${result} ${measurement} ${units}" | tee -a "${RESULT_FILE}"
 }
@@ -191,10 +212,12 @@ dist_name() {
 }
 
 install_deps() {
-    pkgs="$1"
+    # shellcheck disable=SC2039
+    local pkgs="$1"
     [ -z "${pkgs}" ] && error_msg "Usage: install_deps pkgs"
     # skip_install parmater is optional.
-    skip_install="$2"
+    # shellcheck disable=SC2039
+    local skip_install="${2:-false}"
 
     if [ "${skip_install}" = "True" ] || [ "${skip_install}" = "true" ]; then
         info_msg "install_deps skipped"
@@ -262,12 +285,16 @@ remove_pkgs() {
 # Return the exit code of the first command when using pipe.
 pipe0_status() {
     [ "$#" -ne 2 ] && error_msg "Usage: pipe0_status cmd1 cmd2"
-    cmd1="$1"
-    cmd2="$2"
+    # shellcheck disable=SC2039
+    local cmd1="$1"
+    # shellcheck disable=SC2039
+    local cmd2="$2"
 
     exec 4>&1
+    # shellcheck disable=SC2039
+    local ret_val
     ret_val=$({ { eval "${cmd1}" 3>&-; echo "$?" 1>&3; } 4>&- \
-                | eval "${cmd2}" 1>&4; } 3>&1)
+              | eval "${cmd2}" 1>&4; } 3>&1)
     exec 4>&-
 
     return "${ret_val}"
@@ -279,9 +306,13 @@ validate_check_sum() {
         error_msg "Usage: validate_check_sum filename known_sha256sum"
         return 1
     fi
-    OUTPUT_FILE_NAME="$1"
-    SHA256SUM_CHECK="$2"
+    # shellcheck disable=SC2039
+    local OUTPUT_FILE_NAME="$1"
+    # shellcheck disable=SC2039
+    local SHA256SUM_CHECK="$2"
     # Get sha256sum of output_file
+    # shellcheck disable=SC2039
+    local GET_SHA256SUM
     GET_SHA256SUM=$(sha256sum "${OUTPUT_FILE_NAME}" | awk '{print $1}')
     echo "GET_SHA256SUM is ${GET_SHA256SUM}"
     if [ "${SHA256SUM_CHECK}" = "${GET_SHA256SUM}" ] ; then
@@ -297,8 +328,10 @@ convert_to_mb() {
     if ! echo "$1" | grep -E -q "^[0-9.]+$"; then
         error_msg "The first argument isn't a number"
     fi
-    value="$1"
-    units="$2"
+    # shellcheck disable=SC2039
+    local value="$1"
+    # shellcheck disable=SC2039
+    local units="$2"
 
     case "${units}" in
       KB|kb) value=$(echo "${value}" | awk '{print $1/1024}') ;;
@@ -328,7 +361,8 @@ dist_info() {
 
 add_key() {
     [ "$#" -ne 1 ] && error_msg "Usage: add_key url"
-    url="$1"
+    # shellcheck disable=SC2039
+    local url="$1"
 
     ! check_root && \
         error_msg "About to use apt-key, please run this script as root."
@@ -342,7 +376,8 @@ add_key() {
 
 add_repo() {
     [ "$#" -lt 1 ] && error_msg "Usage: add_repo <url> [backports]"
-    url="$1"
+    # shellcheck disable=SC2039
+    local url="$1"
 
     ! check_root && \
         error_msg "About to add a repo, please run this script as root."
@@ -353,9 +388,11 @@ add_repo() {
       debian|ubuntu)
         dist_info
         if [ -z "$2" ]; then
-            backports=""
+            # shellcheck disable=SC2039
+            local backports=""
         elif [ "$2" = "backports" ]; then
-            backports="-backports"
+            # shellcheck disable=SC2039
+            local backports="-backports"
         else
             echo "Usage: add_repo <url> [backports]"
             error_msg "$2 is not a supported argument, should be 'backports'"
@@ -376,7 +413,8 @@ add_repo() {
 
 create_out_dir() {
     [ -z "$1" ] && error_msg "Usage: create_out_dir output_dir"
-    OUTPUT=$1
+    # shellcheck disable=SC2039
+    local OUTPUT=$1
     [ -d "${OUTPUT}" ] &&
         mv "${OUTPUT}" "${OUTPUT}_$(date -r "${OUTPUT}" +%Y%m%d%H%M%S)"
     mkdir -p "${OUTPUT}"
@@ -396,7 +434,8 @@ generate_skipfile() {
     #
     info_msg "Generating a skipfile based on ${SKIPFILE_YAML}"
     detect_abi
-    SKIPGEN_ARGS=""
+    # shellcheck disable=SC2039
+    local SKIPGEN_ARGS=""
     test -n "${BOARD}" && SKIPGEN_ARGS="${SKIPGEN_ARGS} --board ${BOARD}"
     test -n "${BRANCH}" && SKIPGEN_ARGS="${SKIPGEN_ARGS} --branch ${BRANCH}"
     test -n "${ENVIRONMENT}" && SKIPGEN_ARGS="${SKIPGEN_ARGS} --environment ${ENVIRONMENT}"
