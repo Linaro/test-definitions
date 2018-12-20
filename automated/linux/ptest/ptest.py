@@ -53,7 +53,7 @@ def get_available_ptests(ptest_dir):
 
     ptests = []
     ptest_rex = re.compile("^(?P<ptest_name>.*)\t")
-    for line in output.decode('utf-8').split('\n'):
+    for line in output.decode('utf-8', errors="replace").split('\n'):
         m = ptest_rex.search(line)
         if m:
             ptests.append(m.group('ptest_name'))
@@ -111,7 +111,7 @@ def run_ptest(command):
         try:
             output = unicode(output, "utf-8").strip()
         except:
-            output = output.decode("utf-8").strip()
+            output = output.decode("utf-8", errors="replace").strip()
         if len(output) == 0 and process.poll() is not None:
             break
         if output:
