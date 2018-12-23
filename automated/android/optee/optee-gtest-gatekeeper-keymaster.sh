@@ -30,8 +30,10 @@ create_out_dir "${OUTPUT}"
 # Run test.
 info_msg "About to run gatekeeper and keymaster gtests on device ${ANDROID_SERIAL}"
 
-adb shell "echo /data/nativetest64/VtsHalGatekeeperV1_0TargetTest/VtsHalGatekeeperV1_0TargetTest 2>&1 | su" | tee "${LOGFILE}"
-adb shell "echo /data/nativetest64/VtsHalKeymasterV3_0TargetTest/VtsHalKeymasterV3_0TargetTest 2>&1 | su" | tee "${LOGFILE}"
+adb shell "echo /data/nativetest/VtsHalGatekeeperV1_0TargetTest/VtsHalGatekeeperV1_0TargetTest 2>&1 | su" | tee -a "${LOGFILE}"
+adb shell "echo /data/nativetest/VtsHalKeymasterV3_0TargetTest/VtsHalKeymasterV3_0TargetTest 2>&1 | su" | tee -a "${LOGFILE}"
+adb shell "echo /data/nativetest64/VtsHalGatekeeperV1_0TargetTest/VtsHalGatekeeperV1_0TargetTest 2>&1 | su" | tee -a "${LOGFILE}"
+adb shell "echo /data/nativetest64/VtsHalKeymasterV3_0TargetTest/VtsHalKeymasterV3_0TargetTest 2>&1 | su" | tee -a "${LOGFILE}"
 
 # Parse test log into RESULT_FILE
 grep "\[ *OK *\] [A-Za-z]" "${LOGFILE}" | awk '{printf("%s pass\n", $4)}' | tee -a "${RESULT_FILE}"
