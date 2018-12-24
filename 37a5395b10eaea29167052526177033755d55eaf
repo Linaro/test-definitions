@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6edde5d8_2ae03bff",
+        "filename": "automated/android/optee/optee-gtest-gatekeeper-keymaster.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000096
+      },
+      "writtenOn": "2018-12-24T05:17:10Z",
+      "side": 1,
+      "message": "The problem here is it only saves the output of last test run(64bit v3_0) to the logfile as tee uses overwrite mode by default.\n\nYou probably want to use separate log file to save output for post processing, sth like 32bit-v1-xxx, 64bit-v3-xx, etc. In this way, the following parsing lines should be updated to parse each of the log files.\n\nIf you want to save all the output to the same log file, use \u0027tee -a\u0027 instead. If output formats are the same, the following parsing line can stay as it is.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 124
+      },
+      "revId": "37a5395b10eaea29167052526177033755d55eaf",
+      "serverId": "f33910f19b7abb192b83adbd000000bf",
+      "unresolved": false
+    }
+  ]
+}
