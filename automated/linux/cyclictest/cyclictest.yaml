@@ -29,16 +29,18 @@ metadata:
 
 params:
     # Priority of highest prio thread.
-    PRIORITY: "99"
+    PRIORITY: "98"
     # Base interval of thread in us.
-    INTERVAL: "10000"
+    INTERVAL: "1000"
     # Number of threads.
     THREADS: "1"
+    # Set the affinity
+    AFFINITY: "0"
     # Number of loops.
-    LOOPS: "10000"
+    LOOPS: "100000"
 
 run:
     steps:
         - cd ./automated/linux/cyclictest/
-        - ./cyclictest.sh -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -l "${LOOPS}"
+        - ./cyclictest.sh -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" -l "${LOOPS}"
         - ../../utils/send-to-lava.sh ./output/result.txt

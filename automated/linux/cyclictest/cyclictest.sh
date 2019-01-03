@@ -10,21 +10,23 @@ OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/cyclictest.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
 
-PRIORITY="99"
-INTERVAL="10000"
+PRIORITY="98"
+INTERVAL="1000"
 THREADS="1"
-LOOPS="10000"
+AFFINITY="0"
+LOOPS="100000"
 
 usage() {
     echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-l loops]" 1>&2
     exit 1
 }
 
-while getopts ":p:i:t:l:" opt; do
+while getopts ":p:i:t:a:l:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         i) INTERVAL="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
+	a) AFFINITY="${OPTARG}" ;;
         l) LOOPS="${OPTARG}" ;;
         *) usage ;;
     esac
@@ -39,8 +41,8 @@ if ! binary=$(which cyclictest); then
     # shellcheck disable=SC2154
     binary="./bin/${abi}/cyclictest"
 fi
-"${binary}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" \
-    -l "${LOOPS}" | tee "${LOGFILE}"
+"${binary}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
+    -l "${LOOPS}" -m -n | tee "${LOGFILE}"
 
 # Parse test log.
 tail -n "${THREADS}" "${LOGFILE}" \
