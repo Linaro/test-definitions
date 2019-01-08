@@ -332,5 +332,10 @@ adb_join_wifi() {
         wget http://testdata.validation.linaro.org/apks/wifi/wifi.apk
         adb install wifi.apk
         adb shell am start -n com.steinwurf.adbjoinwifi/.MainActivity -e ssid "${AP_SSID}" -e password_type WPA -e password "${AP_KEY}"
+
+        # uninstall the packge to avoid effect like reported here:
+        # https://bugs.linaro.org/show_bug.cgi?id=4236
+        sleep 2
+        adb uninstall com.steinwurf.adbjoinwifi
     fi
 }
