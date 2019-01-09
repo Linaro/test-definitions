@@ -1,0 +1,13 @@
+dist: xenial
+language: python
+python:
+  - "3.6"
+
+# Pre-installed packages.
+# shellcheck 0.5.0
+# php 7.2
+install:
+  - pip install pyyaml pycodestyle
+
+script:
+  - ./sanity-check.sh
