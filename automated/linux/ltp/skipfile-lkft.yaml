@@ -481,6 +481,25 @@ skiplist:
       - creat08
 
   - reason: >
+      LKFT: linux-next: x86: LTP sendfile09 and sendfile09_64 failed: errno=EFBIG(27): File too large
+      Test creates more than 3GB file which is time consuming so skipping.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3234
+    environments: all
+    boards:
+      - hi6220-hikey
+      - dragonboard-410c
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.19
+      - 4.20
+      - mainline
+    tests:
+      - sendfile09
+      - sendfile09_64
+
+  - reason: >
       LKFT: next: LTP open11 failed - Got:
       TEST_ERRNO=EACCES(13): Permission denied instead of errno 0
       morty to rocko (openembedded) caused this bug
