@@ -236,7 +236,7 @@ def main(args):
     if args.git_latest:
         # check if git exists
         git_status, git_result = subprocess.getstatusoutput(
-            "git show --name-only --format=''")
+            "git diff --name-only HEAD~1")
         if git_status == 0:
             filelist = git_result.split()
             exitcode = run_unit_tests(args, filelist)
