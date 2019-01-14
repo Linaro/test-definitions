@@ -14,6 +14,7 @@ NETWORK_TIMEOUT_SECS=${NETWORK_TIMEOUT_SECS:-300}
 ADB_TCPIP_ATTEMPTS=${ADB_TCPIP_ATTEMPTS:-5}
 ADB_CONNECT_TEST_TIMEOUT_SECS=${ADB_CONNECT_TEST_TIMEOUT_SECS:-60}
 ANDROID_ENABLE_WIFI=${ANDROID_ENABLE_WIFI:-true}
+USERDATA_IMAGE_FILE=${USERDATA_IMAGE_FILE:-""}
 
 # shellcheck source=automated/lib/sh-test-lib
 . "${MY_AUTOMATED_DIR}/lib/sh-test-lib"
@@ -64,6 +65,34 @@ settings; UI automation failed."
     fi
 }
 
+userdata_reset() {
+    if [ -z "${USERDATA_IMAGE_FILE}" ]; then
+        warn_msg "Skipping userdata_reset; no image file provided."
+        return
+    fi
+    if [ ! -f "${USERDATA_IMAGE_FILE}" ]; then
+        warn_msg "Skipping userdata_reset; image file not found: \
+${USERDATA_IMAGE_FILE}."
+        return
+    fi
+    # shellcheck disable=SC2039
+    local previousResult="${RESULT}"
+    RESULT=false
+    if ! timeout "${ADB_CONNECT_TEST_TIMEOUT_SECS}" adb reboot bootloader; then
+        warn_msg "Reboot into bootloader failed."
+        return
+    fi
+    if ! fastboot flash userdata "${USERDATA_IMAGE_FILE}"; then
+        warn_msg "Flashing userdata image failed."
+        return
+    fi
+    if ! timeout 10 fastboot reboot; then
+        warn_msg "Device did not reboot from fastboot as expected."
+        return
+    fi
+    RESULT="${previousResult}"
+}
+
 
 lava-test-set start keepAlive
 
@@ -87,6 +116,11 @@ while true; do
         info_msg "Reconnect requested by master."
         adb kill-server || true
         adb devices || true
+        reconnect_device
+        ;;
+    userdata_reset)
+        info_msg "Userdata reset requested by master."
+        userdata_reset
         reconnect_device
         ;;
     *)

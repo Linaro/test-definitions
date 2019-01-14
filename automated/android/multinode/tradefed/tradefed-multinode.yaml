@@ -51,6 +51,9 @@ params:
     # For devices locally connected via USB, <device> the serial number of the
     # device and <workerId> must be empty.
     DEVICE_WORKER_MAPPING_FILE: "/tmp/deviceWorkerMapping"
+    # Userdata image file that will be used to reset devices to a clean state
+    # before starting TradeFed reruns.
+    USERDATA_IMAGE_FILE: ""
     # Let the whole test run fail if the test runner failed to exit cleanly.
     RAISE_ON_FAILURE: "true"
 
@@ -85,7 +88,7 @@ run:
                 -s "${STATE_CHECK_FREQUENCY_SECS}" -r "${RESULTS_FORMAT}" \
                 -m "${DEVICE_WORKER_MAPPING_FILE}" -f "${FAILURES_PRINTED}" \
                 -a "${AP_SSID}" -k "${AP_KEY}" -j "${JAVA_OPTIONS}" \
-                || exec_result=$?
+                -b "${USERDATA_IMAGE_FILE}" || exec_result=$?
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
         - cp -r ./${TEST_PATH}/logs ./output/ || true

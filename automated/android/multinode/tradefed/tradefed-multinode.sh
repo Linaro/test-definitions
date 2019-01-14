@@ -32,11 +32,12 @@ $0 [-o timeout_secs] [ -m device_worker_mapping_file] [-c cts_url]
 [-t test_params] [-u test_retry_params] [-i max_num_runs] [-n runs_if_unchanged]
 [-p test_path] [-s state_check_frequency_secs] [-r <aggregated|atomic>]
 [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>] [-j <java_options>]
+[-b <userdata_image_file>]
 heredoc
     exit 1
 }
 
-while getopts ':o:m:c:t:u:i:n:p:s:r:f:a:k:j:' opt; do
+while getopts ':o:m:c:t:u:i:n:p:s:r:f:a:k:j:b:' opt; do
     case "${opt}" in
         o) TIMEOUT_SECS="${OPTARG}" ;;
         m) DEVICE_WORKER_MAPPING_FILE="${OPTARG}" ;;
@@ -52,6 +53,7 @@ while getopts ':o:m:c:t:u:i:n:p:s:r:f:a:k:j:' opt; do
         a) AP_SSID="${OPTARG}" ;;
         k) AP_KEY="${OPTARG}" ;;
         j) JAVA_OPTIONS="${OPTARG}" ;;
+        b) USERDATA_IMAGE_FILE="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -135,6 +137,7 @@ runner_exited_cleanly="pass"
 ./tradefed-runner-multinode.py -t "${TEST_PARAMS}" -u "${TEST_RETRY_PARAMS}" -i "${MAX_NUM_RUNS}" \
     -n "${RUNS_IF_UNCHANGED}" -p "${TEST_PATH}" -s "${STATE_CHECK_FREQUENCY_SECS}" \
     -r "${RESULT_FORMAT}" -f "${FAILURES_PRINTED}" -m "${DEVICE_WORKER_MAPPING_FILE}" \
+    --userdata_image_file "${USERDATA_IMAGE_FILE}" \
     || runner_exited_cleanly="fail"
 
 # "fail" here means that an unexpected error/exception occurred in the runner.

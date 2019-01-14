@@ -1,9 +1,11 @@
 import logging
+import os.path
 import re
 import shutil
 import subprocess
 import sys
 import time
+from typing import Dict
 
 sys.path.insert(0, "../../../lib/")
 from py_util_lib import call_shell_lib  # nopep8
@@ -16,7 +18,11 @@ class Device:
     EXEC_IN_LAVA = shutil.which("lava-send") is not None
 
     def __init__(
-        self, serial_or_address, logcat_output_filename, worker_job_id=None
+        self,
+        serial_or_address,
+        logcat_output_filename,
+        worker_job_id=None,
+        userdata_image_file=None,
     ):
         self.serial_or_address = serial_or_address
         self.is_tcpip_device = bool(
@@ -29,6 +35,7 @@ class Device:
         )
         self.worker_job_id = worker_job_id
         self.worker_handshake_iteration = 1
+        self.userdata_image_file = userdata_image_file
         self._is_available = True
 
     def ensure_available(self, logger, timeout_secs=30):
@@ -111,6 +118,10 @@ class Device:
             # function will return failure, but the device can still become accessible in the next
             # iteration of device availability checks.
 
+            # `fastboot devices` prints in some versions more debug information
+            # than `fastboot reboot`, e.g., missing udev rules.
+            subprocess.run(["fastboot", "devices"])
+
             # There is no point in waiting longer for `fastboot reboot`:
             fastbootRebootTimeoutSecs = 10
             try:
@@ -122,6 +133,8 @@ class Device:
                 # Blocking `fastboot reboot` does not necessarily indicate a
                 # failure.
                 pass
+
+            subprocess.run(["fastboot", "devices"])
 
             bootTimeoutSecs = max(
                 10, int(reconnectTimeoutSecs) - fastbootRebootTimeoutSecs
@@ -149,6 +162,11 @@ class Device:
 
         if not self.check_available():
             return False
+
+        # Ensure that the device screen is on during test runs.
+        if not self._call_shell_lib("disable_suspend"):
+            print("WARNING: Disabling device suspend may have failed.")
+
         # reestablish logcat connection
         self.logcat.kill()
         self.logcat = subprocess.Popen(
@@ -156,6 +174,58 @@ class Device:
             stdout=self.logcat_output_file,
         )
         return True
+
+    def userdata_reset(self, commandTimeoutSecs=60, reconnectTimeoutSecs=900):
+        """Reset the device to a clean state. This is equivalent to resetting to
+        factory settings and applying CTS set-up steps."""
+        if not self.userdata_image_file:
+            print("WARNING: Skipping userdata_reset; no image file provided.")
+            return True
+        if not os.path.isfile(self.userdata_image_file):
+            print(
+                "WARNING: Skipping userdata_reset; image file not found: %s"
+                % self.userdata_image_file
+            )
+
+        print("Resetting userdata partition on %s" % self.serial_or_address)
+
+        # Reflash the userdata partition.
+        if self.is_tcpip_device:
+            self.worker_handshake("userdata_reset")
+        else:
+            try:
+                subprocess.run(
+                    [
+                        "adb",
+                        "-s",
+                        self.serial_or_address,
+                        "reboot",
+                        "bootloader",
+                    ],
+                    timeout=commandTimeoutSecs,
+                )
+            except subprocess.TimeoutExpired:
+                # Blocking `adb reboot` does not necessarily indicate a failure.
+                pass
+            try:
+                subprocess.run(
+                    [
+                        "fastboot",
+                        "-s",
+                        self.serial_or_address,
+                        "flash",
+                        "userdata",
+                        self.userdata_image_file,
+                    ],
+                    timeout=commandTimeoutSecs,
+                )
+            except subprocess.TimeoutExpired as e:
+                print(e)
+                return False
+
+        # Reconnect as usual.
+        if not self.try_reconnect(reconnectTimeoutSecs=reconnectTimeoutSecs):
+            return False
 
     def release(self):
         self.logcat.kill()
