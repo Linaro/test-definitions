@@ -21,9 +21,14 @@ params:
     ADB_TCPIP_ATTEMPTS: "5"
     ADB_CONNECT_TEST_TIMEOUT_SECS: "60"
     ANDROID_ENABLE_WIFI: "true"
+    # Userdata image file that will be used to reset devices to a clean state
+    # before starting TradeFed reruns.
+    USERDATA_IMAGE_FILE: ""
 
 run:
     steps:
         - lava-install-packages --no-install-recommends python3-pip python3-setuptools python3-wheel
         - pip3 install -q uiautomator
-        - ./automated/android/multinode/wait-and-keep-local-device-accessible.sh
+        - |
+            USERDATA_IMAGE_FILE="${USERDATA_IMAGE_FILE}" \
+                ./automated/android/multinode/wait-and-keep-local-device-accessible.sh

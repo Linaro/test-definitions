@@ -63,6 +63,10 @@ parser.add_argument('-f', dest='FAILURES_PRINTED', type=int,
                     required=False, default=0,
                     help="Specify the number of failed test cases to be\
                     printed, 0 means not print any failures.")
+parser.add_argument('--userdata_image_file', dest='USERDATA_IMAGE_FILE',
+                    required=False, help="Userdata image file that will be \
+                    used to reset devices to a clean state before starting \
+                    TradeFed reruns.")
 
 args = parser.parse_args()
 
@@ -91,7 +95,14 @@ try:
             device_address = deviceToWorker[0]
             worker_job_id = (None if (len(deviceToWorker) == 1 or not deviceToWorker[1])
                              else deviceToWorker[1])
-            devices.append(Device(device_address, TRADEFED_LOGCAT % device_address, worker_job_id))
+            devices.append(
+                Device(
+                    serial_or_address=device_address,
+                    logcat_output_filename=TRADEFED_LOGCAT % device_address,
+                    worker_job_id=worker_job_id,
+                    userdata_image_file=args.USERDATA_IMAGE_FILE,
+                )
+            )
 except OSError as e:
     logger.error("Mapping file cannot be opened: %s" % args.DEVICE_WORKER_MAPPING_FILE)
     sys.exit(1)
@@ -337,6 +348,19 @@ while child.isalive():
             logger.info('NOT retrying TradeFed session as maximum number of retries is reached.')
         else:
             logger.info('Retrying with results of session %s' % tradefed_session_id)
+            logger.info('First resetting the devices to a clean state...')
+
+            unavailable_devices = []
+            for device in devices:
+                if not device.userdata_reset():
+                    unavailable_devices += [device.serial_or_address]
+            if unavailable_devices:
+                logger.warning(
+                    'Following devices were not reset successfully '
+                    'or are not yet available again: %s'
+                    % ', '.join(unavailable_devices)
+                )
+
             try:
                 child.expect(prompt, timeout=60)
                 child.sendline('%s --retry %s' % (args.TEST_RETRY_PARAMS, str(tradefed_session_id)))
