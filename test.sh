@@ -1,4 +1,5 @@
 #!/bin/sh
+# test multiple commits
 
 set -e
 
