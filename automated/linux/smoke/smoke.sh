@@ -49,3 +49,5 @@ while [ -n "${TESTS}" ]; do
     run "${test_cmd}"
     TESTS="$(echo "${TESTS}" | sed -r "s/${test_cmd},? *//")"
 done
+
+# test multiple commits
