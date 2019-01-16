@@ -61,13 +61,8 @@ run:
             if [ -z "${DEVICE_WORKER_MAPPING_FILE}" -o ! -f "${DEVICE_WORKER_MAPPING_FILE}" ]; then
                 lava-test-raise "Parameter DEVICE_WORKER_MAPPING_FILE must be defined and point to an existing file."
             fi
-        - lava-install-packages --no-install-recommends aapt curl default-jre-headless python3-pexpect sudo usbutils wget xz-utils zip
-        # delete the test user to clean environment
-        - userdel testuser -r -f || true
-        # create test use to run the cts/vts tests
-        - useradd -m testuser && echo "testuser created successfully"
+        - lava-install-packages --no-install-recommends aapt curl default-jre-headless python3-pexpect usbutils wget xz-utils zip
         - cd ./automated/android/multinode/tradefed
-        - chown testuser:testuser .
         - |
             if [ "${TEST_PARAMS_AUTO_SHARDS}" = "true" ]; then
                 num_shards="$(lava-role list | grep -v '^$' | wc -l)"
@@ -83,7 +78,7 @@ run:
         # available in the CTS execution scripts.
         - |
             exec_result=0
-            sudo -u testuser env "PATH=${PATH}" ./tradefed-multinode.sh \
+            ./tradefed-multinode.sh \
                 -o "${TIMEOUT_SECS}" -c "${TEST_URL}" -t "${TEST_PARAMS}" \
                 -u "${TEST_RETRY_PARAMS}" -i "${MAX_NUM_RUNS}" \
                 -n "${RUNS_IF_UNCHANGED}" -p "${TEST_PATH}" \
@@ -112,7 +107,6 @@ run:
             done
         # Send test result to LAVA.
         - ../../../utils/send-to-lava.sh ./output/result.txt || true
-        - userdel testuser -f -r || true
         # When adb devices are lost, mark the test job as 'incomplete'
         - |
             lost_devices=""
