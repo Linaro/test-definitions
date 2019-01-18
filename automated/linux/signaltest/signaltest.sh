@@ -8,7 +8,7 @@ OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/signaltest.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
 
-PRIORITY="99"
+PRIORITY="98"
 THREADS="2"
 LOOPS="10000"
 
@@ -35,7 +35,7 @@ if ! binary=$(which signaltest); then
     # shellcheck disable=SC2154
     binary="./bin/${abi}/signaltest"
 fi
-"${binary}" -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}" \
+"${binary}" -m -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}" \
     | tee "${LOGFILE}"
 
 # Parse test log.

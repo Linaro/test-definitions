@@ -27,7 +27,7 @@ metadata:
 
 params:
     # Priority of highest prio thread.
-    PRIORITY: "99"
+    PRIORITY: "98"
     # Number of threads.
     THREADS: "2"
     # Number of loops.
