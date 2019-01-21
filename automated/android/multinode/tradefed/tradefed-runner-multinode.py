@@ -14,6 +14,7 @@ import time
 sys.path.insert(0, '../../../lib/')
 sys.path.insert(1, '../../')
 import py_test_lib                                  # nopep8
+from py_util_lib import call_shell_lib              # nopep8
 import tradefed.result_parser as result_parser      # nopep8
 from multinode.tradefed.utils import *              # nopep8
 from multinode.tradefed.sts_util import StsUtil     # nopep8
@@ -226,8 +227,8 @@ while child.isalive():
     if num_available_devices < len(devices):
         logger.debug('Some devices are lost. Dumping state of adb/USB devices.')
         child.sendline('dump logs')
-        subprocess.run(['sh', '-c', '. ../../../lib/sh-test-lib && . ../../../lib/android-test-lib '
-                        '&& adb_debug_info'])
+
+        call_shell_lib("adb_debug_info")
         logger.debug('"adb devices" output')
         subprocess.run(['adb', 'devices'])
 

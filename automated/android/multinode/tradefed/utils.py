@@ -4,6 +4,9 @@ import shutil
 import subprocess
 import time
 
+sys.path.insert(0, "../../../lib/")
+from py_util_lib import call_shell_lib  # nopep8
+
 
 class Device:
     tcpip_device_re = re.compile(
@@ -119,16 +122,8 @@ class Device:
             bootTimeoutSecs = max(
                 10, int(reconnectTimeoutSecs) - fastbootRebootTimeoutSecs
             )
-            return (
-                subprocess.run(
-                    [
-                        "sh",
-                        "-c",
-                        ". ../../../lib/sh-test-lib && . ../../../lib/android-test-lib && "
-                        'export ANDROID_SERIAL="%s" && wait_boot_completed %s'
-                        % (self.serial_or_address, bootTimeoutSecs),
-                    ]
-                ).returncode == 0
+            return self._call_shell_lib(
+                "wait_boot_completed {}".format(bootTimeoutSecs)
             )
 
         # adb may not yet have realized that the connection is broken
@@ -201,6 +196,18 @@ class Device:
             # TODO could check result variable from MultiNode cache
         self.worker_handshake_iteration += 1
         return True
+
+    def _call_shell_lib(self, command: str) -> bool:
+        """Call a function implemented in the (Android) shell library.
+        Ensure that device-specific commands are executed on `self`.
+
+        Arguments:
+            command: Function defined in sh-test-lib or android-test-lib to
+                call, including its parameters.
+        Return:
+            True if the executed shell exists with 0, False otherwise.
+        """
+        return call_shell_lib(command, device=self.serial_or_address) == 0
 
 
 class RetryCheck:
