@@ -2,6 +2,7 @@ import logging
 import re
 import shutil
 import subprocess
+import sys
 import time
 
 sys.path.insert(0, "../../../lib/")
@@ -80,21 +81,24 @@ class Device:
         return self._is_available
 
     def check_available(self, timeout_secs=30):
-        return (
-            subprocess.run(
-                [
-                    "timeout",
-                    str(timeout_secs),
-                    "adb",
-                    "-s",
-                    self.serial_or_address,
-                    "shell",
-                    "echo",
-                    "%s:" % self.serial_or_address,
-                    "OK",
-                ]
-            ).returncode == 0
-        )
+        try:
+            return (
+                subprocess.run(
+                    [
+                        "adb",
+                        "-s",
+                        self.serial_or_address,
+                        "shell",
+                        "echo",
+                        "%s:" % self.serial_or_address,
+                        "OK",
+                    ],
+                    timeout=timeout_secs,
+                ).returncode == 0
+            )
+        except subprocess.TimeoutExpired as e:
+            print(e)
+            return False
 
     def try_reconnect(self, reconnectTimeoutSecs=60):
         # NOTE: When running inside LAVA, self.is_tcpip_device == (self.worker_job_id is not None).
@@ -106,19 +110,19 @@ class Device:
             # NOTE: If the boot/reboot process takes longer than the specified timeout, this
             # function will return failure, but the device can still become accessible in the next
             # iteration of device availability checks.
-            fastbootRebootTimeoutSecs = (
-                10
-            )  # There is no point in waiting longer for fastboot
-            subprocess.run(
-                [
-                    "timeout",
-                    str(fastbootRebootTimeoutSecs),
-                    "fastboot",
-                    "-s",
-                    self.serial_or_address,
-                    "reboot",
-                ]
-            )
+
+            # There is no point in waiting longer for `fastboot reboot`:
+            fastbootRebootTimeoutSecs = 10
+            try:
+                subprocess.run(
+                    ["fastboot", "-s", self.serial_or_address, "reboot"],
+                    timeout=fastbootRebootTimeoutSecs,
+                )
+            except subprocess.TimeoutExpired:
+                # Blocking `fastboot reboot` does not necessarily indicate a
+                # failure.
+                pass
+
             bootTimeoutSecs = max(
                 10, int(reconnectTimeoutSecs) - fastbootRebootTimeoutSecs
             )
@@ -132,18 +136,17 @@ class Device:
             5
         )  # adb connect ~often~ fails when called ~directly~ after disconnect.
 
-        if (
-            subprocess.run(
-                [
-                    "timeout",
-                    str(reconnectTimeoutSecs),
-                    "adb",
-                    "connect",
-                    self.serial_or_address,
-                ]
-            ).returncode != 0
-        ):
+        try:
+            if (
+                subprocess.run(
+                    ["adb", "connect", self.serial_or_address],
+                    timeout=reconnectTimeoutSecs,
+                ).returncode != 0
+            ):
+                return False
+        except subprocess.TimeoutExpired:
             return False
+
         if not self.check_available():
             return False
         # reestablish logcat connection
