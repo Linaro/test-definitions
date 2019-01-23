@@ -55,11 +55,11 @@ Easy-to-read version of PEP 8 available at `pep8.org <http://pep8.org>`_
 
 Use useful comments in your program to explain:
 
-    * assumptions
-    * important decisions
-    * important details
-    * problems you're trying to solve
-    * problems you're trying to overcome in your program, etc.
+- assumptions
+- important decisions
+- important details
+- problems you're trying to solve
+- problems you're trying to overcome in your program, etc.
 
 Code tells you how, comments should tell you why.
 
@@ -135,9 +135,9 @@ Example 3::
 Hopefully, the above 3 examples cover most of the user cases. When
 writing test cases, in general:
 
-    * Define 'SKIP_INSTALL' variable with 'false' as default.
-    * Add parameter '-s <True|False>', so that user can modify 'SKIP_INSTALL'.
-    * Try to use the above functions, and give unknown distributions more care.
+- Define 'SKIP_INSTALL' variable with 'false' as default.
+- Add parameter '-s <True|False>', so that user can modify 'SKIP_INSTALL'.
+- Try to use the above functions, and give unknown distributions more care.
 
 3. Saving output
 ~~~~~~~~~~~~~~~~~
@@ -149,7 +149,7 @@ files.
 ~~~~~~~~~~~~~~~~~
 
 Saving parsed result in the same format is important for post process such as
-sending to LAVA. The following result format should be followed.
+sending to LAVA. The following result format should be followed::
 
     test-caes-id pass/fail/skip
     test-case-id pass/fail/skip measurement
@@ -274,22 +274,22 @@ Test output
 At the end of the test run, the following artefact are available in the output
 folder:
 
-    - `result.csv` and `result.json` which contain summary of test results
-      (including test name, test case ID, test results such as pass, fail, skip,
-      test measurement, if any, with the associated measurement unit, and the test
-      argument used
-    - For each test executed, there is a folder which contains the console output
-      of the test run, `stdout.log` as well as all test scripts/data
+- `result.csv` and `result.json` which contain summary of test results
+  (including test name, test case ID, test results such as pass, fail, skip,
+  test measurement, if any, with the associated measurement unit, and the test
+  argument used
+- For each test executed, there is a folder which contains the console output
+  of the test run, `stdout.log` as well as all test scripts/data
 
 Test Contribution Checklist
 ===========================
 
-* When applicable, check test cases with the following tools with line length
+- When applicable, check test cases with the following tools with line length
   rule relaxed.
 
-    - shellcheck: Shell script analysis tool.
-    - pycodestyle: check Python code against the style conventions in PEP 8.
-    - php: check syntax with 'php -l file'.
+  - shellcheck: Shell script analysis tool.
+  - pycodestyle: check Python code against the style conventions in PEP 8.
+  - php: check syntax with 'php -l file'.
 
-* Run test cases on local system without LAVA.
-* Optionally, run test cases in LAVA and provide job example.
+- Run test cases on local system without LAVA.
+- Optionally, run test cases in LAVA and provide job example.
