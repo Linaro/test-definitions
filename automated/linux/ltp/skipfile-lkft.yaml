@@ -20,19 +20,6 @@
 
 skiplist:
   - reason: >
-      Linux-4.4: LTP: bind02: socket() failed: errno=EACCES(13): Permission
-      denied
-    url: https://bugs.linaro.org/show_bug.cgi?id=2962
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-    branches:
-      - 4.4
-    tests:
-      - bind02
-
-  - reason: >
       LKFT: LTP: fork13: runs long and hangs machine on branches
     url: https://bugs.linaro.org/show_bug.cgi?id=3719
     environments: all
@@ -74,76 +61,6 @@ skiplist:
       - msgstress04
 
   - reason: >
-      LKFT: LTP: pselect01_64: slept for too long
-    url: https://bugs.linaro.org/show_bug.cgi?id=3089
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - x15
-      - qemu_x86_64
-      - qemu_arm64
-      - qemu_arm
-      - qemu_i386
-    branches: all
-    tests:
-      - pselect01
-      - pselect01_64
-
-  - reason: "mainline kernel tests baselining"
-    url: https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - x15
-      - dragonboard-410c
-      - qemu_arm64
-      - qemu_arm
-    branches: all
-    tests:
-      - quotactl01
-
-  - reason: >
-      sysfs01 sysfs02 sysfs03 sysfs04 sysfs05 and sysfs06 no more valid.
-      sysfs system call is obsolete; don't use it.
-      This test can only run on kernels that support the sysfs system call
-    url: https://bugs.linaro.org/show_bug.cgi?id=3722
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - dragonboard-410c
-      - qemu_arm64
-    branches: all
-    tests:
-      - sysfs01
-      - sysfs02
-      - sysfs03
-      - sysfs04
-      - sysfs05
-      - sysfs06
-
-  - reason: >
-      ustat01 and ustat02 failed only on Juno, because this syscall not
-      implemented on arm-64 architecture.
-      ustat(2) failed and setthe errno to 38 : Function not implemented
-    url: https://bugs.linaro.org/show_bug.cgi?id=3721
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - dragonboard-410c
-      - qemu_arm64
-    branches: all
-    tests:
-      - ustat01
-      - ustat02
-
-  - reason: >
       fanotify07 was added to syscalls in 20170929 and fails approximately 50%
       of the time. See
     url: https://bugs.linaro.org/show_bug.cgi?id=3303
@@ -159,7 +76,6 @@ skiplist:
     tests:
       - fanotify07
       - fanotify08
-      - fanotify09
 
   - reason: >
       LKFT: LTP: inotify07 FAIL: didn't get event: mask=40000004
@@ -186,31 +102,6 @@ skiplist:
     tests:
       - inotify08
 
-  - reason: "fs:isofs Do not try to build iso's on embedded boards."
-    url: https://bugs.linaro.org/show_bug.cgi?id=3318
-    environments:
-      - production
-    boards: all
-    branches: all
-    tests:
-      - isofs
-
-  - reason: "ltp-fs-tests/quota_remount_test01"
-    url: https://bugs.linaro.org/show_bug.cgi?id=3354
-    environments:
-      - production
-    boards:
-      - hi6220-hikey
-      - juno-r2
-      - qemu_x86_64
-      - qemu_arm64
-      - dragonboard-410c
-      - qemu_i386
-      - i386
-    branches: all
-    tests:
-      - quota_remount_test01
-
   - reason: >
       pth_str02 hangs when using NFS filesystem. LKFT: linux-mainline: juno:
       x86: ltp sched tests hang due to NFS not responding
@@ -231,34 +122,6 @@ skiplist:
       - time-schedule01
 
   - reason: >
-      mainline kernel tests baselining
-      https://projects.linaro.org/projects/CTT/queues/issue/CTT-585
-      LKFT: linux-mainline: HiKey and Juno: ltp-containers Network Namespaces
-      tests failed
-    url: https://bugs.linaro.org/show_bug.cgi?id=3327
-    environments:
-      - production
-    boards: all
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-    tests:
-      - netns_sysfs
-
-  - reason: "Test ends with SIGKILL on x15 (intermittent failure)"
-    url: https://bugs.linaro.org/show_bug.cgi?id=3401
-    environments:
-      - production
-    boards:
-      - x15
-    branches: all
-    tests:
-      - getrandom02
-
-  - reason: >
       LKFT: 4.9-rc: x86: LTP: perf_event_open02.c:333: test failed (ratio
       was greater than ) - intermittent failure
     url: https://bugs.linaro.org/show_bug.cgi?id=3382
@@ -268,20 +131,6 @@ skiplist:
     branches: all
     tests:
       - perf_event_open02
-
-  - reason: >
-      Test is inconsistent on x15
-      Intermittent failures on qemu_arm
-    url: https://bugs.linaro.org/show_bug.cgi?id=3339
-    environments:
-      - production
-    boards:
-      - x15
-      - qemu_arm
-      - qemu_i386
-    branches: all
-    tests:
-      - fcntl36
 
   - reason: >
       fs:gf01:gf14:gf15:gf18: This test requires >4GB to run. Skip on devices
@@ -297,49 +146,6 @@ skiplist:
       - gf15
       - gf18
 
-  - reason: "LKFT: 4.4: LTP readahead02 fails on x86"
-    url: https://bugs.linaro.org/show_bug.cgi?id=3457
-    environments:
-      - production
-    boards:
-      - juno-r2
-      - x86
-      - qemu_x86_64
-      - qemu_arm64
-      - qemu_arm
-      - qemu_i386
-      - i386
-    branches: all
-    tests:
-      - readahead02
-
-  - reason: "LKFT: netns_netlink fails on x15 in mainline and 4.15"
-    url: https://bugs.linaro.org/show_bug.cgi?id=3484
-    environments:
-      - production
-    boards:
-      - x15
-      - qemu_arm
-    branches: all
-    tests:
-      - netns_netlink
-
-  - reason: "LKFT: qemu: LTP skip failed timing test cases"
-    url: https://bugs.linaro.org/show_bug.cgi?id=3768
-    environments: all
-    boards:
-      - qemu_x86_64
-      - qemu_arm64
-      - qemu_arm
-      - qemu_i386
-    branches: all
-    tests:
-      - clock_nanosleep02
-      - epoll_wait02
-      - futex_wait05
-      - nanosleep01
-      - poll02
-
   - reason: >
       LKFT: LTP skip hackbench01/02 on qemu_arm and qemu_arm64 causing kernel dump
     url: https://bugs.linaro.org/show_bug.cgi?id=3777
@@ -351,134 +157,6 @@ skiplist:
     tests:
       - hackbench01
       - hackbench02
-
-  - reason: >
-      LTP CVE cve-2014-0196 newly running test case have different results on
-      different boards.
-    url: https://bugs.linaro.org/show_bug.cgi?id=3858
-    environments: production
-    boards:
-      - juno-r2
-      - x15
-      - x86
-      - qemu_arm
-      - qemu_arm64
-      - dragonboard-410c
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - cve-2014-0196
-
-  - reason: >
-      LKFT: LTP: CVE cve-2011-2183 test failed on x86_64 and arm32 x15 devices
-    url: https://bugs.linaro.org/show_bug.cgi?id=3857
-    environments: production
-    boards:
-      - x15
-      - x86
-      - qemu_arm
-      - qemu_x86_64
-      - qemu_i386
-      - i386
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - cve-2011-2183
-
-  - reason: >
-      LKFT: qemu_arm32/64: LTP cve-2016-7117 Test timeouted, sending SIGKILL!
-    url: https://bugs.linaro.org/show_bug.cgi?id=3884
-    environments: production
-    boards:
-      - qemu_arm64
-      - qemu_arm
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - cve-2016-7117
-
-  - reason: >
-      LKFT: qemu_arm: LTP CVE cve-2015-7550 Test timeouted, sending SIGKILL!
-    url: https://bugs.linaro.org/show_bug.cgi?id=3883
-    environments: production
-    boards:
-      - qemu_arm
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - cve-2015-7550
-      - keyctl02
-
-  - reason: "qemu_arm32/64: LTP select04 is not returning 0 on timeout"
-    url: https://bugs.linaro.org/show_bug.cgi?id=3852
-    environments: production
-    boards:
-      - qemu_arm64
-      - qemu_arm
-      - qemu_i386
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - select04
-
-  - reason: >
-      LKFT: LTP: cve-2015-3290 failed intermittently on qemu_x86_64
-    url: https://bugs.linaro.org/show_bug.cgi?id=3910
-    environments: production
-    boards:
-      - qemu_x86_64
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - cve-2015-3290
-
-  - reason: >
-      LKFT: LTP creat08 and open10 failed
-      testdir.B.3132/setgid: Incorrect modes, setgid bit should be set
-      skip these tests until this bug fixes on upstream LTP
-    url: https://bugs.linaro.org/show_bug.cgi?id=3940
-    environments: production
-    boards: all
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - open10
-      - creat08
 
   - reason: >
       LKFT: linux-next: x86: LTP sendfile09 and sendfile09_64 failed: errno=EFBIG(27): File too large
@@ -498,28 +176,6 @@ skiplist:
     tests:
       - sendfile09
       - sendfile09_64
-
-  - reason: >
-      LKFT: next: LTP open11 failed - Got:
-      TEST_ERRNO=EACCES(13): Permission denied instead of errno 0
-      morty to rocko (openembedded) caused this bug
-    url: https://bugs.linaro.org/show_bug.cgi?id=3948
-    environments: production
-    boards:
-      - qemu_x86_64
-      - qemu_arm64
-      - qemu_arm
-      - qemu_i386
-      - i386
-    branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - mainline
-    tests:
-      - open11
 
   - reason: >
       LTP: futex_wake04 never return on i386 and timedout
