@@ -2,6 +2,7 @@
 while true;
 do
     date
-    fastboot boot /lava-lxc/boot*.img
+    lsusb
+    adb devices
     sleep 30
 done
