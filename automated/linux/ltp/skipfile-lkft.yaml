@@ -202,3 +202,35 @@ skiplist:
       - all
     tests:
       - hugemmap06
+
+  - reason: >
+      LTP: mtest06/mmap1 running long time and timeouted after 15 minutes
+      intermittent failure
+    url: https://bugs.linaro.org/show_bug.cgi?id=4273
+    environments: all
+    boards:
+      - dragonboard-410c
+      - hi6220-hikey
+      - juno-r2
+      - qemu_arm64
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - 4.20
+      - mainline
+    tests:
+      - mtest06
+
+  - reason: >
+      LTP mm test case ksm01 failed on db410c while allocating memory,
+      mem.c:293: malloc(134217600) failed: ENOMEM
+      Board doesn't have enough memory to run the test (1GB)
+    url: https://bugs.linaro.org/show_bug.cgi?id=4272
+    environments: production
+    boards:
+      - dragonboard-410c
+    branches:
+      - all
+    tests:
+      - ksm01
