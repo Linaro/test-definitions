@@ -1,0 +1,36 @@
+metadata:
+    name: share-local-device-over-adb-tcpip
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "adb MultiNode setup: make local device remotely accessible via adb TCP/IP.
+        Handles the device over to a role that responds to the following synchronization steps:
+        - lava-sync start_handover
+        - lava-send dut_address dut_address=${dut_address}
+        - lava-sync finish_handover"
+    maintainer:
+        - karsten@fairphone.com
+        - softwareteam@fairphone.com
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    ADB_PORT: "5555"
+    ADB_TCPIP_ATTEMPTS: "5"
+    TIMEOUT_SECS: "60"
+    RAISE_ON_FAILURE: "true"
+
+run:
+    steps:
+        - . ./automated/lib/sh-test-lib
+        - . ./automated/lib/android-test-lib
+        - . ./automated/lib/android-multinode-test-lib
+        - ret_val=0
+        - share_local_device_over_adb_tcpip "${ADB_TCPIP_ATTEMPTS}" "${TIMEOUT_SECS}" "${ADB_PORT}" || ret_val=$?
+        - |
+            if [ "${ret_val}" -ne 0 -a "${RAISE_ON_FAILURE}" = "true" ]; then
+                lava-test-raise "Could not share device of adb tcpip."
+            fi

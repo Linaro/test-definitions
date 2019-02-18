@@ -1,0 +1,98 @@
+metadata:
+    name: wait-and-keep-local-device-accessible
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Continuously wait for MultiNode messages from a remote role (master) and make the
+        locally connected device accessible again when it is lost for the remote role."
+    maintainer:
+        - karsten@fairphone.com
+        - softwareteam@fairphone.com
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    ADB_PORT: "5555"
+    BOOT_TIMEOUT_SECS: "900"
+    NETWORK_TIMEOUT_SECS: "300"
+    ADB_TCPIP_ATTEMPTS: "5"
+    ADB_CONNECT_TEST_TIMEOUT_SECS: "60"
+    ANDROID_ENABLE_WIFI: "true"
+
+run:
+    steps:
+        - lava-install-packages --no-install-recommends python3-pip python3-setuptools python3-wheel
+        - pip3 install -q uiautomator
+        - . ./automated/lib/sh-test-lib
+        - . ./automated/lib/android-test-lib
+        - . ./automated/lib/android-multinode-test-lib
+        - lava-test-set start keepAlive
+        - |
+            reconnect_device() {
+              timeout 10 fastboot reboot || true
+
+              local ret_val=0
+              sh -c ". ./automated/lib/sh-test-lib && . ./automated/lib/android-test-lib \
+                && wait_boot_completed \"${BOOT_TIMEOUT_SECS}\"" \
+                || ret_val=$?
+
+              if [ "${ret_val}" -ne 0 ]; then
+                result=false
+                echo "WARNING: Reconnect attempt failed: target did not boot up or is not accessible."
+                return
+              fi
+
+              if [ "${ANDROID_ENABLE_WIFI}" = "true" ]; then
+                ./automated/lib/android_ui_wifi.py -a set_wifi_state on || ret_val=$?
+                if [ "${ret_val}" -ne 0 ]; then
+                  echo "WARNING: Cannot ensure that Wi-Fi is enabled in the device settings; UI automation failed."
+                fi
+              fi
+
+              ret_val=0
+              sh -c ". ./automated/lib/sh-test-lib && . ./automated/lib/android-test-lib \
+                && . ./automated/lib/android-multinode-test-lib \
+                && wait_network_connected \"${NETWORK_TIMEOUT_SECS}\" \
+                && open_adb_tcpip_on_local_device \
+                  \"${ADB_TCPIP_ATTEMPTS}\" \"${ADB_CONNECT_TEST_TIMEOUT_SECS}\" \"${ADB_PORT}\"" \
+                || ret_val=$?
+
+              if [ "${ret_val}" -ne 0 ]; then
+                result=false
+                echo "WARNING: Reconnect attempt failed."
+              fi
+            }
+        - iteration=1
+        - |
+            while true; do
+              lava-wait master-sync-$(lava-self)-${iteration}
+
+              command="$(cat /tmp/lava_multi_node_cache.txt | grep "command" | sed 's/.*command=//' | grep -v '^$')"
+
+              result="pass"
+
+              case "${command}" in
+                continue)
+                  ;;
+                release)
+                  break
+                  ;;
+                reconnect)
+                  echo "Reconnect requested by master."
+                  adb kill-server || true
+                  adb devices || true
+                  reconnect_device
+                  ;;
+                *)
+                  lava-test-raise "Script error. Unexpected message from master to worker, command=${command}"
+              esac
+
+              lava-send worker-sync-$(lava-self)-${iteration} result=$result
+
+              iteration="$(expr ${iteration} + 1)"
+            done
+        - echo "master released the device."
+        - lava-test-set stop

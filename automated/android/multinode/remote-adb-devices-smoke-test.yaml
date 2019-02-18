@@ -1,0 +1,27 @@
+metadata:
+    name: remote-adb-devices-smoke-test
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Smoke test demonstrating access to adb devices over TCP/IP."
+    maintainer:
+        - karsten@fairphone.com
+        - softwareteam@fairphone.com
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - lxc
+    scope:
+        - functional
+
+params:
+    DEVICE_WORKER_MAPPING_FILE: "/tmp/deviceWorkerMapping"
+
+run:
+    steps:
+        - device_worker_mapping="$(cat "${DEVICE_WORKER_MAPPING_FILE}")"
+        - |
+            for device_to_worker in ${device_worker_mapping}; do
+              device="$(echo ${device_to_worker} | cut -d';' -f1)"
+              echo "${device}: $(adb -s "${device}" shell service call iphonesubinfo 1 | \
+                grep -oE '(\.[0-9])|([0-9]\.)' | grep -oE '[0-9]' | tr -d '\n')"
+            done
