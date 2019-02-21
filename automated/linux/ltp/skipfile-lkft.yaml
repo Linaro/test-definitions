@@ -234,3 +234,24 @@ skiplist:
       - all
     tests:
       - ksm01
+
+  - reason: >
+      skip long running LTP dio tests on all devices
+    url: https://projects.linaro.org/browse/KV-171
+    environments: production
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - dio10
+      - dio16
+      - dio17
+      - dio20
+      - dio21
+      - dio24
+      - dio25
+      - dio27
+      - dio28
+      - dio29
+      - dio30
