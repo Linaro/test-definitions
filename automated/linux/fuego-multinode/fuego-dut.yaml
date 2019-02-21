@@ -1,0 +1,24 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: fuego-dut
+    description: "Run fuego tests with LAVA. Refer to http://fuegotest.org/"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - rpi3-b-32
+        - beaglebone-black
+
+params:
+    INTERFACE: "eth0"
+
+run:
+    steps:
+        - cd ./automated/linux/fuego-multinode/
+        - lava-wait ssh-pub-key
+        - ./setup-openssh-server.sh || sleep 3600
+        - lava-send dut-ready ipaddr=$(lava-echo-ipv4 ${INTERFACE})
+        - lava-wait host-done
