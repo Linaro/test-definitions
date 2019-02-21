@@ -1,0 +1,15 @@
+inherit "base-board"
+include "base-params"
+
+MACHINE=generic-arm64
+
+TRANSPORT="ssh"
+IPADDR="dut_ipaddr"
+SSH_PORT="22"
+LOGIN="root"
+SSH_KEY="/fuego-rw/ssh_keys/fuego-lava"
+# PASSWORD="fuegotest"
+BOARD_TESTDIR="/root/"
+
+TOOLCHAIN="arm64"
+ARCHITECTURE="arm64"

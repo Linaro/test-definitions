@@ -1,0 +1,51 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: fuego-host
+    description: "Run fuego tests with LAVA. Refer to http://fuegotest.org/"
+    maintainer:
+        - chase.qi@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - docker
+
+params:
+    BOARD: "generic-armhf"
+    TOOLCHAIN: "armhf"
+    TEST: "Functional.hello_world"
+    SPEC: "default"
+    # arm64, armhf and x86_64 toolchains are included in fuego docker image
+    # already, skip toolchain installation by default.
+    # Refer to the below docker image description for build instructions:
+    # https://cloud.docker.com/repository/docker/chaseqi/standalone-fuego
+    SKIP_INSTALL: "true"
+    # The following variables just work when only one test action defined in
+    # LAVA test job. When more then one test defined:
+    # Set WAIT_DUT to "true" for the first test and "false" for the rest tests.
+    # Set HOST_DONE to "true" for the last test and "false" for the rest tests.
+    WAIT_DUT: "true"
+    HOST_DONE: "true"
+
+run:
+    steps:
+        # Sent host-done signal on non-zero exit.
+        - trap 'lava-send host-done' ERR
+        - |
+            # When more then on test defined, only send ssh pub key once.
+            if [ -f /fuego-rw/ssh_keys/fuego-lava ]; then
+                echo "SSH key pairs should be set already."
+            else
+                mkdir -p /fuego-rw/ssh_keys
+                ssh-keygen -t rsa -N "" -f /fuego-rw/ssh_keys/fuego-lava -C fuego-lava
+                # Message sent by lava-send is visible, when security is a
+                # concern, job visibility should be set to private/group.
+                lava-send ssh-pub-key pub_key=$(cat /fuego-rw/ssh_keys/fuego-lava.pub | awk '{print $2}')
+            fi
+        - cd ./automated/linux/fuego-multinode/
+        - if "${WAIT_DUT}"; then lava-wait dut-ready; fi
+        - ./fuego.sh -b "${BOARD}" -c "${TOOLCHAIN}" -t "${TEST}" -s "${SPEC}" -S "${SKIP_INSTALL}" || ret_val=$?
+        - ../../utils/send-to-lava.sh ./output/result.txt
+        - if "${HOST_DONE}"; then lava-send host-done; fi
+        - if [ -n "${ret_val}" ] && [ "${ret_val}" -ne 0 ]; then exit 1; fi
