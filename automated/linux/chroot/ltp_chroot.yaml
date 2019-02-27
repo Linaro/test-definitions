@@ -1,0 +1,40 @@
+metadata:
+    name: ltp-chroot
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run a chroot"
+    maintainer:
+        - anders.roxell@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - OE
+    scope:
+        - functional
+    devices:
+        - qemu-arm64
+params:
+    #Parameters that is here for the chroot
+    NEW_ROOTFS: https://snapshots.linaro.org/openembedded/lkft/lkft/rocko/am57xx-evm/lkft/linux-next/441/rpb-console-image-lkft-am57xx-evm-20190115034131-441.rootfs.tar.xz
+    TEST_SUITE: ltp
+
+run:
+    steps:
+        - df -h
+        - pwd
+        - TESTDEF_URL=$(pwd)
+        - cd ./automated/linux/chroot
+        - ./download_and_mount.sh ${NEW_ROOTFS}
+        - . ./pre_setup_run.sh ${TEST_SUITE} ${TESTDEF_URL}
+        - |
+          # overwrite default params.
+          cat << EOF >> /new_root/run.sh
+          TST_CMDFILES=$TST_CMDFILES
+          SKIPFILE=$SKIPFILE
+          BOARD=$BOARD
+          BRANCH=$BRANCH
+          ENVIRONMENT=$ENVIRONMENT
+          SKIP_INSTALL=$SKIP_INSTALL
+          EOF
+        - . ./post_setup_run.sh ${TEST_SUITE}
+        - cat /new_root/run.sh
+        - chroot /new_root /bin/bash /run.sh
+        - /new_root/testdef/automated/utils/send-to-lava.sh /new_root/testdef/automated/linux/${TEST_SUITE}/output/result.txt
