@@ -151,7 +151,7 @@ files.
 Saving parsed result in the same format is important for post process such as
 sending to LAVA. The following result format should be followed::
 
-    test-caes-id pass/fail/skip
+    test-case-id pass/fail/skip
     test-case-id pass/fail/skip measurement
     test-case-id pass/fail/skip measurement units
 
