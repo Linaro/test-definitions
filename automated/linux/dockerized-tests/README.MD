@@ -44,7 +44,8 @@
          TESTDEF_PARAMS: "TST_CMDFILES='syscalls' SKIPFILE='skipfile-lkft.yaml' BOARD='hi6220-hikey' BRANCH='4.16' ENVIRONMENT='production'"
        timeout:
          minutes: 90
-    ```
+   ```
+
 ## Drive test run via SSH
   The same as local-run, but use over-ssh.yaml and over-ssh.sh instead and provide required additional parameters.
   ```
@@ -59,6 +60,7 @@
 
   [stretch-armhf-testdef](https://git.linaro.org/ci/dockerfiles.git/tree/stretch-armhf-testdef)
 
-## Jenkins build job for new tag on qa/test-definitions
+## Jenkins build jobs for new tag on the repo
   [testdef-docker-image-arm64](https://ci.linaro.org/job/testdef-docker-image/)
+
   [testdef-docker-image-armhf](https://ci.linaro.org/job/testdef-docker-image-armhf/)
