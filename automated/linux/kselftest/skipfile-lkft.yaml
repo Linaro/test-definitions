@@ -110,6 +110,7 @@ skiplist:
       - 4.14
       - 4.19
       - 4.20
+      - 5.0
       - mainline
       - next
     tests:
