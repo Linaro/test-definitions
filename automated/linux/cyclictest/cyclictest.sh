@@ -15,19 +15,21 @@ INTERVAL="1000"
 THREADS="1"
 AFFINITY="0"
 LOOPS="100000"
+MAX_LATENCY="50"
 
 usage() {
-    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-l loops]" 1>&2
+    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-l loops] [-m latency]" 1>&2
     exit 1
 }
 
-while getopts ":p:i:t:a:l:" opt; do
+while getopts ":p:i:t:a:l:m:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         i) INTERVAL="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
 	a) AFFINITY="${OPTARG}" ;;
         l) LOOPS="${OPTARG}" ;;
+	m) MAX_LATENCY="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -45,9 +47,5 @@ fi
     -l "${LOOPS}" -m -n | tee "${LOGFILE}"
 
 # Parse test log.
-tail -n "${THREADS}" "${LOGFILE}" \
-    | sed 's/T:/T: /' \
-    | awk '{printf("t%s-min-latency pass %s us\n", $2, $(NF-6))};
-           {printf("t%s-avg-latency pass %s us\n", $2, $(NF-2))};
-           {printf("t%s-max-latency pass %s us\n", $2, $NF)};'  \
+../../lib/parse_rt_tests_results.py cyclictest "${LOGFILE}" "${MAX_LATENCY}" \
     | tee -a "${RESULT_FILE}"
