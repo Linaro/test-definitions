@@ -257,3 +257,22 @@ skiplist:
       - dio28
       - dio29
       - dio30
+
+  - reason: >
+      skip long running LTP dio tests on all devices
+    url: https://projects.linaro.org/browse/KV-171
+    environments: production
+    boards:
+      - dragonboard-410c
+    branches:
+      - all
+    tests:
+      - dio12
+      - dio13
+      - dio14
+      - dio15
+      - dio18
+      - dio19
+      - dio22
+      - dio23
+      - dio26
