@@ -11,17 +11,19 @@ RESULT_FILE="${OUTPUT}/result.txt"
 PRIORITY="98"
 THREADS="2"
 LOOPS="10000"
+MAX_LATENCY="100"
 
 usage() {
-    echo "Usage: $0 [-p priority] [-t threads] [-l loops]" 1>&2
+    echo "Usage: $0 [-p priority] [-t threads] [-l loops] [-m latency]" 1>&2
     exit 1
 }
 
-while getopts ":p:t:l:" opt; do
+while getopts ":p:t:l:m:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
         l) LOOPS="${OPTARG}" ;;
+	m) MAX_LATENCY="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -39,8 +41,5 @@ fi
     | tee "${LOGFILE}"
 
 # Parse test log.
-tail -n 1 "${LOGFILE}" \
-    | awk '{printf("min-latency pass %s us\n", $(NF-6))};
-           {printf("avg-latency pass %s us\n", $(NF-2))};
-           {printf("max-latency pass %s us\n", $NF)};'  \
+../../lib/parse_rt_tests_results.py signaltest "${LOGFILE}" "${MAX_LATENCY}" \
     | tee -a "${RESULT_FILE}"

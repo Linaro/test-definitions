@@ -32,9 +32,12 @@ params:
     THREADS: "2"
     # Number of loops.
     LOOPS: "100000"
+    # Maximal accepted latency in us
+    # This value is device/kernel specific and needs to be set in the job!
+    MAX_LATENCY: "100"
 
 run:
     steps:
         - cd ./automated/linux/signaltest
-        - ./signaltest.sh -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}"
+        - ./signaltest.sh -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}" -m "${MAX_LATENCY}"
         - ../../utils/send-to-lava.sh ./output/result.txt
