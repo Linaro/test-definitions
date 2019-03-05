@@ -9,15 +9,17 @@ OUTPUT="${TEST_DIR}/output"
 LOGFILE="${OUTPUT}/pmqtest.log"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOOPS="10000"
+MAX_LATENCY="100"
 
 usage() {
-    echo "Usage: $0 [-l loops]" 1>&2
+    echo "Usage: $0 [-l loops] [-m latency]" 1>&2
     exit 1
 }
 
-while getopts ":l:" opt; do
+while getopts ":l:m:" opt; do
     case "${opt}" in
         l) LOOPS="${OPTARG}" ;;
+	m) MAX_LATENCY="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -37,9 +39,5 @@ fi
 "${binary}" -S -l "${LOOPS}" | tee "${LOGFILE}"
 
 # Parse test log.
-tail -n "$(nproc)" "${LOGFILE}" \
-    | sed 's/,//g' \
-    | awk '{printf("t%s-min-latency pass %s us\n", NR, $(NF-6))};
-           {printf("t%s-avg-latency pass %s us\n", NR, $(NF-2))};
-           {printf("t%s-max-latency pass %s us\n", NR, $NF)};'  \
+../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" "${MAX_LATENCY}" \
     | tee -a "${RESULT_FILE}"
