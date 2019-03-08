@@ -1,0 +1,156 @@
+job_name: lava-multinode-job-example-fuego
+timeouts:
+  job:
+    minutes: 60
+  action:
+    minutes: 3
+  connection:
+    minutes: 5
+priority: medium
+visibility: public
+
+tags:
+  - docker-2m
+
+metadata:
+  fuego-version: v1.4.0
+
+protocols:
+  lava-multinode:
+    roles:
+      host:
+        device_type: docker
+        count: 1
+        timeout:
+          minutes: 30
+      dut:
+        device_type: rpi3-b-32
+        count: 1
+        timeout:
+          minutes: 30
+        context:
+          extra_kernel_args: " 8250.nr_uarts=1"
+          extra_nfsroot_args: ",vers=3"
+          console_device: "ttyS0"
+
+actions:
+- deploy:
+    role:
+      - host
+    repeat: 3
+    image: chaseqi/standalone-fuego:1.4.0
+    os: debian
+    timeout:
+      minutes: 10
+    to: docker
+
+- boot:
+    role:
+      - host
+    command: bash
+    method: docker
+    prompts: ['root@lava']
+    timeout:
+      minutes: 2
+
+- deploy:
+    role:
+      - dut
+    timeout:
+      minutes: 5
+    to: tftp
+    kernel:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/openembedded/mbl/linaro-pyro-pinned/raspberrypi3/31/rpb/uImage-1-4.9.50+git0+46e2d4d1bd-r0-raspberrypi3-20171109202053-31.bin
+      type: uimage
+    modules:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/openembedded/mbl/linaro-pyro-pinned/raspberrypi3/31/rpb/modules-1-4.9.50+git0+46e2d4d1bd-r0-raspberrypi3-20171109202053-31.tgz
+      compression: gz
+    nfsrootfs:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/openembedded/mbl/linaro-pyro-pinned/raspberrypi3/31/rpb/rpb-console-image-raspberrypi3-20171109202053-31.rootfs.tar.xz
+      compression: xz
+    os: debian
+    dtb:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/openembedded/mbl/linaro-pyro-pinned/raspberrypi3/31/rpb/uImage-1-4.9.50+git0+46e2d4d1bd-r0-bcm2710-rpi-3-b-20171109202053-31.dtb
+
+- boot:
+    role:
+      - dut
+    method: u-boot
+    commands: nfs
+    auto_login:
+      login_prompt: 'login:'
+      username: root
+    prompts:
+    - 'root@raspberrypi3:~#'
+    timeout:
+      minutes: 5
+
+- test:
+    role:
+      - dut
+    timeout:
+      minutes: 60
+    definitions:
+    - repository: https://github.com/Linaro/test-definitions
+      from: git
+      branch: fuego
+      path: automated/linux/fuego-multinode/fuego-dut.yaml
+      name: setup-ssh-server
+
+- test:
+    role:
+      - host
+    timeout:
+      minutes: 30
+    definitions:
+    - repository: https://github.com/Linaro/test-definitions
+      from: git
+      branch: fuego
+      path: automated/linux/fuego-multinode/fuego-host.yaml
+      name: hello-world
+      parameters:
+        # default values for params needed for fuego test run.
+        BOARD: "generic-armhf"
+        TOOLCHAIN: "armhf"
+        TEST: "Functional.hello_world"
+        SPEC: "default"
+        # Wait for dut.
+        LAVA_WAIT: "true"
+        # Don't send host-done yet as there are more tests to run.
+        HOST_DONE: "false"
+
+- test:
+    role:
+      - host
+    timeout:
+      minutes: 30
+    definitions:
+    - repository: https://github.com/Linaro/test-definitions
+      from: git
+      branch: fuego
+      path: automated/linux/fuego-multinode/fuego-host.yaml
+      name: linpack
+      parameters:
+        TEST: "Benchmark.linpack"
+        # ssh server is already set on DUT.
+        WAIT_DUT: "false"
+        HOST_DONE: "false"
+
+
+- test:
+    role:
+      - host
+    timeout:
+      minutes: 30
+    definitions:
+    - repository: https://github.com/Linaro/test-definitions
+      from: git
+      branch: fuego
+      path: automated/linux/fuego-multinode/fuego-host.yaml
+      name: hackbench
+      parameters:
+        TEST: "Benchmark.hackbench"
+        # ssh server is already set on DUT.
+        WAIT_DUT: "false"
+        # Send host-done as all tests finished.
+        HOST_DONE: "true"
