@@ -5,6 +5,7 @@ import sys
 import subprocess
 import traceback
 import yaml
+import magic
 
 run_pycodestyle = False
 try:
@@ -71,7 +72,7 @@ def pycodestyle_check(filepath, args):
 
 
 def validate_yaml_contents(filepath, args):
-    def validate_lava_yaml(y, args):
+    def validate_testdef_yaml(y, args):
         result_message_list = []
         if 'metadata' not in y.keys():
             result_message_list.append("* METADATA [FAILED]: " + filepath)
@@ -124,15 +125,15 @@ def validate_yaml_contents(filepath, args):
         publish_result(["* YAMLVALIDCONTENTS [PASSED]: " + filepath + " - deleted"], args)
         return 0
     y = yaml.load(filecontent)
-    if 'metadata' in y.keys():
-        # lava yaml file
-        return validate_lava_yaml(y, args)
+    if 'run' in y.keys():
+        # test definition yaml file
+        return validate_testdef_yaml(y, args)
     elif 'skiplist' in y.keys():
         # skipgen yaml file
         return validate_skipgen_yaml(filepath, args)
     else:
-        publish_result(["* YAMLVALIDCONTENTS [FAILED]: " + filepath + " - Unknown yaml type detected"], args)
-        return 1
+        publish_result(["* YAMLVALIDCONTENTS [SKIPPED]: " + filepath + " - Unknown yaml type detected"], args)
+        return 0
 
 
 def validate_yaml(filename, args):
@@ -195,20 +196,23 @@ def validate_external(cmd, filename, prefix, args):
 
 
 def validate_file(args, path):
+    filetype = magic.from_file(path, mime=True)
     exitcode = 0
-    if path.endswith(".yaml"):
+    # libmagic takes yaml as 'text/plain', so use file extension here.
+    if path.endswith((".yaml", "yml")):
         exitcode = validate_yaml(path, args)
         if exitcode == 0:
             # if yaml isn't valid there is no point in checking metadata
             exitcode = validate_yaml_contents(path, args)
-    elif run_pycodestyle and path.endswith(".py"):
+    elif run_pycodestyle and filetype == "text/x-python":
         exitcode = pycodestyle_check(path, args)
-    elif path.endswith(".php"):
+    elif filetype == "text/x-php":
         exitcode = validate_php(path, args)
-    elif path.endswith(".sh") or \
-            path.endswith("sh-test-lib") or \
-            path.endswith("android-test-lib"):
+    elif filetype == "text/x-shellscript":
         exitcode = validate_shell(path, args)
+    else:
+        publish_result(["* UNKNOWN [SKIPPED]: " + path + " - Unknown file type detected: " + filetype], args)
+        return 0
     return exitcode
 
 

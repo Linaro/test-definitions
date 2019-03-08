@@ -9,7 +9,7 @@ python:
 # https://github.com/koalaman/shellcheck#installing-the-shellcheck-binary
 # php 7.2
 install:
-  - pip install pyyaml pycodestyle
+  - pip install pyyaml pycodestyle python-magic
 
 script:
   - ./sanity-check.sh
