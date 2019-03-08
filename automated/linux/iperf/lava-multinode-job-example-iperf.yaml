@@ -1,0 +1,141 @@
+job_name: lava-multinode-job-example-iperf
+timeouts:
+  job:
+    minutes: 60
+  action:
+    minutes: 3
+  connection:
+    minutes: 5
+priority: medium
+visibility: public
+
+metadata:
+  ipef-version: v3
+
+protocols:
+  lava-multinode:
+    roles:
+      host:
+        device_type: beaglebone-black
+        count: 1
+        timeout:
+          minutes: 30
+      guest:
+        device_type: beaglebone-black
+        count: 1
+        timeout:
+          minutes: 30
+
+actions:
+- deploy:
+    role:
+      - host
+    timeout:
+      minutes: 4
+    to: tftp
+    kernel:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/vmlinuz
+      type: zimage
+    ramdisk:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/initramfs.cpio.gz
+      compression: gz
+      # the bootloader needs a u-boot header on the modified ramdisk
+      add-header: u-boot
+    modules:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/modules.tar.gz
+      compression: gz
+    nfsrootfs:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/jessie-armhf-nfs.tar.gz
+      compression: gz
+    os: debian
+    dtb:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/dtbs/am335x-boneblack.dtb
+
+- deploy:
+    role:
+      - guest
+    timeout:
+      minutes: 4
+    to: tftp
+    kernel:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/vmlinuz
+      type: zimage
+    ramdisk:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/initramfs.cpio.gz
+      compression: gz
+      # the bootloader needs a u-boot header on the modified ramdisk
+      add-header: u-boot
+    modules:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/modules.tar.gz
+      compression: gz
+    nfsrootfs:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/jessie-armhf-nfs.tar.gz
+      compression: gz
+    os: debian
+    dtb:
+      url: http://images.validation.linaro.org/snapshots.linaro.org/components/lava/standard/debian/jessie/armhf/4/dtbs/am335x-boneblack.dtb
+
+- boot:
+    role:
+      - host
+    method: u-boot
+    commands: nfs
+    auto_login:
+      login_prompt: 'login:'
+      username: root
+    prompts:
+    - 'root@jessie:'
+    timeout:
+      minutes: 2
+
+- boot:
+    role:
+      - guest
+    method: u-boot
+    commands: nfs
+    auto_login:
+      login_prompt: 'login:'
+      username: root
+    prompts:
+    - 'root@jessie:'
+    timeout:
+      minutes: 2
+
+- test:
+    role:
+    - host
+    timeout:
+      minutes: 30
+    definitions:
+    - repository:
+        metadata:
+          format: Lava-Test Test Definition 1.0
+          name: run-iperf3-server
+          description: "Run iperf3 in server mode"
+        run:
+          steps:
+          - apt-get -y update
+          - apt-get -y install iperf3
+          - if iperf3 -s -D; then lava-test-case run-iperf3-server --result 'pass'; else lava-test-raise 'Failed to run ipef3 server'; fi
+          - lava-send server-ready ipaddr=$(lava-echo-ipv4 eth0)
+          - lava-wait client-done
+          - pkill iperf3
+      from: inline
+      name: run-iperf3-server
+      path: inline/run-iperf3-server.yaml
+
+- test:
+    role:
+    - guest
+    timeout:
+      minutes: 30
+    definitions:
+    - repository: https://git.linaro.org/people/chase.qi/test-definitions.git
+      from: git
+      path: automated/linux/iperf/iperf.yaml
+      name: iperf3-test
+      parameters:
+        SERVER: lava-host-role
+        # The MSG ID and KEY should be the same as the ones sent by lava-send above
+        MSG_ID: server-ready
+        MSG_KEY: ipaddr
