@@ -93,7 +93,7 @@ actions:
     timeout:
       minutes: 20
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/wait-single-boot-completed.yaml
       name: wait-single-boot-completed
@@ -105,7 +105,7 @@ actions:
     timeout:
       minutes: 5
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/wait-single-network-connected.yaml
       name: wait-single-network-connected
@@ -117,7 +117,7 @@ actions:
     timeout:
       minutes: 15
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/multinode/share-local-device-over-adb-tcpip.yaml
       name: share-local-device-over-adb-tcpip
@@ -131,7 +131,7 @@ actions:
     timeout:
       hours: 1
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/multinode/wait-and-keep-local-device-accessible.yaml
       name: wait-and-keep-local-device-accessible
@@ -148,7 +148,7 @@ actions:
     timeout:
       minutes: 15
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/multinode/wait-for-release-and-reset.yaml
       name: wait-for-release-and-reset
@@ -160,7 +160,7 @@ actions:
     timeout:
       minutes: 15
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/multinode/connect-to-remote-adb-tcpip-devices.yaml
       name: connect-to-remote-adb-tcpip-devices
@@ -174,7 +174,7 @@ actions:
     timeout:
       hours: 1
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/multinode/tradefed/tradefed-multinode.yaml
       params:
@@ -198,7 +198,7 @@ actions:
     timeout:
       minutes: 10
     definitions:
-    - repository: https://review.linaro.org/qa/test-definitions
+    - repository: https://github.com/Linaro/test-definitions
       from: git
       path: automated/android/multinode/release-remote-adb-tcpip-devices.yaml
       name: release-remote-adb-tcpip-devices
