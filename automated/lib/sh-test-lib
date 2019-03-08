@@ -156,6 +156,13 @@ report_fail() {
     echo "${test_case} fail" | tee -a "${RESULT_FILE}"
 }
 
+report_skip() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_skip test_case"
+    # shellcheck disable=SC2039
+    local test_case="$1"
+    echo "${test_case} skip" | tee -a "${RESULT_FILE}"
+}
+
 add_metric() {
     if [ "$#" -lt 3 ]; then
         warn_msg "The number of parameters less then 3"
