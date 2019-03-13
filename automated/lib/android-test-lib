@@ -325,8 +325,11 @@ adb_join_wifi() {
 
     # Try to connect to wifi if found the WIFI AP information
     if [ -n "${AP_SSID}" ] && [ -n "${AP_KEY}" ]; then
-        wget http://testdata.validation.linaro.org/apks/wifi/wifi.apk
-        adb install wifi.apk
+        # source files are here:
+        # https://github.com/steinwurf/adb-join-wifi
+        apk_url="http://testdata.linaro.org/apks/wifi/AdbJoinWifi-nodegbug-OMR1-support.apk"
+        wget ${apk_url} -O wifi.apk
+        adb install -r wifi.apk
         adb shell am start -n com.steinwurf.adbjoinwifi/.MainActivity -e ssid "${AP_SSID}" -e password_type WPA -e password "${AP_KEY}"
     fi
 }
