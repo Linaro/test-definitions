@@ -5,14 +5,22 @@ import sys
 import subprocess
 import traceback
 import yaml
-import magic
 
 run_pycodestyle = False
 try:
     import pycodestyle
     run_pycodestyle = True
-except ImportError:
-    print("pycodestyle is not available!")
+except ImportError as e:
+    print(e)
+    print("Install pycodestyle: pip3 install pycodestyle")
+    sys.exit(1)
+
+try:
+    import magic
+except ImportError as e:
+    print(e)
+    print("Install python-magic: pip3 install python-magic")
+    sys.exit(1)
 
 
 def print_stderr(message):
