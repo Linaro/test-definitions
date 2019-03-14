@@ -146,7 +146,7 @@ else
       # Download and extract kselftest tarball.
       wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
     fi
-    tar xf "kselftest.tar.gz"
+    tar zxf "kselftest.tar.gz"
     # shellcheck disable=SC2164
     cd "kselftest"
 fi
