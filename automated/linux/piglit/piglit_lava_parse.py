@@ -47,13 +47,26 @@ def natural_keys(text):
 
 
 def print_results(filename, ignore_tests):
+    currentsuite = ''
     with open(filename, 'r') as f:
         piglit_results = json.loads(f.read())
         for test in sorted(piglit_results['tests'].keys()):
             if test in ignore_tests:
                 continue
+            testname_parts = test.split('@')
+            testname = testname_parts[-1].replace(' ', '_')
+            suitename = '@'.join(testname_parts[0:-1])
+
+            if currentsuite != suitename:
+                if currentsuite:
+                    print('lava-test-set stop %s' % currentsuite)
+
+                currentsuite = suitename
+                print('lava-test-set start %s' % currentsuite)
+
             result = map_result_to_lava(piglit_results['tests'][test]['result'])
-            print("%s %s" % (test, result))
+            print("%s %s" % (testname, result))
+    print('lava-test-set stop %s' % currentsuite)
 
 
 if __name__ == '__main__':
