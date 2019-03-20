@@ -46,6 +46,16 @@ def natural_keys(text):
         return text
 
 
+def print_results(filename, ignore_tests):
+    with open(filename, 'r') as f:
+        piglit_results = json.loads(f.read())
+        for test in sorted(piglit_results['tests'].keys()):
+            if test in ignore_tests:
+                continue
+            result = map_result_to_lava(piglit_results['tests'][test]['result'])
+            print("%s %s" % (test, result))
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Usage: %s <result_dir|result_file> [ignore_file]" % sys.argv[0])
@@ -64,18 +74,7 @@ if __name__ == '__main__':
                     continue
                 piglit_result = None
                 full_f = os.path.join(root, name)
-                with open(full_f, 'r') as f:
-                    piglit_results = json.loads(f.read())
-                    for test in piglit_results.keys():
-                        if test in ignore_tests:
-                            continue
-                        result = map_result_to_lava(piglit_results[test]['result'])
-                        print("%s %s" % (test, result))
+                print_results(full_f, ignore_tests)
     else:
-        with open(sys.argv[1], 'r') as f:
-            piglit_results = json.loads(f.read())
-            for test in sorted(piglit_results['tests'].keys()):
-                if test in ignore_tests:
-                    continue
-                result = map_result_to_lava(piglit_results['tests'][test]['result'])
-                print("%s %s" % (test, result))
+        print_results(sys.argv[1], ignore_tests)
+
