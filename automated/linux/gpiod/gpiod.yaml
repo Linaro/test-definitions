@@ -1,0 +1,22 @@
+metadata:
+    name: gpiod
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run a gpiod suite"
+    maintainer:
+        - anders.roxell@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - OE
+    scope:
+        - functional
+    devices:
+        - hikey
+        - x86
+params:
+    GPIOD_PATH: "/opt/libgpiod/bin/"
+
+run:
+    steps:
+        - cd ./automated/linux/gpiod
+        - ./gpiod.sh ${GPIOD_PATH}
+        - ../../utils/send-to-lava.sh result.txt
