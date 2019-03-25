@@ -37,6 +37,7 @@ def publish_result(result_message_list, args):
         f.write("\n\n")
         f.close()
     except IOError as e:
+        print(e)
         print_stderr("Cannot write to result file: %s" % args.result_file)
     print_stderr(result_message)
 
@@ -207,7 +208,7 @@ def validate_file(args, path):
     filetype = magic.from_file(path, mime=True)
     exitcode = 0
     # libmagic takes yaml as 'text/plain', so use file extension here.
-    if path.endswith((".yaml", "yml")):
+    if path.endswith((".yaml", ".yml")):
         exitcode = validate_yaml(path, args)
         if exitcode == 0:
             # if yaml isn't valid there is no point in checking metadata
@@ -216,7 +217,7 @@ def validate_file(args, path):
         exitcode = pycodestyle_check(path, args)
     elif filetype == "text/x-php":
         exitcode = validate_php(path, args)
-    elif filetype == "text/x-shellscript":
+    elif path.endswith('.sh') or filetype == "text/x-shellscript":
         exitcode = validate_shell(path, args)
     else:
         publish_result(["* UNKNOWN [SKIPPED]: " + path + " - Unknown file type detected: " + filetype], args)
