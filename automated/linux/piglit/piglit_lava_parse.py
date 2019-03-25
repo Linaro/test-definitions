@@ -39,7 +39,7 @@ def map_result_to_lava(result):
 
 
 def natural_keys(text):
-    m = re.search('(\d+)', text)
+    m = re.search(r"(\d+)", text)
     if m:
         return int(m.group(1))
     else:
@@ -77,4 +77,3 @@ if __name__ == '__main__':
                 print_results(full_f, ignore_tests)
     else:
         print_results(sys.argv[1], ignore_tests)
-
