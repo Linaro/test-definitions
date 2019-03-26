@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 export RESULT_FILE="${OUTPUT}/result.txt"
@@ -43,7 +44,7 @@ if [ -n "${VIDEO_DRIVER}" ] && ! lsmod | grep "${VIDEO_DRIVER%.*}"; then
     exit_on_fail "modprobe-${VIDEO_DRIVER%.*}"
 fi
 
-if [ ! -z "${VIDEO_DEVICE}" ] && [ -e "${VIDEO_DEVICE}" ]; then
+if [ -n "${VIDEO_DEVICE}" ] && [ -e "${VIDEO_DEVICE}" ]; then
   info_msg "Running v4l2-compliance device test..."
   LOG_FILE="${OUTPUT}/${TEST_SUITE}-output.txt"
   test_cmd="v4l2-compliance -v -d ${VIDEO_DEVICE} 2>&1"
@@ -60,5 +61,6 @@ grep -e FAIL -e OK "${LOG_FILE}" | \
       -e 's/ (Not Supported)//' \
       -e 's/ /_/g' \
       -e 's/:_/ /' \
-      -e 's/ OK/ PASS/' \
+      -e 's/ OK/ pass/' \
+      -e 's/ FAIL/ fail/' \
       >> "${RESULT_FILE}"
