@@ -73,3 +73,4 @@ run:
     steps:
         - cd ./automated/linux/ssuite/
         - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${S_VERSION}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

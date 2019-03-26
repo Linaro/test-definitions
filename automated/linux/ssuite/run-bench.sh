@@ -2,6 +2,7 @@
 
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
+RESULT_FILE="${OUTPUT}/result.txt"
 
 TESTS="throughput replayed-startup"
 TEST_DEV=sda
@@ -157,7 +158,19 @@ run_test() {
 	rm -f ${HOME_DIR}/.S-config.sh
 
 	cd "$S_PATH"/run_multiple_benchmarks/ || exit 1
-	./run_main_benchmarks.sh "$1" 2>&1 | tee -a "${OUTPUT}/log"
+	./run_main_benchmarks.sh "$1" "" "" "" "" "" 2 "${OUTPUT}" 2>&1 |\
+	    tee -a "${OUTPUT}/log"
+
+	# In the result file, the average value of the main quantity
+	# measured is reported. For each passed test case. Here is the
+	# format of possible lines in the result file:
+	#
+	# throughput-<scheduler1_name>--<workload_name> pass <real number> MB/s
+	# throughput--<workload1_name>--<scheduler1_name> fail
+	#
+	# <app_name>-startup--<workload_name>--<scheduler1_name> pass <real number> sec
+	#<app_name>-startup--<workload_name>--<scheduler1_name> fail
+	mv "${OUTPUT}/result_list.txt" "${RESULT_FILE}"
 }
 
 ! check_root && error_msg "This script must be run as root"
