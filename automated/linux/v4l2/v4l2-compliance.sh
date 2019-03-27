@@ -63,4 +63,5 @@ grep -e FAIL -e OK "${LOG_FILE}" | \
       -e 's/:_/ /' \
       -e 's/ OK/ pass/' \
       -e 's/ FAIL/ fail/' \
+      -e 's/\//-/g' \
       >> "${RESULT_FILE}"
