@@ -36,6 +36,7 @@ params:
     # generating a skipfile using a yaml skipfile and skipgen.
     BOARD: ""
     BRANCH: ""
+    LTP_TMPDIR: "/ltp-tmp"
     ENVIRONMENT: ""
 
     SKIP_INSTALL: false
@@ -47,5 +48,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/ltp/
-        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -S "${SKIPFILE}"
+        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -d "${LTP_TMPDIR}" -g "${BRANCH}" -e "${ENVIRONMENT}" -S "${SKIPFILE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
