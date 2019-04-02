@@ -1,0 +1,127 @@
+# Fuego
+
+Fuego is a test framework specifically designed for embedded Linux testing. It consists of a host/target script engine, with a Jenkins front-end, and over 50 pre-packaged tests, installed in a docker container. Refer to [Fuego wiki](http://fuegotest.org/wiki/FrontPage) for more details.
+
+# MultiNode LAVA
+
+LAVA multi-node support allows users to use LAVA to schedule, synchronise and combine the results from tests that span multiple targets. Jobs can be arranged as groups of devices (of any type) and devices within a group can operate independently or use the MultiNode API to communicate with other devices in the same group during tests.
+
+From this point of view, MultiNode job is a good fit for using Fuego with LAVA. LAVA docker device type supports to create docker container with specified docker image. It can be used as Fuego host controller to test other DUTs.
+
+# Using Fuego with LAVA MultiNode job
+
+1. Build and publish standalone Fuego docker image.
+
+   Fuego project provides dockerfiles to build docker image locally, and the project has a plan to release official docker images. Before that happens, for the usage with LAVA, we need to build and publish test code included standalone Fuego docker image with the following patch applied.
+
+    ```
+    $ git clone https://bitbucket.org/fuegotest/fuego.git
+    $ cd fuego
+    $ git diff
+    diff --git a/Dockerfile b/Dockerfile
+    index 269e1f6..927199c 100644
+    --- a/Dockerfile
+    +++ b/Dockerfile
+    @@ -218,6 +218,23 @@ RUN ln -s /fuego-ro/scripts/fuego-lava-target-teardown /usr/local/bin
+    #RUN DEBIAN_FRONTEND=noninteractive apt-get update
+    #RUN DEBIAN_FRONTEND=noninteractive apt-get -yV install crossbuild-essential-armhf cpp-arm-linux-gnueabihf gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+
+    +# ==============================================================================
+    +#Install fuego
+    +# ==============================================================================
+    +RUN git clone https://bitbucket.org/fuegotest/fuego.git /fuego \
+    +    && git clone https://bitbucket.org/fuegotest/fuego-core.git /fuego-core \
+    +    && ln -s /fuego/fuego-ro/ / \
+    +    && ln -s /fuego/fuego-rw/ /
+    +
+    +
+    +# ==============================================================================
+    +#Install arm64 and armhf toolchain
+    +# ==============================================================================
+    +RUN /fuego-ro/toolchains/install_cross_toolchain.sh arm64 \
+    +    && /fuego-ro/toolchains/install_cross_toolchain.sh armhf \
+    +    && apt-get clean \
+    +    && rm -rf /tmp/* /var/tmp/*
+    +
+    # ==============================================================================
+    # Setup startup command
+    ```
+
+   E.g. https://cloud.docker.com/repository/docker/chaseqi/standalone-fuego/tags
+
+2. Add/modify docker device to LAVA as Fuego host controller.
+
+   Docker device dictionary example:
+    ```
+    {% extends 'docker.jinja2' %}
+    {% set docker_cpus = '2' %}
+    {% set docker_memory = '2048M' %}
+    {% set docker_devices = ["/dev/kvm:/dev/kvm"] %}
+    {% set docker_volumes = ["/var/lib/lava/dispatcher/tmp:/var/lib/lava/dispatcher/tmp", "/boot:/boot", "/lib/modules:/lib/modules"] %}
+    ```
+    
+    Refer to https://staging.validation.linaro.org/scheduler/device/staging-docker-03/devicedict
+
+    Notes: 
+    * At the time of writing this guide, fuego master branch, [v1.4.0](https://bitbucket.org/fuegotest/fuego/commits/8b16eda803d4627f66a0102eac48d00b6857c801), still depends on Jenkins for test run from command line. Our testing of Fuego container showed at least 2G are required, defined in the docker device dictionary using docker_memory.
+    * Fuego next branch has removed the dependency on Jenkins.
+
+3. Run Fuego tests using LAVA MultiNode job.
+   
+   * Test definitions
+        
+        [fuego-host.yaml](./fuego-host.yaml)
+
+        * Generate openssh key-pairs, send the public key to DUT via LAVA MultiNode api.
+        * Wait for `dut-ready`  and `ipaddr` signals for SSH access to DUT.
+        * Run [fuego.sh](./fuego.sh) to setup board config file, then execute Fuego test with the following commands:
+            ```
+            ftc add-nodes -b "${BOARD}" -f
+            ftc add-job -b "${BOARD}" -t "${TEST}" -s "${SPEC}"
+            sudo -u jenkins ftc run-test -b "${BOARD}" -t "${TEST}" -s "${SPEC}" [other params]
+            ```
+
+            With Fuego next branch, tests can be exexuted from command line directly, no dependency on Jenkins any more. Refer to [fuego / Dockerfile.nojenkins](https://bitbucket.org/fuegotest/fuego/src/1935c08615d3d503ab726226a86c41174bbe52dc/Dockerfile.nojenkins?at=next&fileviewer=file-view-default) for the usage. Once the changes released, [fuego.sh](./fuego.sh) also should be updated to remove the dependency on Jenkins.
+        * Run [parser.py](./parser.py) to parse `run.json` file generated by Fuego to convert results to the format that LAVA recognize.
+        * Send `host-done` once all tests finished.
+        
+        [fuego-dut.yaml](./fuego-dut.yaml)
+
+        * Wait for openssh public key sent by host.
+        * Run `setup-openssh-server.sh` to setup DUT
+        * Send `dut-ready` and `ipaddr` to Fuego host controller
+        * Wait of `host-done` signal to shutdown itself.
+
+    * LAVA MultiNode test job definition
+
+      LAVA test action example for Fuego host controller:
+    
+        ```
+        - test:
+            role:
+            - host
+            timeout:
+            minutes: 30
+            definitions:
+            - repository: https://github.com/Linaro/test-definitions
+            from: git
+            branch: fuego
+            path: automated/linux/fuego-multinode/fuego-host.yaml
+            name: hello-world
+            parameters:
+                # Params needed to setup Fuego test, defaults to the follow values.
+                BOARD: "generic-armhf"
+                TOOLCHAIN: "armhf"
+                TEST: "Functional.hello_world"
+                SPEC: "default"
+                # Wait for dut-ready.
+                LAVA_WAIT: "true"
+                # One all test finished, send host-done to release DUT.
+                HOST_DONE: "true"   
+        ```
+
+       LAVA test job definition example: [lava-multinode-job-example-fuego.yaml](./lava-multinode-job-example-fuego.yaml)
+    
+       LAVA job example: [fuego-multinode-docker_host-rpi3_dut-hello_world-linpack-hackbench](https://staging.validation.linaro.org/scheduler/job/249483.0)
+
+
