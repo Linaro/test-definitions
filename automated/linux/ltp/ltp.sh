@@ -30,6 +30,7 @@ usage() {
     echo "Usage: ${0} [-T mm,math,syscalls]
                       [-S skipfile-lsk-juno]
                       [-b board]
+                      [-d temp directory]
                       [-g branch]
                       [-e environment]
                       [-s True|False]
@@ -39,7 +40,7 @@ usage() {
     exit 0
 }
 
-while getopts "M:T:S:b:g:e:s:v:R:" arg; do
+while getopts "M:T:S:b:d:g:e:s:v:R:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -72,6 +73,9 @@ while getopts "M:T:S:b:g:e:s:v:R:" arg; do
         ;;
      b)
         export BOARD="${OPTARG}"
+        ;;
+     d)
+        export LTP_TMPDIR="${OPTARG}"
         ;;
      g)
         export BRANCH="${OPTARG}"
