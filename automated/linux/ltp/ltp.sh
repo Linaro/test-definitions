@@ -90,6 +90,10 @@ while getopts "M:T:S:b:d:g:e:s:v:R:" arg; do
      # Slow machines need more timeout Default is 5min and multiply * MINUTES
      M) export LTP_TIMEOUT_MUL="${OPTARG}";;
      R) export PASSWD="${OPTARG}";;
+     *)
+        usage
+        error_msg "No flag ${OPTARG}"
+        ;;
   esac
 done
 
