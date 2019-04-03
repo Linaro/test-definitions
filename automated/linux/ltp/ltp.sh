@@ -60,7 +60,6 @@ while getopts "M:T:S:b:g:e:s:v:R:" arg; do
           # Download LTP skipfile from specified URL
           if ! wget "${OPTARG}" -O "${SKIPFILE_TMP}"; then
             error_msg "Failed to fetch ${OPTARG}"
-            exit 1
           fi
         elif [ "${OPTARG##*.}" = "yaml" ]; then
           # yaml skipfile; use skipgen to generate a skipfile
@@ -98,7 +97,6 @@ if [ -n "${SKIPFILE_YAML}" ]; then
     generate_skipfile
     if [ ! -f "${SKIPFILE_PATH}" ]; then
         error_msg "Skipfile ${SKIPFILE} does not exist";
-        exit 1
     fi
     SKIPFILE="-S ${SKIPFILE_PATH}"
 fi
