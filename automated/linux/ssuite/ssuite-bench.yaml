@@ -69,8 +69,10 @@ params:
         # looked for in S_PATH. Otherwise it is cloned to $(pwd)/S
         S_PATH: ""
 
+        SKIP_INSTALL: "true"
+
 run:
     steps:
         - cd ./automated/linux/ssuite/
-        - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${S_VERSION}"
+        - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${S_VERSION}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
