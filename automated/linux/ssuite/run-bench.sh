@@ -11,12 +11,13 @@ S_VERSION=
 S_URL=https://github.com/Algodev-github/S
 S_PATH="$(pwd)/S"
 SKIP_INSTALL="false"
+ONLY_READS="no"
 
 usage() {
 	echo "\
 	Usage: [sudo] ./run-bench.sh [-t <TESTS>] [-d <TEST_DEV>] [-f <FORMAT>]
 				     [-v <S_VERSION>] [-u <S_URL>] [-p <S_PATH>]
-				     [-s <true|false>]
+				     [-r <ONLY_READS>] [-s <true|false>]
 
 	<TESTS>:
 	Set of tests: 'throughput' benchmarks throughput, while
@@ -59,10 +60,15 @@ usage() {
 
 	<S_PATH>:
 	If this parameter is set, then the S suite is cloned to or
-	looked for in S_PATH. Otherwise it is cloned to $(pwd)/S"
+	looked for in S_PATH. Otherwise it is cloned to $(pwd)/S
+
+	<ONLY_READS>:
+	If this parameter is set to yes then only workloads made of
+	only reads are generated in every benchmark.
+	Default value: no"
 }
 
-while getopts "ht:d:f:p:u:v:s:" opt; do
+while getopts "ht:d:f:p:u:v:s:r:" opt; do
 	case $opt in
 		t)
 			TESTS="$OPTARG"
@@ -84,6 +90,11 @@ while getopts "ht:d:f:p:u:v:s:" opt; do
 			;;
 		s)
 			SKIP_INSTALL="${OPTARG}"
+			;;
+		r)
+			if [[ "${OPTARG}" == yes ]]; then
+				ONLY_READS="only-reads"
+			fi
 			;;
 		h)
 			usage
@@ -158,7 +169,7 @@ run_test() {
 	rm -f ${HOME_DIR}/.S-config.sh
 
 	cd "$S_PATH"/run_multiple_benchmarks/ || exit 1
-	./run_main_benchmarks.sh "$1" "" "" "" "" "" 2 "${OUTPUT}" 2>&1 |\
+	./run_main_benchmarks.sh "$1" "" "" "" "${ONLY_READS}" "" 2 "${OUTPUT}" 2>&1 |\
 	    tee -a "${OUTPUT}/log"
 
 	# In the result file, the average value of the main quantity
