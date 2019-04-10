@@ -1,0 +1,31 @@
+metadata:
+    name: kvm-unit-tests
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Build and run kvm-unit-tests natively"
+
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+        - hi6220-hikey
+        - juno
+        - x15
+        - x86
+    environment:
+        - lava-test-shell
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/kvm-unit-tests/
+        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
