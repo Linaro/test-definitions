@@ -129,7 +129,9 @@ install() {
 			echo "Unsupported distro: ${dist}! Package installation skipped!"
 			;;
 	esac
+}
 
+get_ssuite() {
 	if [[ "$S_VERSION" != "" && ( ! -d "$S_PATH" || -d "$S_PATH"/.git ) ]];
 	then
 		if [[ -d "$S_PATH"/.git ]]; then
@@ -195,5 +197,6 @@ if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
 else
 	install
 fi
+get_ssuite
 create_out_dir "${OUTPUT}"
 run_test "$TESTS" "$TEST_DEV" "$FORMAT"
