@@ -86,7 +86,9 @@ while getopts "ht:d:f:p:u:v:s:r:" opt; do
 			S_URL="$OPTARG"
 			;;
 		p)
-			S_PATH="$OPTARG"
+			if [[ "$OPTARG" != '' ]]; then
+				S_PATH="$OPTARG"
+			fi
 			;;
 		s)
 			SKIP_INSTALL="${OPTARG}"
