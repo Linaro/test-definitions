@@ -1,0 +1,32 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: bootrr
+    description: "Run bootrr https://github.com/andersson/bootrr"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - apq8016-sbc
+        - dragonboard-410c
+        - dragonboard-820c
+
+params:
+    # Refer to https://github.com/andersson/bootrr/tree/master/boards for boards supported.
+    BOARD: "arrow,apq8096-db820c"
+    SKIP_INSTALL: false
+
+run:
+    steps:
+        - . ./automated/lib/sh-test-lib
+        - install_deps git "${SKIP_INSTALL}"
+        - git clone https://github.com/andersson/bootrr
+        - export PATH=$PWD/helpers:$PATH
+        - ./boards/${BOARD}
