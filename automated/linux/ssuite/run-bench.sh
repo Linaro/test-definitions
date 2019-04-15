@@ -11,7 +11,7 @@ S_VERSION=
 S_URL=https://github.com/Algodev-github/S
 S_PATH="$(pwd)/S"
 SKIP_INSTALL="false"
-ONLY_READS="no"
+ONLY_READS=""
 
 usage() {
 	echo "\
