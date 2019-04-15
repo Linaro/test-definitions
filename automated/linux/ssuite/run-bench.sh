@@ -161,7 +161,7 @@ get_ssuite() {
 }
 
 run_test() {
-	sed -i "s/TEST_DEV=.*/TEST_DEV=$2/" def_config.sh
+	sed -i "s<TEST_DEV=.*<TEST_DEV=$2<" def_config.sh
 	sed -i "s/FORMAT=.*/FORMAT=$3/" def_config.sh
 
 	if [ "$SUDO_USER" != "" ]; then
