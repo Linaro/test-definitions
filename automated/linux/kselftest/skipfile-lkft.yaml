@@ -151,12 +151,3 @@ skiplist:
       - 4.9
     tests:
       - sync_test
-
-  - reason: >
-      LKFT: bpf: test_tunnel.sh: BUG: unable to handle kernel NULL pointer dereference
-    url: https://bugs.linaro.org/show_bug.cgi?id=4307
-    environments: all
-    boards: all
-    branches: all
-    tests:
-      - test_tunnel.sh
