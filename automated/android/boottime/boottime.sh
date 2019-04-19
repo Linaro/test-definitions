@@ -27,6 +27,7 @@ while getopts ":S:s:t:o:n:" o; do
   esac
 done
 
+install_deps 'curl tar xz-utils usbutils' "${SKIP_INSTALL}"
 
 initialize_adb
 adb_root
@@ -34,7 +35,6 @@ adb_root
 wait_homescreen "${BOOT_TIMEOUT}"
 
 create_out_dir "${OUTPUT}"
-install_deps 'curl tar xz-utils usbutils' "${SKIP_INSTALL}"
 
 adb_push "./device-script.sh" "/data/local/tmp/"
 info_msg "device-${ANDROID_SERIAL}: About to run boottime ${OPERATION} ${COLLECT_NO}..."
