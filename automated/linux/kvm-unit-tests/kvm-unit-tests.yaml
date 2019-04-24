@@ -23,9 +23,11 @@ metadata:
 
 params:
     SKIP_INSTALL: "False"
+    # Device required only for juno-r2
+    DEVICE: ""
 
 run:
     steps:
         - cd ./automated/linux/kvm-unit-tests/
-        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}"
+        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -d "${DEVICE}"
         - ../../utils/send-to-lava.sh ./output/result.txt

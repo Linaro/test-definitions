@@ -1,21 +1,25 @@
 #!/bin/sh
-set -x
+
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
+# shellcheck disable=SC1091
+. ./setup.sh
 
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
 SKIP_INSTALL="false"
+DEVICE=""
 
 usage() {
-    echo "Usage: $0 [-s <true|false>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-d <juno-r2>]" 1>&2
     exit 1
 }
 
-while getopts "s:h" o; do
+while getopts "s:d:h" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
+    d) DEVICE="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -37,7 +41,7 @@ parse_output() {
 
 kvm_unit_tests_run_test() {
     info_msg "running kvm unit tests ..."
-    ./run_tests.sh | tee -a "${RESULT_LOG}"
+    ./run_tests.sh -v 2>&1 | tee -a "${RESULT_LOG}"
 }
 
 kvm_unit_tests_build_test() {
@@ -82,6 +86,12 @@ else
   install
 fi
 
+if [ "${DEVICE}" = "juno-r2" ]; then
+    # Hotplug off juno-r2 's a57 cluster cpus
+    info_msg "offline a57 cluster cpus ..."
+    offline_big_cpus
+fi
+
 # Build kvm unit tests
 kvm_unit_tests_build_test
 
@@ -90,3 +100,9 @@ kvm_unit_tests_run_test
 
 # Parse and print kvm unit tests results
 parse_output
+
+if [ "${DEVICE}" = "juno-r2" ]; then
+    # Hotplug on juno-r2 's a57 cluster cpus
+    info_msg "online a57 cluster cpus ..."
+    online_big_cpus
+fi
