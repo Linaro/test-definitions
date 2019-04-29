@@ -7,15 +7,17 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
 SKIP_INSTALL="false"
+SMP="true"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-m <true|false>]" 1>&2
     exit 1
 }
 
-while getopts "s:h" o; do
+while getopts "s:m:h" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
+    m) SMP="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -37,7 +39,11 @@ parse_output() {
 
 kvm_unit_tests_run_test() {
     info_msg "running kvm unit tests ..."
-    ./run_tests.sh | tee -a "${RESULT_LOG}"
+    if [ "${SMP}" = "false" ]; then
+        taskset -c 0 ./run_tests.sh | tee -a "${RESULT_LOG}"
+    else
+        ./run_tests.sh | tee -a "${RESULT_LOG}"
+    fi
 }
 
 kvm_unit_tests_build_test() {
