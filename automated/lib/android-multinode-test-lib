@@ -32,20 +32,8 @@ open_adb_tcpip_on_local_device() {
 
     # shellcheck disable=SC2039
     local ret_val=0
-    # shellcheck disable=SC2039
-    local ip_address
-    ip_address="$(get_ip_address "${timeout_secs}")" || ret_val=$?
-    if [ "${ret_val}" -ne 0 ]; then
-        warn_msg "get_ip_address failed unexpectedly."
-        return 1
-    fi
-    if [ -z "${ip_address}" ]; then
-        warn_msg "Device has no ip address (network not connected?)"
-        return 1
-    fi
-    dut_address="${ip_address}:${adb_port}"
 
-    # adb tcpip may fail with different reasons
+    # adb tcpip may fail for different reasons
     # (e.g., "error: protocol fault (couldn't read status): Connection reset by peer").
     # Just hope that it works after a few retries.
     # shellcheck disable=SC2039
@@ -73,6 +61,19 @@ open_adb_tcpip_on_local_device() {
     # shellcheck disable=SC2039
     local success=false
     while [ "$(date +%s)" -lt "$end" ]; do
+        # Detect the DUT IP address inside the loop. That fixes cases where the IP address changes
+        # soon after boot (and thus differs between the `get_ip_address` and `adb connect` calls)
+        # but is static from there on.
+        # shellcheck disable=SC2039
+        local ip_address
+        ret_val=0
+        ip_address="$(get_ip_address "${timeout_secs}")" || ret_val=$?
+        if [ "${ret_val}" -ne 0 ] || [ -z "${ip_address}" ]; then
+            warn_msg "get_ip_address failed unexpectedly. Retrying in 5 seconds..."
+            sleep 5s
+            continue
+        fi
+        dut_address="${ip_address}:${adb_port}"
         if [ "$(adb connect "${dut_address}" | grep -c '^connected to ')" -eq 1 ]; then
             success=true
             break
