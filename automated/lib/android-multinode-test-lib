@@ -216,13 +216,17 @@ connect_to_remote_adb_tcpip_devices() {
     info_msg "All ${num_remote_devices} remote devices are connected and online."
 
     info_msg "Now adding devices locally connected via USB."
-    # shellcheck disable=SC2039
-    local connected_devices
-    # shellcheck disable=SC2039
-    local ret_val=0
-    connected_devices="$(adb devices | grep -E '^([:\.[:alnum:]]+)\s+device$' | cut -f1)" || ret_val=$?
-    if [ "${ret_val}" -ne 0 ]; then
-        warn_msg "\"adb devices\" did not exit cleanly. Cannot reliably determine the list of connected devices."
+    for _ in $(seq 5); do
+        # shellcheck disable=SC2039
+        local connected_devices
+        connected_devices="$(adb devices | grep -E '^([:\.[:alnum:]]+)\s+device$' | cut -f1)"
+        if [ -z "${connected_devices}" ]; then
+            warn_msg "\"adb devices\" did not list any devices. Retrying in a minute..."
+            sleep 1m
+        fi
+    done
+    if [ -z "${connected_devices}" ]; then
+        lava-test-raise "\"adb devices\" did not list any devices."
     fi
     # shellcheck disable=SC2039
     local remote_only_mapping="${device_worker_mapping}"
