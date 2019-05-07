@@ -167,13 +167,7 @@ skiplist:
       - hi6220-hikey
       - dragonboard-410c
     branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - 5.0
-      - mainline
+      - all
     tests:
       - sendfile09
       - sendfile09_64
@@ -215,12 +209,7 @@ skiplist:
       - juno-r2
       - qemu_arm64
     branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.20
-      - 5.0
-      - mainline
+      - all
     tests:
       - mtest06
 

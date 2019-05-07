@@ -105,14 +105,7 @@ skiplist:
       - qemu_arm
       - x15
     branches:
-      - 4.4
-      - 4.9
-      - 4.14
-      - 4.19
-      - 4.20
-      - 5.0
-      - mainline
-      - next
+      - all
     tests:
       - run_param_test.sh
 
