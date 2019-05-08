@@ -55,6 +55,7 @@ if [ ! -f "$HOME/.igtrc" ]; then
     generate_igtrc
 fi
 # Download Piglit
+git config --global http.postBuffer 1048576000
 if [ ! -d "${IGT_DIR}/piglit" ]; then
     echo "Download Piglit.."
     ${TEST_SCRIPT} -d
