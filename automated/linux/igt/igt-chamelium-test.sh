@@ -55,7 +55,7 @@ if [ ! -f "$HOME/.igtrc" ]; then
     generate_igtrc
 fi
 # Download Piglit
-git config --global http.postBuffer 1048576000
+git config --global http.postBuffer 157286400
 if [ ! -d "${IGT_DIR}/piglit" ]; then
     echo "Download Piglit.."
     ${TEST_SCRIPT} -d
@@ -67,5 +67,5 @@ fi
 
 # Run tests
 echo "Run ${TEST_LIST}"
-${TEST_SCRIPT} -T "${IGT_DIR}"/"${TEST_LIST}" -v | tee tmp.log
+${TEST_SCRIPT} -T "${IGT_DIR}"/"${TEST_LIST}" -v -s | tee tmp.log
 grep -e '^pass' -e '^skip' -e '^fail' tmp.log|awk -F':\ ' '{print $2" "$1}' > ${RESULT_LOG}
