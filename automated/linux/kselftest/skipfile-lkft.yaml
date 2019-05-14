@@ -154,3 +154,13 @@ skiplist:
       - next
     tests:
       - msg_zerocopy.sh
+
+  - reason: >
+      LKFT: next: next: zram.sh hangs on all devices
+    url: TBD
+    environments: all
+    boards: all
+    branches:
+      - next
+    tests:
+      - zram.sh
