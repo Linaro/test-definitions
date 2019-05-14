@@ -144,3 +144,13 @@ skiplist:
       - 4.9
     tests:
       - sync_test
+
+  - reason: >
+      LKFT: next: next: msg_zerocopy.sh hangs on all devices
+    url: TBD
+    environments: all
+    boards: all
+    branches:
+      - next
+    tests:
+      - msg_zerocopy.sh
