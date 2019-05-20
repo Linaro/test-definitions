@@ -5,16 +5,18 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
+NFS="false"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-i <interface>]" 1>&2
+    echo "Usage: $0 [-s <true|false>] [-i <interface>] [-n <true|false>]" 1>&2
     exit 1
 }
 
-while getopts "s:i:" o; do
+while getopts "s:i:n:" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     i) INTERFACE="${OPTARG}" ;;
+    n) NFS="${OPTARG}" ;;
     *) usage ;;
   esac
 done
@@ -50,7 +52,15 @@ run "route" "print-routing-tables"
 run "ip link set lo up" "ip-link-loopback-up"
 run "route" "route-dump-after-ip-link-loopback-up"
 run "ip link set ${INTERFACE} up" "ip-link-interface-up"
-run "ip link set ${INTERFACE} down" "ip-link-interface-down"
+# NFS mounted filesystem hangs when interface set down
+# so skip "ip link set <interface> down" when NFS is not false
+
+if [ "${NFS}" = "false" ] || [ "${NFS}" = "False" ]; then
+    run "ip link set ${INTERFACE} down" "ip-link-interface-down"
+else
+    info_msg "Skipping ip link set ${INTERFACE} down on NFS mounted file systems"
+    report_skip "ip-link-interface-down"
+fi
 
 dist_name
 # shellcheck disable=SC2154
