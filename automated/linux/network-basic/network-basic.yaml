@@ -28,10 +28,11 @@ metadata:
 
 params:
     INTERFACE: ""
+    NFS: "false"
     SKIP_INSTALL: "False"
 
 run:
     steps:
         - cd ./automated/linux/network-basic/
-        - ./network-basic.sh -s "${SKIP_INSTALL}" -i "${INTERFACE}"
+        - ./network-basic.sh -s "${SKIP_INSTALL}" -i "${INTERFACE}" -n "${NFS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
