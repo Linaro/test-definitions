@@ -26,7 +26,7 @@ while getopts "r:s:h" opt; do
     esac
 done
 
-if "${SKIP_INSTALL}"; then
+if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "Software installation skipped"
     # Check if required software pre-installed.
     pkgs="git make docker"
