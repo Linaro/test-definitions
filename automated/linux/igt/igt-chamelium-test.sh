@@ -1,15 +1,16 @@
 #!/bin/bash
 
 RESULT_LOG="result.log"
+DUMP_FRAMES_DIR="/root/dump-frames"
 
 generate_igtrc() {
 cd "$HOME" || exit 1
 
-mkdir -p /root
+mkdir -p "${DUMP_FRAMES_DIR}"
 
 cat > ".igtrc" <<-EOF
 [Common]
-FrameDumpPath=/root/
+FrameDumpPath=${DUMP_FRAMES_DIR}
 [DUT]
 SuspendResumeDelay=15
 [Chamelium]
