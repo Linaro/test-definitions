@@ -14,36 +14,33 @@
 # Returns:
 #   0 only if the device is accessible via adb TCP/IP, 1 otherwise.
 open_adb_tcpip_on_local_device() {
-    [ "$#" -lt 2 -o "$#" -gt 3 ] && \
+    [ "$#" -lt 2 ] || [ "$#" -gt 3 ] && \
         error_fatal "Usage: open_adb_tcpip_on_local_device adb_tcpip_attempts timeout_secs [adb_port]"
+    # shellcheck disable=SC2039
     local adb_tcpip_attempts="$1"
+    # shellcheck disable=SC2039
     local timeout_secs="$2"
+    # shellcheck disable=SC2039
     local adb_port="$3"
     if [ -z "${adb_port}" ]; then
+        # shellcheck disable=SC2039
         local adb_port=5555    # default port assumed by adb connect
     fi
 
+    # shellcheck disable=SC2039
     local end=$(( $(date +%s) + timeout_secs ))
 
+    # shellcheck disable=SC2039
     local ret_val=0
-    local ip_address
-    ip_address="$(get_ip_address ${timeout_secs})" || ret_val=$?
-    if [ "${ret_val}" -ne 0 ]; then
-        warn_msg "get_ip_address failed unexpectedly."
-        return 1
-    fi
-    if [ -z "${ip_address}" ]; then
-        warn_msg "Device has no ip address (network not connected?)"
-        return 1
-    fi
-    dut_address="${ip_address}:${adb_port}"
 
-    # adb tcpip may fail with different reasons
+    # adb tcpip may fail for different reasons
     # (e.g., "error: protocol fault (couldn't read status): Connection reset by peer").
     # Just hope that it works after a few retries.
+    # shellcheck disable=SC2039
     local adb_tcpip_retry_wait_secs=10
+    # shellcheck disable=SC2039
     local attempt=0
-    while [ "${attempt}" -lt "${adb_tcpip_attempts}" -a "$(date +%s)" -lt "$end" ]; do
+    while [ "${attempt}" -lt "${adb_tcpip_attempts}" ] && [ "$(date +%s)" -lt "$end" ]; do
         ret_val=0
         adb tcpip "${adb_port}" || ret_val=$?
         if [ "${ret_val}" -eq 0 ]; then
@@ -61,9 +58,23 @@ open_adb_tcpip_on_local_device() {
 
     # `adb tcpip` sometimes takes some time
     # (on some builds, up to 10 seconds were observed)
+    # shellcheck disable=SC2039
     local success=false
     while [ "$(date +%s)" -lt "$end" ]; do
-        if [ $(adb connect "${dut_address}" | grep -c '^connected to ') -eq 1 ]; then
+        # Detect the DUT IP address inside the loop. That fixes cases where the IP address changes
+        # soon after boot (and thus differs between the `get_ip_address` and `adb connect` calls)
+        # but is static from there on.
+        # shellcheck disable=SC2039
+        local ip_address
+        ret_val=0
+        ip_address="$(get_ip_address "${timeout_secs}")" || ret_val=$?
+        if [ "${ret_val}" -ne 0 ] || [ -z "${ip_address}" ]; then
+            warn_msg "get_ip_address failed unexpectedly. Retrying in 5 seconds..."
+            sleep 5s
+            continue
+        fi
+        dut_address="${ip_address}:${adb_port}"
+        if [ "$(adb connect "${dut_address}" | grep -c '^connected to ')" -eq 1 ]; then
             success=true
             break
         fi
@@ -94,12 +105,16 @@ open_adb_tcpip_on_local_device() {
 # Returns:
 #   0 only if the device is accessible via adb TCP/IP, 1 otherwise.
 share_local_device_over_adb_tcpip() {
-    [ "$#" -lt 2 -o "$#" -gt 3 ] && \
+    [ "$#" -lt 2 ] || [ "$#" -gt 3 ] && \
         error_fatal "Usage: share_local_device_over_adb_tcpip adb_tcpip_attempts timeout_secs [adb_port]"
+    # shellcheck disable=SC2039
     local adb_tcpip_attempts="$1"
+    # shellcheck disable=SC2039
     local timeout_secs="$2"
+    # shellcheck disable=SC2039
     local adb_port="$3"
 
+    # shellcheck disable=SC2039
     local ret_val=0
     open_adb_tcpip_on_local_device "${adb_tcpip_attempts}" "${timeout_secs}" "${adb_port}" || ret_val=$?
     if [ "${ret_val}" -ne 0 ]; then
@@ -125,10 +140,12 @@ share_local_device_over_adb_tcpip() {
 # Returns:
 #   0 on success 1 otherwise.
 connect_to_remote_adb_tcpip_devices() {
-    [ "$#" -lt 1 -o "$#" -gt 2 ] && \
+    [ "$#" -lt 1 ] || [ "$#" -gt 2 ] && \
         error_fatal "Usage: connect_to_remote_adb_tcpip_devices adb_connect_timeout_secs [device_worker_mapping_file]"
 
+    # shellcheck disable=SC2039
     local adb_connect_timeout_secs="$1"
+    # shellcheck disable=SC2039
     local device_worker_mapping_file="$2"
 
     lava-sync start_handover
@@ -140,18 +157,24 @@ connect_to_remote_adb_tcpip_devices() {
     lava-wait-all dut_address
 
     # The MultiNode cache file might not exist if there is no other worker.
+    # shellcheck disable=SC2039
     local cache_lines
+    # shellcheck disable=SC2039
     local device_worker_mapping=""
     if [ -f "/tmp/lava_multi_node_cache.txt" ]; then
-        cache_lines="$(cat "/tmp/lava_multi_node_cache.txt" | grep "dut_address" | grep -v '^$' || true)"
+        cache_lines="$(grep "dut_address" "/tmp/lava_multi_node_cache.txt" | grep -v '^$' || true)"
 
         for line in ${cache_lines}; do
             # <worker_job_id>:dut_address=<dut_address>
-            local dut_address="$(echo "$line"| sed 's/.*dut_address=//')"
-            local worker_host="$(echo "$line" | cut -d: -f1)"
+            # shellcheck disable=SC2039
+            local dut_address
+            dut_address="$(echo "$line" | sed 's/.*dut_address=//')"
+            # shellcheck disable=SC2039
+            local worker_host=
+            worker_host="$(echo "$line" | cut -d: -f1)"
             device_worker_mapping="${device_worker_mapping}${dut_address};${worker_host}\n"
         done
-        device_worker_mapping="$(printf "${device_worker_mapping}" | grep -v '^$' || true)"
+        device_worker_mapping="$(printf "%b" "${device_worker_mapping}")"
     fi
 
     lava-sync finish_handover
@@ -161,8 +184,11 @@ connect_to_remote_adb_tcpip_devices() {
     # Connect to remote devices and wait until they appear online
 
     for device_to_worker in ${device_worker_mapping}; do
-        local device="$(echo ${device_to_worker} | cut -d';' -f1)"
-        for i in $(seq 5); do
+        # shellcheck disable=SC2039
+        local device=
+        device="$(echo "${device_to_worker}" | cut -d';' -f1)"
+        for _ in $(seq 5); do
+            # shellcheck disable=SC2039
             local ret_val=0
             adb connect "${device}" || ret_val="$?"
             if [ "${ret_val}" -eq 0 ]; then
@@ -175,23 +201,34 @@ connect_to_remote_adb_tcpip_devices() {
     done
 
     for device_to_worker in ${device_worker_mapping}; do
-        local device="$(echo ${device_to_worker} | cut -d';' -f1)"
+        # shellcheck disable=SC2039
+        local device
+        device="$(echo "${device_to_worker}" | cut -d';' -f1)"
         if ! timeout "${adb_connect_timeout_secs}" adb -s "${device}" wait-for-device; then
             warn_msg "adb wait-for-device for ${device} timed out after ${adb_connect_timeout_secs} seconds."
             return 1
         fi
     done
 
-    local num_remote_devices="$(echo "${device_worker_mapping}" | wc -l)"
+    # shellcheck disable=SC2039
+    local num_remote_devices
+    num_remote_devices="$(echo "${device_worker_mapping}" | wc -l)"
     info_msg "All ${num_remote_devices} remote devices are connected and online."
 
     info_msg "Now adding devices locally connected via USB."
-    local connected_devices
-    local ret_val=0
-    connected_devices="$(adb devices | grep -E '^([:\.[:alnum:]]+)\s+device$' | cut -f1)" || ret_val=$?
-    if [ "${ret_val}" -ne 0 ]; then
-        warn_msg "\"adb devices\" did not exit cleanly. Cannot reliably determine the list of connected devices."
+    for _ in $(seq 5); do
+        # shellcheck disable=SC2039
+        local connected_devices
+        connected_devices="$(adb devices | grep -E '^([:\.[:alnum:]]+)\s+device$' | cut -f1)"
+        if [ -z "${connected_devices}" ]; then
+            warn_msg "\"adb devices\" did not list any devices. Retrying in a minute..."
+            sleep 1m
+        fi
+    done
+    if [ -z "${connected_devices}" ]; then
+        lava-test-raise "\"adb devices\" did not list any devices."
     fi
+    # shellcheck disable=SC2039
     local remote_only_mapping="${device_worker_mapping}"
     device_worker_mapping="${device_worker_mapping}\n"
     for device in ${connected_devices}; do
@@ -200,7 +237,7 @@ connect_to_remote_adb_tcpip_devices() {
             info_msg "Local device: ${device}"
         fi
     done
-    device_worker_mapping="$(printf "${device_worker_mapping}" | grep -v '^$')"
+    device_worker_mapping="$(printf "%b" "${device_worker_mapping}")"
 
     if [ "${device_worker_mapping_file}" ]; then
         # Make mapping between attached DUTs and worker job ids and accessible to subsequent tests:
