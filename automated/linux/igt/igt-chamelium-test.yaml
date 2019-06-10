@@ -33,13 +33,11 @@ run:
         - if [ -n "${TEST_LIST}" ]; then TL="-t ${TEST_LIST}"; fi
         - ./igt-chamelium-test.sh -c ${CHAMELIUM_IP} -h ${HDMI_DEV_NAME} -d ${IGT_DIR} ${TL}
         # Dump igt test result and upload artifact to Artifactorial
-        - ifconfig; pwd; ls
-        - if [ -n "`which html2text`" -a -d "/usr/share/igt-gpu-tools/results/html/" ]; then
-        - ls /usr/share/igt-gpu-tools/results
+        - ifconfig; pwd; ls -l
         - echo "**********************************************";
         - echo "************ Dump IGT test result ************";
         - echo "**********************************************";
-        - ls /usr/share/igt-gpu-tools/results/html/results/*|sort -r|xargs html2text; fi
+        - bzcat /usr/share/igt-gpu-tools/results/results.json.bz2 | python print-test-result.py
         - if [ -n "${ARTIFACTORIAL_TOKEN}" -a -n "${ARTIFACTORIAL_URL}" ]; then
         - UPLOAD_TOOL="../../utils/upload-to-artifactorial.sh"
         - if [ -d "/root/dump-frames/" -a -n "`ls /root/dump-frames/`" ];  then echo "Got error frames.." ; tar -C /root -zcf dump-frames.tar.gz dump-frames/;
