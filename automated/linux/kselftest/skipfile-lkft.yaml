@@ -183,3 +183,14 @@ skiplist:
       - next
     tests:
       - zram.sh
+
+  - reason: >
+      LKFT: next: test_btf hangs on all devices
+    url: TBD
+    environments: all
+    boards: all
+    branches:
+      - next
+      - mainline
+    tests:
+      - test_btf
