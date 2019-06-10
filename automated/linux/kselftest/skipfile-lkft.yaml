@@ -99,6 +99,18 @@ skiplist:
       - mq_open_tests
       - mq_perf_tests
 
+  - reason:
+      mq_perf_tests runs long so skipping
+    url:
+    environments: all
+    boards:
+      - dragonboard-410c
+      - hi6220-hikey
+      - juno-r2
+      - x15
+    branches: all
+    tests:
+      - mq_perf_tests
 
   - reason: >
       LKFT: Kselftest: rseq: Warning: file basic_test is not executable
