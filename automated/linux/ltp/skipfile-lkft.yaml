@@ -28,6 +28,7 @@ skiplist:
       - juno-r2
       - x15
       - dragonboard-410c
+      - rzn1d
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
@@ -48,6 +49,7 @@ skiplist:
       - juno-r2
       - x15
       - dragonboard-410c
+      - rzn1d
       - qemu_x86_64
       - qemu_arm64
       - qemu_arm
@@ -69,6 +71,7 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - dragonboard-410c
+      - rzn1d
       - qemu_arm64
     branches:
       - 4.4
@@ -166,6 +169,7 @@ skiplist:
     boards:
       - hi6220-hikey
       - dragonboard-410c
+      - rzn1d
     branches:
       - all
     tests:
@@ -193,6 +197,7 @@ skiplist:
     environments: production
     boards:
       - dragonboard-410c
+      - rzn1d
     branches:
       - all
     tests:
@@ -205,6 +210,7 @@ skiplist:
     environments: all
     boards:
       - dragonboard-410c
+      - rzn1d
       - hi6220-hikey
       - juno-r2
       - qemu_arm64
@@ -221,6 +227,7 @@ skiplist:
     environments: production
     boards:
       - dragonboard-410c
+      - rzn1d
     branches:
       - all
     tests:
@@ -253,6 +260,7 @@ skiplist:
     environments: production
     boards:
       - dragonboard-410c
+      - rzn1d
     branches:
       - all
     tests:
