@@ -154,9 +154,11 @@ prep_system() {
         systemctl stop systemd-timesyncd
     fi
     # userns07 requires kernel.unprivileged_userns_clone
-    if [ "$(sysctl -n kernel.unprivileged_userns_clone)" -eq 0 ]; then
+    if [ -f "/proc/sys/kernel/unprivileged_userns_clone" ]; then
         info_msg "Enabling kernel.unprivileged_userns_clone"
         sysctl -w kernel.unprivileged_userns_clone=1
+    else
+        info_msg "Kernel has no support of unprivileged_userns_clone"
     fi
 }
 
