@@ -148,10 +148,10 @@ class TestPlan(object):
             try:
                 plan_version = test_plan['metadata'].get('format')
                 self.logger.info('Test plan version: {}'.format(plan_version))
+                tests = []
                 if plan_version == "Linaro Test Plan v2":
                     tests = test_plan['tests'][kind]
                 elif plan_version == "Linaro Test Plan v1" or plan_version is None:
-                    tests = []
                     for requirement in test_plan['requirements']:
                         if 'tests' in requirement.keys():
                             if requirement['tests'] and \
