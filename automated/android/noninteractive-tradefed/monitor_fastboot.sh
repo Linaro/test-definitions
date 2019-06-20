@@ -2,6 +2,6 @@
 while true;
 do
     date
-    fastboot boot /lava-lxc/boot*.img
+    fastboot boot /lava-lxc/*boot*.img
     sleep 30
 done
