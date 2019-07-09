@@ -29,8 +29,8 @@ skiplist:
     boards: all
     branches:
       - mainline
+      - 5.2
       - 5.1
-      - 5.0
       - 4.19
       - 4.14
       - 4.9
