@@ -19,14 +19,13 @@ FAILURES_PRINTED="0"
 AP_SSID=""
 # WIFI AP KEY
 AP_KEY=""
-JAVA_OPTIONS="-Xmx350M"
 
 usage() {
     echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>]" 1>&2
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:f:a:k:j:' opt; do
+while getopts ':o:n:c:t:p:r:f:a:k:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) export ANDROID_SERIAL="${OPTARG}" ;;
@@ -37,7 +36,6 @@ while getopts ':o:n:c:t:p:r:f:a:k:j:' opt; do
         f) FAILURES_PRINTED="${OPTARG}" ;;
         a) AP_SSID="${OPTARG}" ;;
         k) AP_KEY="${OPTARG}" ;;
-        j) JAVA_OPTIONS="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -58,10 +56,6 @@ disable_suspend
 # comment out wait_homescreen() and see if wait_boot_completed() is
 # sufficient.
 # wait_homescreen "${TIMEOUT}"
-
-# Increase the heap size. KVM devices in LAVA default to ~250M of heap
-export _JAVA_OPTIONS="${JAVA_OPTIONS}"
-java -version
 
 # Download CTS/VTS test package or copy it from local disk.
 if echo "${TEST_URL}" | grep "^http" ; then

@@ -57,10 +57,6 @@ disable_suspend
 # sufficient.
 # wait_homescreen "${TIMEOUT}"
 
-# Increase the heap size. KVM devices in LAVA default to ~250M of heap
-export _JAVA_OPTIONS="-Xmx350M"
-java -version
-
 # Download CTS/VTS test package or copy it from local disk.
 if echo "${TEST_URL}" | grep "^http" ; then
     wget -S --progress=dot:giga "${TEST_URL}"
