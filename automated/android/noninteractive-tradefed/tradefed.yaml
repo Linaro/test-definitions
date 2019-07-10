@@ -34,10 +34,9 @@ params:
     # Specify the failures number to be printed
     FAILURES_PRINTED: "0"
     TEST_REBOOT_EXPECTED: "false"
-    # setup.sh determines JDK version by Android version.
-    # Here are some examples for the param, see setup.sh for more details.
-    # ANDROID_VERSION: android-8.1.0_r33
-    # ANDROID_VERSION: aosp-master
+    # leave ANDROID_VERSION here as a stub so that jobs have ANDROID_VERSION specified won't report any problem
+    # but it is not used any more, the default openjdk-8 will be used for cts/vts test
+    # and in the future, maybe the jdk package installation is better to be done with the host deploy action
     ANDROID_VERSION: ""
 
 run:
