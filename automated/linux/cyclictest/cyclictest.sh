@@ -14,21 +14,21 @@ PRIORITY="98"
 INTERVAL="1000"
 THREADS="1"
 AFFINITY="0"
-LOOPS="100000"
+DURATION="1m"
 MAX_LATENCY="50"
 
 usage() {
-    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-l loops] [-m latency]" 1>&2
+    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-a affinity] [-D duration ] [-m latency]" 1>&2
     exit 1
 }
 
-while getopts ":p:i:t:a:l:m:" opt; do
+while getopts ":p:i:t:a:D:m:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         i) INTERVAL="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
 	a) AFFINITY="${OPTARG}" ;;
-        l) LOOPS="${OPTARG}" ;;
+        D) DURATION="${OPTARG}" ;;
 	m) MAX_LATENCY="${OPTARG}" ;;
         *) usage ;;
     esac
@@ -44,7 +44,7 @@ if ! binary=$(which cyclictest); then
     binary="./bin/${abi}/cyclictest"
 fi
 "${binary}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
-    -l "${LOOPS}" -m -n | tee "${LOGFILE}"
+    -D "${DURATION}" -m -n | tee "${LOGFILE}"
 
 # Parse test log.
 ../../lib/parse_rt_tests_results.py cyclictest "${LOGFILE}" "${MAX_LATENCY}" \

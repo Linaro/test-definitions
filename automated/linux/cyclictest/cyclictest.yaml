@@ -36,8 +36,8 @@ params:
     THREADS: "1"
     # Set the affinity
     AFFINITY: "0"
-    # Number of loops.
-    LOOPS: "100000"
+    # Execute cyclictest for given time
+    DURATION: "5m"
     # Maximal accepted latency in us
     # This value is device/kernel specific and needs to be set in the job!
     MAX_LATENCY: "50"
@@ -45,5 +45,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/cyclictest/
-        - ./cyclictest.sh -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" -l "${LOOPS}" -m "${MAX_LATENCY}"
+        - ./cyclictest.sh -D "${DURATION}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}"  -m "${MAX_LATENCY}"
         - ../../utils/send-to-lava.sh ./output/result.txt
