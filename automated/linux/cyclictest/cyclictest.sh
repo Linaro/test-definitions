@@ -44,7 +44,7 @@ if ! binary=$(which cyclictest); then
     binary="./bin/${abi}/cyclictest"
 fi
 "${binary}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
-    -D "${DURATION}" -m -n | tee "${LOGFILE}"
+    -D "${DURATION}" -m | tee "${LOGFILE}"
 
 # Parse test log.
 ../../lib/parse_rt_tests_results.py cyclictest "${LOGFILE}" "${MAX_LATENCY}" \
