@@ -11,18 +11,18 @@ LOGFILE="${OUTPUT}/pi-stress.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 
-DURATION="300"
+DURATION="5m"
 MLOCKALL="false"
 RR="false"
 
 usage() {
-    echo "Usage: $0 [-d duration] [-m <true|false>] [-r <true|false>]" 1>&2
+    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>]" 1>&2
     exit 1
 }
 
-while getopts ":d:m:r:" opt; do
+while getopts ":D:m:r:" opt; do
     case "${opt}" in
-        d) DURATION="${OPTARG}" ;;
+        D) DURATION="${OPTARG}" ;;
         m) MLOCKALL="${OPTARG}" ;;
         r) RR="${OPTARG}" ;;
         *) usage ;;
