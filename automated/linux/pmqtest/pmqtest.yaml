@@ -26,7 +26,7 @@ metadata:
         - d05
 
 params:
-    LOOPS: 10000
+    DURATION: "5m"
     # Maximal accepted latency in us
     # This value is device/kernel specific and needs to be set in the job!
     MAX_LATENCY: "100"
@@ -34,5 +34,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/pmqtest/
-        - ./pmqtest.sh -l "${LOOPS}" -m "${MAX_LATENCY}"
+        - ./pmqtest.sh -D "${DURATION}" -m "${MAX_LATENCY}"
         - ../../utils/send-to-lava.sh ./output/result.txt
