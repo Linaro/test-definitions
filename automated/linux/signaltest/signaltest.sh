@@ -10,19 +10,19 @@ RESULT_FILE="${OUTPUT}/result.txt"
 
 PRIORITY="98"
 THREADS="2"
-LOOPS="10000"
 MAX_LATENCY="100"
+DURATION="1m"
 
 usage() {
-    echo "Usage: $0 [-p priority] [-t threads] [-l loops] [-m latency]" 1>&2
+    echo "Usage: $0 [-r runtime] [-p priority] [-t threads] [-m latency]" 1>&2
     exit 1
 }
 
-while getopts ":p:t:l:m:" opt; do
+while getopts ":p:t:D:m:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
-        l) LOOPS="${OPTARG}" ;;
+	D) DURATION="${OPTARG}" ;;
 	m) MAX_LATENCY="${OPTARG}" ;;
         *) usage ;;
     esac
@@ -37,7 +37,8 @@ if ! binary=$(which signaltest); then
     # shellcheck disable=SC2154
     binary="./bin/${abi}/signaltest"
 fi
-"${binary}" -m -p "${PRIORITY}" -t "${THREADS}" -l "${LOOPS}" \
+
+"${binary}" -D "${DURATION}" -m -p "${PRIORITY}" -t "${THREADS}" \
     | tee "${LOGFILE}"
 
 # Parse test log.
