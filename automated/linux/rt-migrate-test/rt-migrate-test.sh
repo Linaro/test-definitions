@@ -7,16 +7,16 @@
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/rt-migrate-test.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
-LOOPS="100"
+DURATION="1m"
 
 usage() {
-    echo "Usage: $0 [-l loops]" 1>&2
+    echo "Usage: $0 [-D duration]" 1>&2
     exit 1
 }
 
-while getopts ":l:" opt; do
+while getopts ":l:D:" opt; do
     case "${opt}" in
-        l) LOOPS="${OPTARG}" ;;
+	D) DURATION="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -30,7 +30,7 @@ if ! binary=$(which rt-migrate-test); then
     # shellcheck disable=SC2154
     binary="./bin/${abi}/rt-migrate-test"
 fi
-"${binary}" -c -l "${LOOPS}" | tee "${LOGFILE}"
+"${binary}" -D "${DURATION}" -c | tee "${LOGFILE}"
 
 # Parse test log.
 task_num=$(grep "Task" "${LOGFILE}" | tail -1 | awk '{print $2}')

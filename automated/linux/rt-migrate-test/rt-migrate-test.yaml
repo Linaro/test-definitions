@@ -25,11 +25,10 @@ metadata:
         - d05
 
 params:
-    # Number of loops.
-    LOOPS: "100"
+    DURATION: "5m"
 
 run:
     steps:
         - cd ./automated/linux/rt-migrate-test/
-        - ./rt-migrate-test.sh -l "${LOOPS}"
+        - ./rt-migrate-test.sh -D "${DURATION}"
         - ../../utils/send-to-lava.sh ./output/result.txt
