@@ -103,7 +103,7 @@ def main():
     tool = sys.argv[1]
     if tool in ['cyclictest', 'signaltest']:
         parse_cyclictest(sys.argv[2], int(sys.argv[3]))
-    elif tool in ['pmqtest', 'ptsematest', 'sigwaittest']:
+    elif tool in ['pmqtest', 'ptsematest', 'sigwaittest', 'svsematest']:
         parse_pmqtest(sys.argv[2], int(sys.argv[3]))
 
 
