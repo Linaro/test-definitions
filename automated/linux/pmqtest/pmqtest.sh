@@ -36,7 +36,7 @@ if ! binary=$(which pmqtest); then
     binary="./bin/${abi}/pmqtest"
 fi
 
-"${binary}" -S -D "${DURATION}" | tee "${LOGFILE}"
+"${binary}" -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
 
 # Parse test log.
 ../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" "${MAX_LATENCY}" \
