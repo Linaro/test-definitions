@@ -1,0 +1,40 @@
+metadata:
+    name: pmsematest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "ptsematest starts threads that are synchronized via
+        pthread_mutex_unlock()/pthread_mutex_lock() and measures the latency
+        between releasing and getting the lock."
+    maintainer:
+        - Daniel Wagner <wagi@monom.org>
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - performance
+        - preempt-rt
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Execute ptsematest for given time
+    DURATION: "5m"
+    # Maximal accepted latency in us
+    # This value is device/kernel specific and needs to be set in the job!
+    MAX_LATENCY: "100"
+
+run:
+    steps:
+        - cd ./automated/linux/ptsematest/
+        - ./ptsematest.sh -D "${DURATION}" -m "${MAX_LATENCY}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
