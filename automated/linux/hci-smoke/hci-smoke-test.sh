@@ -60,6 +60,7 @@ test_hciconfig_boot() {
     if [ "${BOOT}" = "auto" ]; then
         # get rid of spaces and comments
         sed 's/\s\+//g;/^#/d' /etc/bluetooth/main.conf | grep "^AutoEnable=true"
+	# shellcheck disable=SC2181
         if [ "$?" -eq 0 ]; then
             BOOT="enabled"
         else
