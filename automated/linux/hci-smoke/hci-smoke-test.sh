@@ -29,6 +29,9 @@ export RESULT_FILE
 DEVICE="hci0"
 BOOT="enabled"
 
+# Pattern for HCI device baddr
+BADDR_PATTERN="..:..:..:..:..:.."
+
 usage() {
     echo "Usage: $0 [-b <enabled|disabled>] [-d <device>]" 1>&2
     exit 1
@@ -57,6 +60,7 @@ test_hciconfig_boot() {
     if [ "${BOOT}" = "auto" ]; then
         # get rid of spaces and comments
         sed 's/\s\+//g;/^#/d' /etc/bluetooth/main.conf | grep "^AutoEnable=true"
+	# shellcheck disable=SC2181
         if [ "$?" -eq 0 ]; then
             BOOT="enabled"
         else
@@ -89,6 +93,24 @@ test_hciconfig_down() {
     check_return "hciconfig-down"
 }
 
+# Test HCI device scanning
+test_hcitool_scan() {
+    info_msg "Running hcitool-scan test..."
+    hcitool -i "${DEVICE}" scan
+    check_return "hciconfig-scan"
+    hcitool -i "${DEVICE}" scan | grep $BADDR_PATTERN
+    check_return "hciconfig-scan (verify available devices)"
+}
+
+# Test HCI device inquiry
+test_hcitool_inq() {
+    info_msg "Running hcitool-inq test..."
+    hcitool -i "${DEVICE}" inq
+    check_return "hciconfig-inq"
+    hcitool -i "${DEVICE}" inq | grep $BADDR_PATTERN
+    check_return "hciconfig-inq (verify available devices)"
+}
+
 # Test run.
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
@@ -101,6 +123,8 @@ test_hciconfig
 test_hciconfig_boot
 test_hciconfig_down
 test_hciconfig_up
+test_hcitool_scan
+test_hcitool_inq
 
 
 
