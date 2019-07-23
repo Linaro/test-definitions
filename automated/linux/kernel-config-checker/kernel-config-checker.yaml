@@ -1,0 +1,35 @@
+metadata:
+    name: kernel-config-checker
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Check the kernel config file for the presence of required
+		  CONFIG_* values."
+    maintainer:
+        - luis.machado@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Specify a space-separated list of kernel config values to check.
+    CONFIG_VALUES: ""
+
+run:
+    steps:
+        - cd ./automated/linux/kernel-config-checker/
+        - ./kernel-config-checker.sh -c "${CONFIG_VALUES}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
