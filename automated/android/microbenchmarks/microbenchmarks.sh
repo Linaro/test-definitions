@@ -76,7 +76,7 @@ sed -i "s|mode \"\$1\"|mode \"\$1\" --noverbose|g" scripts/benchmarks/benchmarks
 export OUT=${PWD}/out/target/product/${LUNCH_TARGET}/
 ./scripts/benchmarks/benchmarks_run_target.sh  --skip-build true --iterations "${ITERATIONS}" --mode "${MODE}"
 
-if [ ! -z "${ART_TOKEN}" ]; then
+if [ -n "${ART_TOKEN}" ]; then
     git clone https://git.linaro.org/qa/post-build-report.git pbr; mkdir -p pbr/artifacts/
     cp ./*.json pbr/artifacts/
     wget "${SNAPSHOTS_URL}"/pinned-manifest.xml -O pbr/artifacts/pinned-manifest.xml
