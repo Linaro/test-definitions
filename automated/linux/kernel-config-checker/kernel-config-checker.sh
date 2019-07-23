@@ -54,6 +54,10 @@ find_config_file() {
         kernel_config="/lib/modules/$(uname -r)/config"
     elif [ -e "/lib/kernel/config-$(uname -r)" ]; then
         kernel_config="/lib/kernel/config-$(uname -r)"
+    elif [ -e "/proc/config.gz" ]; then
+        tmpfile=$(mktemp /tmp/config.XXXXX)
+        zcat /proc/config.gz > "${tmpfile}"
+        kernel_config=${tmpfile}
     fi
 }
 
