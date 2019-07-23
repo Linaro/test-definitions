@@ -7,15 +7,17 @@
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/rt-migrate-test.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
+PRIORITY="96"
 DURATION="1m"
 
 usage() {
-    echo "Usage: $0 [-D duration]" 1>&2
+    echo "Usage: $0 [-p priority] [-D duration]" 1>&2
     exit 1
 }
 
-while getopts ":l:D:" opt; do
+while getopts ":l:p:D:" opt; do
     case "${opt}" in
+	p) PRIORITY="${OPTARG}" ;;
 	D) DURATION="${OPTARG}" ;;
         *) usage ;;
     esac
@@ -30,7 +32,7 @@ if ! binary=$(which rt-migrate-test); then
     # shellcheck disable=SC2154
     binary="./bin/${abi}/rt-migrate-test"
 fi
-"${binary}" -D "${DURATION}" -c | tee "${LOGFILE}"
+"${binary}" -p "${PRIORITY}" -D "${DURATION}" -c | tee "${LOGFILE}"
 
 # Parse test log.
 task_num=$(grep "Task" "${LOGFILE}" | tail -1 | awk '{print $2}')
