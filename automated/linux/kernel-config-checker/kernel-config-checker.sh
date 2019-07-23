@@ -49,11 +49,11 @@ done
 # locations.
 find_config_file() {
     if [ -e "/boot/config-$(uname -r)" ]; then
-	kernel_config="/boot/config-$(uname -r)"
+        kernel_config="/boot/config-$(uname -r)"
     elif [ -e "/lib/modules/$(uname -r)/config" ]; then
-	kernel_config="/lib/modules/$(uname -r)/config"
+        kernel_config="/lib/modules/$(uname -r)/config"
     elif [ -e "/lib/kernel/config-$(uname -r)" ]; then
-	kernel_config="/lib/kernel/config-$(uname -r)"
+        kernel_config="/lib/kernel/config-$(uname -r)"
     fi
 }
 
@@ -63,16 +63,16 @@ check_config() {
     find_config_file
 
     if [ ! -f "${kernel_config}" ]; then
-	 exit_on_fail "Kernel Config File ${kernel_config} does not exist..."
+        exit_on_fail "Kernel Config File ${kernel_config} does not exist..."
     fi
 
     info_msg "Found kernel config file in $kernel_config."
 
     # shellcheck disable=SC2068
     for c in ${@}; do
-	info_msg "Checking config option ${c}..."
-	cat < "${kernel_config}" | grep "${c}=[y|m]" > /dev/null
-	check_return "config value: ${c}"
+        info_msg "Checking config option ${c}..."
+        cat < "${kernel_config}" | grep "${c}=[y|m]" > /dev/null
+        check_return "config value: ${c}"
     done
 }
 
