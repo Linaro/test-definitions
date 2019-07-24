@@ -9,6 +9,7 @@ export SOURCE_GERRIT_PATCHSET_NUMBER
 export SOURCE_GERRIT_CHANGE_URL
 export SOURCE_GERRIT_CHANGE_ID
 export ART_URL
+export QA_REPORTS_URL
 
 set +x
 lava_test_dir="$(find /lava-* -maxdepth 0 -type d -regex '/lava-[0-9]+' 2>/dev/null | sort | tail -1)"
@@ -17,6 +18,7 @@ if test -f "${lava_test_dir}/secrets" && grep -q "ART_TOKEN" "${lava_test_dir}/s
         . "${lava_test_dir}/secrets"
         export ART_TOKEN
         export ARTIFACTORIAL_TOKEN
+        export QA_REPORTS_TOKEN
 fi
 set -x
 
@@ -74,7 +76,7 @@ sed -i "s|mode \"\$1\"|mode \"\$1\" --noverbose|g" scripts/benchmarks/benchmarks
 export OUT=${PWD}/out/target/product/${LUNCH_TARGET}/
 ./scripts/benchmarks/benchmarks_run_target.sh  --skip-build true --iterations "${ITERATIONS}" --mode "${MODE}"
 
-if [ ! -z "${ART_TOKEN}" ]; then
+if [ -n "${ART_TOKEN}" ]; then
     git clone https://git.linaro.org/qa/post-build-report.git pbr; mkdir -p pbr/artifacts/
     cp ./*.json pbr/artifacts/
     wget "${SNAPSHOTS_URL}"/pinned-manifest.xml -O pbr/artifacts/pinned-manifest.xml
