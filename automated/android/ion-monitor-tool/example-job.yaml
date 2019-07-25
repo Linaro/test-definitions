@@ -1,0 +1,96 @@
+device_type: <your-device>
+job_name: ion-monitor-tool
+
+timeouts:
+  job:
+    hours: 5
+  action:
+    hours: 1
+  connection:
+    minutes: 5
+priority: medium
+visibility: public
+
+metadata:
+  os: android
+  android.version: 9.0.0
+  test: ion-monitor
+
+# you will need internet to play video with Exoplayer.
+secrets:
+  AP_SSID: "SSID"
+  AP_KEY: "KEY"
+
+protocols:
+  lava-lxc:
+    name: android_9_ion_monitor
+    template: download
+    distribution: ubuntu
+    release: xenial
+    arch: amd64
+    verbose: true
+    persist: false
+
+actions:
+- deploy:
+    namespace: lxcEnv
+    timeout:
+      minutes: 20
+    to: lxc
+    packages: 
+    - android-tools-adb
+    - android-tools-fastboot
+    - git
+    - wget
+    - curl
+    os: debian
+
+- boot:
+    namespace: lxcEnv
+    prompts:
+    - 'root@(.*):'
+    timeout:
+      minutes: 5
+    method: lxc
+
+- boot:
+    namespace: dutEnv
+    method: fastboot
+    prompts:
+     - '<device-prompt>'
+    timeout:
+      minutes: 10
+
+- test:
+   namespace: lxcEnv
+   timeout:
+     hours: 2
+   definitions:
+    - repository: https://github.com/Linaro/test-definitions.git
+      from: git
+      path: automated/android/ion-monitor-tool/ion-monitor-tool.yaml
+      params:
+          HEAP: "/sys/kernel/debug/ion/display"
+          REPEAT: "10"
+          CLEAR: "true"
+          SECURE: "false"
+          UHD: "false"
+          BINARY_URL: "https://github.com/linaro-mmwg/ionmonitortool/releases/download/V1.0/ion-monitor-tool"
+      name: ion-monitor-display
+
+- test:
+   namespace: lxcEnv
+   timeout:
+     hours: 2
+   definitions:
+    - repository: https://github.com/Linaro/test-definitions.git
+      from: git
+      path: automated/android/ion-monitor-tool/ion-monitor-tool.yaml
+      params:
+          HEAP: "/sys/kernel/debug/ion/optee"
+          REPEAT: "10"
+          CLEAR: "false"
+          SECURE: "true"
+          UHD: "false"
+          BINARY_URL: "https://github.com/linaro-mmwg/ionmonitortool/releases/download/V1.0/ion-monitor-tool"
+      name: ion-monitor-optee

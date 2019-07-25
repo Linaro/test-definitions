@@ -1,0 +1,41 @@
+metadata:
+    name: ion-monitor-tool
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Run ion monitor tool to check memory leaks."
+    maintainer:
+        - axel.lebourhis@linaro.org
+    os:
+        - ubuntu
+    devices:
+        - lxc
+
+params:
+    HEAP: "/sys/kernel/debug/ion/display"
+    REPEAT: "5"
+    CLEAR: "true"
+    SECURE: "false"
+    UHD: "false"
+    UPLOAD_URL: ""
+    BINARY_URL: "https://github.com/linaro-mmwg/ionmonitortool/releases/download/V1.0/ion-monitor-tool"
+
+run:
+    steps:
+        - cd ./automated/android/ion-monitor-tool
+        - . ./setup.sh 
+        - echo "Setup done"
+        - wget ${BINARY_URL} -O ion-monitor-tool.bin
+        - adb push ./ion-monitor-tool.bin /data
+        - ./runner.sh -h ${HEAP} -r ${REPEAT} -c ${CLEAR} -s ${SECURE} -u ${UHD}
+        - mkdir -p ./output
+        # retrieve logs from the tool
+        - adb pull /data/allocated_size.log ./output
+        - adb pull /data/free_size.log ./output
+        - adb pull /data/allocated_peak.log ./output
+        - adb pull /data/largest_free_buffer.log ./output
+        - adb pull /data/heap_fragmentation.log ./output
+        # prepare archive
+        - ATTACHMENT="ion-monitor-tool-$(date +%Y%m%d-%H%M).tar.xz"
+        - tar caf "${ATTACHMENT}" output
+        # upload archive if server URL provided
+        - if [ ! -z "${UPLOAD_URL}" ]; then curl -F "file=@${ATTACHMENT}" "${UPLOAD_URL}"; fi
+        - if [ ! -z "${UPLOAD_URL}" ]; then lava-test-reference "test-attachment" --result "pass" --reference "${UPLOAD_URL}${ATTACHMENT}"; fi
