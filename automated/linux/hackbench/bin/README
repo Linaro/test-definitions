@@ -3,4 +3,4 @@ Version 2. The source can be viewed here:
 
 https://git.kernel.org/cgit/utils/rt-tests/rt-tests.git/
 
-The binaries were built from branch: stable/v1.0
+The binaries were built from the v1.4 tag
