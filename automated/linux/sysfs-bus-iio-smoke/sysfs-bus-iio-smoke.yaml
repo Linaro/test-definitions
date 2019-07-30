@@ -1,0 +1,35 @@
+metadata:
+    name: sysfs-bus-iio-smoke
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Range checks for particular properties in the sysfs bus iio subsystem."
+    maintainer:
+        - luis.machado@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - dragonboard410c
+        - dragonboard820c
+
+params:
+    # Parameters to be passed to the test.  These should be overriden based on
+    # a particular device's characteristics.
+
+    # Path of the property file in the sysfs-bus-iio subsystem.
+    PROPERTY_PATH: ""
+    # Minimum acceptable value for the property
+    PROPERTY_MIN_VALUE: ""
+    # Maximum acceptable value for the property
+    PROPERTY_MAX_VALUE: ""
+run:
+    steps:
+        - cd ./automated/linux/sysfs-bus-iio-smoke/
+        - ./sysfs-bus-iio-smoke.sh -p "${PROPERTY_PATH}" -b "${PROPERTY_MIN_VALUE}" -c "${PROPERTY_MAX_VALUE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
