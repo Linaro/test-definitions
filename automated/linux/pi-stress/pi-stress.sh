@@ -7,21 +7,22 @@
 . ../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
+LOGFILE="${OUTPUT}/pi-stress.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 
-DURATION="300"
+DURATION="5m"
 MLOCKALL="false"
 RR="false"
 
 usage() {
-    echo "Usage: $0 [-d duration] [-m <true|false>] [-r <true|false>]" 1>&2
+    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>]" 1>&2
     exit 1
 }
 
-while getopts ":d:m:r:" opt; do
+while getopts ":D:m:r:" opt; do
     case "${opt}" in
-        d) DURATION="${OPTARG}" ;;
+        D) DURATION="${OPTARG}" ;;
         m) MLOCKALL="${OPTARG}" ;;
         r) RR="${OPTARG}" ;;
         *) usage ;;
@@ -50,5 +51,15 @@ fi
 # pi_stress will send SIGTERM when test fails. The single will terminate the
 # test script. Catch and ignore it with trap.
 trap '' TERM
-"${binary}" --duration "${DURATION}" "${MLOCKALL}" "${RR}"
-check_return 'pi-stress'
+"${binary}" --duration "${DURATION}" "${MLOCKALL}" "${RR}" | tee "${LOGFILE}"
+
+# shellcheck disable=SC2181
+if [ "$?" -ne "0" ]; then
+    report_fail "pi-stress"
+elif grep -q -e "^ERROR:" -e "is deadlocked!" "${LOGFILE}"; then
+    report_fail "pi-stress"
+elif ! grep -q -e "Current Inversions:" "${LOGFILE}"; then
+    report_fail "pi-stress"
+else
+    report_pass "pi-stress"
+fi

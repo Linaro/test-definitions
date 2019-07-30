@@ -351,6 +351,29 @@ convert_to_mb() {
     echo "${value}"
 }
 
+convert_to_sec() {
+    [ "$#" -ne 1 ] && error_msg "Usage: convert_to_sec value (including unit)"
+
+    # shellcheck disable=SC2039,SC2155
+    local value=$(echo "$1" | sed 's/[smhdSMHD]$//')
+    # shellcheck disable=SC2039,SC2155
+    local unit=$(echo "$1" | sed -n 's/^[0-9]*\([smhdSMHD]\)/\1/p' )
+
+    if ! echo "$value" | grep -E -q "^[0-9.]+$"; then
+        error_msg "The argument isn't a valid (number optionally with unit)"
+    fi
+
+    case "${unit}" in
+      S|s|"") ;;
+      M|m) value=$(echo "${value}" | awk '{print $1 * 60}') ;;
+      H|h) value=$(echo "${value}" | awk '{print $1 * 60 * 60}') ;;
+      D|d) value=$(echo "${value}" | awk '{print $1 * 60 * 60 * 24}') ;;
+      *) error_msg "Unsupported time unit \"${unit}\"" ;;
+    esac
+
+    echo "${value}"
+}
+
 dist_info() {
     if ! command -v lsb_release > /dev/null; then
         dist_name

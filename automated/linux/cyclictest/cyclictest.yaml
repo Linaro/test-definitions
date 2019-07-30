@@ -29,16 +29,21 @@ metadata:
 
 params:
     # Priority of highest prio thread.
-    PRIORITY: "99"
+    PRIORITY: "98"
     # Base interval of thread in us.
-    INTERVAL: "10000"
+    INTERVAL: "1000"
     # Number of threads.
     THREADS: "1"
-    # Number of loops.
-    LOOPS: "10000"
+    # Set the affinity
+    AFFINITY: "0"
+    # Execute cyclictest for given time
+    DURATION: "5m"
+    # Maximal accepted latency in us
+    # This value is device/kernel specific and needs to be set in the job!
+    MAX_LATENCY: "50"
 
 run:
     steps:
         - cd ./automated/linux/cyclictest/
-        - ./cyclictest.sh -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -l "${LOOPS}"
+        - ./cyclictest.sh -D "${DURATION}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}"  -m "${MAX_LATENCY}"
         - ../../utils/send-to-lava.sh ./output/result.txt
