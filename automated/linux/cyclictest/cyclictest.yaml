@@ -41,9 +41,11 @@ params:
     # Maximal accepted latency in us
     # This value is device/kernel specific and needs to be set in the job!
     MAX_LATENCY: "50"
+    # Background workload to be run during the meassurement
+    BACKGROUND_CMD: ""
 
 run:
     steps:
         - cd ./automated/linux/cyclictest/
-        - ./cyclictest.sh -D "${DURATION}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}"  -m "${MAX_LATENCY}"
+        - ./cyclictest.sh -D "${DURATION}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" -m "${MAX_LATENCY}" -w "${BACKGROUND_CMD}"
         - ../../utils/send-to-lava.sh ./output/result.txt
