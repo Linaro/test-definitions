@@ -7,7 +7,7 @@ error_fatal() {
     # shellcheck disable=SC2039
     local msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
-    if which lava-test-raise;then
+    if command -v lava-test-raise; then
         lava-test-raise "${msg}"
     else
         printf "FATAL ERROR: %s\n" "${msg}" >&2
