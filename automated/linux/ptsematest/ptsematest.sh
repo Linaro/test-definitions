@@ -9,16 +9,18 @@ LOGFILE="${OUTPUT}/ptsematest.log"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
 MAX_LATENCY="100"
+BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-D duration] [-m latency]" 1>&2
+    echo "Usage: $0 [-D duration] [-m latency] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":D:m:" opt; do
+while getopts ":D:m:w:" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
 	m) MAX_LATENCY="${OPTARG}" ;;
+	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -35,7 +37,11 @@ if ! binary=$(command -v ptsematest); then
     binary="./bin/${abi}/ptsematest"
 fi
 
+background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
+
 "${binary}" -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
+
+background_process_stop bgcmd
 
 # Parse test log.
 ../../lib/parse_rt_tests_results.py ptsematest "${LOGFILE}" "${MAX_LATENCY}" \
