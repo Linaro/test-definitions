@@ -15,19 +15,21 @@ STEP="500"
 THREADS="1"
 DURATION="1m"
 MAX_LATENCY="50"
+BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-i interval] [-s step] [-t threads] [-D duration ] [-m latency]" 1>&2
+    echo "Usage: $0 [-i interval] [-s step] [-t threads] [-D duration ] [-m latency] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":i:s:t:D:m:" opt; do
+while getopts ":i:s:t:D:m:w:" opt; do
     case "${opt}" in
         i) INTERVAL="${OPTARG}" ;;
 	s) STEP="${STEP}" ;;
         t) THREADS="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
 	m) MAX_LATENCY="${OPTARG}" ;;
+	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -41,8 +43,13 @@ if ! binary=$(command -v cyclicdeadline); then
     # shellcheck disable=SC2154
     binary="./bin/${abi}/cyclicdeadline"
 fi
+
+background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
+
 "${binary}" -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" \
 	-D "${DURATION}" | tee "${LOGFILE}"
+
+background_process_stop bgcmd
 
 # Parse test log.
 ../../lib/parse_rt_tests_results.py cyclicdeadline "${LOGFILE}" "${MAX_LATENCY}" \
