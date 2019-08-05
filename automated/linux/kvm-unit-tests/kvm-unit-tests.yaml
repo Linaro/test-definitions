@@ -24,9 +24,10 @@ metadata:
 params:
     SKIP_INSTALL: "False"
     SMP: "true"
+    GIT_REF: "master"
 
 run:
     steps:
         - cd ./automated/linux/kvm-unit-tests/
-        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}"
+        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}" -g "${GIT_REF}"
         - ../../utils/send-to-lava.sh ./output/result.txt

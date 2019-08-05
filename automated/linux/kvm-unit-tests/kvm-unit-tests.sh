@@ -8,16 +8,20 @@ RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
 SKIP_INSTALL="false"
 SMP="true"
+GIT_REF="master"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-m <true|false>]" 1>&2
+    echo "Usage: $0 [-s <true|false>]
+                    [-m <true|false>]
+                    [-g git-reference]" 1>&2
     exit 1
 }
 
-while getopts "s:m:h" o; do
+while getopts "s:m:g:h" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     m) SMP="${OPTARG}" ;;
+    g) GIT_REF="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -48,9 +52,12 @@ kvm_unit_tests_run_test() {
 
 kvm_unit_tests_build_test() {
     info_msg "git clone kvm unit tests ..."
-    git clone https://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git --depth 1
+    git clone https://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git
     # shellcheck disable=SC2164
     cd kvm-unit-tests
+    info_msg "Checkout on a given git reference ${GIT_REF}"
+    git checkout "${GIT_REF}"
+
     info_msg "configure kvm unit tests ..."
     ./configure
     info_msg "make kvm unit tests ..."
