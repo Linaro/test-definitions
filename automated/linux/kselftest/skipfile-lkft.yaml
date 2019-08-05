@@ -149,6 +149,17 @@ skiplist:
       - run_afpackettests
 
   - reason: >
+      net: proc-pid-vm hangs on x86_64 running next
+    url: https://bugs.linaro.org/show_bug.cgi?id=5332
+    environments: all
+    boards: all
+    branches:
+      - next
+      - mainline
+    tests:
+      - proc-pid-vm
+
+  - reason: >
       LKFT: arm64/arm: selftest sync_test hangs on 4.9
     url: https://bugs.linaro.org/show_bug.cgi?id=4080
     environments: production
