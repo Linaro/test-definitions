@@ -38,19 +38,42 @@ def print_res(res, key, thr):
     print('t{}-{}-latency {} {} us'.format(res['t'], key, label, val))
 
 
-def get_lastlines(filename):
-    # Start reading from the end of the file until ESC is found
+def get_block(filename):
+    # Fetch a text block from the file iterating backwards. Each block
+    # starts with an escape sequence which starts with '\x1b'.
     with open(filename, 'rb') as f:
         try:
-            f.seek(-2, os.SEEK_END)
-            while f.read(1) != b'\x1b':
+            f.seek(0, os.SEEK_END)
+            while True:
+                pe = f.tell()
+
                 f.seek(-2, os.SEEK_CUR)
-            return f.readlines()
+                while f.read(1) != b'\x1b':
+                    f.seek(-2, os.SEEK_CUR)
+                    pa = f.tell()
+
+                blk = f.read(pe - pa)
+
+                # Remove escape sequence at the start of the block
+                # The control sequence ends in 'A'
+                i = blk.find('A') + 1
+                yield blk[i:]
+
+                # Jump back to next block
+                f.seek(pa - 1, os.SEEK_SET)
         except IOError:
-            # No ESC found
+            # No escape sequence found
             f.seek(0, os.SEEK_SET)
-            return f.readlines()
-    return []
+            yield f.read()
+
+
+def get_lastlines(filename):
+    for b in get_block(filename):
+        # Ignore empty blocks
+        if len(b.strip('\n')) == 0:
+            continue
+
+        return b.split('\n')
 
 
 def parse_cyclictest(filename, thr):
@@ -101,9 +124,9 @@ def parse_pmqtest(filename, thr):
 
 def main():
     tool = sys.argv[1]
-    if tool in ['cyclictest', 'signaltest']:
+    if tool in ['cyclictest', 'signaltest', 'cyclicdeadline']:
         parse_cyclictest(sys.argv[2], int(sys.argv[3]))
-    elif tool in ['pmqtest']:
+    elif tool in ['pmqtest', 'ptsematest', 'sigwaittest', 'svsematest']:
         parse_pmqtest(sys.argv[2], int(sys.argv[3]))
 
 

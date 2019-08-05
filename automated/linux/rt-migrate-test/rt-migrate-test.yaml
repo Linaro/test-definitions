@@ -25,10 +25,11 @@ metadata:
         - d05
 
 params:
+    PRIORITY: "96"
     DURATION: "5m"
 
 run:
     steps:
         - cd ./automated/linux/rt-migrate-test/
-        - ./rt-migrate-test.sh -D "${DURATION}"
+        - ./rt-migrate-test.sh -p "${PRIORITY}" -D "${DURATION}"
         - ../../utils/send-to-lava.sh ./output/result.txt

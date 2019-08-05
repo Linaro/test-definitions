@@ -1,12 +1,11 @@
 #!/bin/sh -e
 # shellcheck disable=SC1090
 # shellcheck disable=SC2154
-# pmqtest start pairs of threads and measure the latency of interprocess
-# communication with POSIX messages queues.
+# Test POSIX threads mutex latency
 
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
-LOGFILE="${OUTPUT}/pmqtest.log"
+LOGFILE="${OUTPUT}/ptsematest.log"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
 MAX_LATENCY="100"
@@ -29,15 +28,15 @@ done
 ! check_root && error_msg "Please run this script as root."
 create_out_dir "${OUTPUT}"
 
-# Run pmqtest.
-if ! binary=$(which pmqtest); then
+# Run ptsematest.
+if ! binary=$(command -v ptsematest); then
     detect_abi
     # shellcheck disable=SC2154
-    binary="./bin/${abi}/pmqtest"
+    binary="./bin/${abi}/ptsematest"
 fi
 
 "${binary}" -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
 
 # Parse test log.
-../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" "${MAX_LATENCY}" \
+../../lib/parse_rt_tests_results.py ptsematest "${LOGFILE}" "${MAX_LATENCY}" \
     | tee -a "${RESULT_FILE}"

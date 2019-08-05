@@ -1,12 +1,13 @@
 #!/bin/sh -e
 # shellcheck disable=SC1090
 # shellcheck disable=SC2154
-# pmqtest start pairs of threads and measure the latency of interprocess
-# communication with POSIX messages queues.
+# svsematest starts two threads or, optionally, forks two processes that
+# are synchronized via SYSV semaphores and measures the latency between
+# releasing a semaphore on one side and getting it on the other side.
 
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
-LOGFILE="${OUTPUT}/pmqtest.log"
+LOGFILE="${OUTPUT}/svsematest.log"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
 MAX_LATENCY="100"
@@ -29,15 +30,15 @@ done
 ! check_root && error_msg "Please run this script as root."
 create_out_dir "${OUTPUT}"
 
-# Run pmqtest.
-if ! binary=$(which pmqtest); then
+# Run svsematest.
+if ! binary=$(command -v svsematest); then
     detect_abi
     # shellcheck disable=SC2154
-    binary="./bin/${abi}/pmqtest"
+    binary="./bin/${abi}/svsematest"
 fi
 
-"${binary}" -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
+"${binary}" -t -a -p 98 -D "${DURATION}" | tee "${LOGFILE}"
 
 # Parse test log.
-../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" "${MAX_LATENCY}" \
+../../lib/parse_rt_tests_results.py svsematest "${LOGFILE}" "${MAX_LATENCY}" \
     | tee -a "${RESULT_FILE}"

@@ -1,0 +1,41 @@
+metadata:
+    name: sigwaittest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "sigwaittest starts two threads or, optionally, forks
+                  two processes that are synchronized via signals and
+                  measures the latency between sending a signal and
+                  returning from sigwait()."
+    maintainer:
+        - Daniel Wagner <wagi@monom.org>
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - performance
+        - preempt-rt
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Execute sigwaittest for given time
+    DURATION: "5m"
+    # Maximal accepted latency in us
+    # This value is device/kernel specific and needs to be set in the job!
+    MAX_LATENCY: "100"
+
+run:
+    steps:
+        - cd ./automated/linux/sigwaittest/
+        - ./sigwaittest.sh -D "${DURATION}" -m "${MAX_LATENCY}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
