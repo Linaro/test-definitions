@@ -1,5 +1,4 @@
 #! /bin/sh
-# shellcheck disable=SC2059
 # SPDX-License-Identifier: GPL-3.0-only
 #
 # Spectre & Meltdown checker
@@ -12,7 +11,7 @@
 #
 # Stephane Lesimple
 #
-VERSION='0.40'
+VERSION='0.42'
 
 trap 'exit_cleanup' EXIT
 trap '_warn "interrupted, cleaning up..."; exit_cleanup; exit 1' INT
@@ -28,10 +27,11 @@ exit_cleanup()
 	[ "$insmod_cpuid"    = 1 ] && rmmod cpuid 2>/dev/null
 	[ "$insmod_msr"      = 1 ] && rmmod msr 2>/dev/null
 	[ "$kldload_cpuctl"  = 1 ] && kldunload cpuctl 2>/dev/null
+	[ "$kldload_vmm"     = 1 ] && kldunload vmm    2>/dev/null
 }
 
 # if we were git clone'd, adjust VERSION
-if [ -d "$(dirname "$0")/.git" ] && which git >/dev/null 2>&1; then
+if [ -d "$(dirname "$0")/.git" ] && command -v git >/dev/null 2>&1; then
 	describe=$(git -C "$(dirname "$0")" describe --tags --dirty 2>/dev/null)
 	[ -n "$describe" ] && VERSION=$(echo "$describe" | sed -e s/^v//)
 fi
@@ -63,6 +63,7 @@ show_usage()
 		--explain		produce an additional human-readable explanation of actions to take to mitigate a vulnerability
 		--paranoid		require IBPB to deem Variant 2 as mitigated
 					also require SMT disabled + unconditional L1D flush to deem Foreshadow-NG VMM as mitigated
+					also require SMT disabled to deem MDS vulnerabilities mitigated
 
 		--no-sysfs		don't use the /sys interface even if present [Linux]
 		--sysfs-only		only use the /sys interface, don't run our own checks [Linux]
@@ -76,14 +77,16 @@ show_usage()
 		--batch nrpe		produce machine readable output formatted for NRPE
 		--batch prometheus      produce output for consumption by prometheus-node-exporter
 
-		--variant [1,2,3,3a,4,l1tf]	specify which variant you'd like to check, by default all variants are checked
-		--cve [cve1,cve2,...]		specify which CVE you'd like to check, by default all supported CVEs are checked
+		--variant VARIANT	specify which variant you'd like to check, by default all variants are checked
+					VARIANT can be one of 1, 2, 3, 3a, 4, l1tf, msbds, mfbds, mlpds, mdsum
 					can be specified multiple times (e.g. --variant 2 --variant 3)
+		--cve [cve1,cve2,...]	specify which CVE you'd like to check, by default all supported CVEs are checked
 		--hw-only		only check for CPU information, don't check for any variant
 		--no-hw			skip CPU information and checks, if you're inspecting a kernel not to be run on this host
-		--vmm [auto,yes,no]	override the detection of the presence of an hypervisor (for CVE-2018-3646), default: auto
+		--vmm [auto,yes,no]	override the detection of the presence of a hypervisor (for CVE-2018-3646), default: auto
 		--update-mcedb		update our local copy of the CPU microcodes versions database (from the awesome MCExtractor project)
 		--update-builtin-mcedb	same as --update-mcedb but update builtin DB inside the script itself
+		--dump-mock-data	used to mimick a CPU on an other system, mainly used to help debugging this script
 
 	Return codes:
 		0 (not vulnerable), 2 (vulnerable), 3 (unknown), 255 (error)
@@ -135,7 +138,7 @@ opt_live_explicit=0
 opt_live=1
 opt_no_color=0
 opt_batch=0
-opt_batch_format="text"
+opt_batch_format='text'
 opt_verbose=1
 opt_cve_list=''
 opt_cve_all=1
@@ -148,20 +151,25 @@ opt_no_hw=0
 opt_vmm=-1
 opt_explain=0
 opt_paranoid=0
+opt_mock=0
 
 global_critical=0
 global_unknown=0
-nrpe_vuln=""
+nrpe_vuln=''
 
-supported_cve_list='CVE-2017-5753 CVE-2017-5715 CVE-2017-5754 CVE-2018-3640 CVE-2018-3639 CVE-2018-3615 CVE-2018-3620 CVE-2018-3646'
+supported_cve_list='CVE-2017-5753 CVE-2017-5715 CVE-2017-5754 CVE-2018-3640 CVE-2018-3639 CVE-2018-3615 CVE-2018-3620 CVE-2018-3646 CVE-2018-12126 CVE-2018-12130 CVE-2018-12127 CVE-2019-11091'
 
 # find a sane command to print colored messages, we prefer `printf` over `echo`
 # because `printf` behavior is more standard across Linux/BSD
 # we'll try to avoid using shell builtins that might not take options
-echo_cmd_type=echo
-if which printf >/dev/null 2>&1; then
-	echo_cmd=$(which printf)
-	echo_cmd_type=printf
+echo_cmd_type='echo'
+# ignore SC2230 here because `which` ignores builtins while `command -v` doesn't, and
+# we don't want builtins here. Even if `which` is not installed, we'll fallback to the
+# `echo` builtin anyway, so this is safe.
+# shellcheck disable=SC2230
+if command -v printf >/dev/null 2>&1; then
+	echo_cmd=$(command -v printf)
+	echo_cmd_type='printf'
 elif which echo >/dev/null 2>&1; then
 	echo_cmd=$(which echo)
 else
@@ -171,7 +179,7 @@ else
 	[ -x /system/bin/echo ] && echo_cmd=/system/bin/echo
 fi
 # still empty? fallback to builtin
-[ -z "$echo_cmd" ] && echo_cmd=echo
+[ -z "$echo_cmd" ] && echo_cmd='echo'
 __echo()
 {
 	opt="$1"
@@ -259,14 +267,19 @@ explain()
 cve2name()
 {
 	case "$1" in
-		CVE-2017-5753) echo "Spectre Variant 1, bounds check bypass";;
-		CVE-2017-5715) echo "Spectre Variant 2, branch target injection";;
-		CVE-2017-5754) echo "Variant 3, Meltdown, rogue data cache load";;
-		CVE-2018-3640) echo "Variant 3a, rogue system register read";;
-		CVE-2018-3639) echo "Variant 4, speculative store bypass";;
-		CVE-2018-3615) echo "Foreshadow (SGX), L1 terminal fault";;
-		CVE-2018-3620) echo "Foreshadow-NG (OS), L1 terminal fault";;
-		CVE-2018-3646) echo "Foreshadow-NG (VMM), L1 terminal fault";;
+		CVE-2017-5753)	echo "Spectre Variant 1, bounds check bypass";;
+		CVE-2017-5715)	echo "Spectre Variant 2, branch target injection";;
+		CVE-2017-5754)	echo "Variant 3, Meltdown, rogue data cache load";;
+		CVE-2018-3640)	echo "Variant 3a, rogue system register read";;
+		CVE-2018-3639)	echo "Variant 4, speculative store bypass";;
+		CVE-2018-3615)	echo "Foreshadow (SGX), L1 terminal fault";;
+		CVE-2018-3620)	echo "Foreshadow-NG (OS), L1 terminal fault";;
+		CVE-2018-3646)	echo "Foreshadow-NG (VMM), L1 terminal fault";;
+		CVE-2018-12126) echo "Fallout, microarchitectural store buffer data sampling (MSBDS)";;
+		CVE-2018-12130) echo "ZombieLoad, microarchitectural fill buffer data sampling (MFBDS)";;
+		CVE-2018-12127) echo "RIDL, microarchitectural load port data sampling (MLPDS)";;
+		CVE-2019-11091) echo "RIDL, microarchitectural data sampling uncacheable memory (MDSUM)";;
+		*) echo "$0: error: invalid CVE '$1' passed to cve2name()" >&2; exit 255;;
 	esac
 }
 
@@ -283,9 +296,12 @@ _is_cpu_vulnerable_cached()
 		CVE-2018-3615) return $variantl1tf_sgx;;
 		CVE-2018-3620) return $variantl1tf;;
 		CVE-2018-3646) return $variantl1tf;;
+		CVE-2018-12126) return $variant_msbds;;
+		CVE-2018-12130) return $variant_mfbds;;
+		CVE-2018-12127) return $variant_mlpds;;
+		CVE-2019-11091) return $variant_mdsum;;
+		*) echo "$0: error: invalid variant '$1' passed to is_cpu_vulnerable()" >&2; exit 255;;
 	esac
-	echo "$0: error: invalid variant '$1' passed to is_cpu_vulnerable()" >&2
-	exit 255
 }
 
 is_cpu_vulnerable()
@@ -306,6 +322,18 @@ is_cpu_vulnerable()
 	variant3a=''
 	variant4=''
 	variantl1tf=''
+	variant_msbds=''
+	variant_mfbds=''
+	variant_mlpds=''
+	variant_mdsum=''
+
+	if is_cpu_mds_free; then
+		[ -z "$variant_msbds" ] && variant_msbds=immune
+		[ -z "$variant_mfbds" ] && variant_mfbds=immune
+		[ -z "$variant_mlpds" ] && variant_mlpds=immune
+		[ -z "$variant_mdsum" ] && variant_mdsum=immune
+		_debug "is_cpu_vulnerable: cpu not affected by Microarchitectural Data Sampling"
+	fi
 
 	if is_cpu_specex_free; then
 		variant1=immune
@@ -314,6 +342,10 @@ is_cpu_vulnerable()
 		variant3a=immune
 		variant4=immune
 		variantl1tf=immune
+		variant_msbds=immune
+		variant_mfbds=immune
+		variant_mlpds=immune
+		variant_mdsum=immune
 	elif is_intel; then
 		# Intel
 		# https://github.com/crozone/SpectrePoC/issues/1 ^F E5200 => spectre 2 not vulnerable
@@ -352,29 +384,33 @@ is_cpu_vulnerable()
 		fi
 		# L1TF (RDCL_NO already checked above)
 		if [ "$cpu_family" = 6 ]; then
-			if [ "$cpu_model" = "$INTEL_FAM6_ATOM_CEDARVIEW"          ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_CLOVERVIEW" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_LINCROFT" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_PENWELL" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_PINEVIEW" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT1" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT2" ] || \
+			if [ "$cpu_model" = "$INTEL_FAM6_ATOM_SALTWELL"          ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SALTWELL_TABLET" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SALTWELL_MID" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_BONNELL" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_BONNELL_MID" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT_MID" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT_X" ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_ATOM_AIRMONT" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_MERRIFIELD" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_AIRMONT_MID" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT_X" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT_PLUS" ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNL"     ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNM"     ]; then
+				[ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNM" ]; then
 
 				_debug "is_cpu_vulnerable: intel family 6 but model known to be immune"
 				[ -z "$variantl1tf" ] && variantl1tf=immune
 			else
 				_debug "is_cpu_vulnerable: intel family 6 is vuln"
-				variantl1tf=vuln
+				[ -z "$variantl1tf" ] && variantl1tf=vuln
 			fi
 		elif [ "$cpu_family" -lt 6 ]; then
 			_debug "is_cpu_vulnerable: intel family < 6 is immune"
 			[ -z "$variantl1tf" ] && variantl1tf=immune
 		fi
-	elif is_amd; then
+	elif is_amd || is_hygon; then
 		# AMD revised their statement about variant2 => vulnerable
 		# https://www.amd.com/en/corporate/speculative-execution
 		variant1=vuln
@@ -461,7 +497,7 @@ is_cpu_vulnerable()
 					[ -z "$variant3a" ] && variant3a=immune
 					variant4=vuln
 					_debug "checking cpu$i: armv8 A76 non vulnerable to variant 2, 3 & 3a"
-				elif [ "$cpuarch" -le 7 ] || ( [ "$cpuarch" = 8 ] && [ $(( cpupart )) -lt $(( 0xd07 )) ] ) ; then
+				elif [ "$cpuarch" -le 7 ] || { [ "$cpuarch" = 8 ] && [ $(( cpupart )) -lt $(( 0xd07 )) ]; } ; then
 					[ -z "$variant1" ] && variant1=immune
 					[ -z "$variant2" ] && variant2=immune
 					[ -z "$variant3" ] && variant3=immune
@@ -482,12 +518,16 @@ is_cpu_vulnerable()
 		variantl1tf=immune
 	fi
 	_debug "is_cpu_vulnerable: temp results are <$variant1> <$variant2> <$variant3> <$variant3a> <$variant4> <$variantl1tf>"
-	[ "$variant1"    = "immune" ] && variant1=1    || variant1=0
-	[ "$variant2"    = "immune" ] && variant2=1    || variant2=0
-	[ "$variant3"    = "immune" ] && variant3=1    || variant3=0
-	[ "$variant3a"   = "immune" ] && variant3a=1   || variant3a=0
-	[ "$variant4"    = "immune" ] && variant4=1    || variant4=0
-	[ "$variantl1tf" = "immune" ] && variantl1tf=1 || variantl1tf=0
+	[ "$variant1"      = "immune" ] && variant1=1      || variant1=0
+	[ "$variant2"      = "immune" ] && variant2=1      || variant2=0
+	[ "$variant3"      = "immune" ] && variant3=1      || variant3=0
+	[ "$variant3a"     = "immune" ] && variant3a=1     || variant3a=0
+	[ "$variant4"      = "immune" ] && variant4=1      || variant4=0
+	[ "$variantl1tf"   = "immune" ] && variantl1tf=1   || variantl1tf=0
+	[ "$variant_msbds" = "immune" ] && variant_msbds=1 || variant_msbds=0
+	[ "$variant_mfbds" = "immune" ] && variant_mfbds=1 || variant_mfbds=0
+	[ "$variant_mlpds" = "immune" ] && variant_mlpds=1 || variant_mlpds=0
+	[ "$variant_mdsum" = "immune" ] && variant_mdsum=1 || variant_mdsum=0
 	variantl1tf_sgx="$variantl1tf"
 	# even if we are vulnerable to L1TF, if there's no SGX, we're safe for the original foreshadow
 	[ "$cpuid_sgx" = 0 ] && variantl1tf_sgx=1
@@ -502,23 +542,24 @@ is_cpu_specex_free()
 	# return true (0) if the CPU doesn't do speculative execution, false (1) if it does.
 	# if it's not in the list we know, return false (1).
 	# source: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/kernel/cpu/common.c#n882
-	# { X86_VENDOR_INTEL,     6, INTEL_FAM6_ATOM_CEDARVIEW,   X86_FEATURE_ANY },
-	# { X86_VENDOR_INTEL,     6, INTEL_FAM6_ATOM_CLOVERVIEW,  X86_FEATURE_ANY },
-	# { X86_VENDOR_INTEL,     6, INTEL_FAM6_ATOM_LINCROFT,    X86_FEATURE_ANY },
-	# { X86_VENDOR_INTEL,     6, INTEL_FAM6_ATOM_PENWELL,     X86_FEATURE_ANY },
-	# { X86_VENDOR_INTEL,     6, INTEL_FAM6_ATOM_PINEVIEW,    X86_FEATURE_ANY },
+	# { X86_VENDOR_INTEL,	6, INTEL_FAM6_ATOM_SALTWELL,	X86_FEATURE_ANY },
+	# { X86_VENDOR_INTEL,	6, INTEL_FAM6_ATOM_SALTWELL_TABLET,	X86_FEATURE_ANY },
+	# { X86_VENDOR_INTEL,	6, INTEL_FAM6_ATOM_BONNELL_MID,	X86_FEATURE_ANY },
+	# { X86_VENDOR_INTEL,	6, INTEL_FAM6_ATOM_SALTWELL_MID,	X86_FEATURE_ANY },
+	# { X86_VENDOR_INTEL,	6, INTEL_FAM6_ATOM_BONNELL,	X86_FEATURE_ANY },
 	# { X86_VENDOR_CENTAUR,   5 },
 	# { X86_VENDOR_INTEL,     5 },
 	# { X86_VENDOR_NSC,       5 },
 	# { X86_VENDOR_ANY,       4 },
+
 	parse_cpu_details
 	if is_intel; then
 		if [ "$cpu_family" = 6 ]; then
-			if [ "$cpu_model" = "$INTEL_FAM6_ATOM_CEDARVIEW"  ]      || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_CLOVERVIEW" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_LINCROFT"   ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_PENWELL"    ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_PINEVIEW"   ]; then
+			if [ "$cpu_model" = "$INTEL_FAM6_ATOM_SALTWELL"	] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SALTWELL_TABLET"	] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_BONNELL_MID"		] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SALTWELL_MID"	] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_BONNELL"	]; then
 				return 0
 			fi
 		elif [ "$cpu_family" = 5 ]; then
@@ -529,6 +570,52 @@ is_cpu_specex_free()
 	return 1
 }
 
+is_cpu_mds_free()
+{
+	# return true (0) if the CPU isn't affected by microarchitectural data sampling, false (1) if it does.
+	# if it's not in the list we know, return false (1).
+	# source: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/kernel/cpu/common.c
+	#VULNWL_INTEL(ATOM_GOLDMONT,             NO_MDS | NO_L1TF),
+	#VULNWL_INTEL(ATOM_GOLDMONT_X,           NO_MDS | NO_L1TF),
+	#VULNWL_INTEL(ATOM_GOLDMONT_PLUS,        NO_MDS | NO_L1TF),
+
+	#/* AMD Family 0xf - 0x12 */
+	#VULNWL_AMD(0x0f,        NO_MELTDOWN | NO_SSB | NO_L1TF | NO_MDS),
+	#VULNWL_AMD(0x10,        NO_MELTDOWN | NO_SSB | NO_L1TF | NO_MDS),
+	#VULNWL_AMD(0x11,        NO_MELTDOWN | NO_SSB | NO_L1TF | NO_MDS),
+	#VULNWL_AMD(0x12,        NO_MELTDOWN | NO_SSB | NO_L1TF | NO_MDS),
+
+	#/* FAMILY_ANY must be last, otherwise 0x0f - 0x12 matches won't work */
+	#VULNWL_AMD(X86_FAMILY_ANY,      NO_MELTDOWN | NO_L1TF | NO_MDS),
+	#VULNWL_HYGON(X86_FAMILY_ANY,    NO_MELTDOWN | NO_L1TF | NO_MDS),
+	parse_cpu_details
+	if is_intel; then
+		if [ "$cpu_family" = 6 ]; then
+			if [ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT_X" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT_PLUS" ]; then
+				return 0
+			fi
+		fi
+		[ "$capabilities_mds_no" = 1 ] && return 0
+	fi
+
+	# official statement from AMD says none of their CPUs are vulnerable
+	# https://www.amd.com/en/corporate/product-security
+	# https://www.amd.com/system/files/documents/security-whitepaper.pdf
+	if is_amd; then
+		return 0
+	elif is_hygon; then
+		return 0
+	elif [ "$cpu_vendor" = CAVIUM ]; then
+		return 0
+	elif [ "$cpu_vendor" = ARM ]; then
+		return 0
+	fi
+
+	return 1
+}
+
 is_cpu_ssb_free()
 {
 	# return true (0) if the CPU isn't affected by speculative store bypass, false (1) if it does.
@@ -536,10 +623,10 @@ is_cpu_ssb_free()
 	# source1: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/kernel/cpu/common.c#n945
 	# source2: https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/tree/arch/x86/kernel/cpu/common.c
 	# Only list CPUs that speculate but are immune, to avoid duplication of cpus listed in is_cpu_specex_free()
-	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_ATOM_SILVERMONT1	},
+	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_ATOM_SILVERMONT	},
 	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_ATOM_AIRMONT		},
-	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_ATOM_SILVERMONT2	},
-	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_ATOM_MERRIFIELD	},
+	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_ATOM_SILVERMONT_X	},
+	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_ATOM_SILVERMONT_MID	},
 	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_CORE_YONAH		},
 	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_XEON_PHI_KNL		},
 	#{ X86_VENDOR_INTEL,	6,	INTEL_FAM6_XEON_PHI_KNM		},
@@ -551,9 +638,9 @@ is_cpu_ssb_free()
 	if is_intel; then
 		if [ "$cpu_family" = 6 ]; then
 			if [ "$cpu_model" = "$INTEL_FAM6_ATOM_AIRMONT"          ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT1" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT2" ] || \
-				[ "$cpu_model" = "$INTEL_FAM6_ATOM_MERRIFIELD"  ]; then
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT_X" ] || \
+				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT_MID"  ]; then
 				return 0
 			elif [ "$cpu_model" = "$INTEL_FAM6_CORE_YONAH"          ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNL"     ] || \
@@ -569,7 +656,10 @@ is_cpu_ssb_free()
 			[ "$cpu_family" = "15" ]; then 
 			return 0
 		fi
-	fi			
+	fi
+	if is_hygon; then
+		return 1
+	fi
 	[ "$cpu_family" = 4 ] && return 0
 	return 1
 }
@@ -595,11 +685,11 @@ update_mcedb()
 	mcedb_tmp="$(mktemp /tmp/mcedb-XXXXXX)"
 	mcedb_url='https://github.com/platomav/MCExtractor/raw/master/MCE.db'
 	_info_nol "Fetching MCE.db from the MCExtractor project... "
-	if which wget >/dev/null 2>&1; then
+	if command -v wget >/dev/null 2>&1; then
 		wget -q "$mcedb_url" -O "$mcedb_tmp"; ret=$?
-	elif which curl >/dev/null 2>&1; then
+	elif command -v curl >/dev/null 2>&1; then
 		curl -sL "$mcedb_url" -o "$mcedb_tmp"; ret=$?
-	elif which fetch >/dev/null 2>&1; then
+	elif command -v fetch >/dev/null 2>&1; then
 		fetch -q "$mcedb_url" -o "$mcedb_tmp"; ret=$?
 	else
 		echo ERROR "please install one of \`wget\`, \`curl\` of \`fetch\` programs"
@@ -613,7 +703,7 @@ update_mcedb()
 
 	# now extract contents using sqlite
 	_info_nol "Extracting data... "
-	if ! which sqlite3 >/dev/null 2>&1; then
+	if ! command -v sqlite3 >/dev/null 2>&1; then
 		echo ERROR "please install the \`sqlite3\` program"
 		return 1
 	fi
@@ -728,6 +818,9 @@ while [ -n "$1" ]; do
 	elif [ "$1" = "--update-builtin-mcedb" ]; then
 		update_mcedb builtin
 		exit $?
+	elif [ "$1" = "--dump-mock-data" ]; then
+		opt_mock=1
+		shift
 	elif [ "$1" = "--explain" ]; then
 		opt_explain=1
 		shift
@@ -748,6 +841,7 @@ while [ -n "$1" ]; do
 		esac
 	elif [ "$1" = "-v" ] || [ "$1" = "--verbose" ]; then
 		opt_verbose=$(( opt_verbose + 1 ))
+		[ "$opt_verbose" -ge 2 ] && opt_mock=1
 		shift
 	elif [ "$1" = "--cve" ]; then
 		if [ -z "$2" ]; then
@@ -772,6 +866,7 @@ while [ -n "$1" ]; do
 			auto) opt_vmm=-1;;
 			yes)  opt_vmm=1;;
 			no)   opt_vmm=0;;
+			*)    echo "$0: error: expected one of (auto, yes, no) to option --vmm instead of '$2'" >&2; exit 255;;
 		esac
 		shift 2
 	elif [ "$1" = "--variant" ]; then
@@ -780,14 +875,18 @@ while [ -n "$1" ]; do
 			exit 255
 		fi
 		case "$2" in
-			1)    opt_cve_list="$opt_cve_list CVE-2017-5753"; opt_cve_all=0;;
-			2)    opt_cve_list="$opt_cve_list CVE-2017-5715"; opt_cve_all=0;;
-			3)    opt_cve_list="$opt_cve_list CVE-2017-5754"; opt_cve_all=0;;
-			3a)   opt_cve_list="$opt_cve_list CVE-2018-3640"; opt_cve_all=0;;
-			4)    opt_cve_list="$opt_cve_list CVE-2018-3639"; opt_cve_all=0;;
-			l1tf) opt_cve_list="$opt_cve_list CVE-2018-3615 CVE-2018-3620 CVE-2018-3646"; opt_cve_all=0;;
+			1)		opt_cve_list="$opt_cve_list CVE-2017-5753"; opt_cve_all=0;;
+			2)		opt_cve_list="$opt_cve_list CVE-2017-5715"; opt_cve_all=0;;
+			3)		opt_cve_list="$opt_cve_list CVE-2017-5754"; opt_cve_all=0;;
+			3a)		opt_cve_list="$opt_cve_list CVE-2018-3640"; opt_cve_all=0;;
+			4)		opt_cve_list="$opt_cve_list CVE-2018-3639"; opt_cve_all=0;;
+			msbds)  opt_cve_list="$opt_cve_list CVE-2018-12126"; opt_cve_all=0;;
+			mfbds)  opt_cve_list="$opt_cve_list CVE-2018-12130"; opt_cve_all=0;;
+			mlpds)  opt_cve_list="$opt_cve_list CVE-2018-12127"; opt_cve_all=0;;
+			mdsum)  opt_cve_list="$opt_cve_list CVE-2019-11091"; opt_cve_all=0;;
+			l1tf)	opt_cve_list="$opt_cve_list CVE-2018-3615 CVE-2018-3620 CVE-2018-3646"; opt_cve_all=0;;
 			*)
-				echo "$0: error: invalid parameter '$2' for --variant, expected either 1, 2, 3, 3a, 4 or l1tf" >&2;
+				echo "$0: error: invalid parameter '$2' for --variant, expected either 1, 2, 3, 3a, 4, msbds, mfbds, mlpds, mdsum, or l1tf" >&2;
 				exit 255
 				;;
 		esac
@@ -856,7 +955,14 @@ pvulnstatus()
 			CVE-2017-5754) aka="MELTDOWN";;
 			CVE-2018-3640) aka="VARIANT 3A";;
 			CVE-2018-3639) aka="VARIANT 4";;
-			CVE-2018-3615/3620/3646) aka="L1TF";;
+			CVE-2018-3615) aka="L1TF SGX";;
+			CVE-2018-3620) aka="L1TF OS";;
+			CVE-2018-3646) aka="L1TF VMM";;
+			CVE-2018-12126) aka="MSBDS";;
+			CVE-2018-12130) aka="MFBDS";;
+			CVE-2018-12127) aka="MLPDS";;
+			CVE-2019-11091) aka="MDSUM";;
+			*) echo "$0: error: invalid CVE '$1' passed to pvulnstatus()" >&2; exit 255;;
 		esac
 
 		case "$opt_batch_format" in
@@ -867,6 +973,7 @@ pvulnstatus()
 					UNK)  is_vuln="null";;
 					VULN) is_vuln="true";;
 					OK)   is_vuln="false";;
+					*)    echo "$0: error: unknown status '$2' passed to pvulnstatus()" >&2; exit 255;;
 				esac
 				json_output="${json_output:-[}{\"NAME\":\"$aka\",\"CVE\":\"$1\",\"VULNERABLE\":$is_vuln,\"INFOS\":\"$3\"},"
 				;;
@@ -875,6 +982,7 @@ pvulnstatus()
 			prometheus)
 				prometheus_output="${prometheus_output:+$prometheus_output\n}specex_vuln_status{name=\"$aka\",cve=\"$1\",status=\"$2\",info=\"$3\"} 1"
 				;;
+			*) echo "$0: error: invalid batch format '$opt_batch_format' specified" >&2; exit 255;;
 		esac
 	fi
 
@@ -882,6 +990,8 @@ pvulnstatus()
 	case "$2" in
 		UNK)  global_unknown="1";;
 		VULN) global_critical="1";;
+		OK)   ;;
+		*)    echo "$0: error: unknown status '$2' passed to pvulnstatus()" >&2; exit 255;;
 	esac
 
 	# display info if we're not in quiet/batch mode
@@ -892,6 +1002,7 @@ pvulnstatus()
 		UNK)  pstatus yellow 'UNKNOWN'        "$@"; final_summary="$final_summary \033[43m\033[30m$pvulnstatus_last_cve:??\033[0m";;
 		VULN) pstatus red    'VULNERABLE'     "$@"; final_summary="$final_summary \033[41m\033[30m$pvulnstatus_last_cve:KO\033[0m";;
 		OK)   pstatus green  'NOT VULNERABLE' "$@"; final_summary="$final_summary \033[42m\033[30m$pvulnstatus_last_cve:OK\033[0m";;
+		*)    echo "$0: error: unknown status '$vulnstatus' passed to pvulnstatus()" >&2; exit 255;;
 	esac
 }
 
@@ -956,7 +1067,7 @@ try_decompress()
 	for     pos in $(tr "$1\n$2" "\n$2=" < "$6" | grep -abo "^$2")
 	do
 		_debug "try_decompress: magic for $3 found at offset $pos"
-		if ! which "$3" >/dev/null 2>&1; then
+		if ! command -v "$3" >/dev/null 2>&1; then
 			kernel_err="missing '$3' tool, please install it, usually it's in the '$5' package"
 			return 0
 		fi
@@ -1106,6 +1217,14 @@ read_cpuid()
 	fi
 
 	_debug "cpuid: leaf$_leaf on cpu0, eax-ebx-ecx-edx: $_cpuid"
+	_mockvarname="SMC_MOCK_CPUID_${_leaf}"
+	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+		_cpuid="$(eval echo \$$_mockvarname)"
+		_debug "read_cpuid: MOCKING enabled for leaf $_leaf, will return $_cpuid"
+		mocked=1
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPUID_${_leaf}='$_cpuid'")
+	fi
 	[ -z "$_cpuid" ] && return 2
 	# get the value of the register we want
 	_reg=$(echo "$_cpuid" | awk '{print $'"$_register"'}')
@@ -1149,7 +1268,7 @@ dmesg_grep()
 
 is_coreos()
 {
-	which coreos-install >/dev/null 2>&1 && which toolbox >/dev/null 2>&1 && return 0
+	command -v coreos-install >/dev/null 2>&1 && command -v toolbox >/dev/null 2>&1 && return 0
 	return 1
 }
 
@@ -1189,6 +1308,42 @@ parse_cpu_details()
 		cpu_friendly_name=$(sysctl -n hw.model)
 	fi
 
+	if [ -n "$SMC_MOCK_CPU_FRIENDLY_NAME" ]; then
+		cpu_friendly_name="$SMC_MOCK_CPU_FRIENDLY_NAME"
+		_debug "parse_cpu_details: MOCKING cpu friendly name to $cpu_friendly_name"
+		mocked=1
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_FRIENDLY_NAME='$cpu_friendly_name'")
+	fi
+	if [ -n "$SMC_MOCK_CPU_VENDOR" ]; then
+		cpu_vendor="$SMC_MOCK_CPU_VENDOR"
+		_debug "parse_cpu_details: MOCKING cpu vendor to $cpu_vendor"
+		mocked=1
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_VENDOR='$cpu_vendor'")
+	fi
+	if [ -n "$SMC_MOCK_CPU_FAMILY" ]; then
+		cpu_family="$SMC_MOCK_CPU_FAMILY"
+		_debug "parse_cpu_details: MOCKING cpu family to $cpu_family"
+		mocked=1
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_FAMILY='$cpu_family'")
+	fi
+	if [ -n "$SMC_MOCK_CPU_MODEL" ]; then
+		cpu_model="$SMC_MOCK_CPU_MODEL"
+		_debug "parse_cpu_details: MOCKING cpu model to $cpu_model"
+		mocked=1
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_MODEL='$cpu_model'")
+	fi
+	if [ -n "$SMC_MOCK_CPU_STEPPING" ]; then
+		cpu_stepping="$SMC_MOCK_CPU_STEPPING"
+		_debug "parse_cpu_details: MOCKING cpu stepping to $cpu_stepping"
+		mocked=1
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_STEPPING='$cpu_stepping'")
+	fi
+
 	# get raw cpuid, it's always useful (referenced in the Intel doc for firmware updates for example)
 	if read_cpuid 0x1 $EAX 0 0xFFFFFFFF; then
 		cpu_cpuid="$read_cpuid_value"
@@ -1215,6 +1370,14 @@ parse_cpu_details()
 
 	# if we got no cpu_ucode (e.g. we're in a vm), fall back to 0x0
 	[ -z "$cpu_ucode" ] && cpu_ucode=0x0
+
+	if [ -n "$SMC_MOCK_CPU_UCODE" ]; then
+		cpu_ucode="$SMC_MOCK_CPU_UCODE"
+		_debug "parse_cpu_details: MOCKING cpu ucode to $cpu_ucode"
+		mocked=1
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_UCODE='$cpu_ucode'")
+	fi
 
 	echo "$cpu_ucode" | grep -q ^0x && cpu_ucode=$(( cpu_ucode ))
 	ucode_found=$(printf "model 0x%x family 0x%x stepping 0x%x ucode 0x%x cpuid 0x%x" "$cpu_model" "$cpu_family" "$cpu_stepping" "$cpu_ucode" "$cpu_cpuid")
@@ -1262,19 +1425,19 @@ parse_cpu_details()
 
 	# /* "Small Core" Processors (Atom) */
 
-	INTEL_FAM6_ATOM_PINEVIEW=$(( 0x1C ))
-	INTEL_FAM6_ATOM_LINCROFT=$(( 0x26 ))
-	INTEL_FAM6_ATOM_PENWELL=$(( 0x27 ))
-	INTEL_FAM6_ATOM_CLOVERVIEW=$(( 0x35 ))
-	INTEL_FAM6_ATOM_CEDARVIEW=$(( 0x36 ))
-	INTEL_FAM6_ATOM_SILVERMONT1=$(( 0x37 ))
-	INTEL_FAM6_ATOM_SILVERMONT2=$(( 0x4D ))
+	INTEL_FAM6_ATOM_BONNELL=$(( 0x1C ))
+	INTEL_FAM6_ATOM_BONNELL_MID=$(( 0x26 ))
+	INTEL_FAM6_ATOM_SALTWELL_MID=$(( 0x27 ))
+	INTEL_FAM6_ATOM_SALTWELL_TABLET=$(( 0x35 ))
+	INTEL_FAM6_ATOM_SALTWELL=$(( 0x36 ))
+	INTEL_FAM6_ATOM_SILVERMONT=$(( 0x37 ))
+	INTEL_FAM6_ATOM_SILVERMONT_MID=$(( 0x4A ))
+	INTEL_FAM6_ATOM_SILVERMONT_X=$(( 0x4D ))
 	INTEL_FAM6_ATOM_AIRMONT=$(( 0x4C ))
-	INTEL_FAM6_ATOM_MERRIFIELD=$(( 0x4A ))
-	INTEL_FAM6_ATOM_MOOREFIELD=$(( 0x5A ))
+	INTEL_FAM6_ATOM_AIRMONT_MID=$(( 0x5A ))
 	INTEL_FAM6_ATOM_GOLDMONT=$(( 0x5C ))
-	INTEL_FAM6_ATOM_DENVERTON=$(( 0x5F ))
-	INTEL_FAM6_ATOM_GEMINI_LAKE=$(( 0x7A ))
+	INTEL_FAM6_ATOM_GOLDMONT_X=$(( 0x5F ))
+	INTEL_FAM6_ATOM_GOLDMONT_PLUS=$(( 0x7A ))
 
 	# /* Xeon Phi */
 
@@ -1282,6 +1445,11 @@ parse_cpu_details()
 	INTEL_FAM6_XEON_PHI_KNM=$(( 0x85 ))
 	}
 	parse_cpu_details_done=1
+}
+is_hygon()
+{
+	[ "$cpu_vendor" = HygonGenuine ] && return 0
+	return 1
 }
 
 is_amd()
@@ -1408,6 +1576,63 @@ is_zen_cpu()
 	is_amd || return 1
 	[ "$cpu_family" = 23 ] && return 0
 	return 1
+}
+is_moksha_cpu()
+{
+	parse_cpu_details
+	is_hygon || return 1
+	[ "$cpu_family" = 24 ] && return 0
+	return 1
+}
+
+# Test if the current host is a Xen PV Dom0 / DomU
+is_xen() {
+	if [ ! -d "$procfs/xen" ]; then
+		return 1
+	fi
+
+	# XXX do we have a better way that relying on dmesg?
+	dmesg_grep 'Booting paravirtualized kernel on Xen$'; ret=$?
+	if [ $ret -eq 2 ]; then
+		_warn "dmesg truncated, Xen detection will be unreliable. Please reboot and relaunch this script"
+		return 1
+	elif [ $ret -eq 0 ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+is_xen_dom0()
+{
+	if ! is_xen; then
+		return 1
+	fi
+
+	if [ -e "$procfs/xen/capabilities" ] && grep -q "control_d" "$procfs/xen/capabilities"; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+is_xen_domU()
+{
+	if ! is_xen; then
+		return 1
+	fi
+
+	# PVHVM guests also print 'Booting paravirtualized kernel', so we need this check.
+	dmesg_grep 'Xen HVM callback vector for event delivery is enabled$'; ret=$?
+	if [ $ret -eq 0 ]; then
+		return 1
+	fi
+
+	if ! is_xen_dom0; then
+		return 0
+	else
+		return 1
+	fi
 }
 
 if [ -r "$mcedb_cache" ]; then
@@ -1559,8 +1784,6 @@ if [ "$opt_live" = 1 ]; then
 		[ -e "/lib/modules/$(uname -r)/vmlinuz" ] && opt_kernel="/lib/modules/$(uname -r)/vmlinuz"
 		# Slackare:
 		[ -e "/boot/vmlinuz"             ] && opt_kernel="/boot/vmlinuz"
-		# Arch:
-		[ -e "/boot/vmlinuz-linux"       ] && opt_kernel="/boot/vmlinuz-linux"
 		# Arch aarch64:
 		[ -e "/boot/Image"               ] && opt_kernel="/boot/Image"
 		# Arch armv5/armv7:
@@ -1654,7 +1877,7 @@ if [ "$os" = Linux ]; then
 fi
 
 if [ -e "$opt_kernel" ]; then
-	if ! which "${opt_arch_prefix}readelf" >/dev/null 2>&1; then
+	if ! command -v "${opt_arch_prefix}readelf" >/dev/null 2>&1; then
 		_debug "readelf not found"
 		kernel_err="missing '${opt_arch_prefix}readelf' tool, please install it, usually it's in the 'binutils' package"
 	elif [ "$opt_sysfs_only" = 1 ] || [ "$opt_hw_only" = 1 ]; then
@@ -1707,29 +1930,59 @@ sys_interface_check()
 	file="$1"
 	regex="$2"
 	mode="$3"
-	[ "$opt_live" = 1 ] && [ "$opt_no_sysfs" = 0 ] && [ -r "$file" ] || return 1
+	msg=''
+	fullmsg=''
+
+	if [ "$opt_live" = 1 ] && [ "$opt_no_sysfs" = 0 ] && [ -r "$file" ]; then
+		:
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_SYSFS_$(basename "$file")_RET=1")
+		return 1
+	fi
+
+	_mockvarname="SMC_MOCK_SYSFS_$(basename "$file")_RET"
+	# shellcheck disable=SC2086
+	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+		_debug "sysfs: MOCKING enabled for $file func returns $(eval echo \$$_mockvarname)"
+		mocked=1
+		return "$(eval echo \$$_mockvarname)"
+	fi
+
 	[ -n "$regex" ] || regex='.*'
-	msg=$(grep -Eo "$regex" "$file")
+	_mockvarname="SMC_MOCK_SYSFS_$(basename "$file")"
+	# shellcheck disable=SC2086
+	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+		fullmsg="$(eval echo \$$_mockvarname)"
+		msg=$(echo "$fullmsg" | grep -Eo "$regex")
+		_debug "sysfs: MOCKING enabled for $file, will return $fullmsg"
+		mocked=1
+	else
+		fullmsg=$(cat "$file")
+		msg=$(grep -Eo "$regex" "$file")
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_SYSFS_$(basename "$file")='$fullmsg'")
+	fi
 	if [ "$mode" = silent ]; then
-		_info "* Information from the /sys interface: $msg"
+		return 0
+	elif [ "$mode" = quiet ]; then
+		_info "* Information from the /sys interface: $fullmsg"
 		return 0
 	fi
 	_info_nol "* Mitigated according to the /sys interface: "
 	if echo "$msg" | grep -qi '^not affected'; then
 		# Not affected
 		status=OK
-		pstatus green YES "$msg"
+		pstatus green YES "$fullmsg"
 	elif echo "$msg" | grep -qi '^mitigation'; then
 		# Mitigation: PTI
 		status=OK
-		pstatus green YES "$msg"
+		pstatus green YES "$fullmsg"
 	elif echo "$msg" | grep -qi '^vulnerable'; then
 		# Vulnerable
 		status=VULN
-		pstatus yellow NO "$msg"
+		pstatus yellow NO "$fullmsg"
 	else
 		status=UNK
-		pstatus yellow UNKNOWN "$msg"
+		pstatus yellow UNKNOWN "$fullmsg"
 	fi
 	_debug "sys_interface_check: $file=$msg (re=$regex)"
 	return 0
@@ -1748,90 +2001,128 @@ number_of_cpus()
 	return "$n"
 }
 
-# $1 - msr number
-# $2 - cpu index
+# write_msr
+# param1 (mandatory): MSR, can be in hex or decimal.
+# param2 (optional): CPU index, starting from 0. Default 0.
 write_msr()
 {
-	# _msr must be in hex, in the form 0x1234:
-	_msr="$1"
-	# cpu index, starting from 0:
+	_msr_dec=$(( $1 ))
+	_msr=$(printf "0x%x" "$_msr_dec")
 	_cpu="$2"
+	[ -z "$_cpu" ] && _cpu=0
+
+	_mockvarname="SMC_MOCK_WRMSR_${_msr}_RET"
+	# shellcheck disable=SC2086
+	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+		_debug "write_msr: MOCKING enabled for msr $_msr func returns $(eval echo \$$_mockvarname)"
+		mocked=1
+		return "$(eval echo \$$_mockvarname)"
+	fi
+
 	if [ "$os" != Linux ]; then
 		cpucontrol -m "$_msr=0" "/dev/cpuctl$_cpu" >/dev/null 2>&1; ret=$?
 	else
 		# for Linux
 		# convert to decimal
-		_msr=$(( _msr ))
 		if [ ! -w /dev/cpu/"$_cpu"/msr ]; then
 			ret=200 # permission error
 		# if wrmsr is available, use it
-		elif which wrmsr >/dev/null 2>&1 && [ "$SMC_NO_WRMSR" != 1 ]; then
+		elif command -v wrmsr >/dev/null 2>&1 && [ "$SMC_NO_WRMSR" != 1 ]; then
 			_debug "write_msr: using wrmsr"
-			wrmsr $_msr 0 2>/dev/null; ret=$?
+			wrmsr $_msr_dec 0 2>/dev/null; ret=$?
 		# or if we have perl, use it, any 5.x version will work
-		elif which perl >/dev/null 2>&1 && [ "$SMC_NO_PERL" != 1 ]; then
+		elif command -v perl >/dev/null 2>&1 && [ "$SMC_NO_PERL" != 1 ]; then
 			_debug "write_msr: using perl"
 			ret=1
-			perl -e "open(M,'>','/dev/cpu/$_cpu/msr') and seek(M,$_msr,0) and exit(syswrite(M,pack('H16',0)))"; [ $? -eq 8 ] && ret=0
+			perl -e "open(M,'>','/dev/cpu/$_cpu/msr') and seek(M,$_msr_dec,0) and exit(syswrite(M,pack('H16',0)))"; [ $? -eq 8 ] && ret=0
 		# fallback to dd if it supports seek_bytes
-		elif dd if=/dev/null of=/dev/null bs=8 count=1 seek="$_msr" oflag=seek_bytes 2>/dev/null; then
+		elif dd if=/dev/null of=/dev/null bs=8 count=1 seek="$_msr_dec" oflag=seek_bytes 2>/dev/null; then
 			_debug "write_msr: using dd"
-			dd if=/dev/zero of=/dev/cpu/"$_cpu"/msr bs=8 count=1 seek="$_msr" oflag=seek_bytes 2>/dev/null; ret=$?
+			dd if=/dev/zero of=/dev/cpu/"$_cpu"/msr bs=8 count=1 seek="$_msr_dec" oflag=seek_bytes 2>/dev/null; ret=$?
 		else
 			_debug "write_msr: got no wrmsr, perl or recent enough dd!"
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=201")
 			return 201 # missing tool error
 		fi
 	fi
 	# normalize ret
 	[ "$ret" != 0 ] && ret=1
 	_debug "write_msr: for cpu $_cpu on msr $_msr, ret=$ret"
+	mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=$ret")
 	return $ret
 }
 
+# read_msr
+# param1 (mandatory): MSR, can be in hex or decimal.
+# param2 (optional): CPU index, starting from 0. Default 0.
 read_msr()
 {
-	# _msr must be in hex, in the form 0x1234:
-	_msr="$1"
-	# cpu index, starting from 0:
+	_msr_dec=$(( $1 ))
+	_msr=$(printf "0x%x" "$_msr_dec")
 	_cpu="$2"
+	[ -z "$_cpu" ] && _cpu=0
+
 	read_msr_value=''
+
+	_mockvarname="SMC_MOCK_RDMSR_${_msr}"
+	# shellcheck disable=SC2086
+	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+		read_msr_value="$(eval echo \$$_mockvarname)"
+		_debug "read_msr: MOCKING enabled for msr $_msr, returning $read_msr_value"
+		mocked=1
+		return 0
+	else
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}='$read_msr_value'")
+	fi
+
+	_mockvarname="SMC_MOCK_RDMSR_${_msr}_RET"
+	# shellcheck disable=SC2086
+	if [ -n "$(eval echo \$$_mockvarname)" ] && [ "$(eval echo \$$_mockvarname)" -ne 0 ]; then
+		_debug "read_msr: MOCKING enabled for msr $_msr func returns $(eval echo \$$_mockvarname)"
+		mocked=1
+		return "$(eval echo \$$_mockvarname)"
+	fi
+
 	if [ "$os" != Linux ]; then
+		# for BSD
 		_msr=$(cpucontrol -m "$_msr" "/dev/cpuctl$_cpu" 2>/dev/null); ret=$?
-		[ $ret -ne 0 ] && return 1
+		if [ $ret -ne 0 ]; then
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=1")
+			return 1
+		fi
 		# MSR 0x10: 0x000003e1 0xb106dded
 		_msr_h=$(echo "$_msr" | awk '{print $3}');
-		_msr_h="$(( _msr_h >> 24 & 0xFF )) $(( _msr_h >> 16 & 0xFF )) $(( _msr_h >> 8 & 0xFF )) $(( _msr_h & 0xFF ))"
 		_msr_l=$(echo "$_msr" | awk '{print $4}');
-		_msr_l="$(( _msr_l >> 24 & 0xFF )) $(( _msr_l >> 16 & 0xFF )) $(( _msr_l >> 8 & 0xFF )) $(( _msr_l & 0xFF ))"
-		read_msr_value="$_msr_h $_msr_l"
+		read_msr_value=$(( _msr_h << 32 | _msr_l ))
 	else
 		# for Linux
-		# convert to decimal
-		_msr=$(( _msr ))
 		if [ ! -r /dev/cpu/"$_cpu"/msr ]; then
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=200")
 			return 200 # permission error
 		# if rdmsr is available, use it
-		elif which rdmsr >/dev/null 2>&1 && [ "$SMC_NO_RDMSR" != 1 ]; then
+		elif command -v rdmsr >/dev/null 2>&1 && [ "$SMC_NO_RDMSR" != 1 ]; then
 			_debug "read_msr: using rdmsr"
-			read_msr_value=$(rdmsr -r $_msr 2>/dev/null | od -t u8 -A n)
+			read_msr_value=$(rdmsr -r $_msr_dec 2>/dev/null | od -t u8 -A n)
 		# or if we have perl, use it, any 5.x version will work
-		elif which perl >/dev/null 2>&1 && [ "$SMC_NO_PERL" != 1 ]; then
+		elif command -v perl >/dev/null 2>&1 && [ "$SMC_NO_PERL" != 1 ]; then
 			_debug "read_msr: using perl"
-			read_msr_value=$(perl -e "open(M,'<','/dev/cpu/$_cpu/msr') and seek(M,$_msr,0) and read(M,\$_,8) and print" | od -t u8 -A n)
+			read_msr_value=$(perl -e "open(M,'<','/dev/cpu/$_cpu/msr') and seek(M,$_msr_dec,0) and read(M,\$_,8) and print" | od -t u8 -A n)
 		# fallback to dd if it supports skip_bytes
-		elif dd if=/dev/null of=/dev/null bs=8 count=1 skip="$_msr" iflag=skip_bytes 2>/dev/null; then
+		elif dd if=/dev/null of=/dev/null bs=8 count=1 skip="$_msr_dec" iflag=skip_bytes 2>/dev/null; then
 			_debug "read_msr: using dd"
-			read_msr_value=$(dd if=/dev/cpu/"$_cpu"/msr bs=8 count=1 skip="$_msr" iflag=skip_bytes 2>/dev/null | od -t u8 -A n)
+			read_msr_value=$(dd if=/dev/cpu/"$_cpu"/msr bs=8 count=1 skip="$_msr_dec" iflag=skip_bytes 2>/dev/null | od -t u8 -A n)
 		else
 			_debug "read_msr: got no rdmsr, perl or recent enough dd!"
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=201")
 			return 201 # missing tool error
 		fi
 		if [ -z "$read_msr_value" ]; then
 			# MSR doesn't exist, don't check for $? because some versions of dd still return 0!
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=1")
 			return 1
 		fi
 	fi
-	_debug "read_msr: MSR=$1 value is $read_msr_value"
+	_debug "read_msr: MSR=$_msr value is $read_msr_value"
 	return 0
 }
 
@@ -1905,7 +2196,7 @@ check_cpu()
 			cpuid_spec_ctrl=1
 			cpuid_ibrs='SPEC_CTRL'
 		fi
-	elif is_amd; then
+	elif is_amd || is_hygon; then
 		read_cpuid 0x80000008 $EBX 14 1 1; ret=$?
 		if [ $ret -eq 0 ]; then
 			pstatus green YES "IBRS_SUPPORT feature bit"
@@ -1922,9 +2213,9 @@ check_cpu()
 		cpuid_spec_ctrl=-1
 	fi
 
-	if is_amd; then
+	if is_amd || is_hygon; then
 		_info_nol "    * CPU indicates preferring IBRS always-on: "
-		# amd
+		# amd or hygon
 		read_cpuid 0x80000008 $EBX 16 1 1; ret=$?
 		if [ $ret -eq 0 ]; then
 			pstatus green YES
@@ -1933,7 +2224,7 @@ check_cpu()
 		fi
 
 		_info_nol "    * CPU indicates preferring IBRS over retpoline: "
-		# amd
+		# amd or hygon
 		read_cpuid 0x80000008 $EBX 18 1 1; ret=$?
 		if [ $ret -eq 0 ]; then
 			pstatus green YES
@@ -1993,7 +2284,7 @@ check_cpu()
 		else
 			pstatus yellow NO
 		fi
-	elif is_amd; then
+	elif is_amd || is_hygon; then
 		read_cpuid 0x80000008 $EBX 12 1 1; ret=$?
 		if [ $ret -eq 0 ]; then
 			cpuid_ibpb='IBPB_SUPPORT'
@@ -2031,6 +2322,12 @@ check_cpu()
 			pstatus green YES "AMD STIBP feature bit"
 			#cpuid_stibp='AMD STIBP'
 		fi
+	elif is_hygon; then
+		read_cpuid 0x80000008 $EBX 15 1 1; ret=$?
+		if [ $ret -eq 0 ]; then
+			pstatus green YES "HYGON STIBP feature bit"
+			#cpuid_stibp='HYGON STIBP'
+		fi
 	else
 		ret=-1
 		pstatus yellow UNKNOWN "unknown CPU"
@@ -2042,7 +2339,7 @@ check_cpu()
 	fi
 
 
-	if is_amd; then
+	if is_amd || is_hygon; then
 		_info_nol "    * CPU indicates preferring STIBP always-on: "
 		read_cpuid 0x80000008 $EBX 17 1 1; ret=$?
 		if [ $ret -eq 0 ]; then
@@ -2074,6 +2371,21 @@ check_cpu()
 		elif [ "$cpu_family" -ge 21 ] && [ "$cpu_family" -le 23 ]; then
 			cpuid_ssbd='AMD non-architectural MSR'
 		fi
+	elif is_hygon; then
+		_info     "  * Speculative Store Bypass Disable (SSBD)"
+		_info_nol "    * CPU indicates SSBD capability: "
+		read_cpuid 0x80000008 $EBX 24 1 1; ret24=$?
+		read_cpuid 0x80000008 $EBX 25 1 1; ret25=$?
+		
+		if [ $ret24 -eq 0 ]; then
+			cpuid_ssbd='HYGON SSBD in SPEC_CTRL'
+			#hygon cpuid_ssbd_spec_ctrl=1
+		elif [ $ret25 -eq 0 ]; then
+			cpuid_ssbd='HYGON SSBD in VIRT_SPEC_CTRL'
+			#hygon cpuid_ssbd_virt_spec_ctrl=1
+		elif [ "$cpu_family" -ge 24 ]; then
+			cpuid_ssbd='HYGON non-architectural MSR'
+		fi
 	fi
 
 	if [ -n "$cpuid_ssbd" ]; then
@@ -2089,6 +2401,13 @@ check_cpu()
 		read_cpuid 0x80000008 $EBX 26 1 1; ret=$?
 		if [ $ret -eq 0 ]; then
 			amd_ssb_no=1
+		fi
+	elif is_hygon; then
+		# indicate when speculative store bypass disable is no longer needed to prevent speculative loads bypassing older stores
+		read_cpuid 0x80000008 $EBX 26 1 1; ret=$?
+		if [ $ret -eq 0 ]; then
+			hygon_ssb_no=1
+			_debug "hygon_ssb_no=1"
 		fi
 	fi
 
@@ -2142,6 +2461,22 @@ check_cpu()
 	fi
 
 	if is_intel; then
+		_info "  * Microarchitecture Data Sampling"
+		_info_nol "    * VERW instruction is available: "
+		read_cpuid 0x7 $EDX 10 1 1; ret=$?
+		if [ $ret -eq 0 ]; then
+			cpuid_md_clear=1
+			pstatus green YES "MD_CLEAR feature bit"
+		elif [ $ret -eq 2 ]; then
+			cpuid_md_clear=-1
+			pstatus yellow UNKNOWN "is cpuid kernel module available?"
+		else
+			cpuid_md_clear=0
+			pstatus yellow NO
+		fi
+	fi
+
+	if is_intel; then
 		_info     "  * Enhanced IBRS (IBRS_ALL)"
 		_info_nol "    * CPU indicates ARCH_CAPABILITIES MSR availability: "
 		cpuid_arch_capabilities=-1
@@ -2158,6 +2493,7 @@ check_cpu()
 		fi
 
 		_info_nol "    * ARCH_CAPABILITIES MSR advertises IBRS_ALL capability: "
+		capabilities_mds_no=-1
 		capabilities_rdcl_no=-1
 		capabilities_ibrs_all=-1
 		capabilities_rsba=-1
@@ -2167,6 +2503,7 @@ check_cpu()
 			pstatus yellow UNKNOWN
 		elif [ "$cpuid_arch_capabilities" != 1 ]; then
 			capabilities_rdcl_no=0
+			capabilities_mds_no=0
 			capabilities_ibrs_all=0
 			capabilities_rsba=0
 			capabilities_l1dflush_no=0
@@ -2198,6 +2535,7 @@ check_cpu()
 			done
 			capabilities=$val_cap_msr
 			capabilities_rdcl_no=0
+			capabilities_mds_no=0
 			capabilities_ibrs_all=0
 			capabilities_rsba=0
 			capabilities_l1dflush_no=0
@@ -2209,7 +2547,8 @@ check_cpu()
 				[ $(( capabilities >> 2 & 1 )) -eq 1 ] && capabilities_rsba=1
 				[ $(( capabilities >> 3 & 1 )) -eq 1 ] && capabilities_l1dflush_no=1
 				[ $(( capabilities >> 4 & 1 )) -eq 1 ] && capabilities_ssb_no=1
-				_debug "capabilities says rdcl_no=$capabilities_rdcl_no ibrs_all=$capabilities_ibrs_all rsba=$capabilities_rsba l1dflush_no=$capabilities_l1dflush_no ssb_no=$capabilities_ssb_no"
+				[ $(( capabilities >> 5 & 1 )) -eq 1 ] && capabilities_mds_no=1
+				_debug "capabilities says rdcl_no=$capabilities_rdcl_no ibrs_all=$capabilities_ibrs_all rsba=$capabilities_rsba l1dflush_no=$capabilities_l1dflush_no ssb_no=$capabilities_ssb_no mds_no=$capabilities_mds_no"
 				if [ "$capabilities_ibrs_all" = 1 ]; then
 					if [ $cpu_mismatch -eq 0 ]; then
 						pstatus green YES
@@ -2228,7 +2567,7 @@ check_cpu()
 			fi
 		fi
 
-		_info_nol "  * CPU explicitly indicates not being vulnerable to Meltdown (RDCL_NO): "
+		_info_nol "  * CPU explicitly indicates not being vulnerable to Meltdown/L1TF (RDCL_NO): "
 		if [ "$capabilities_rdcl_no" = -1 ]; then
 			pstatus yellow UNKNOWN
 		elif [ "$capabilities_rdcl_no" = 1 ]; then
@@ -2240,7 +2579,7 @@ check_cpu()
 		_info_nol "  * CPU explicitly indicates not being vulnerable to Variant 4 (SSB_NO): "
 		if [ "$capabilities_ssb_no" = -1 ]; then
 			pstatus yellow UNKNOWN
-		elif [ "$capabilities_ssb_no" = 1 ] || [ "$amd_ssb_no" = 1 ]; then
+		elif [ "$capabilities_ssb_no" = 1 ] || [ "$amd_ssb_no" = 1 ] || [ "$hygon_ssb_no" = 1 ]; then
 			pstatus green YES
 		else
 			pstatus yellow NO
@@ -2262,6 +2601,15 @@ check_cpu()
 			pstatus yellow YES
 		else
 			pstatus blue NO
+		fi
+
+		_info_nol "  * CPU explicitly indicates not being vulnerable to Microarchitectural Data Sampling (MDS_NO): "
+		if [ "$capabilities_mds_no" = -1 ]; then
+			pstatus yellow UNKNOWN
+		elif [ "$capabilities_mds_no" = 1 ]; then
+			pstatus green YES
+		else
+			pstatus yellow NO
 		fi
 	fi
 
@@ -2323,7 +2671,7 @@ check_redhat_canonical_spectre()
 	# if we were already called, don't do it again
 	[ -n "$redhat_canonical_spectre" ] && return
 
-	if ! which "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+	if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 		redhat_canonical_spectre=-1
 	elif [ -n "$kernel_err" ]; then
 		redhat_canonical_spectre=-2
@@ -2407,7 +2755,7 @@ check_CVE_2017_5753_linux()
 		# http://git.arm.linux.org.uk/cgit/linux-arm.git/commit/?h=spectre&id=a78d156587931a2c3b354534aa772febf6c9e855
 		if [ -n "$kernel_err" ]; then
 			pstatus yellow UNKNOWN "couldn't check ($kernel_err)"
-		elif ! which perl >/dev/null 2>&1; then
+		elif ! command -v perl >/dev/null 2>&1; then
 			pstatus yellow UNKNOWN "missing 'perl' binary, please install it"
 		else
 			perl -ne '/\x0f\x83....\x48\x19\xd2\x48\x21\xd0/ and $found++; END { exit($found) }' "$kernel"; ret=$?
@@ -2464,9 +2812,9 @@ check_CVE_2017_5753_linux()
 			pstatus yellow NO
 		elif [ -n "$kernel_err" ]; then
 			pstatus yellow UNKNOWN "couldn't check ($kernel_err)"
-		elif ! which perl >/dev/null 2>&1; then
+		elif ! command -v perl >/dev/null 2>&1; then
 			pstatus yellow UNKNOWN "missing 'perl' binary, please install it"
-		elif ! which "${opt_arch_prefix}objdump" >/dev/null 2>&1; then
+		elif ! command -v "${opt_arch_prefix}objdump" >/dev/null 2>&1; then
 			pstatus yellow UNKNOWN "missing '${opt_arch_prefix}objdump' tool, please install it, usually it's in the binutils package"
 		else
 			"${opt_arch_prefix}objdump" -d "$kernel" | perl -ne 'push @r, $_; /\s(hint|csdb)\s/ && $r[0]=~/\ssub\s+(x\d+)/ && $r[1]=~/\sbic\s+$1,\s+$1,/ && $r[2]=~/\sand\s/ && exit(9); shift @r if @r>3'; ret=$?
@@ -2478,14 +2826,14 @@ check_CVE_2017_5753_linux()
 			fi
 		fi
 
-		if [ "$opt_verbose" -ge 2 ] || ( [ -z "$v1_mask_nospec" ] && [ "$redhat_canonical_spectre" != 1 ] && [ "$redhat_canonical_spectre" != 2 ] ); then
+		if [ "$opt_verbose" -ge 2 ] || { [ -z "$v1_mask_nospec" ] && [ "$redhat_canonical_spectre" != 1 ] && [ "$redhat_canonical_spectre" != 2 ]; }; then
 			# this is a slow heuristic and we don't need it if we already know the kernel is patched
 			# but still show it in verbose mode
 			_info_nol "* Checking count of LFENCE instructions following a jump in kernel... "
 			if [ -n "$kernel_err" ]; then
 				pstatus yellow UNKNOWN "couldn't check ($kernel_err)"
 			else
-				if ! which "${opt_arch_prefix}objdump" >/dev/null 2>&1; then
+				if ! command -v "${opt_arch_prefix}objdump" >/dev/null 2>&1; then
 					pstatus yellow UNKNOWN "missing '${opt_arch_prefix}objdump' tool, please install it, usually it's in the binutils package"
 				else
 					# here we disassemble the kernel and count the number of occurrences of the LFENCE opcode
@@ -2524,7 +2872,7 @@ check_CVE_2017_5753_linux()
 			pvulnstatus $cve OK "Kernel source has been patched to mitigate the vulnerability (Red Hat/Ubuntu patch)"
 		elif [ "$v1_lfence" = 1 ]; then
 			pvulnstatus $cve OK "Kernel source has PROBABLY been patched to mitigate the vulnerability (jump-then-lfence instructions heuristic)"
-		elif [ "$kernel_err" ]; then
+		elif [ -n "$kernel_err" ]; then
 			pvulnstatus $cve UNK "Couldn't find kernel image or tools missing to execute the checks"
 			explain "Re-run this script with root privileges, after installing the missing tools indicated above"
 		else
@@ -2637,24 +2985,33 @@ check_CVE_2017_5715_linux()
 					# XXX and what about ibpb ?
 				fi
 			fi
-			if [ -e "/sys/devices/system/cpu/vulnerabilities/spectre_v2" ]; then
+			if [ -n "$fullmsg" ]; then
 				# when IBPB is enabled on 4.15+, we can see it in sysfs
-				if grep -q 'IBPB' "/sys/devices/system/cpu/vulnerabilities/spectre_v2"; then
+				if echo "$fullmsg" | grep -q 'IBPB'; then
 					_debug "ibpb: found enabled in sysfs"
 					[ -z "$ibpb_supported" ] && ibpb_supported='IBPB found enabled in sysfs'
 					[ -z "$ibpb_enabled"   ] && ibpb_enabled=1
 				fi
 				# when IBRS_FW is enabled on 4.15+, we can see it in sysfs
-				if grep -q ', IBRS_FW' "/sys/devices/system/cpu/vulnerabilities/spectre_v2"; then
+				if echo "$fullmsg" | grep -q ', IBRS_FW'; then
 					_debug "ibrs: found IBRS_FW in sysfs"
 					[ -z "$ibrs_supported" ] && ibrs_supported='found IBRS_FW in sysfs'
 					ibrs_fw_enabled=1
 				fi
 				# when IBRS is enabled on 4.15+, we can see it in sysfs
-				if grep -q -e 'IBRS' -e 'Indirect Branch Restricted Speculation' "/sys/devices/system/cpu/vulnerabilities/spectre_v2"; then
+				# on a more recent kernel, classic "IBRS" is not even longer an option, because of the performance impact.
+				# only "Enhanced IBRS" is available (on CPUs with the IBRS_ALL flag)
+				if echo "$fullmsg" | grep -q -e '\<IBRS\>' -e 'Indirect Branch Restricted Speculation'; then
 					_debug "ibrs: found IBRS in sysfs"
 					[ -z "$ibrs_supported" ] && ibrs_supported='found IBRS in sysfs'
 					[ -z "$ibrs_enabled"   ] && ibrs_enabled=3
+				fi
+				# checking for 'Enhanced IBRS' in sysfs, enabled on CPUs with IBRS_ALL
+				if echo "$fullmsg" | grep -q -e 'Enhanced IBRS'; then
+					[ -z "$ibrs_supported" ] && ibrs_supported='found Enhanced IBRS in sysfs'
+					# 4 isn't actually a valid value of the now extinct "ibrs_enabled" flag file,
+					# that only went from 0 to 3, so we use 4 as "enhanced ibrs is enabled"
+					ibrs_enabled=4
 				fi
 			fi
 			# in live mode, if ibrs or ibpb is supported and we didn't find these are enabled, then they are not
@@ -2669,7 +3026,7 @@ check_CVE_2017_5715_linux()
 			fi
 		fi
 		if [ -z "$ibrs_supported" ] && [ -n "$kernel" ]; then
-			if ! which "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+			if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 				:
 			else
 				ibrs_can_tell=1
@@ -2690,7 +3047,7 @@ check_CVE_2017_5715_linux()
 		# recent (4.15) vanilla kernels have IBPB but not IBRS, and without the debugfs tunables of Red Hat
 		# we can detect it directly in the image
 		if [ -z "$ibpb_supported" ] && [ -n "$kernel" ]; then
-			if ! which "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+			if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 				:
 			else
 				ibpb_can_tell=1
@@ -2728,6 +3085,7 @@ check_CVE_2017_5715_linux()
 				# 1 is enabled only for kernel space
 				# 2 is enabled for kernel and user space
 				# 3 is enabled
+				# 4 is enhanced ibrs enabled
 				case "$ibrs_enabled" in
 					0)
 						if [ "$ibrs_fw_enabled" = 1 ]; then
@@ -2739,6 +3097,7 @@ check_CVE_2017_5715_linux()
 					1)	if [ "$ibrs_fw_enabled" = 1 ]; then pstatus green YES "for kernel space and firmware code"; else pstatus green YES "for kernel space"; fi;;
 					2)	if [ "$ibrs_fw_enabled" = 1 ]; then pstatus green YES "for kernel, user space, and firmware code" ; else pstatus green YES "for both kernel and user space"; fi;;
 					3)	if [ "$ibrs_fw_enabled" = 1 ]; then pstatus green YES "for kernel and firmware code"; else pstatus green YES; fi;;
+					4)	pstatus green YES "Enhanced flavor, performance impact will be greatly reduced";;
 					*)	if [ "$cpuid_ibrs" != 'SPEC_CTRL' ] && [ "$cpuid_ibrs" != 'IBRS_SUPPORT' ] && [ "$cpuid_spec_ctrl" != -1 ]; 
 							then pstatus yellow NO; _debug "ibrs: known cpu not supporting SPEC-CTRL or IBRS"; 
 						else 
@@ -2836,9 +3195,9 @@ check_CVE_2017_5715_linux()
 			#
 			# if there is "retpoline" in the file and NOT "minimal", then it's full retpoline
 			# (works for vanilla and Red Hat variants)
-			if [ "$opt_live" = 1 ] && [ -e "/sys/devices/system/cpu/vulnerabilities/spectre_v2" ]; then
-				if grep -qwi retpoline /sys/devices/system/cpu/vulnerabilities/spectre_v2; then
-					if grep -qwi minimal /sys/devices/system/cpu/vulnerabilities/spectre_v2; then
+			if [ "$opt_live" = 1 ] && [ -n "$fullmsg" ]; then
+				if echo "$fullmsg" | grep -qwi retpoline; then
+					if echo "$fullmsg" | grep -qwi minimal; then
 						retpoline_compiler=0
 						retpoline_compiler_reason="kernel reports minimal retpoline compilation"
 					else
@@ -2854,7 +3213,7 @@ check_CVE_2017_5715_linux()
 				fi
 			elif [ -n "$kernel" ]; then
 				# look for the symbol
-				if which "${opt_arch_prefix}nm" >/dev/null 2>&1; then
+				if command -v "${opt_arch_prefix}nm" >/dev/null 2>&1; then
 					# the proper way: use nm and look for the symbol
 					if "${opt_arch_prefix}nm" "$kernel" 2>/dev/null | grep -qw 'noretpoline_setup'; then
 						retpoline_compiler=1
@@ -2902,7 +3261,7 @@ check_CVE_2017_5715_linux()
 		# only for information, in verbose mode
 		if [ "$opt_verbose" -ge 2 ]; then
 			_info_nol "    * Local gcc is retpoline-aware: "
-			if which gcc >/dev/null 2>&1; then
+			if command -v gcc >/dev/null 2>&1; then
 				if [ -n "$(gcc -mindirect-branch=thunk-extern --version 2>&1 >/dev/null)" ]; then
 					pstatus blue NO
 				else
@@ -2915,7 +3274,7 @@ check_CVE_2017_5715_linux()
 
 		if is_vulnerable_to_empty_rsb || [ "$opt_verbose" -ge 2 ]; then
 			_info_nol "  * Kernel supports RSB filling: "
-			if ! which "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+			if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 				pstatus yellow UNKNOWN "missing '${opt_arch_prefix}strings' tool, please install it, usually it's in the binutils package"
 			elif [ -z "$kernel" ]; then
 				pstatus yellow UNKNOWN "kernel image missing"
@@ -2949,7 +3308,11 @@ check_CVE_2017_5715_linux()
 				_warn "IBPB is considered as a good addition to retpoline for Variant 2 mitigation, but your CPU microcode doesn't support it"
 			fi
 		elif [ -n "$ibrs_enabled" ] && [ -n "$ibpb_enabled" ] && [ "$ibrs_enabled" -ge 1 ] && [ "$ibpb_enabled" -ge 1 ]; then
-			pvulnstatus $cve OK "IBRS + IBPB are mitigating the vulnerability"
+			if [ "$ibrs_enabled" = 4 ]; then
+				pvulnstatus $cve OK "Enhanced IBRS + IBPB are mitigating the vulnerability"
+			else
+				pvulnstatus $cve OK "IBRS + IBPB are mitigating the vulnerability"
+			fi
 		elif [ "$ibpb_enabled" = 2 ] && ! is_cpu_smt_enabled; then
 			pvulnstatus $cve OK "Full IBPB is mitigating the vulnerability"
 		elif [ -n "$bp_harden" ]; then
@@ -2974,10 +3337,10 @@ check_CVE_2017_5715_linux()
 			if is_vulnerable_to_empty_rsb; then
 				pvulnstatus $cve VULN "IBRS+IBPB or retpoline+IBPB+RSB filling, is needed to mitigate the vulnerability"
 				explain "To mitigate this vulnerability, you need either IBRS + IBPB, both requiring hardware support from your CPU microcode in addition to kernel support, or a kernel compiled with retpoline and IBPB, with retpoline requiring a retpoline-aware compiler (re-run this script with -v to know if your version of gcc is retpoline-aware) and IBPB requiring hardware support from your CPU microcode. You also need a recent-enough kernel that supports RSB filling if you plan to use retpoline. For Skylake+ CPUs, the IBRS + IBPB approach is generally preferred as it guarantees complete protection, and the performance impact is not as high as with older CPUs in comparison with retpoline. More information about how to enable the missing bits for those two possible mitigations on your system follow. You only need to take one of the two approaches."
-			elif is_zen_cpu; then
+			elif is_zen_cpu || is_moksha_cpu; then
 				pvulnstatus $cve VULN "retpoline+IBPB is needed to mitigate the vulnerability"
 				explain "To mitigate this vulnerability, You need a kernel compiled with retpoline + IBPB support, with retpoline requiring a retpoline-aware compiler (re-run this script with -v to know if your version of gcc is retpoline-aware) and IBPB requiring hardware support from your CPU microcode."
-			elif is_intel || is_amd; then
+			elif is_intel || is_amd || is_hygon; then
 				pvulnstatus $cve VULN "IBRS+IBPB or retpoline+IBPB is needed to mitigate the vulnerability"
 				explain "To mitigate this vulnerability, you need either IBRS + IBPB, both requiring hardware support from your CPU microcode in addition to kernel support, or a kernel compiled with retpoline and IBPB, with retpoline requiring a retpoline-aware compiler (re-run this script with -v to know if your version of gcc is retpoline-aware) and IBPB requiring hardware support from your CPU microcode. The retpoline + IBPB approach is generally preferred as the performance impact is lower. More information about how to enable the missing bits for those two possible mitigations on your system follow. You only need to take one of the two approaches."
 			else
@@ -2993,9 +3356,9 @@ check_CVE_2017_5715_linux()
 
 		# if we are in live mode, we can check for a lot more stuff and explain further
 		if [ "$opt_live" = 1 ] && [ "$vulnstatus" != "OK" ]; then
-			_explain_hypervisor="An updated CPU microcode will have IBRS/IBPB capabilities indicated in the Hardware Check section above. If you're running under an hypervisor (KVM, Xen, VirtualBox, VMware, ...), the hypervisor needs to be up to date to be able to export the new host CPU flags to the guest. You can run this script on the host to check if the host CPU is IBRS/IBPB. If it is, and it doesn't show up in the guest, upgrade the hypervisor. You may need to reconfigure your VM to use a CPU model that has IBRS capability; in Libvirt, such CPUs are listed with an IBRS suffix."
+			_explain_hypervisor="An updated CPU microcode will have IBRS/IBPB capabilities indicated in the Hardware Check section above. If you're running under a hypervisor (KVM, Xen, VirtualBox, VMware, ...), the hypervisor needs to be up to date to be able to export the new host CPU flags to the guest. You can run this script on the host to check if the host CPU is IBRS/IBPB. If it is, and it doesn't show up in the guest, upgrade the hypervisor. You may need to reconfigure your VM to use a CPU model that has IBRS capability; in Libvirt, such CPUs are listed with an IBRS suffix."
 			# IBPB (amd & intel)
-			if ( [ -z "$ibpb_enabled" ] || [ "$ibpb_enabled" = 0 ] ) && ( is_intel || is_amd ); then
+			if { [ -z "$ibpb_enabled" ] || [ "$ibpb_enabled" = 0 ]; } && { is_intel || is_amd || is_hygon; }; then
 				if [ -z "$cpuid_ibpb" ]; then
 					explain "The microcode of your CPU needs to be upgraded to be able to use IBPB. This is usually done at boot time by your kernel (the upgrade is not persistent across reboots which is why it's done at each boot). If you're using a distro, make sure you are up to date, as microcode updates are usually shipped alongside with the distro kernel. Availability of a microcode update for you CPU model depends on your CPU vendor. You can usually find out online if a microcode update is available for your CPU by searching for your CPUID (indicated in the Hardware Check section). $_explain_hypervisor"
 				fi
@@ -3020,7 +3383,7 @@ check_CVE_2017_5715_linux()
 			# /IBPB
 
 			# IBRS (amd & intel)
-			if ( [ -z "$ibrs_enabled" ] || [ "$ibrs_enabled" = 0 ] ) && ( is_intel || is_amd ); then
+			if { [ -z "$ibrs_enabled" ] || [ "$ibrs_enabled" = 0 ]; } && { is_intel || is_amd || is_hygon; }; then
 				if [ -z "$cpuid_ibrs" ]; then
 					explain "The microcode of your CPU needs to be upgraded to be able to use IBRS. This is usually done at boot time by your kernel (the upgrade is not persistent across reboots which is why it's done at each boot). If you're using a distro, make sure you are up to date, as microcode updates are usually shipped alongside with the distro kernel. Availability of a microcode update for you CPU model depends on your CPU vendor. You can usually find out online if a microcode update is available for your CPU by searching for your CPUID (indicated in the Hardware Check section). $_explain_hypervisor"
 				fi
@@ -3038,8 +3401,8 @@ check_CVE_2017_5715_linux()
 			# /IBRS
 			unset _explain_hypervisor
 
-			# RETPOLINE (amd & intel)
-			if is_amd || is_intel; then
+			# RETPOLINE (amd & intel &hygon )
+			if is_amd || is_intel || is_hygon; then
 				if [ "$retpoline" = 0 ]; then
 					explain "Your kernel is not compiled with retpoline support, so you need to either upgrade your kernel (if you're using a distro) or recompile your kernel with the CONFIG_RETPOLINE option enabled. You also need to compile your kernel with  a retpoline-aware compiler (re-run this script with -v to know if your version of gcc is retpoline-aware)."
 				elif [ "$retpoline" = 1 ] && [ "$retpoline_compiler" = 0 ]; then
@@ -3096,7 +3459,7 @@ check_CVE_2017_5715_bsd()
 	if [ -n "$kernel_err" ]; then
 		pstatus yellow UNKNOWN "couldn't check ($kernel_err)"
 	else
-		if ! which "${opt_arch_prefix}readelf" >/dev/null 2>&1; then
+		if ! command -v "${opt_arch_prefix}readelf" >/dev/null 2>&1; then
 			pstatus yellow UNKNOWN "missing '${opt_arch_prefix}readelf' tool, please install it, usually it's in the binutils package"
 		else
 			nb_thunks=$("${opt_arch_prefix}readelf" -s "$kernel" | grep -c -e __llvm_retpoline_ -e __llvm_external_retpoline_ -e __x86_indirect_thunk_)
@@ -3212,7 +3575,7 @@ check_CVE_2017_5754_linux()
 			# nopti option that is part of the patch (kernel command line option)
 			# 'kpti=': arm
 			kpti_can_tell=1
-			if ! which "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+			if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 				pstatus yellow UNKNOWN "missing '${opt_arch_prefix}strings' tool, please install it, usually it's in the binutils package"
 			else
 				kpti_support=$("${opt_arch_prefix}strings" "$kernel" | grep -w -e nopti -e kpti=)
@@ -3254,6 +3617,10 @@ check_CVE_2017_5754_linux()
 				# Red Hat Backport creates a dedicated file, see https://access.redhat.com/articles/3311301
 				kpti_enabled=$(cat /sys/kernel/debug/x86/pti_enabled 2>/dev/null)
 				_debug "kpti_enabled: file /sys/kernel/debug/x86/pti_enabled exists and says: $kpti_enabled"
+			elif is_xen_dom0; then
+				pti_xen_pv_domU=$(xl dmesg | grep 'XPTI' | grep 'DomU enabled' | head -1)
+
+				[ -n "$pti_xen_pv_domU" ] && kpti_enabled=1
 			fi
 			if [ -z "$kpti_enabled" ]; then
 				dmesg_grep "$dmesg_grep"; ret=$?
@@ -3290,24 +3657,8 @@ check_CVE_2017_5754_linux()
 
 
 	# Test if the current host is a Xen PV Dom0 / DomU
-	if [ -d "$procfs/xen" ]; then
-		# XXX do we have a better way that relying on dmesg?
-		dmesg_grep 'Booting paravirtualized kernel on Xen$'; ret=$?
-		if [ $ret -eq 2 ]; then
-			_warn "dmesg truncated, Xen detection will be unreliable. Please reboot and relaunch this script"
-		elif [ $ret -eq 0 ]; then
-			if [ -e "$procfs/xen/capabilities" ] && grep -q "control_d" "$procfs/xen/capabilities"; then
-				xen_pv_domo=1
-			else
-				xen_pv_domu=1
-			fi
-			# PVHVM guests also print 'Booting paravirtualized kernel', so we need this check.
-			dmesg_grep 'Xen HVM callback vector for event delivery is enabled$'; ret=$?
-			if [ $ret -eq 0 ]; then
-				xen_pv_domu=0
-			fi
-		fi
-	fi
+	is_xen_dom0 && xen_pv_domo=1
+	is_xen_domU && xen_pv_domu=1
 
 	if [ "$opt_live" = 1 ]; then
 		# checking whether we're running under Xen PV 64 bits. If yes, we are affected by variant3
@@ -3479,7 +3830,7 @@ check_CVE_2018_3639_linux()
 		sys_interface_available=1
 	fi
 	if [ "$opt_sysfs_only" != 1 ]; then
-		_info_nol "* Kernel supports speculation store bypass: "
+		_info_nol "* Kernel supports disabling speculative store bypass (SSB): "
 		if [ "$opt_live" = 1 ]; then
 			if grep -Eq 'Speculation.?Store.?Bypass:' "$procfs/self/status" 2>/dev/null; then
 				kernel_ssb="found in $procfs/self/status"
@@ -3501,6 +3852,36 @@ check_CVE_2018_3639_linux()
 			pstatus yellow NO
 		fi
 
+		kernel_ssbd_enabled=-1
+		if [ "$opt_live" = 1 ]; then
+			# https://elixir.bootlin.com/linux/v5.0/source/fs/proc/array.c#L340
+			_info_nol "* SSB mitigation is enabled and active: "
+			if grep -Eq 'Speculation.?Store.?Bypass:[[:space:]]+thread' "$procfs/self/status" 2>/dev/null; then
+				kernel_ssbd_enabled=1
+				pstatus green YES "per-thread through prctl"
+			elif grep -Eq 'Speculation.?Store.?Bypass:[[:space:]]+globally mitigated' "$procfs/self/status" 2>/dev/null; then
+				kernel_ssbd_enabled=2
+				pstatus green YES "global"
+			elif grep -Eq 'Speculation.?Store.?Bypass:[[:space:]]+vulnerable' "$procfs/self/status" 2>/dev/null; then
+				kernel_ssbd_enabled=0
+				pstatus yellow NO
+			elif grep -Eq 'Speculation.?Store.?Bypass:[[:space:]]+not vulnerable' "$procfs/self/status" 2>/dev/null; then
+				kernel_ssbd_enabled=-2
+				pstatus blue NO "not vulnerable"
+			fi
+
+			if [ "$kernel_ssbd_enabled" = 1 ]; then
+				_info_nol "* SSB mitigation currently active for selected processes: "
+				mitigated_processes=$(grep -El 'Speculation.?Store.?Bypass:[[:space:]]+thread (force )?mitigated' /proc/*/status \
+					| sed s/status/exe/ | xargs -r -n1 readlink -f | xargs -r -n1 basename | sort -u | tr "\n" " " | sed 's/ $//')
+				if [ -n "$mitigated_processes" ]; then
+					pstatus green YES "$mitigated_processes"
+				else
+					pstatus yellow NO "no process found using SSB mitigation through prctl"
+				fi
+			fi
+		fi
+
 	elif [ "$sys_interface_available" = 0 ]; then
 		# we have no sysfs but were asked to use it only!
 		msg="/sys vulnerability interface use forced, but it's not available!"
@@ -3514,7 +3895,15 @@ check_CVE_2018_3639_linux()
 		# if msg is empty, sysfs check didn't fill it, rely on our own test
 		if [ -n "$cpuid_ssbd" ]; then
 			if [ -n "$kernel_ssb" ]; then
-				pvulnstatus $cve OK "your system provides the necessary tools for software mitigation"
+				if [ "$opt_live" = 1 ]; then
+					if [ "$kernel_ssbd_enabled" -gt 0 ]; then
+						pvulnstatus $cve OK "your CPU and kernel both support SSBD and mitigation is enabled"
+					else
+						pvulnstatus $cve VULN "your CPU and kernel both support SSBD but the mitigation is not active"
+					fi
+				else
+					pvulnstatus $cve OK "your system provides the necessary tools for software mitigation"
+				fi
 			else
 				pvulnstatus $cve VULN "your kernel needs to be updated"
 				explain "You have a recent-enough CPU microcode but your kernel is too old to use the new features exported by your CPU's microcode. If you're using a distro kernel, upgrade your distro to get the latest kernel available. Otherwise, recompile the kernel from recent-enough sources."
@@ -3633,13 +4022,13 @@ check_CVE_2018_3620_linux()
 	status=UNK
 	sys_interface_available=0
 	msg=''
-	if sys_interface_check "/sys/devices/system/cpu/vulnerabilities/l1tf" '^[^;]+'; then
+	if sys_interface_check "/sys/devices/system/cpu/vulnerabilities/l1tf"; then
 		# this kernel has the /sys interface, trust it over everything
 		sys_interface_available=1
 	fi
 	if [ "$opt_sysfs_only" != 1 ]; then
 		_info_nol "* Kernel supports PTE inversion: "
-		if ! which "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+		if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 			pteinv_supported=-1
 		else
 			if "${opt_arch_prefix}strings" "$kernel" | grep -Fq 'PTE Inversion'; then
@@ -3654,8 +4043,8 @@ check_CVE_2018_3620_linux()
 
 		_info_nol "* PTE inversion enabled and active: "
 		if [ "$opt_live" = 1 ]; then
-			if [ "$sys_interface_available" = 1 ]; then
-				if grep -q 'Mitigation: PTE Inversion' /sys/devices/system/cpu/vulnerabilities/l1tf; then
+			if [ -n "$fullmsg" ]; then
+				if echo "$fullmsg" | grep -q 'Mitigation: PTE Inversion'; then
 					pstatus green YES
 					pteinv_active=1
 				else
@@ -3697,6 +4086,12 @@ check_CVE_2018_3620_linux()
 check_CVE_2018_3620_bsd()
 {
 	_info_nol "* Kernel reserved the memory page at physical address 0x0: "
+	if ! kldstat -q -m vmm; then
+		kldload vmm 2>/dev/null && kldload_vmm=1
+		_debug "attempted to load module vmm, kldload_vmm=$kldload_vmm"
+	else
+		_debug "vmm module already loaded"
+	fi
 	if sysctl hw.vmm.vmx.l1d_flush >/dev/null 2>&1; then
 		# https://security.FreeBSD.org/patches/SA-18:09/l1tf-11.2.patch
 		# this is very difficult to detect that the kernel reserved the 0 page, but this fix
@@ -3739,18 +4134,38 @@ check_CVE_2018_3646_linux()
 	status=UNK
 	sys_interface_available=0
 	msg=''
-	if sys_interface_check "/sys/devices/system/cpu/vulnerabilities/l1tf" 'VMX:.*' silent; then
+	if sys_interface_check "/sys/devices/system/cpu/vulnerabilities/l1tf" '.*' quiet; then
 		# this kernel has the /sys interface, trust it over everything
 		sys_interface_available=1
 	fi
+	l1d_mode=-1
 	if [ "$opt_sysfs_only" != 1 ]; then
-		_info_nol "* This system is a host running an hypervisor: "
+		_info_nol "* This system is a host running a hypervisor: "
 		has_vmm=$opt_vmm
-		if [ "$has_vmm" = -1 ]; then
-			# FIXME enhance detection, this one is pretty basic/stupid
+		if [ "$has_vmm" = -1 ] && [ "$opt_paranoid" = 1 ]; then
+			# In paranoid mode, if --vmm was not specified on the command-line,
+			# we want to be secure before everything else, so assume we're running
+			# a hypervisor, as this requires more mitigations
+			has_vmm=2
+		elif [ "$has_vmm" = -1 ]; then
+			# Here, we want to know if we are hosting a hypervisor, and running some VMs on it.
+			# If we find no evidence that this is the case, assume we're not (to avoid scaring users),
+			# this can always be overridden with --vmm in any case.
 			has_vmm=0
-			# shellcheck disable=SC2009
-			ps ax | grep -v -e grep -e '\[kvm' | grep -q -e qemu -e kvm && has_vmm=1
+			if command -v pgrep >/dev/null 2>&1; then
+				# remove xenbus and xenwatch, also present inside domU
+				# remove libvirtd as it can also be used to manage containers and not VMs
+				if pgrep qemu >/dev/null || pgrep kvm >/dev/null || \
+					pgrep xenstored >/dev/null || pgrep xenconsoled >/dev/null; then
+					has_vmm=1
+				fi
+			else
+				# ignore SC2009 as `ps ax` is actually used as a fallback if `pgrep` isn't installed
+				# shellcheck disable=SC2009
+				if ps ax | grep -vw grep | grep -q -e '\<qemu' -e '/qemu' -e '<\kvm' -e '/kvm' -e '/xenstored' -e '/xenconsoled'; then
+					has_vmm=1
+				fi
+			fi
 		fi
 		if [ "$has_vmm" = 0 ]; then
 			if [ "$opt_vmm" != -1 ]; then
@@ -3761,6 +4176,8 @@ check_CVE_2018_3646_linux()
 		else
 			if [ "$opt_vmm" != -1 ]; then
 				pstatus blue YES "forced from command line"
+			elif [ "$has_vmm" = 2 ]; then
+				pstatus blue YES "paranoid mode"
 			else
 				pstatus blue YES
 			fi
@@ -3787,7 +4204,7 @@ check_CVE_2018_3646_linux()
 			l1d_kernel="found flush_l1d in $procfs/cpuinfo"
 		fi
 		if [ -z "$l1d_kernel" ]; then
-			if ! which "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+			if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 				l1d_kernel_err="missing '${opt_arch_prefix}strings' tool, please install it, usually it's in the binutils package"
 			elif [ -n "$kernel_err" ]; then
 				l1d_kernel_err="$kernel_err"
@@ -3806,34 +4223,57 @@ check_CVE_2018_3646_linux()
 
 		_info_nol "  * L1D flush enabled: "
 		if [ "$opt_live" = 1 ]; then
-			if [ -r "/sys/devices/system/cpu/vulnerabilities/l1tf" ]; then
+			if [ -n "$fullmsg" ]; then
 				# vanilla: VMX: $l1dstatus, SMT $smtstatus
 				# Red Hat: VMX: SMT $smtstatus, L1D $l1dstatus
 				# $l1dstatus is one of (auto|vulnerable|conditional cache flushes|cache flushes|EPT disabled|flush not necessary)
 				# $smtstatus is one of (vulnerable|disabled)
-				if grep -Eq '(VMX:|L1D) (EPT disabled|vulnerable|flush not necessary)' "/sys/devices/system/cpu/vulnerabilities/l1tf"; then
+				# can also just be "Not affected"
+				if echo "$fullmsg" | grep -Eq -e 'Not affected' -e '(VMX:|L1D) (EPT disabled|vulnerable|flush not necessary)'; then
 					l1d_mode=0
 					pstatus yellow NO
-				elif grep -Eq '(VMX:|L1D) conditional cache flushes' "/sys/devices/system/cpu/vulnerabilities/l1tf"; then
+				elif echo "$fullmsg" | grep -Eq '(VMX:|L1D) conditional cache flushes'; then
 					l1d_mode=1
 					pstatus green YES "conditional flushes"
-				elif grep -Eq '(VMX:|L1D) cache flushes' "/sys/devices/system/cpu/vulnerabilities/l1tf"; then
+				elif echo "$fullmsg" | grep -Eq '(VMX:|L1D) cache flushes'; then
 					l1d_mode=2
 					pstatus green YES "unconditional flushes"
 				else
-					l1d_mode=-1
-					pstatus yellow UNKNOWN "unrecognized mode"
+					if is_xen_dom0; then
+						l1d_xen_hardware=$(xl dmesg | grep 'Hardware features:' | grep 'L1D_FLUSH' | head -1)
+						l1d_xen_hypervisor=$(xl dmesg | grep 'Xen settings:' | grep 'L1D_FLUSH' | head -1)
+						l1d_xen_pv_domU=$(xl dmesg | grep 'PV L1TF shadowing:' | grep 'DomU enabled' | head -1)
+
+						if [ -n "$l1d_xen_hardware" ] && [ -n "$l1d_xen_hypervisor" ] && [ -n "$l1d_xen_pv_domU" ]; then
+							l1d_mode=5
+							pstatus green YES "for XEN guests"
+						elif [ -n "$l1d_xen_hardware" ] && [ -n "$l1d_xen_hypervisor" ]; then
+							l1d_mode=4
+							pstatus yellow YES "for XEN guests (HVM only)"
+						elif [ -n "$l1d_xen_pv_domU" ]; then
+							l1d_mode=3
+							pstatus yellow YES "for XEN guests (PV only)"
+						else
+							l1d_mode=0
+							pstatus yellow NO "for XEN guests"
+						fi
+					else
+						l1d_mode=-1
+						pstatus yellow UNKNOWN "unrecognized mode"
+					fi
 				fi
 			else
+				l1d_mode=-1
 				pstatus yellow UNKNOWN "can't find or read /sys/devices/system/cpu/vulnerabilities/l1tf"
 			fi
 		else
+			l1d_mode=-1
 			pstatus blue N/A "not testable in offline mode"
 		fi
 
 		_info_nol "  * Hardware-backed L1D flush supported: "
 		if [ "$opt_live" = 1 ]; then
-			if grep -qw flush_l1d "$procfs/cpuinfo"; then
+			if grep -qw flush_l1d "$procfs/cpuinfo" || [ -n "$l1d_xen_hardware" ]; then
 				pstatus green YES "performance impact of the mitigation will be greatly reduced"
 			else
 				pstatus blue NO "flush will be done in software, this is slower"
@@ -3856,13 +4296,17 @@ check_CVE_2018_3646_linux()
 		# we have no sysfs but were asked to use it only!
 		msg="/sys vulnerability interface use forced, but it's not available!"
 		status=UNK
+		l1d_mode=-1
 	fi
 
 	if ! is_cpu_vulnerable "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
 		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+	elif [ "$fullmsg" = "Not affected" ]; then
+		# just in case a very recent kernel knows better than we do
+		pvulnstatus $cve OK "your kernel reported your CPU model as not vulnerable"
 	elif [ "$has_vmm" = 0 ]; then
-		pvulnstatus $cve OK "this system is not running an hypervisor"
+		pvulnstatus $cve OK "this system is not running a hypervisor"
 	else
 		if [ "$ept_disabled" = 1 ]; then
 			pvulnstatus $cve OK "EPT is disabled which mitigates the vulnerability"
@@ -3870,7 +4314,7 @@ check_CVE_2018_3646_linux()
 			if [ "$l1d_mode" -ge 1 ]; then
 				pvulnstatus $cve OK "L1D flushing is enabled and mitigates the vulnerability"
 			else
-				pvulnstatus $cve VULN "disable EPT or enabled L1D flushing to mitigate the vulnerability"
+				pvulnstatus $cve VULN "disable EPT or enable L1D flushing to mitigate the vulnerability"
 			fi
 		else
 			if [ "$l1d_mode" -ge 2 ]; then
@@ -3886,6 +4330,14 @@ check_CVE_2018_3646_linux()
 					pvulnstatus $cve VULN "enable L1D unconditional flushing and disable Hyper-Threading to fully mitigate the vulnerability"
 				fi
 			fi
+		fi
+
+		if [ $l1d_mode -gt 3 ]; then
+			_warn
+			_warn "This host is a Xen Dom0. Please make sure that you are running your DomUs"
+			_warn "with a kernel which contains CVE-2018-3646 mitigations."
+			_warn
+			_warn "See https://www.suse.com/support/kb/doc/?id=7023078 and XSA-273 for details."
 		fi
 	fi
 }
@@ -3923,6 +4375,262 @@ check_CVE_2018_3646_bsd()
 	fi
 }
 
+###################
+# MSBDS SECTION
+
+# Microarchitectural Store Buffer Data Sampling
+check_CVE_2018_12126()
+{
+	cve='CVE-2018-12126'
+	check_mds $cve
+}
+
+###################
+# MFBDS SECTION
+
+# Microarchitectural Fill Buffer Data Sampling
+check_CVE_2018_12130()
+{
+	cve='CVE-2018-12130'
+	check_mds $cve
+}
+
+###################
+# MLPDS SECTION
+
+# Microarchitectural Load Port Data Sampling
+check_CVE_2018_12127()
+{
+	cve='CVE-2018-12127'
+	check_mds $cve
+}
+
+###################
+# MDSUM SECTION
+
+# Microarchitectural Data Sampling Uncacheable Memory 
+check_CVE_2019_11091()
+{
+	cve='CVE-2019-11091'
+	check_mds $cve
+}
+
+# Microarchitectural Data Sampling
+check_mds()
+{
+	cve=$1
+	_info "\033[1;34m$cve aka '$(cve2name "$cve")'\033[0m"
+	if [ "$os" = Linux ]; then
+		check_mds_linux "$cve"
+	elif echo "$os" | grep -q BSD; then
+		check_mds_bsd "$cve"
+	else
+		_warn "Unsupported OS ($os)"
+	fi
+}
+
+check_mds_bsd()
+{
+	_info_nol "* Kernel supports using MD_CLEAR mitigation: "
+	if [ "$opt_live" = 1 ]; then
+		if sysctl hw.mds_disable >/dev/null 2>&1; then
+			pstatus green YES
+			kernel_md_clear=1
+		else
+			pstatus yellow NO
+			kernel_md_clear=0
+		fi
+	else
+		if command -v "strings" >/dev/null 2>&1; then
+			if strings /boot/kernel/kernel | grep -Fq hw.mds_disable; then
+				pstatus green YES
+				kernel_md_clear=1
+			else
+				kernel_md_clear=0
+				pstatus yellow NO
+			fi
+		else
+			pstatus yellow UNKNOWN
+		fi
+	fi
+
+	_info_nol "* CPU Hyper-Threading (SMT) is disabled: "
+	if sysctl machdep.hyperthreading_allowed >/dev/null 2>&1; then
+		kernel_smt_allowed=$(sysctl -n machdep.hyperthreading_allowed 2>/dev/null)
+		if [ "$kernel_smt_allowed" = 1 ]; then
+			pstatus yellow NO
+		else
+			pstatus green YES
+		fi
+	else
+		pstatus yellow UNKNOWN "sysctl machdep.hyperthreading_allowed doesn't exist"
+	fi
+
+	_info_nol "* Kernel mitigation is enabled: "
+	if [ "$kernel_md_clear" = 1 ]; then
+		kernel_mds_enabled=$(sysctl -n hw.mds_disable 2>/dev/null)
+	else
+		kernel_mds_enabled=0
+	fi
+	case "$kernel_mds_enabled" in
+		0) pstatus yellow NO;;
+		1) pstatus green YES "with microcode support";;
+		2) pstatus green YES "software-only support (SLOW)";;
+		3) pstatus green YES;;
+		*) pstatus yellow UNKNOWN "unknown value $kernel_mds_enabled"
+	esac
+
+	_info_nol "* Kernel mitigation is active: "
+	if [ "$kernel_md_clear" = 1 ]; then
+		kernel_mds_state=$(sysctl -n hw.mds_disable_state 2>/dev/null)
+	else
+		kernel_mds_state=inactive
+	fi
+	# https://github.com/freebsd/freebsd/blob/master/sys/x86/x86/cpu_machdep.c#L953
+	case "$kernel_mds_state" in
+		inactive)  pstatus yellow NO;;
+		VERW)      pstatus green YES "with microcode support";;
+		software*) pstatus green YES "software-only support (SLOW)";;
+		*)         pstatus yellow UNKNOWN
+	esac
+
+	if ! is_cpu_vulnerable "$cve"; then
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not vulnerable"
+	else
+		if [ "$cpuid_md_clear" = 1 ]; then
+			if [ "$kernel_md_clear" = 1 ]; then
+				if [ "$opt_live" = 1 ]; then
+					# mitigation must also be enabled
+					if [ "$kernel_mds_enabled" -ge 1 ]; then
+						if [ "$opt_paranoid" != 1 ] || [ "$kernel_smt_allowed" = 0 ]; then
+							pvulnstatus "$cve" OK "Your microcode and kernel are both up to date for this mitigation, and mitigation is enabled"
+						else
+							pvulnstatus "$cve" VULN "Your microcode and kernel are both up to date for this mitigation, but your must disable SMT (Hyper-Threading) for a complete mitigation"
+						fi
+					else
+						pvulnstatus "$cve" VULN "Your microcode and kernel are both up to date for this mitigation, but the mitigation is not active"
+					fi
+				else
+					pvulnstatus "$cve" OK "Your microcode and kernel are both up to date for this mitigation"
+				fi
+			else
+				pvulnstatus "$cve" VULN "Your microcode supports mitigation, but your kernel doesn't, upgrade it to mitigate the vulnerability"
+			fi
+		else
+			if [ "$kernel_md_clear" = 1 ]; then
+				pvulnstatus "$cve" VULN "Your kernel supports mitigation, but your CPU microcode also needs to be updated to mitigate the vulnerability"
+			else
+				pvulnstatus "$cve" VULN "Neither your kernel or your microcode support mitigation, upgrade both to mitigate the vulnerability"
+			fi
+		fi
+	fi
+}
+
+check_mds_linux()
+{
+	status=UNK
+	sys_interface_available=0
+	msg=''
+	if sys_interface_check "/sys/devices/system/cpu/vulnerabilities/mds" '^[^;]+'; then
+		# this kernel has the /sys interface, trust it over everything
+		sys_interface_available=1
+	fi
+	if [ "$opt_sysfs_only" != 1 ]; then
+		_info_nol "* Kernel supports using MD_CLEAR mitigation: "
+		kernel_md_clear=''
+		kernel_md_clear_can_tell=1
+		if [ "$opt_live" = 1 ] && grep ^flags $procfs/cpuinfo | grep -qw md_clear; then
+			kernel_md_clear="md_clear found in $procfs/cpuinfo"
+			pstatus green YES "$kernel_md_clear"
+		fi
+		if [ -z "$kernel_md_clear" ]; then
+			if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
+				kernel_md_clear_can_tell=0
+			elif [ -n "$kernel_err" ]; then
+				kernel_md_clear_can_tell=0
+			elif "${opt_arch_prefix}strings" "$kernel" | grep -q 'Clear CPU buffers'; then
+				_debug "md_clear: found 'Clear CPU buffers' string in kernel image"
+				kernel_md_clear='found md_clear implementation evidence in kernel image'
+				pstatus green YES "$kernel_md_clear"
+			fi
+		fi
+		if [ -z "$kernel_md_clear" ]; then
+			if [ "$kernel_md_clear_can_tell" = 1 ]; then
+				pstatus yellow NO
+			else
+				pstatus yellow UNKNOWN
+			fi
+		fi
+
+		if [ "$opt_live" = 1 ] && [ "$sys_interface_available" = 1 ]; then
+			_info_nol "* Kernel mitigation is enabled and active: "
+			if echo "$fullmsg" | grep -qi ^mitigation; then
+				mds_mitigated=1
+				pstatus green YES
+			else
+				mds_mitigated=0
+				pstatus yellow NO
+			fi
+			_info_nol "* SMT is either mitigated or disabled: "
+			if echo "$fullmsg" | grep -Eq 'SMT (disabled|mitigated)'; then
+				mds_smt_mitigated=1
+				pstatus green YES
+			else
+				mds_smt_mitigated=0
+				pstatus yellow NO
+			fi
+		fi
+	elif [ "$sys_interface_available" = 0 ]; then
+		# we have no sysfs but were asked to use it only!
+		msg="/sys vulnerability interface use forced, but it's not available!"
+		status=UNK
+	fi
+
+	if ! is_cpu_vulnerable "$cve"; then
+		# override status & msg in case CPU is not vulnerable after all
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not vulnerable"
+	elif [ -z "$msg" ]; then
+		# if msg is empty, sysfs check didn't fill it, rely on our own test
+		if [ "$cpuid_md_clear" = 1 ]; then
+			if [ -n "$kernel_md_clear" ]; then
+				if [ "$opt_live" = 1 ]; then
+					# mitigation must also be enabled
+					if [ "$mds_mitigated" = 1 ]; then
+						if [ "$opt_paranoid" != 1 ] || [ "$mds_smt_mitigated" = 1 ]; then
+							pvulnstatus "$cve" OK "Your microcode and kernel are both up to date for this mitigation, and mitigation is enabled"
+						else
+							pvulnstatus "$cve" VULN "Your microcode and kernel are both up to date for this mitigation, but your must disable SMT (Hyper-Threading) for a complete mitigation"
+						fi
+					else
+						pvulnstatus "$cve" VULN "Your microcode and kernel are both up to date for this mitigation, but the mitigation is not active"
+					fi
+				else
+					pvulnstatus "$cve" OK "Your microcode and kernel are both up to date for this mitigation"
+				fi
+			else
+				pvulnstatus "$cve" VULN "Your microcode supports mitigation, but your kernel doesn't, upgrade it to mitigate the vulnerability"
+			fi
+		else
+			if [ -n "$kernel_md_clear" ]; then
+				pvulnstatus "$cve" VULN "Your kernel supports mitigation, but your CPU microcode also needs to be updated to mitigate the vulnerability"
+			else
+				pvulnstatus "$cve" VULN "Neither your kernel or your microcode support mitigation, upgrade both to mitigate the vulnerability"
+			fi
+		fi
+	else
+		if [ "$opt_paranoid" = 1 ]; then
+			# in paranoid mode, we don't only need microcode + kernel update, we also want SMT mitigation
+			if echo "$fullmsg" | grep -qF -e 'SMT mitigated' -e 'SMT disabled'; then
+				pvulnstatus "$cve" OK "$fullmsg"
+			else
+				pvulnstatus "$cve" VULN "Your kernel and microcode partially mitigate the vulnerability, but you must disable SMT (Hyper-Threading) for a complete mitigation"
+			fi
+		else
+			pvulnstatus "$cve" "$status" "$fullmsg"
+		fi
+	fi
+}
+
 if [ "$opt_no_hw" = 0 ] && [ -z "$opt_arch_prefix" ]; then
 	check_cpu
 	check_cpu_vulnerabilities
@@ -3947,8 +4655,27 @@ if [ "$bad_accuracy" = 1 ]; then
 	_warn "We're missing some kernel info (see -v), accuracy might be reduced"
 fi
 
-_vars=$(set | grep -Ev '^[A-Z_[:space:]]' | sort | tr "\n" '|')
+_vars=$(set | grep -Ev '^[A-Z_[:space:]]' | grep -v -F 'mockme=' | sort | tr "\n" '|')
 _debug "variables at end of script: $_vars"
+
+if [ -n "$mockme" ] && [ "$opt_mock" = 1 ]; then
+	if command -v "gzip" >/dev/null 2>&1; then
+		# not a useless use of cat: gzipping cpuinfo directly doesn't work well
+		# shellcheck disable=SC2002
+		if command -v "base64" >/dev/null 2>&1; then
+			mock_cpuinfo="$(cat /proc/cpuinfo | gzip -c | base64 -w0)"
+		elif command -v "uuencode" >/dev/null 2>&1; then
+			mock_cpuinfo="$(cat /proc/cpuinfo | gzip -c | uuencode -m - | grep -Fv 'begin-base64' | grep -Fxv -- '====' | tr -d "\n")"
+		fi
+	fi
+	if [ -n "$mock_cpuinfo" ]; then
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPUINFO='$mock_cpuinfo'")
+		unset mock_cpuinfo
+	fi
+	_info ""
+	# shellcheck disable=SC2046
+	_warn "To mock this CPU, set those vars: "$(echo "$mockme" | sort -u)
+fi
 
 if [ "$opt_explain" = 0 ]; then
 	_info "Need more detailed information about mitigation options? Use --explain"
@@ -3956,8 +4683,14 @@ fi
 
 _info "A false sense of security is worse than no security at all, see --disclaimer"
 
+if [ "$mocked" = 1 ]; then
+	_info ""
+	_warn "One or several values have been mocked. This should only be done when debugging/testing this script."
+	_warn "The results do NOT reflect the actual status of the system we're running on."
+fi
+
 if [ "$opt_batch" = 1 ] && [ "$opt_batch_format" = "nrpe" ]; then
-	if [ ! -z "$nrpe_vuln" ]; then
+	if [ -n "$nrpe_vuln" ]; then
 		echo "Vulnerable:$nrpe_vuln"
 	else
 		echo "OK"
@@ -3984,11 +4717,13 @@ fi
 exit 0  # ok
 
 # We're using MCE.db from the excellent platomav's MCExtractor project
-# The builtin version follows, the user can update it with --update-mcedb
+# The builtin version follows, but the user can download an up-to-date copy (to be stored in his $HOME) by using --update-mcedb
+# To update the builtin version itself (by *modifying* this very file), use --update-builtin-mcedb
 
 # wget https://github.com/platomav/MCExtractor/raw/master/MCE.db
 # sqlite3 MCE.db "select '%%% MCEDB v'||revision||' - '||strftime('%Y/%m/%d', date, 'unixepoch') from MCE; select '# I,0x'||cpuid||',0x'||version||','||max(yyyymmdd) from Intel group by cpuid order by cpuid asc; select '# A,0x'||cpuid||',0x'||version||','||max(yyyymmdd) from AMD group by cpuid order by cpuid asc"
-# %%% MCEDB v84 - 2018/09/27
+
+# %%% MCEDB v112 - 2019/05/22
 # I,0x00000611,0x00000B27,19961218
 # I,0x00000612,0x000000C6,19961210
 # I,0x00000616,0x000000C6,19961210
@@ -4138,7 +4873,7 @@ exit 0  # ok
 # I,0x000206A4,0x00000022,20100414
 # I,0x000206A5,0x00000007,20100722
 # I,0x000206A6,0x90030028,20100924
-# I,0x000206A7,0x0000002E,20180410
+# I,0x000206A7,0x0000002F,20190217
 # I,0x000206C0,0xFFFF001C,20091214
 # I,0x000206C1,0x00000006,20091222
 # I,0x000206C2,0x0000001F,20180508
@@ -4167,94 +4902,104 @@ exit 0  # ok
 # I,0x00030671,0x00000117,20130410
 # I,0x00030672,0x0000022E,20140401
 # I,0x00030673,0x00000326,20180110
-# I,0x00030678,0x00000837,20180125
-# I,0x00030679,0x0000090A,20180110
+# I,0x00030678,0x00000838,20190422
+# I,0x00030679,0x0000090C,20190423
 # I,0x000306A0,0x00000007,20110407
 # I,0x000306A2,0x0000000C,20110725
 # I,0x000306A4,0x00000007,20110908
 # I,0x000306A5,0x00000009,20111110
 # I,0x000306A6,0x00000004,20111114
 # I,0x000306A8,0x00000010,20120220
-# I,0x000306A9,0x00000020,20180410
+# I,0x000306A9,0x00000021,20190213
 # I,0x000306C0,0xFFFF0013,20111110
 # I,0x000306C1,0xFFFF0014,20120725
 # I,0x000306C2,0xFFFF0006,20121017
-# I,0x000306C3,0x00000025,20180402
+# I,0x000306C3,0x00000027,20190226
 # I,0x000306D1,0xFFFF0009,20131015
 # I,0x000306D2,0xFFFF0009,20131219
 # I,0x000306D3,0xE3121338,20140825
-# I,0x000306D4,0x0000002B,20180322
+# I,0x000306D4,0x0000002D,20190307
 # I,0x000306E0,0x00000008,20120726
 # I,0x000306E2,0x0000020D,20130321
 # I,0x000306E3,0x00000308,20130321
-# I,0x000306E4,0x0000042D,20180425
+# I,0x000306E4,0x0000042E,20190314
 # I,0x000306E6,0x00000600,20130619
-# I,0x000306E7,0x00000714,20180425
+# I,0x000306E7,0x00000715,20190314
 # I,0x000306F0,0xFFFF0017,20130730
 # I,0x000306F1,0x00000014,20140110
-# I,0x000306F2,0x0000003D,20180420
+# I,0x000306F2,0x00000043,20190301
 # I,0x000306F3,0x0000000D,20160211
-# I,0x000306F4,0x00000012,20180420
+# I,0x000306F4,0x00000014,20190301
 # I,0x00040650,0xFFFF000B,20121206
-# I,0x00040651,0x00000024,20180402
+# I,0x00040651,0x00000025,20190226
 # I,0x00040660,0xFFFF0011,20121012
-# I,0x00040661,0x0000001A,20180402
+# I,0x00040661,0x0000001B,20190226
 # I,0x00040670,0xFFFF0006,20140304
-# I,0x00040671,0x0000001E,20180403
+# I,0x00040671,0x00000020,20190307
 # I,0x000406A0,0x80124001,20130521
 # I,0x000406A8,0x0000081F,20140812
 # I,0x000406A9,0x0000081F,20140812
 # I,0x000406C1,0x0000010B,20140814
 # I,0x000406C2,0x00000221,20150218
-# I,0x000406C3,0x00000367,20171225
-# I,0x000406C4,0x00000410,20180104
+# I,0x000406C3,0x00000368,20190423
+# I,0x000406C4,0x00000411,20190423
 # I,0x000406D0,0x0000000E,20130612
 # I,0x000406D8,0x0000012A,20180104
 # I,0x000406E1,0x00000020,20141111
 # I,0x000406E2,0x0000002C,20150521
-# I,0x000406E3,0x000000C6,20180417
+# I,0x000406E3,0x000000CC,20190401
 # I,0x000406E8,0x00000026,20160414
 # I,0x000406F0,0x00000014,20150702
-# I,0x000406F1,0x0B00002E,20180419
+# I,0x000406F1,0x0B000036,20190302
 # I,0x00050650,0x8000002B,20160208
 # I,0x00050651,0x8000002B,20160208
 # I,0x00050652,0x80000037,20170502
-# I,0x00050653,0x01000144,20180420
-# I,0x00050654,0x0200004D,20180515
-# I,0x00050655,0x0300000B,20180427
+# I,0x00050653,0x01000146,20180824
+# I,0x00050654,0x0200005E,20190402
+# I,0x00050655,0x03000010,20181116
+# I,0x00050656,0x04000024,20190407
+# I,0x00050657,0x05000024,20190407
 # I,0x00050661,0xF1000008,20150130
-# I,0x00050662,0x00000017,20180525
-# I,0x00050663,0x07000013,20180420
-# I,0x00050664,0x0F000012,20180420
-# I,0x00050665,0x0E00000A,20180420
+# I,0x00050662,0x0000001A,20190323
+# I,0x00050663,0x07000017,20190323
+# I,0x00050664,0x0F000015,20190323
+# I,0x00050665,0x0E00000D,20190323
 # I,0x00050670,0xFFFF0030,20151113
 # I,0x00050671,0x000001B6,20180108
 # I,0x000506A0,0x00000038,20150112
 # I,0x000506C2,0x00000014,20180511
 # I,0x000506C8,0x90011010,20160323
-# I,0x000506C9,0x00000032,20180511
-# I,0x000506CA,0x0000000C,20180511
+# I,0x000506C9,0x00000038,20190115
+# I,0x000506CA,0x00000016,20190301
 # I,0x000506D1,0x00000102,20150605
 # I,0x000506E0,0x00000018,20141119
 # I,0x000506E1,0x0000002A,20150602
 # I,0x000506E2,0x0000002E,20150815
-# I,0x000506E3,0x000000C6,20180417
+# I,0x000506E3,0x000000CC,20190401
 # I,0x000506E8,0x00000034,20160710
-# I,0x000506F1,0x00000024,20180511
+# I,0x000506F0,0x00000010,20160607
+# I,0x000506F1,0x0000002E,20190321
 # I,0x00060660,0x0000000C,20160821
 # I,0x00060661,0x0000000E,20170128
 # I,0x00060662,0x00000022,20171129
 # I,0x00060663,0x0000002A,20180417
 # I,0x000706A0,0x00000026,20170712
-# I,0x000706A1,0x0000002A,20180725
+# I,0x000706A1,0x0000002E,20190102
+# I,0x000706E0,0x0000002A,20180528
+# I,0x000706E1,0x00000040,20190327
+# I,0x000706E2,0x00000040,20190327
+# I,0x000706E4,0x0000001A,20190403
+# I,0x000706E5,0x0000001E,20190420
 # I,0x00080650,0x00000018,20180108
-# I,0x000806E9,0x00000098,20180626
-# I,0x000806EA,0x00000096,20180515
-# I,0x000806EB,0x00000098,20180530
-# I,0x000906E9,0x0000008E,20180324
-# I,0x000906EA,0x00000096,20180502
-# I,0x000906EB,0x0000008E,20180324
-# I,0x000906EC,0x0000009E,20180826
+# I,0x000806E9,0x000000B4,20190401
+# I,0x000806EA,0x000000B4,20190401
+# I,0x000806EB,0x000000B8,20190330
+# I,0x000806EC,0x000000B8,20190330
+# I,0x000906E9,0x000000B4,20190401
+# I,0x000906EA,0x000000B4,20190401
+# I,0x000906EB,0x000000B4,20190401
+# I,0x000906EC,0x000000AE,20190214
+# I,0x000906ED,0x000000BC,20190513
 # A,0x00000F00,0x02000008,20070614
 # A,0x00000F01,0x0000001C,20021031
 # A,0x00000F10,0x00000003,20020325
@@ -4322,10 +5067,14 @@ exit 0  # ok
 # A,0x00730F01,0x07030106,20180209
 # A,0x00800F00,0x0800002A,20161006
 # A,0x00800F10,0x0800100C,20170131
-# A,0x00800F11,0x08001137,20180214
-# A,0x00800F12,0x08001227,20180209
-# A,0x00800F82,0x0800820B,20180620
+# A,0x00800F11,0x08001138,20190204
+# A,0x00800F12,0x08001230,20180804
+# A,0x00800F82,0x0800820C,20190204
 # A,0x00810F00,0x08100004,20161120
-# A,0x00810F10,0x0810100B,20180212
+# A,0x00810F10,0x08101014,20190307
+# A,0x00810F11,0x08101102,20181106
 # A,0x00810F80,0x08108002,20180605
+# A,0x00810F81,0x08108102,20180813
 # A,0x00820F00,0x08200002,20180214
+# A,0x00870F00,0x08700004,20181206
+# A,0x00870F10,0x08701011,20190415
