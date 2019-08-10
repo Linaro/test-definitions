@@ -139,6 +139,18 @@ skiplist:
       - test_kmod.sh
 
   - reason: >
+      net: udpgro.sh hangs on i386 running next
+    url: https://bugs.linaro.org/show_bug.cgi?id=4078
+    environments: all
+    boards:
+      - i386
+    branches:
+      - next
+      - mainline
+    tests:
+      - udpgro.sh
+
+  - reason: >
       net: run_afpackettests hangs on hikey running 4.19 mainline
     url: https://bugs.linaro.org/show_bug.cgi?id=4049
     environments: all
