@@ -233,3 +233,44 @@ skiplist:
       - 4.19
     tests:
       - test_progs
+
+  - reason: >
+      Newly added selftests netfilter nft_nat.sh hangs on x86_64.
+      x86_64 is using NFS root file system the net and netfilter tests performing
+      network interfaces up and down causing network failure and system hang.
+    url: https://bugs.linaro.org/show_bug.cgi?id=5337
+    environments: all
+    boards:
+      - qemu_x86_64
+      - x86_64
+    branches:
+      - next
+      - mainline
+    tests:
+      - nft_nat.sh
+
+  - reason: >
+      Newly added test case selftests netfilter conntrack_icmp_related.sh hangs on qemu_x86_64.
+    url: https://bugs.linaro.org/show_bug.cgi?id=5338
+    environments: all
+    boards:
+      - qemu_x86_64
+      - x86_64
+    branches:
+      - next
+      - mainline
+    tests:
+      - conntrack_icmp_related.sh
+
+  - reason: >
+      next: i386: selftests net rtnetlink.sh test hangs intermittently
+    url: https://bugs.linaro.org/show_bug.cgi?id=5339
+    environments: all
+    boards:
+      - qemu_i386
+      - i386
+    branches:
+      - next
+      - mainline
+    tests:
+      - rtnetlink.sh
