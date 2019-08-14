@@ -166,7 +166,7 @@ skiplist:
     environments: all
     boards:
       - qemu_x86_64
-      - x86_64
+      - x86
     branches:
       - next
       - mainline
@@ -242,7 +242,7 @@ skiplist:
     environments: all
     boards:
       - qemu_x86_64
-      - x86_64
+      - x86
     branches:
       - next
       - mainline
@@ -255,7 +255,7 @@ skiplist:
     environments: all
     boards:
       - qemu_x86_64
-      - x86_64
+      - x86
     branches:
       - next
       - mainline
