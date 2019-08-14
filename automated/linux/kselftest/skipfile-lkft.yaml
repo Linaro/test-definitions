@@ -274,3 +274,17 @@ skiplist:
       - mainline
     tests:
       - rtnetlink.sh
+
+  - reason: >
+      x86_64 is using NFS root file system the net and netfilter tests performing
+      network interfaces up and down causing network failure and system hang.
+    url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - nft_trans_stress.sh
+      - bridge_brouter.sh
+      - nft_flowtable.sh
