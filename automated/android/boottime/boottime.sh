@@ -31,8 +31,8 @@ install_deps 'curl tar xz-utils usbutils' "${SKIP_INSTALL}"
 
 initialize_adb
 adb_root
-# wait till the launcher displayed
-wait_homescreen "${BOOT_TIMEOUT}"
+# wait till boot completed
+wait_boot_completed "${BOOT_TIMEOUT}"
 
 create_out_dir "${OUTPUT}"
 
