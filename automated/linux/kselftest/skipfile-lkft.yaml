@@ -151,6 +151,16 @@ skiplist:
       - udpgro.sh
 
   - reason: >
+      net: xfrm_policy.sh hangs on i386 running next
+    url: https://bugs.linaro.org/show_bug.cgi?id=5342
+    environments: all
+    boards:
+      - i386
+    branches: all
+    tests:
+      - xfrm_policy.sh
+
+  - reason: >
       net: run_afpackettests hangs on hikey running 4.19 mainline
     url: https://bugs.linaro.org/show_bug.cgi?id=4049
     environments: all
