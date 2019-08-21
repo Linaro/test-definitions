@@ -255,8 +255,7 @@ skiplist:
       - x86
       - i386
     branches:
-      - next
-      - mainline
+      - all
     tests:
       - nft_nat.sh
 
@@ -269,8 +268,7 @@ skiplist:
       - x86
       - i386
     branches:
-      - next
-      - mainline
+      - all
     tests:
       - conntrack_icmp_related.sh
 
@@ -282,8 +280,7 @@ skiplist:
       - qemu_i386
       - i386
     branches:
-      - next
-      - mainline
+      - all
     tests:
       - rtnetlink.sh
 
