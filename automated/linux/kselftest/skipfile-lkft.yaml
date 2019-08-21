@@ -253,6 +253,7 @@ skiplist:
     boards:
       - qemu_x86_64
       - x86
+      - i386
     branches:
       - next
       - mainline
@@ -266,6 +267,7 @@ skiplist:
     boards:
       - qemu_x86_64
       - x86
+      - i386
     branches:
       - next
       - mainline
