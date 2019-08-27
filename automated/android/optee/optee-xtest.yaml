@@ -11,6 +11,7 @@ metadata:
         - performance
     devices:
         - hi6220-hikey
+        - hi6220-hikey-bl
         - juno
 
 params:
