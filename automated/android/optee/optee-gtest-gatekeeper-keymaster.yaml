@@ -12,6 +12,7 @@ metadata:
         - performance
     devices:
         - hi6220-hikey
+        - hi6220-hikey-bl
 
 params:
     # Specify device serial no. when more than one device connected.
