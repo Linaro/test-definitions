@@ -1,0 +1,38 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: test-definitions
+Upstream-Contact: Linaro validation mailing list <linaro-validation@lists.linaro.org>
+Source: https://github.com/Linaro/test-definitions
+
+Files: *
+Copyright: 2012-2019 Linaro Limited
+           2019 Daniel Wagner <wagi@monom.org>
+           2019 Daniel Wagner <daniel.wagner@siemens.com>
+           2019 Patryk Mungai <patryk.mungai-ndungu.kx@renesas.com>
+           2018 Karsten Tausche <karsten@fairphone.com>
+           2018 Oleksandr Terentiev <oterenti@cisco.com>
+           2017 Lei Yang <Lei.Yang@windriver.com>
+License: GPL-2.0-only
+
+Files: automated/lib/parse_rt_tests_results.py
+Copyright: 2019 Daniel Wagner <wagi@monom.org>
+License: MIT
+
+Files: automated/linux/spectre-meltdown-checker-test/bin/spectre-meltdown-checker.sh
+Copyright: Stephane Lesimple
+License: GPL-3.0-only
+
+Files: automated/android/ion-monitor-tool/*
+Copyright: 2019 Axel Le Bourhis <axel.lebourhis@nxp.com>
+License: GPL-2.0-only
+
+Files: automated/linux/blogbench/bin/*
+Copyright: Frank Denis
+License: ISC
+
+Files: automated/linux/lmbench/bin/*
+Copyright: 1989, 1991 Free Software Foundation, Inc.
+License: GPL-2.0-only
+
+Files: automated/linux/stream/bin/*
+Copyright: 1991-2003 John D. McCalpin
+License: LicenseRef-stream
