@@ -44,7 +44,7 @@ else
     fi
 fi
 
-git clone https://github.com/docker/docker-ce
+git clone --depth 1 --branch "${RELEASE}" https://github.com/docker/docker-ce
 cd docker-ce/components/engine/
 git checkout "${RELEASE}" -b "${RELEASE}-test"
 # Enable shell xtrace and continue on test failure.
