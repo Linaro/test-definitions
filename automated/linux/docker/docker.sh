@@ -49,5 +49,12 @@ skip_list="run-docker-image"
 systemctl start docker
 exit_on_fail "start-docker-service" "${skip_list}"
 
-docker run -it "${IMAGE}" /bin/echo "Hello Docker"
+case "${IMAGE}" in
+    hello-world)
+        docker run "${IMAGE}"
+        ;;
+    *)
+        docker run -it "${IMAGE}" /bin/echo "Hello Docker"
+        ;;
+esac
 check_return "run-docker-image"
