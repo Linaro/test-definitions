@@ -1,0 +1,22 @@
+metadata:
+    name: meminfo
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Collect the information in /proc/meminfo after boot."
+    maintainer:
+        - ryan.harkin@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - oe
+    scope:
+        - functional
+    devices:
+        - rzn1d
+
+run:
+    steps:
+        - cd ./automated/linux/meminfo
+        - ./meminfo.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
