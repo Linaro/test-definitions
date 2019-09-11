@@ -74,7 +74,8 @@ sed -i "s| /data/local/tmp/system| /data/local/tmp/system > /dev/null|g" scripts
 sed -i "s| /data/art-test| /data/art-test > /dev/null|g" scripts/benchmarks/benchmarks_run_target.sh
 sed -i "s|mode \"\$1\"|mode \"\$1\" --noverbose|g" scripts/benchmarks/benchmarks_run_target.sh
 export OUT=${PWD}/out/target/product/${LUNCH_TARGET}/
-./scripts/benchmarks/benchmarks_run_target.sh  --skip-build true --iterations "${ITERATIONS}" --mode "${MODE}"
+./scripts/benchmarks/benchmarks_run_target.sh  --skip-build true --iterations "${ITERATIONS}" \
+  --mode "${MODE}" --target-device "${LUNCH_TARGET}"
 
 if [ -n "${ART_TOKEN}" ]; then
     git clone https://git.linaro.org/qa/post-build-report.git pbr; mkdir -p pbr/artifacts/
