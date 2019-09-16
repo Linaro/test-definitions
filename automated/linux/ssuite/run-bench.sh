@@ -186,17 +186,21 @@ run_test() {
 				 "${NUM_REPETITIONS}" "${OUTPUT}" 2>&1 |\
 	    tee -a "${OUTPUT}/log"
 
-	# In the result file, the average value of the main quantity
-	# measured is reported. For each passed test case. Here is the
-	# format of possible lines in the result file:
+	# For each benchmark, statistics (min, max, avg, std dev) on
+	# the measured quantity are appended to the source result file
+	# (${OUTPUT}"/result_list.txt). Here is the format of possible
+	# lines in this file.
 	#
-	# throughput-<scheduler1_name>--<workload_name> pass <real number> MB/s
+	# throughput-<scheduler1_name>--<workload_name> pass <min> <max> <avg> <std dev> MB/s
 	# throughput--<workload1_name>--<scheduler1_name> fail
 	#
-	# <app_name>-startup--<workload_name>--<scheduler1_name> pass <real number> sec
+	# <app_name>-startup--<workload_name>--<scheduler1_name> pass <min> <max> <avg> <std dev> sec
 	# <app_name>-startup--<workload_name>--<scheduler1_name> fail
 
-	# test-case-name-<max/min/avg/std> pass value sec
+	# LAVA does not comply with a result file in the above
+	# form. To get a compliant file, we pick each statistic and
+	# put it in a separate line in the destination result file
+	# (${RESULT_FILE}, which is then parsed by LAVA).
 	awk '{ print $1 "-max"" " $2 " " $3 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
 	awk '{ print $1 "-min"" " $2 " " $4 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
 	awk '{ print $1 "-avg"" " $2 " " $5 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
