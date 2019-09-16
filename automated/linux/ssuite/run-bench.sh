@@ -180,11 +180,11 @@ run_test() {
 	# measured is reported. For each passed test case. Here is the
 	# format of possible lines in the result file:
 	#
-	# throughput-<scheduler1_name>--<workload_name> pass <real number> MB/s
+	# throughput-<scheduler1_name>--<workload_name> pass <min> <max> <avg> <std dev> MB/s
 	# throughput--<workload1_name>--<scheduler1_name> fail
 	#
-	# <app_name>-startup--<workload_name>--<scheduler1_name> pass <real number> sec
-	#<app_name>-startup--<workload_name>--<scheduler1_name> fail
+	# <app_name>-startup--<workload_name>--<scheduler1_name> pass <min> <max> <avg> <std dev> sec
+	# <app_name>-startup--<workload_name>--<scheduler1_name> fail
 	mv "${OUTPUT}/result_list.txt" "${RESULT_FILE}"
 }
 
