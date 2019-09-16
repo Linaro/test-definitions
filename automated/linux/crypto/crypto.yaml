@@ -1,0 +1,23 @@
+metadata:
+    name: crypto
+    format: "Lava-Test Test Definition 1.0"
+    description: "Verify that every crypto algorithms pass their selftests"
+    maintainer:
+        - clabbe@baylibre.com
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - crypto
+    devices:
+        - all
+    environment:
+        - lava-test-shell
+
+run:
+    steps:
+        - cd ./automated/linux/crypto/
+        - ./crypto.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt

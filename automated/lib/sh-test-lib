@@ -626,3 +626,20 @@ background_process_stop() {
 	kill "${PID}" > /dev/null 2>&1
     fi
 }
+
+# register the current dmesg
+dmesg_capture_start()
+{
+	dmesg --console-off
+	dmesg > "$OUTPUT/dmesg.test.start"
+}
+
+# Print all kernel messages that appears since last dmesg_capture_start
+dmesg_capture_result() {
+	echo "=============================================="
+	dmesg > "$OUTPUT/dmesg.test.result"
+	diff -u "$OUTPUT/dmesg.test.start" "$OUTPUT/dmesg.test.result"
+	# restore normal dmesg behavour
+	dmesg --console-on
+	echo "=============================================="
+}
