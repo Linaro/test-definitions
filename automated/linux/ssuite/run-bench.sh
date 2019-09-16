@@ -173,7 +173,7 @@ run_test() {
 	rm -f ${HOME_DIR}/.S-config.sh
 
 	cd "$S_PATH"/run_multiple_benchmarks/ || exit 1
-	./run_main_benchmarks.sh "$1" "" "" "" "${ONLY_READS}" "" 2 "${OUTPUT}" 2>&1 |\
+	./run_main_benchmarks.sh "$1" "" "" "" "${ONLY_READS}" "" 5 "${OUTPUT}" 2>&1 |\
 	    tee -a "${OUTPUT}/log"
 
 	# In the result file, the average value of the main quantity
