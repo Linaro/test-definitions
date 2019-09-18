@@ -15,7 +15,6 @@ metadata:
         - x15
 
 params:
-    CHAMELIUM_IP: "192.168.29.200"
     HDMI_DEV_NAME: "HDMI-A-1"
     IGT_DIR: "/igt-gpu-tools"
     # If TEST_LIST is not assigned, it will generate it with all
@@ -31,6 +30,7 @@ run:
         - cd ./automated/linux/igt
         - git config --global http.sslverify false
         - if [ -n "${TEST_LIST}" ]; then TL="-t ${TEST_LIST}"; fi
+        # ${CHAMELIUM_IP} is from LAVA device dictionary
         - ./igt-chamelium-test.sh -c ${CHAMELIUM_IP} -h ${HDMI_DEV_NAME} -d ${IGT_DIR} ${TL}
         # Dump igt test result and upload artifact to Artifactorial
         - ifconfig; pwd; ls -l
