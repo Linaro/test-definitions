@@ -9,7 +9,10 @@ import shutil
 import subprocess
 import sys
 import time
-import urlparse
+try:
+    import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 from com.dtmilano.android.viewclient import ViewClient
 
 
