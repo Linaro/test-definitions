@@ -39,8 +39,8 @@ if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "Package installation skipped"
 else
     ! check_root && error_msg "Please run this script as superuser!"
-    install_deps "git python python-lxml python-pil python-setuptools python-requests ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
-    git clone https://github.com/dtmilano/AndroidViewClient
+    install_deps "git python python-lxml python-pil python-setuptools python-requests python-matplotlib python-requests ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
+    git clone --depth 1 https://github.com/dtmilano/AndroidViewClient
     (
     cd AndroidViewClient/ || exit
     python setup.py install
