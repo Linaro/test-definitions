@@ -13,6 +13,12 @@ class ApkRunnerImpl(ApkTestRunner):
 
     def execute(self):
         self.logger.info('Running GearsES2eclair for 60 seconds...')
+        self.dump_always()
+
+        message_obj = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
+        if message_obj:
+            button1 = self.vc.findViewWithTextOrRaise(u'OK')
+            button1.touch()
         time.sleep(60)
 
     def parseResult(self):
