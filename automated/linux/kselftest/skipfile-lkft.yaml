@@ -178,9 +178,7 @@ skiplist:
     boards:
       - qemu_x86_64
       - x86
-    branches:
-      - next
-      - mainline
+    branches: all
     tests:
       - proc-pid-vm
 
