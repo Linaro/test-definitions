@@ -1,0 +1,57 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: Firmware-Test-Suite
+    description: "FirmWare Test Suite (fwts)"
+    maintainer:
+        - anders.roxell@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+        - hi6220-hikey
+        - juno
+        - x15
+        - x86
+
+params:
+        # Set of tests.
+        TESTS: "cpufreq maxfreq msr nx virt aspm dmicheck apicedge oops
+        acpiinfo xenv xsdt wsmt wpbt wmi wdat waet uefi tpm2 tcpa stao srat
+        spmi spcr slit slic sdev sdei sbst rsdt rsdp rasf pptt pmtt pdtt pcct
+        pcc nfit method msdm msct mpst mchi mcfg madt lpit iort hmat hest gtdt
+        fpdt facs erst einj ecdt drtm dppt dmar acpi_wpc acpi_time acpi_als
+        acpi_lid acpi_slpb acpi_pwrb acpi_ec smart_battery acpi_battery acpi_ac
+        dbg2 dbgp cstates csrt cpep checksum boot bgrt bert aspt asf
+        apicinstance acpitables --uefitests"
+
+        # If the following parameter is set, then the FWTS suite is
+        # cloned and used unconditionally. In particular, the version
+        # of the suite is set to the commit pointed to by the
+        # parameter. A simple choice for the value of the parameter
+        # is, e.g., HEAD.  If, instead, the parameter is
+        # not set, then the suite present in FWTS_PATH is used.
+        FWTS_VERSION: ""
+
+        # If next parameter is set, then the FWTS suite is cloned
+        # from the URL in FWTS_URL. Otherwise it is cloned from the
+        # standard repository for the suite. Note that cloning is done
+        # only if FWTS_VERSION is not empty
+        FWTS_URL: ""
+
+        # If next parameter is set, then the FWTS suite is cloned to or
+        # looked for in FWTS_PATH. Otherwise it is cloned to $(pwd)/FWTS
+        FWTS_PATH: ""
+        SKIP_INSTALL: false
+
+run:
+    steps:
+        - cd ./automated/linux/fwts/
+        - ./fwts.sh -t "${TESTS}" -v "${FWTS_VERSION}" -s "${SKIP_INSTALL}" -p "${FWTS_PATH}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
