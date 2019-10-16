@@ -50,6 +50,12 @@ fi
 
 TEST_SCRIPT="${IGT_DIR}/scripts/run-tests.sh"
 
+export IGT_TEST_ROOT="/usr/libexec/igt-gpu-tools"
+
+# new run-tests.sh needs '-p' to run the tests with piglit
+${TEST_SCRIPT} --help | grep -q '\-p' && TEST_SCRIPT="${TEST_SCRIPT} -p"
+
+
 # generate ~/.igtrc
 if [ ! -f "$HOME/.igtrc" ]; then
     echo "Generate ~/.igtrc"
