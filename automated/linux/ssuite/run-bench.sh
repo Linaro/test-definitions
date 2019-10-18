@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
@@ -184,8 +185,13 @@ run_test() {
 	# throughput--<workload1_name>--<scheduler1_name> fail
 	#
 	# <app_name>-startup--<workload_name>--<scheduler1_name> pass <real number> sec
-	#<app_name>-startup--<workload_name>--<scheduler1_name> fail
-	mv "${OUTPUT}/result_list.txt" "${RESULT_FILE}"
+	# <app_name>-startup--<workload_name>--<scheduler1_name> fail
+
+	# test-case-name-<max/min/avg/std> pass value sec
+	awk '{ print $1 "-max"" " $2 " " $3 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
+	awk '{ print $1 "-min"" " $2 " " $4 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
+	awk '{ print $1 "-avg"" " $2 " " $5 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
+	awk '{ print $1 "-std"" " $2 " " $6 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
 }
 
 ! check_root && error_msg "This script must be run as root"
