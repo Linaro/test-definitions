@@ -19,9 +19,10 @@ usage() {
     exit 1
 }
 
-while getopts ":s:t:r:T:c:a:o:R:D:d:" opt; do
+while getopts ":s:u:t:r:T:c:a:o:R:D:d:" opt; do
     case "${opt}" in
         s) SKIP_INSTALL="${OPTARG}" ;;
+        u) SKIP_UPGRADE_PIP_SETUPTOOLS="${OPTARG}" ;;
         t) WA_TAG="${OPTARG}" ;;
         r) WA_TEMPLATES_REPO="${OPTARG}" ;;
         T) TEMPLATES_BRANCH="${OPTARG}" ;;
@@ -51,8 +52,12 @@ if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
 else
     PKGS="git wget zip tar xz-utils python python-yaml python-lxml python-setuptools python-numpy python-colorama python-pip sqlite3 time sysstat openssh-client openssh-server sshpass python-jinja2 curl"
     install_deps "${PKGS}"
-    pip install --upgrade --quiet pip && hash -r
-    pip install --upgrade --quiet setuptools
+    if [ "${SKIP_UPGRADE_PIP_SETUPTOOLS}" = "true" ] || [ "${SKIP_UPGRADE_PIP_SETUPTOOLS}" = "True" ]; then
+        info_msg "Upgrade PIP skipped"
+    else
+        pip install --upgrade --quiet pip && hash -r
+        pip install --upgrade --quiet setuptools
+    fi
     pip install --quiet pexpect pyserial pyyaml docutils python-dateutil
     info_msg "Installing devlib..."
     rm -rf devlib
