@@ -21,11 +21,11 @@ metadata:
 params:
     SKIP_INSTALL: "false"
     # Params for WA test run.
-    WA_TAG: "master"
+    WA_TAG: "v2.7.0"
     WA_GIT_REPO: "https://github.com/ARM-software/workload-automation"
     # Install devlib, which is WA depenency
     DEVLIB_REPO: "https://github.com/ARM-software/devlib.git"
-    DEVLIB_TAG: "master"
+    DEVLIB_TAG: "v1.1.2"
     WA_TEMPLATES_REPO: "https://git.linaro.org/qa/wa2-lava.git"
     TEMPLATES_BRANCH: "wa-templates"
     CONFIG: "config/generic-linux-localhost.py"
