@@ -296,3 +296,91 @@ skiplist:
       - nft_trans_stress.sh
       - bridge_brouter.sh
       - nft_flowtable.sh
+  - reason: >
+      execveat not support
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - execveat
+
+  - reason: >
+      fw_filesystem.sh
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - fw_filesystem.sh
+
+  - reason: >
+      fw_filesystem.sh
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - fw_userhelper.sh
+
+  - reason: >
+      ftracetest
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - ftracetest
+
+  - reason: >
+      test_bpf.sh
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - test_bpf.sh
+
+  - reason: >
+      rtctest
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - rtctest
+
+  - reason: >
+      test_user_copy.sh
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - test_user_copy.sh
+
+  - reason: >
+      run_vmtests
+    #url: https://bugs.linaro.org/show_bug.cgi?id=5341
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - run_vmtests
+
