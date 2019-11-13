@@ -6,7 +6,8 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOGFILE="${OUTPUT}/kselftest.txt"
-TESTPROG="kselftest_armhf.tar.gz"
+#TESTPROG="kselftest_armhf.tar.gz"
+TESTPROG="kselftest_aarch64.tar.gz"
 KSELFTEST_PATH="/opt/kselftests/mainline/"
 
 SCRIPT="$(readlink -f "${0}")"
