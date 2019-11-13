@@ -142,7 +142,7 @@ else
     elif [ -n "${TESTPROG}" ]; then
       # Download and extract kselftest tarball.
       #wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
-      wget http://sun.ap.freescale.net/images/b27563/kselftest.tar.gz -O kselftest.tar.gz
+      wget 10.192.208.75/images/b27563/kselftest.tar.gz -O kselftest.tar.gz
     fi
     tar zxf "kselftest.tar.gz"
     # shellcheck disable=SC2164
