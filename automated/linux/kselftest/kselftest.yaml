@@ -17,8 +17,8 @@ metadata:
 params:
     # Specify Linux kernel self test pre-build tarball name from below location
     # http://testdata.validation.linaro.org/tests/kselftest/
-    # TESTPROG: kselftest_aarch64.tar.gz
-    TESTPROG: kselftest_armhf.tar.gz
+    TESTPROG: kselftest_aarch64.tar.gz
+    #TESTPROG: kselftest_armhf.tar.gz
     SKIP_INSTALL: "false"
     # List of known unsupported test cases to be skipped
     SKIPLIST: ""
