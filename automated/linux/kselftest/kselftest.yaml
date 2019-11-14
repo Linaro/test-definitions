@@ -48,6 +48,7 @@ run:
     steps:
         - cd ./automated/linux/kselftest/
         - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -p "${KSELFTEST_PATH}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
 
 parse:
     pattern: "^selftests:\\s(?P<test_case_id>\\S+)\\s[[](?P<result>(FAIL|PASS|SKIP))[]]"
@@ -56,4 +57,3 @@ parse:
         PASS: pass
         SKIP: skip
 
-        - ../../utils/send-to-lava.sh ./output/result.txt
