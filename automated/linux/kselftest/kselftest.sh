@@ -112,6 +112,7 @@ fi
 
 parse_output() {
     grep "^selftests:" "${LOGFILE}" > "${RESULT_FILE}"
+    cat "${RESULT_FILE}"
 }
 
 install() {
