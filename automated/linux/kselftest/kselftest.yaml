@@ -24,7 +24,7 @@ params:
     SKIPLIST: ""
     # TESTPROG_URL: "http://testdata.validation.linaro.org/tests/kselftest/kselftest_aarch64.tar.gz"
     TESTPROG_URL: ""
-    KSELFTEST_PATH: "/opt/kselftests/mainline/"
+    #KSELFTEST_PATH: "/opt/kselftests/mainline/"
 
     # SKIPFILE can be a filename from dir ./automated/linux/ltp/, an http URL,
     # or a skipgen style yaml file.
@@ -55,3 +55,5 @@ parse:
         FAIL: fail
         PASS: pass
         SKIP: skip
+
+        - ../../utils/send-to-lava.sh ./output/result.txt
