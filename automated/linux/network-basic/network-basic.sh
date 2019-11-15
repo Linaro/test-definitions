@@ -74,7 +74,6 @@ case "${dist}" in
        ;;
 esac
 
-run "dhclient -v ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
 run "route" "print-routing-tables-after-dhclient-request"
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
 run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_480p_MPEG4_MP3_25fps_1600K_short.AVI -o ${OUTPUT}/curl_big_video.avi" "download-a-file"
