@@ -34,9 +34,10 @@ params:
     # Specify the failures number to be printed
     FAILURES_PRINTED: "0"
     TEST_REBOOT_EXPECTED: "false"
-    # leave ANDROID_VERSION here as a stub so that jobs have ANDROID_VERSION specified won't report any problem
-    # but it is not used any more, the default openjdk-8 will be used for cts/vts test
-    # and in the future, maybe the jdk package installation is better to be done with the host deploy action
+    # used to specify the android version
+    # as different jdk version might be used for different android version cts/vts test
+    # aosp-master version needs to use openjdk-11, other older versions needs to use openjdk-8
+    # for aosp master version, the value of ANDROID_VERSION must have aosp-master in its value
     ANDROID_VERSION: ""
 
 run:
