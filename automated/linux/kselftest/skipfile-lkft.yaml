@@ -276,8 +276,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=5339
     environments: all
     boards:
-      - qemu_i386
-      - i386
+      - all
     branches:
       - all
     tests:
