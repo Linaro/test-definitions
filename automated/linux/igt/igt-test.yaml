@@ -1,7 +1,7 @@
 metadata:
     format: Lava-Test Test Definition 1.0
-    name: igt-chamelium-test
-    description: "Run igt-gpu-tools with Chamelium for pixel formats testing"
+    name: igt-test
+    description: "Run igt-gpu-tools with a given test list"
     maintainer:
         - arthur.she@linaro.org
     os:
@@ -17,27 +17,25 @@ metadata:
 params:
     HDMI_DEV_NAME: "HDMI-A-1"
     IGT_DIR: "/igt-gpu-tools"
-    # If TEST_LIST is not assigned, it will generate it with all
-    # Chanelium HDMI related tests
-    #TEST_LIST: "tests/vc4_ci/vc4-chamelium.testlist"
-    TEST_LIST: ""
-    TL: ""
+    # TEST_LIST: "CHAMELIUM" will run Chamelium test
+    TEST_LIST: "CHAMELIUM"
     ARTIFACTORIAL_URL: ""
     ARTIFACTORIAL_TOKEN: ""
 
 run:
     steps:
         - cd ./automated/linux/igt
-        - git config --global http.sslverify false
-        - if [ -n "${TEST_LIST}" ]; then TL="-t ${TEST_LIST}"; fi
+        - OPT="-d ${IGT_DIR} -t ${TEST_LIST}"
         # ${CHAMELIUM_IP} is from LAVA device dictionary
-        - ./igt-chamelium-test.sh -c ${CHAMELIUM_IP} -h ${HDMI_DEV_NAME} -d ${IGT_DIR} ${TL}
+        - if [ -n "${CHAMELIUM_IP}" ]; then OPT="${OPT} -c ${CHAMELIUM_IP}"; fi
+        - if [ -n "${HDMI_DEV_NAME}" ]; then OPT="${OPT} -h ${HDMI_DEV_NAME}"; fi
+        - ./igt-test.sh ${OPT}
         # Dump igt test result and upload artifact to Artifactorial
         - ifconfig; pwd; ls -l
         - echo "**********************************************";
         - echo "************ Dump IGT test result ************";
         - echo "**********************************************";
-        - bzcat /usr/share/igt-gpu-tools/results/results.json.bz2 | python print-test-result.py
+        - bzcat ${IGT_DIR}/results/results.json.bz2 | python print-test-result.py
         - if [ -n "${ARTIFACTORIAL_TOKEN}" -a -n "${ARTIFACTORIAL_URL}" ]; then
         - UPLOAD_TOOL="../../utils/upload-to-artifactorial.sh"
         - if [ -d "/root/dump-frames/" -a -n "`ls /root/dump-frames/`" ];  then echo "Got error frames.." ; tar -C /root -zcf dump-frames.tar.gz dump-frames/;

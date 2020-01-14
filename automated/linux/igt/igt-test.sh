@@ -23,14 +23,14 @@ cd - > /dev/null 2>&1 || exit 1
 }
 
 generate_chamelium_testlist() {
-    echo "Generate test list"
+    echo "Generate Chamelium test list"
     TEST_LIST=igt-chamelium-test.testlist
     # Skip Display Port/VGA and Suspend/Hibrnate related tests
     ${TEST_SCRIPT} -l | grep chamelium | grep -v "dp\|vga\|suspend\|hibernate" | tee "${IGT_DIR}"/"${TEST_LIST}"
 }
 
 usage() {
-    echo "usage: $0 -c <chamelium ip address> -h <HDMI device name> -d <igt-gpu-tools dir> [-t <test-list>]" 1>&2
+    echo "usage: $0 -d <igt-gpu-tools dir> -t <test-list> [-c <chamelium ip address>] [-h <HDMI device name>]" 1>&2
     exit 1
 }
 
@@ -44,7 +44,11 @@ while getopts ":c:h:d:t:" opt; do
     esac
 done
 
-if [ -z "${CHAMELIUM_IP}" ] || [ -z "${HDMI_DEV_NAME}" ] || [ -z "${IGT_DIR}" ]; then
+if [ -z "${IGT_DIR}" ] || [ -z "${TEST_LIST}" ]; then
+    usage
+fi
+
+if [ "${TEST_LIST}" == "CHAMELIUM" ] && [ -z "${CHAMELIUM_IP}" ] || [ -z "${HDMI_DEV_NAME}" ]; then
     usage
 fi
 
@@ -55,21 +59,23 @@ export IGT_TEST_ROOT="/usr/libexec/igt-gpu-tools"
 # new run-tests.sh needs '-p' to run the tests with piglit
 ${TEST_SCRIPT} --help | grep -q '\-p' && TEST_SCRIPT="${TEST_SCRIPT} -p"
 
-
-# generate ~/.igtrc
-if [ ! -f "$HOME/.igtrc" ]; then
-    echo "Generate ~/.igtrc"
-    generate_igtrc
-fi
 # Download Piglit
 git config --global http.postBuffer 157286400
 if [ ! -d "${IGT_DIR}/piglit" ]; then
     echo "Download Piglit.."
-    ${TEST_SCRIPT} -d
+    time ${TEST_SCRIPT} -d
 fi
-# If test list is not assigned, generate it
-if [ -z "${TEST_LIST}" ]; then
+
+if [ "${TEST_LIST}" == "CHAMELIUM" ]; then
+    echo "Going to run igt Chamelium test"
+    if [ ! -f "$HOME/.igtrc" ]; then
+        echo "Generate ~/.igtrc"
+        generate_igtrc
+    fi
     generate_chamelium_testlist
+else
+    echo "Going to run ${TEST_LIST}"
+    cp "${TEST_LIST}" "${IGT_DIR}"
 fi
 
 # Run tests
