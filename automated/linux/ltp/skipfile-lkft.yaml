@@ -34,6 +34,7 @@ skiplist:
       - qemu_arm
       - qemu_i386
       - i386
+      - nxp-ls2088
     branches: all
     tests:
       - fork13
@@ -55,6 +56,7 @@ skiplist:
       - qemu_arm
       - qemu_i386
       - i386
+      - nxp-ls2088
     branches: all
     tests:
       - msgctl10
@@ -73,6 +75,7 @@ skiplist:
       - dragonboard-410c
       - rzn1d
       - qemu_arm64
+      - nxp-ls2088
     branches:
       - 4.4
       - 4.9
@@ -117,6 +120,7 @@ skiplist:
       - qemu_arm64
       - qemu_arm
       - i386
+      - nxp-ls2088
     branches: all
     tests:
       - pth_str01
@@ -170,6 +174,7 @@ skiplist:
       - hi6220-hikey
       - dragonboard-410c
       - rzn1d
+      - nxp-ls2088
     branches:
       - all
     tests:
@@ -198,6 +203,7 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
+      - nxp-ls2088
     branches:
       - all
     tests:
@@ -214,6 +220,7 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - qemu_arm64
+      - nxp-ls2088
     branches:
       - all
     tests:
@@ -228,6 +235,7 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
+      - nxp-ls2088
     branches:
       - all
     tests:
@@ -261,6 +269,7 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
+      - nxp-ls2088
     branches:
       - all
     tests:
