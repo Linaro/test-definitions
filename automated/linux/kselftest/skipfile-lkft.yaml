@@ -48,6 +48,7 @@ skiplist:
       - juno-r2
       - qemu_arm64
       - x15
+      - nxp-ls2088
     branches: all
     tests:
       - breakpoint_test_arm64
@@ -64,6 +65,7 @@ skiplist:
       - juno-r2
       - qemu_i386
       - i386
+      - nxp-ls2088
     branches: all
     tests:
       - step_after_suspend_test
@@ -109,6 +111,7 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - x15
+      - nxp-ls2088
     branches: all
     tests:
       - mq_perf_tests
@@ -124,6 +127,7 @@ skiplist:
       - qemu_arm64
       - qemu_arm
       - x15
+      - nxp-ls2088
     branches:
       - all
     tests:
@@ -193,6 +197,7 @@ skiplist:
       - qemu_arm64
       - x15
       - qemu_arm
+      - nxp-ls2088
     branches:
       - 4.9
     tests:
@@ -238,6 +243,7 @@ skiplist:
       - hi6220-hikey
       - juno-r2
       - qemu_arm64
+      - nxp-ls2088
     branches:
       - 4.19
     tests:
