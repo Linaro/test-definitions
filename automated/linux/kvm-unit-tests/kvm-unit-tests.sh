@@ -57,6 +57,10 @@ kvm_unit_tests_build_test() {
     cd kvm-unit-tests
     info_msg "Checkout on a given git reference ${GIT_REF}"
     git checkout "${GIT_REF}"
+    retval=$?
+    if [ $retval -ne 0 ]; then
+        error_msg "SHA or branch: ${GIT_REF} not found!"
+    fi
 
     info_msg "configure kvm unit tests ..."
     ./configure
