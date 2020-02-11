@@ -1,0 +1,27 @@
+ 
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: armnn-mlperf benchmark
+    description: "Carry out armnn-mlperf benchmark test."
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - synquacer
+params:
+    LINK_SNAPSHOT: 'https://snapshots.linaro.org/componenets/armnn/latest-master/armnn.tar.xz'
+    MLPERF: 'https://github.com/arm-software/armnn-mlperf'
+    DATASET0: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.0.tar'
+    DATASET1: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.1.tar'
+    DATASET2: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.2.tar'
+    DATASET3: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.3.tar'
+    DATASET4: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.4.tar'
+    DATASET5: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.5.tar'
+    SKIP_INSTALL: false
+run:
+    steps:
+        - cd ./automated/linux/armnn-benchmark/
+        - ./armnn-mlperf.sh -s "${SKIP_INSTALL}" -l "${LINK_SNAPSHOT}" -m "${MLPERF}" -a "${DATASET0}" -b  "${DATASET1}" -c  "${DATASET2}" -d  "${DATASET3}" -e  "${DATASET4}" -f  "${DATASET5}"
