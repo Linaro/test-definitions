@@ -47,5 +47,5 @@ install
 while [ -n "${TESTS}" ]; do
     test_cmd="$(echo "${TESTS}" | awk -F',' '{print $1}')"
     run "${test_cmd}"
-    TESTS="$(echo "${TESTS}" | sed -r "s/${test_cmd},? *//")"
+    TESTS="$(echo "${TESTS}" | sed -r "s#${test_cmd},? *##")"
 done
