@@ -56,16 +56,7 @@ skiplist:
   - reason:
     url:
     environments: all
-    boards:
-      - x15
-      - qemu_x86_64
-      - qemu_arm64
-      - qemu_arm
-      - dragonboard-410c
-      - juno-r2
-      - qemu_i386
-      - i386
-      - nxp-ls2088
+    boards: all
     branches: all
     tests:
       - step_after_suspend_test
