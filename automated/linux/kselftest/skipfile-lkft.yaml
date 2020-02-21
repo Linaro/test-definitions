@@ -73,18 +73,14 @@ skiplist:
   - reason:
     url:
     environments: all
-    boards:
-      - qemu_x86_64
-      - qemu_i386
+    boards: all
     branches: all
     tests:
       - breakpoint_test
   - reason:
     url:
     environments: production
-    boards:
-      - qemu_arm
-      - qemu_arm64
+    boards: all
     branches:
       - 4.9
       - mainline
