@@ -32,17 +32,18 @@ install_deps "${pkgs}" "${SKIP_INSTALL}"
 wget "${LINK_SNAPSHOT}"
 tar xf armnn.tar.xz
 cd home/buildslave/workspace/armnn-ci-build || exit
-BASEDIR="${pwd}"
+BASEDIR="$(pwd)"
 export BASEDIR
 cd "${BASEDIR}"/armnn/build || exit
 ln -s "${BASEDIR}"/protobuf-host/lib/libprotobuf.so.15.0.0 ./libprotobuf.so.15
-LD_LIBRARY_PATH="${pwd}"
+LD_LIBRARY_PATH="$(pwd)"
 export LD_LIBRARY_PATH
 chmod a+x UnitTests
 ./UnitTests
 python3 -m pip install numpy ck
 ck pull repo:ck-env
-ck detect soft:compiler.python --full_path=`which python3`
+PYTHON_PATH="$(which python3)"
+ck detect soft:compiler.python --full_path="${PYTHON_PATH}"
 ck install package --tags=lib,python-package,numpy
 echo 0 | ck install package --tags=compiler,lang-cpp
 ck pull repo --url="${MLPERF}"
@@ -67,6 +68,7 @@ tar xvf dataset-imagenet-preprocessed-using-pillow.3.tar
 tar xvf dataset-imagenet-preprocessed-using-pillow.4.tar
 tar xvf dataset-imagenet-preprocessed-using-pillow.5.tar
 
+# shellcheck disable=SC2039
 echo "default" | ck detect soft --tags=dataset,imagenet,preprocessed,rgb8 --extra_tags=using-opencv,custom --full_path="${BASEDIR}"/home/theodore/CK-TOOLS/dataset-imagenet-preprocessed-using-pillow/ILSVRC2012_val_00000001.rgb8
 ck search env --tags=dataset,imagenet,rgb8,custom > images.txt
 IMAGES=$(grep "local:env:" images.txt | sed 's/^.*://')
@@ -74,4 +76,5 @@ ck search env --tags=tflite,opencl,armnn,custom > library.txt
 LIBRARY=$(grep "local:env:" library.txt | sed 's/^.*://')
 ck search env --tags=compiler,lang-cpp > compiler.txt
 COMPILER=$(grep "local:env:" compiler.txt | sed 's/^.*://')
+# shellcheck disable=SC2039
 echo "-1" | ck benchmark program:image-classification-armnn-tflite --repetitions=1 --env.CK_BATCH_SIZE=1 --env.CK_BATCH_COUNT=500 --record --record_repo=local --record_uoa=mlperf-mobilenet-armnn-tflite-accuracy-500 --tags=image-classification,mlperf,mobilenet,armnn-tflite,accuracy,500 --skip_print_timers --skip_stat_analysis --process_multi_keys --deps.compiler="${COMPILER}" --deps.library="${LIBRARY}" --deps.images="${IMAGES}"
