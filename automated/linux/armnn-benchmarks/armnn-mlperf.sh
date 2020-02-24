@@ -8,7 +8,7 @@ usage() {
     exit 1
 }
 
-while getopts "s:" o; do
+while getopts "s:l:m:a:b:c:d:e:f:" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     l) LINK_SNAPSHOT="${OPTARG}" ;;
