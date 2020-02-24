@@ -11,5 +11,9 @@ python:
 install:
   - pip install pyyaml pycodestyle python-magic
 
+env:
+  - SCRIPT="./sanity-check.sh"
+  - SCRIPT="docker run -v $(pwd):/test-definitions --workdir /test-definitions fsfe/reuse reuse lint"
+
 script:
-  - ./sanity-check.sh
+  - $SCRIPT
