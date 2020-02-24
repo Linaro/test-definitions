@@ -68,7 +68,7 @@ tar xvf dataset-imagenet-preprocessed-using-pillow.3.tar
 tar xvf dataset-imagenet-preprocessed-using-pillow.4.tar
 tar xvf dataset-imagenet-preprocessed-using-pillow.5.tar
 
-# spellcheck disable=SC2039
+# shellcheck disable=SC2039
 echo "default" | ck detect soft --tags=dataset,imagenet,preprocessed,rgb8 --extra_tags=using-opencv,custom --full_path="${BASEDIR}"/home/theodore/CK-TOOLS/dataset-imagenet-preprocessed-using-pillow/ILSVRC2012_val_00000001.rgb8
 ck search env --tags=dataset,imagenet,rgb8,custom > images.txt
 IMAGES=$(grep "local:env:" images.txt | sed 's/^.*://')
@@ -76,5 +76,5 @@ ck search env --tags=tflite,opencl,armnn,custom > library.txt
 LIBRARY=$(grep "local:env:" library.txt | sed 's/^.*://')
 ck search env --tags=compiler,lang-cpp > compiler.txt
 COMPILER=$(grep "local:env:" compiler.txt | sed 's/^.*://')
-# spellcheck disable=SC2039
+# shellcheck disable=SC2039
 echo "-1" | ck benchmark program:image-classification-armnn-tflite --repetitions=1 --env.CK_BATCH_SIZE=1 --env.CK_BATCH_COUNT=500 --record --record_repo=local --record_uoa=mlperf-mobilenet-armnn-tflite-accuracy-500 --tags=image-classification,mlperf,mobilenet,armnn-tflite,accuracy,500 --skip_print_timers --skip_stat_analysis --process_multi_keys --deps.compiler="${COMPILER}" --deps.library="${LIBRARY}" --deps.images="${IMAGES}"
