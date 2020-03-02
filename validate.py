@@ -133,7 +133,7 @@ def validate_yaml_contents(filepath, args):
     except FileNotFoundError:
         publish_result(["* YAMLVALIDCONTENTS [PASSED]: " + filepath + " - deleted"], args)
         return 0
-    y = yaml.load(filecontent)
+    y = yaml.load(filecontent, Loader=yaml.FullLoader)
     if 'run' in y.keys():
         # test definition yaml file
         return validate_testdef_yaml(y, args)
@@ -154,7 +154,7 @@ def validate_yaml(filename, args):
         publish_result(["* YAMLVALID [PASSED]: " + filename + " - deleted"], args)
         return 0
     try:
-        yaml.load(filecontent)
+        yaml.load(filecontent, Loader=yaml.FullLoader)
         message = "* YAMLVALID: [PASSED]: " + filename
         print_stderr(message)
     except yaml.YAMLError:
