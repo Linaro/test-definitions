@@ -1,0 +1,10 @@
+/dev/ttyS1
+/dev/watchdog
+/dev/mmcblk0
+/dev/mmcblk0p2
+/sys/class/hwmon/hwmon0/temp1_input
+/sys/devices/system/clocksource/clocksource0/available_clocksource
+/dev/i2c-0
+/dev/mtd0
+/dev/mtd2
+/sys/bus/i2c/devices/0-0050/eeprom

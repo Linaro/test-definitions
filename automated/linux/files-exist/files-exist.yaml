@@ -1,0 +1,21 @@
+metadata:
+    name: meminfo
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Check files exist"
+    maintainer:
+        - ryan.harkin@linaro.org
+    os:
+        - oe
+    scope:
+        - functional
+    devices:
+        - rzn1d
+
+parameters:
+    EXTRA_FILES: '/dev/random'
+
+run:
+    steps:
+        - cd ./automated/linux/files-exist
+        - ./files-exist.sh -e "${EXTRA_FILES}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
