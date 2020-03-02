@@ -82,7 +82,7 @@ test_wlan_connection() {
     echo "IP Route:"
     ip route
 
-    if [ ! -z "${NAMESERVER}" ]; then
+    if [ -n "${NAMESERVER}" ]; then
         mv /etc/resolv.conf /etc/resolv.conf.backup
         echo "nameserver ${NAMESERVER}" > /etc/resolv.conf
     fi
@@ -111,7 +111,7 @@ create_out_dir "${OUTPUT}"
 info_msg "About to run wlan download test..."
 info_msg "Output directory: ${OUTPUT}"
 
-if [ ! -z "${ETHERNET_DEVICE}" ]; then
+if [ -n "${ETHERNET_DEVICE}" ]; then
     ip link set "${ETHERNET_DEVICE}" down
     check_return "eth-down"
 fi
@@ -122,7 +122,7 @@ sleep "${TIME_DELAY}" # XXX: some devices needs a wait after up to be ready, def
 iw dev "${DEVICE}" scan
 exit_on_fail "wlan-scan"
 test_wlan_connection
-if [ ! -z "${FILE_URL}" ]; then
+if [ -n "${FILE_URL}" ]; then
     test_wlan_download
 fi
 
@@ -132,11 +132,11 @@ ip link set "${DEVICE}" down
 kill -9 "$(cat /tmp/wpa_supplicant.pid)"
 kill -9 "$(cat /tmp/dhclient.pid)"
 
-if [ ! -z "${NAMESERVER}" ]; then
+if [ -n "${NAMESERVER}" ]; then
     mv /etc/resolv.conf.backup /etc/resolv.conf
 fi
 
-if [ ! -z "${ETHERNET_DEVICE}" ]; then
+if [ -n "${ETHERNET_DEVICE}" ]; then
     ip link set "${ETHERNET_DEVICE}" up
     check_return "eth-up"
 fi

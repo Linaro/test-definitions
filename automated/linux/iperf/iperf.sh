@@ -65,11 +65,11 @@ stdbuf -o0 iperf3 -c "${SERVER}" -t "${TIME}" -P "${THREADS}" 2>&1 \
 
 # Parse logfile.
 if [ "${THREADS}" -eq 1 ]; then
-    egrep "(sender|receiver)" "${LOGFILE}" \
+    grep -E "(sender|receiver)" "${LOGFILE}" \
         | awk '{printf("iperf-%s pass %s %s\n", $NF,$7,$8)}' \
         | tee -a "${RESULT_FILE}"
 elif [ "${THREADS}" -gt 1 ]; then
-    egrep "[SUM].*(sender|receiver)" "${LOGFILE}" \
+    grep -E "[SUM].*(sender|receiver)" "${LOGFILE}" \
         | awk '{printf("iperf-%s pass %s %s\n", $NF,$6,$7)}' \
         | tee -a "${RESULT_FILE}"
 fi

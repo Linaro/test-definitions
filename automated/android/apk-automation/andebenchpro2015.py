@@ -35,8 +35,8 @@ class ApkRunnerImpl(ApkTestRunner):
                       "Overall Score",
                       "Verify"]
 
-        pat_score = re.compile("^(?P<measurement>[\d\.]+)$")
-        pat_score_unit_str = "^(?P<measurement>[\d\.]+)(?P<units>[^\d\.]+)$"
+        pat_score = re.compile(r"^(?P<measurement>[\d\.]+)$")
+        pat_score_unit_str = r"^(?P<measurement>[\d\.]+)(?P<units>[^\d\.]+)$"
         pat_score_unit = re.compile(pat_score_unit_str)
 
         with open(local_result_csv, 'r') as f:

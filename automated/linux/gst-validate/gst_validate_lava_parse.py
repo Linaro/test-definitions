@@ -50,7 +50,7 @@ if __name__ == '__main__':
         with open(sys.argv[2], 'r') as f:
             ignore_tests = f.read().split()
 
-    rex = re.compile('^(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))')
+    rex = re.compile(r'^(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))')
     with open(sys.argv[1], 'r') as f:
         for line in f.readlines():
             s = rex.search(line)

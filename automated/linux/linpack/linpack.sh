@@ -30,7 +30,7 @@ detect_abi
 
 # Parse output.
 echo
-egrep "^ +[0-9]+ " "${TEST_LOG}" \
+grep -E "^ +[0-9]+ " "${TEST_LOG}" \
       | awk -v array_size="${ARRAY_SIZE}" \
         'END{printf("linpack-%s pass %s flops\n", array_size, $NF)}' \
       | tee -a "${RESULT_FILE}"

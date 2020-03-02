@@ -24,7 +24,7 @@ class ApkRunnerImpl(ApkTestRunner):
                 time.sleep(5)
                 self.dump_always()
                 results = self.vc.findViewByIdOrRaise("it.JBench.bench:id/textViewResult")
-                if re.search('^\d+$', results.getText()):
+                if re.search(r'^\d+$', results.getText()):
                     finished = True
                     print("benchmark finished")
                     print("%s=%s" % ("JBench", results.getText().strip()))

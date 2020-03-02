@@ -48,7 +48,7 @@ done
 . "${TEST_DIR}/../../lib/android-test-lib"
 
 cd "${TEST_DIR}"
-if [ ! -z "${NEW_OUTPUT}" ]; then
+if [ -n "${NEW_OUTPUT}" ]; then
     OUTPUT="${NEW_OUTPUT}"
 fi
 create_out_dir "${OUTPUT}"

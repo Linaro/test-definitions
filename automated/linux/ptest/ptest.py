@@ -93,9 +93,9 @@ def parse_line(line):
     }
 
     for test_status, status_regex in test_status_list.items():
-            test_name = status_regex.search(line)
-            if test_name:
-                return [test_name.group(1), test_status]
+        test_name = status_regex.search(line)
+        if test_name:
+            return [test_name.group(1), test_status]
 
     return None
 
@@ -109,8 +109,8 @@ def run_ptest(command):
     while True:
         output = process.stdout.readline()
         try:
-            output = unicode(output, "utf-8").strip()
-        except:
+            output = str(output, "utf-8").strip()
+        except TypeError:
             output = output.decode("utf-8", errors="replace").strip()
         if len(output) == 0 and process.poll() is not None:
             break
@@ -191,7 +191,7 @@ if __name__ == '__main__':
         ret = main()
     except SystemExit as e:
         ret = e.code
-    except:
+    except Exception:
         ret = 1
         import traceback
         traceback.print_exc()

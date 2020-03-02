@@ -45,8 +45,8 @@ class ApkRunnerImpl(ApkTestRunner):
                 self.logger.info("Geekbench 3 Test is still in progress...")
             else:
                 self.logger.error("Something goes wrong! It is unusual that the test has not been started after 10+ seconds! Please manually check it!")
-                #self.all_fail()
-                #sys.exit(1)
+                # self.all_fail()
+                # sys.exit(1)
 
         # Generate the .gb3 file
         self.device.press('KEYCODE_MENU')

@@ -32,6 +32,7 @@ while getopts "T:s:v:" arg; do
      # SKIP_INSTALL is false in case of Debian builds
      s) SKIP_INSTALL="${OPTARG}";;
      v) LTP_VERSION="${OPTARG}";;
+     *) ;;
   esac
 done
 

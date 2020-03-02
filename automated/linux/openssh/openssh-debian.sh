@@ -13,7 +13,7 @@ usage() {
 }
 
 parse_output() {
-    egrep "^failed|^ok" "${TEST_LOG}"  2>&1 | tee -a "${RESULT_LOG}"
+    grep -E "^failed|^ok" "${TEST_LOG}"  2>&1 | tee -a "${RESULT_LOG}"
     sed -i -e 's/ok/pass/g' "${RESULT_LOG}"
     sed -i -e 's/failed/fail/g' "${RESULT_LOG}"
     awk '{for (i=2; i<NF; i++) printf $i "-"; print $NF " " $1}' "${RESULT_LOG}" 2>&1 | tee -a "${RESULT_FILE}"

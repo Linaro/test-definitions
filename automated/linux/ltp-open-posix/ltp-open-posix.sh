@@ -24,6 +24,7 @@ while getopts "s:v:" arg; do
    case "$arg" in
      s) SKIP_INSTALL="${OPTARG}";;
      v) LTP_VERSION="${OPTARG}";;
+     *) ;;
    esac
 done
 

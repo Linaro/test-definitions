@@ -24,21 +24,21 @@ done
 
 parse_output() {
     # Parse each type of results
-    egrep "passed" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
+    grep -E "passed" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
     sed -i -e 's/: /:/g' "${TEST_PASS_LOG}"
     sed -i -e 's/ \+/-/g' "${TEST_PASS_LOG}"
     sed -i -e 's/-passed:/ pass /g' "${TEST_PASS_LOG}"
     cat "${TEST_PASS_LOG}" >> "${RESULT_FILE}"
 
-    egrep "failing" "${RESULT_LOG}" | tee -a "${TEST_FAIL_LOG}"
+    grep -E "failing" "${RESULT_LOG}" | tee -a "${TEST_FAIL_LOG}"
     sed -i -e 's/failing to pass the threshold:/FAIL:/g' "${TEST_FAIL_LOG}"
     sed -i -e 's/: /:/g' "${TEST_FAIL_LOG}"
     sed -i -e 's/ \+/-/g' "${TEST_FAIL_LOG}"
     sed -i -e 's/-FAIL:/ fail /g' "${TEST_FAIL_LOG}"
     cat "${TEST_FAIL_LOG}" >> "${RESULT_FILE}"
 
-    egrep "Illegal Error:" "${RESULT_LOG}" | tee -a "${TEST_SKIP_LOG}"
-    egrep "Info Error:" "${RESULT_LOG}" | tee -a "${TEST_SKIP_LOG}"
+    grep -E "Illegal Error:" "${RESULT_LOG}" | tee -a "${TEST_SKIP_LOG}"
+    grep -E "Info Error:" "${RESULT_LOG}" | tee -a "${TEST_SKIP_LOG}"
     sed -i -e 's/Illegal Error:/SKIP:/g' "${TEST_SKIP_LOG}"
     sed -i -e 's/Info Error:/SKIP:/g' "${TEST_SKIP_LOG}"
     sed -i -e 's/: /:/g' "${TEST_SKIP_LOG}"

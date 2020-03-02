@@ -7,7 +7,7 @@ TEST_LOG="${OUTPUT}/test_log.txt"
 
 
 parse_output() {
-    egrep "^failed|^ok" "${TEST_LOG}" | tee -a "${RESULT_LOG}"
+    grep -E "^failed|^ok" "${TEST_LOG}" | tee -a "${RESULT_LOG}"
     sed -i -e 's/ok/pass/g' "${RESULT_LOG}"
     sed -i -e 's/failed/fail/g' "${RESULT_LOG}"
     echo "=== Openssh results summary ==="

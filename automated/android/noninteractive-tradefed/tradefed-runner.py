@@ -43,10 +43,10 @@ def result_parser(xml_file, result_format):
         else:
             num = int(m.group(2), 16)
         # #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-        if not(num in (0x9, 0xA, 0xD) or
-                0x20 <= num <= 0xD7FF or
-                0xE000 <= num <= 0xFFFD or
-                0x10000 <= num <= 0x10FFFF):
+        if not(num in (0x9, 0xA, 0xD)
+                or 0x20 <= num <= 0xD7FF
+                or 0xE000 <= num <= 0xFFFD
+                or 0x10000 <= num <= 0x10FFFF):
             etree_content = etree_content[:mstart] + etree_content[mend:]
             endpos = len(etree_content)
         pos = mend
@@ -115,10 +115,10 @@ def result_parser(xml_file, result_format):
                                         'failed, the output for the rest '
                                         'failed test cases will be '
                                         'skipped.' % (args.FAILURES_PRINTED))
-                            #break the for loop of failed_tests
+                            # break the for loop of failed_tests
                             break
                     if failures_count > args.FAILURES_PRINTED:
-                        #break the for loop of test_cases
+                        # break the for loop of test_cases
                         break
 
         if result_format == ATOMIC:
@@ -146,9 +146,9 @@ parser.add_argument('-r', dest='RESULTS_FORMAT', required=False,
                     passed and failed tests are recorded for each module. 'atomic' means \
                     each test result is recorded separately")
 
-## The total number of failed test cases to be printed for this job
-## Print too much failures would cause the lava job timed out
-## Default to not print any failures
+# The total number of failed test cases to be printed for this job
+# Print too much failures would cause the lava job timed out
+# Default to not print any failures
 parser.add_argument('-f', dest='FAILURES_PRINTED', type=int,
                     required=False, default=0,
                     help="Speciy the number of failed test cases to be\

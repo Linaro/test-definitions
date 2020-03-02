@@ -25,9 +25,9 @@ install_deps "hdparm" "${SKIP_INSTALL}"
 
 # Test all block devices if device not specified.
 if [ -z "${device_list}" ]; then
-    if lsblk | egrep "^(sd|hd|mmcblk)[a-z0-9] "; then
+    if lsblk | grep -E "^(sd|hd|mmcblk)[a-z0-9] "; then
         device_list=$(lsblk \
-                      | egrep "^(sd|hd|mmcblk)[a-z0-9] " \
+                      | grep -E "^(sd|hd|mmcblk)[a-z0-9] " \
                       | awk '{print $1}')
     else
         error_msg "Block device NOT found"

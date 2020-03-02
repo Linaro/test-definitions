@@ -107,6 +107,7 @@ def main():
     r = requests.post(url, headers=headers, files=files)
     print(r.text)
 
+
 if __name__ == "__main__":
     args = parse_args()
 

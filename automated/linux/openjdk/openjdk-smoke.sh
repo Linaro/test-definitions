@@ -50,7 +50,7 @@ fi
 # Set the specific version as default in case more than one jdk installed.
 for link in java javac; do
     path="$(update-alternatives --display "${link}" \
-        | egrep "^/usr/lib/jvm/java-(${VERSION}|1.${VERSION}.0)" \
+        | grep -E "^/usr/lib/jvm/java-(${VERSION}|1.${VERSION}.0)" \
         | awk '{print $1}')"
     update-alternatives --set "${link}" "${path}"
 done
