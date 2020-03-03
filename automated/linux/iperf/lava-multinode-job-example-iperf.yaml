@@ -130,7 +130,8 @@ actions:
     timeout:
       minutes: 30
     definitions:
-    - repository: https://git.linaro.org/people/chase.qi/test-definitions.git
+    - repository: https://github.com/Linaro/test-definitions.git
+      branch: master
       from: git
       path: automated/linux/iperf/iperf.yaml
       name: iperf3-test
