@@ -32,18 +32,24 @@ local_file_parent=$(cd "${local_file_parent}"||exit; pwd)
 DATA_TMP="/data/local/tmp"
 
 collect_data(){
+    # shellcheck disable=SC2039
     local bootstat_cmd="/system/bin/bootstat"
+    # shellcheck disable=SC2039
     local bootstat_res="${DATA_TMP}/bootstat.result"
     if [ -x "${bootstat_cmd}" ]; then
-        ${bootstat_cmd} -p | grep -v "Boot events" | grep -v '\--------'> "${bootstat_res}"
-        if [ $? -ne 0 ]; then
+        if ! ${bootstat_cmd} -p | grep -v "Boot events" | grep -v '\--------'> "${bootstat_res}"
+        then
             output_test_result "bootstat" "fail"
             exit 1
         else
             output_test_result "bootstat" "pass"
             while read -r line; do
-                local test_case=$(echo "${line}" | awk '{print $1}')
-                local measurement=$(echo "${line}" | awk '{print $2}')
+                # shellcheck disable=SC2039
+                local test_case
+                test_case=$(echo "${line}" | awk '{print $1}')
+                # shellcheck disable=SC2039
+                local measurement
+                measurement=$(echo "${line}" | awk '{print $2}')
                 if [ "X${test_case}" = "Xboot_reason" ]; then
                     output_test_result "bootstat_${test_case}" "pass" "${measurement}" "number"
                 elif echo "${test_case}" | grep -q "ro.boottime.init"; then

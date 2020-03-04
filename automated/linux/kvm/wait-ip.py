@@ -3,6 +3,7 @@
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
+
 class MyHandler(BaseHTTPRequestHandler):
     def returnIP(self):
         self.send_response(200)
@@ -19,6 +20,6 @@ class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.returnIP()
 
+
 server = HTTPServer(('', 8080), MyHandler)
 server.handle_request()
-

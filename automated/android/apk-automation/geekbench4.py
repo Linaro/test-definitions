@@ -7,13 +7,13 @@ import time
 from common import ApkTestRunner
 from com.dtmilano.android.viewclient import ViewNotFoundException
 
-## geekbench-3-4-3-0.apk
-## Version is 4.3.0
-## size: 100459959
-## md5sum: c0013d79b8518edcdbcf7a2019d2e0ca
-## Url:
-##   https://geekbench-3.en.uptodown.com/android
-##   https://play.google.com/store/apps/details?id=com.primatelabs.geekbench
+# geekbench-3-4-3-0.apk
+# Version is 4.3.0
+# size: 100459959
+# md5sum: c0013d79b8518edcdbcf7a2019d2e0ca
+# Url:
+#   https://geekbench-3.en.uptodown.com/android
+#   https://play.google.com/store/apps/details?id=com.primatelabs.geekbench
 
 
 class ApkRunnerImpl(ApkTestRunner):
@@ -69,8 +69,8 @@ class ApkRunnerImpl(ApkTestRunner):
                 continue
 
             self.logger.error("Something goes wrong! It is unusual that the test has not been started after 10+ seconds! Please manually check it!")
-            #self.all_fail()
-            #sys.exit(1)
+            # self.all_fail()
+            # sys.exit(1)
 
     def parseResult(self):
         raw_output_file = '%s/geekbench3-result-itr%s.json' % (self.config['output'], self.config['itr'])

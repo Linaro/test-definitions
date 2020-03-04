@@ -41,7 +41,7 @@ install
 command -v badblocks
 exit_on_fail "badblocks-existence-check"
 
-if [ ! -z "${BLOCK_DEVICE}" ] && [ -e "${BLOCK_DEVICE}" ]; then
+if [ -n "${BLOCK_DEVICE}" ] && [ -e "${BLOCK_DEVICE}" ]; then
   info_msg "Running ${TEST_SUITE} test on ${BLOCK_DEVICE}"
   LOG_FILE="${OUTPUT}/${TEST_SUITE}-output.txt"
   test_cmd="badblocks -v ${BADBLOCKS_PARAMS} ${BLOCK_DEVICE} 2>&1"

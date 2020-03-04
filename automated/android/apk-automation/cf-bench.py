@@ -63,7 +63,7 @@ class ApkRunnerImpl(ApkTestRunner):
                     found_score_view = True
 
             score_uid = score_view.getUniqueId()
-            uid = int(re.search("id/no_id/(?P<uid>\d+)", score_uid).group('uid'))
+            uid = int(re.search(r"id/no_id/(?P<uid>\d+)", score_uid).group('uid'))
             score = self.vc.findViewByIdOrRaise("id/no_id/%s" % (uid + offset))
             score_text = score.getText()
             if score_text.find("%") > 0:

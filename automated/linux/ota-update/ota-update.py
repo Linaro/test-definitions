@@ -42,6 +42,7 @@ def match_sha_on_server(sha):
             print "FAIL: Installed sha on device did not match"
             return -1
 
+
 if match_sha_on_server(args.installed_sha) == 0:
     py_test_lib.add_result(RESULT_FILE, "installed-device-sha-match-server pass")
     r = requests.put(url, data=data, headers=headers)

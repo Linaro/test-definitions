@@ -46,5 +46,6 @@ def main():
             # value is measurement to be recorded
             results.write("%s pass %s _\r\n" % (key, value))
 
+
 if __name__ == "__main__":
     main()

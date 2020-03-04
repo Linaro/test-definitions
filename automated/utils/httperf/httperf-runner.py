@@ -255,7 +255,7 @@ class ParseTolerance(argparse.Action):
         for key in ret:
             try:
                 ret[key] = int(ret[key])
-            except:
+            except ValueError:
                 print("Warning: Ignoring value", ret[key], "for", key,
                       ": not an integer", file=sys.stderr)
                 ret[key] = 0
@@ -267,10 +267,10 @@ parser = argparse.ArgumentParser(description='Find highest rate using httperf')
 parser.add_argument('--attempts', '-a', type=int, default=[2], nargs=1,
                     help='Number of attempts for each rate under test (default 2)')
 parser.add_argument('--csv', nargs=1,
-                    help='Save the results in the given file. The file will ' +
-                         'have one column which is later easy to import in a ' +
-                         'spreadsheet. If the file exists, data will be ' +
-                         'appended to it.')
+                    help='Save the results in the given file. The file will '
+                         + 'have one column which is later easy to import in a '
+                         + 'spreadsheet. If the file exists, data will be '
+                         + 'appended to it.')
 parser.add_argument('--dir', '-d', nargs=1, default=None,
                     help='Put all output files in this directory (default CWD)')
 parser.add_argument('--duration', nargs=1, default=[5], type=int,
@@ -280,8 +280,8 @@ parser.add_argument('--iterations', '-i', default=[1], nargs=1, type=int,
 parser.add_argument('--min-step', '-m', nargs=1, default=[200], type=int,
                     help='The minimum step to consider (default 200)')
 parser.add_argument('--output', '-o', default='httperf_max_rate',
-                    help='Stores the result in the OUTPUT file, with the ' +
-                         'iteration number appended (default httperf_max_rate)')
+                    help='Stores the result in the OUTPUT file, with the '
+                         + 'iteration number appended (default httperf_max_rate)')
 parser.add_argument('--rate', '-r', type=int, default=[10000], nargs=1,
                     help='The initial request rate to try (default 10000)')
 parser.add_argument('--step', '-s', type=int, default=[10000], nargs=1,
@@ -290,8 +290,8 @@ parser.add_argument('--server', default='localhost',
                     help='Server to connet to (defaut localhost)')
 parser.add_argument('--tolerance', nargs='+', action=ParseTolerance,
                     default={'client-timo': 20},
-                    help='list of key value pairs of errors accepted by ' +
-                         'httperf. Ex: --tolerance client-timo 20 other 5')
+                    help='list of key value pairs of errors accepted by '
+                         + 'httperf. Ex: --tolerance client-timo 20 other 5')
 
 args = parser.parse_args()
 

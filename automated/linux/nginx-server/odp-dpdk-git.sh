@@ -34,7 +34,7 @@ do_configure_system() {
 	WRITE_CONFIG_CORE=""
 	WRITE_CONFIG_EVENTS="use select;"
 	WRITE_CONFIG_LISTEN="listen $server_ip:80 default_server so_keepalive=off;"
-	echo <<-EOF
+	cat <<-EOF
 	WRITE_CONFIG_CORE=$WRITE_CONFIG_CORE
 	WRITE_CONFIG_EVENTS=$WRITE_CONFIG_EVENTS
 	WRITE_CONFIG_LISTEN=$WRITE_CONFIG_LISTEN

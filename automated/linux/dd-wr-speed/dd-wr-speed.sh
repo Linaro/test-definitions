@@ -102,7 +102,7 @@ parse_output() {
 
     itr=1
     while read -r line; do
-        if echo "${line}" | egrep -q "(M|G)B/s"; then
+        if echo "${line}" | grep -q -E "(M|G)B/s"; then
             measurement="$(echo "${line}" | awk '{print $(NF-1)}')"
             units="$(echo "${line}" | awk '{print substr($NF,1,2)}')"
             result=$(convert_to_mb "${measurement}" "${units}")

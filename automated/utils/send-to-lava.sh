@@ -9,7 +9,7 @@ lava_test_set="$?"
 
 if [ -f "${RESULT_FILE}" ]; then
     while read -r line; do
-        if echo "${line}" | egrep -iq ".* +(pass|fail|skip)$"; then
+        if echo "${line}" | grep -iq -E ".* +(pass|fail|skip)$"; then
             test="$(echo "${line}" | awk '{print $1}')"
             result="$(echo "${line}" | awk '{print $2}')"
 
@@ -18,7 +18,7 @@ if [ -f "${RESULT_FILE}" ]; then
             else
                 echo "<TEST_CASE_ID=${test} RESULT=${result}>"
             fi
-        elif echo "${line}" | egrep -iq ".*+ (pass|fail|skip)+ .*+"; then
+        elif echo "${line}" | grep -iq -E ".*+ (pass|fail|skip)+ .*+"; then
             test="$(echo "${line}" | awk '{print $1}')"
             result="$(echo "${line}" | awk '{print $2}')"
             measurement="$(echo "${line}" | awk '{print $3}')"
@@ -33,7 +33,7 @@ if [ -f "${RESULT_FILE}" ]; then
             else
                echo "<TEST_CASE_ID=${test} RESULT=${result} MEASUREMENT=${measurement} UNITS=${units}>"
             fi
-        elif echo "${line}" | egrep -iq "^lava-test-set.*"; then
+        elif echo "${line}" | grep -iq -E "^lava-test-set.*"; then
             test_set_status="$(echo "${line}" | awk '{print $2}')"
             test_set_name="$(echo "${line}" | awk '{print $3}')"
             if [ "${lava_test_set}" -eq 0 ]; then

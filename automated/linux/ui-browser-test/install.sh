@@ -57,8 +57,8 @@ dist_name
 # Consider Ubuntu as a Debian distribution
 dist=${dist/ubuntu/debian}
 
-type install_chromedriver_"${dist}"
-if [ $? -ne 0 ]; then
+if ! type install_chromedriver_"${dist}"
+then
     echo "Distro not supported: ${dist}"
     echo " $0 : failed"
     exit 1

@@ -35,12 +35,12 @@ log_parser() {
     logfile="$2"
 
     # Test Result.
-    egrep "[0-9.]+ [a-zA-Z]+ +\([0-9.]+ s," "${logfile}" \
+    grep -E "[0-9.]+ [a-zA-Z]+ +\([0-9.]+ s," "${logfile}" \
         | awk -v prefix="${prefix}" '{printf(prefix)};{for (i=1;i<=(NF-6);i++) printf("-%s",$i)};{printf(" pass %s %s\n"),$(NF-5),$(NF-4)}' \
         | tee -a "${RESULT_FILE}"
 
     # Index Values.
-    egrep "[0-9]+\.[0-9] +[0-9]+\.[0-9] +[0-9]+\.[0-9]" "${logfile}" \
+    grep -E "[0-9]+\.[0-9] +[0-9]+\.[0-9] +[0-9]+\.[0-9]" "${logfile}" \
         | awk -v prefix="${prefix}" '{printf(prefix)};{for (i=1;i<=(NF-3);i++) printf("-%s",$i)};{printf(" pass %s index\n"),$NF}' \
         | tee -a "${RESULT_FILE}"
 

@@ -55,7 +55,7 @@ else
     exit_on_skip "mmc-pre-requirements" "Kernel config file not available"
 fi
 
-( [ "${CONFIG_MMC}" = "CONFIG_MMC=y" ] || [ "${CONFIG_MMC}" = "CONFIG_MMC=m" ] ) && ( [ "${CONFIG_MMC_SDHCI}" = "CONFIG_MMC_SDHCI=y" ] || [ "${CONFIG_MMC_SDHCI}" = "CONFIG_MMC_SDHCI=m" ] )
+{ [ "${CONFIG_MMC}" = "CONFIG_MMC=y" ] || [ "${CONFIG_MMC}" = "CONFIG_MMC=m" ]; } && { [ "${CONFIG_MMC_SDHCI}" = "CONFIG_MMC_SDHCI=y" ] || [ "${CONFIG_MMC_SDHCI}" = "CONFIG_MMC_SDHCI=m" ]; }
 exit_on_skip "mmc-pre-requirements" "Kernel config CONFIG_MMC=y or CONFIG_MMC=m and CONFIG_MMC_SDHCI=y or CONFIG_MMC_SDHCI=m not enabled"
 
 list_all_mmc_devices

@@ -50,10 +50,10 @@ class TradefedResultParser:
                 num = int(m.group(2), 16)
             # #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
             if not (
-                num in (0x9, 0xA, 0xD) or
-                0x20 <= num <= 0xD7FF or
-                0xE000 <= num <= 0xFFFD or
-                0x10000 <= num <= 0x10FFFF
+                num in (0x9, 0xA, 0xD)
+                or 0x20 <= num <= 0xD7FF
+                or 0xE000 <= num <= 0xFFFD
+                or 0x10000 <= num <= 0x10FFFF
             ):
                 etree_content = etree_content[:mstart] + etree_content[mend:]
                 endpos = len(etree_content)

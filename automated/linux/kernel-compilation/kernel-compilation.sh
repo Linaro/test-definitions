@@ -57,7 +57,7 @@ case "${abi}" in
 esac
 
 measurement="$(grep "^real" "${LOGFILE}" | awk '{print $2}')"
-if egrep "arch/.*/boot/Image" "${LOGFILE}"; then
+if grep -E "arch/.*/boot/Image" "${LOGFILE}"; then
     report_pass "kernel-compilation"
     add_metric "kernel-compilation-time" "pass" "${measurement}" "seconds"
 else

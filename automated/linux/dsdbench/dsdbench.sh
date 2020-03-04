@@ -56,7 +56,7 @@ if [ "${TEST_SUITE}" = "BENCHMARKS" ]; then
         | tee "${LOG_FILE}"
 
     # Parse log file.
-    egrep "^Benchmark.*op$" "${LOG_FILE}" \
+    grep -E "^Benchmark.*op$" "${LOG_FILE}" \
         | awk '{printf("%s pass %s %s\n", $1,$3,$4)}' \
         | tee -a "${RESULT_FILE}"
 elif [ "${TEST_SUITE}" = "TESTS" ]; then
