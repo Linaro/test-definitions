@@ -58,18 +58,18 @@ skip package install:
 #### running test plan
 
 Run a set of tests defined in agenda file:
-    
+
     test-runner -p ./plans/linux-example.yaml
 
 Apply test plan overlay to skip, amend or add tests:
-    
+
     test-runner -p ./plans/linux-example.yaml -O test-plan-overlay-example.yaml
 
 ## Collecting result
 
 ### Using test script
 Test script normally puts test log and parsed results to its own `output` directory. e.g.
-    
+
     automated/linux/smoke/output
 
 ### Using test-runner
@@ -77,12 +77,12 @@ test-runner needs a separate directory outside the repo to store test and result
 The directory defaults to `$HOME/output` and can be changed with `-o <dir>`. test-runner
 converts test definition file to `run.sh` and then parses its stdout. Results
 will be saved to results.{json,csv} by test. e.g.
-    
+
     /root/output/smoke_9879e7fd-a8b6-472d-b266-a20b05d52ed1/result.csv
 
 When using the same output directory for multiple tests, test-runner combines results
 from all tests and save them to `${OUTPUT}/results.{json,csv}`. e.g.
-    
+
     /root/output/result.json
 
 ## Contributing
@@ -92,8 +92,8 @@ Please use Github for pull requests: https://github.com/Linaro/test-definitions/
 https://git.linaro.org/qa/test-definitions.git is a read-only mirror. New changes in the
 github repo will be pushed to the mirror every 10 minutes.
 
-Refer to [test writing guidelines](docs/test-writing-guidelines.md) to modify
-or add test. 
+Refer to [test writing guidelines](test-writing-guidelines.md) to modify
+or add test.
 
 Changes need to be able to pass sanity check, which by default checks files in the most
 recent commit:
@@ -107,3 +107,5 @@ environment specified, run plans/linux-example.yaml, and then drop into a bash
 shell inside the container so that things like /root/output can be inspected.
 It is not (yet) a pass/fail test; merely a development helper and validation
 environment.
+
+For full documentation visit [mkdocs.org](https://mkdocs.org).
