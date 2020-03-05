@@ -13,12 +13,14 @@ S_URL=https://github.com/Algodev-github/S
 S_PATH="$(pwd)/S"
 SKIP_INSTALL="false"
 ONLY_READS=""
+NUM_REPETITIONS=5
 
 usage() {
 	echo "\
 	Usage: [sudo] ./run-bench.sh [-t <TESTS>] [-d <TEST_DEV>] [-f <FORMAT>]
 				     [-v <S_VERSION>] [-u <S_URL>] [-p <S_PATH>]
 				     [-r <ONLY_READS>] [-s <true|false>]
+				     [-n NUM_REPETITIONS]
 
 	<TESTS>:
 	Set of tests: 'throughput' benchmarks throughput, while
@@ -66,10 +68,13 @@ usage() {
 	<ONLY_READS>:
 	If this parameter is set to yes then only workloads made of
 	only reads are generated in every benchmark.
-	Default value: no"
+	Default value: no
+
+	<NUM_REPETITIONS>:
+	Number of times each benchmark is repeated. Default: 5."
 }
 
-while getopts "ht:d:f:p:u:v:s:r:" opt; do
+while getopts "ht:d:f:p:u:v:s:r:n:" opt; do
 	case $opt in
 		t)
 			TESTS="$OPTARG"
@@ -98,6 +103,9 @@ while getopts "ht:d:f:p:u:v:s:r:" opt; do
 			if [[ "${OPTARG}" == yes ]]; then
 				ONLY_READS="only-reads"
 			fi
+			;;
+		n)
+			NUM_REPETITIONS="$OPTARG"
 			;;
 		h)
 			usage
@@ -174,7 +182,8 @@ run_test() {
 	rm -f ${HOME_DIR}/.S-config.sh
 
 	cd "$S_PATH"/run_multiple_benchmarks/ || exit 1
-	./run_main_benchmarks.sh "$1" "" "" "" "${ONLY_READS}" "" 5 "${OUTPUT}" 2>&1 |\
+	./run_main_benchmarks.sh "$1" "" "" "" "${ONLY_READS}" "" \
+				 "${NUM_REPETITIONS}" "${OUTPUT}" 2>&1 |\
 	    tee -a "${OUTPUT}/log"
 
 	# In the result file, the average value of the main quantity
