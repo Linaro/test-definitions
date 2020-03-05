@@ -4,12 +4,13 @@ metadata:
     description: "iperf is a tool for active measurements of the maximum
                   achievable bandwidth on IP networks."
     maintainer:
-        - chase.qi@linaro.org
+        - milosz.wasilewski@linaro.org
     os:
         - debian
         - ubuntu
         - fedora
         - centos
+        - openembedded
     scope:
         - performance
     environment:
@@ -22,29 +23,29 @@ metadata:
         - thunderX
         - d03
         - d05
+        - soca9
+        - rzn1d
 
 params:
     # Time in seconds to transmit for
     TIME: "10"
     # Number of parallel client streams to run
     THREADS: "1"
+    # Set affinity of the client to cpu 0 using "-A 0"
+    AFFINITY: ""
+    # Set REVERSE="-R" to run tx from the server
+    REVERSE: ""
     SKIP_INSTALL: "false"
-    # Specify iperf server
-    # Set the var to lava-host-role for test run with LAVA multinode job
-    SERVER: 127.0.0.1
     # When running with LAVA multinode job, set the following vars to the values
-    # sent by lava-send from host role.
+    # sent by lava-send from server role.
     MSG_ID: server-ready
     MSG_KEY: ipaddr
 
 run:
     steps:
-        - fixed_server="${SERVER}"
-        - if [ "${SERVER}" = "lava-host-role" ]; then
-        -     lava-wait "${MSG_ID}"
-        -     fixed_server=$(grep "${MSG_KEY}" /tmp/lava_multi_node_cache.txt | awk -F"=" '{print $NF}')
-        - fi
+        - lava-wait "${MSG_ID}"
+        - server=$(grep "${MSG_KEY}" /tmp/lava_multi_node_cache.txt | awk -F"=" '{print $NF}')
         - cd ./automated/linux/iperf/
-        - ./iperf.sh -t "${TIME}" -p "${THREADS}" -s "${SKIP_INSTALL}" -c "${fixed_server}"
+        - ./iperf.sh -t "${TIME}" -p "${THREADS}" -s "${SKIP_INSTALL}" -c "${server}" "${AFFINITY}" "${REVERSE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
-        - '[ "${SERVER}" = "lava-host-role" ] && lava-send client-done'
+        - lava-send client-done

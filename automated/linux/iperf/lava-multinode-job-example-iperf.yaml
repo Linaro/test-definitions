@@ -10,17 +10,17 @@ priority: medium
 visibility: public
 
 metadata:
-  ipef-version: v3
+  iperf-version: v3
 
 protocols:
   lava-multinode:
     roles:
-      host:
+      server:
         device_type: beaglebone-black
         count: 1
         timeout:
           minutes: 30
-      guest:
+      client:
         device_type: beaglebone-black
         count: 1
         timeout:
@@ -29,7 +29,7 @@ protocols:
 actions:
 - deploy:
     role:
-      - host
+      - server
     timeout:
       minutes: 4
     to: tftp
@@ -53,7 +53,7 @@ actions:
 
 - deploy:
     role:
-      - guest
+      - client
     timeout:
       minutes: 4
     to: tftp
@@ -77,7 +77,7 @@ actions:
 
 - boot:
     role:
-      - host
+      - server
     method: u-boot
     commands: nfs
     auto_login:
@@ -90,7 +90,7 @@ actions:
 
 - boot:
     role:
-      - guest
+      - client
     method: u-boot
     commands: nfs
     auto_login:
@@ -103,40 +103,32 @@ actions:
 
 - test:
     role:
-    - host
-    timeout:
-      minutes: 30
-    definitions:
-    - repository:
-        metadata:
-          format: Lava-Test Test Definition 1.0
-          name: run-iperf3-server
-          description: "Run iperf3 in server mode"
-        run:
-          steps:
-          - apt-get -y update
-          - apt-get -y install iperf3
-          - if iperf3 -s -D; then lava-test-case run-iperf3-server --result 'pass'; else lava-test-raise 'Failed to run ipef3 server'; fi
-          - lava-send server-ready ipaddr=$(lava-echo-ipv4 eth0)
-          - lava-wait client-done
-          - pkill iperf3
-      from: inline
-      name: run-iperf3-server
-      path: inline/run-iperf3-server.yaml
-
-- test:
-    role:
-    - guest
+    - server
     timeout:
       minutes: 30
     definitions:
     - repository: https://github.com/Linaro/test-definitions.git
       branch: master
       from: git
-      path: automated/linux/iperf/iperf.yaml
+      path: automated/linux/iperf/iperf-server.yaml
       name: iperf3-test
       parameters:
-        SERVER: lava-host-role
+        SERVER_ETHERNET_DEVICE: eth0
+
+- test:
+    role:
+    - client
+    timeout:
+      minutes: 30
+    definitions:
+    - repository: https://github.com/Linaro/test-definitions.git
+      branch: master
+      from: git
+      path: automated/linux/iperf/iperf-client.yaml
+      name: iperf3-test
+      parameters:
+        AFFINITY: ""
+        REVERSE: ""
         # The MSG ID and KEY should be the same as the ones sent by lava-send above
         MSG_ID: server-ready
         MSG_KEY: ipaddr
