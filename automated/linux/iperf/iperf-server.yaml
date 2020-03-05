@@ -1,0 +1,41 @@
+metadata:
+    name: iperf
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "iperf is a tool for active measurements of the maximum
+                  achievable bandwidth on IP networks."
+    maintainer:
+        - milosz.wasilewski@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - performance
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+        - soca9
+        - rzn1d
+
+params:
+    SKIP_INSTALL: "false"
+    SERVER_ETHERNET_DEVICE: "eth0"
+
+run:
+    steps:
+        - cd ./automated/linux/iperf/
+        - ipaddr=$(lava-echo-ipv4 ${SERVER_ETHERNET_DEVICE} | tr -d '\0')
+        - if [ -z "${ipaddr}" ]; then echo lava-test-raise "${SERVER_ETHERNET_DEVICE} not found"; fi
+        - lava-send server-ready ipaddr=${ipaddr}
+        - ./iperf.sh -s "${SKIP_INSTALL}"
+        - lava-wait client-done
+        - ../../utils/send-to-lava.sh ./output/result.txt
