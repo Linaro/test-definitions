@@ -13,7 +13,7 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
         new_filename = filename.split("/", 1)[1]
         # remove .yaml
         new_filename = new_filename.rsplit(".", 1)[0]
-        new_filename = os.path.join(config['docs_dir'], new_filename)
+        tmp_filename = os.path.join(config['docs_dir'], new_filename)
         filecontent = None
         try:
             with open(filename, "r") as f:
@@ -21,10 +21,10 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
         except FileNotFoundError:
             return None
         try:
-            content = yaml.load(filecontent)
+            content = yaml.load(filecontent, Loader=yaml.Loader)
             if "metadata" in content.keys():
                 metadata = content["metadata"]
-                mdFile = mdutils.MdUtils(file_name=new_filename, title=metadata['name'])
+                mdFile = mdutils.MdUtils(file_name=tmp_filename, title=metadata['name'])
                 mdFile.new_header(level=1, title="Test name: %s" % metadata['name'])
                 mdFile.new_header(level=1, title="Description")
                 mdFile.new_paragraph(metadata['description'])
@@ -39,12 +39,12 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
                     for item in scope_list:
                         mdFile.new_line(" * %s" % item)
                 try:
-                    os.makedirs(os.path.dirname(new_filename))
+                    os.makedirs(os.path.dirname(tmp_filename))
                 except OSError as exc:  # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
                 mdFile.create_md_file()
-                return mdFile.file_name + ".md"
+                return new_filename + ".md"
         except yaml.YAMLError:
             return None
         except KeyError:
@@ -57,7 +57,6 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
                     new_filename = os.path.join(root, filename)
                     markdown_filename = self.generate_yaml_markdown(new_filename, config)
                     if markdown_filename is not None:
-                        f = File(markdown_filename, "./docs", "./docs", False)
+                        f = File(markdown_filename, config['docs_dir'], config['site_dir'], False)
                         files.append(f)
-
         return files
