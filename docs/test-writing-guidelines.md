@@ -1,28 +1,22 @@
-=======================
-Test Writing Guidelines
-=======================
+#Test Writing Guidelines
 
 This document describes guidelines and is intended for anybody who wants to write
 or modify a test case. It's not a definitive guide and it's not, by any means, a
 substitute for common sense.
 
-General Rules
-=============
+##General Rules
 
-1. Simplicity
--------------
+### 1. Simplicity
 
 It's worth keeping test cases as simple as possible.
 
-2. Code duplication
--------------------
+### 2. Code duplication
 
 Whenever you are about to copy a large part of the code from one test case to
 another, think if it is possible to move it to a library to reduce code
 duplication and the cost of maintenance.
 
-3. Coding style
----------------
+### 3. Coding style
 
 Use common sense and BE CONSISTENT.
 
@@ -33,8 +27,8 @@ The point of having style guidelines is to have a common vocabulary of coding so
 people can concentrate on what you are saying, rather than on how you are saying
 it.
 
-3.1 Shell coding style
-~~~~~~~~~~~~~~~~~~~~~~
+#### 3.1 Shell coding style
+
 When writing test cases in shell write in *portable shell* only.
 
 You can either try to run the test cases on Debian which has '/bin/sh' pointing
@@ -43,15 +37,14 @@ it to run the tests.
 
 Ref: `Shell Style Guide <https://google.github.io/styleguide/shell.xml>`_
 
-3.2 Python coding style
-~~~~~~~~~~~~~~~~~~~~~~~
+#### 3.2 Python coding style
+
 Please follow PEP 8 style guide whenever possible.
 
 Ref: `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_
 Easy-to-read version of PEP 8 available at `pep8.org <http://pep8.org>`_
 
-4. Commenting code
-------------------
+### 4. Commenting code
 
 Use useful comments in your program to explain:
 
@@ -63,19 +56,16 @@ Use useful comments in your program to explain:
 
 Code tells you how, comments should tell you why.
 
-5. License
-----------
+### 5. License
+
 Code contributed to this repository should be licensed under GPLv2+ (GNU GPL
 version 2 or any later version).
 
-Writing a test case
-===================
+# Writing a test case
 
-Linux
-------
+## Linux
 
-1. Structure
-~~~~~~~~~~~~
+### 1. Structure
 
 Tests are generally placed under 'linux/' directory. Everything that relates to
 the test goes under the same folder named with test case name.
@@ -84,8 +74,7 @@ Define 'linux/test-case-name/output' folder in test case to save test output and
 result. Using a dedicated folder is helpful to distinguish between test script
 and test output.
 
-2. Installing dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+### 2. Installing dependencies
 
 The same test case should work on Debian/Ubuntu, Fedora/CentOS and OE based
 distributions whenever possible. This can be achieved with install_deps()
@@ -139,14 +128,12 @@ writing test cases, in general:
 - Add parameter '-s <True|False>', so that user can modify 'SKIP_INSTALL'.
 - Try to use the above functions, and give unknown distributions more care.
 
-3. Saving output
-~~~~~~~~~~~~~~~~~
+### 3. Saving output
 
 'test-case-name/output' directory is recommended to save test log and result
 files.
 
-4. Parsing result
-~~~~~~~~~~~~~~~~~
+### 4. Parsing result
 
 Saving parsed result in the same format is important for post process such as
 sending to LAVA. The following result format should be followed::
@@ -169,8 +156,7 @@ Add a metric for performance test::
     add_metic "${test-case-id}" "pass/fail/skip" "${measurement}" "${units}"
 
 
-5. Running in LAVA
-~~~~~~~~~~~~~~~~~~
+### 5. Running in LAVA
 
 LAVA is the foundation of test automation in Linaro. It is able to handle image
 deployment and boot, and provides a test shell for test run. To run a test case
@@ -202,8 +188,7 @@ A general test definition file should contain the below keywords and steps::
         # Send the results in result.txt to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
 
-Android specific
-----------------
+## Android specific
 
 The above test writing guidelines also apply to Android test cases. The major
 difference is that we run all Android test cases through adb shell. Compare with
@@ -224,11 +209,9 @@ A typical Android test case can be written with the following steps::
     pull_output "${DEVICE_OUTPUT}" "${HOST_OUTPUT}"
 
 
-6. Using test-runner
-~~~~~~~~~~~~~~~~~~~~
+### 6. Using test-runner
 
-Using test-runner to run tests locally
---------------------------------------
+#### Using test-runner to run tests locally
 
 The tests can be run directly on the board, assuming you have installed basic
 tools such as git, gcc, ... `test-runner` is written in Python and requires
@@ -243,8 +226,7 @@ on the board, get a prompt and run::
 By default the test output are stored in `$HOME/output/`, and the output folder
 can be configured with `-o` argument.
 
-Using test-runner to run tests from host PC
--------------------------------------------
+#### Using test-runner to run tests from host PC
 
 It is also possible to run tests from a host PC if the board is available on
 the network. In that case `test-runner` will connect to the board over SSH, and
@@ -262,14 +244,12 @@ Where `root@ip` is the credential to connect to the board over SSH.
 By default the test output are stored in `$HOME/output/root@ip`, and the output
 folder can be configured with `-o` argument.
 
-Running individual tests
-------------------------
+#### Running individual tests
 
 Instead of running a test plan with `-p` argument, it is possible to run a single
 test only using `-d` argument.
 
-Test output
------------
+#### Test output
 
 At the end of the test run, the following artefact are available in the output
 folder:
@@ -281,8 +261,7 @@ folder:
 - For each test executed, there is a folder which contains the console output
   of the test run, `stdout.log` as well as all test scripts/data
 
-Test Contribution Checklist
-===========================
+# Test Contribution Checklist
 
 - When applicable, check test cases with the following tools with line length
   rule relaxed.
