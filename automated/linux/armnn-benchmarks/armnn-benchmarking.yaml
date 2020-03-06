@@ -12,7 +12,7 @@ metadata:
     devices:
         - synquacer
 params:
-    LINK_SNAPSHOT: 'https://snapshots.linaro.org/componenets/armnn/latest-master/armnn.tar.xz'
+    LINK_SNAPSHOT: 'https://snapshots.linaro.org/componenets/armnn/latest-master/armnn-full.tar.xz'
     MLPERF: 'https://github.com/arm-software/armnn-mlperf'
     DATASET0: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.0.tar'
     DATASET1: 'http://people.linaro.org/~theodore.grey/dataset-imagenet-preprocessed-using-pillow.1.tar'
