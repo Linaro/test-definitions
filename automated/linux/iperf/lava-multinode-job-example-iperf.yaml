@@ -18,6 +18,7 @@ protocols:
       server:
         device_type: beaglebone-black
         count: 1
+        essential: True
         timeout:
           minutes: 30
       client:
