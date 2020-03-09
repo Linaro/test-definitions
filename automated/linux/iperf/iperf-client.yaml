@@ -27,6 +27,9 @@ metadata:
         - rzn1d
 
 params:
+    # Set the location of the server.
+    # When running in LAVA, it will attempt to discover the server address
+    SERVER: "localhost"
     # Time in seconds to transmit for
     TIME: "10"
     # Number of parallel client streams to run
@@ -36,16 +39,9 @@ params:
     # Set REVERSE="-R" to run tx from the server
     REVERSE: ""
     SKIP_INSTALL: "false"
-    # When running with LAVA multinode job, set the following vars to the values
-    # sent by lava-send from server role.
-    MSG_ID: server-ready
-    MSG_KEY: ipaddr
 
 run:
     steps:
-        - lava-wait "${MSG_ID}"
-        - server=$(grep "${MSG_KEY}" /tmp/lava_multi_node_cache.txt | awk -F"=" '{print $NF}')
         - cd ./automated/linux/iperf/
-        - ./iperf.sh -t "${TIME}" -p "${THREADS}" -s "${SKIP_INSTALL}" -c "${server}" "${AFFINITY}" "${REVERSE}"
+        - ./iperf.sh -c "${SERVER}" -t "${TIME}" -p "${THREADS}" -s "${SKIP_INSTALL}" "${AFFINITY}" "${REVERSE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
-        - lava-send client-done

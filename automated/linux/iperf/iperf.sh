@@ -20,16 +20,18 @@ REVERSE=""
 # CPU affinity is blank by default, meaning no affinity.
 # CPU numbers are zero based, eg AFFINITY="-A 0" for the first CPU
 AFFINITY=""
+ETH="eth0"
 
 usage() {
-    echo "Usage: $0 [-c server] [-t time] [-p number] [-v version] [-A cpu affinity] [-R] [-s true|false]" 1>&2
+    echo "Usage: $0 [-c server] [-e server ethernet device] [-t time] [-p number] [-v version] [-A cpu affinity] [-R] [-s true|false]" 1>&2
     exit 1
 }
 
-while getopts "A:c:t:p:v:s:Rh" o; do
+while getopts "A:c:e:t:p:v:s:Rh" o; do
   case "$o" in
     A) AFFINITY="-A ${OPTARG}" ;;
     c) SERVER="${OPTARG}" ;;
+    e) ETH="${OPTARG}" ;;
     t) TIME="${OPTARG}" ;;
     p) THREADS="${OPTARG}" ;;
     R) REVERSE="-R" ;;
@@ -65,6 +67,20 @@ fi
 
 # Run local iperf3 server as a daemon when testing localhost.
 if [ "${SERVER}" = "" ]; then
+    cmd="lava-echo-ipv4"
+    if which "${cmd}"; then
+        ipaddr=$(${cmd} "${ETH}" | tr -d '\0')
+        if [ -z "${ipaddr}" ]; then
+            lava-test-raise "${ETH} not found"
+        fi
+    else
+        echo "WARNING: command ${cmd} not found. We are not running in the LAVA environment."
+    fi
+    cmd="lava-send"
+    if which "${cmd}"; then
+        ${cmd} server-ready ipaddr="${ipaddr}"
+    fi
+
     # We are running in server mode.
     # Start the server and report pass/fail
     cmd="iperf3 -s -D"
@@ -75,7 +91,24 @@ if [ "${SERVER}" = "" ]; then
         result="fail"
     fi
     echo "iperf3_server_started ${result}" | tee -a "${RESULT_FILE}"
+
+    cmd="lava-wait"
+    if which "${cmd}"; then
+        ${cmd} client-done
+    fi
 else
+    cmd="lava-wait"
+    if which "${cmd}"; then
+        ${cmd} server-ready
+        SERVER=$(grep "ipaddr" /tmp/lava_multi_node_cache.txt | awk -F"=" '{print $NF}')
+    else
+        echo "WARNING: command ${cmd} not found. We are not running in the LAVA environment."
+    fi
+
+    if [ -z "${SERVER}" ]; then
+        echo "ERROR: no server specified"
+        exit 1
+    fi
     # We are running in client mode
     # Run iperf test with unbuffered output mode.
     stdbuf -o0 iperf3 -c "${SERVER}" -t "${TIME}" -P "${THREADS}" "${REVERSE}" "${AFFINITY}" 2>&1 \
@@ -90,5 +123,10 @@ else
         grep -E "[SUM].*(sender|receiver)" "${LOGFILE}" \
             | awk '{printf("iperf_%s pass %s %s\n", $NF,$6,$7)}' \
             | tee -a "${RESULT_FILE}"
+    fi
+
+    cmd="lava-send"
+    if which "${cmd}"; then
+        ${cmd} client-done
     fi
 fi
