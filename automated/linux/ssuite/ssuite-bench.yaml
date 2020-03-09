@@ -73,8 +73,11 @@ params:
         # only reads are generated in every benchmark.
         ONLY_READS: "no"
 
+        # Number of times each benchmark is repeated.
+        NUM_REPETITIONS: "5"
+
 run:
     steps:
         - cd ./automated/linux/ssuite/
-        - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${S_VERSION}" -s "${SKIP_INSTALL}" -r "${ONLY_READS}" -p "${S_PATH}"
+        - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${S_VERSION}" -s "${SKIP_INSTALL}" -r "${ONLY_READS}" -p "${S_PATH}" -n "${NUM_REPETITIONS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
