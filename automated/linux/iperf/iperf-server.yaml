@@ -33,9 +33,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/iperf/
-        - ipaddr=$(lava-echo-ipv4 ${SERVER_ETHERNET_DEVICE} | tr -d '\0')
-        - if [ -z "${ipaddr}" ]; then echo lava-test-raise "${SERVER_ETHERNET_DEVICE} not found"; fi
-        - lava-send server-ready ipaddr=${ipaddr}
-        - ./iperf.sh -s "${SKIP_INSTALL}"
-        - lava-wait client-done
+        - ./iperf.sh -s "${SKIP_INSTALL}" -e "${SERVER_ETHERNET_DEVICE}"
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -129,6 +129,3 @@ actions:
       parameters:
         AFFINITY: ""
         REVERSE: ""
-        # The MSG ID and KEY should be the same as the ones sent by lava-send above
-        MSG_ID: server-ready
-        MSG_KEY: ipaddr
