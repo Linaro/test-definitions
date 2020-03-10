@@ -5,6 +5,7 @@ import yaml
 
 from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import File
+from mdutils.fileutils.fileutils import MarkDownFile
 
 
 class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
@@ -25,6 +26,14 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
             if "metadata" in content.keys():
                 metadata = content["metadata"]
                 mdFile = mdutils.MdUtils(file_name=tmp_filename, title=metadata['name'])
+                tags_section = "---\n"
+                tags_section += "title: %s\n" % metadata['name']
+                tags_section += "tags:\n"
+                scope_list = metadata.get("scope", None)
+                if scope_list is not None:
+                    for item in scope_list:
+                        tags_section += " - %s\n" % item
+                tags_section += "---\n"
                 mdFile.new_header(level=1, title="Test name: %s" % metadata['name'])
                 mdFile.new_header(level=1, title="Description")
                 mdFile.new_paragraph(metadata['description'])
@@ -34,7 +43,6 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
                     for item in maintainer_list:
                         mdFile.new_line(" * %s" % item)
                 mdFile.new_header(level=1, title="Scope")
-                scope_list = metadata.get("scope", None)
                 if scope_list is not None:
                     for item in scope_list:
                         mdFile.new_line(" * %s" % item)
@@ -43,8 +51,9 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
                 except OSError as exc:  # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                mdFile.create_md_file()
-                return new_filename + ".md"
+                md_file = MarkDownFile(mdFile.file_name)
+                md_file.rewrite_all_file(data=tags_section + mdFile.title + mdFile.table_of_contents + mdFile.file_data_text)
+                return md_file.file_name
         except yaml.YAMLError:
             return None
         except KeyError:
