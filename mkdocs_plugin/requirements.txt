@@ -1,2 +1,4 @@
 mkdocs-test-definitions-plugin
 mdutils
+git+https://github.com/mwasilew/mkdocs-plugin-tags.git
+mkdocs-exclude

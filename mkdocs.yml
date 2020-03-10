@@ -4,3 +4,7 @@ repo_url: https://github.com/linaro/test-definitions
 copyright: Linaro Ltd.
 plugins:
     - linaro-test-definitions
+    - tags
+    - exclude:
+        glob:
+          - plans/*
