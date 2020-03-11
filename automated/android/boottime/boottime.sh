@@ -29,13 +29,20 @@ done
 
 install_deps 'curl tar xz-utils usbutils' "${SKIP_INSTALL}"
 
+create_out_dir "${OUTPUT}"
+
+# LAVA itself will begin the test only after reaching to prompt.
+# It is safe to report that system has booted to prompt
+echo "BOOT_TO_CONSOLE pass" > ./boot_result.txt
+
 initialize_adb
 adb_root
 # wait till boot completed
 wait_boot_completed "${BOOT_TIMEOUT}"
 
-create_out_dir "${OUTPUT}"
+echo "BOOT_TO_UI pass" >> boot_result.txt
 
+mv boot_result.txt output/
 adb_push "./device-script.sh" "/data/local/tmp/"
 info_msg "device-${ANDROID_SERIAL}: About to run boottime ${OPERATION} ${COLLECT_NO}..."
 adb shell "/data/local/tmp/device-script.sh ${OPERATION} ${COLLECT_NO}" \
