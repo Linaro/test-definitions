@@ -1,7 +1,7 @@
  
 metadata:
     format: Lava-Test Test Definition 1.0
-    name: armnn-mlperf benchmark
+    name: armnn-mlperf-benchmark
     description: "Carry out armnn-mlperf benchmark test."
     maintainer:
         - theodore.grey@linaro.org
