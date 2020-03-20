@@ -109,6 +109,12 @@ def validate_yaml_contents(filepath, args):
                 result_message_list.append("\t%s has no content" % key)
                 publish_result(result_message_list, args)
                 return 1
+        # check if name has white spaces
+        if metadata_dict['name'].find(" ") > -1:
+            result_message_list.append("* METADATA [FAILED]: " + filepath)
+            result_message_list.append("\t'name' contains whitespace")
+            publish_result(result_message_list, args)
+            return 1
         result_message_list.append("* METADATA [PASSED]: " + filepath)
         publish_result(result_message_list, args)
         return 0
