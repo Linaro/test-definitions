@@ -26,6 +26,7 @@ done
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 
+apt-get update
 pkgs="ntp git wget curl libz-dev gcc g++ autoconf autogen libtool python3 python3-pip libjpeg-dev libtinfo5 libncurses5-dev libncursesw5-dev libboost-all-dev"
 dhclient
 install_deps "${pkgs}" "${SKIP_INSTALL}"
