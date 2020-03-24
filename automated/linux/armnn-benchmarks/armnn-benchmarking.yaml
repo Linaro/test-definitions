@@ -24,4 +24,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/armnn-benchmarks/
+        chmod 755 armnn-mlperf.sh
         - ./armnn-mlperf.sh -s "${SKIP_INSTALL}" -l "${LINK_SNAPSHOT}" -m "${MLPERF}" -a "${DATASET0}" -b  "${DATASET1}" -c  "${DATASET2}" -d  "${DATASET3}" -e  "${DATASET4}" -f  "${DATASET5}"
