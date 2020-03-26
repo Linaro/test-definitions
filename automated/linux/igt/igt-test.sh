@@ -29,6 +29,15 @@ generate_chamelium_testlist() {
     ${TEST_SCRIPT} -l | grep chamelium | grep -v "dp\|vga\|suspend\|hibernate" | tee "${IGT_DIR}"/"${TEST_LIST}"
 }
 
+download_piglit() {
+    # Download Piglit
+    git config --global http.postBuffer 157286400
+    if [ ! -d "${IGT_DIR}/piglit" ]; then
+        echo "Download Piglit.."
+        time ${TEST_SCRIPT} -d
+    fi
+}
+
 usage() {
     echo "usage: $0 -d <igt-gpu-tools dir> -t <test-list> [-c <chamelium ip address>] [-h <HDMI device name>]" 1>&2
     exit 1
@@ -56,14 +65,9 @@ TEST_SCRIPT="${IGT_DIR}/scripts/run-tests.sh"
 
 export IGT_TEST_ROOT="/usr/libexec/igt-gpu-tools"
 
-# new run-tests.sh needs '-p' to run the tests with piglit
-${TEST_SCRIPT} --help | grep -q '\-p' && TEST_SCRIPT="${TEST_SCRIPT} -p"
-
-# Download Piglit
-git config --global http.postBuffer 157286400
-if [ ! -d "${IGT_DIR}/piglit" ]; then
-    echo "Download Piglit.."
-    time ${TEST_SCRIPT} -d
+if [ ! -f "${IGT_DIR}/runner/igt_runner" ]; then
+    ${TEST_SCRIPT} --help | grep -q '\-p' && TEST_SCRIPT="${TEST_SCRIPT} -p"
+    download_piglit
 fi
 
 if [ "${TEST_LIST}" == "CHAMELIUM" ]; then
@@ -80,5 +84,5 @@ fi
 
 # Run tests
 echo "Run ${TEST_LIST}"
-${TEST_SCRIPT} -T "${IGT_DIR}"/"${TEST_LIST}" -v -s | tee tmp.log
+${TEST_SCRIPT} -T "${IGT_DIR}"/"${TEST_LIST}" -v | tee tmp.log
 grep -e '^pass' -e '^skip' -e '^fail' tmp.log|awk -F':\ ' '{print $2" "$1}' > ${RESULT_LOG}
