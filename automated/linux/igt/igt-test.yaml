@@ -47,7 +47,8 @@ run:
         - echo "**********************************************";
         - echo "************ Dump IGT test result ************";
         - echo "**********************************************";
-        - bzcat ${IGT_DIR}/results/results.json.bz2 | python print-test-result.py
+        - if [ -f "${IGT_DIR}/results/results.json.bz2" ]; then bunzip2 ${IGT_DIR}/results/results.json.bz2; fi
+        - python print-test-result.py -f ${IGT_DIR}/results/results.json
         - if [ -n "${ARTIFACTORIAL_TOKEN}" -a -n "${ARTIFACTORIAL_URL}" ]; then
         - UPLOAD_TOOL="../../utils/upload-to-artifactorial.sh"
         - if [ -d "/root/dump-frames/" -a -n "`ls /root/dump-frames/`" ];  then echo "Got error frames.." ; tar -C /root -zcf dump-frames.tar.gz dump-frames/;
