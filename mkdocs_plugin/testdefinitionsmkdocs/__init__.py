@@ -53,7 +53,7 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
                         raise
                 md_file = MarkDownFile(mdFile.file_name)
                 md_file.rewrite_all_file(data=tags_section + mdFile.title + mdFile.table_of_contents + mdFile.file_data_text)
-                return md_file.file_name
+                return new_filename + ".md"
         except yaml.YAMLError:
             return None
         except KeyError:
