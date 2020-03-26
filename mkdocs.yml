@@ -2,6 +2,8 @@ site_name: Test Definitions
 site_url: https://readthedocs.org/test-definitions
 repo_url: https://github.com/linaro/test-definitions
 copyright: Linaro Ltd.
+theme:
+    name: material
 plugins:
     - linaro-test-definitions
     - tags
