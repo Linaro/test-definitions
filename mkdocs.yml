@@ -5,7 +5,11 @@ copyright: Linaro Ltd.
 theme:
     name: material
 plugins:
-    - linaro-test-definitions
+    - linaro-test-definitions:
+        table_dirs:
+            - 'automated/linux'
+            - 'automated/android'
+            - 'manual'
     - tags
     - exclude:
         glob:

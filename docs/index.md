@@ -85,6 +85,36 @@ from all tests and save them to `${OUTPUT}/results.{json,csv}`. e.g.
 
     /root/output/result.json
 
+## Generating documentation
+
+[Full docs](https://test-definitions.readthedocs.io) are generated from existing
+YAML files. Resulting markdown files are not stored in the repository. In order
+to generate documentation locally one needs to follow the steps below:
+
+1. create and activate virtualenv  
+   ```
+   virtualenv -p python3 venv
+   source venv/bin/activate
+   ```
+2. install requirements  
+   ```
+   pip install -r mkdocs_plugin/requirements.txt
+   ```
+3. run mkdocs
+    * local http server  
+      ```
+      mkdocs serve
+      ```  
+      This will start small http server on http://127.0.0.1:8000
+
+    * build static docs  
+      ```
+      mkdocs build
+      ```  
+      This will convert all generated markdown files to HTML files. By default
+      files are stored in 'site' directory. See [mkdocs documentation](https://www.mkdocs.org/#building-the-site)
+      for more details.
+
 ## Contributing
 
 Please use Github for pull requests: https://github.com/Linaro/test-definitions/pulls
@@ -108,4 +138,4 @@ shell inside the container so that things like /root/output can be inspected.
 It is not (yet) a pass/fail test; merely a development helper and validation
 environment.
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+For full documentation visit [test-definitions.readthedocs.io](https://test-definitions.readthedocs.io).
