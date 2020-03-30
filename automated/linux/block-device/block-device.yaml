@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2019 Schneider Electric
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: block-device
+    description: "Test a partition on a block device.
+
+    Check that files can be written and read reliably, measure the timings
+    for read and write, and run the bonnie++ block device test on the
+    device."
+
+    maintainer:
+        - ryan.harkin@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - blkdev
+        - bonnie++
+        - performance
+        - functional
+
+    devices:
+        - rzn1d
+        - soca9
+
+params:
+        DEVICE: "/dev/sdXN"
+        FORMAT_DEVICE: "False"
+        SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/block-device
+        - ./block-device.sh -s "${SKIP_INSTALL}" -d "${DEVICE}" -f "${FORMAT_DEVICE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
