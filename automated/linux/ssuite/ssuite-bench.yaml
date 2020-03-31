@@ -1,18 +1,20 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: S-suite
-    description: "The S-suite is a suite of I/O-performance benchmarks.
+    description: |
+                  The S-suite is a suite of I/O-performance benchmarks.
                   This test uses the S-suite to run, for every I/O scheduler
                   available for the target device, two main benchmarks:
-                  1) A throughput benchmark, which measures throughput
+
+                  1. A throughput benchmark, which measures throughput
                      with random and sequential sync I/O. In this respect,
                      sync I/O is the kind of I/O for which it is most
                      difficult to reach a higher throughput.
-                  2) A responsiveness benchmark, which measures the start-up
+                  2. A responsiveness benchmark, which measures the start-up
                      time of various popular application, in the presence
                      of sequential I/O in the background (sequential
                      is the kind of background I/O that makes it more
-                     difficult to guarantee a high responsiveness"
+                     difficult to guarantee a high responsiveness
     maintainer:
         - paolo.valente@linaro.org
     os:
