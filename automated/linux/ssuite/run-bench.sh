@@ -5,7 +5,7 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 
-TESTS="throughput replayed-startup"
+TESTS="throughput replayed-gnome-term-startup"
 TEST_DEV=sda
 FORMAT=no
 S_VERSION=
@@ -29,7 +29,10 @@ usage() {
 	from meeting all non-trivial dependencies of these applications
 	(such as having an X session running). Results are
 	indistinguishable w.r.t. to actually starting these applications.
-	Default value: \"throughput replayed-startup\"
+	A special case for replayed-startup is replayed-gnome-term-startup:
+	it benchmarks the startup of only gnome-terminal (a medium-size
+	application).
+	Default value: \"throughput replayed-gnome-term-startup\"
 
 	<TEST_DEV>:
 	Target device/partition: device/partition on which to

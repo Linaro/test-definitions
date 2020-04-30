@@ -35,7 +35,10 @@ params:
         # from meeting all non-trivial dependencies of these applications
         # (such as having an X session running). Results are
         # indistinguishable w.r.t. to actually starting these applications.
-        TESTS: "throughput replayed-startup"
+        # A special case for replayed-startup is replayed-gnome-term-startup:
+        # it benchmarks the startup of only gnome-terminal (a medium-size
+        # application).
+        TESTS: "throughput replayed-gnome-term-startup"
 
         # Target device/partition: device/partition on which to
         # execute the benchmarks. If a partition is specified, then
