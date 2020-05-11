@@ -1,0 +1,33 @@
+metadata:
+    name: widevine_unittest
+    format: "Lava-Test-Shell Test Definition 1.0"
+    description: "Widevine Content Decryption Modules (CDMs) are how streaming services
+                  protect content using HTML5 video to web browsers without relying on
+                  an NPAPI plugin like Flash or Silverlight. This test runs widevine_ce_cdm_unittest"
+    maintainer:
+        - arthur.she@linaro.org
+    os:
+        - openembedded
+        - debian
+    scope:
+        - functional
+    devices:
+        - imx8mq-evk
+
+params:
+    UPLOAD_URL: ""
+    TOKEN: ""
+    UPLOAD_TOOL: "../../utils/upload-to-artifactorial.sh"
+    LOG_FILE: "widevine_ce_cdm_unittest.log"
+    RESULT_FILE: "result.txt"
+
+run:
+    steps:
+        - cd ./automated/linux/widevine/
+        - ./widevine_unittest.sh -l ${LOG_FILE} -r ${RESULT_FILE}
+        - ../../utils/send-to-lava.sh ${RESULT_FILE}
+        # Upload log file to artifactirial
+        - if [ -f "${LOG_FILE}" -a -n "${UPLOAD_URL}" ]; then
+        - gzip ${LOG_FILE} && LOG_FILE=${LOG_FILE}.gz || true
+        - ${UPLOAD_TOOL} -a "${LOG_FILE}" -u "${UPLOAD_URL}" -t "${TOKEN}"; fi
+
