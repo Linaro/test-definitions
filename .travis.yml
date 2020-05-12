@@ -13,7 +13,7 @@ install:
 
 env:
   - SCRIPT="./sanity-check.sh"
-  - SCRIPT="docker run -v $(pwd):/test-definitions --workdir /test-definitions fsfe/reuse reuse lint"
+  - SCRIPT="docker run -v $(pwd):/test-definitions --workdir /test-definitions fsfe/reuse lint"
 
 script:
   - $SCRIPT
