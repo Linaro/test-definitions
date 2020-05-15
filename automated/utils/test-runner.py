@@ -5,6 +5,7 @@ import cmd
 import copy
 import json
 import logging
+import netrc
 import os
 import re
 import shlex
@@ -15,6 +16,16 @@ import textwrap
 import time
 from uuid import uuid4
 from distutils.spawn import find_executable
+
+
+try:
+    from squad_client.core.api import SquadApi
+    from squad_client.shortcuts import submit_results
+    from squad_client.core.models import Squad
+    from urllib.parse import urlparse
+except ImportError as e:
+    logger = logging.getLogger('RUNNER')
+    logger.warning('squad_client is needed if you want to upload to qa-reports')
 
 
 try:
@@ -661,6 +672,16 @@ class ResultParser(object):
         self.results['params'] = {}
         self.pattern = None
         self.fixup = None
+        self.qa_reports_server = args.qa_reports_server
+        if args.qa_reports_token is not None:
+            self.qa_reports_token = args.qa_reports_token
+        else:
+            self.qa_reports_token = os.environ.get("QA_REPORTS_TOKEN", get_token_from_netrc(self.qa_reports_server))
+        self.qa_reports_project = args.qa_reports_project
+        self.qa_reports_group = args.qa_reports_group
+        self.qa_reports_env = args.qa_reports_env
+        self.qa_reports_build_version = args.qa_reports_build_version
+
         with open(os.path.join(self.test['test_path'], "testdef.yaml"), "r") as f:
             self.testdef = yaml.safe_load(f)
             self.results['name'] = ""
@@ -708,6 +729,7 @@ class ResultParser(object):
         self.results['metrics'] = self.metrics
         self.dict_to_json()
         self.dict_to_csv()
+        self.send_to_qa_reports()
         self.logger.info('Result files saved to: %s' % self.test['test_path'])
         print('--- Printing result.csv ---')
         with open('%s/result.csv' % self.test['test_path']) as f:
@@ -772,6 +794,37 @@ class ResultParser(object):
         self.logger.debug('lava-run: cmd: {}'.format(cmd))
         subprocess.call(shlex.split(cmd))
 
+    def send_to_qa_reports(self):
+        if None in (self.qa_reports_server, self.qa_reports_token, self.qa_reports_group, self.qa_reports_project, self.qa_reports_build_version, self.qa_reports_env):
+            self.logger.warning("All parameters for qa reports are not set, results will not be pushed to qa reports")
+            return
+
+        SquadApi.configure(
+            url=self.qa_reports_server, token=self.qa_reports_token
+        )
+        tests = {}
+        metrics = {}
+        for metric in self.metrics:
+            if metric['measurement'] != "":
+                metrics["{}/{}".format(self.test['test_name'], metric['test_case_id'])] = metric['measurement']
+            else:
+                tests["{}/{}".format(self.test['test_name'], metric['test_case_id'])] = metric['result']
+
+        with open("{}/stdout.log".format(self.test['test_path']), "r") as logfile:
+            log = logfile.read()
+
+        submit_results(
+            group_project_slug="{}/{}".format(self.qa_reports_group, self.qa_reports_project),
+            build_version=self.qa_reports_build_version,
+            env_slug=self.qa_reports_env,
+            tests=tests,
+            metrics=metrics,
+            log=log,
+            metadata=self.testdef['metadata'],
+            attachments=None,
+        )
+        self.logger.info("Results pushed to QA Reports")
+
     def dict_to_json(self):
         # Save test results to output/test_id/result.json
         with open('%s/result.json' % self.test['test_path'], 'w') as f:
@@ -816,6 +869,19 @@ class ResultParser(object):
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             for metric in self.results['metrics']:
                 writer.writerow(metric)
+
+
+def get_token_from_netrc(qa_reports_server):
+    if qa_reports_server is None:
+        return
+    parse = urlparse(qa_reports_server)
+    netrc_local = netrc.netrc()
+    authTokens = netrc_local.authenticators("{}".format(parse.netloc))
+    if authTokens is not None:
+        hostname, username, authToken = authTokens
+        return authToken
+    # Unable to find Token hence returning None
+    return
 
 
 def get_args():
@@ -876,6 +942,42 @@ def get_args():
                         '''))
     parser.add_argument('-v', '--verbose', action='store_true', dest='verbose',
                         default=False, help='Set log level to DEBUG.')
+    parser.add_argument(
+        "--qa-reports-server",
+        dest="qa_reports_server",
+        default=None,
+        help="qa reports server where the results have to be sent",
+    )
+    parser.add_argument(
+        "--qa-reports-token",
+        dest="qa_reports_token",
+        default=None,
+        help="qa reports token to upload the results to qa_reports_server",
+    )
+    parser.add_argument(
+        "--qa-reports-project",
+        dest="qa_reports_project",
+        default=None,
+        help="qa reports projects to which the results have to be uploaded",
+    )
+    parser.add_argument(
+        "--qa-reports-group",
+        dest="qa_reports_group",
+        default=None,
+        help="qa reports group in which the results have to be stored",
+    )
+    parser.add_argument(
+        "--qa-reports-env",
+        dest="qa_reports_env",
+        default=None,
+        help="qa reports environment for the results that have to be stored",
+    )
+    parser.add_argument(
+        "--qa-reports-build-version",
+        dest="qa_reports_build_version",
+        default=None,
+        help="qa reports build id for the result set",
+    )
     args = parser.parse_args()
     return args
 
