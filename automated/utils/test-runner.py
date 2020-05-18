@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import argparse
 import csv
 import cmd
@@ -34,8 +34,7 @@ try:
 except ImportError as e:
     print(e)
     print('Please run the below command to install modules required')
-    print('Python2: pip install -r ${REPO_PATH}/automated/utils/requirements.txt')
-    print('Python3: pip3 install -r ${REPO_PATH}/automated/utils/requirements.txt')
+    print('pip3 install -r ${REPO_PATH}/automated/utils/requirements.txt')
     sys.exit(1)
 
 
