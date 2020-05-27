@@ -26,10 +26,11 @@ params:
 run:
     steps:
         - cd ./automated/linux/igt
+        - OPT="-d ${IGT_DIR} -t ${TEST_LIST}"
+        - if [ "${TEST_LIST}" = "CHAMELIUM" ]; then
         # Check if Chamelium is available
         - while [ ${CHAMELIUM_PING_RETRY} -gt 0 ]; do PC=`ping -c 2 ${CHAMELIUM_IP}|grep '100% packet loss'`||true; if [ -n "${PC}" ]; then ./control_chamelium.sh ${CHAMELIUM_REBOOT_ARG}; sleep 30; (( CHAMELIUM_PING_RETRY-- )); else break; fi; done
         - test ${CHAMELIUM_PING_RETRY} -gt 0 && lava-test-case "Ping-Chamelium" --result pass || lava-test-raise "Ping-Chamelium"
-        - OPT="-d ${IGT_DIR} -t ${TEST_LIST}"
         # Check Chamelium uboot console status
         - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} /usr/bin/lock_u_boot_console
         # Showing the uptime of Chamelium
@@ -37,6 +38,7 @@ run:
         # ${CHAMELIUM_IP} is from LAVA device dictionary
         - if [ -n "${CHAMELIUM_IP}" ]; then OPT="${OPT} -c ${CHAMELIUM_IP}"; fi
         - if [ -n "${HDMI_DEV_NAME}" ]; then OPT="${OPT} -h ${HDMI_DEV_NAME}"; fi
+        - fi
         - ./igt-test.sh ${OPT}
         # Delete Chameliumd log
         - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} /usr/bin/uptime
