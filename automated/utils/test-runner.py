@@ -374,7 +374,7 @@ class AutomatedTestRun(TestRun):
     def run(self):
         self.logger.info('Executing %s/run.sh' % self.test['test_path'])
         shell_cmd = '%s/run.sh 2>&1 | tee %s/stdout.log' % (self.test['test_path'], self.test['test_path'])
-        self.child = pexpect.spawn('/bin/sh', ['-c', shell_cmd])
+        self.child = pexpect.spawnu('/bin/sh', ['-c', shell_cmd])
         self.check_result()
 
     def check_result(self):
@@ -389,10 +389,7 @@ class AutomatedTestRun(TestRun):
                 break
             try:
                 self.child.expect('\r\n')
-                if sys.version_info[0] < 3:
-                    print(self.child.before)
-                else:
-                    print(self.child.before.decode('utf-8'))
+                print(self.child.before)
             except pexpect.TIMEOUT:
                 continue
             except pexpect.EOF:
@@ -431,7 +428,7 @@ class RemoteTestRun(AutomatedTestRun):
         shell_cmd = 'ssh %s %s "%s/run.sh 2>&1"' % (SSH_PARAMS, self.args.target, self.test['target_test_path'])
         self.logger.debug('shell_cmd: %s' % shell_cmd)
         output = open("%s/stdout.log" % self.test['test_path'], "w")
-        self.child = pexpect.spawn(shell_cmd)
+        self.child = pexpect.spawnu(shell_cmd)
         self.child.logfile = output
         self.check_result()
 
