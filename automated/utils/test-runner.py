@@ -677,6 +677,7 @@ class ResultParser(object):
         self.qa_reports_group = args.qa_reports_group
         self.qa_reports_env = args.qa_reports_env
         self.qa_reports_build_version = args.qa_reports_build_version
+        self.qa_reports_disable_metadata = args.qa_reports_disable_metadata
 
         with open(os.path.join(self.test['test_path'], "testdef.yaml"), "r") as f:
             self.testdef = yaml.safe_load(f)
@@ -809,6 +810,9 @@ class ResultParser(object):
         with open("{}/stdout.log".format(self.test['test_path']), "r") as logfile:
             log = logfile.read()
 
+        metadata=self.testdef['metadata']
+        if self.qa_reports_disable_metadata:
+            metadata={}
         if submit_results(
                 group_project_slug="{}/{}".format(self.qa_reports_group, self.qa_reports_project),
                 build_version=self.qa_reports_build_version,
@@ -975,6 +979,14 @@ def get_args():
         default=None,
         help="qa reports build id for the result set",
     )
+    parser.add_argument(
+        "--qa-reports-disable-metadata",
+        dest="qa_reports_disable_metadata",
+        default=False,
+        action='store_true',
+        help="qa reports build id for the result set",
+    )
+
     args = parser.parse_args()
     return args
 
