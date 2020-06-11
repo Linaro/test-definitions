@@ -678,6 +678,7 @@ class ResultParser(object):
         self.qa_reports_env = args.qa_reports_env
         self.qa_reports_build_version = args.qa_reports_build_version
         self.qa_reports_disable_metadata = args.qa_reports_disable_metadata
+        self.qa_reports_metadata = args.qa_reports_metadata
 
         with open(os.path.join(self.test['test_path'], "testdef.yaml"), "r") as f:
             self.testdef = yaml.safe_load(f)
@@ -811,8 +812,10 @@ class ResultParser(object):
             log = logfile.read()
 
         metadata=self.testdef['metadata']
+        if self.qa_reports_metadata:
+            metadata = self.qa_reports_metadata
         if self.qa_reports_disable_metadata:
-            metadata={}
+            metadata = {}
         if submit_results(
                 group_project_slug="{}/{}".format(self.qa_reports_group, self.qa_reports_project),
                 build_version=self.qa_reports_build_version,
@@ -984,7 +987,16 @@ def get_args():
         dest="qa_reports_disable_metadata",
         default=False,
         action='store_true',
-        help="qa reports build id for the result set",
+        help="Disable sending metadata to SQUAD. Default: false",
+    )
+    parser.add_argument(
+        "--qa-reports-metadata",
+        dest="qa_reports_metadata",
+        default={},
+        action=StoreDictKeyPair,
+        nargs="+",
+        metavar="KEY=VALUE",
+        help="List of metadata key=value pairs to be sent to SQUAD",
     )
 
     args = parser.parse_args()
