@@ -809,17 +809,18 @@ class ResultParser(object):
         with open("{}/stdout.log".format(self.test['test_path']), "r") as logfile:
             log = logfile.read()
 
-        submit_results(
-            group_project_slug="{}/{}".format(self.qa_reports_group, self.qa_reports_project),
-            build_version=self.qa_reports_build_version,
-            env_slug=self.qa_reports_env,
-            tests=tests,
-            metrics=metrics,
-            log=log,
-            metadata=self.testdef['metadata'],
-            attachments=None,
-        )
-        self.logger.info("Results pushed to QA Reports")
+        if submit_results(
+                group_project_slug="{}/{}".format(self.qa_reports_group, self.qa_reports_project),
+                build_version=self.qa_reports_build_version,
+                env_slug=self.qa_reports_env,
+                tests=tests,
+                metrics=metrics,
+                log=log,
+                metadata=self.testdef['metadata'],
+                attachments=None):
+            self.logger.info("Results pushed to QA Reports")
+        else:
+            self.logger.warning("Results upload to QA Reports failed!")
 
     def dict_to_json(self):
         # Save test results to output/test_id/result.json
