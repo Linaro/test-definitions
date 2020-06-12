@@ -679,6 +679,7 @@ class ResultParser(object):
         self.qa_reports_build_version = args.qa_reports_build_version
         self.qa_reports_disable_metadata = args.qa_reports_disable_metadata
         self.qa_reports_metadata = args.qa_reports_metadata
+        self.qa_reports_metadata_file = args.qa_reports_metadata_file
 
         with open(os.path.join(self.test['test_path'], "testdef.yaml"), "r") as f:
             self.testdef = yaml.safe_load(f)
@@ -811,9 +812,25 @@ class ResultParser(object):
         with open("{}/stdout.log".format(self.test['test_path']), "r") as logfile:
             log = logfile.read()
 
-        metadata=self.testdef['metadata']
+        metadata = {}
         if self.qa_reports_metadata:
-            metadata = self.qa_reports_metadata
+            metadata.update(self.qa_reports_metadata)
+        if self.qa_reports_metadata_file:
+            try:
+                with open(self.qa_reports_metadata_file, "r") as metadata_file:
+                    loaded_metadata = yaml.load(metadata_file, Loader=yaml.SafeLoader)
+                    # check if loaded metadata is key=value and both are strings
+                    for key, value in loaded_metadata.items():
+                        if type(key) == str and type(value) == str:
+                            # only update metadata with simple keys
+                            # ignore all other items in the dictionary
+                            metadata.update({key: value})
+                        else:
+                            self.logger.warning("Ignoring key: %s" % key)
+            except FileNotFoundError:
+                self.logger.warning("Metadata file not found")
+            except PermissionError:
+                self.logger.warning("Insufficient permissions to open metadata file")
         if self.qa_reports_disable_metadata:
             metadata = {}
         if submit_results(
@@ -997,6 +1014,12 @@ def get_args():
         nargs="+",
         metavar="KEY=VALUE",
         help="List of metadata key=value pairs to be sent to SQUAD",
+    )
+    parser.add_argument(
+        "--qa-reports-metadata-file",
+        dest="qa_reports_metadata_file",
+        default=None,
+        help="YAML file that defines metadata to be reported to SQUAD",
     )
 
     args = parser.parse_args()
