@@ -36,6 +36,19 @@ skiplist:
       - 4.14
       - 4.9
       - 4.4
+      - master
+      - linux-5.7.y
+      - linux-5.6.y
+      - linux-5.4.y
+      - linux-4.19.y
+      - linux-4.14.y
+      - linux-4.9.y
+      - linux-4.4.y
+      - v5.4-rt
+      - v4.19-rt
+      - v4.14-rt
+      - v4.9-rt
+      - v4.4-rt
     tests:
       - ftracetest
 
@@ -187,6 +200,8 @@ skiplist:
       - nxp-ls2088
     branches:
       - 4.9
+      - linux-4.9.y
+      - v4.9-rt
     tests:
       - sync_test
 
@@ -218,6 +233,8 @@ skiplist:
     branches:
       - next
       - mainline
+      - default
+      - master
     tests:
       - test_btf
 
@@ -233,6 +250,8 @@ skiplist:
       - nxp-ls2088
     branches:
       - 4.19
+      - linux-4.19.y
+      - v4.19-rt
     tests:
       - test_progs
 
