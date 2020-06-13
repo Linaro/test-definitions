@@ -81,15 +81,6 @@ skiplist:
     branches: all
     tests:
       - breakpoint_test
-  - reason:
-    url:
-    environments: production
-    boards: all
-    branches:
-      - 4.9
-      - mainline
-    tests:
-      - breakpoint_test
 
   - reason:
     url:
