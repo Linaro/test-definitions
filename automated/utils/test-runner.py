@@ -813,26 +813,25 @@ class ResultParser(object):
             log = logfile.read()
 
         metadata = {}
-        if self.qa_reports_metadata:
-            metadata.update(self.qa_reports_metadata)
-        if self.qa_reports_metadata_file:
-            try:
-                with open(self.qa_reports_metadata_file, "r") as metadata_file:
-                    loaded_metadata = yaml.load(metadata_file, Loader=yaml.SafeLoader)
-                    # check if loaded metadata is key=value and both are strings
-                    for key, value in loaded_metadata.items():
-                        if type(key) == str and type(value) == str:
-                            # only update metadata with simple keys
-                            # ignore all other items in the dictionary
-                            metadata.update({key: value})
-                        else:
-                            self.logger.warning("Ignoring key: %s" % key)
-            except FileNotFoundError:
-                self.logger.warning("Metadata file not found")
-            except PermissionError:
-                self.logger.warning("Insufficient permissions to open metadata file")
-        if self.qa_reports_disable_metadata:
-            metadata = {}
+        if not self.qa_reports_disable_metadata:
+            if self.qa_reports_metadata:
+                metadata.update(self.qa_reports_metadata)
+            if self.qa_reports_metadata_file:
+                try:
+                    with open(self.qa_reports_metadata_file, "r") as metadata_file:
+                        loaded_metadata = yaml.load(metadata_file, Loader=yaml.SafeLoader)
+                        # check if loaded metadata is key=value and both are strings
+                        for key, value in loaded_metadata.items():
+                            if type(key) == str and type(value) == str:
+                                # only update metadata with simple keys
+                                # ignore all other items in the dictionary
+                                metadata.update({key: value})
+                            else:
+                                self.logger.warning("Ignoring key: %s" % key)
+                except FileNotFoundError:
+                    self.logger.warning("Metadata file not found")
+                except PermissionError:
+                    self.logger.warning("Insufficient permissions to open metadata file")
         if submit_results(
                 group_project_slug="{}/{}".format(self.qa_reports_group, self.qa_reports_project),
                 build_version=self.qa_reports_build_version,
@@ -840,7 +839,7 @@ class ResultParser(object):
                 tests=tests,
                 metrics=metrics,
                 log=log,
-                metadata=self.testdef['metadata'],
+                metadata=metadata,
                 attachments=None):
             self.logger.info("Results pushed to QA Reports")
         else:
