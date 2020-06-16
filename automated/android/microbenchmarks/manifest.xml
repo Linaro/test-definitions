@@ -19,6 +19,9 @@
   <!-- ART target for running art target tests" -->
   <project path="device/generic/art" name="device/generic/art" />
 
+  <!-- Add prebuilt jdk to build benchmarks -->
+  <project clone-depth="1" dest-branch="master" groups="pdk" name="platform/prebuilts/jdk/jdk11" path="prebuilts/jdk/jdk11" upstream="master"/>
+
   <project path="build/make" name="platform/build" groups="pdk">
     <copyfile src="core/root.mk" dest="Makefile" />
     <linkfile src="CleanSpec.mk" dest="build/CleanSpec.mk" />

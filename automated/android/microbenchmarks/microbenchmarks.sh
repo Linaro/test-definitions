@@ -26,7 +26,7 @@ set -x
 # shellcheck disable=SC1091
 . ../../lib/android-test-lib
 
-PKG_DEPS="git wget binutils curl bc xz-utils python python3 python3-scipy openjdk-8-jdk"
+PKG_DEPS="git wget binutils curl bc xz-utils python python3 python3-scipy"
 
 SKIP_INSTALL="false"
 
