@@ -79,6 +79,10 @@ skiplist:
     branches:
       - 4.4
       - 4.9
+      - linux-4.4.y
+      - linux-4.9.y
+      - v4.4-rt
+      - v4.9-rt
     tests:
       - fanotify07
       - fanotify08
@@ -93,6 +97,10 @@ skiplist:
     branches:
       - 4.4
       - 4.9
+      - linux-4.4.y
+      - linux-4.9.y
+      - v4.4-rt
+      - v4.9-rt
     tests:
       - inotify07
 
@@ -106,6 +114,12 @@ skiplist:
       - 4.4
       - 4.9
       - 4.14
+      - linux-4.4.y
+      - linux-4.9.y
+      - linux-4.14.y
+      - v4.4-rt
+      - v4.9-rt
+      - v4.14-rt
     tests:
       - inotify08
 
