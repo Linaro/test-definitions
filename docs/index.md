@@ -85,6 +85,8 @@ from all tests and save them to `${OUTPUT}/results.{json,csv}`. e.g.
 
     /root/output/result.json
 
+More details on test-runner usage in [test-runner docs](test-runner.md)
+
 ## Generating documentation
 
 [Full docs](https://test-definitions.readthedocs.io) are generated from existing
