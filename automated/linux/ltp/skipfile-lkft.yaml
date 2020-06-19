@@ -297,3 +297,14 @@ skiplist:
       - dio22
       - dio23
       - dio26
+
+  - reason: >
+      skip long running LTP memcg_stress_test on all devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=5657
+    environments: production
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - memcg_stress
