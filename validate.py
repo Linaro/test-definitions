@@ -29,16 +29,21 @@ def print_stderr(message):
 
 
 def publish_result(result_message_list, args):
-    result_message = '\n'.join(result_message_list)
-    try:
-        f = open(args.result_file, 'a')
-        f.write(result_message)
-        f.write("\n")
-        f.close()
-    except IOError as e:
-        print(e)
-        print_stderr("Cannot write to result file: %s" % args.result_file)
-    print_stderr(result_message)
+    if result_message_list:
+        result_message = '\n'.join(result_message_list)
+        try:
+            f = open(args.result_file, 'a')
+            f.write(result_message)
+            f.write("\n")
+            f.close()
+        except IOError as e:
+            print(e)
+            print_stderr("Cannot write to result file: %s" % args.result_file)
+        if args.verbose:
+            print_stderr(result_message)
+    else:
+        result_message = '\n'.join(args.failed_message_list)
+        print_stderr(result_message)
 
 
 def detect_abi():
@@ -72,10 +77,12 @@ def pycodestyle_check(filepath, args):
                     'code': code, 'text': text,
                 })
         publish_result(result_message_list, args)
+        args.failed_message_list = args.failed_message_list + result_message_list
         return 1
     else:
-        message = "* PYCODESTYLE: [PASSED]: " + filepath
-        print_stderr(message)
+        if args.verbose:
+            message = "* PYCODESTYLE: [PASSED]: " + filepath
+            print_stderr(message)
     return 0
 
 
@@ -86,6 +93,7 @@ def validate_yaml_contents(filepath, args):
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\tmetadata section missing")
             publish_result(result_message_list, args)
+            args.failed_message_list = args.failed_message_list + result_message_list
             exit(1)
         metadata_dict = y['metadata']
         mandatory_keys = set([
@@ -102,19 +110,30 @@ def validate_yaml_contents(filepath, args):
             result_message_list.append("\tactual keys present: %s" %
                                        metadata_dict.keys())
             publish_result(result_message_list, args)
+            args.failed_message_list = args.failed_message_list + result_message_list
             return 1
         for key in mandatory_keys:
             if len(metadata_dict[key]) == 0:
                 result_message_list.append("* METADATA [FAILED]: " + filepath)
                 result_message_list.append("\t%s has no content" % key)
                 publish_result(result_message_list, args)
+                args.failed_message_list = args.failed_message_list + result_message_list
                 return 1
         # check if name has white spaces
         if metadata_dict['name'].find(" ") > -1:
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\t'name' contains whitespace")
             publish_result(result_message_list, args)
+            args.failed_message_list = args.ailed_message_list + result_message_list
             return 1
+        # check 'format' value
+        if metadata_dict['format'] not in ["Lava-Test Test Definition 1.0", "Manual Test Definition 1.0"]:
+            result_message_list.append("* METADATA [FAILED]: " + filepath)
+            result_message_list.append("\t'format' has incorrect value")
+            publish_result(result_message_list, args)
+            args.failed_message_list = args.failed_message_list + result_message_list
+            return 1
+
         result_message_list.append("* METADATA [PASSED]: " + filepath)
         publish_result(result_message_list, args)
         return 0
@@ -126,7 +145,9 @@ def validate_yaml_contents(filepath, args):
             "automated/bin/{}/skipgen {}".format(abi, filepath),
             shell=True).decode('utf-8').strip()
         if len(skips.split('\n')) < 1:
-            publish_result(["* SKIPGEN [FAILED]: " + filepath + " - No skips found"], args)
+            message = "* SKIPGEN [FAILED]: " + filepath + " - No skips found"
+            publish_result([message], args)
+            args.failed_message_list.append(message)
             return 1
         publish_result(["* SKIPGEN [PASSED]: " + filepath], args)
         return 0
@@ -160,8 +181,9 @@ def validate_yaml(filename, args):
         return 0
     try:
         yaml.load(filecontent, Loader=yaml.FullLoader)
-        message = "* YAMLVALID: [PASSED]: " + filename
-        print_stderr(message)
+        if args.verbose:
+            message = "* YAMLVALID: [PASSED]: " + filename
+            print_stderr(message)
     except yaml.YAMLError:
         message = "* YAMLVALID: [FAILED]: " + filename
         result_message_list = []
@@ -171,6 +193,7 @@ def validate_yaml(filename, args):
         for line in traceback.format_exception_only(exc_type, exc_value):
             result_message_list.append(' ' + line)
         publish_result(result_message_list, args)
+        args.failed_message_list = args.failed_message_list + result_message_list
         return 1
     return 0
 
@@ -197,7 +220,6 @@ def validate_external(cmd, filename, prefix, args):
     status, output = subprocess.getstatusoutput(final_cmd)
     if status == 0:
         message = '* %s: [PASSED]: %s' % (prefix, filename)
-        print_stderr(message)
         publish_result([message], args)
     else:
         result_message_list = []
@@ -206,6 +228,7 @@ def validate_external(cmd, filename, prefix, args):
         for line in output.splitlines():
             result_message_list.append(' ' + line)
         publish_result(result_message_list, args)
+        args.failed_message_list = args.failed_message_list + result_message_list
         return 1
     return 0
 
@@ -265,10 +288,13 @@ def main(args):
         exitcode = run_unit_tests(args, [args.file_path])
     else:
         exitcode = run_unit_tests(args)
+    if not args.verbose:
+        publish_result(None, args)
     exit(exitcode)
 
 
 if __name__ == '__main__':
+    failed_message_list = []
     parser = argparse.ArgumentParser()
     parser.add_argument("-p",
                         "--pycodestyle-ignore",
@@ -300,10 +326,11 @@ if __name__ == '__main__':
                         dest="result_file")
     parser.add_argument("-v",
                         "--verbose",
-                        action="store_true",
+                        action='store_true',
                         default=False,
                         help="Make output more verbose",
                         dest="verbose")
 
     args = parser.parse_args()
+    setattr(args, "failed_message_list", failed_message_list)
     main(args)
