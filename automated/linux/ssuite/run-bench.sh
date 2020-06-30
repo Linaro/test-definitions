@@ -5,7 +5,7 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 
-TESTS="throughput replayed-startup"
+TESTS="throughput replayed-gnome-term-startup"
 TEST_DEV=sda
 FORMAT=no
 S_VERSION=
@@ -29,7 +29,10 @@ usage() {
 	from meeting all non-trivial dependencies of these applications
 	(such as having an X session running). Results are
 	indistinguishable w.r.t. to actually starting these applications.
-	Default value: \"throughput replayed-startup\"
+	A special case for replayed-startup is replayed-gnome-term-startup:
+	it benchmarks the startup of only gnome-terminal (a medium-size
+	application).
+	Default value: \"throughput replayed-gnome-term-startup\"
 
 	<TEST_DEV>:
 	Target device/partition: device/partition on which to
@@ -201,8 +204,8 @@ run_test() {
 	# form. To get a compliant file, we pick each statistic and
 	# put it in a separate line in the destination result file
 	# (${RESULT_FILE}, which is then parsed by LAVA).
-	awk '{ print $1 "-max"" " $2 " " $3 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
-	awk '{ print $1 "-min"" " $2 " " $4 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
+	awk '{ print $1 "-min"" " $2 " " $3 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
+	awk '{ print $1 "-max"" " $2 " " $4 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
 	awk '{ print $1 "-avg"" " $2 " " $5 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
 	awk '{ print $1 "-std"" " $2 " " $6 " " $7 }' "${OUTPUT}"/result_list.txt 2>&1 | tee -a  "${RESULT_FILE}"
 }
