@@ -1,6 +1,6 @@
 metadata:
     name: bootchart
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Collect the bootchart data and try to analyse."
     maintainer:
         - yongqin.liu@linaro.org

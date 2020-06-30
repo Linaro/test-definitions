@@ -1,6 +1,6 @@
 metadata:
     name: boottime
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "collect the boottime data many times and try to analyse,
                   when run more than 4 times(including), the average will be
                   calculated without the maximum and the minmun, if run less

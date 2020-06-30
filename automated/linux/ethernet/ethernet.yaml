@@ -1,6 +1,6 @@
 metadata:
     name: ethernet
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "This test checks if Ethernet is up and prints IP address."
     maintainer:
         - naresh.kamboju@linaro.org

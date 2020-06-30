@@ -1,6 +1,6 @@
 metadata:
     name: local-daemon
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "docker-ce engine integration test for local daemon. Docker's tests are
                   designed to run inside docker container. This test case clones
                   docker-ce repo and checks out the released tag to test and then lunchs

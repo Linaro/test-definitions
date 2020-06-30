@@ -1,6 +1,6 @@
 metadata:
     name: install-android-platform-tools
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Install android platform tools provided by Google from
                   https://developer.android.com/studio/releases/platform-tools"
     maintainer:

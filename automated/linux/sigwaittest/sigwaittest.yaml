@@ -1,6 +1,6 @@
 metadata:
     name: sigwaittest
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "sigwaittest starts two threads or, optionally, forks
                   two processes that are synchronized via signals and
                   measures the latency between sending a signal and

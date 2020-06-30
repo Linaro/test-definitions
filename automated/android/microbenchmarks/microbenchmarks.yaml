@@ -1,6 +1,6 @@
 metadata:
     name: microbenchmarks
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run ART microbenchmarks."
     maintainer:
         - vishal.bhoj@linaro.org

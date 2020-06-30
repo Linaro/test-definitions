@@ -1,6 +1,6 @@
 metadata:
     name: remote-adb-devices-smoke-test
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Smoke test demonstrating access to adb devices over TCP/IP."
     maintainer:
         - karsten@fairphone.com

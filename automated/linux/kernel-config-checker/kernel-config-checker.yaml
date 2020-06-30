@@ -1,6 +1,6 @@
 metadata:
     name: kernel-config-checker
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Check the kernel config file for the presence of required
 		  CONFIG_* values."
     maintainer:

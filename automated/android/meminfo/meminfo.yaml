@@ -1,6 +1,6 @@
 metadata:
     name: meminfo
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Collect the information in /proc/meminfo after boot."
     maintainer:
         - yongqin.liu@linaro.org

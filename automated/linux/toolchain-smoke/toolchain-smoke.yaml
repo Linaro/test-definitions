@@ -1,6 +1,6 @@
 metadata:
     name: toolchain-smoke
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Simple test that checks whether gcc compilation works"
     maintainer:
         - milosz.wasilewski@linaro.org

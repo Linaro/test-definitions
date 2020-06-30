@@ -1,6 +1,6 @@
 metadata:
     name: blogbench
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Blogbench is a portable filesystem benchmark that tries to
                   reproduce the load of a real-world busy file server."
     maintainer:

@@ -1,6 +1,6 @@
 metadata:
     name: apk-automation
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Automate testing with Android APK."
     maintainer:
         - milosz.wasilewski@linaro.org

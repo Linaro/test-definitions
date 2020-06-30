@@ -1,6 +1,6 @@
 metadata:
     name: media-codecs-functional-tests
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Media functional codecs test suite for linaro android
                   verifies arm based audio/video software codecs available in
                   Android AOSP release. These codecs are used in implementation

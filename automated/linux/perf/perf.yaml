@@ -1,6 +1,6 @@
 metadata:
     name: perf
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Perf is a profiler tool for Linux and is used to collect and analyze performance and trace data.
                   This test runs following perf commands: record(record events for later reporting), report(break
                   down events by process, function, etc), stat(obtain event counts) and test(Run sanity tests)."

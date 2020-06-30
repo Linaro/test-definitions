@@ -1,6 +1,6 @@
 metadata:
     name: lshw
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "lshw is a small tool to extract detailed information
                   on the hardware configuration of the machine."
     maintainer:

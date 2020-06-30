@@ -1,6 +1,6 @@
 metadata:
     name: ltp
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run LTP test suite on Ubuntu"
     maintainer:
         - milosz.wasilewski@linaro.org

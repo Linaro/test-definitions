@@ -1,6 +1,6 @@
 metadata:
     name: spectre-meltdown-checker
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run spectre meltdown checker"
     maintainer:
         - naresh.kamboju@linaro.org

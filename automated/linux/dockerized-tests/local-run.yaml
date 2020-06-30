@@ -1,6 +1,6 @@
 metadata:
     name: local-run
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run tests from https://git.linaro.org/qa/test-definitions.git with
                   docker. Test runs on test target."
     maintainer:

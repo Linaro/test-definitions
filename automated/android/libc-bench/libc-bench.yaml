@@ -1,6 +1,6 @@
 metadata:
     name: libc-bench
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run libc-bench to benchmark the performance of bionic.
                   The source can be viewed here:
                   https://android-git.linaro.org/platform/external/libc-bench"

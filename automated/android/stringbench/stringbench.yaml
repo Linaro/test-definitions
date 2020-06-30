@@ -1,6 +1,6 @@
 metadata:
     name: stringbench
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run stringbench command to benchmark the performance of
                   string relevant feature of bionic. In the feature this test
                   should be upstream to bionic-benchmarks.

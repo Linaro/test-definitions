@@ -1,6 +1,6 @@
 metadata:
     name: guest-complete
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Signal tests inside guest complete and power off"
     maintainer:
         - riku.voipio@linaro.org

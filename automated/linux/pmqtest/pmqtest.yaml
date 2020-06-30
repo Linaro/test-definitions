@@ -1,6 +1,6 @@
 metadata:
     name: pmqtest
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Pmqtest measures the latency of interprocess communication
                   with POSIX messages queues. The test starts pairs of threads
                   that are synchronized via mq_send/mw_receive() and measures

@@ -1,6 +1,6 @@
 metadata:
     name: kselftest
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Linux kernel self test"
     maintainer:
         - naresh.kamboju@linaro.org

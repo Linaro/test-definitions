@@ -1,6 +1,6 @@
 metadata:
     name: monkey
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Monkey performs stress testing for stability using monkey
                   command which generates pesudo-random streams of user events
                   such as clicks, touches, or gestures as well as some system

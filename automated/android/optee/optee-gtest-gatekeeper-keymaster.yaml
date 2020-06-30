@@ -1,6 +1,6 @@
 metadata:
     name: optee-gtest-gatekeeper-keymaster
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "gatekeeper and keymaster gtests"
     maintainer:
         - victor.chong@linaro.org

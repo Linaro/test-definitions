@@ -1,6 +1,6 @@
 metadata:
     name: piglit-glslparser
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "piglit glslparser test for android. The GLSL Parser provides
                   a front end for parsing and operating on OpenGL Shading
                   Language code. "

@@ -1,6 +1,6 @@
 metadata:
     name: ltp-chroot
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run a chroot"
     maintainer:
         - anders.roxell@linaro.org

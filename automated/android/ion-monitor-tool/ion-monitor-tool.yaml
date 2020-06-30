@@ -1,6 +1,6 @@
 metadata:
     name: ion-monitor-tool
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run ion monitor tool to check memory leaks."
     maintainer:
         - axel.lebourhis@linaro.org

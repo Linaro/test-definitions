@@ -1,6 +1,6 @@
 metadata:
     name: badblocks
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run a read-only test for bad blocks"
     maintainer:
         - ryan.harkin@linaro.org

@@ -1,6 +1,6 @@
 metadata:
     name: libhugetlbfs
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Build and run libhugetlbfs tests.
                   Runs through $WORD_SIZE bit libhugetlbfs on target system.
                   The default WORD_SIZE is 64 bit to accomodate 64 bit systems
