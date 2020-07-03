@@ -49,7 +49,12 @@ def result_parser(xml_file, result_format):
                 or 0x10000 <= num <= 0x10FFFF):
             etree_content = etree_content[:mstart] + etree_content[mend:]
             endpos = len(etree_content)
-        pos = mend
+            # next time search again from the same position as this time
+            # as the detected pattern was removed here
+            pos = mstart
+        else:
+            # continue from the end of this match
+            pos = mend
 
     try:
         root = ET.fromstring(etree_content)
