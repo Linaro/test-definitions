@@ -1,6 +1,6 @@
 metadata:
     name: docker
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Docker smoke test. When docker not pre-installed,
                   docker-ce will be installed from upstream on supported
                   distributions."

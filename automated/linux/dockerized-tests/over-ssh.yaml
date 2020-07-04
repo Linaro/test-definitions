@@ -1,6 +1,6 @@
 metadata:
     name: over-ssh
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run tests from https://git.linaro.org/qa/test-definitions.git with
                   docker. Test run will be triggered over ssh"
     maintainer:

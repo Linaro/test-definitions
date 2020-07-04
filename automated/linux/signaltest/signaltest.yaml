@@ -1,6 +1,6 @@
 metadata:
     name: signaltest
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "signaltest is a RT signal roundtrip test software."
 
     maintainer:

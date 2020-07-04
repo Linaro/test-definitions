@@ -1,6 +1,6 @@
 metadata:
     name: workload-automation-linux
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Workload Automation on Linux"
     maintainer:
         - milosz.wasilewski@linaro.org

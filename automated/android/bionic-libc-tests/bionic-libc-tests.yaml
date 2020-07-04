@@ -1,6 +1,6 @@
 metadata:
     name: bionic-libc-tests
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Execute all available bionic-libc-tests and fetch data."
     maintainer:
         - daniel.diaz@linaro.org

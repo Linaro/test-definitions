@@ -1,6 +1,6 @@
 metadata:
     name: share-local-device-over-adb-tcpip
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "adb MultiNode setup: make local device remotely accessible via adb TCP/IP.
         Handles the device over to a role that responds to the following synchronization steps:
         - lava-sync start_handover

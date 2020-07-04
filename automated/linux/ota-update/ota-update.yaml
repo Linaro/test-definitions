@@ -1,6 +1,6 @@
 metadata:
     name: ota-update
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Tests OTA update on device"
     maintainer:
         - vishal.bhoj@linaro.org

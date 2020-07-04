@@ -1,6 +1,6 @@
 metadata:
     name: httperf-runner
-    format: Lava-Test-Shell Test Definition 1.0
+    format: Lava-Test Test Definition 1.0
     description: Run httperf against a web webserver to measure performance
     environment:
         - lava-test-shell

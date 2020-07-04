@@ -1,6 +1,6 @@
 metadata:
     name: openssh-debian
-    format: "Manual Test Definition 1.0"
+    format: Lava-Test Test Definition 1.0
     description: "Normal OpenSSH development produces a very small, secure,
         and easy to maintain version for the OpenBSD project.
         The OpenSSH Portability Team takes that pure version and adds

@@ -1,6 +1,6 @@
 metadata:
     name: svsematest
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "svsematest starts two threads or, optionally, forks
                   two processes that are synchronized via SYSV semaphores
                   and measures the latency between releasing a semaphore

@@ -1,6 +1,6 @@
 metadata:
     name: optee-xtest
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "OP-TEE sanity test suite"
     maintainer:
         - chase.qi@linaro.org

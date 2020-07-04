@@ -1,6 +1,6 @@
 metadata:
     name: 24h-stress-test
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run stress_ng, stress_oom and stress_network tests"
     maintainer:
         - chase.qi@linaro.org

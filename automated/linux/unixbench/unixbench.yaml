@@ -1,6 +1,6 @@
 metadata:
     name: unixbench
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "The purpose of UnixBench is to provide a basic
                   indicator of the performance of a Unix-like system."
     maintainer:

@@ -1,6 +1,6 @@
 metadata:
     name: dsdbench
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "dsdbench runs benchmarks and tests for storage driver
                   configurations to help figure out how the configuration will
                   perform and which known issues the daemon may be affected by

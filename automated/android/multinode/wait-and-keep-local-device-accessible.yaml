@@ -1,6 +1,6 @@
 metadata:
     name: wait-and-keep-local-device-accessible
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Continuously wait for MultiNode messages from a remote role (master) and make the
         locally connected device accessible again when it is lost for the remote role."
     maintainer:

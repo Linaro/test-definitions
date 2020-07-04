@@ -1,6 +1,6 @@
 metadata:
     name: fio-test
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "FIO or Flexible IO is a versatile IO workload generator test
                   on Linux."
     maintainer:

@@ -1,6 +1,6 @@
 metadata:
     name: dd-speed-test
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "dd write/read speed test."
     maintainer:
         - chase.qi@linaro.org

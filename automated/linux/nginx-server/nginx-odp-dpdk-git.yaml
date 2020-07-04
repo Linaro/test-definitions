@@ -1,7 +1,7 @@
 # NOTE: when calling this test, kernel-headers must have been installed
 metadata:
     name: httperf-nginx-ofp-odp-dpdk-git
-    format: Lava-Test-Shell Test Definition 1.0
+    format: Lava-Test Test Definition 1.0
     description: Server running OFP+ODP+DPDK NGiNX from git
     environment:
         - lava-test-shell

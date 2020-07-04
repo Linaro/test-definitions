@@ -1,6 +1,6 @@
 metadata:
     name: ltp-realtime
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run LTP realtime test suite on Ubuntu/CentOS/Openembedded.
                   This testsuite contains some functional tests and a few
                   performance and latency measurement tests"

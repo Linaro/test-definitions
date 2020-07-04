@@ -1,6 +1,6 @@
 metadata:
     name: linaro-android-kernel-tests
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Linaro Android kernel test suite comprises of kernel feature
                   tests which are uniquie to android. The test suite runs
                   following kernel tests: ashmem, ashmem-expanded, alarmdev,

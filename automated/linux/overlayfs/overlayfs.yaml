@@ -1,6 +1,6 @@
 metadata:
     name: overlayfs
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Run overlay filesystem test from unionmount testsuite. Kernel config
                   CONFIG_OVERLAY_FS=y is required for this test."
     maintainer:

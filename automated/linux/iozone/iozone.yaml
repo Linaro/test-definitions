@@ -1,6 +1,6 @@
 metadata:
     name: iozone
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "IOzone is a filesystem benchmark tool. The benchmark generates and
                   measures a variety of file operations."
     maintainer:

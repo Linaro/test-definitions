@@ -1,6 +1,6 @@
 metadata:
     name: connect-to-remote-adb-tcpip-devices
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "adb MultiNode setup: connect to remote devices made accessible via adb TCP/IP."
     maintainer:
         - karsten@fairphone.com

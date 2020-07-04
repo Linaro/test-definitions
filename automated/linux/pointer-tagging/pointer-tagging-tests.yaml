@@ -1,6 +1,6 @@
 metadata:
     name: pointer-tagging-tests
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "This test suite is designed to verify that the AArch64
             tagged-addressing feature is properly supported. Tagged addressing
             is guaranteed to be available in the ARMv8 architecture"

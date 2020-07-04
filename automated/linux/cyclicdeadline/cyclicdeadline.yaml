@@ -1,6 +1,6 @@
 metadata:
     name: cyclicdeadline
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "cyclicdeadline is a test that is similar to cyclictest
                   but instead of using SCHED_FIFO and nanosleep() to
                   measure jitter, it uses SCHED_DEADLINE and has the

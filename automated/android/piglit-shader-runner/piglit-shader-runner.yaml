@@ -1,6 +1,6 @@
 metadata:
     name: piglit-shader-runner
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Piglit shader_runner test suite for android. The test suite
                   runs shader tests using OpenGL shaders."
     maintainer:

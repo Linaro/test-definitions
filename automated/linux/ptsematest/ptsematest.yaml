@@ -1,6 +1,6 @@
 metadata:
     name: pmsematest
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "ptsematest starts threads that are synchronized via
         pthread_mutex_unlock()/pthread_mutex_lock() and measures the latency
         between releasing and getting the lock."

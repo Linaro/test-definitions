@@ -1,7 +1,7 @@
 metadata:
     name: verify_isolation
     version: "1.0"
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Verify kernel configuration. Isolate application and verify
                   that kernel tick/resch interrups do not occur more than 1/sec."
     maintainer:

@@ -1,6 +1,6 @@
 metadata:
     name: pm-qa
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "Test power management (PM-QA). Currently, the test runs
                   cpufreq, cpuidle, cpuhotplug, thermal and cputopology by
                   default and individual test can be run by setting TESTS

@@ -1,6 +1,6 @@
 metadata:
     name: iperf
-    format: "Lava-Test-Shell Test Definition 1.0"
+    format: "Lava-Test Test Definition 1.0"
     description: "iperf is a tool for active measurements of the maximum
                   achievable bandwidth on IP networks."
     maintainer:
