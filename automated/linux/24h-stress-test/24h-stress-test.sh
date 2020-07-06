@@ -230,7 +230,7 @@ if ! which stress-ng; then
         # shellcheck disable=SC2154
         case "${dist}" in
             debian|ubuntu)
-                install_deps "git build-essential libaio-dev libapparmor-dev libattr1-dev libbsd-dev libcap-dev libgcrypt11-dev libkeyutils-dev libsctp-dev zlib1g-dev"
+                install_deps "git build-essential libaio-dev libapparmor-dev libattr1-dev libbsd-dev libcap-dev libkeyutils-dev libsctp-dev zlib1g-dev"
                 git clone git://kernel.ubuntu.com/cking/stress-ng.git
                 (
                     cd stress-ng || exit
