@@ -18,6 +18,8 @@ metadata:
         - hi6220-hikey
 
 params:
+    # specify the android version
+    ANDROID_VERSION: ""
     # specify true or false to skip or not the installation of lxc packages
     SKIP_INSTALL: "false"
     # Specify device serial no. when more than one device connected.
@@ -34,7 +36,7 @@ params:
 run:
     steps:
         - cd ./automated/android/boottime
-        - ./boottime.sh -S "${SKIP_INSTALL}" -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -o "${OPERATION}" -n "${COLLECT_NO}"
+        - ./boottime.sh -S "${SKIP_INSTALL}" -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -o "${OPERATION}" -n "${COLLECT_NO}" -v "${ANDROID_VERSION}"
         - if [ "${OPERATION}" = "ANALYZE" ]; then ../../utils/upload-to-artifactorial.sh -a "output/boottime.tgz" -u "${URL}" -t "${TOKEN}"; fi
         - ../../utils/send-to-lava.sh ./output/boot_result.txt
         - ../../utils/send-to-lava.sh ./output/result.txt
