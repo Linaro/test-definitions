@@ -86,6 +86,8 @@ def test_exists(test, repositories, args):
     os.chdir(repositories[test['repository']])
     if 'revision' in test.keys():
         subprocess.call(['git', 'checkout', test['revision']])
+    elif 'branch' in test.keys():
+        subprocess.call(['git', 'checkout', test['branch']])
     else:
         # if no revision is specified, use current HEAD
         output = subprocess.check_output(['git', 'rev-parse', 'HEAD'])
