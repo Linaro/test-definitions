@@ -144,7 +144,7 @@ else
     fi
     tar zxf "kselftest.tar.gz"
     # shellcheck disable=SC2164
-    cd "kselftest"
+    if [ ! -e "run_kselftest.sh" ]; then cd "kselftest"; fi
 fi
 
 if [ -n "${SKIPLIST}" ]; then
