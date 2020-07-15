@@ -102,7 +102,7 @@ def test_exists(test, repositories, args):
     os.chdir(current_dir)
     print os.getcwd()
     test_file = open(test_file_path, "r")
-    test_yaml = yaml.load(test_file.read())
+    test_yaml = yaml.load(test_file.read(), Loader=yaml.FullLoader)
     params_string = ""
     if 'parameters' in test.keys():
         params_string = "_".join(["{0}-{1}".format(param_name, param_value).replace("/", "").replace(" ", "") for param_name, param_value in test['parameters'].iteritems()])
@@ -239,7 +239,7 @@ def main():
     for testplan in args.testplan_list:
         if os.path.exists(testplan) and os.path.isfile(testplan):
             testplan_file = open(testplan, "r")
-            tp_obj = yaml.load(testplan_file.read())
+            tp_obj = yaml.load(testplan_file.read(), Loader=yaml.FullLoader)
             repo_list = repository_list(tp_obj)
             repositories = {}
             for repo in repo_list:
