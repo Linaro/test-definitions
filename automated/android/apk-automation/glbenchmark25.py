@@ -1,3 +1,4 @@
+import sys
 import time
 import xml.dom.minidom
 from common import ApkTestRunner
@@ -13,7 +14,7 @@ class ApkRunnerImpl(ApkTestRunner):
 
     def setUp(self):
         # set to peformance governor policay
-        self.set_performance_governor()
+        # self.set_performance_governor()
         # download apk related files
         self.download_apk('main.1.com.glbenchmark.glbenchmark25.obb')
         self.download_apk(self.config['apk_file_name'])
@@ -42,6 +43,9 @@ class ApkRunnerImpl(ApkTestRunner):
             select_all_btn = self.vc.findViewWithText("All")
             display_tests_menu = self.vc.findViewWithText("Performance Tests")
             warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
+            continue_btn = self.vc.findViewWithText(u'CONTINUE')
+            attention_msg = self.vc.findViewWithText(u'''Network connection not found!
+Do you want to setup network connection? (If you can not upload the results you will not see it)''')
             if select_all_btn:
                 select_all_btn.touch()
                 self.logger.info("All selected!")
@@ -53,6 +57,12 @@ class ApkRunnerImpl(ApkTestRunner):
                 self.logger.info("Older version warning popped up")
                 warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
                 warning_ok_btn.touch()
+            elif continue_btn:
+                continue_btn.touch()
+            elif attention_msg:
+                self.report_result('glbenchmark25-run', 'fail')
+                self.logger.info("Network connection is required")
+                sys.exit(1)
             else:
                 # continue
                 pass

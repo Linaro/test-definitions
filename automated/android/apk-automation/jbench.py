@@ -13,10 +13,24 @@ class ApkRunnerImpl(ApkTestRunner):
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def execute(self):
-        self.dump_always()
-        btn_jbench = self.vc.findViewByIdOrRaise("it.JBench.bench:id/button1")
-        btn_jbench.touch()
-        time.sleep(2)
+        find_start_btn = False
+        while not find_start_btn:
+            time.sleep(2)
+            self.dump_always()
+            btn_jbench = self.vc.findViewById("it.JBench.bench:id/button1")
+            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
+            continue_btn = self.vc.findViewWithText(u'CONTINUE')
+            if warn_msg:
+                self.logger.info("Older version warning popped up")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn.touch()
+            elif continue_btn:
+                continue_btn.touch()
+            elif btn_jbench:
+                btn_jbench.touch()
+                find_start_btn = True
+            else:
+                self.logger.info("Nothing found, need to check manually")
 
         finished = False
         while (not finished):

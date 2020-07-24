@@ -12,7 +12,7 @@ import time
 try:
     import urlparse
 except ImportError:
-    from urllib.parse import urlparse
+    from urllib import parse as urlparse
 from com.dtmilano.android.viewclient import ViewClient
 
 
@@ -240,7 +240,7 @@ class ApkTestRunner(object):
 
     def uninstall_apk(self, package):
         install_packages = subprocess.check_output(['adb', 'shell', 'pm', 'list', 'packages'])
-        if package in install_packages:
+        if package in str(install_packages):
             self.logger.info('Stopping %s' % package)
             self.call_adb("shell am force-stop %s" % package)
 
@@ -260,6 +260,10 @@ class ApkTestRunner(object):
         self.call_adb('shell dmesg > %s/dmesg.log' % self.config['output'])
 
     def set_performance_governor(self, target_governor="performance"):
+        if self.config.get('set_governor_policy') is not None \
+                and self.config.get('set_governor_policy') is False:
+            return
+
         f_scaling_governor = ('/sys/devices/system/cpu/'
                               'cpu0/cpufreq/scaling_governor')
         f_governor_backup = '/data/local/tmp/scaling_governor'
@@ -280,6 +284,10 @@ class ApkTestRunner(object):
                                                      cpu.strip()))
 
     def set_back_governor(self):
+        if self.config.get('set_governor_policy') is not None \
+                and self.config.get('set_governor_policy') is False:
+            return
+
         dir_sys_cpu = '/sys/devices/system/cpu/'
         f_governor_backup = '/data/local/tmp/scaling_governor'
         f_governor_local = os.path.join(os.path.abspath(self.config['output']),
