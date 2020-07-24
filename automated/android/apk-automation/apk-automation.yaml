@@ -16,6 +16,8 @@ metadata:
 
 params:
     SKIP_INSTALL: "false"
+    # specify if to set the governor policy
+    SET_GOVERNOR_POLICY: "true"
     # Timeout for wait_boot_completed in seconds.
     BOOT_TIMEOUT: "300"
     # Specify adb device SN if more then one device connected.
@@ -34,7 +36,7 @@ params:
 run:
     steps:
         - cd ./automated/android/apk-automation
-        - ./apk-automation.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -s "${ANDROID_SERIAL}" -n "${TEST_NAME}" -l "${LOOPS}" -d "${APK_DIR}" -u "${BASE_URL}"
+        - ./apk-automation.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -s "${ANDROID_SERIAL}" -n "${TEST_NAME}" -l "${LOOPS}" -d "${APK_DIR}" -u "${BASE_URL}" -g "${SET_GOVERNOR_POLICY}"
         # Upload test output to artifactorial.
         - cp "./output/${TEST_NAME}/result.txt" "./output/result.txt"
         - tar caf "output-${TEST_NAME}.tar.xz" "./output"

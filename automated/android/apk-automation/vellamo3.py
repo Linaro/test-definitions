@@ -48,9 +48,17 @@ class ApkRunnerImpl(ApkTestRunner):
             btn_setup_1 = self.vc.findViewById("android:id/button1")
             btn_settings = self.vc.findViewById('com.quicinc.vellamo:id/main_toolbar_wheel')
             btn_animations = self.vc.findViewWithText(u'Make Vellamo even more beautiful')
+            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
+            continue_btn = self.vc.findViewWithText(u'CONTINUE')
             if btn_setup_1:
                 # Accept Vellamo EULA
                 btn_setup_1.touch()
+            elif warn_msg:
+                self.logger.info("Older version warning popped up")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn.touch()
+            elif continue_btn:
+                continue_btn.touch()
             elif btn_settings:
                 # Open settings
                 btn_settings.touch()

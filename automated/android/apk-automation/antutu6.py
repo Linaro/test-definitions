@@ -123,19 +123,22 @@ class ApkRunnerImpl(ApkTestRunner):
                 btn_ok.touch()
 
             # cancel the update
-            update_msg = "New update available"
-            update_window = self.vc.findViewWithText(update_msg)
+            update_window = self.vc.findViewWithText("New update available")
+            need_permission_msg = self.vc.findViewWithText("Please allow the permissions we need for test")
+            allow_permission_btn = self.vc.findViewWithText('ALLOW')
+            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
+            continue_btn = self.vc.findViewWithText(u'CONTINUE')
             if update_window:
                 btn_cancel = self.vc.findViewWithTextOrRaise(u'Cancel')
                 btn_cancel.touch()
-
-            msg = "Please allow the permissions we need for test"
-            need_permission_msg = self.vc.findViewWithText(msg)
-            if need_permission_msg:
+            elif need_permission_msg:
                 btn_ok = self.vc.findViewWithTextOrRaise(u'OK')
                 btn_ok.touch()
-
-            allow_permission_btn = self.vc.findViewById('com.android.packageinstaller'
-                                                        ':id/permission_allow_button')
-            if allow_permission_btn:
+            elif allow_permission_btn:
                 allow_permission_btn.touch()
+            elif warn_msg:
+                self.logger.info("Older version warning popped up")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn.touch()
+            elif continue_btn:
+                continue_btn.touch()
