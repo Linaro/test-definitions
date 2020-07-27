@@ -1,0 +1,86 @@
+#!/bin/sh
+# Description: parted is not working on SSD (Solid-State Drives) this is the
+# reason to use fdisk instead.
+set -x
+LANG=C
+export LANG
+
+# fdisk command might in $PATH /sbin or /usr/sbin or /usr/local/sbin
+# export PATH for better usage.
+export PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
+
+partition_disk() {
+    # shellcheck disable=SC2039
+    local DEVICE="$1"
+    # shellcheck disable=SC2039
+    local SIZES="$2"
+    if [ -z "${DEVICE}" ]; then
+        echo "ERROR: no device given"
+        exit 1
+    fi
+
+    # Create a new empty DOS partition table
+    (
+    echo o
+    echo w) | fdisk "${DEVICE}"
+
+    if [ -n "${SIZES}" ]; then
+        # Create partitions as per sizes
+        for size in ${SIZES}; do
+            # Create patitions with ${size}
+            (
+            echo n
+            echo p
+            echo
+            echo
+            echo "${size}"
+            echo w) | fdisk "${DEVICE}"
+        done
+    fi
+
+    # Create a partition at the end.
+    # Use the reset of the disk.
+    (
+    echo n
+    echo p
+    echo
+    echo
+    echo
+    echo w) | fdisk "${DEVICE}"
+}
+
+format_partition() {
+    # shellcheck disable=SC2039
+    local DEVICE="$1"
+    # shellcheck disable=SC2039
+    local FILESYSTEM="$2"
+    # shellcheck disable=SC2039
+    local PARTITION=""
+    # shellcheck disable=SC2039
+    local TOTAL_PARTITIONS=""
+
+    if [ -z "${DEVICE}" ]; then
+        echo "ERROR: no device given"
+        exit 1
+    fi
+    if [ -z "${FILESYSTEM}" ]; then
+	echo "No file system type found"
+	exit 1
+    fi
+
+    # Total partitions in a block device
+    TOTAL_PARTITIONS=$(find "${DEVICE}"* | grep "[0-9]" | tr '\n' ' ' )
+
+    # Format each partitions in a given drive
+    for PARTITION in ${TOTAL_PARTITIONS} ; do
+        echo "Formatting ${PARTITION} to ${FILESYSTEM}"
+        if [ "${FILESYSTEM}" = "fat32" ]; then
+        echo "y" | mkfs -t vfat -F 32 "${PARTITION}"
+        else
+        echo "y" | mkfs -t "${FILESYSTEM}" "${PARTITION}"
+        fi
+
+        sync
+        sleep 5
+    done
+}
