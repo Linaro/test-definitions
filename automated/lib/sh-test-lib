@@ -476,3 +476,79 @@ generate_skipfile() {
     cat "${SKIPFILE_PATH}"
     info_msg "EOF"
 }
+
+# Description: parted is not working on SSD (Solid-State Drives) this is the
+# reason to use fdisk instead.
+# Dependency packages for fdisk and mkfs are "fdisk e2fsprogs dosfstools"
+# fdisk and mkfs commands might be in $PATH /sbin or /usr/sbin or
+# /usr/local/sbin export PATH for better usage.
+export PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
+
+
+# Usage:
+# partition_disk "/dev/sdb" "+5G +10G"
+# shellcheck disable=SC2039
+partition_disk() {
+    [ "$#" -ne 2 ] && error_msg "Usage: <block-device> <sizes>"
+    local device="$1"
+    local sizes="$2"
+
+    # Create a new empty DOS partition table
+    (
+    echo o
+    echo w) | fdisk "${device}"
+
+    if [ -n "${sizes}" ]; then
+        # Create partitions as per sizes
+        for size in ${sizes}; do
+            # Create patitions with ${size}
+            (
+            echo n
+            echo p
+            echo
+            echo
+            echo "${size}"
+            echo w) | fdisk "${device}"
+            check_return "fdisk-${device}-${size}-partition"
+        done
+    fi
+
+    # Create a partition at the end.
+    # Use the rest of the disk.
+    (
+    echo n
+    echo p
+    echo
+    echo
+    echo
+    echo w) | fdisk "${device}"
+    check_return "fdisk-${device}-end-partition"
+}
+# Usage:
+# format_partition "/dev/sdb" "ext4"
+# shellcheck disable=SC2039
+format_partition() {
+    [ "$#" -ne 2 ] && error_msg "Usage: <block-device> <filesystem-type>"
+    local device="$1"
+    local filesystem="$2"
+    local partition=""
+    local total_partitions=""
+
+    # Total partitions in a block device
+    total_partitions=$(find "${device}"* | grep "[0-9]" | tr '\n' ' ' )
+
+    # Format each partition in a given block device
+    for partition in ${total_partitions} ; do
+        echo "Formatting ${partition} to ${filesystem}"
+        if [ "${filesystem}" = "fat32" ]; then
+            echo "y" | mkfs -t vfat -F 32 "${partition}"
+            check_return " mkfs-t-vfat-F-32-${partition}"
+        else
+            echo "y" | mkfs -t "${filesystem}" "${partition}"
+            check_return "mkfs-${filesystem}-${partition}"
+        fi
+
+        sync
+        sleep 5
+    done
+}
