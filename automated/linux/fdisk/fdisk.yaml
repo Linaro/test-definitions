@@ -1,0 +1,38 @@
+metadata:
+    name: fdisk
+    format: "Lava-Test Test Definition 1.0"
+    description: "Create partitions with fdisk command and format with
+                  file system type"
+    maintainer:
+        - anders.roxell@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - juno
+        - x15
+        - x86
+        - i386
+    environment:
+        - lava-test-shell
+
+params:
+    # example: DEVICE=/dev/sdb
+    DEVICE: ""
+    FILESYSTEM: "ext4"
+    SIZES: "+10G +5G"
+    # SKIP_INSTALL is true in case of Open Embedded builds
+    # SKIP_INSTALL is false in case of Debian builds
+    SKIP_INSTALL: "true"
+
+run:
+    steps:
+        - cd ./automated/linux/fdisk/
+        - ./fdisk.sh -d "${DEVICE}" -f "{FILESYSTEM}" -s "${SKIP_INSTALL}" -z "${SIZES}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
