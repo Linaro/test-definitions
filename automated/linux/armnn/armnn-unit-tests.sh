@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 
@@ -24,18 +25,19 @@ pkgs="ntp wget gcc g++ python3 python3-pip"
 dhclient
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
-if [[-n ${ARMNN_TARBALL} ]]; then
-    mkdir -p ${TEST_DIR}
-    cd ${TEST_DIR}
+if [ -n "${ARMNN_TARBALL}" ]; then
+    mkdir -p "${TEST_DIR}"
+    cd "${TEST_DIR}" || exit
     wget -O armnn.tar.xz "${ARMNN_TARBALL}"
     tar xf armnn.tar.xz
     export BASEDIR="/home/buildslave/workspace/armnn-ci-build"
 fi
 
-if [[ ${SKIP_INSTALL} == false ]]; then
-    cd $BASEDIR/build
+if [ "${SKIP_INSTALL}" = false ]; then
+    cd "$BASEDIR/build" || exit
     ln -s libprotobuf.so.15.0.0 ./libprotobuf.so.15
-    export LD_LIBRARY_PATH=`pwd`
+    LD_LIBRARY_PATH=$(pwd)
+    export LD_LIBRARY_PATH
     chmod a+x UnitTests
 fi
 lava-test-case ArmNN-Unit-Tests --shell ./UnitTests
