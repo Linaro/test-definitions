@@ -5,6 +5,7 @@
 . ./../../lib/android-test-lib
 
 SKIP_INSTALL="true"
+SET_GOVERNOR_POLICY=true
 ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
 LOOPS="1"
@@ -13,11 +14,11 @@ APK_DIR="./apks"
 BASE_URL="http://testdata.validation.linaro.org/apks/"
 
 usage() {
-    echo "Usage: $0 [-S <true|false>] [-s <serialno>] [-t <timeout>] [-l <loops>] [-n <test_name>] [-d <apk_dir>] ['-u <base_url>']" 1>&2
+    echo "Usage: $0 [-S <true|false>] [-s <serialno>] [-t <timeout>] [-l <loops>] [-n <test_name>] [-d <apk_dir>] ['-u <base_url>'] [ -g <true|false>]" 1>&2
     exit 1
 }
 
-while getopts ":S:s:t:l:n:d:u:" opt; do
+while getopts ":S:s:t:l:n:d:u:g:" opt; do
     case "${opt}" in
         S) SKIP_INSTALL="${OPTARG}" ;;
         s) ANDROID_SERIAL="${OPTARG}" ;;
@@ -26,6 +27,7 @@ while getopts ":S:s:t:l:n:d:u:" opt; do
         n) TEST_NAME="${OPTARG}" ;;
         d) APK_DIR="${OPTARG}" ;;
         u) BASE_URL="${OPTARG}" ;;
+        g) SET_GOVERNOR_POLICY="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -53,4 +55,8 @@ wait_boot_completed "${BOOT_TIMEOUT}"
 disable_suspend
 
 info_msg "device-${ANDROID_SERIAL}: About to run ${TEST_NAME}..."
-python main.py -l "${LOOPS}" -n "${TEST_NAME}" -d "${APK_DIR}" -u "${BASE_URL}"
+option_g="-g"
+if [ -n "${SET_GOVERNOR_POLICY}" ] && [ "X${SET_GOVERNOR_POLICY}" = "Xfalse" ]; then
+    option_g=""
+fi
+python main.py -l "${LOOPS}" -n "${TEST_NAME}" -d "${APK_DIR}" -u "${BASE_URL}" ${option_g}

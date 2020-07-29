@@ -10,6 +10,8 @@ parser.add_argument('-n', '--name', dest='name', default='linpack',
                     help='Specify test name.')
 parser.add_argument('-l', '--loops', type=int, dest='loops', default=1,
                     help='Set the number of test loops.')
+parser.add_argument('-g', '--governor', action='store_true', dest='set_governor_policy', default=False,
+                    help='Specify if to set the governor policy to performance')
 parser.add_argument('-v', '--verbose', action='store_true', dest='verbose',
                     default=False, help='Set the number of test loops.')
 args = parser.parse_args()
