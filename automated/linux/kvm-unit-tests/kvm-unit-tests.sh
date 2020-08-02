@@ -52,7 +52,7 @@ kvm_unit_tests_run_test() {
 
 kvm_unit_tests_build_test() {
     info_msg "git clone kvm unit tests ..."
-    git clone https://git.kernel.org/pub/scm/virt/kvm/kvm-unit-tests.git
+    git clone https://gitlab.com/kvm-unit-tests/kvm-unit-tests.git
     cd kvm-unit-tests || error_msg "Wasn't able to clone repo kvm-unit-tests!"
     info_msg "Checkout on a given git reference ${GIT_REF}"
     git checkout "${GIT_REF}"
