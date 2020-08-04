@@ -19,10 +19,11 @@ class PrependOrderedDict(collections.OrderedDict):
         self.move_to_end(key, last=False)
 
 
-def render(obj, template="testplan.html", name=None):
+def render(obj, template="testplan.html", templates_dir=None, name=None):
     if name is None:
         name = template
-    templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+    if templates_dir is None:
+        templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
     _env = Environment(loader=FileSystemLoader(templates_dir))
     _template = _env.get_template(template)
     obj['metadata']['now'] = datetime.date.today().strftime("%B %d, %Y")
@@ -122,7 +123,7 @@ def test_exists(test, repositories, args):
         test.prepend("description", test_yaml['metadata']['description'])
         test.prepend("name", test_yaml['metadata']['name'])
     else:
-        render(test_yaml, template="test.html", name=test_path)
+        render(test_yaml, templates_dir=args.templates_directory, template=args.test_template_name, name=test_path)
     return not test['missing']
 
 
@@ -223,6 +224,15 @@ def main():
                         dest="csv_name",
                         required=False,
                         help="Name of CSV to store overall list of requirements and test. If name is absent, the file will not be generated")
+    parser.add_argument("--test-template-name",
+                        default="test.html",
+                        help="Name of the template used for rendering individual tests")
+    parser.add_argument("--testplan-template-name",
+                        default="testplan.html",
+                        help="Name of the template used for rendering testsplans")
+    parser.add_argument("--templates-directory",
+                        default=None,
+                        help="Directory where the templates are located (absolute path)")
 
     _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
     yaml.add_representer(PrependOrderedDict, dict_representer)
@@ -256,10 +266,7 @@ def main():
             # same filename extension as the template
             tp_name = tp_obj['metadata']['name'] + os.path.splitext(args.testplan_template_name)[1]
             tp_file_name = os.path.join(os.path.abspath(args.output), tp_name)
-            if tp_version == "Linaro Test Plan v1":
-                render(tp_obj, name=tp_file_name)
-            if tp_version == "Linaro Test Plan v2":
-                render(tp_obj, name=tp_file_name, template="testplan_v2.html")
+            render(tp_obj, templates_dir=args.templates_directory, template=args.testplan_template_name, name=tp_file_name)
             testplan_file.close()
 # go through requiremets and for each test:
 #  - if file exists render test as separate html file
