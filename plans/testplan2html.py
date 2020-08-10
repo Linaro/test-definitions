@@ -2,6 +2,7 @@ import collections
 import datetime
 import logging
 import os
+import pdfkit
 import subprocess
 import yaml
 from argparse import ArgumentParser
@@ -233,6 +234,9 @@ def main():
     parser.add_argument("--templates-directory",
                         default=None,
                         help="Directory where the templates are located (absolute path)")
+    parser.add_argument("--pdf",
+                        default=None,
+                        help="Path to the output pdf file. Only works if output generates HTML")
 
     _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
     yaml.add_representer(PrependOrderedDict, dict_representer)
@@ -268,6 +272,8 @@ def main():
             tp_file_name = os.path.join(os.path.abspath(args.output), tp_name)
             render(tp_obj, templates_dir=args.templates_directory, template=args.testplan_template_name, name=tp_file_name)
             testplan_file.close()
+            if args.pdf is not None:
+                pdfkit.from_file(tp_file_name, args.pdf)
 # go through requiremets and for each test:
 #  - if file exists render test as separate html file
 #  - if file is missing, indicate missing test (red)
