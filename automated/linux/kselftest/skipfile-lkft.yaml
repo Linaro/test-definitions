@@ -29,6 +29,7 @@ skiplist:
     boards: all
     branches:
       - mainline
+      - 5.8
       - 5.7
       - 5.6
       - 5.4
@@ -37,6 +38,7 @@ skiplist:
       - 4.9
       - 4.4
       - master
+      - linux-5.8.y
       - linux-5.7.y
       - linux-5.6.y
       - linux-5.4.y
