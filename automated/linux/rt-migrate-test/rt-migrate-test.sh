@@ -7,7 +7,7 @@
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/rt-migrate-test.txt"
 RESULT_FILE="${OUTPUT}/result.txt"
-PRIORITY="96"
+PRIORITY="51"
 DURATION="1m"
 BACKGROUND_CMD=""
 
