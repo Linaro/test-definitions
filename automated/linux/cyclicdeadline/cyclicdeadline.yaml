@@ -36,14 +36,11 @@ params:
     THREADS: "1"
     # Execute cyclicdeadline for given time
     DURATION: "5m"
-    # Maximal accepted latency in us
-    # This value is device/kernel specific and needs to be set in the job!
-    MAX_LATENCY: "50"
     # Background workload to be run during the meassurement
     BACKGROUND_CMD: ""
 
 run:
     steps:
         - cd ./automated/linux/cyclicdeadline/
-        - ./cyclicdeadline.sh -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" -D "${DURATION}" -m "${MAX_LATENCY}" -w "${BACKGROUND_CMD}"
+        - ./cyclicdeadline.sh -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" -D "${DURATION}" -w "${BACKGROUND_CMD}"
         - ../../utils/send-to-lava.sh ./output/result.txt

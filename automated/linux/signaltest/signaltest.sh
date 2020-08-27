@@ -10,21 +10,19 @@ RESULT_FILE="${OUTPUT}/result.txt"
 
 PRIORITY="98"
 THREADS="2"
-MAX_LATENCY="100"
 DURATION="1m"
 BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-r runtime] [-p priority] [-t threads] [-m latency] [-w background_cmd]" 1>&2
+    echo "Usage: $0 [-r runtime] [-p priority] [-t threads] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":p:t:D:m:w:" opt; do
+while getopts ":p:t:D:w:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
 	D) DURATION="${OPTARG}" ;;
-	m) MAX_LATENCY="${OPTARG}" ;;
 	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
@@ -48,5 +46,5 @@ background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 background_process_stop bgcmd
 
 # Parse test log.
-../../lib/parse_rt_tests_results.py signaltest "${LOGFILE}" "${MAX_LATENCY}" \
+../../lib/parse_rt_tests_results.py signaltest "${LOGFILE}" \
     | tee -a "${RESULT_FILE}"
