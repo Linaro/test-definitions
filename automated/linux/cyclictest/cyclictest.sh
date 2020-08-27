@@ -43,7 +43,7 @@ if ! binary=$(which cyclictest); then
     # shellcheck disable=SC2154
     binary="./bin/${abi}/cyclictest"
 fi
-"${binary}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
+"${binary}" -q -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
     -D "${DURATION}" -m | tee "${LOGFILE}"
 
 # Parse test log.
