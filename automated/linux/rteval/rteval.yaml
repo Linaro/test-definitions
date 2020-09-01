@@ -1,0 +1,65 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: rteval
+    description: |
+                  Rteval is a python program written to evaluate the performance of a
+                  realtime Linux kernel on a particular hardware platform. The program
+                  unpacks source code for two loads; hackbench and a Linux kernel
+                  compile, then loops running hackbench and a parallel build of the
+                  Linux kernel. While the loads are running, the cyclictest program is
+                  run to measure realtime performance under load. When the specified run
+                  duration is met, the loads are stopped and cyclictest outputs measured
+                  timer latency values in histogram format, which is analyzed by
+                  rteval. Rteval then writes an XML file to disk with information about
+                  the system (gotten through DMI tables), the raw histogram data
+                  collected during the run and the statistical analysis of the run.
+    maintainer:
+        - anders.roxell@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - performance
+    devices:
+        - x86
+
+params:
+        DOWNLOAD_KERNEL: "https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.7.tar.xz"
+
+        # How long the test will run for. DURATION can be set
+        # to Xs, Xm, Xh, Xd.
+        # s - seconds,
+        # m - minutes,
+        # h - hours,
+        # d - days
+        DURATION: "10m"
+
+        # If the following parameter is set, then the rteval suite is
+        # cloned and used unconditionally. In particular, the version
+        # of the suite is set to the commit pointed to by the
+        # parameter. A simple choice for the value of the parameter
+        # is, e.g., HEAD.  If, instead, the parameter is
+        # not set, then the suite present in TEST_DIRis used.
+        TEST_PROG_VERSION: ""
+
+        # If next parameter is set, then the rteval suite is cloned
+        # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
+        # standard repository for the suite. Note that cloning is done
+        # only if TEST_PROG_VERSION is not empty
+        TEST_GIT_URL: ""
+
+        # If next parameter is set, then the rteval suite is cloned to or
+        # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/rteval
+        TEST_DIR: ""
+
+        # If the user space already have everything installed. default: false
+        SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/rteval/
+        - ./rteval.sh -d "${DURATION}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -k "${DOWNLOAD_KERNEL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
