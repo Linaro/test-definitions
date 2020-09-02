@@ -91,6 +91,4 @@ test_wlan_boot
 test_wlan_down
 test_wlan_up
 
-
-
-
+exit 0
