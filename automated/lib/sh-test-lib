@@ -7,7 +7,7 @@ error_fatal() {
     # shellcheck disable=SC2039
     local msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
-    if which lava-test-raise;then
+    if command -v lava-test-raise; then
         lava-test-raise "${msg}"
     else
         printf "FATAL ERROR: %s\n" "${msg}" >&2
@@ -564,4 +564,65 @@ format_partitions() {
         sync
         sleep 5
     done
+}
+
+background_process_start() {
+    NAME="$1"
+    shift
+    if [ -z "$NAME" ]; then
+	err_msg "Usage: background-process-start NAME --cmd PROCESS"
+    fi
+
+    while [ $# -gt 0 ]; do
+	case $1 in
+            --cmd)
+		shift
+		PROCESS="$*"
+		shift
+		;;
+            *)
+		err_msg "Unhandled argument"
+		;;
+	esac
+    done
+
+    if [ -z "${PROCESS}" ]; then
+	return
+    fi
+
+    result_dir="${OUTPUT}/results/$NAME"
+    mkdir -p "${result_dir}"
+
+    cat <<EOF > "${result_dir}/bg_run.sh"
+set -e
+trap "exit" SIGHUP SIGINT SIGTERM
+while true; do
+  $PROCESS > /dev/null
+  sleep 1
+done
+EOF
+
+    /bin/bash "${result_dir}/bg_run.sh" &
+    echo $! > "${result_dir}/pid"
+}
+
+background_process_stop() {
+    NAME="$1"
+    shift
+    if [ -z "${NAME}" ]; then
+	err_msg "Usage: background-process-stop NAME"
+    fi
+
+    result_dir="${OUTPUT}/results/${NAME}"
+
+    if [ ! -d "${result_dir}" ] ; then
+	return
+    fi
+
+    PID=$(cat "${result_dir}/pid")
+
+    if ps -p "${PID}" > /dev/null;
+    then
+	kill "${PID}" > /dev/null 2>&1
+    fi
 }

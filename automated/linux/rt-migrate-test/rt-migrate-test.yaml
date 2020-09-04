@@ -25,11 +25,15 @@ metadata:
         - d05
 
 params:
+    # Priority of lowest prio thread (3 threads are created).
     PRIORITY: "96"
+    # Execute rt-migrate-test for given time
     DURATION: "5m"
+    # Background workload to be run during the meassurement
+    BACKGROUND_CMD: ""
 
 run:
     steps:
         - cd ./automated/linux/rt-migrate-test/
-        - ./rt-migrate-test.sh -p "${PRIORITY}" -D "${DURATION}"
+        - ./rt-migrate-test.sh -p "${PRIORITY}" -D "${DURATION}" -w "${BACKGROUND_CMD}"
         - ../../utils/send-to-lava.sh ./output/result.txt

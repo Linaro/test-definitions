@@ -14,17 +14,19 @@ export RESULT_FILE
 DURATION="5m"
 MLOCKALL="false"
 RR="false"
+BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>]" 1>&2
+    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":D:m:r:" opt; do
+while getopts ":D:m:r:w" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
         m) MLOCKALL="${OPTARG}" ;;
         r) RR="${OPTARG}" ;;
+	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -43,15 +45,20 @@ else
     RR=""
 fi
 
-if ! binary=$(which pi_stress); then
+if ! binary=$(command -v pi_stress); then
     detect_abi
     # shellcheck disable=SC2154
     binary="./bin/${abi}/pi_stress"
 fi
+
+background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
+
 # pi_stress will send SIGTERM when test fails. The single will terminate the
 # test script. Catch and ignore it with trap.
 trap '' TERM
-"${binary}" --duration "${DURATION}" "${MLOCKALL}" "${RR}" | tee "${LOGFILE}"
+"${binary}" -q --duration "${DURATION}" "${MLOCKALL}" "${RR}" | tee "${LOGFILE}"
+
+background_process_stop bgcmd
 
 # shellcheck disable=SC2181
 if [ "$?" -ne "0" ]; then
