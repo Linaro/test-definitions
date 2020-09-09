@@ -1,3 +1,4 @@
+import re
 import sys
 import time
 from common import ApkTestRunner
@@ -25,34 +26,24 @@ class ApkRunnerImpl(ApkTestRunner):
         raw_output_file = "%s/logcat-gearses2eclair-itr%s.log" % (self.config['output'], self.config['itr'])
         self.call_adb('logcat -d > %s' % raw_output_file)
 
-        flagwordA = "a3d_GLES_dump"
-        flagwordB = "fps"
-        result_collector = []
+        # 08-29 01:25:29.491  4704  4728 I a3d     : a3d_GLES_dump@566 fps=58
+        fps_pattern = re.compile(r'^.*\s+:\s+a3d_GLES_dump@\d+\s+fps=(?P<fps>\d+)\s*$')
 
-        logfile = open(raw_output_file, "r")
-        for line in logfile:
-            linelist = line.strip("\n").strip("\r").split(" ")
-            linelist = filter(None, linelist)
-            for itemA in linelist:
-                if itemA.find(flagwordA) != -1:
-                    for itemB in linelist:
-                        if itemB.find(flagwordB) != -1:
-                            self.logger.info('linelist: %s' % linelist)
-                            for i in range(0, len(linelist)):
-                                grouplist = linelist[i].split("=")
-                                if len(grouplist) == 2 and grouplist[0] == flagwordB:
-                                    result_collector.append(grouplist[1])
-        logfile.close()
+        result_collector = []
+        with open(raw_output_file, "r") as logfile:
+            for line in logfile:
+                matches = fps_pattern.match(line)
+                if matches:
+                    result_collector.append(matches.group('fps'))
 
         self.logger.info('result_collector: %s' % result_collector)
         if len(result_collector) > 0:
             average_fps = sum(float(element) for element in result_collector) / len(result_collector)
             score_number = average_fps
             run_result = "pass"
-            score_unit = flagwordB
             self.logger.info("The average FPS in this test run is %s" % str(score_number))
         else:
             self.logger.error("The collector is empty, no actual result received!")
             sys.exit(1)
 
-        self.report_result('gearses2eclair', run_result, score_number, score_unit)
+        self.report_result('gearses2eclair', run_result, score_number, "fps")
