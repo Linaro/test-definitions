@@ -9,18 +9,16 @@ OUTPUT="${TEST_DIR}/output"
 LOGFILE="${OUTPUT}/pmqtest.log"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
-MAX_LATENCY="100"
 BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-D duration] [-m latency] [-w background_cmd]" 1>&2
+    echo "Usage: $0 [-D duration] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":D:m:w:" opt; do
+while getopts ":D:w:" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
-	m) MAX_LATENCY="${OPTARG}" ;;
 	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
@@ -45,5 +43,5 @@ background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 background_process_stop bgcmd
 
 # Parse test log.
-../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" "${MAX_LATENCY}" \
+../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" \
     | tee -a "${RESULT_FILE}"
