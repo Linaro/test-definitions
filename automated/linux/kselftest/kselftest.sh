@@ -6,7 +6,6 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOGFILE="${OUTPUT}/kselftest.txt"
-TESTPROG="kselftest_armhf.tar.gz"
 KSELFTEST_PATH="/opt/kselftests/mainline/"
 
 SCRIPT="$(readlink -f "${0}")"
@@ -21,9 +20,11 @@ ENVIRONMENT=""
 SKIPLIST=""
 TESTPROG_URL=""
 
-if [ "$(uname -m)" = "aarch64" ]
-then
+# Architecture-specific tarball name defaults.
+if [ "$(uname -m)" = "aarch64" ]; then
     TESTPROG="kselftest_aarch64.tar.gz"
+else
+    TESTPROG="kselftest_armhf.tar.gz"
 fi
 
 usage() {
@@ -98,6 +99,11 @@ while getopts "t:s:u:p:L:S:b:g:e:h" opt; do
     esac
 done
 
+# If no explicit URL given, use the default URL for the kselftest tarball.
+if [ -z "${TESTPROG_URL}" ]; then
+    TESTPROG_URL=http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}"
+fi
+
 if [ -n "${SKIPFILE_YAML}" ]; then
     export SKIPFILE_PATH="${SCRIPTPATH}/generated_skipfile"
     generate_skipfile
@@ -135,14 +141,10 @@ if [ -d "${KSELFTEST_PATH}" ]; then
     # shellcheck disable=SC2164
     cd "${KSELFTEST_PATH}"
 else
-    if [ -n "${TESTPROG_URL}" ]; then
-      # Download kselftest tarball from given URL
-      wget "${TESTPROG_URL}" -O kselftest.tar.gz
-    elif [ -n "${TESTPROG}" ]; then
-      # Download and extract kselftest tarball.
-      wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
-    fi
-    tar zxf "kselftest.tar.gz"
+    # Fetch whatever we have been aimed at, assuming only that it can
+    # be handled by "tar". Do not assume anything about the compression.
+    wget "${TESTPROG_URL}"
+    tar -xaf "$(basename "${TESTPROG_URL}")"
     # shellcheck disable=SC2164
     if [ ! -e "run_kselftest.sh" ]; then cd "kselftest"; fi
 fi
