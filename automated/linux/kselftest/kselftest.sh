@@ -143,7 +143,7 @@ parse_output() {
         }
 	print "$test $result\n";
     }
-' "${LOGFILE}" > "${RESULT_FILE}"
+' "${LOGFILE}" >> "${RESULT_FILE}"
 }
 
 install() {
@@ -197,16 +197,22 @@ echo "========================================"
 echo "skiplist:"
 while read -r skip_regex; do
 	echo "${skip_regex}"
-	perl -pi.orig -e '
+	perl -pi -e '
 # Discover top-level test directory from: cd TESTDIR
 $testdir=$1 if m|^cd ([^\$]+)\b|;
 # Process each test from: \t"TESTNAME"
 if (m|^\t"([^"]+)"|) {
-	$test=$1;
+	$test = $1;
 	# If the test_regex matches TESTDIR/TESTNAME,
 	# remove it from the run script.
-	if ("$testdir/$test" =~ m|^'"${skip_regex}"'$|) {
+	$name = "$testdir/$test";
+	if ("$name" =~ m|^'"${skip_regex}"'$|) {
 		s|^\t"[^"]+"|\t|;
+		$name =~ s|/|.|g;
+		# Record each skipped test as having been skipped.
+		open(my $fd, ">>'"${RESULT_FILE}"'");
+		print $fd "$name skip\n";
+		close($fd);
 	}
 }' run_kselftest.sh
 done < "${skips}"
