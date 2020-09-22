@@ -33,7 +33,7 @@ run:
         - if [ "${TEST_LIST}" = "CHAMELIUM" ]; then
         # Reboot Chamelium
         - echo -e "\nReboot the chamelium\n"
-        - ./control_chamelium.sh ${CHAMELIUM_REBOOT_ARG}; sleep 30
+        - ./control_chamelium.sh ${CHAMELIUM_REBOOT_ARG} || lava-test-raise "CAN-NOT-reboot-Chamelium"; sleep 30
         # Check if Chamelium is available. ${CHAMELIUM_IP} is from LAVA device dictionary
         - while [ ${CHAMELIUM_PING_RETRY} -gt 0 ]; do PC=`ping -c 2 ${CHAMELIUM_IP}|grep '100% packet loss'`||true; if [ -n "${PC}" ]; then ./control_chamelium.sh ${CHAMELIUM_REBOOT_ARG}; sleep 30; (( CHAMELIUM_PING_RETRY-- )); else break; fi; done
         - test -n "${CHAMELIUM_IP}" && test ${CHAMELIUM_PING_RETRY} -gt 0 && lava-test-case "Ping-Chamelium" --result pass || lava-test-raise "Ping-Chamelium"
