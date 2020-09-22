@@ -66,6 +66,10 @@ do
     esac 
 done
 
+if [ -z "$(ls ${SNMPSET})" ]; then
+    echo "Can not find ${SNMPSET}"
+    exit 1
+fi
 if [ -z "${hostname}" ] || [ -z "${port}" ] || [ -z "${command}" ]; then
     usage
     exit 1
