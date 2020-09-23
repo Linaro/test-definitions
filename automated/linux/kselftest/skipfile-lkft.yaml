@@ -300,3 +300,15 @@ skiplist:
       - netfilter/nft_trans_stress.sh
       - netfilter/bridge_brouter.sh
       - netfilter/nft_flowtable.sh
+  - reason: >
+      pidfd: pidfd_wait hangs on linux next on all devices
+      pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd, &info, WSTOPPED, NULL) (-1) == 0 (0)
+      wait_nonblock: Test terminated by assertion
+    url: https://bugs.linaro.org/show_bug.cgi?id=5680
+    environments: all
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - pidfd/pidfd_wait
