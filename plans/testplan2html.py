@@ -1,4 +1,5 @@
 import collections
+import datetime
 import os
 import subprocess
 import yaml
@@ -33,6 +34,7 @@ def render(obj, template="testplan.html", name=None):
     templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
     _env = Environment(loader=FileSystemLoader(templates_dir))
     _template = _env.get_template(template)
+    obj['metadata']['now'] = datetime.date.today().strftime("%B %d, %Y")
     _obj = _template.render(obj=obj)
     with open("{}".format(name), "wb") as _file:
         _file.write(_obj.encode('utf-8'))
@@ -91,7 +93,7 @@ def test_exists(test, repositories, args):
     else:
         # if no revision is specified, use current HEAD
         output = subprocess.check_output(['git', 'rev-parse', 'HEAD'])
-        test['revision'] = output
+        test['revision'] = output.decode('utf-8').strip()
 
     if not os.path.exists(test_file_path) or not os.path.isfile(test_file_path):
         test['missing'] = True
@@ -260,7 +262,8 @@ def main():
                 if 'automated' in tp_obj['tests'].keys() and tp_obj['tests']['automated'] is not None:
                     for test in tp_obj['tests']['automated']:
                         test_exists(test, repositories, args)
-            tp_name = tp_obj['metadata']['name'] + ".html"
+            # same filename extension as the template
+            tp_name = tp_obj['metadata']['name'] + os.path.splitext(args.testplan_template_name)[1]
             tp_file_name = os.path.join(os.path.abspath(args.output), tp_name)
             if tp_version == "Linaro Test Plan v1":
                 render(tp_obj, name=tp_file_name)
