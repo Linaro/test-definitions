@@ -1,6 +1,8 @@
 import collections
 import datetime
+import logging
 import os
+import pdfkit
 import subprocess
 import yaml
 from argparse import ArgumentParser
@@ -8,30 +10,21 @@ from csv import DictWriter
 from jinja2 import Environment, FileSystemLoader
 
 
+logger = logging.getLogger()
+
+
 class PrependOrderedDict(collections.OrderedDict):
 
     def prepend(self, key, value, dict_setitem=dict.__setitem__):
-
-        root = self._OrderedDict__root
-        first = root[1]
-
-        if key in self:
-            link = self._OrderedDict__map[key]
-            link_prev, link_next, _ = link
-            link_prev[1] = link_next
-            link_next[0] = link_prev
-            link[0] = root
-            link[1] = first
-            root[1] = first[0] = link
-        else:
-            root[1] = first[0] = self._OrderedDict__map[key] = [root, first, key]
-            dict_setitem(self, key, value)
+        self[key] = value
+        self.move_to_end(key, last=False)
 
 
-def render(obj, template="testplan.html", name=None):
+def render(obj, template="testplan.html", templates_dir=None, name=None):
     if name is None:
         name = template
-    templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+    if templates_dir is None:
+        templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
     _env = Environment(loader=FileSystemLoader(templates_dir))
     _template = _env.get_template(template)
     obj['metadata']['now'] = datetime.date.today().strftime("%B %d, %Y")
@@ -84,7 +77,7 @@ def test_exists(test, repositories, args):
         test['path']
     )
     current_dir = os.getcwd()
-    print current_dir
+    logger.debug("Current dir: {}".format(current_dir))
     os.chdir(repositories[test['repository']])
     if 'revision' in test.keys():
         subprocess.call(['git', 'checkout', test['revision']])
@@ -102,22 +95,22 @@ def test_exists(test, repositories, args):
     test['missing'] = False
     # open the file and render the test
     subprocess.call(['git', 'checkout', 'master'])
-    print current_dir
+    logger.debug("Current dir: {}".format(current_dir))
     os.chdir(current_dir)
-    print os.getcwd()
+    logger.debug("CWD: {}".format(os.getcwd()))
     test_file = open(test_file_path, "r")
     test_yaml = yaml.load(test_file.read(), Loader=yaml.FullLoader)
     params_string = ""
     if 'parameters' in test.keys():
-        params_string = "_".join(["{0}-{1}".format(param_name, param_value).replace("/", "").replace(" ", "") for param_name, param_value in test['parameters'].iteritems()])
+        params_string = "_".join(["{0}-{1}".format(param_name, param_value).replace("/", "").replace(" ", "") for param_name, param_value in test['parameters'].items()])
         test_yaml['params'].update(test['parameters'])
         if args.single_output:
             # update parameters in test
             if 'params' in test_yaml.keys():
-                for param_name, param_value in test_yaml['params'].iteritems():
+                for param_name, param_value in test_yaml['params'].items():
                     if param_name not in test['parameters'].keys():
                         test['parameters'].update({param_name: param_value})
-    print params_string
+    logger.debug("PARAM strings: {}".format(params_string))
     test_name = "{0}_{1}.html".format(test_yaml['metadata']['name'], params_string)
     if not args.single_output:
         test['filename'] = test_name
@@ -131,7 +124,7 @@ def test_exists(test, repositories, args):
         test.prepend("description", test_yaml['metadata']['description'])
         test.prepend("name", test_yaml['metadata']['name'])
     else:
-        render(test_yaml, template="test.html", name=test_path)
+        render(test_yaml, templates_dir=args.templates_directory, template=args.test_template_name, name=test_path)
     return not test['missing']
 
 
@@ -232,6 +225,18 @@ def main():
                         dest="csv_name",
                         required=False,
                         help="Name of CSV to store overall list of requirements and test. If name is absent, the file will not be generated")
+    parser.add_argument("--test-template-name",
+                        default="test.html",
+                        help="Name of the template used for rendering individual tests")
+    parser.add_argument("--testplan-template-name",
+                        default="testplan.html",
+                        help="Name of the template used for rendering testsplans")
+    parser.add_argument("--templates-directory",
+                        default=None,
+                        help="Directory where the templates are located (absolute path)")
+    parser.add_argument("--pdf",
+                        default=None,
+                        help="Path to the output pdf file. Only works if output generates HTML")
 
     _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
     yaml.add_representer(PrependOrderedDict, dict_representer)
@@ -239,7 +244,7 @@ def main():
 
     args = parser.parse_args()
     if not os.path.exists(os.path.abspath(args.output)):
-        os.makedirs(os.path.abspath(args.output), 0755)
+        os.makedirs(os.path.abspath(args.output), mode=0o755)
     for testplan in args.testplan_list:
         if os.path.exists(testplan) and os.path.isfile(testplan):
             testplan_file = open(testplan, "r")
@@ -265,11 +270,10 @@ def main():
             # same filename extension as the template
             tp_name = tp_obj['metadata']['name'] + os.path.splitext(args.testplan_template_name)[1]
             tp_file_name = os.path.join(os.path.abspath(args.output), tp_name)
-            if tp_version == "Linaro Test Plan v1":
-                render(tp_obj, name=tp_file_name)
-            if tp_version == "Linaro Test Plan v2":
-                render(tp_obj, name=tp_file_name, template="testplan_v2.html")
+            render(tp_obj, templates_dir=args.templates_directory, template=args.testplan_template_name, name=tp_file_name)
             testplan_file.close()
+            if args.pdf is not None:
+                pdfkit.from_file(tp_file_name, args.pdf)
 # go through requiremets and for each test:
 #  - if file exists render test as separate html file
 #  - if file is missing, indicate missing test (red)
