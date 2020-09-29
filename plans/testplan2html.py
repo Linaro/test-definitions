@@ -32,6 +32,13 @@ def render(obj, template="testplan.html", templates_dir=None, name=None):
     with open("{}".format(name), "wb") as _file:
         _file.write(_obj.encode('utf-8'))
 
+    # if the template is a .textile template, let's convert the output file to html
+    if os.path.splitext(name)[1] == '.textile':
+        import textile
+        with open("{}".format(name), "r") as _file:
+            data = _file.read()
+        with open("{}{}".format(os.path.splitext(name)[0], ".html"), "w") as _file:
+            _file.write(textile.textile(data))
 
 # get list of repositories and cache them
 def repository_list(testplan):
