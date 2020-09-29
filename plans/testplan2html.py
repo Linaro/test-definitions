@@ -111,12 +111,15 @@ def test_exists(test, repositories, args):
     if 'parameters' in test.keys():
         params_string = "_".join(["{0}-{1}".format(param_name, param_value).replace("/", "").replace(" ", "") for param_name, param_value in test['parameters'].items()])
         test_yaml['params'].update(test['parameters'])
-        if args.single_output:
-            # update parameters in test
-            if 'params' in test_yaml.keys():
-                for param_name, param_value in test_yaml['params'].items():
-                    if param_name not in test['parameters'].keys():
-                        test['parameters'].update({param_name: param_value})
+
+    # add all default params from YAML test def in the test object
+    if args.single_output:
+        if 'params' in test_yaml.keys():
+            if 'parameters' not in test:
+                test['parameters'] = {}
+            for param_name, param_value in test_yaml['params'].items():
+                if param_name not in test['parameters'].keys():
+                    test['parameters'].update({param_name: param_value})
     logger.debug("PARAM strings: {}".format(params_string))
     test_name = "{0}_{1}.html".format(test_yaml['metadata']['name'], params_string)
     if not args.single_output:
