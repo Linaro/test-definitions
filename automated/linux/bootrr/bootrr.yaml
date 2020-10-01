@@ -28,5 +28,6 @@ run:
         - . ./automated/lib/sh-test-lib
         - install_deps git "${SKIP_INSTALL}"
         - git clone https://github.com/andersson/bootrr
+        - cd bootrr
         - export PATH=$PWD/helpers:$PATH
         - ./boards/${BOARD}
