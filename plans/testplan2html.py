@@ -75,6 +75,12 @@ def clone_repository(repository_url, base_path, ignore=False):
     path = os.path.abspath(os.path.join(base_path, path_suffix))
     if os.path.exists(path) and ignore:
         return(repository_url, path)
+
+    # if the user does not use --ignore-clone, let's default to updating our local copy
+    if os.path.exists(path):
+        subprocess.call(['git', 'pull', '--ff-only'], cwd=path)
+        return(repository_url, path)
+
     # git clone repository_url
     subprocess.call(['git', 'clone', repository_url, path])
     # return tuple (repository_url, system_path)
