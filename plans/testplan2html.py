@@ -135,7 +135,8 @@ def test_exists(test, repositories, args):
         test.prepend("os", test_yaml['metadata']['os'])
         test.prepend("scope", test_yaml['metadata']['scope'])
         test.prepend("description", test_yaml['metadata']['description'])
-        test.prepend("name", test_yaml['metadata']['name'])
+        if 'name' not in test:
+            test.prepend("name", test_yaml['metadata']['name'])
     else:
         render(test_yaml, templates_dir=args.templates_directory, template=args.test_template_name, name=test_path)
     return not test['missing']
