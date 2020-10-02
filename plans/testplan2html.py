@@ -110,7 +110,7 @@ def test_exists(test, repositories, args):
         return not test['missing']
     test['missing'] = False
     # open the file and render the test
-    subprocess.call(['git', 'checkout', 'master'])
+    subprocess.call(['git', 'checkout', '-q', 'master'])
     logger.debug("Current dir: {}".format(current_dir))
     os.chdir(current_dir)
     logger.debug("CWD: {}".format(os.getcwd()))
