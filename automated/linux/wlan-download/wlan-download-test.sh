@@ -91,8 +91,7 @@ test_wlan_connection() {
 # test WLAN download
 test_wlan_download() {
     info_msg "Running wlan download test..."
-    hostname="$(echo "${FILE_URL}" | sed 's/.*:\/\///;s|\/.*||')"
-    ping -c 4 "${hostname}"
+    ping -c 4 www.google.com
     check_return "wlan-ping"
     curl -OL --interface "${DEVICE}" "${FILE_URL}"
     check_return "wlan-download"
