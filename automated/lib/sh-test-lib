@@ -163,6 +163,18 @@ report_skip() {
     echo "${test_case} skip" | tee -a "${RESULT_FILE}"
 }
 
+report_set_start() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_set_start <test_set>"
+    # shellcheck disable=SC2039
+    local test_set_name="$1"
+    echo "lava-test-set start ${test_set_name}" | tee -a "${RESULT_FILE}"
+}
+
+report_set_stop() {
+    [ "$#" -ne 0 ] && error_msg "Usage: report_set_stop"
+    echo "lava-test-set stop" | tee -a "${RESULT_FILE}"
+}
+
 add_metric() {
     if [ "$#" -lt 3 ]; then
         warn_msg "The number of parameters less then 3"
