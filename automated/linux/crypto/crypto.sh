@@ -16,12 +16,15 @@ result() {
 	dmesg_capture_result
 	if [ "$result" = 'FAIL' ];then
 		report_fail "$1"
+		return
 	fi
 	if [ "$result" = 'SKIP' ];then
 		report_skip "$1"
+		return
 	fi
 	if [ "$result" -eq 127 ];then
 		report_skip "$1"
+		return
 	fi
 	if [ "$result" -eq 0 ];then
 		report_pass "$1"
@@ -58,7 +61,13 @@ else
 			echo "DEBUG: This is a real tcrypt success in non-FIPS mode"
 			result 0 "crypto-tcrypt"
 		else
-			result 0 "crypto-tcrypt"
+			grep -q 'module tcrypt not found' "$OUTPUT_DIR/tcrypt.err"
+			RET=$?
+			if [ $RET -eq 0 ];then
+				result "SKIP" "crypto-tcrypt"
+			else
+				result 0 "crypto-tcrypt"
+			fi
 		fi
 	else
 		echo "DEBUG: unknow return code $RET"
