@@ -163,6 +163,13 @@ report_skip() {
     echo "${test_case} skip" | tee -a "${RESULT_FILE}"
 }
 
+report_unknown() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_unknown test_case"
+    # shellcheck disable=SC2039
+    local test_case="$1"
+    echo "${test_case} unknown" | tee -a "${RESULT_FILE}"
+}
+
 report_set_start() {
     [ "$#" -ne 1 ] && error_msg "Usage: report_set_start <test_set>"
     # shellcheck disable=SC2039
