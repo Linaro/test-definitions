@@ -1,0 +1,32 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: kunit-tests
+    description: |
+                 KUnit is a lightweight unit testing and mocking framework for
+                 the Linux kernel. KUnit consists of a kernel component, which
+                 provides a set of macros for easily writing unit tests. Tests
+                 written against KUnit will run on kernel boot when built-in
+    maintainer:
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - juno
+        - hi6220-hikey
+        - x86
+
+params:
+    # Example: kunit-test.ko
+    KUNIT_TEST_MODULE: ""
+
+run:
+    steps:
+        - cd ./automated/linux/kunit/
+        - ./kunit.sh -m "${KUNIT_TEST_MODULE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
