@@ -758,7 +758,10 @@ class ResultParser(object):
                         if result_match:
                             data['result'] = result_match.group(1)
                         if measurement_match:
-                            data['measurement'] = measurement_match.group(1)
+                            try:
+                                data['measurement'] = float(measurement_match.group(1))
+                            except ValueError as e:
+                                pass
                         if units_match:
                             data['units'] = units_match.group(1)
 
