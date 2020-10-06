@@ -24,6 +24,13 @@
 import sys
 import re
 
+replaces = {
+    " ": "_",
+    "=": "-",
+    "<": "[",
+    ">": "]",
+}
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Usage: %s <result_file>" % sys.argv[0])
@@ -35,16 +42,21 @@ if __name__ == '__main__':
         for line in f.readlines():
             m = rex.search(line)
             if m:
-                case_id = m.group('test_case_id').replace(' ', '_').replace('=', '-')
+                case_id = m.group('test_case_id')
+                for r in replaces.keys():
+                    case_id = case_id.replace(r, replaces[r])
                 result = 'pass'
                 measurement = m.group('measurement')
                 units = m.group('units')
 
                 print("%s %s %s %s" % (case_id, result, measurement, units))
+                continue
 
             m = score_rex.search(line)
             if m:
-                case_id = m.group('test_case_id').replace(' ', '_').replace('=', '-')
+                case_id = m.group('test_case_id')
+                for r in replaces.keys():
+                    case_id = case_id.replace(r, replaces[r])
                 result = 'pass'
                 measurement = m.group('measurement')
                 print("%s %s %s" % (case_id, result, measurement))
