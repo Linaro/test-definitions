@@ -57,7 +57,9 @@ while getopts "d:hk:p:u:s:v:" opt; do
 			DOWNLOAD_KERNEL="$OPTARG"
 			;;
 		u)
-			TEST_GIT_URL="$OPTARG"
+			if [[ "$OPTARG" != '' ]]; then
+				TEST_GIT_URL="$OPTARG"
+			fi
 			;;
 		p)
 			if [[ "$OPTARG" != '' ]]; then
