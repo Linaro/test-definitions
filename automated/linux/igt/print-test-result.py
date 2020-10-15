@@ -30,7 +30,7 @@ if __name__ == '__main__':
                         "--json-file",
                         nargs='?',
                         default=sys.stdin,
-                        type=argparse.FileType('r'),
+                        type=argparse.FileType('r', encoding='UTF-8'),
                         help="Test result file in json format")
 
     args = parser.parse_args()
