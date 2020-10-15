@@ -60,7 +60,9 @@ test_set_name="$(basename "${DEQP_BIN}")"
 report_set_start "$test_set_name"
 
 set +e
-deqp-runner --deqp "${DEQP_BIN}" --output "$DEQP_RESULT_FILE" "${DEQP_CASES}" "${DEQP_FAIL}" "${DEQP_EXCLUDE}" "${DEQP_RUNNER_OPTIONS}" "${DEQP_RUNNER_JOBS}" -- "${DEQP_OPTIONS}"
+# Disable next check because the variables are options and fails when are quoted.
+# shellcheck disable=SC2086
+deqp-runner --deqp ${DEQP_BIN} --output $DEQP_RESULT_FILE ${DEQP_CASES} ${DEQP_FAIL} ${DEQP_EXCLUDE} ${DEQP_RUNNER_OPTIONS} ${DEQP_RUNNER_JOBS} -- ${DEQP_OPTIONS}
 DEQP_EXITCODE=$?
 set -e
 
