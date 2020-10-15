@@ -61,5 +61,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/rteval/
-        - ./rteval.sh -d "${DURATION}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -k "${DOWNLOAD_KERNEL}"
+        - ./rteval.sh -d "${DURATION}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -k "${DOWNLOAD_KERNEL}" -u "${TEST_GIT_URL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
