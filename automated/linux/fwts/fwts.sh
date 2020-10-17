@@ -182,5 +182,9 @@ if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
 else
 	install
 fi
-get_tests
+
+which fwts
+if [ $? -eq 1 ]; then
+	get_tests
+fi
 run_test "${TESTS}"
