@@ -45,10 +45,6 @@ run:
         - if [ -n "${HDMI_DEV_NAME}" ]; then OPT="${OPT} -h ${HDMI_DEV_NAME}"; fi
         - fi
         - ./igt-test.sh ${OPT}
-        # Delete Chameliumd log
-        - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} /usr/bin/uptime
-        - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} sh -c "echo '' > /var/log/chameleond"
-        - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} sh -c "echo '' > /var/log/chameleond_init"
         # Dump igt test result and upload artifact to Artifactorial
         - ifconfig; pwd; ls -l
         - echo "**********************************************";
