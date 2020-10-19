@@ -34,9 +34,9 @@ usage() {
 	the parameter is, e.g., HEAD. If, instead, the parameter is
 	not set, then the suite present in TEST_DIR is used.
 
-	<TEST_PROG_URL>:
+	<TEST_GIT_URL>:
 	If this parameter is set, then the ${TEST_PROGRAM} is cloned
-	from the URL in TEST_PROG_URL. Otherwise it is cloned from the
+	from the URL in TEST_GIT_URL. Otherwise it is cloned from the
 	standard repository for the suite. Note that cloning is done
 	only if TEST_PROG_VERSION is not empty
 
