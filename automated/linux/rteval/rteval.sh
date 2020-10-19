@@ -131,35 +131,6 @@ install_rt_tests() {
 	rm -rf rt-tests
 }
 
-get_test_program() {
-	if [[ "$TEST_PROG_VERSION" != "" && ( ! -d "$TEST_DIR" || -d "$TEST_DIR"/.git ) ]];
-	then
-		if [[ -d "$TEST_DIR"/.git ]]; then
-			echo Using repository "$PATH"
-		else
-			git clone "$TEST_GIT_URL" "$TEST_DIR"
-		fi
-
-		cd "$TEST_DIR" || exit 1
-		if [[ "$TEST_PROG_VERSION" != "" ]]; then
-			if ! git reset --hard "$TEST_PROG_VERSION"; then
-				echo Failed to set ${TEST_PROGRAM} to commit "$TEST_PROG_VERSION", sorry
-				exit 1
-			fi
-		else
-			echo Using "$PATH"
-		fi
-
-	else
-		if [[ ! -d "$TEST_DIR" ]]; then
-			echo No ${TEST_PROGRAM} suite in "$TEST_DIR", sorry
-			exit 1
-		fi
-		echo Assuming ${TEST_PROGRAM} is pre-installed in "$TEST_DIR"
-		cd "$TEST_DIR" || exit 1
-	fi
-}
-
 run_test() {
 
 	ln -s /bin/dmesg /usr/bin/dmesg
@@ -197,6 +168,6 @@ else
 	install
 fi
 
-get_test_program
+get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
 create_out_dir "${OUTPUT}"
 run_test
