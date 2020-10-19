@@ -146,6 +146,15 @@ parse_fwts_test_results() {
 	rm -rf "${TMP_LOG}" "${RESULT_LOG}" "${TEST_PASS_LOG}" "${TEST_FAIL_LOG}" "${TEST_SKIP_LOG}"
 }
 
+build_install_tests() {
+	pushd "${TEST_DIR}" || exit 1
+	autoreconf -ivf
+	./configure --prefix=/
+	make -j"$(nproc)" all
+	make install
+	popd || exit 1
+}
+
 run_test() {
 
 	# Double quote to prevent globbing and word splitting.
@@ -169,5 +178,6 @@ fi
 
 if ! (which fwts); then
 	get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
+	build_install_tests
 fi
 run_test "${TESTS}"
