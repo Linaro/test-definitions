@@ -164,7 +164,7 @@ if ! command -v cyclictest > /dev/null; then
 fi
 
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
-	info_msg "suite installation skipped altogether"
+	info_msg "Skip installing package dependency for ${TEST_PROG_VERSION}"
 else
 	install
 fi
