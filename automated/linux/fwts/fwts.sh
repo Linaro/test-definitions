@@ -61,7 +61,9 @@ while getopts "h:t:p:u:v:s:" opt; do
 			FWTS_VERSION="$OPTARG"
 			;;
 		u)
-			FWTS_URL="$OPTARG"
+			if [[ "$OPTARG" != '' ]]; then
+				FWTS_URL="$OPTARG"
+			fi
 			;;
 		p)
 			if [[ "$OPTARG" != '' ]]; then
