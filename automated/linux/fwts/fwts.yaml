@@ -53,5 +53,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/fwts/
-        - ./fwts.sh -t "${TESTS}" -v "${FWTS_VERSION}" -s "${SKIP_INSTALL}" -p "${FWTS_PATH}"
+        - ./fwts.sh -t "${TESTS}" -v "${FWTS_VERSION}" -s "${SKIP_INSTALL}" -p "${FWTS_PATH}" -u "${FWTS_URL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
