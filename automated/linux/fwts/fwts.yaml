@@ -36,22 +36,22 @@ params:
         # of the suite is set to the commit pointed to by the
         # parameter. A simple choice for the value of the parameter
         # is, e.g., HEAD.  If, instead, the parameter is
-        # not set, then the suite present in FWTS_PATH is used.
-        FWTS_VERSION: ""
+        # not set, then the suite present in TEST_DIR is used.
+        TEST_PROG_VERSION: ""
 
         # If next parameter is set, then the FWTS suite is cloned
-        # from the URL in FWTS_URL. Otherwise it is cloned from the
+        # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
         # standard repository for the suite. Note that cloning is done
-        # only if FWTS_VERSION is not empty
-        FWTS_URL: ""
+        # only if TEST_PROG_VERSION is not empty
+        TEST_GIT_URL: ""
 
         # If next parameter is set, then the FWTS suite is cloned to or
-        # looked for in FWTS_PATH. Otherwise it is cloned to $(pwd)/FWTS
-        FWTS_PATH: ""
+        # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/FWTS
+        TEST_DIR: ""
         SKIP_INSTALL: false
 
 run:
     steps:
         - cd ./automated/linux/fwts/
-        - ./fwts.sh -t "${TESTS}" -v "${FWTS_VERSION}" -s "${SKIP_INSTALL}" -p "${FWTS_PATH}" -u "${FWTS_URL}"
+        - ./fwts.sh -t "${TESTS}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
