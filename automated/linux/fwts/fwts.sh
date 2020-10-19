@@ -146,6 +146,15 @@ parse_fwts_test_results() {
 	rm -rf "${TMP_LOG}" "${RESULT_LOG}" "${TEST_PASS_LOG}" "${TEST_FAIL_LOG}" "${TEST_SKIP_LOG}"
 }
 
+build_install_tests() {
+	pushd "${TEST_DIR}"
+	autoreconf -ivf
+	./configure --prefix=/
+	make -j8 all
+	make install
+	popd
+}
+
 run_test() {
 
         # shellcheck disable=SC2086
@@ -167,5 +176,6 @@ fi
 which fwts
 if [ $? -eq 1 ]; then
 	get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
+	build_install_tests
 fi
 run_test "${TESTS}"
