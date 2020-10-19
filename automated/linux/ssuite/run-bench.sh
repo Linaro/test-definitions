@@ -96,7 +96,9 @@ while getopts "ht:d:f:p:u:v:s:r:n:" opt; do
 			S_VERSION="$OPTARG"
 			;;
 		u)
-			S_URL="$OPTARG"
+			if [[ "$OPTARG" != '' ]]; then
+				S_URL="$OPTARG"
+			fi
 			;;
 		p)
 			if [[ "$OPTARG" != '' ]]; then
