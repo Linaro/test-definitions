@@ -49,7 +49,11 @@ usage() {
 
 	<FWTS_PATH>:
 	If this parameter is set, then the FWTS suite is cloned to or
-	looked for in FWTS_PATH. Otherwise it is cloned to $(pwd)/fwts"
+	looked for in FWTS_PATH. Otherwise it is cloned to $(pwd)/fwts
+
+	<SKIP_INSTALL>:
+	If you already have it installed into the rootfs.
+	default: false"
 }
 
 while getopts "h:t:p:u:v:s:" opt; do
