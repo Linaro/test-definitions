@@ -74,7 +74,11 @@ usage() {
 	Default value: no
 
 	<NUM_REPETITIONS>:
-	Number of times each benchmark is repeated. Default: 5."
+	Number of times each benchmark is repeated. Default: 5.
+
+	<SKIP_INSTALL>:
+	If you already have it installed into the rootfs.
+	default: false"
 }
 
 while getopts "ht:d:f:p:u:v:s:r:n:" opt; do
