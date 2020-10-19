@@ -14,15 +14,16 @@ TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 export RESULT_FILE
 
 TESTS="oops --uefitests"
-FWTS_VERSION=
-FWTS_URL=https://github.com/ColinIanKing/fwts.git
-FWTS_PATH="/bin"
+TEST_PROGRAM=fwts
+TEST_PROG_VERSION=
+TEST_GIT_URL=https://github.com/ColinIanKing/fwts.git
+TEST_DIR="/bin"
 SKIP_INSTALL="false"
 
 usage() {
 	echo "\
 	Usage: [sudo] ./fwts.sh [-t <TESTS>]
-				     [-v <FWTS_VERSION>] [-u <FWTS_URL>] [-p <FWTS_PATH>]
+				     [-v <TEST_PROG_VERSION>] [-u <TEST_GIT_URL>] [-p <TEST_DIR>]
 				     [-s <true|false>]
 
 	<TESTS>:
@@ -34,22 +35,22 @@ usage() {
 	indistinguishable w.r.t. to actually starting these applications.
 	Default value: \"throughput replayed-startup\"
 
-	<FWTS_VERSION>:
-	If this parameter is set, then the FWTS suite is cloned. In
+	<TEST_PROG_VERSION>:
+	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
 	particular, the version of the suite is set to the commit
 	pointed to by the parameter. A simple choice for the value of
 	the parameter is, e.g., HEAD. If, instead, the parameter is
-	not set, then the suite present in FWTS_PATH is used.
+	not set, then the suite present in TEST_DIR is used.
 
-	<FWTS_URL>:
-	If this parameter is set, then the FWTS suite is cloned
-	from the URL in FWTS_URL. Otherwise it is cloned from the
+	<TEST_GIT_URL>:
+	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned
+	from the URL in TEST_GIT_URL. Otherwise it is cloned from the
 	standard repository for the suite. Note that cloning is done
-	only if FWTS_VERSION is not empty
+	only if TEST_PROG_VERSION is not empty
 
-	<FWTS_PATH>:
-	If this parameter is set, then the FWTS suite is cloned to or
-	looked for in FWTS_PATH. Otherwise it is cloned to $(pwd)/fwts
+	<TEST_DIR>:
+	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned to or
+	looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/${TEST_PROGRAM}
 
 	<SKIP_INSTALL>:
 	If you already have it installed into the rootfs.
@@ -62,16 +63,16 @@ while getopts "h:t:p:u:v:s:" opt; do
 			TESTS="$OPTARG"
 			;;
 		v)
-			FWTS_VERSION="$OPTARG"
+			TEST_PROG_VERSION="$OPTARG"
 			;;
 		u)
 			if [[ "$OPTARG" != '' ]]; then
-				FWTS_URL="$OPTARG"
+				TEST_GIT_URL="$OPTARG"
 			fi
 			;;
 		p)
 			if [[ "$OPTARG" != '' ]]; then
-				FWTS_PATH="$OPTARG"
+				TEST_DIR="$OPTARG"
 			fi
 			;;
 		s)
@@ -108,35 +109,6 @@ install() {
 			echo "Unsupported distro: ${dist}! Package installation skipped!"
 			;;
 	esac
-}
-
-get_tests() {
-	if [[ "$FWTS_VERSION" != "" && ( ! -d "$FWTS_PATH" || -d "$FWTS_PATH"/.git ) ]];
-	then
-		if [[ -d "$FWTS_PATH"/.git ]]; then
-			echo Using repository "$PATH"
-		else
-			git clone "$FWTS_URL" "$FWTS_PATH"
-		fi
-
-		cd "$FWTS_PATH" || exit 1
-		if [[ "$FWTS_VERSION" != "" ]]; then
-			if ! git reset --hard "$FWTS_VERSION"; then
-				echo Failed to set FWTS to commit "$FWTS_VERSION", sorry
-				exit 1
-			fi
-		else
-			echo Using "$PATH"
-		fi
-
-	else
-		if [[ ! -d "$FWTS_PATH" ]]; then
-			echo No FWTS suite in "$FWTS_PATH", sorry
-			exit 1
-		fi
-		echo Assuming FWTS is pre-installed in "$FWTS_PATH"
-		cd "$FWTS_PATH" || exit 1
-	fi
 }
 
 # Parse fwts test results
@@ -187,13 +159,13 @@ create_out_dir "${OUTPUT}"
 # Install and run test
 
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
-	info_msg "fwts installation skipped altogether"
+	info_msg "${TEST_PROGRAM} installation skipped altogether"
 else
 	install
 fi
 
 which fwts
 if [ $? -eq 1 ]; then
-	get_tests
+	get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
 fi
 run_test "${TESTS}"
