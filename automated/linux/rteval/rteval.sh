@@ -15,7 +15,8 @@ DURATION="10m"
 
 usage() {
 	echo "\
-	Usage: [sudo] ./rteval.sh [-d <DURATION>] [-v <TEST_PROG_VERSION>] [-u <S_URL>] [-p <S_PATH>] [-s <true|false>]
+	Usage: [sudo] ./rteval.sh [-d <DURATION>] [-v <TEST_PROG_VERSION>]
+				  [-u <TEST_GIT_URL>] [-p <TEST_DIR>] [-s <true|false>]
 
 	<DURATION>:
 	Time in long will the test be running. DURATION can be set
@@ -40,7 +41,7 @@ usage() {
 	only if TEST_PROG_VERSION is not empty
 
 	<TEST_DIR>:
-	If this parameter is set, then the S suite is cloned to or
+	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned to or
 	looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/${TEST_PROGRAM}
 
 	<SKIP_INSTALL>:
