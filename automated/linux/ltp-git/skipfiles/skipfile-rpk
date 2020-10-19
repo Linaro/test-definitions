@@ -1,0 +1,32 @@
+# oom01 tries to kill bash and python which are needed by our test script.
+# Prevent oom01 from doing the above causes 'Kernel panic - not syncing: Out of memory and no killable processes...'
+# The issue needs to be fixed from ltp. Refer to https://projects.linaro.org/browse/QA-1662
+oom01 oom01
+
+# By default, Debian installer will set the size of swap partition to the size
+# of memory capacity. min_free_kbytes needs to occupy both memory and swap
+# space. When memory size is large, this test takes hours to finish.
+# For example, on D05 that 128G memory installed, this test takes 191 minutes.
+# It can be finished, but just too long. It is possbile to customize
+# partitioning steps to reduce swap partition size for this single test, but
+# that is probably not wanted.
+min_free_kbytes min_free_kbytes
+
+# keyctl03 fails under automation but passes when run manually..
+# https://bugs.linaro.org/show_bug.cgi?id=3451
+keyctl03 keyctl03
+
+# msgctl10 fails on qdf 2400. Not only does it fail, it also does not seem to
+# finish cleanly and cause other tests to fail inconsistently, and all of LTP
+# to exit early (as observed by the number of test results)
+# https://bugs.linaro.org/show_bug.cgi?id=3487
+msgctl10
+# msgctl10 has been renamed to msgstress03 on master branch.
+msgstress03
+
+# msgctl11 fails randomly and cannot be duplicated.
+msgctl11
+# msgctl11 has been renamed to msgstress04 on master branch.
+msgstress04
+
+

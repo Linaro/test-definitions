@@ -1,0 +1,310 @@
+# This skipfile is consumable using skipgen
+# (https://github.com/Linaro/skipgen), included in this repo in
+# /automated/bin/<arch>/skipgen.
+#
+# reason:
+#   Please provide a human readable explanation of the reason for the skip.
+# url:
+#   A url referencing the issue. Often a link to the bug. Only one url may be
+#   specified.
+# environments:
+#   Should be 'production', 'staging', or 'all' for both. Our
+#   staging environment contains a very minimal skiplist. Only tests which make
+#   testing unstable should include staging.
+# boards:
+#   Should match a list of board names, or 'all' to include all boards.
+# branches:
+#   Should match a list of branch names, or 'all' to include all branches.
+# tests:
+#   List of tests to skip
+
+skiplist:
+  - reason: >
+      LKFT: LTP: fork13: runs long and hangs machine on branches
+    url: https://bugs.linaro.org/show_bug.cgi?id=3719
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+      - dragonboard-410c
+      - rzn1d
+      - qemu_x86_64
+      - qemu_arm64
+      - qemu_arm
+      - qemu_i386
+      - i386
+      - nxp-ls2088
+    branches: all
+    tests:
+      - fork13
+
+  - reason: >
+      msgctl10/msgstress03 and msgct11/msgstress04 tests overheats HiKey board
+      due to large number of fork() calls and message queues read/writes. [RPB]
+      LTP: msgctl10 fork failed
+    url: https://bugs.linaro.org/show_bug.cgi?id=2355
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x15
+      - dragonboard-410c
+      - rzn1d
+      - qemu_x86_64
+      - qemu_arm64
+      - qemu_arm
+      - qemu_i386
+      - i386
+      - nxp-ls2088
+    branches: all
+    tests:
+      - msgctl10
+      - msgctl11
+      - msgstress03
+      - msgstress04
+
+  - reason: >
+      fanotify07 was added to syscalls in 20170929 and fails approximately 50%
+      of the time. See
+    url: https://bugs.linaro.org/show_bug.cgi?id=3303
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - dragonboard-410c
+      - rzn1d
+      - qemu_arm64
+      - nxp-ls2088
+    branches:
+      - 4.4
+      - 4.9
+      - linux-4.4.y
+      - linux-4.9.y
+      - v4.4-rt
+      - v4.9-rt
+    tests:
+      - fanotify07
+      - fanotify08
+      - fanotify09
+
+  - reason: >
+      LKFT: LTP: inotify07 FAIL: didn't get event: mask=40000004
+      inotify07 is not supported on 4.4 and 4.9
+    url: https://bugs.linaro.org/show_bug.cgi?id=3931
+    environments: all
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - linux-4.4.y
+      - linux-4.9.y
+      - v4.4-rt
+      - v4.9-rt
+    tests:
+      - inotify07
+
+  - reason: >
+      LKFT: LTP: inotify08 FAIL: didn't get event: mask=4
+      inotify08 is not supported on 4.14, 4.9 and 4.4
+    url: https://bugs.linaro.org/show_bug.cgi?id=3881
+    environments: all
+    boards: all
+    branches:
+      - 4.4
+      - 4.9
+      - 4.14
+      - linux-4.4.y
+      - linux-4.9.y
+      - linux-4.14.y
+      - v4.4-rt
+      - v4.9-rt
+      - v4.14-rt
+    tests:
+      - inotify08
+
+  - reason: >
+      pth_str02 hangs when using NFS filesystem. LKFT: linux-mainline: juno:
+      x86: ltp sched tests hang due to NFS not responding
+    url: https://bugs.linaro.org/show_bug.cgi?id=3338
+    environments: all
+    boards:
+      - hi6220-hikey
+      - juno-r2
+      - x86
+      - qemu_arm64
+      - qemu_arm
+      - i386
+      - nxp-ls2088
+    branches: all
+    tests:
+      - pth_str01
+      - pth_str02
+      - pth_str03
+      - time-schedule01
+
+  - reason: >
+      LKFT: 4.9-rc: x86: LTP: perf_event_open02.c:333: test failed (ratio
+      was greater than ) - intermittent failure
+    url: https://bugs.linaro.org/show_bug.cgi?id=3382
+    environments:
+      - production
+    boards: all
+    branches: all
+    tests:
+      - perf_event_open02
+
+  - reason: >
+      fs:gf01:gf14:gf15:gf18: This test requires >4GB to run. Skip on devices
+      that don't have that much space available.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3720
+    environments:
+      - production
+    boards: all
+    branches: all
+    tests:
+      - gf01
+      - gf14
+      - gf15
+      - gf18
+
+  - reason: >
+      LKFT: LTP skip hackbench01/02 on qemu_arm and qemu_arm64 causing kernel dump
+    url: https://bugs.linaro.org/show_bug.cgi?id=3777
+    environments: all
+    boards:
+      - qemu_arm64
+      - qemu_arm
+    branches: all
+    tests:
+      - hackbench01
+      - hackbench02
+
+  - reason: >
+      LKFT: linux-next: x86: LTP sendfile09 and sendfile09_64 failed: errno=EFBIG(27): File too large
+      Test creates more than 3GB file which is time consuming so skipping.
+    url: https://bugs.linaro.org/show_bug.cgi?id=3234
+    environments: all
+    boards:
+      - hi6220-hikey
+      - dragonboard-410c
+      - rzn1d
+      - nxp-ls2088
+    branches:
+      - all
+    tests:
+      - sendfile09
+      - sendfile09_64
+
+  - reason: >
+      LTP: futex_wake04 never return on i386 and timedout
+      Test HANGs on i386 so skip on staging and production runs
+    url: https://bugs.linaro.org/show_bug.cgi?id=3984
+    environments:
+      - all
+    boards:
+      - i386
+    branches:
+      - all
+    tests:
+      - futex_wake04
+
+  - reason: >
+      LTP: hugemmap06 cant reserve full amount of hugepages
+      needed by the test in environments with fragmented
+      memory (specially ones having short memory)
+    url: https://bugs.linaro.org/show_bug.cgi?id=4023
+    environments: production
+    boards:
+      - dragonboard-410c
+      - rzn1d
+      - nxp-ls2088
+    branches:
+      - all
+    tests:
+      - hugemmap06
+
+  - reason: >
+      LTP: mtest06/mmap1 running long time and timeouted after 15 minutes
+      intermittent failure
+    url: https://bugs.linaro.org/show_bug.cgi?id=4273
+    environments: all
+    boards:
+      - dragonboard-410c
+      - rzn1d
+      - hi6220-hikey
+      - juno-r2
+      - qemu_arm64
+      - nxp-ls2088
+    branches:
+      - all
+    tests:
+      - mtest06
+
+  - reason: >
+      LTP mm test case ksm01 failed on db410c while allocating memory,
+      mem.c:293: malloc(134217600) failed: ENOMEM
+      Board doesn't have enough memory to run the test (1GB)
+    url: https://bugs.linaro.org/show_bug.cgi?id=4272
+    environments: production
+    boards:
+      - dragonboard-410c
+      - rzn1d
+      - nxp-ls2088
+    branches:
+      - all
+    tests:
+      - ksm01
+
+  - reason: >
+      skip long running LTP dio tests on all devices
+    url: https://projects.linaro.org/browse/KV-171
+    environments: production
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - dio10
+      - dio16
+      - dio17
+      - dio20
+      - dio21
+      - dio24
+      - dio25
+      - dio27
+      - dio28
+      - dio29
+      - dio30
+
+  - reason: >
+      skip long running LTP dio tests on all devices
+    url: https://projects.linaro.org/browse/KV-171
+    environments: production
+    boards:
+      - dragonboard-410c
+      - rzn1d
+      - nxp-ls2088
+    branches:
+      - all
+    tests:
+      - dio12
+      - dio13
+      - dio14
+      - dio15
+      - dio18
+      - dio19
+      - dio22
+      - dio23
+      - dio26
+
+  - reason: >
+      skip long running LTP memcg_stress_test on all devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=5657
+    environments: production
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - memcg_stress

@@ -1,0 +1,67 @@
+metadata:
+    name: ltp
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run LTP test suite on Ubuntu"
+    maintainer:
+        - milosz.wasilewski@linaro.org
+        - fathi.boudra@linaro.org
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - panda
+        - panda-es
+        - arndale
+        - vexpress-a9
+        - vexpress-tc2
+        - ifc6410
+params:
+    TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
+
+    # SKIPFILE can be a filename from dir ./automated/linux/ltp/, an http URL,
+    # or a skipgen style yaml file.
+    # Examples:
+    #   SKIPFILE: "skipfile-lsk-juno" # is a known file present in
+    #                                 # dir ./automated/linux/ltp/
+    #   SKIPFILE: "http://people.linaro.org/~naresh.kamboju/skipfile"
+    #   SKIPFILE: "skipfile-lkft.yaml" # yaml file that will be parsed with
+    #                                  # skipgen. Must use "yaml" extention.
+    # NOTE: busybox wget may not work with https link so prefer to use http
+    SKIPFILE: ""
+
+    # BOARD, BRANCH, and ENVIRONMENT may be specified and may be used when
+    # generating a skipfile using a yaml skipfile and skipgen.
+    BOARD: ""
+    BRANCH: ""
+    LTP_TMPDIR: "/ltp-tmp"
+    ENVIRONMENT: ""
+
+    SKIP_INSTALL: false
+    # Slow machines need more timeout Default is 5min and multiply * TIMEOUT_MULTIPLIER
+    TIMEOUT_MULTIPLIER: 3
+    # root's password. Needed by ltp/su01.
+    ROOT_PASSWD: root
+
+    # If the following parameter is set, then the LTP suite is
+    # cloned and used unconditionally. In particular, the version
+    # of the suite is set to the commit pointed to by the
+    # parameter. A simple choice for the value of the parameter
+    # is, e.g., HEAD.  If, instead, the parameter is
+    # not set, then the suite present in TEST_DIR is used.
+    TEST_PROG_VERSION: ""
+
+    # If next parameter is set, then the LTP suite is cloned
+    # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
+    # standard repository for the suite. Note that cloning is done
+    # only if TEST_PROG_VERSION is not empty
+    TEST_GIT_URL: ""
+
+    # If next parameter is set, then the LTP suite is cloned to or
+    # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/ltp
+    TEST_DIR: ""
+run:
+    steps:
+        - cd ./automated/linux/ltp/
+        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${TEST_PROG_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -d "${LTP_TMPDIR}" -g "${BRANCH}" -e "${ENVIRONMENT}" -S "${SKIPFILE}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
