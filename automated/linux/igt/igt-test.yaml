@@ -45,17 +45,13 @@ run:
         - if [ -n "${HDMI_DEV_NAME}" ]; then OPT="${OPT} -h ${HDMI_DEV_NAME}"; fi
         - fi
         - ./igt-test.sh ${OPT}
-        # Delete Chameliumd log
-        - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} /usr/bin/uptime
-        - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} sh -c "echo '' > /var/log/chameleond"
-        - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${CHAMELIUM_IP} sh -c "echo '' > /var/log/chameleond_init"
         # Dump igt test result and upload artifact to Artifactorial
         - ifconfig; pwd; ls -l
         - echo "**********************************************";
         - echo "************ Dump IGT test result ************";
         - echo "**********************************************";
         - if [ -f "${IGT_DIR}/results/results.json.bz2" ]; then bunzip2 ${IGT_DIR}/results/results.json.bz2; fi
-        - ./print-test-result.py -f ${IGT_DIR}/results/results.json
+        - PYTHONIOENCODING=utf-8  ./print-test-result.py -f ${IGT_DIR}/results/results.json
         - if [ -n "${ARTIFACTORIAL_TOKEN}" -a -n "${ARTIFACTORIAL_URL}" ]; then
         - UPLOAD_TOOL="../../utils/upload-to-artifactorial.sh"
         - if [ -d "/root/dump-frames/" -a -n "`ls /root/dump-frames/`" ];  then echo "Got error frames.." ; tar -C /root -zcf dump-frames.tar.gz dump-frames/;
