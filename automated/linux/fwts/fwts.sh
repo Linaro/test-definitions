@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
@@ -168,7 +170,8 @@ parse_fwts_test_results() {
 
 run_test() {
 
-	fwts "${TESTS}" - 2>&1 | tee -a "${RESULT_LOG}"
+        # shellcheck disable=SC2086
+	fwts ${TESTS} - 2>&1 | tee -a "${RESULT_LOG}"
 	parse_fwts_test_results
 }
 
