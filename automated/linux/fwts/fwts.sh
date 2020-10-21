@@ -94,13 +94,15 @@ install() {
 	dist_name
 	case "${dist}" in
 		debian|ubuntu)
-			pkgs="fio sysstat libaio-dev gawk coreutils bc \
-				  psmisc g++ git"
+			pkgs="git fio sysstat libaio-dev gawk coreutils bc psmisc g++ \
+				autoconf automake libglib2.0-dev libtool libpcre3-dev \
+				flex bison dkms libfdt-dev libbsd-dev"
 			install_deps "${pkgs}" "${SKIP_INSTALL}"
 			;;
 		fedora|centos)
 			pkgs="fio sysstat libaio-devel gawk coreutils bc \
-				  psmisc gcc-c++ git-core"
+				  psmisc gcc-c++ git-core autoconf automake glib-devel \
+				  libtool pcre-devel flex bison dkms libfdt-devel libbsd-devel"
 			install_deps "${pkgs}" "${SKIP_INSTALL}"
 			;;
 		# When build do not have package manager
