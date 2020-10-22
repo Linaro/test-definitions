@@ -9,7 +9,7 @@ DOWNLOAD_KERNEL="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.7
 TEST_PROGRAM=rteval
 TEST_PROG_VERSION=
 TEST_GIT_URL=https://kernel.googlesource.com/pub/scm/utils/rteval/rteval.git
-TEST_DIR="$(pwd)/${TEST_PROGRAM}"
+TEST_DIR="/opt/${TEST_PROGRAM}"
 SKIP_INSTALL="false"
 DURATION="10m"
 
@@ -42,7 +42,7 @@ usage() {
 
 	<TEST_DIR>:
 	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned to or
-	looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/${TEST_PROGRAM}
+	looked for in TEST_DIR. Otherwise it is cloned to /opt/${TEST_PROGRAM}
 
 	<SKIP_INSTALL>:
 	If you already have it installed into the rootfs.
