@@ -662,3 +662,40 @@ dmesg_capture_result() {
 	dmesg --console-on
 	echo "=============================================="
 }
+
+# shellcheck disable=SC2039
+get_test_program() {
+	local test_git_url="$1"
+	local test_dir="$2"
+	local test_prog_version="$3"
+	local test_program="$4"
+	if [ ! -d "$test_dir" ] || [ -d "$test_dir"/.git ]; then
+		if [ "$test_prog_version" != "" ]; then
+			if [ -d "$test_dir"/.git ]; then
+				echo Using repository "$PATH"
+			else
+				git clone "$test_git_url" "$test_dir"
+			fi
+
+			cd "$test_dir" || exit 1
+			if [ "$test_prog_version" != "" ]; then
+				if ! git reset --hard "$test_prog_version"; then
+					echo Failed to set "${test_program}" to commit "$test_prog_version", sorry
+					exit 1
+				fi
+			else
+				echo Using "$PATH"
+			fi
+		else
+			echo Assuming "${test_program}" is pre-installed in "$test_dir"
+			cd "$test_dir" || exit 1
+		fi
+	else
+		if [ ! -d "$test_dir" ]; then
+			echo No "${test_program}" suite in "$test_dir", sorry
+			exit 1
+		fi
+		echo Assuming "${test_program}" is pre-installed in "$test_dir"
+		cd "$test_dir" || exit 1
+	fi
+}
