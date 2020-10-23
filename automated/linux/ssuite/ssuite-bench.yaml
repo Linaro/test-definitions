@@ -61,18 +61,18 @@ params:
         # of the suite is set to the commit pointed to by the
         # parameter. A simple choice for the value of the parameter
         # is, e.g., HEAD.  If, instead, the parameter is
-        # not set, then the suite present in S_PATH is used.
-        S_VERSION: ""
+        # not set, then the suite present in TEST_DIR is used.
+        TEST_PROG_VERSION: ""
 
         # If next parameter is set, then the S suite is cloned
-        # from the URL in S_URL. Otherwise it is cloned from the
+        # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
         # standard repository for the suite. Note that cloning is done
-        # only if S_VERSION is not empty
-        S_URL: ""
+        # only if TEST_PROG_VERSION is not empty
+        TEST_GIT_URL: ""
 
         # If next parameter is set, then the S suite is cloned to or
-        # looked for in S_PATH. Otherwise it is cloned to $(pwd)/S
-        S_PATH: ""
+        # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/S
+        TEST_DIR: ""
 
         # If next parameter is set to yes then only workloads made of
         # only reads are generated in every benchmark.
@@ -84,5 +84,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/ssuite/
-        - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${S_VERSION}" -s "${SKIP_INSTALL}" -r "${ONLY_READS}" -p "${S_PATH}" -n "${NUM_REPETITIONS}"
+        - ./run-bench.sh -t "${TESTS}" -d "${TEST_DEV}" -f "${FORMAT}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -r "${ONLY_READS}" -p "${TEST_DIR}" -n "${NUM_REPETITIONS}" -u "${TEST_GIT_URL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
