@@ -17,8 +17,6 @@ metadata:
         - vexpress-tc2
         - ifc6410
 params:
-    # LTP version
-    LTP_VERSION: 20180926
     TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
 
     # SKIPFILE can be a filename from dir ./automated/linux/ltp/, an http URL,
@@ -45,8 +43,31 @@ params:
     # root's password. Needed by ltp/su01.
     ROOT_PASSWD: root
 
+    # If the following parameter is set, then the LTP suite is
+    # cloned and used unconditionally. In particular, the version
+    # of the suite is set to the commit pointed to by the
+    # parameter. A simple choice for the value of the parameter
+    # is, e.g., HEAD.  If, instead, the parameter is
+    # not set, then the suite present in TEST_DIR is used.
+    # LTP version
+    LTP_VERSION: ""
+
+    # If next parameter is set, then the LTP suite is cloned
+    # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
+    # standard repository for the suite. Note that cloning is done
+    # only if LTP_VERSION is not empty
+    TEST_GIT_URL: ""
+
+    # If next parameter is set, then the LTP suite is cloned to or
+    # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/ltp
+    TEST_DIR: ""
+
+    # BUILD_FROM_TAR, if you want to download and build LTP from
+    # a released tarball, set BUILD_FROM_TAR to 'true'. You have to
+    # specify the LTP_VERSION to a release e.g., 20180926.
+    BUILD_FROM_TAR: "false"
 run:
     steps:
         - cd ./automated/linux/ltp/
-        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -d "${LTP_TMPDIR}" -g "${BRANCH}" -e "${ENVIRONMENT}" -S "${SKIPFILE}"
+        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -d "${LTP_TMPDIR}" -g "${BRANCH}" -e "${ENVIRONMENT}" -S "${SKIPFILE}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -t "${BUILD_FROM_TAR}"
         - ../../utils/send-to-lava.sh ./output/result.txt
