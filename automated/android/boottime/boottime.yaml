@@ -3,9 +3,12 @@ metadata:
     format: "Lava-Test Test Definition 1.0"
     description: "collect the boottime data many times and try to analyse,
                   when run more than 4 times(including), the average will be
-                  calculated without the maximum and the minmun, if run less
-                  than or equal to 3 time, the average will be calculated with
-                  all data"
+                  calculated without the maximum and the minimum, if run less
+                  than or equal to 3 times, the average will be calculated with
+                  all data.
+                  If there are multiple android devices connected to
+                  the host, please export the android serial number via the
+                  ANDROID_SERIAL environment variable before running the scripts"
     maintainer:
         - yongqin.liu@linaro.org
         - chase.qi@linaro.org
@@ -22,8 +25,6 @@ params:
     ANDROID_VERSION: ""
     # specify true or false to skip or not the installation of lxc packages
     SKIP_INSTALL: "false"
-    # Specify device serial no. when more than one device connected.
-    ANDROID_SERIAL: ""
     # Specify timeout in seconds for wait_boot_completed.
     BOOT_TIMEOUT: "300"
     # Available operations: COLLECT or ANALYZE
@@ -36,7 +37,7 @@ params:
 run:
     steps:
         - cd ./automated/android/boottime
-        - ./boottime.sh -S "${SKIP_INSTALL}" -s "${ANDROID_SERIAL}" -t "${BOOT_TIMEOUT}" -o "${OPERATION}" -n "${COLLECT_NO}" -v "${ANDROID_VERSION}"
+        - ./boottime.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -o "${OPERATION}" -n "${COLLECT_NO}" -v "${ANDROID_VERSION}"
         - if [ "${OPERATION}" = "ANALYZE" ]; then ../../utils/upload-to-artifactorial.sh -a "output/boottime.tgz" -u "${URL}" -t "${TOKEN}"; fi
         - ../../utils/send-to-lava.sh ./output/boot_result.txt
         - ../../utils/send-to-lava.sh ./output/result.txt
