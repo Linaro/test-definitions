@@ -1,7 +1,6 @@
 #!/bin/sh -e
 # shellcheck disable=SC1091
 
-ANDROID_SERIAL=""
 BOOT_TIMEOUT="300"
 OPERATION="COLLECT"
 COLLECT_NO="1"
@@ -12,14 +11,13 @@ SKIP_INSTALL='true'
 . ../../lib/android-test-lib
 
 usage() {
-    echo "Usage: $0 [-S skip_install <true|false>] [-s <android_serial>] [-t <boot_timeout>] [-o <COLLECT|ANALYZE>] [-n <collect_no>]" 1>&2
+    echo "Usage: $0 [-S skip_install <true|false>] [-t <boot_timeout>] [-o <COLLECT|ANALYZE>] [-n <collect_no>]" 1>&2
     exit 1
 }
 
-while getopts ":S:s:t:o:n:v:" o; do
+while getopts ":S:t:o:n:v:" o; do
   case "$o" in
     S) SKIP_INSTALL="${OPTARG}" ;;
-    s) ANDROID_SERIAL="${OPTARG}" ;;
     t) BOOT_TIMEOUT="${OPTARG}" ;;
     o) OPERATION="${OPTARG}" ;;
     n) COLLECT_NO="${OPTARG}" ;;

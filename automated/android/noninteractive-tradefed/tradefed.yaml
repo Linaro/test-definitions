@@ -65,7 +65,5 @@ run:
         # Send test result to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
         - userdel testuser -f -r || true
-        # When adb device lost, end test job to mark it as 'incomplete'.
-        - if ! adb shell echo ok; then error_fatal "tradefed: adb device lost[$ANDROID_SERIAL]"; fi
         - if echo "${TEST_REBOOT_EXPECTED}" |grep -i "true" ; then killall monitor_fastboot.sh; fi
         - killall monitor_adb.sh
