@@ -82,7 +82,3 @@ adb_join_wifi "${AP_SSID}" "${AP_KEY}"
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
 ./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}" -f "${FAILURES_PRINTED}"
-# When adb device lost, end test job to mark it as 'incomplete'.
-if ! adb shell echo ok; then
-    error_fatal "tradefed: adb device lost[$ANDROID_SERIAL]"
-fi
