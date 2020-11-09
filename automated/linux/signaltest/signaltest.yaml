@@ -31,12 +31,11 @@ params:
     # Number of threads.
     THREADS: "2"
     DURATION: "1m"
-    # Maximal accepted latency in us
-    # This value is device/kernel specific and needs to be set in the job!
-    MAX_LATENCY: "100"
+    # Background workload to be run during the meassurement
+    BACKGROUND_CMD: ""
 
 run:
     steps:
         - cd ./automated/linux/signaltest
-        - ./signaltest.sh -D "${DURATION}" -p "${PRIORITY}" -t "${THREADS}" -m "${MAX_LATENCY}"
+        - ./signaltest.sh -D "${DURATION}" -p "${PRIORITY}" -t "${THREADS}" -w "${BACKGROUND_CMD}"
         - ../../utils/send-to-lava.sh ./output/result.txt

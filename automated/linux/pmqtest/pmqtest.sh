@@ -9,17 +9,17 @@ OUTPUT="${TEST_DIR}/output"
 LOGFILE="${OUTPUT}/pmqtest.log"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
-MAX_LATENCY="100"
+BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-D duration] [-m latency]" 1>&2
+    echo "Usage: $0 [-D duration] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":D:m:" opt; do
+while getopts ":D:w:" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
-	m) MAX_LATENCY="${OPTARG}" ;;
+	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -30,14 +30,18 @@ done
 create_out_dir "${OUTPUT}"
 
 # Run pmqtest.
-if ! binary=$(which pmqtest); then
+if ! binary=$(command -v pmqtest); then
     detect_abi
     # shellcheck disable=SC2154
     binary="./bin/${abi}/pmqtest"
 fi
 
+background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
+
 "${binary}" -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
 
+background_process_stop bgcmd
+
 # Parse test log.
-../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" "${MAX_LATENCY}" \
+../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}" \
     | tee -a "${RESULT_FILE}"

@@ -99,7 +99,7 @@ test_hcitool_scan() {
     hcitool -i "${DEVICE}" scan
     check_return "hciconfig-scan"
     hcitool -i "${DEVICE}" scan | grep $BADDR_PATTERN
-    check_return "hciconfig-scan (verify available devices)"
+    check_return "hciconfig-scan-verify-available-devices"
 }
 
 # Test HCI device inquiry
@@ -108,7 +108,7 @@ test_hcitool_inq() {
     hcitool -i "${DEVICE}" inq
     check_return "hciconfig-inq"
     hcitool -i "${DEVICE}" inq | grep $BADDR_PATTERN
-    check_return "hciconfig-inq (verify available devices)"
+    check_return "hciconfig-inq-verify-available-devices"
 }
 
 # Test run.
@@ -126,6 +126,4 @@ test_hciconfig_up
 test_hcitool_scan
 test_hcitool_inq
 
-
-
-
+exit 0

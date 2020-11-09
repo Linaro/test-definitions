@@ -15,11 +15,12 @@ metadata:
 
 params:
     DISPLAY: ":0"
+    GLMARK_BIN: "glmark2"
 
 run:
     steps:
         - export DISPLAY=${DISPLAY}
         - cd ./automated/linux/glmark2
-        - glmark2 | tee glmark2.log
+        - ${GLMARK_BIN} | tee glmark2.log
         - ./glmark2_lava_parse.py glmark2.log > ./result.txt
         - ../../utils/send-to-lava.sh ./result.txt

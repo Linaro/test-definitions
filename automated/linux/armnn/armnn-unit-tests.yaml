@@ -1,0 +1,25 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: armnn-unit-tests
+    description: "Carry out armnn unit tests."
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - synquacer
+        - dragonboard-845c
+        - hi960-hikey
+        - stm32mp1
+params:
+    # if you need to run for 32 bit devices use:
+    # 'https://snapshots.linaro.org/componenets/armnn-32bit/latest/armnn-32.tar.xz'
+    ARMNN_TARBALL: 'https://snapshots.linaro.org/componenets/armnn/latest/armnn.tar.xz'
+    TEST_DIR: '/usr/local/bin'
+    SKIP_INSTALL: false
+run:
+    steps:
+        - cd ./automated/linux/armnn/
+        - ./armnn-unit-tests.sh -s "${SKIP_INSTALL}" -a "${ARMNN_TARBALL}" -d "{TEST_DIR}"

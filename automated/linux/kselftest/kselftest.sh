@@ -6,7 +6,6 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOGFILE="${OUTPUT}/kselftest.txt"
-TESTPROG="kselftest_armhf.tar.gz"
 KSELFTEST_PATH="/opt/kselftests/mainline/"
 
 SCRIPT="$(readlink -f "${0}")"
@@ -21,9 +20,11 @@ ENVIRONMENT=""
 SKIPLIST=""
 TESTPROG_URL=""
 
-if [ "$(uname -m)" = "aarch64" ]
-then
+# Architecture-specific tarball name defaults.
+if [ "$(uname -m)" = "aarch64" ]; then
     TESTPROG="kselftest_aarch64.tar.gz"
+else
+    TESTPROG="kselftest_armhf.tar.gz"
 fi
 
 usage() {
@@ -98,6 +99,11 @@ while getopts "t:s:u:p:L:S:b:g:e:h" opt; do
     esac
 done
 
+# If no explicit URL given, use the default URL for the kselftest tarball.
+if [ -z "${TESTPROG_URL}" ]; then
+    TESTPROG_URL=http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}"
+fi
+
 if [ -n "${SKIPFILE_YAML}" ]; then
     export SKIPFILE_PATH="${SCRIPTPATH}/generated_skipfile"
     generate_skipfile
@@ -110,15 +116,42 @@ fi
 
 
 parse_output() {
-    grep "^selftests:" "${LOGFILE}" > "${RESULT_FILE}"
+    perl -ne '
+    if (m|^# selftests: (.*)$|) {
+	$testdir = $1;
+	$testdir =~ s|[:/]\s*|.|g;
+    } elsif (m|^(?:# )*(not )?ok (?:\d+) ([^#]+)(# (SKIP)?)?|) {
+        $not = $1;
+        $test = $2;
+        $skip = $4;
+        $test =~ s|\s+$||;
+        # If the test name starts with "selftests: " it is "fully qualified".
+        if ($test =~ /selftests: (.*)/) {
+            $test = $1;
+	    $test =~ s|[:/]\s*|.|g;
+        } else {
+            # Otherwise, it likely needs the testdir prepended.
+            $test = "$testdir.$test";
+        }
+        # Any appearance of the SKIP is a skip.
+        if ($skip eq "SKIP") {
+            $result="skip";
+        } elsif ($not eq "not ") {
+            $result="fail";
+        } else {
+            $result="pass";
+        }
+	print "$test $result\n";
+    }
+' "${LOGFILE}" >> "${RESULT_FILE}"
 }
 
 install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-        debian|ubuntu) install_deps "sed wget xz-utils iproute2" "${SKIP_INSTALL}" ;;
-        centos|fedora) install_deps "sed wget xz iproute" "${SKIP_INSTALL}" ;;
+        debian|ubuntu) install_deps "sed perl wget xz-utils iproute2" "${SKIP_INSTALL}" ;;
+        centos|fedora) install_deps "sed perl wget xz iproute" "${SKIP_INSTALL}" ;;
         unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
 }
@@ -135,42 +168,57 @@ if [ -d "${KSELFTEST_PATH}" ]; then
     # shellcheck disable=SC2164
     cd "${KSELFTEST_PATH}"
 else
-    if [ -n "${TESTPROG_URL}" ]; then
-      # Download kselftest tarball from given URL
-      wget "${TESTPROG_URL}" -O kselftest.tar.gz
-    elif [ -n "${TESTPROG}" ]; then
-      # Download and extract kselftest tarball.
-      wget http://testdata.validation.linaro.org/tests/kselftest/"${TESTPROG}" -O kselftest.tar.gz
-    fi
-    tar zxf "kselftest.tar.gz"
+    # Fetch whatever we have been aimed at, assuming only that it can
+    # be handled by "tar". Do not assume anything about the compression.
+    wget "${TESTPROG_URL}"
+    tar -xaf "$(basename "${TESTPROG_URL}")"
     # shellcheck disable=SC2164
     if [ ! -e "run_kselftest.sh" ]; then cd "kselftest"; fi
 fi
 
+skips=$(mktemp -p . -t skip-XXXXXX)
+
 if [ -n "${SKIPLIST}" ]; then
     # shellcheck disable=SC2086
-    for test_name in ${SKIPLIST}; do
-        # shellcheck disable=SC2086
-        sed -e ':a;N;$!ba;s/\n/@/g' -e 's/\t\\\@\t\"'${test_name}'\"//' -e 's/@/\n/g' -i run_kselftest.sh
-        echo "selftests: tmpskipdir: ${test_name}" >> target_skipfile.txt
+    for skip_regex in ${SKIPLIST}; do
+	echo "${skip_regex}" >> "$skips"
     done
 fi
 
 # Ignore SKIPFILE when SKIPLIST provided
 if [ -f "${SKIPFILE}" ] &&  [ -z "${SKIPLIST}" ]; then
-    while read -r test_name; do
-        case "${test_name}" in \#*) continue ;; esac
-        # shellcheck disable=SC2086
-        sed -e ':a;N;$!ba;s/\n/@/g' -e 's/\t\\\@\t\"'${test_name}'\"//' -e 's/@/\n/g' -i run_kselftest.sh
-        echo "selftests: tmpskipdir: ${test_name}" >> target_skipfile.txt
+    while read -r skip_regex; do
+        case "${skip_regex}" in \#*) continue ;; esac
+	echo "${skip_regex}" >> "$skips"
     done < "${SKIPFILE}"
 fi
 
 echo "========================================"
 echo "skiplist:"
-cat target_skipfile.txt
-echo ""
+while read -r skip_regex; do
+	echo "${skip_regex}"
+	perl -pi -e '
+# Discover top-level test directory from: cd TESTDIR
+$testdir=$1 if m|^cd ([^\$]+)\b|;
+# Process each test from: \t"TESTNAME"
+if (m|^\t"([^"]+)"|) {
+	$test = $1;
+	# If the test_regex matches TESTDIR/TESTNAME,
+	# remove it from the run script.
+	$name = "$testdir/$test";
+	if ("$name" =~ m|^'"${skip_regex}"'$|) {
+		s|^\t"[^"]+"|\t|;
+		$name =~ s|/|.|g;
+		# Record each skipped test as having been skipped.
+		open(my $fd, ">>'"${RESULT_FILE}"'");
+		print $fd "$name skip\n";
+		close($fd);
+	}
+}' run_kselftest.sh
+done < "${skips}"
 echo "========================================"
+rm -f "${skips}"
+
 # run_kselftest.sh file generated by kselftest Makefile and included in tarball
-./run_kselftest.sh 2>&1 | tee "${LOGFILE}" | sed 's/^not ok/[FAIL]/'|sed 's/^ok/[PASS]/'|sed 's/://g'|awk '{if ($0 ~ "# SKIP") {$1 = "[SKIP]"} print $0"\n"$3 ": " $4"_"$5 " " $1}'
+./run_kselftest.sh 2>&1 | tee "${LOGFILE}"
 parse_output

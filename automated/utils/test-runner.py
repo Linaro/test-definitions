@@ -434,14 +434,15 @@ class RemoteTestRun(AutomatedTestRun):
 
 
 class ManualTestShell(cmd.Cmd):
-    def __init__(self, test_dict, result_path):
+    def __init__(self, test_dict, result_path, test_case_id):
         cmd.Cmd.__init__(self)
         self.test_dict = test_dict
+        self.test_case_id = test_case_id
         self.result_path = result_path
         self.current_step_index = 0
         self.steps = self.test_dict['run']['steps']
         self.expected = self.test_dict['run']['expected']
-        self.prompt = "%s > " % self.test_dict['metadata']['name']
+        self.prompt = "%s[%s] > " % (self.test_dict['metadata']['name'], self.test_case_id)
         self.result = None
         self.intro = """
         Welcome to manual test executor. Type 'help' for available commands.
@@ -508,7 +509,7 @@ class ManualTestShell(cmd.Cmd):
         print("Recording %s in %s/stdout.log" % (result, self.result_path))
         with open("%s/stdout.log" % self.result_path, "a") as f:
             f.write("<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=%s>" %
-                    (self.test_dict['metadata']['name'], result))
+                    (self.test_case_id, result))
 
     def do_pass(self, line):
         """
@@ -541,7 +542,12 @@ class ManualTestRun(TestRun, cmd.Cmd):
         with open('%s/testdef.yaml' % self.test['test_path'], 'r') as f:
             self.testdef = yaml.safe_load(f)
 
-        ManualTestShell(self.testdef, self.test['test_path']).cmdloop()
+        if 'name' in self.test:
+            test_case_id = self.test['name']
+        else:
+            test_case_id = self.testdef['metadata']['name']
+
+        ManualTestShell(self.testdef, self.test['test_path'], test_case_id).cmdloop()
 
     def check_result(self):
         pass
@@ -758,7 +764,10 @@ class ResultParser(object):
                         if result_match:
                             data['result'] = result_match.group(1)
                         if measurement_match:
-                            data['measurement'] = measurement_match.group(1)
+                            try:
+                                data['measurement'] = float(measurement_match.group(1))
+                            except ValueError as e:
+                                pass
                         if units_match:
                             data['units'] = units_match.group(1)
 

@@ -7,7 +7,7 @@ error_fatal() {
     # shellcheck disable=SC2039
     local msg="$1"
     [ -z "${msg}" ] && msg="Unknown error"
-    if which lava-test-raise;then
+    if command -v lava-test-raise; then
         lava-test-raise "${msg}"
     else
         printf "FATAL ERROR: %s\n" "${msg}" >&2
@@ -161,6 +161,25 @@ report_skip() {
     # shellcheck disable=SC2039
     local test_case="$1"
     echo "${test_case} skip" | tee -a "${RESULT_FILE}"
+}
+
+report_unknown() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_unknown test_case"
+    # shellcheck disable=SC2039
+    local test_case="$1"
+    echo "${test_case} unknown" | tee -a "${RESULT_FILE}"
+}
+
+report_set_start() {
+    [ "$#" -ne 1 ] && error_msg "Usage: report_set_start <test_set>"
+    # shellcheck disable=SC2039
+    local test_set_name="$1"
+    echo "lava-test-set start ${test_set_name}" | tee -a "${RESULT_FILE}"
+}
+
+report_set_stop() {
+    [ "$#" -ne 0 ] && error_msg "Usage: report_set_stop"
+    echo "lava-test-set stop" | tee -a "${RESULT_FILE}"
 }
 
 add_metric() {
@@ -475,4 +494,208 @@ generate_skipfile() {
     info_msg "Using the following generated skipfile contents (until EOF):"
     cat "${SKIPFILE_PATH}"
     info_msg "EOF"
+}
+
+# Description: parted is not working on SSD (Solid-State Drives) this is the
+# reason to use fdisk instead.
+# Dependency packages for fdisk and mkfs are "fdisk e2fsprogs dosfstools"
+# fdisk and mkfs commands might be in $PATH /sbin or /usr/sbin or
+# /usr/local/sbin export PATH for better usage.
+export PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
+
+
+# Usage:
+# partition_disk "/dev/sdb" "+5G +10G"
+# shellcheck disable=SC2039
+partition_disk() {
+    # when sizes is empty it creates single partitions with total disk size
+    [ "$#" -ne 1 ] && error_msg "Usage: <block-device> <sizes>"
+    local device="$1"
+    local sizes="$2"
+
+    command -v fdisk
+    exit_on_fail "fdisk not in ${PATH} or not installed"
+
+    # Create a new empty DOS partition table
+    (
+    echo o
+    echo w) | fdisk "${device}"
+
+    if [ -n "${sizes}" ]; then
+        # Create partitions as per sizes
+        for size in ${sizes}; do
+            # Create patitions with ${size}
+            (
+            echo n
+            echo p
+            echo
+            echo
+            echo "${size}"
+            echo w) | fdisk "${device}"
+            check_return "fdisk-${device}-${size}-partition"
+            # sync and wait 5 sec
+            sync
+            sleep 5
+        done
+    fi
+
+    # Create a partition at the end.
+    # Use the rest of the disk.
+    (
+    echo n
+    echo p
+    echo
+    echo
+    echo
+    echo w) | fdisk "${device}"
+    check_return "fdisk-${device}-end-partition"
+    # sync and wait 5 sec
+    sync
+    sleep 5
+}
+# Usage:
+# format_partitions "/dev/sdb" "ext4"
+# shellcheck disable=SC2039
+format_partitions() {
+    [ "$#" -ne 2 ] && error_msg "Usage: <block-device> <filesystem-type>"
+    local device="$1"
+    local filesystem="$2"
+    local partition=""
+    local total_partitions=""
+
+    command -v mkfs
+    exit_on_fail "mkfs not in ${PATH} or not installed"
+
+    # Total partitions in a block device
+    total_partitions=$(find "${device}"* | grep "[0-9]" | tr '\n' ' ' )
+
+    # Format each partition in a given block device
+    for partition in ${total_partitions} ; do
+        echo "Formatting ${partition} to ${filesystem}"
+        if [ "${filesystem}" = "fat32" ]; then
+            echo "y" | mkfs -t vfat -F 32 "${partition}"
+            check_return " mkfs-t-vfat-F-32-${partition}"
+        else
+            echo "y" | mkfs -t "${filesystem}" "${partition}"
+            check_return "mkfs-${filesystem}-${partition}"
+        fi
+        # sync and wait 5 sec
+        sync
+        sleep 5
+    done
+}
+
+background_process_start() {
+    NAME="$1"
+    shift
+    if [ -z "$NAME" ]; then
+	err_msg "Usage: background-process-start NAME --cmd PROCESS"
+    fi
+
+    while [ $# -gt 0 ]; do
+	case $1 in
+            --cmd)
+		shift
+		PROCESS="$*"
+		shift
+		;;
+            *)
+		err_msg "Unhandled argument"
+		;;
+	esac
+    done
+
+    if [ -z "${PROCESS}" ]; then
+	return
+    fi
+
+    result_dir="${OUTPUT}/results/$NAME"
+    mkdir -p "${result_dir}"
+
+    cat <<EOF > "${result_dir}/bg_run.sh"
+set -e
+trap "exit" SIGHUP SIGINT SIGTERM
+while true; do
+  $PROCESS > /dev/null
+  sleep 1
+done
+EOF
+
+    /bin/bash "${result_dir}/bg_run.sh" &
+    echo $! > "${result_dir}/pid"
+}
+
+background_process_stop() {
+    NAME="$1"
+    shift
+    if [ -z "${NAME}" ]; then
+	err_msg "Usage: background-process-stop NAME"
+    fi
+
+    result_dir="${OUTPUT}/results/${NAME}"
+
+    if [ ! -d "${result_dir}" ] ; then
+	return
+    fi
+
+    PID=$(cat "${result_dir}/pid")
+
+    if ps -p "${PID}" > /dev/null;
+    then
+	kill "${PID}" > /dev/null 2>&1
+    fi
+}
+
+# register the current dmesg
+dmesg_capture_start()
+{
+	dmesg --console-off
+	dmesg > "$OUTPUT/dmesg.test.start"
+}
+
+# Print all kernel messages that appears since last dmesg_capture_start
+dmesg_capture_result() {
+	echo "=============================================="
+	dmesg > "$OUTPUT/dmesg.test.result"
+	diff -u "$OUTPUT/dmesg.test.start" "$OUTPUT/dmesg.test.result"
+	# restore normal dmesg behavour
+	dmesg --console-on
+	echo "=============================================="
+}
+
+# shellcheck disable=SC2039
+get_test_program() {
+	local test_git_url="$1"
+	local test_dir="$2"
+	local test_prog_version="$3"
+	local test_program="$4"
+	if [ ! -d "$test_dir" ] || [ -d "$test_dir"/.git ]; then
+		if [ "$test_prog_version" != "" ]; then
+			if [ -d "$test_dir"/.git ]; then
+				echo Using repository "$PATH"
+			else
+				git clone "$test_git_url" "$test_dir"
+			fi
+
+			cd "$test_dir" || exit 1
+			if [ "$test_prog_version" != "" ]; then
+				if ! git reset --hard "$test_prog_version"; then
+					echo Failed to set "${test_program}" to commit "$test_prog_version", sorry
+					exit 1
+				fi
+			else
+				echo Using "$PATH"
+			fi
+		else
+			echo Assuming "${test_program}" is pre-installed in "$test_dir"
+			cd "$test_dir" || exit 1
+		fi
+	else
+		if [ ! -d "$test_dir" ]; then
+			echo No "${test_program}" suite in "$test_dir", sorry
+			exit 1
+		fi
+		echo Assuming "${test_program}" is pre-installed in "$test_dir"
+		cd "$test_dir" || exit 1
+	fi
 }

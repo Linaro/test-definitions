@@ -10,20 +10,20 @@ RESULT_FILE="${OUTPUT}/result.txt"
 
 PRIORITY="98"
 THREADS="2"
-MAX_LATENCY="100"
 DURATION="1m"
+BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-r runtime] [-p priority] [-t threads] [-m latency]" 1>&2
+    echo "Usage: $0 [-r runtime] [-p priority] [-t threads] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":p:t:D:m:" opt; do
+while getopts ":p:t:D:w:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
 	D) DURATION="${OPTARG}" ;;
-	m) MAX_LATENCY="${OPTARG}" ;;
+	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -32,15 +32,19 @@ done
 create_out_dir "${OUTPUT}"
 
 # Run signaltest.
-if ! binary=$(which signaltest); then
+if ! binary=$(command -v signaltest); then
     detect_abi
     # shellcheck disable=SC2154
     binary="./bin/${abi}/signaltest"
 fi
 
+background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
+
 "${binary}" -D "${DURATION}" -m -p "${PRIORITY}" -t "${THREADS}" \
     | tee "${LOGFILE}"
 
+background_process_stop bgcmd
+
 # Parse test log.
-../../lib/parse_rt_tests_results.py signaltest "${LOGFILE}" "${MAX_LATENCY}" \
+../../lib/parse_rt_tests_results.py signaltest "${LOGFILE}" \
     | tee -a "${RESULT_FILE}"

@@ -28,7 +28,7 @@ case "${dist}" in
         cp ./debian-nginx.conf /etc/nginx/sites-available/default
         systemctl restart nginx
         systemctl restart mysql
-        systemctl restart php7.0-fpm
+        systemctl restart php7.4-fpm
         ;;
     centos)
         # x86_64 nginx package can be installed from epel repo. However, epel

@@ -15,21 +15,21 @@ INTERVAL="1000"
 THREADS="1"
 AFFINITY="0"
 DURATION="1m"
-MAX_LATENCY="50"
+BACKGROUND_CMD=""
 
 usage() {
-    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-a affinity] [-D duration ] [-m latency]" 1>&2
+    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-a affinity] [-D duration ] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":p:i:t:a:D:m:" opt; do
+while getopts ":p:i:t:a:D:w:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         i) INTERVAL="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
 	a) AFFINITY="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
-	m) MAX_LATENCY="${OPTARG}" ;;
+	w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -38,14 +38,19 @@ done
 create_out_dir "${OUTPUT}"
 
 # Run cyclictest.
-if ! binary=$(which cyclictest); then
+if ! binary=$(command -v cyclictest); then
     detect_abi
     # shellcheck disable=SC2154
     binary="./bin/${abi}/cyclictest"
 fi
-"${binary}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
+
+background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
+
+"${binary}" -q -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
     -D "${DURATION}" -m | tee "${LOGFILE}"
 
+background_process_stop bgcmd
+
 # Parse test log.
-../../lib/parse_rt_tests_results.py cyclictest "${LOGFILE}" "${MAX_LATENCY}" \
+../../lib/parse_rt_tests_results.py cyclictest "${LOGFILE}" \
     | tee -a "${RESULT_FILE}"

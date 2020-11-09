@@ -29,13 +29,8 @@ import re
 import sys
 
 
-def print_res(res, key, thr):
-    val = res[key]
-    label = 'pass'
-    if key == 'max':
-        if int(val) >= int(thr):
-            label = 'fail'
-    print('t{}-{}-latency {} {} us'.format(res['t'], key, label, val))
+def print_res(res, key):
+    print('t{}-{}-latency pass {} us'.format(res['t'], key, res[key]))
 
 
 def get_block(filename):
@@ -76,7 +71,7 @@ def get_lastlines(filename):
         return b.split('\n')
 
 
-def parse_cyclictest(filename, thr):
+def parse_cyclictest(filename):
     fields = ['t', 'min', 'avg', 'max']
 
     r = re.compile('[ :\n]+')
@@ -91,12 +86,12 @@ def parse_cyclictest(filename, thr):
             if e in fields:
                 res[e] = next(it)
 
-        print_res(res, 'min', thr)
-        print_res(res, 'avg', thr)
-        print_res(res, 'max', thr)
+        print_res(res, 'min')
+        print_res(res, 'avg')
+        print_res(res, 'max')
 
 
-def parse_pmqtest(filename, thr):
+def parse_pmqtest(filename):
     fields = ['min', 'avg', 'max']
 
     rl = re.compile('[ ,:\n]+')
@@ -117,17 +112,18 @@ def parse_pmqtest(filename, thr):
         data = rt.split(line)
         res['t'] = '{}-{}'.format(data[1], data[3])
 
-        print_res(res, 'min', thr)
-        print_res(res, 'avg', thr)
-        print_res(res, 'max', thr)
+        print_res(res, 'min')
+        print_res(res, 'avg')
+        print_res(res, 'max')
 
 
 def main():
     tool = sys.argv[1]
+    logfile = sys.argv[2]
     if tool in ['cyclictest', 'signaltest', 'cyclicdeadline']:
-        parse_cyclictest(sys.argv[2], int(sys.argv[3]))
+        parse_cyclictest(logfile)
     elif tool in ['pmqtest', 'ptsematest', 'sigwaittest', 'svsematest']:
-        parse_pmqtest(sys.argv[2], int(sys.argv[3]))
+        parse_pmqtest(logfile)
 
 
 if __name__ == '__main__':

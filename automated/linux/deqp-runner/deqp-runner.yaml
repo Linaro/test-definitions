@@ -1,0 +1,33 @@
+metadata:
+    format: "Lava-Test Test Definition 1.0"
+    name: deqp-runner
+    description: "The drawElements Quality Program (deqp) Testing allows to test OpenGL API's, uses
+                  OpenGL ES CTS from https://github.com/KhronosGroup/VK-GL-CTS."
+
+    maintainer:
+        - anibal.limon@linaro.org
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+        - dragonboard820c
+        - dragonboard845c
+
+params:
+    DISPLAY: ":0"
+    EGL_PLATFORM: "surfaceless"
+    DEQP_BIN: "deqp-gles2"
+    DEQP_CASES: ""
+    DEQP_FAIL: ""
+    DEQP_EXCLUDE: ""
+    DEQP_RUNNER_OPTIONS: "--compact-display false --shuffle false --allow-flakes true"
+    DEQP_RUNNER_JOBS: ""
+    DEQP_OPTIONS: "--deqp-surface-width=256 --deqp-surface-height=256 --deqp-surface-type=pbuffer --deqp-gl-config-name=rgba8888d24s8ms0 --deqp-visibility=hidden --deqp-shadercache=disable"
+
+run:
+    steps:
+        - cd ./automated/linux/deqp-runner
+        - ./deqp-runner.sh -b "${DEQP_BIN}" -d "${DISPLAY}" -p "${EGL_PLATFORM}" -c "${DEQP_CASES}" -f "${DEQP_FAIL}" -e "${DEQP_EXCLUDE}" -r "${DEQP_RUNNER_OPTIONS}" -j "${DEQP_RUNNER_JOBS}" -o "${DEQP_OPTIONS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

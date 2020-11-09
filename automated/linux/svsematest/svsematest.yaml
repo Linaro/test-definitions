@@ -30,12 +30,11 @@ metadata:
 params:
     # Execute svsematest for given time
     DURATION: "5m"
-    # Maximal accepted latency in us
-    # This value is device/kernel specific and needs to be set in the job!
-    MAX_LATENCY: "100"
+    # Background workload to be run during the meassurement
+    BACKGROUND_CMD: ""
 
 run:
     steps:
         - cd ./automated/linux/svsematest
-        - ./svsematest.sh -D "${DURATION}" -m "${MAX_LATENCY}"
+        - ./svsematest.sh -D "${DURATION}" -w "${BACKGROUND_CMD}"
         - ../../utils/send-to-lava.sh ./output/result.txt

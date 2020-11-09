@@ -3,6 +3,8 @@
 RESULT_LOG="result.log"
 DUMP_FRAMES_DIR="/root/dump-frames"
 
+export IGT_TEST_ROOT="/usr/libexec/igt-gpu-tools"
+
 generate_igtrc() {
 cd "$HOME" || exit 1
 
@@ -26,16 +28,7 @@ generate_chamelium_testlist() {
     echo "Generate Chamelium test list"
     TEST_LIST=igt-chamelium-test.testlist
     # Skip Display Port/VGA and Suspend/Hibrnate related tests
-    ${TEST_SCRIPT} -l | grep chamelium | grep -v "dp\|vga\|suspend\|hibernate" | tee "${IGT_DIR}"/"${TEST_LIST}"
-}
-
-download_piglit() {
-    # Download Piglit
-    git config --global http.postBuffer 157286400
-    if [ ! -d "${IGT_DIR}/piglit" ]; then
-        echo "Download Piglit.."
-        time ${TEST_SCRIPT} -d
-    fi
+    ${TEST_RUNNER} --list-all | grep chamelium | grep -v "dp\|vga\|suspend\|hibernate" | tee "${IGT_DIR}"/"${TEST_LIST}"
 }
 
 usage() {
@@ -53,23 +46,21 @@ while getopts ":c:h:d:t:" opt; do
     esac
 done
 
+TEST_RUNNER="${IGT_DIR}/runner/igt_runner"
+
 if [ -z "${IGT_DIR}" ] || [ -z "${TEST_LIST}" ]; then
     usage
+fi
+
+if [ ! -f "${TEST_RUNNER}" ]; then
+    echo "Can not find ${TEST_RUNNER}"
+    exit 1
 fi
 
 if [ "${TEST_LIST}" = "CHAMELIUM" ]; then
     if [ -z "${CHAMELIUM_IP}" ] || [ -z "${HDMI_DEV_NAME}" ]; then
         usage
     fi
-fi
-
-TEST_SCRIPT="${IGT_DIR}/scripts/run-tests.sh"
-
-export IGT_TEST_ROOT="/usr/libexec/igt-gpu-tools"
-
-if [ ! -f "${IGT_DIR}/runner/igt_runner" ]; then
-    ${TEST_SCRIPT} --help | grep -q '\-p' && TEST_SCRIPT="${TEST_SCRIPT} -p"
-    download_piglit
 fi
 
 if [ "${TEST_LIST}" == "CHAMELIUM" ]; then
@@ -86,5 +77,5 @@ fi
 
 # Run tests
 echo "Run ${TEST_LIST}"
-${TEST_SCRIPT} -T "${IGT_DIR}"/"${TEST_LIST}" -v | tee tmp.log
+${TEST_RUNNER} --dmesg-warn-level 0 --test-list "${IGT_DIR}"/"${TEST_LIST}" --log-level verbose "${IGT_DIR}"/results | tee tmp.log
 grep -e '^pass' -e '^skip' -e '^fail' tmp.log|awk -F':\ ' '{print $2" "$1}' > ${RESULT_LOG}

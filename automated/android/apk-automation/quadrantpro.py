@@ -24,7 +24,15 @@ class ApkRunnerImpl(ApkTestRunner):
             self.dump_always()
             view_license_btn = self.vc.findViewWithText("View license")
             run_full_item = self.vc.findViewWithText(u'Run full benchmark')
-            if view_license_btn:
+            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
+            continue_btn = self.vc.findViewWithText(u'CONTINUE')
+            if warn_msg:
+                self.logger.info("Older version warning popped up")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn.touch()
+            elif continue_btn:
+                continue_btn.touch()
+            elif view_license_btn:
                 ok_button = self.vc.findViewWithTextOrRaise("OK")
                 ok_button.touch()
             elif run_full_item:
