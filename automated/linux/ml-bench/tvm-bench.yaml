@@ -1,0 +1,23 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: tvm-benchmark
+    description: "Part of ml-bench, tvm-bench tests various ml benchmarks using tvm."
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - synquacer
+        - dragonboard-845c
+        - hi960-hikey
+        - stm32mp1
+params:
+    TVM_WHEEL: 'https://github.com/tlc-pack/tlcpack/releases/download/v0.7.dev1/tlcpack-0.7.dev1-cp38-cp38-manylinux2010_x86_64.whl'
+    TVM_BENCH: 'https://github.com/tom-gall/tvm-bench.git'
+    SKIP_INSTALL: false
+run:
+    steps:
+        - cd ./automated/linux/ml-bench/
+        - ./tvm-bench.sh -s "${SKIP_INSTALL}" -a "${TVM_WHEEL}" -t "${TVM_BENCH}"
