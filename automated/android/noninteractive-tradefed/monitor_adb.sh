@@ -2,7 +2,12 @@
 while true;
 do
     date
+    echo "output of lsusb"
     lsusb
+    echo "output of adb devices"
     adb devices
-    sleep 30
+    echo "output of fastboot devices"
+    fastboot devices
+    echo "end for the debug commands"
+    sleep 60
 done
