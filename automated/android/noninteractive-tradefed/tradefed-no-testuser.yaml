@@ -46,16 +46,10 @@ run:
         # Run setup.sh in the original shell to reserve env variables.
         - . ./setup.sh
         - echo "after ./setup.sh"
-        # delete the test user to clean environment
-        - userdel testuser -r -f || true
-        # create test use to run the cts/vts tests
-        - useradd -m testuser && echo "testuser created successfully"
-        - chown testuser:testuser .
         - if echo "${TEST_REBOOT_EXPECTED}" |grep -i "true" ; then ./monitor_fastboot.sh & fi
-        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" || true
+        - ./monitor_adb.sh &
+        - ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" || true
         # Upload test log and result files to artifactorial.
-        - sudo -u testuser lsusb -v > ./output/lsusb-with-testuser.txt
-        - lsusb -v > ./output/lsusb-with-normal-user.txt
         - cp -r ./${TEST_PATH}/results ./output/ || true
         - cp -r ./${TEST_PATH}/logs ./output/ || true
         # Include logs dumped from TF shell 'd l' command.
@@ -65,7 +59,7 @@ run:
         - ../../utils/upload-to-artifactorial.sh -a "${ATTACHMENT}" -u "${URL}" -t "${TOKEN}"
         # Send test result to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
-        - userdel testuser -f -r || true
         # When adb device lost, end test job to mark it as 'incomplete'.
         - if ! adb shell echo ok; then lsusb -v; adb devices; fastboot devices; error_fatal "tradefed - adb device lost[$ANDROID_SERIAL]"; fi
         - if echo "${TEST_REBOOT_EXPECTED}" |grep -i "true" ; then killall monitor_fastboot.sh; fi
+        - killall monitor_adb.sh
