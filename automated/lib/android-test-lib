@@ -62,7 +62,12 @@ adb_root() {
     if [ "$(adb shell whoami)" = "root" ]; then
         echo "DUT already has adbd running as root"
     else
+        echo "lsusb -v before adb root"
+        lsusb -v
         adb root || info_msg "adb root timed out"
+        sleep 10
+        echo "lsusb -v after adb root"
+        lsusb -v
         timeout 600 adb wait-for-device || error_fatal "Device NOT found!"
         adb devices
         # After adb root, device number within the USB bus changes.
