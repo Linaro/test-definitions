@@ -27,6 +27,7 @@ case "${dist}" in
         ;;
 esac
 
-install_latest_adb
+#install_latest_adb
+lsusb -v
 initialize_adb
-adb_root
+#adb_root
