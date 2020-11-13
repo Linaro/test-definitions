@@ -21,14 +21,13 @@ AP_SSID=""
 AP_KEY=""
 
 usage() {
-    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>]" 1>&2
+    echo "Usage: $0 [-o timeout] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>]" 1>&2
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:f:a:k:' opt; do
+while getopts ':o:c:t:p:r:f:a:k:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
-        n) export ANDROID_SERIAL="${OPTARG}" ;;
         c) TEST_URL="${OPTARG}" ;;
         t) TEST_PARAMS="${OPTARG}" ;;
         p) TEST_PATH="${OPTARG}" ;;
@@ -40,6 +39,9 @@ while getopts ':o:n:c:t:p:r:f:a:k:' opt; do
     esac
 done
 
+adb kill-server
+initialize_adb
+adb_root
 wait_boot_completed "${TIMEOUT}"
 disable_suspend
 # wait_homescreen() searches logcat output for
