@@ -1,0 +1,43 @@
+metadata:
+    name: boottime
+    format: "Lava-Test Test Definition 1.0"
+    description: "collect the boottime data many times and try to analyse,
+                  when run more than 4 times(including), the average will be
+                  calculated without the maximum and the minimum, if run less
+                  than or equal to 3 times, the average will be calculated with
+                  all data.
+                  If there are multiple android devices connected to
+                  the host, please export the android serial number via the
+                  ANDROID_SERIAL environment variable before running the scripts"
+    maintainer:
+        - yongqin.liu@linaro.org
+        - chase.qi@linaro.org
+    os:
+        - android
+    scope:
+        - performance
+    devices:
+        - juno
+        - hi6220-hikey
+
+params:
+    # specify the android version
+    ANDROID_VERSION: ""
+    # specify true or false to skip or not the installation of lxc packages
+    SKIP_INSTALL: "false"
+    # Specify timeout in seconds for wait_boot_completed.
+    BOOT_TIMEOUT: "300"
+    # Available operations: COLLECT or ANALYZE
+    OPERATION: "COLLECT"
+    COLLECT_NO: "1"
+    # Specify url and token for file uploading.
+    URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    TOKEN: ""
+
+run:
+    steps:
+        - cd ./automated/android/boottest
+        - ./boottest.sh
+        - if [ -f ./output/lsusb-v-before-reboot.txt ]; then ../../utils/send-to-lava.sh output/lsusb-v-before-reboot.txt; fi
+        - if [ -f ./output/lsusb-v-before-fastboot.txt ]; then ../../utils/send-to-lava.sh output/lsusb-v-before-fastboot.txt; fi
+        - if [ -f ./output/lsusb-v-after-booted.txt ]; then ../../utils/send-to-lava.sh output/lsusb-v-after-booted.txt; fi
