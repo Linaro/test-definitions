@@ -16,7 +16,7 @@ create_out_dir "${OUTPUT}"
 
 # LAVA itself will begin the test only after reaching to prompt.
 # It is safe to report that system has booted to prompt
-echo "BOOT_TO_CONSOLE pass" > ./boot_result.txt
+echo "BOOT_TO_CONSOLE pass" > ./${OUTPUT}/boot_result.txt
 
 initialize_adb # ANDROID_SERIAL exported here
 lsusb -v |tee output/lsusb-v-before-adb-root.txt
@@ -33,3 +33,4 @@ fastboot boot /lava-lxc/*boot*.img
 adb wait-for-device
 lsusb -v |tee output/lsusb-v-after-booted.txt
 wait_boot_completed "${BOOT_TIMEOUT}"
+echo "BOOT_AGAIN_AFTER_REBOOT pass" > ./${OUTPUT}/boot_result.txt
