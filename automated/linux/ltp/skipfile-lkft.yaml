@@ -308,3 +308,15 @@ skiplist:
       - all
     tests:
       - memcg_stress
+
+  - reason: >
+      skip long running LTP bind06 and cve-2018-18559 on all devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=5721
+    environments: production
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - bind06
+      - cve-2018-18559
