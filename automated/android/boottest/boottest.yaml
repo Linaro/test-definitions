@@ -38,6 +38,7 @@ run:
     steps:
         - cd ./automated/android/boottest
         - ./boottest.sh
+        - if [ -f ./output/lsusb-v-before-adb-root.txt ]; then ../../utils/send-to-lava.sh output/lsusb-v-before-adb-root.txt; fi
         - if [ -f ./output/lsusb-v-before-reboot.txt ]; then ../../utils/send-to-lava.sh output/lsusb-v-before-reboot.txt; fi
         - if [ -f ./output/lsusb-v-before-fastboot.txt ]; then ../../utils/send-to-lava.sh output/lsusb-v-before-fastboot.txt; fi
         - if [ -f ./output/lsusb-v-after-booted.txt ]; then ../../utils/send-to-lava.sh output/lsusb-v-after-booted.txt; fi
