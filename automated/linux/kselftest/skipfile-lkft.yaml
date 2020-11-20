@@ -28,6 +28,7 @@ skiplist:
     environments: all
     boards: all
     branches:
+      - next
       - mainline
       - 5.10
       - 5.9
