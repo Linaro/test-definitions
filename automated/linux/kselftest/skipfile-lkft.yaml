@@ -52,7 +52,7 @@ skiplist:
       - v4.9-rt
       - v4.4-rt
     tests:
-      - ftrace/ftracetest
+      - ftrace:ftracetest
 
   - reason: "LKFT: linux-next: kselftest: breakpoint_test_arm64 build failed"
     url: https://bugs.linaro.org/show_bug.cgi?id=3208
@@ -66,7 +66,7 @@ skiplist:
       - nxp-ls2088
     branches: all
     tests:
-      - breakpoints/breakpoint_test_arm64
+      - breakpoints:breakpoint_test_arm64
 
   - reason:
     url:
@@ -74,7 +74,7 @@ skiplist:
     boards: all
     branches: all
     tests:
-      - breakpoints/step_after_suspend_test
+      - breakpoints:step_after_suspend_test
 
   - reason:
     url:
@@ -82,18 +82,18 @@ skiplist:
     boards: all
     branches: all
     tests:
-      - breakpoints/breakpoint_test
+      - breakpoints:breakpoint_test
 
   - reason:
     url:
-    environments: all 
+    environments: all
     boards:
       - qemu_arm
       - qemu_arm64
     branches: all
     tests:
-      - .*/mq_open_tests
-      - .*/mq_perf_tests
+      - mqueue:mq_open_tests
+      - mqueue:mq_perf_tests
 
   - reason:
       mq_perf_tests runs long so skipping
@@ -107,7 +107,7 @@ skiplist:
       - nxp-ls2088
     branches: all
     tests:
-      - .*/mq_perf_tests
+      - mqueue:mq_perf_tests
 
   - reason: >
       LKFT: Kselftest: rseq: Warning: file basic_test is not executable
@@ -124,7 +124,7 @@ skiplist:
     branches:
       - all
     tests:
-      - rseq/run_param_test.sh
+      - rseq:run_param_test.sh
 
   - reason: >
       LKFT: next: bpf: test_kmod.sh hangs on all devices
@@ -134,7 +134,7 @@ skiplist:
     branches:
       - mainline
     tests:
-      - kmod/test_kmod.sh
+      - kmod:test_kmod.sh
 
   - reason: >
       net: udpgro.sh hangs on i386 running next
@@ -146,7 +146,7 @@ skiplist:
       - next
       - mainline
     tests:
-      - net/udpgro.sh
+      - net:udpgro.sh
 
   - reason: >
       net: xfrm_policy.sh hangs on i386 running next
@@ -156,7 +156,7 @@ skiplist:
       - i386
     branches: all
     tests:
-      - net/xfrm_policy.sh
+      - net:xfrm_policy.sh
 
   - reason: >
       net: run_afpackettests hangs on hikey running 4.19 mainline
@@ -166,7 +166,7 @@ skiplist:
     branches:
       - mainline
     tests:
-      - net/run_afpackettests
+      - net:run_afpackettests
 
   - reason: >
       proc: proc-pid-vm hangs on x86_64 running next
@@ -177,7 +177,7 @@ skiplist:
       - x86
     branches: all
     tests:
-      - proc/proc-pid-vm
+      - proc:proc-pid-vm
 
   - reason: >
       LKFT: arm64/arm: selftest sync_test hangs on 4.9
@@ -196,7 +196,7 @@ skiplist:
       - linux-4.9.y
       - v4.9-rt
     tests:
-      - sync/sync_test
+      - sync:sync_test
 
   - reason: >
       LKFT: next: next: msg_zerocopy.sh hangs on all devices
@@ -206,7 +206,7 @@ skiplist:
     branches:
       - next
     tests:
-      - net/msg_zerocopy.sh
+      - net:msg_zerocopy.sh
 
   - reason: >
       LKFT: next: next: zram.sh hangs on all devices
@@ -216,7 +216,7 @@ skiplist:
     branches:
       - next
     tests:
-      - zram/zram.sh
+      - zram:zram.sh
 
   - reason: >
       LKFT: next: test_btf hangs on all devices
@@ -229,7 +229,7 @@ skiplist:
       - default
       - master
     tests:
-      - .*/test_btf
+      - bpf:test_btf
 
   - reason: >
       LKFT: 4.19: test_progs hangs on all devices
@@ -246,7 +246,7 @@ skiplist:
       - linux-4.19.y
       - v4.19-rt
     tests:
-      - .*/test_progs
+      - bpf:test_progs
 
   - reason: >
       Newly added selftests netfilter nft_nat.sh hangs on x86_64.
@@ -261,7 +261,7 @@ skiplist:
     branches:
       - all
     tests:
-      - netfilter/nft_nat.sh
+      - netfilter:nft_nat.sh
 
   - reason: >
       Newly added test case selftests netfilter conntrack_icmp_related.sh hangs on qemu_x86_64.
@@ -274,7 +274,7 @@ skiplist:
     branches:
       - all
     tests:
-      - netfilter/conntrack_icmp_related.sh
+      - netfilter:conntrack_icmp_related.sh
 
   - reason: >
       next: i386: selftests net rtnetlink.sh test hangs intermittently
@@ -285,7 +285,7 @@ skiplist:
     branches:
       - all
     tests:
-      - net/rtnetlink.sh
+      - net:rtnetlink.sh
 
   - reason: >
       x86_64 is using NFS root file system the net and netfilter tests performing
@@ -297,9 +297,9 @@ skiplist:
     branches:
       - all
     tests:
-      - netfilter/nft_trans_stress.sh
-      - netfilter/bridge_brouter.sh
-      - netfilter/nft_flowtable.sh
+      - netfilter:nft_trans_stress.sh
+      - netfilter:bridge_brouter.sh
+      - netfilter:nft_flowtable.sh
   - reason: >
       pidfd: pidfd_wait hangs on linux next on all devices
       pidfd_wait.c:208:wait_nonblock:Expected sys_waitid(P_PIDFD, pidfd, &info, WSTOPPED, NULL) (-1) == 0 (0)
@@ -311,7 +311,7 @@ skiplist:
     branches:
       - all
     tests:
-      - pidfd/pidfd_wait
+      - pidfd:pidfd_wait
   - reason: >
       ptrace vmaccess hangs on all devices on stable rc 4.19 branch and lower
       kernel versions
@@ -333,4 +333,4 @@ skiplist:
       - v4.14-rt
       - v4.19-rt
     tests:
-      - ptrace/vmaccess
+      - ptrace:vmaccess

@@ -193,28 +193,13 @@ if [ -f "${SKIPFILE}" ] &&  [ -z "${SKIPLIST}" ]; then
     done < "${SKIPFILE}"
 fi
 
-echo "========================================"
+cp kselftest-list.txt kselftest-list.txt.orig
 echo "skiplist:"
+echo "========================================"
 while read -r skip_regex; do
-	echo "${skip_regex}"
-	perl -pi -e '
-# Discover top-level test directory from: cd TESTDIR
-$testdir=$1 if m|^cd ([^\$]+)\b|;
-# Process each test from: \t"TESTNAME"
-if (m|^\t"([^"]+)"|) {
-	$test = $1;
-	# If the test_regex matches TESTDIR/TESTNAME,
-	# remove it from the run script.
-	$name = "$testdir/$test";
-	if ("$name" =~ m|^'"${skip_regex}"'$|) {
-		s|^\t"[^"]+"|\t|;
-		$name =~ s|/|.|g;
-		# Record each skipped test as having been skipped.
-		open(my $fd, ">>'"${RESULT_FILE}"'");
-		print $fd "$name skip\n";
-		close($fd);
-	}
-}' run_kselftest.sh
+    echo "$skip_regex"
+    # Remove matching tests from list of tests to run and report it as skipped
+    perl -i -ne 'if (s|^('"${skip_regex}"')$|\1 skip|) { print STDERR; } else { print; }' kselftest-list.txt 2>>"${RESULT_FILE}"
 done < "${skips}"
 echo "========================================"
 rm -f "${skips}"
