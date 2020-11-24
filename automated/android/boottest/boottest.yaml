@@ -37,7 +37,13 @@ params:
 run:
     steps:
         - cd ./automated/android/boottest
-        - ./boottest.sh
+        # delete the test user to clean environment
+        - userdel testuser -r -f || true
+        # create test use to run the cts/vts tests
+        - useradd -m testuser && echo "testuser created successfully"
+        - chown testuser:testuser .
+        - sudo -u testuser ./boottest.sh
+        - userdel testuser -f -r || true
         - zip -r output.zip output
-        - ../../utils/upload-to-artifactorial.sh -a "output.tgz" -u "${URL}" -t "${TOKEN}"
+        - ../../utils/upload-to-artifactorial.sh -a "output.zip" -u "${URL}" -t "${TOKEN}"
         - ../../utils/send-to-lava.sh ./output/boot_result.txt
