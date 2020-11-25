@@ -36,12 +36,21 @@ params:
 
 run:
     steps:
+        # wait for 300 seconds, when the device should be booted
+        - sleep 300
         - cd ./automated/android/boottest
         # delete the test user to clean environment
+        - id
+        - mkdir -p output
+        - lsusb -v |tee output/lsusb-v-root.txt
+        - adb devices
+        - adb shell id
         - userdel testuser -r -f || true
         # create test use to run the cts/vts tests
         - useradd -m testuser && echo "testuser created successfully"
         - chown testuser:testuser .
+        - sudo -u testuser adb devices
+        - sudo -u testuser adb shell id
         - sudo -u testuser ./boottest.sh
         - userdel testuser -f -r || true
         - zip -r output.zip output
