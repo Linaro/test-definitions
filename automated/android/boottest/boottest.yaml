@@ -54,6 +54,7 @@ run:
         # run test to reboot
         - sudo -u testuser ./boottest.sh
         - userdel testuser -f -r || true
+        - dmesg > output/dmesg.txt
         - zip -r output.zip output
         - ../../utils/upload-to-artifactorial.sh -a "output.zip" -u "${URL}" -t "${TOKEN}"
         - ../../utils/send-to-lava.sh ./output/boot_result.txt
