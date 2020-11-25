@@ -10,7 +10,7 @@ SKIP_INSTALL='false'
 . ../../lib/sh-test-lib
 . ../../lib/android-test-lib
 
-install_deps 'curl tar xz-utils usbutils' "${SKIP_INSTALL}"
+#install_deps 'curl tar xz-utils usbutils' "${SKIP_INSTALL}"
 
 create_out_dir "${OUTPUT}"
 
