@@ -51,6 +51,7 @@ run:
         - chown testuser:testuser .
         - sudo -u testuser adb devices
         - sudo -u testuser adb shell id
+        # run test to reboot
         - sudo -u testuser ./boottest.sh
         - userdel testuser -f -r || true
         - zip -r output.zip output
