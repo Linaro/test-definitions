@@ -27,7 +27,12 @@ pkgs="wget ntp python3 python3-pip git
 
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
-git clone "${TVM_BENCH}"
-wget "${TVM_WHEEL}"
-pip3 install "tlcpack*.whl"
-cd tvm-bench && python3 mobilenet-v1.0.5-acl-float.py
+if [ -n "${TVM_BENCH}" ]; then
+    git clone "${TVM_BENCH}"
+        if [ -n "${TVM_WHEEL}" ]; then
+            wget "${TVM_WHEEL}"
+            pip3 install "tlcpack*.whl"
+        fi
+    cd tvm-bench || exit
+    python3 mobilenet-v1.0.5-acl-float.py
+fi
