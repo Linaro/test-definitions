@@ -25,6 +25,7 @@ wait_boot_completed "${BOOT_TIMEOUT}"
 lsusb -v |tee output/lsusb-v-before-adb-root.txt
 adb_root
 lsusb -v |tee output/lsusb-v-before-reboot.txt
+[ -f ./debug-fastboot.sh ] && ./debug-fastboot.sh
 adb shell "echo u > /proc/sysrq-trigger"
 adb shell "echo b > /proc/sysrq-trigger"
 echo "BOOT_REBOOT pass" > ${OUTPUT}/boot_result.txt
@@ -35,7 +36,7 @@ num_fastboot_devices="$(fastboot devices |wc -l)"
 if [ "${num_fastboot_devices}" -ne 1 ]; then
     [ -f ./debug-fastboot.sh ] && ./debug-fastboot.sh
     echo "BOOT_AGAIN_AFTER_REBOOT fail" > ${OUTPUT}/boot_result.txt
-    error_msg "No fastboot devices listed"
+    echo  "No fastboot devices listed"
 else
     timeout 300 fastboot boot /lava-lxc/*boot*.img
     timeout 300 adb wait-for-device
