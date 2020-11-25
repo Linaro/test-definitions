@@ -19,5 +19,5 @@ params:
     SKIP_INSTALL: false
 run:
     steps:
-        - cd ./automated/linux/armnn/
-        - ./armnn-unit-tests.sh -s "${SKIP_INSTALL}" -a "${TVM_WHEEL}" -t "${TVM_BENCH}"
+        - cd ./automated/linux/ml-bench/
+        - ./tvm-bench.sh -s "${SKIP_INSTALL}" -a "${TVM_WHEEL}" -t "${TVM_BENCH}"
