@@ -35,6 +35,7 @@ num_fastboot_devices="$(fastboot devices |wc -l)"
 if [ "${num_fastboot_devices}" -ne 1 ]; then
     dmesg |tail
     dmesg > output/dmesg.log
+    [ -f ./debug-fastboot.sh ] && ./debug-fastboot.sh
     echo "BOOT_AGAIN_AFTER_REBOOT fail" > ${OUTPUT}/boot_result.txt
     error_msg "No fastboot devices listed"
 else
