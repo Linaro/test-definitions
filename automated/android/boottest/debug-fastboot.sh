@@ -1,5 +1,7 @@
-#!/bin/bash -x
+#!/bin/bash
 
+id
+echo "----fastboot devices list from /sys/bus/usb/devices start----"
 ls /sys/bus/usb/devices/*/serial | while read -r device; do
     basedir=$(dirname ${device})
     basedir_name=$(basename ${basedir})
@@ -13,10 +15,14 @@ ls /sys/bus/usb/devices/*/serial | while read -r device; do
             [ "X${bInterfaceProtocol}" = "X03" ]; then
             serial=$(cat ${device})
             if [ ! -f ${interface}/interface ]; then
-                echo "${serial} fastboot"
+                echo "${serial} no-interface-fastboot ${device}"
             else
-                echo "${serial} $(cat ${interface}/interface)"
+                echo "${serial} interface-$(cat ${interface}/interface) ${device}"
             fi
         fi
     done
 done
+echo "----fastboot devices list from /sys/bus/usb/devices end----"
+echo "----fastboot devices list from fastboot devices command start----"
+fastboot devices
+echo "----fastboot devices list from fastboot devices command end----"

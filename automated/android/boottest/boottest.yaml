@@ -42,7 +42,7 @@ run:
         # delete the test user to clean environment
         - id
         - mkdir -p output
-        - lsusb -v |tee output/lsusb-v-root.txt
+        - lsusb -v >tee output/lsusb-v-root.txt
         - adb devices
         - adb shell id
         - userdel testuser -r -f || true
@@ -55,6 +55,8 @@ run:
         - sudo -u testuser ./boottest.sh
         - userdel testuser -f -r || true
         - dmesg > output/dmesg.txt
+        - ./debug-fastboot.sh
         - zip -r output.zip output
         - ../../utils/upload-to-artifactorial.sh -a "output.zip" -u "${URL}" -t "${TOKEN}"
         - ../../utils/send-to-lava.sh ./output/boot_result.txt
+        - if ! adb shell echo ok; then error_fatal "boottest - adb device lost"; fi

@@ -22,15 +22,14 @@ initialize_adb # ANDROID_SERIAL exported here
 # wait till boot completed
 wait_boot_completed "${BOOT_TIMEOUT}"
 
-lsusb -v |tee output/lsusb-v-before-adb-root.txt
+lsusb -v > output/lsusb-v-before-adb-root.txt
 adb_root
-lsusb -v |tee output/lsusb-v-before-reboot.txt
-[ -f ./debug-fastboot.sh ] && ./debug-fastboot.sh
+lsusb -v > output/lsusb-v-before-reboot.txt
 adb shell "echo u > /proc/sysrq-trigger"
 adb shell "echo b > /proc/sysrq-trigger"
 echo "BOOT_REBOOT pass" > ${OUTPUT}/boot_result.txt
 sleep 60
-lsusb -v |tee output/lsusb-v-before-fastboot.txt
+lsusb -v > output/lsusb-v-before-fastboot.txt
 fastboot devices
 num_fastboot_devices="$(fastboot devices |wc -l)"
 if [ "${num_fastboot_devices}" -ne 1 ]; then
