@@ -39,6 +39,7 @@ run:
         # wait for 300 seconds, when the device should be booted
         - sleep 300
         - cd ./automated/android/boottest
+        - . ../../lib/sh-test-lib
         # delete the test user to clean environment
         - id
         - mkdir -p output
