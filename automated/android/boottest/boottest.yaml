@@ -42,7 +42,7 @@ run:
         # delete the test user to clean environment
         - id
         - mkdir -p output
-        - lsusb -v >tee output/lsusb-v-root.txt
+        - lsusb -v > output/lsusb-v-root.txt
         - adb devices
         - adb shell id
         - userdel testuser -r -f || true
