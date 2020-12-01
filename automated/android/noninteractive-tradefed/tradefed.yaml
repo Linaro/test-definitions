@@ -52,7 +52,8 @@ run:
         # delete the test user to clean environment
         - userdel testuser -r -f || true
         # create test use to run the cts/vts tests
-        - useradd -m testuser && echo "testuser created successfully"
+        # set to the plugdev group for the fastboot and adb access
+        - useradd -G plugdev -m testuser && echo "testuser created successfully"
         - chown testuser:testuser .
         - if echo "${TEST_REBOOT_EXPECTED}" |grep -i "true" ; then ./monitor_fastboot.sh & fi
         - ./monitor_adb.sh &
