@@ -335,3 +335,15 @@ skiplist:
       - v4.19-rt
     tests:
       - ptrace:vmaccess
+  - reason: >
+      net fib_nexthops.sh hangs on all NFS mounted devices
+    url: https://bugs.linaro.org/show_bug.cgi?id=5727
+    environments: all
+    boards:
+      - x86
+      - i386
+      - juno-r2
+    branches:
+      - all
+    tests:
+      - net:fib_nexthops.sh
