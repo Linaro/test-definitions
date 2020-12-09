@@ -121,6 +121,7 @@ parse_fwts_test_results() {
 	sed -i -e 's/://g' "${TEST_PASS_LOG}"
 	sed -i -e 's/,//g' "${TEST_PASS_LOG}"
 	sed -i -e 's/\\//g' "${TEST_PASS_LOG}"
+	sed -i -e 's/\//-/g' "${TEST_PASS_LOG}"
 	awk '{for (i=2; i<NF; i++) printf $i "-"; print $i " " $1}' "${TEST_PASS_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
 	sed -i -e 's/PASSED/pass/g' "${RESULT_FILE}"
 
@@ -131,6 +132,7 @@ parse_fwts_test_results() {
 	sed -i -e 's/://g' "${TEST_FAIL_LOG}"
 	sed -i -e 's/,//g' "${TEST_FAIL_LOG}"
 	sed -i -e 's/\\//g' "${TEST_FAIL_LOG}"
+	sed -i -e 's/\//-/g' "${TEST_FAIL_LOG}"
 	awk '{for (i=2; i<NF; i++) printf $i "-"; print $i " " $1}' "${TEST_FAIL_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
 	sed -i -e 's/Failed/fail/g' "${RESULT_FILE}"
 
@@ -141,6 +143,7 @@ parse_fwts_test_results() {
 	sed -i -e 's/://g' "${TEST_SKIP_LOG}"
 	sed -i -e 's/,//g' "${TEST_SKIP_LOG}"
 	sed -i -e 's/\\//g' "${TEST_SKIP_LOG}"
+	sed -i -e 's/\//-/g' "${TEST_SKIP_LOG}"
 	awk '{for (i=2; i<NF; i++) printf $i "-"; print $i " " $1}' "${TEST_SKIP_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
 	sed -i -e 's/SKIPPED/skip/g' "${RESULT_FILE}"
 
