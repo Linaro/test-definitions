@@ -13,7 +13,7 @@ TEST_FAIL_LOG="${OUTPUT}/test_fail_log.txt"
 TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 export RESULT_FILE
 
-TESTS="oops --uefitests"
+TESTS=""
 TEST_PROGRAM=fwts
 TEST_PROG_VERSION=
 TEST_GIT_URL=https://github.com/ColinIanKing/fwts.git

@@ -22,14 +22,7 @@ metadata:
 
 params:
         # Set of tests.
-        TESTS: "cpufreq maxfreq msr nx virt aspm dmicheck apicedge oops
-        acpiinfo xenv xsdt wsmt wpbt wmi wdat waet uefi tpm2 tcpa stao srat
-        spmi spcr slit slic sdev sdei sbst rsdt rsdp rasf pptt pmtt pdtt pcct
-        pcc nfit method msdm msct mpst mchi mcfg madt lpit iort hmat hest gtdt
-        fpdt facs erst einj ecdt drtm dppt dmar acpi_wpc acpi_time acpi_als
-        acpi_lid acpi_slpb acpi_pwrb acpi_ec smart_battery acpi_battery acpi_ac
-        dbg2 dbgp cstates csrt cpep checksum boot bgrt bert aspt asf
-        apicinstance acpitables --uefitests"
+        TESTS: ""
 
         # If the following parameter is set, then the FWTS suite is
         # cloned and used unconditionally. In particular, the version
