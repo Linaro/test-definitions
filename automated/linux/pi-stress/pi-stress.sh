@@ -56,7 +56,7 @@ background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 # pi_stress will send SIGTERM when test fails. The single will terminate the
 # test script. Catch and ignore it with trap.
 trap '' TERM
-"${binary}" -q --duration "${DURATION}" "${MLOCKALL}" "${RR}" | tee "${LOGFILE}"
+"${binary}" --duration "${DURATION}" "${MLOCKALL}" "${RR}" | tee "${LOGFILE}"
 
 background_process_stop bgcmd
 
