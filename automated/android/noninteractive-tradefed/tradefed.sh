@@ -76,8 +76,16 @@ if [ -e "${TEST_PATH}/testcases/vts/testcases/kernel/linux_kselftest/kselftest_c
     sed -i "/suspend/d" "${TEST_PATH}"/testcases/vts/testcases/kernel/linux_kselftest/kselftest_config.py
 fi
 
-# try to connect wifi if AP information specified
-adb_join_wifi "${AP_SSID}" "${AP_KEY}"
+if [ -n "${AP_SSID}" ] && [ -n "${AP_KEY}" ]; then
+    # try to connect to wifi with the feature provided by tradefed by default
+    # when AP_SSID and AP_KEY are specified for this tradefed test action explicitly
+    TEST_PARAMS="${TEST_PARAMS} --wifi-ssid ${AP_SSID} --wifi-psk ${AP_KEY}"
+else
+    # try to connect to wifi with the external AdbJoinWifi apk from
+    # https://github.com/steinwurf/adb-join-wifi
+    # if AP_SSID and AP_KEY are not specified for this tradefed test action
+    adb_join_wifi "${AP_SSID}" "${AP_KEY}"
+fi
 
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
