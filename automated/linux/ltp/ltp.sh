@@ -76,8 +76,12 @@ while getopts "M:T:S:b:d:g:e:s:v:R:u:p:t:" arg; do
           # yaml skipfile; use skipgen to generate a skipfile
           SKIPFILE_YAML="${SCRIPTPATH}/${OPTARG}"
         else
-          # Regular LTP skipfile
-          SKIPFILE="-S ${SCRIPTPATH}/${OPTARG}"
+          # Regular LTP skipfile. Absolute or relative path?
+          if [ "${OPTARG:0:1}" == "/" ]; then
+            SKIPFILE="-S ${OPTARG}"
+          else
+            SKIPFILE="-S ${SCRIPTPATH}/${OPTARG}"
+          fi
         fi
         ;;
      b)
@@ -239,7 +243,7 @@ else
     install
 fi
 
-if [ ! -d ${LTP_INSTALL_PATH} ]; then
+if [ ! -d "${LTP_INSTALL_PATH}" ]; then
     if [ "${BUILD_FROM_TAR}" = "true" ] || [ "${BUILD_FROM_TAR}" = "True" ]; then
         get_tarfile "${TEST_TARFILE}"
     elif [ -n "${TEST_GIT_URL}" ]; then
