@@ -239,7 +239,7 @@ else
     install
 fi
 
-if [ ! -d ${LTP_INSTALL_PATH} ]; then
+if [ ! -d "${LTP_INSTALL_PATH}" ]; then
     if [ "${BUILD_FROM_TAR}" = "true" ] || [ "${BUILD_FROM_TAR}" = "True" ]; then
         get_tarfile "${TEST_TARFILE}"
     elif [ -n "${TEST_GIT_URL}" ]; then
