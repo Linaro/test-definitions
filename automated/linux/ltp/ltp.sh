@@ -39,6 +39,7 @@ usage() {
                       [-d temp directory]
                       [-g branch]
                       [-e environment]
+                      [-i install path]
                       [-s True|False]
                       [-v LTP_VERSION]
                       [-M Timeout_Multiplier]
@@ -50,7 +51,7 @@ usage() {
     exit 0
 }
 
-while getopts "M:T:S:b:d:g:e:s:v:R:u:p:t:" arg; do
+while getopts "M:T:S:b:d:g:e:i:s:v:R:u:p:t:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -95,6 +96,9 @@ while getopts "M:T:S:b:d:g:e:s:v:R:u:p:t:" arg; do
         ;;
      e)
         export ENVIRONMENT="${OPTARG}"
+        ;;
+     i)
+        export LTP_INSTALL_PATH="${OPTARG}"
         ;;
      # SKIP_INSTALL is true in case of Open Embedded builds
      # SKIP_INSTALL is flase in case of Debian builds
