@@ -249,7 +249,6 @@ def main():
                         default="test.html",
                         help="Name of the template used for rendering individual tests")
     parser.add_argument("--testplan-template-name",
-                        default="testplan.html",
                         help="Name of the template used for rendering testsplans")
     parser.add_argument("--templates-directory",
                         default=None,
@@ -278,9 +277,11 @@ def main():
 
             tp_version = tp_obj['metadata']['format']
             if tp_version == "Linaro Test Plan v1":
+                testplan_template = args.testplan_template_name or "testplan.html"
                 for requirement in tp_obj['requirements']:
                     check_coverage(requirement, repositories, args)
             if tp_version == "Linaro Test Plan v2":
+                testplan_template = args.testplan_template_name or "testplan_v2.html"
                 if 'manual' in tp_obj['tests'].keys() and tp_obj['tests']['manual'] is not None:
                     for test in tp_obj['tests']['manual']:
                         test_exists(test, repositories, args)
@@ -288,9 +289,9 @@ def main():
                     for test in tp_obj['tests']['automated']:
                         test_exists(test, repositories, args)
             # same filename extension as the template
-            tp_name = tp_obj['metadata']['name'] + os.path.splitext(args.testplan_template_name)[1]
+            tp_name = tp_obj['metadata']['name'] + os.path.splitext(testplan_template)[1]
             tp_file_name = os.path.join(os.path.abspath(args.output), tp_name)
-            render(tp_obj, templates_dir=args.templates_directory, template=args.testplan_template_name, name=tp_file_name)
+            render(tp_obj, templates_dir=args.templates_directory, template=testplan_template, name=tp_file_name)
             testplan_file.close()
             if args.pdf is not None:
                 pdfkit.from_file(tp_file_name, args.pdf)
