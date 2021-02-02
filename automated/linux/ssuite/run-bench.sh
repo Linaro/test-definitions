@@ -162,7 +162,7 @@ run_test() {
 
 	rm -f ${HOME_DIR}/.S-config.sh
 
-	cd "$S_PATH"/run_multiple_benchmarks/ || exit 1
+	cd "$TEST_DIR"/run_multiple_benchmarks/ || exit 1
 	./run_main_benchmarks.sh "$1" "" "" "" "${ONLY_READS}" "" \
 				 "${NUM_REPETITIONS}" "${OUTPUT}" 2>&1 |\
 	    tee -a "${OUTPUT}/log"
