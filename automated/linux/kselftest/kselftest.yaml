@@ -15,6 +15,14 @@ metadata:
         - all
 
 params:
+    # List of tests to run
+    # TST_CMDFILES: bpf ipc net timers vm
+    TST_CMDFILES: ""
+
+    # single test case to run
+    # TST_CASENAME: cpu-hotplug:cpu-on-off-test.sh
+    TST_CASENAME: ""
+
     # Specify Linux kernel self test pre-build tarball name from below location
     # http://testdata.validation.linaro.org/tests/kselftest/
     # TESTPROG: kselftest_aarch64.tar.gz
@@ -47,5 +55,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/kselftest/
-        - ./kselftest.sh -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -p "${KSELFTEST_PATH}"
+        - ./kselftest.sh -c "${TST_CMDFILES}" -T "${TST_CASENAME}" -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -p "${KSELFTEST_PATH}"
         - ../../utils/send-to-lava.sh ./output/result.txt
