@@ -41,4 +41,4 @@ git clone "${AEP_CONFIG_REPOSITORY}" energy-probe-ext
 cd energy-probe-ext
 git checkout "${AEP_CONFIG_REF}"
 cp -r ./* "${AEP_CONFIG_TARGET_PATH}"
-report_pass "AEP config installed"
+report_pass "AEP_config_installed"
