@@ -41,4 +41,4 @@ git checkout "${AEP_REF}"
 ./configure --prefix=/usr
 make
 make install
-report_pass "AEP installed"
+report_pass "AEP_installed"
