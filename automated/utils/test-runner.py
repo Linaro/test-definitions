@@ -322,12 +322,12 @@ class TestDefinition(object):
         if 'params' in self.testdef:
             for def_param_name, def_param_value in list(self.testdef['params'].items()):
                 # ?'yaml_line'
-                if def_param_name is 'yaml_line':
+                if def_param_name == 'yaml_line':
                     continue
                 ret_val.append('%s=\'%s\'\n' % (def_param_name, def_param_value))
         elif 'parameters' in self.testdef:
             for def_param_name, def_param_value in list(self.testdef['parameters'].items()):
-                if def_param_name is 'yaml_line':
+                if def_param_name == 'yaml_line':
                     continue
                 ret_val.append('%s=\'%s\'\n' % (def_param_name, def_param_value))
         else:
@@ -338,7 +338,7 @@ class TestDefinition(object):
         ret_val.append('###custom parameters from test plan###\n')
         if self.custom_params:
             for param_name, param_value in list(self.custom_params.items()):
-                if param_name is 'yaml_line':
+                if param_name == 'yaml_line':
                     continue
                 ret_val.append('%s=\'%s\'\n' % (param_name, param_value))
 
