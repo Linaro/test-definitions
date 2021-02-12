@@ -1,7 +1,7 @@
 metadata:
     format: Lava-Test Test Definition 1.0
-    name: armnn-unit-tests
-    description: "Carry out armnn unit tests."
+    name: pyarmnn-benchmark
+    description: "Part of ml-bench, pyarmnn-bench testing validity of pyarmnn pip wheels."
     maintainer:
         - theodore.grey@linaro.org
     os:
@@ -16,11 +16,10 @@ metadata:
 params:
     ARMNN_TARBALL: 'https://snapshots.linaro.org/components/armnn/latest/armnn.tar.xz'
     TEST_DIR: '/usr/local/bin'
-    UNIT_TESTS: 'true'
-    PYTEST: 'false'
-    SKIP_INSTALL: 'false'
+    ARMNN_TESTS: false
+    PYARMNN: true
+    SKIP_INSTALL: false
 run:
     steps:
         - cd ./automated/linux/armnn/
-        - ./armnn.sh -s "${SKIP_INSTALL}" -t "${UNIT_TESTS}" -p "${PYTEST}" -a "${ARMNN_TARBALL}" -d "${TEST_DIR}"
-        - ./../../utils/send-to-lava.sh ./output/results.txt
+        - ./armnn.sh -s "${SKIP_INSTALL}" -t "${ARMNN_TESTS}" -p "$PYARMNN}" -a "${ARMNN_TARBALL}" -d "{TEST_DIR}"
