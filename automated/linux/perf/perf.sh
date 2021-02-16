@@ -90,8 +90,11 @@ run_perf_test() {
 parse_perf_test_results() {
     grep -a -E "Ok" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
     sed -i -e 's/(//g' "${TEST_PASS_LOG}"
-    sed -i -e 's/)://g' "${TEST_PASS_LOG}"
+    sed -i -e 's/)//g' "${TEST_PASS_LOG}"
     sed -i -e 's/://g' "${TEST_PASS_LOG}"
+    sed -i -e "s/'//g" "${TEST_PASS_LOG}"
+    sed -i -e 's/&//g' "${TEST_PASS_LOG}"
+    sed -i -e 's/\*//g' "${TEST_PASS_LOG}"
     awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF}' "${TEST_PASS_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
     sed -i -e 's/Ok/pass/g' "${RESULT_FILE}"
 
@@ -100,6 +103,9 @@ parse_perf_test_results() {
     sed -i -e 's/(//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/)//g' "${TEST_FAIL_LOG}"
     sed -i -e 's/://g' "${TEST_FAIL_LOG}"
+    sed -i -e "s/'//g" "${TEST_FAIL_LOG}"
+    sed -i -e 's/&//g' "${TEST_FAIL_LOG}"
+    sed -i -e 's/\*//g' "${TEST_FAIL_LOG}"
     awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF }' "${TEST_FAIL_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
     sed -i -e 's/FAILED\!/fail/g' "${RESULT_FILE}"
 
@@ -108,6 +114,9 @@ parse_perf_test_results() {
     sed -i -e 's/(//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/)//g' "${TEST_SKIP_LOG}"
     sed -i -e 's/://g' "${TEST_SKIP_LOG}"
+    sed -i -e "s/'//g" "${TEST_SKIP_LOG}"
+    sed -i -e 's/&//g' "${TEST_SKIP_LOG}"
+    sed -i -e 's/\*//g' "${TEST_SKIP_LOG}"
     awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF}' "${TEST_SKIP_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
     sed -i -e 's/Skip/skip/g' "${RESULT_FILE}"
 
