@@ -30,6 +30,7 @@ skiplist:
     branches:
       - next
       - mainline
+      - 5.11
       - 5.10
       - 5.9
       - 5.8
