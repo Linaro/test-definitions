@@ -7,3 +7,4 @@ build-error.txt
 !.gitignore
 !.travis.yml
 !.readthedocs.yml
+!.github
