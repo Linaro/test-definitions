@@ -26,12 +26,8 @@ def set_wifi_state(dut, turn_on):
     )
 
     # Check if there is an option to turn WiFi on or off
-    wifi_enabler = dut(
-        text="OFF", resourceId="com.android.settings:id/switch_widget"
-    )
-    wifi_disabler = dut(
-        text="ON", resourceId="com.android.settings:id/switch_widget"
-    )
+    wifi_enabler = dut(text="OFF", resourceId="com.android.settings:id/switch_widget")
+    wifi_disabler = dut(text="ON", resourceId="com.android.settings:id/switch_widget")
 
     if not wifi_enabler.exists and not wifi_disabler.exists:
         raise DeviceCommandError(
@@ -80,10 +76,7 @@ def main():
     )
     args = parser.parse_args()
 
-    if args.ACTION[0] != "set_wifi_state" or args.ACTION[1] not in (
-        "on",
-        "off",
-    ):
+    if args.ACTION[0] != "set_wifi_state" or args.ACTION[1] not in ("on", "off",):
         print(
             "ERROR: Specified ACTION is not supported: {}".format(args.ACTION),
             file=sys.stderr,

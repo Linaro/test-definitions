@@ -30,9 +30,7 @@ class StsUtil:
     affect the results in any way.
     """
 
-    def __init__(
-        self, device_serial_or_address, logger, device_access_timeout_secs=60
-    ):
+    def __init__(self, device_serial_or_address, logger, device_access_timeout_secs=60):
         """Construct a StsUtil instance for a TradeFed invocation.
 
         Args:
@@ -134,9 +132,7 @@ class StsUtil:
         test_result_tree.write(test_result_path)
 
         # Fix the fingerprint in the failures overview HTML.
-        with open(
-            test_result_failures_path_orig, "r"
-        ) as test_result_failures_file:
+        with open(test_result_failures_path_orig, "r") as test_result_failures_file:
             test_result_failures = test_result_failures_file.read().replace(
                 manipulated_fingerprint, self.device_fingerprint
             )

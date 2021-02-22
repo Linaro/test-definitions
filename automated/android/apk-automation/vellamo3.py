@@ -7,15 +7,15 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config['apk_file_name'] = "com.quicinc.vellamo-3.apk"
-        self.config['apk_package'] = "com.quicinc.vellamo"
-        self.config['activity'] = "com.quicinc.vellamo/.main.MainActivity"
+        self.config["apk_file_name"] = "com.quicinc.vellamo-3.apk"
+        self.config["apk_package"] = "com.quicinc.vellamo"
+        self.config["activity"] = "com.quicinc.vellamo/.main.MainActivity"
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def choose_chapter(self, chapter_name):
         # ToDo: scroll screen if chapter is not found on the first screen
         self.dump_always()
-        scroll = self.vc.findViewWithText(u'''LET'S ROLL''')
+        scroll = self.vc.findViewWithText(u"""LET'S ROLL""")
         if scroll:
             print("Click LET'S ROLL")
             scroll.touch()
@@ -23,7 +23,7 @@ class ApkRunnerImpl(ApkTestRunner):
         chapter_tab = None
         self.dump_always()
         while chapter_tab is None:
-            gotit_button = self.vc.findViewWithText(u'GOT IT')
+            gotit_button = self.vc.findViewWithText(u"GOT IT")
             if gotit_button:
                 print("Click GOT IT")
                 gotit_button.touch()
@@ -37,7 +37,10 @@ class ApkRunnerImpl(ApkTestRunner):
         for child in enclosing_tab.children:
             if child.getClass() == "android.widget.FrameLayout":
                 for subchild in child.children:
-                    if subchild.getId() == "com.quicinc.vellamo:id/card_launcher_run_button":
+                    if (
+                        subchild.getId()
+                        == "com.quicinc.vellamo:id/card_launcher_run_button"
+                    ):
                         subchild.touch()
                         break
 
@@ -46,16 +49,22 @@ class ApkRunnerImpl(ApkTestRunner):
         while need_continue:
             self.dump_always()
             btn_setup_1 = self.vc.findViewById("android:id/button1")
-            btn_settings = self.vc.findViewById('com.quicinc.vellamo:id/main_toolbar_wheel')
-            btn_animations = self.vc.findViewWithText(u'Make Vellamo even more beautiful')
-            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
-            continue_btn = self.vc.findViewWithText(u'CONTINUE')
+            btn_settings = self.vc.findViewById(
+                "com.quicinc.vellamo:id/main_toolbar_wheel"
+            )
+            btn_animations = self.vc.findViewWithText(
+                u"Make Vellamo even more beautiful"
+            )
+            warn_msg = self.vc.findViewWithText(
+                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+            )
+            continue_btn = self.vc.findViewWithText(u"CONTINUE")
             if btn_setup_1:
                 # Accept Vellamo EULA
                 btn_setup_1.touch()
             elif warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
                 warning_ok_btn.touch()
             elif continue_btn:
                 continue_btn.touch()
@@ -72,19 +81,21 @@ class ApkRunnerImpl(ApkTestRunner):
 
         self.logger.info("Benchmark started now")
 
-        chapters = ['Browser', 'Multicore', 'Metal']
+        chapters = ["Browser", "Multicore", "Metal"]
         for chapter in chapters:
             self.choose_chapter(chapter)
 
             # Start benchmark
             self.dump_always()
             try:
-                gotit_button = self.vc.findViewWithText(u'GOT IT')
+                gotit_button = self.vc.findViewWithText(u"GOT IT")
                 if gotit_button:
                     gotit_button.touch()
             except ViewNotFoundException:
-                self.report_result('vellamo3-%s' % chapter, 'fail')
-                self.logger.error('Start button for chapter %s NOT found, moving to the next chapter...')
+                self.report_result("vellamo3-%s" % chapter, "fail")
+                self.logger.error(
+                    "Start button for chapter %s NOT found, moving to the next chapter..."
+                )
                 continue
 
             # Wait while Vellamo is running benchmark
@@ -93,7 +104,9 @@ class ApkRunnerImpl(ApkTestRunner):
                 time.sleep(1)
                 try:
                     self.dump_always()
-                    goback_btn = self.vc.findViewById("com.quicinc.vellamo:id/main_toolbar_goback_button")
+                    goback_btn = self.vc.findViewById(
+                        "com.quicinc.vellamo:id/main_toolbar_goback_button"
+                    )
                     if goback_btn:
                         goback_btn.touch()
                         time.sleep(5)
@@ -111,43 +124,70 @@ class ApkRunnerImpl(ApkTestRunner):
             self.device.press("KEYCODE_BACK")
 
     def parseResult(self):
-        raw_result_file = '%s/chapterscores-itr%s.json' % (self.config['output'], self.config['itr'])
-        self.call_adb('pull /data/data/com.quicinc.vellamo/files/chapterscores.json %s' % raw_result_file)
-        default_unit = 'Points'
+        raw_result_file = "%s/chapterscores-itr%s.json" % (
+            self.config["output"],
+            self.config["itr"],
+        )
+        self.call_adb(
+            "pull /data/data/com.quicinc.vellamo/files/chapterscores.json %s"
+            % raw_result_file
+        )
+        default_unit = "Points"
         # This is one-line file, read it in a whole
-        fileopen = open(raw_result_file, 'r')
+        fileopen = open(raw_result_file, "r")
         jsoncontent = json.load(fileopen)
-        result_flag = 'benchmark_results'
-        chapter_flag = 'chapter_name'
+        result_flag = "benchmark_results"
+        chapter_flag = "chapter_name"
 
         total_score = 0
         for item in jsoncontent:
             if result_flag and chapter_flag in item.keys():
                 chapter = item[chapter_flag]
                 chapter_total = 0
-                self.logger.info('%s test result found in category: %s' % (str(len(item[result_flag])), chapter))
+                self.logger.info(
+                    "%s test result found in category: %s"
+                    % (str(len(item[result_flag])), chapter)
+                )
                 for elem in item[result_flag]:
-                    if 'failed' in elem.keys() and 'id' in elem.keys() and 'score' in elem.keys():
+                    if (
+                        "failed" in elem.keys()
+                        and "id" in elem.keys()
+                        and "score" in elem.keys()
+                    ):
                         # Pick up the result
-                        if elem['failed'] is False:
-                            result = 'pass'
+                        if elem["failed"] is False:
+                            result = "pass"
                         else:
-                            result = 'fail'
+                            result = "fail"
                         # Pick up the full test name
-                        testcase = chapter + '-' + elem['id']
+                        testcase = chapter + "-" + elem["id"]
                         # Pick up the test score
-                        score = elem['score']
+                        score = elem["score"]
                         # Submit the result to LAVA
-                        self.report_result("vellamo3-" + testcase, result, str(score), default_unit)
+                        self.report_result(
+                            "vellamo3-" + testcase, result, str(score), default_unit
+                        )
                         chapter_total = chapter_total + score
                     else:
-                        print('Corrupted test result found, please check it manually.')
-                        print('A valid test result must contain id, score and pass/fail status.')
+                        print("Corrupted test result found, please check it manually.")
+                        print(
+                            "A valid test result must contain id, score and pass/fail status."
+                        )
 
-                self.report_result("vellamo3-" + chapter + "-total", "pass", str(chapter_total), default_unit)
+                self.report_result(
+                    "vellamo3-" + chapter + "-total",
+                    "pass",
+                    str(chapter_total),
+                    default_unit,
+                )
                 total_score = total_score + chapter_total
             else:
-                print('Cannot find %s or %s in test result dictionary. Please check it manually.' % (result_flag, chapter_flag))
+                print(
+                    "Cannot find %s or %s in test result dictionary. Please check it manually."
+                    % (result_flag, chapter_flag)
+                )
 
         fileopen.close()
-        self.report_result("vellamo3-total-score", "pass", str(total_score), default_unit)
+        self.report_result(
+            "vellamo3-total-score", "pass", str(total_score), default_unit
+        )

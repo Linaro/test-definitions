@@ -31,32 +31,32 @@ replaces = {
     ">": "]",
 }
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: %s <result_file>" % sys.argv[0])
         sys.exit(1)
 
     rex = re.compile("(?P<test_case_id>.*): (?P<units>FPS): (?P<measurement>\\d+)")
     score_rex = re.compile("(?P<test_case_id>glmark2 Score): (?P<measurement>\\d+)")
-    with open(sys.argv[1], 'r') as f:
+    with open(sys.argv[1], "r") as f:
         for line in f.readlines():
             m = rex.search(line)
             if m:
-                case_id = m.group('test_case_id')
+                case_id = m.group("test_case_id")
                 for r in replaces.keys():
                     case_id = case_id.replace(r, replaces[r])
-                result = 'pass'
-                measurement = m.group('measurement')
-                units = m.group('units')
+                result = "pass"
+                measurement = m.group("measurement")
+                units = m.group("units")
 
                 print("%s %s %s %s" % (case_id, result, measurement, units))
                 continue
 
             m = score_rex.search(line)
             if m:
-                case_id = m.group('test_case_id')
+                case_id = m.group("test_case_id")
                 for r in replaces.keys():
                     case_id = case_id.replace(r, replaces[r])
-                result = 'pass'
-                measurement = m.group('measurement')
+                result = "pass"
+                measurement = m.group("measurement")
                 print("%s %s %s" % (case_id, result, measurement))

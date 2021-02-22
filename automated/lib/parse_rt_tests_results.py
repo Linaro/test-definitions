@@ -30,20 +30,20 @@ import sys
 
 
 def print_res(res, key):
-    print('t{}-{}-latency pass {} us'.format(res['t'], key, res[key]))
+    print("t{}-{}-latency pass {} us".format(res["t"], key, res[key]))
 
 
 def get_block(filename):
     # Fetch a text block from the file iterating backwards. Each block
     # starts with an escape sequence which starts with '\x1b'.
-    with open(filename, 'rb') as f:
+    with open(filename, "rb") as f:
         try:
             f.seek(0, os.SEEK_END)
             while True:
                 pe = f.tell()
 
                 f.seek(-2, os.SEEK_CUR)
-                while f.read(1) != b'\x1b':
+                while f.read(1) != b"\x1b":
                     f.seek(-2, os.SEEK_CUR)
                     pa = f.tell()
 
@@ -51,7 +51,7 @@ def get_block(filename):
 
                 # Remove escape sequence at the start of the block
                 # The control sequence ends in 'A'
-                i = blk.find('A') + 1
+                i = blk.find("A") + 1
                 yield blk[i:]
 
                 # Jump back to next block
@@ -65,18 +65,18 @@ def get_block(filename):
 def get_lastlines(filename):
     for b in get_block(filename):
         # Ignore empty blocks
-        if len(b.strip('\n')) == 0:
+        if len(b.strip("\n")) == 0:
             continue
 
-        return b.split('\n')
+        return b.split("\n")
 
 
 def parse_cyclictest(filename):
-    fields = ['t', 'min', 'avg', 'max']
+    fields = ["t", "min", "avg", "max"]
 
-    r = re.compile('[ :\n]+')
+    r = re.compile("[ :\n]+")
     for line in get_lastlines(filename):
-        if not line.startswith('T:'):
+        if not line.startswith("T:"):
             continue
 
         data = [x.lower() for x in r.split(line)]
@@ -86,16 +86,16 @@ def parse_cyclictest(filename):
             if e in fields:
                 res[e] = next(it)
 
-        print_res(res, 'min')
-        print_res(res, 'avg')
-        print_res(res, 'max')
+        print_res(res, "min")
+        print_res(res, "avg")
+        print_res(res, "max")
 
 
 def parse_pmqtest(filename):
-    fields = ['min', 'avg', 'max']
+    fields = ["min", "avg", "max"]
 
-    rl = re.compile('[ ,:\n]+')
-    rt = re.compile('[ ,#]+')
+    rl = re.compile("[ ,:\n]+")
+    rt = re.compile("[ ,#]+")
     for line in get_lastlines(filename):
         data = [x.lower() for x in rl.split(line)]
         res = {}
@@ -110,21 +110,21 @@ def parse_pmqtest(filename):
         # The id is constructed from the '#FROM -> #TO' output, e.g.
         # #1 -> #0, Min    1, Cur    3, Avg    4, Max  119
         data = rt.split(line)
-        res['t'] = '{}-{}'.format(data[1], data[3])
+        res["t"] = "{}-{}".format(data[1], data[3])
 
-        print_res(res, 'min')
-        print_res(res, 'avg')
-        print_res(res, 'max')
+        print_res(res, "min")
+        print_res(res, "avg")
+        print_res(res, "max")
 
 
 def main():
     tool = sys.argv[1]
     logfile = sys.argv[2]
-    if tool in ['cyclictest', 'signaltest', 'cyclicdeadline']:
+    if tool in ["cyclictest", "signaltest", "cyclicdeadline"]:
         parse_cyclictest(logfile)
-    elif tool in ['pmqtest', 'ptsematest', 'sigwaittest', 'svsematest']:
+    elif tool in ["pmqtest", "ptsematest", "sigwaittest", "svsematest"]:
         parse_pmqtest(logfile)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

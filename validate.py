@@ -9,6 +9,7 @@ import yaml
 run_pycodestyle = False
 try:
     import pycodestyle
+
     run_pycodestyle = True
 except ImportError as e:
     print(e)
@@ -30,9 +31,9 @@ def print_stderr(message):
 
 def publish_result(result_message_list, args):
     if result_message_list:
-        result_message = '\n'.join(result_message_list)
+        result_message = "\n".join(result_message_list)
         try:
-            f = open(args.result_file, 'a')
+            f = open(args.result_file, "a")
             f.write(result_message)
             f.write("\n")
             f.close()
@@ -42,27 +43,29 @@ def publish_result(result_message_list, args):
         if args.verbose:
             print_stderr(result_message)
     else:
-        result_message = '\n'.join(args.failed_message_list)
+        result_message = "\n".join(args.failed_message_list)
         print_stderr(result_message)
 
 
 def detect_abi():
     # Retrieve the current canonical abi from
     # automated/lib/sh-test-lib:detect_abi
-    return subprocess.check_output(
-        ". automated/lib/sh-test-lib && detect_abi && echo $abi",
-        shell=True).decode('utf-8').strip()
+    return (
+        subprocess.check_output(
+            ". automated/lib/sh-test-lib && detect_abi && echo $abi", shell=True
+        )
+        .decode("utf-8")
+        .strip()
+    )
 
 
 def pycodestyle_check(filepath, args):
     _fmt = "%(row)d:%(col)d: %(code)s %(text)s"
-    options = {
-        'ignore': args.pycodestyle_ignore,
-        "show_source": True}
+    options = {"ignore": args.pycodestyle_ignore, "show_source": True}
     pycodestyle_checker = pycodestyle.StyleGuide(options)
     fchecker = pycodestyle_checker.checker_class(
-        filepath,
-        options=pycodestyle_checker.options)
+        filepath, options=pycodestyle_checker.options
+    )
     fchecker.check_all()
     if fchecker.report.file_errors > 0:
         result_message_list = []
@@ -70,12 +73,15 @@ def pycodestyle_check(filepath, args):
         fchecker.report.print_statistics()
         for line_number, offset, code, text, doc in fchecker.report._deferred_print:
             result_message_list.append(
-                _fmt % {
-                    'path': filepath,
-                    'row': fchecker.report.line_offset + line_number,
-                    'col': offset + 1,
-                    'code': code, 'text': text,
-                })
+                _fmt
+                % {
+                    "path": filepath,
+                    "row": fchecker.report.line_offset + line_number,
+                    "col": offset + 1,
+                    "code": code,
+                    "text": text,
+                }
+            )
         publish_result(result_message_list, args)
         args.failed_message_list = args.failed_message_list + result_message_list
         return 1
@@ -89,26 +95,25 @@ def pycodestyle_check(filepath, args):
 def validate_yaml_contents(filepath, args):
     def validate_testdef_yaml(y, args):
         result_message_list = []
-        if 'metadata' not in y.keys():
+        if "metadata" not in y.keys():
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\tmetadata section missing")
             publish_result(result_message_list, args)
             args.failed_message_list = args.failed_message_list + result_message_list
             exit(1)
-        metadata_dict = y['metadata']
-        mandatory_keys = set([
-            'name',
-            'format',
-            'description',
-            'maintainer',
-            'os',
-            'devices'])
+        metadata_dict = y["metadata"]
+        mandatory_keys = set(
+            ["name", "format", "description", "maintainer", "os", "devices"]
+        )
         if not mandatory_keys.issubset(set(metadata_dict.keys())):
             result_message_list.append("* METADATA [FAILED]: " + filepath)
-            result_message_list.append("\tmandatory keys missing: %s" %
-                                       mandatory_keys.difference(set(metadata_dict.keys())))
-            result_message_list.append("\tactual keys present: %s" %
-                                       metadata_dict.keys())
+            result_message_list.append(
+                "\tmandatory keys missing: %s"
+                % mandatory_keys.difference(set(metadata_dict.keys()))
+            )
+            result_message_list.append(
+                "\tactual keys present: %s" % metadata_dict.keys()
+            )
             publish_result(result_message_list, args)
             args.failed_message_list = args.failed_message_list + result_message_list
             return 1
@@ -117,17 +122,22 @@ def validate_yaml_contents(filepath, args):
                 result_message_list.append("* METADATA [FAILED]: " + filepath)
                 result_message_list.append("\t%s has no content" % key)
                 publish_result(result_message_list, args)
-                args.failed_message_list = args.failed_message_list + result_message_list
+                args.failed_message_list = (
+                    args.failed_message_list + result_message_list
+                )
                 return 1
         # check if name has white spaces
-        if metadata_dict['name'].find(" ") > -1:
+        if metadata_dict["name"].find(" ") > -1:
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\t'name' contains whitespace")
             publish_result(result_message_list, args)
             args.failed_message_list = args.ailed_message_list + result_message_list
             return 1
         # check 'format' value
-        if metadata_dict['format'] not in ["Lava-Test Test Definition 1.0", "Manual Test Definition 1.0"]:
+        if metadata_dict["format"] not in [
+            "Lava-Test Test Definition 1.0",
+            "Manual Test Definition 1.0",
+        ]:
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\t'format' has incorrect value")
             publish_result(result_message_list, args)
@@ -141,10 +151,14 @@ def validate_yaml_contents(filepath, args):
     def validate_skipgen_yaml(filepath, args):
         abi = detect_abi()
         # Run skipgen on skipgen yaml file to check for output and errors
-        skips = subprocess.check_output(
-            "automated/bin/{}/skipgen {}".format(abi, filepath),
-            shell=True).decode('utf-8').strip()
-        if len(skips.split('\n')) < 1:
+        skips = (
+            subprocess.check_output(
+                "automated/bin/{}/skipgen {}".format(abi, filepath), shell=True
+            )
+            .decode("utf-8")
+            .strip()
+        )
+        if len(skips.split("\n")) < 1:
             message = "* SKIPGEN [FAILED]: " + filepath + " - No skips found"
             publish_result([message], args)
             args.failed_message_list.append(message)
@@ -157,17 +171,26 @@ def validate_yaml_contents(filepath, args):
         with open(filepath, "r") as f:
             filecontent = f.read()
     except FileNotFoundError:
-        publish_result(["* YAMLVALIDCONTENTS [PASSED]: " + filepath + " - deleted"], args)
+        publish_result(
+            ["* YAMLVALIDCONTENTS [PASSED]: " + filepath + " - deleted"], args
+        )
         return 0
     y = yaml.load(filecontent, Loader=yaml.FullLoader)
-    if 'run' in y.keys():
+    if "run" in y.keys():
         # test definition yaml file
         return validate_testdef_yaml(y, args)
-    elif 'skiplist' in y.keys():
+    elif "skiplist" in y.keys():
         # skipgen yaml file
         return validate_skipgen_yaml(filepath, args)
     else:
-        publish_result(["* YAMLVALIDCONTENTS [SKIPPED]: " + filepath + " - Unknown yaml type detected"], args)
+        publish_result(
+            [
+                "* YAMLVALIDCONTENTS [SKIPPED]: "
+                + filepath
+                + " - Unknown yaml type detected"
+            ],
+            args,
+        )
         return 0
 
 
@@ -191,7 +214,7 @@ def validate_yaml(filename, args):
         result_message_list.append("\n\n")
         exc_type, exc_value, exc_traceback = sys.exc_info()
         for line in traceback.format_exception_only(exc_type, exc_value):
-            result_message_list.append(' ' + line)
+            result_message_list.append(" " + line)
         publish_result(result_message_list, args)
         args.failed_message_list = args.failed_message_list + result_message_list
         return 1
@@ -206,12 +229,12 @@ def validate_shell(filename, ignore_options):
         ignore_string = "-e %s" % ",".join(args.shellcheck_ignore)
     if len(ignore_string) < 4:  # contains only "-e "
         ignore_string = ""
-    cmd = 'shellcheck %s' % ignore_string
+    cmd = "shellcheck %s" % ignore_string
     return validate_external(cmd, filename, "SHELLCHECK", args)
 
 
 def validate_php(filename, args):
-    cmd = 'php -l'
+    cmd = "php -l"
     return validate_external(cmd, filename, "PHPLINT", args)
 
 
@@ -219,14 +242,14 @@ def validate_external(cmd, filename, prefix, args):
     final_cmd = "%s %s 2>&1" % (cmd, filename)
     status, output = subprocess.getstatusoutput(final_cmd)
     if status == 0:
-        message = '* %s: [PASSED]: %s' % (prefix, filename)
+        message = "* %s: [PASSED]: %s" % (prefix, filename)
         publish_result([message], args)
     else:
         result_message_list = []
-        result_message_list.append('* %s: [FAILED]: %s' % (prefix, filename))
-        result_message_list.append('* %s: [OUTPUT]:' % prefix)
+        result_message_list.append("* %s: [FAILED]: %s" % (prefix, filename))
+        result_message_list.append("* %s: [OUTPUT]:" % prefix)
         for line in output.splitlines():
-            result_message_list.append(' ' + line)
+            result_message_list.append(" " + line)
         publish_result(result_message_list, args)
         args.failed_message_list = args.failed_message_list + result_message_list
         return 1
@@ -248,10 +271,18 @@ def validate_file(args, path):
         exitcode = pycodestyle_check(path, args)
     elif filetype == "text/x-php":
         exitcode = validate_php(path, args)
-    elif path.endswith('.sh') or filetype == "text/x-shellscript":
+    elif path.endswith(".sh") or filetype == "text/x-shellscript":
         exitcode = validate_shell(path, args)
     else:
-        publish_result(["* UNKNOWN [SKIPPED]: " + path + " - Unknown file type detected: " + filetype], args)
+        publish_result(
+            [
+                "* UNKNOWN [SKIPPED]: "
+                + path
+                + " - Unknown file type detected: "
+                + filetype
+            ],
+            args,
+        )
         return 0
     return exitcode
 
@@ -264,12 +295,10 @@ def run_unit_tests(args, filelist=None):
             if tmp_exitcode != 0:
                 exitcode = 1
     else:
-        for root, dirs, files in os.walk('.'):
+        for root, dirs, files in os.walk("."):
             if not root.startswith("./.git"):
                 for name in files:
-                    tmp_exitcode = validate_file(
-                        args,
-                        root + "/" + name)
+                    tmp_exitcode = validate_file(args, root + "/" + name)
                     if tmp_exitcode != 0:
                         exitcode = 1
     return exitcode
@@ -280,7 +309,8 @@ def main(args):
     if args.git_latest:
         # check if git exists
         git_status, git_result = subprocess.getstatusoutput(
-            "git diff --name-only HEAD~1")
+            "git diff --name-only HEAD~1"
+        )
         if git_status == 0:
             filelist = git_result.split()
             exitcode = run_unit_tests(args, filelist)
@@ -293,43 +323,55 @@ def main(args):
     exit(exitcode)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     failed_message_list = []
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p",
-                        "--pycodestyle-ignore",
-                        nargs="*",
-                        default=["E501"],
-                        help="Space separated list of pycodestyle exclusions",
-                        dest="pycodestyle_ignore")
-    parser.add_argument("-s",
-                        "--shellcheck-ignore",
-                        nargs="*",
-                        help="Space separated list of shellcheck exclusions",
-                        dest="shellcheck_ignore")
-    parser.add_argument("-g",
-                        "--git-latest",
-                        action="store_true",
-                        default=False,
-                        help="If set, the script will try to evaluate files in last git \
+    parser.add_argument(
+        "-p",
+        "--pycodestyle-ignore",
+        nargs="*",
+        default=["E501"],
+        help="Space separated list of pycodestyle exclusions",
+        dest="pycodestyle_ignore",
+    )
+    parser.add_argument(
+        "-s",
+        "--shellcheck-ignore",
+        nargs="*",
+        help="Space separated list of shellcheck exclusions",
+        dest="shellcheck_ignore",
+    )
+    parser.add_argument(
+        "-g",
+        "--git-latest",
+        action="store_true",
+        default=False,
+        help="If set, the script will try to evaluate files in last git \
                             commit instead of the whole repository",
-                        dest="git_latest")
-    parser.add_argument("-f",
-                        "--file-path",
-                        default="",
-                        help="Path to the file that should be checked",
-                        dest="file_path")
-    parser.add_argument("-r",
-                        "--result-file",
-                        default="build-error.txt",
-                        help="Path to the file that contains results in case of failure",
-                        dest="result_file")
-    parser.add_argument("-v",
-                        "--verbose",
-                        action='store_true',
-                        default=False,
-                        help="Make output more verbose",
-                        dest="verbose")
+        dest="git_latest",
+    )
+    parser.add_argument(
+        "-f",
+        "--file-path",
+        default="",
+        help="Path to the file that should be checked",
+        dest="file_path",
+    )
+    parser.add_argument(
+        "-r",
+        "--result-file",
+        default="build-error.txt",
+        help="Path to the file that contains results in case of failure",
+        dest="result_file",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=False,
+        help="Make output more verbose",
+        dest="verbose",
+    )
 
     args = parser.parse_args()
     setattr(args, "failed_message_list", failed_message_list)

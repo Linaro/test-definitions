@@ -5,29 +5,31 @@ from common import ApkTestRunner
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config['apk_file_name'] = 'RL_Benchmark_SQLite_v1.3.apk'
-        self.config['apk_package'] = 'com.redlicense.benchmark.sqlite'
-        self.config['activity'] = 'com.redlicense.benchmark.sqlite/.Main'
+        self.config["apk_file_name"] = "RL_Benchmark_SQLite_v1.3.apk"
+        self.config["apk_package"] = "com.redlicense.benchmark.sqlite"
+        self.config["activity"] = "com.redlicense.benchmark.sqlite/.Main"
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def execute(self):
         find_start_btn = False
         while not find_start_btn:
             self.dump_always()
-            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
-            btn_start = self.vc.findViewWithText(u'Start')
+            warn_msg = self.vc.findViewWithText(
+                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+            )
+            btn_start = self.vc.findViewWithText(u"Start")
             if warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
                 warning_ok_btn.touch()
             elif btn_start:
                 btn_start.touch()
                 find_start_btn = True
 
         finished = False
-        while(not finished):
+        while not finished:
             self.dump_always()
-            overall_result = self.vc.findViewWithText(u'Overall')
+            overall_result = self.vc.findViewWithText(u"Overall")
             if overall_result:
                 finished = True
                 self.logger.info("benchmark finished")
@@ -35,21 +37,35 @@ class ApkRunnerImpl(ApkTestRunner):
     def __get_score_with_text(self, text):
         found_score_view = False
         while not found_score_view:
-            linear_layout = self.vc.findViewByIdOrRaise("com.redlicense.benchmark.sqlite:id/stats")
+            linear_layout = self.vc.findViewByIdOrRaise(
+                "com.redlicense.benchmark.sqlite:id/stats"
+            )
             for ch in linear_layout.children:
                 subitem = self.vc.findViewWithText(text, ch)
                 if subitem:
-                    subitem_result = self.vc.findViewByIdOrRaise("com.redlicense.benchmark.sqlite:id/test_result", ch)
-                    score = subitem_result.getText().replace("sec", "").replace("Running", "").strip()
+                    subitem_result = self.vc.findViewByIdOrRaise(
+                        "com.redlicense.benchmark.sqlite:id/test_result", ch
+                    )
+                    score = (
+                        subitem_result.getText()
+                        .replace("sec", "")
+                        .replace("Running", "")
+                        .strip()
+                    )
                     score_in_ms = float(score) * 1000
-                    self.report_result("RL-sqlite-" + text.replace(" ", "-"), 'pass', str(score_in_ms), "ms")
+                    self.report_result(
+                        "RL-sqlite-" + text.replace(" ", "-"),
+                        "pass",
+                        str(score_in_ms),
+                        "ms",
+                    )
                     found_score_view = True
                     break
             if subitem is None:
                 self.logger.info("%s not found, need to pageup" % text)
-                self.device.press('DPAD_UP')
+                self.device.press("DPAD_UP")
                 time.sleep(2)
-                self.device.press('DPAD_UP')
+                self.device.press("DPAD_UP")
                 time.sleep(2)
                 self.dump_always()
 
@@ -65,6 +81,8 @@ class ApkRunnerImpl(ApkTestRunner):
         self.__get_score_with_text("Creating an index")
         self.__get_score_with_text("100 SELECTs on a string comparison")
         self.__get_score_with_text("100 SELECTs without an index")
-        self.__get_score_with_text("25000 INSERTs into an indexed table in a transaction")
+        self.__get_score_with_text(
+            "25000 INSERTs into an indexed table in a transaction"
+        )
         self.__get_score_with_text("25000 INSERTs in a transaction")
         self.__get_score_with_text("1000 INSERTs")

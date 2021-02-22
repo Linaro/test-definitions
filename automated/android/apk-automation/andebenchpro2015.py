@@ -7,39 +7,41 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config['apk_file_name'] = "andebench-pro_2015.apk"
-        self.config['apk_package'] = "com.eembc.andebench"
-        self.config['activity'] = "com.eembc.andebench/.splash"
+        self.config["apk_file_name"] = "andebench-pro_2015.apk"
+        self.config["apk_package"] = "com.eembc.andebench"
+        self.config["activity"] = "com.eembc.andebench/.splash"
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def setUp(self):
-        self.call_adb('shell setenforce 0')
+        self.call_adb("shell setenforce 0")
         super(ApkRunnerImpl, self).setUp()
 
     def tearDown(self):
-        self.call_adb('shell setenforce 1')
+        self.call_adb("shell setenforce 1")
         super(ApkRunnerImpl, self).tearDown()
 
     def parseResult(self):
-        local_result_csv = "%s/andebench.log.csv" % self.config['output']
+        local_result_csv = "%s/andebench.log.csv" % self.config["output"]
         remote_result_csv = "/mnt/sdcard/Download/andebench.log.csv"
         self.call_adb("pull %s %s" % (remote_result_csv, local_result_csv))
 
-        test_items = ["CoreMark-PRO (Base)",
-                      "CoreMark-PRO (Peak)",
-                      "Memory Bandwidth",
-                      "Memory Latency",
-                      "Storage",
-                      "Platform",
-                      "3D",
-                      "Overall Score",
-                      "Verify"]
+        test_items = [
+            "CoreMark-PRO (Base)",
+            "CoreMark-PRO (Peak)",
+            "Memory Bandwidth",
+            "Memory Latency",
+            "Storage",
+            "Platform",
+            "3D",
+            "Overall Score",
+            "Verify",
+        ]
 
         pat_score = re.compile(r"^(?P<measurement>[\d\.]+)$")
         pat_score_unit_str = r"^(?P<measurement>[\d\.]+)(?P<units>[^\d\.]+)$"
         pat_score_unit = re.compile(pat_score_unit_str)
 
-        with open(local_result_csv, 'r') as f:
+        with open(local_result_csv, "r") as f:
             for line in f.readlines():
                 fields = line.split(",")
                 if fields[0] not in test_items:
@@ -49,8 +51,7 @@ class ApkRunnerImpl(ApkTestRunner):
                     test_name = fields[0].strip()
                     measurement = fields[1].strip()
                 elif len(fields) == 3:
-                    test_name = "_".join([fields[0].strip(),
-                                          fields[1].strip()])
+                    test_name = "_".join([fields[0].strip(), fields[1].strip()])
                     measurement = fields[2].strip()
                 else:
                     # not possible here
@@ -58,42 +59,44 @@ class ApkRunnerImpl(ApkTestRunner):
                     pass
 
                 test_name = test_name.replace(" ", "_")
-                test_name = test_name.replace('(', '').replace(")", "")
+                test_name = test_name.replace("(", "").replace(")", "")
                 match = pat_score.match(measurement)
                 if not match:
                     match = pat_score_unit.match(measurement)
 
                 if not match:
-                    self.report_result("andebenchpro2015-%s" % test_name,
-                                       "fail")
+                    self.report_result("andebenchpro2015-%s" % test_name, "fail")
                 else:
                     data = match.groupdict()
-                    measurement = data.get('measurement')
+                    measurement = data.get("measurement")
                     units = data.get("units")
                     if units is None:
                         units = "points"
 
-                    self.report_result("andebenchpro2015-%s" % test_name,
-                                       "pass", measurement, units)
+                    self.report_result(
+                        "andebenchpro2015-%s" % test_name, "pass", measurement, units
+                    )
 
     def execute(self):
         # Enable 64-bit
         time.sleep(10)
 
         self.dump_always()
-        continue_btn = self.vc.findViewWithText(u'CONTINUE')
+        continue_btn = self.vc.findViewWithText(u"CONTINUE")
         if continue_btn:
             continue_btn.touch()
 
         self.dump_always()
-        warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
+        warn_msg = self.vc.findViewWithText(
+            u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+        )
         if warn_msg:
             self.logger.info("Older version warning popped up")
-            warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+            warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
             warning_ok_btn.touch()
 
         self.dump_always()
-        btn_license = self.vc.findViewWithText(u'I Agree')
+        btn_license = self.vc.findViewWithText(u"I Agree")
         if btn_license:
             btn_license.touch()
 
@@ -106,7 +109,7 @@ class ApkRunnerImpl(ApkTestRunner):
             item.touch()
             time.sleep(3)
             self.dump_always()
-            item = self.vc.findViewWithText(u'Options')
+            item = self.vc.findViewWithText(u"Options")
             if item:
                 item.touch()
                 time.sleep(3)
@@ -115,17 +118,18 @@ class ApkRunnerImpl(ApkTestRunner):
                 opt_expandableListView1 = self.vc.findViewByIdOrRaise(opt_str)
                 if opt_expandableListView1:
                     for sub in opt_expandableListView1.children:
-                        if not self.vc.findViewWithText(u'Memory', sub):
+                        if not self.vc.findViewWithText(u"Memory", sub):
                             cbx1_str = "com.eembc.andebench:id/cbx1"
                             self.vc.findViewByIdOrRaise(cbx1_str, sub).touch()
                             time.sleep(3)
                             self.dump_always()
 
                     self.vc.findViewByIdOrRaise(
-                        "com.eembc.andebench:id/ab_icon").touch()
+                        "com.eembc.andebench:id/ab_icon"
+                    ).touch()
                     time.sleep(3)
                     self.dump_always()
-                    self.vc.findViewWithTextOrRaise(u'Home').touch()
+                    self.vc.findViewWithTextOrRaise(u"Home").touch()
 
         while True:
             try:
@@ -148,13 +152,13 @@ class ApkRunnerImpl(ApkTestRunner):
                 self.dump_always()
                 self.vc.findViewWithTextOrRaise("DEVICE SCORE")
 
-                self.vc.findViewWithTextOrRaise(u'3D').touch()
-                self.vc.findViewWithTextOrRaise(u'Platform').touch()
-                self.vc.findViewWithTextOrRaise(u'Storage').touch()
-                self.vc.findViewWithTextOrRaise(u'Memory Latency').touch()
-                self.vc.findViewWithTextOrRaise(u'Memory Bandwidth').touch()
-                self.vc.findViewWithTextOrRaise(u'CoreMark-PRO (Peak)').touch()
-                self.vc.findViewWithTextOrRaise(u'CoreMark-PRO (Base)').touch()
+                self.vc.findViewWithTextOrRaise(u"3D").touch()
+                self.vc.findViewWithTextOrRaise(u"Platform").touch()
+                self.vc.findViewWithTextOrRaise(u"Storage").touch()
+                self.vc.findViewWithTextOrRaise(u"Memory Latency").touch()
+                self.vc.findViewWithTextOrRaise(u"Memory Bandwidth").touch()
+                self.vc.findViewWithTextOrRaise(u"CoreMark-PRO (Peak)").touch()
+                self.vc.findViewWithTextOrRaise(u"CoreMark-PRO (Base)").touch()
                 find_result = True
             except ViewNotFoundException:
                 pass

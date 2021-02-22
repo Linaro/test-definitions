@@ -12,9 +12,7 @@ from py_util_lib import call_shell_lib  # nopep8
 
 
 class Device:
-    tcpip_device_re = re.compile(
-        r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$"
-    )
+    tcpip_device_re = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$")
     EXEC_IN_LAVA = shutil.which("lava-send") is not None
 
     def __init__(
@@ -30,8 +28,7 @@ class Device:
         )
         self.logcat_output_file = open(logcat_output_filename, "w")
         self.logcat = subprocess.Popen(
-            ["adb", "-s", serial_or_address, "logcat"],
-            stdout=self.logcat_output_file,
+            ["adb", "-s", serial_or_address, "logcat"], stdout=self.logcat_output_file,
         )
         self.worker_job_id = worker_job_id
         self.worker_handshake_iteration = 1
@@ -58,8 +55,7 @@ class Device:
         self._is_available = False
 
         logger.debug(
-            "adb connection to %s lost! Trying to reconnect..."
-            % self.serial_or_address
+            "adb connection to %s lost! Trying to reconnect..." % self.serial_or_address
         )
 
         # Tell the hosting worker that something is broken
@@ -101,7 +97,8 @@ class Device:
                         "OK",
                     ],
                     timeout=timeout_secs,
-                ).returncode == 0
+                ).returncode
+                == 0
             )
         except subprocess.TimeoutExpired as e:
             print(e)
@@ -154,7 +151,8 @@ class Device:
                 subprocess.run(
                     ["adb", "connect", self.serial_or_address],
                     timeout=reconnectTimeoutSecs,
-                ).returncode != 0
+                ).returncode
+                != 0
             ):
                 return False
         except subprocess.TimeoutExpired:
@@ -195,13 +193,7 @@ class Device:
         else:
             try:
                 subprocess.run(
-                    [
-                        "adb",
-                        "-s",
-                        self.serial_or_address,
-                        "reboot",
-                        "bootloader",
-                    ],
+                    ["adb", "-s", self.serial_or_address, "reboot", "bootloader",],
                     timeout=commandTimeoutSecs,
                 )
             except subprocess.TimeoutExpired:
@@ -260,10 +252,7 @@ class Device:
                 [
                     "lava-wait",
                     "worker-sync-%s-%s"
-                    % (
-                        self.worker_job_id,
-                        str(self.worker_handshake_iteration),
-                    ),
+                    % (self.worker_job_id, str(self.worker_handshake_iteration),),
                 ]
             )
             # TODO could check result variable from MultiNode cache
@@ -301,14 +290,13 @@ class RetryCheck:
 
     def should_continue(self):
         return (
-            self.current_retry < self.total_max_retries and self.current_unchanged < self.retries_if_unchanged
+            self.current_retry < self.total_max_retries
+            and self.current_unchanged < self.retries_if_unchanged
         )
 
 
 class ResultSummary:
-    def __init__(
-        self, failure_count, modules_completed, modules_total, timestamp
-    ):
+    def __init__(self, failure_count, modules_completed, modules_total, timestamp):
         self.failure_count = int(failure_count)
         self.modules_completed = int(modules_completed)
         self.modules_total = int(modules_total)
