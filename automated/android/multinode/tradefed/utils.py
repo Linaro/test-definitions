@@ -28,7 +28,8 @@ class Device:
         )
         self.logcat_output_file = open(logcat_output_filename, "w")
         self.logcat = subprocess.Popen(
-            ["adb", "-s", serial_or_address, "logcat"], stdout=self.logcat_output_file,
+            ["adb", "-s", serial_or_address, "logcat"],
+            stdout=self.logcat_output_file,
         )
         self.worker_job_id = worker_job_id
         self.worker_handshake_iteration = 1
@@ -193,7 +194,13 @@ class Device:
         else:
             try:
                 subprocess.run(
-                    ["adb", "-s", self.serial_or_address, "reboot", "bootloader",],
+                    [
+                        "adb",
+                        "-s",
+                        self.serial_or_address,
+                        "reboot",
+                        "bootloader",
+                    ],
                     timeout=commandTimeoutSecs,
                 )
             except subprocess.TimeoutExpired:
@@ -252,7 +259,10 @@ class Device:
                 [
                     "lava-wait",
                     "worker-sync-%s-%s"
-                    % (self.worker_job_id, str(self.worker_handshake_iteration),),
+                    % (
+                        self.worker_job_id,
+                        str(self.worker_handshake_iteration),
+                    ),
                 ]
             )
             # TODO could check result variable from MultiNode cache

@@ -9,14 +9,14 @@ from uiautomator import Device
 def set_wifi_state(dut, turn_on):
     """Turn WiFi on or off.
 
-        This checks the current WiFi settings and turns it on or off. It does
-        nothing if the settings are already in the desired state.
+    This checks the current WiFi settings and turns it on or off. It does
+    nothing if the settings are already in the desired state.
 
-        Parameters:
-            dut (Device): The device object.
-            enabled: Boolean, true for on, false for off
-        Raises:
-            DeviceCommandError: If the UI automation fails.
+    Parameters:
+        dut (Device): The device object.
+        enabled: Boolean, true for on, false for off
+    Raises:
+        DeviceCommandError: If the UI automation fails.
     """
     # Open the Wi-Fi settings
     adb(
@@ -76,7 +76,10 @@ def main():
     )
     args = parser.parse_args()
 
-    if args.ACTION[0] != "set_wifi_state" or args.ACTION[1] not in ("on", "off",):
+    if args.ACTION[0] != "set_wifi_state" or args.ACTION[1] not in (
+        "on",
+        "off",
+    ):
         print(
             "ERROR: Specified ACTION is not supported: {}".format(args.ACTION),
             file=sys.stderr,

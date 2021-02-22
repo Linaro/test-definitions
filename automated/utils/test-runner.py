@@ -615,25 +615,25 @@ class ManualTestRun(TestRun, cmd.Cmd):
 
 
 def get_packages(linux_distribution, target=None):
-    """ Return a list of installed packages with versions
+    """Return a list of installed packages with versions
 
-        linux_distribution is a string that may be 'debian',
-            'ubuntu', 'centos', or 'fedora'.
+    linux_distribution is a string that may be 'debian',
+        'ubuntu', 'centos', or 'fedora'.
 
-        For example (ubuntu):
-        'packages': ['acl-2.2.52-2',
-                     'adduser-3.113+nmu3',
-                     ...
-                     'zlib1g:amd64-1:1.2.8.dfsg-2+b1',
-                     'zlib1g-dev:amd64-1:1.2.8.dfsg-2+b1']
+    For example (ubuntu):
+    'packages': ['acl-2.2.52-2',
+                 'adduser-3.113+nmu3',
+                 ...
+                 'zlib1g:amd64-1:1.2.8.dfsg-2+b1',
+                 'zlib1g-dev:amd64-1:1.2.8.dfsg-2+b1']
 
-        (centos):
-        "packages": ["acl-2.2.51-12.el7",
-                     "apr-1.4.8-3.el7",
-                     ...
-                     "zlib-1.2.7-17.el7",
-                     "zlib-devel-1.2.7-17.el7"
-        ]
+    (centos):
+    "packages": ["acl-2.2.51-12.el7",
+                 "apr-1.4.8-3.el7",
+                 ...
+                 "zlib-1.2.7-17.el7",
+                 "zlib-devel-1.2.7-17.el7"
+    ]
     """
 
     logger = logging.getLogger("RUNNER.get_packages")
@@ -661,27 +661,27 @@ def get_packages(linux_distribution, target=None):
 
 
 def get_environment(target=None, skip_collection=False):
-    """ Return a dictionary with environmental information
+    """Return a dictionary with environmental information
 
-        target: optional ssh host string to gather environment remotely.
-        skip_collection: Skip data collection and return an empty dictionary.
+    target: optional ssh host string to gather environment remotely.
+    skip_collection: Skip data collection and return an empty dictionary.
 
-        For example (on a HiSilicon D03):
-        {
-            "bios_version": "Hisilicon D03 UEFI 16.12 Release",
-            "board_name": "D03",
-            "board_vendor": "Huawei",
-            "kernel": "4.9.0-20.gitedc2a1c.linaro.aarch64",
-            "linux_distribution": "centos",
-            "packages": [
-                "GeoIP-1.5.0-11.el7",
-                "NetworkManager-1.4.0-20.el7_3",
-                ...
-                "yum-plugin-fastestmirror-1.1.31-40.el7",
-                "zlib-1.2.7-17.el7"
-            ],
-            "uname": "Linux localhost.localdomain 4.9.0-20.gitedc2a1c.linaro.aarch64 #1 SMP Wed Dec 14 17:50:15 UTC 2016 aarch64 aarch64 aarch64 GNU/Linux"
-        }
+    For example (on a HiSilicon D03):
+    {
+        "bios_version": "Hisilicon D03 UEFI 16.12 Release",
+        "board_name": "D03",
+        "board_vendor": "Huawei",
+        "kernel": "4.9.0-20.gitedc2a1c.linaro.aarch64",
+        "linux_distribution": "centos",
+        "packages": [
+            "GeoIP-1.5.0-11.el7",
+            "NetworkManager-1.4.0-20.el7_3",
+            ...
+            "yum-plugin-fastestmirror-1.1.31-40.el7",
+            "zlib-1.2.7-17.el7"
+        ],
+        "uname": "Linux localhost.localdomain 4.9.0-20.gitedc2a1c.linaro.aarch64 #1 SMP Wed Dec 14 17:50:15 UTC 2016 aarch64 aarch64 aarch64 GNU/Linux"
+    }
     """
 
     environment = {}

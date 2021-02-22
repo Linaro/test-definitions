@@ -21,10 +21,7 @@ jobs:
          python -m pip install --upgrade pip
          pip install pyyaml pycodestyle python-magic black
 
-      - name: Black check
-        run: |
-         black --check .
-
       - name: Linting
         run: |
+         black --check .
          ./sanity-check.sh
