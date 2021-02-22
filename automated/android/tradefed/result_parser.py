@@ -113,7 +113,11 @@ class TradefedResultParser:
         failed_result = "pass"
         if tests_failed > 0:
             failed_result = "fail"
-        result = "%s_failed %s %s" % (module_name, failed_result, str(tests_failed),)
+        result = "%s_failed %s %s" % (
+            module_name,
+            failed_result,
+            str(tests_failed),
+        )
         py_test_lib.add_result(self.result_output_file, result)
 
         # output result to show if the module is done or not
@@ -147,7 +151,10 @@ class TradefedResultParser:
                 failures = failed_test.findall(".//Failure")
                 failure_msg = ""
                 for failure in failures:
-                    failure_msg = "%s \n %s" % (failure_msg, failure.get("message"),)
+                    failure_msg = "%s \n %s" % (
+                        failure_msg,
+                        failure.get("message"),
+                    )
 
                 self.logger.info("%s %s" % (test_name, failure_msg.strip()))
                 num_printed_failures += 1
