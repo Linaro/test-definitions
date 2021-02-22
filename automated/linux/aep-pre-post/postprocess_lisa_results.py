@@ -4,14 +4,12 @@ import csv
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f",
-                        "--file",
-                        help="CSV file for postprocessing",
-                        dest="source_filename")
-    parser.add_argument("-o",
-                        "--output-file",
-                        help="Results file",
-                        dest="results_filename")
+    parser.add_argument(
+        "-f", "--file", help="CSV file for postprocessing", dest="source_filename"
+    )
+    parser.add_argument(
+        "-o", "--output-file", help="Results file", dest="results_filename"
+    )
     args = parser.parse_args()
 
     row_index = 0

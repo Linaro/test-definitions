@@ -28,12 +28,12 @@ import sys
 
 
 def map_result_to_lava(result):
-    if result == 'warn':
-        result = 'pass'
-    elif result == 'crash':
-        result = 'fail'
-    elif result == 'incomplete':
-        result = 'fail'
+    if result == "warn":
+        result = "pass"
+    elif result == "crash":
+        result = "fail"
+    elif result == "incomplete":
+        result = "fail"
 
     return result
 
@@ -47,43 +47,43 @@ def natural_keys(text):
 
 
 def print_results(filename, ignore_tests):
-    currentsuite = ''
-    with open(filename, 'r') as f:
+    currentsuite = ""
+    with open(filename, "r") as f:
         piglit_results = json.loads(f.read())
-        for test in sorted(piglit_results['tests'].keys()):
+        for test in sorted(piglit_results["tests"].keys()):
             if test in ignore_tests:
                 continue
-            testname_parts = test.split('@')
-            testname = testname_parts[-1].replace(' ', '_')
-            suitename = '@'.join(testname_parts[0:-1])
+            testname_parts = test.split("@")
+            testname = testname_parts[-1].replace(" ", "_")
+            suitename = "@".join(testname_parts[0:-1])
 
             if currentsuite != suitename:
                 if currentsuite:
-                    print('lava-test-set stop %s' % currentsuite)
+                    print("lava-test-set stop %s" % currentsuite)
 
                 currentsuite = suitename
-                print('lava-test-set start %s' % currentsuite)
+                print("lava-test-set start %s" % currentsuite)
 
-            result = map_result_to_lava(piglit_results['tests'][test]['result'])
+            result = map_result_to_lava(piglit_results["tests"][test]["result"])
             print("%s %s" % (testname, result))
-    print('lava-test-set stop %s' % currentsuite)
+    print("lava-test-set stop %s" % currentsuite)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: %s <result_dir|result_file> [ignore_file]" % sys.argv[0])
         sys.exit(1)
 
     ignore_tests = []
     if len(sys.argv) == 3:
-        with open(sys.argv[2], 'r') as f:
+        with open(sys.argv[2], "r") as f:
             ignore_tests = f.read().split()
 
     if os.path.isdir(sys.argv[1]):
         for root, dirs, files in os.walk(sys.argv[1]):
             result_types = {}
             for name in sorted(files, key=natural_keys):
-                if name.endswith('.tmp'):
+                if name.endswith(".tmp"):
                     continue
                 piglit_result = None
                 full_f = os.path.join(root, name)

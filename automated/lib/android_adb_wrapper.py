@@ -15,9 +15,7 @@ class DeviceCommandError(BaseException):
         self.serial = serial
         self.command = command
         self.error_message = error_message
-        message = "Command `{}` failed on {}: {}".format(
-            command, serial, error_message
-        )
+        message = "Command `{}` failed on {}: {}".format(command, serial, error_message)
         super(DeviceCommandError, self).__init__(message)
 
 
@@ -54,9 +52,7 @@ def adb(*args, serial=None, raise_on_error=True):
     )
     if ret.returncode < 0:
         if raise_on_error:
-            raise DeviceCommandError(
-                serial if serial else "??", str(args), ret.stderr
-            )
+            raise DeviceCommandError(serial if serial else "??", str(args), ret.stderr)
         else:
             return None
 
@@ -73,9 +69,7 @@ def adb(*args, serial=None, raise_on_error=True):
     )
 
     if raise_on_error and ret.returncode < 0:
-        raise DeviceCommandError(
-            serial if serial else "??", str(args), ret.stderr
-        )
+        raise DeviceCommandError(serial if serial else "??", str(args), ret.stderr)
 
     return ret
 

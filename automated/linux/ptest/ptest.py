@@ -27,17 +27,17 @@ import subprocess
 import re
 import os
 
-OUTPUT_LOG = os.path.join(os.getcwd(), 'result.txt')
+OUTPUT_LOG = os.path.join(os.getcwd(), "result.txt")
 
 
 def get_ptest_dir():
-    ptest_dirs = ['/usr/lib', '/usr/lib64', '/usr/lib32']
+    ptest_dirs = ["/usr/lib", "/usr/lib64", "/usr/lib32"]
 
     for pdir in ptest_dirs:
         try:
-            ptests = subprocess.check_output('ptest-runner -l -d %s' %
-                                             pdir, shell=True,
-                                             stderr=subprocess.STDOUT)
+            ptests = subprocess.check_output(
+                "ptest-runner -l -d %s" % pdir, shell=True, stderr=subprocess.STDOUT
+            )
         except subprocess.CalledProcessError:
             continue
 
@@ -47,16 +47,16 @@ def get_ptest_dir():
 
 
 def get_available_ptests(ptest_dir):
-    output = subprocess.check_output('ptest-runner -l -d %s' %
-                                     ptest_dir, shell=True,
-                                     stderr=subprocess.STDOUT)
+    output = subprocess.check_output(
+        "ptest-runner -l -d %s" % ptest_dir, shell=True, stderr=subprocess.STDOUT
+    )
 
     ptests = []
     ptest_rex = re.compile("^(?P<ptest_name>.*)\t")
-    for line in output.decode('utf-8', errors="replace").split('\n'):
+    for line in output.decode("utf-8", errors="replace").split("\n"):
         m = ptest_rex.search(line)
         if m:
-            ptests.append(m.group('ptest_name'))
+            ptests.append(m.group("ptest_name"))
 
     return ptests
 
@@ -78,8 +78,7 @@ def filter_ptests(ptests, requested_ptests, exclude):
 
     for request_ptest in requested_ptests.keys():
         if not requested_ptests[request_ptest]:
-            print("ERROR: Ptest %s was requested and isn't available" %
-                  request_ptest)
+            print("ERROR: Ptest %s was requested and isn't available" % request_ptest)
             sys.exit(1)
 
     return filter_ptests
@@ -87,9 +86,9 @@ def filter_ptests(ptests, requested_ptests, exclude):
 
 def parse_line(line):
     test_status_list = {
-        'pass': re.compile("^PASS:(.+)"),
-        'fail': re.compile("^FAIL:(.+)"),
-        'skip': re.compile("^SKIP:(.+)")
+        "pass": re.compile("^PASS:(.+)"),
+        "fail": re.compile("^FAIL:(.+)"),
+        "skip": re.compile("^SKIP:(.+)"),
     }
 
     for test_status, status_regex in test_status_list.items():
@@ -102,10 +101,9 @@ def parse_line(line):
 
 def run_ptest(command):
     results = []
-    process = subprocess.Popen(command,
-                               shell=True,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT)
+    process = subprocess.Popen(
+        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
     while True:
         output = process.stdout.readline()
         try:
@@ -125,34 +123,46 @@ def run_ptest(command):
 
 
 def check_ptest(ptest_dir, ptest_name, output_log):
-    log_name = os.path.join(os.getcwd(), '%s.log' % ptest_name)
-    status, results = run_ptest('ptest-runner -d %s %s' % (ptest_dir, ptest_name))
+    log_name = os.path.join(os.getcwd(), "%s.log" % ptest_name)
+    status, results = run_ptest("ptest-runner -d %s %s" % (ptest_dir, ptest_name))
 
-    with open(output_log, 'a+') as f:
+    with open(output_log, "a+") as f:
         f.write("lava-test-set start %s\n" % ptest_name)
         f.write("%s %s\n" % (ptest_name, "pass" if status == 0 else "fail"))
         for test, test_status in results:
             test = test.encode("ascii", errors="ignore").decode()
-            f.write("%s %s\n" % (re.sub(r'[^\w-]', '', test), test_status))
+            f.write("%s %s\n" % (re.sub(r"[^\w-]", "", test), test_status))
         f.write("lava-test-set stop %s\n" % ptest_name)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="LAVA/OE ptest script",
-                                     add_help=False)
-    parser.add_argument('-t', '--tests', action='store', nargs='*',
-                        help='Ptests to run')
-    parser.add_argument('-e', '--exclude', action='store', nargs='*',
-                        help='Ptests to exclude')
-    parser.add_argument('-d', '--ptest-dir',
-                        help='Directory where ptests are stored (optional)',
-                        action='store')
-    parser.add_argument('-o', '--output-log',
-                        help='File to output log (optional)', action='store',
-                        default=OUTPUT_LOG)
-    parser.add_argument('-h', '--help', action='help',
-                        default=argparse.SUPPRESS,
-                        help='show this help message and exit')
+    parser = argparse.ArgumentParser(description="LAVA/OE ptest script", add_help=False)
+    parser.add_argument(
+        "-t", "--tests", action="store", nargs="*", help="Ptests to run"
+    )
+    parser.add_argument(
+        "-e", "--exclude", action="store", nargs="*", help="Ptests to exclude"
+    )
+    parser.add_argument(
+        "-d",
+        "--ptest-dir",
+        help="Directory where ptests are stored (optional)",
+        action="store",
+    )
+    parser.add_argument(
+        "-o",
+        "--output-log",
+        help="File to output log (optional)",
+        action="store",
+        default=OUTPUT_LOG,
+    )
+    parser.add_argument(
+        "-h",
+        "--help",
+        action="help",
+        default=argparse.SUPPRESS,
+        help="show this help message and exit",
+    )
     args = parser.parse_args()
 
     if args.ptest_dir:
@@ -186,7 +196,7 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         ret = main()
     except SystemExit as e:
@@ -194,6 +204,7 @@ if __name__ == '__main__':
     except Exception:
         ret = 1
         import traceback
+
         traceback.print_exc()
 
     sys.exit(ret)

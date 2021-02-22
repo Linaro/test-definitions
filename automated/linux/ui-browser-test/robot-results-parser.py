@@ -27,16 +27,16 @@ input_file = sys.argv[1]
 tree = ET.parse(input_file)
 root = tree.getroot()
 
-for statistics in root.findall('statistics'):
-    for suite in statistics.findall('suite'):
-        for stat in suite.findall('stat'):
-            name = stat.get('name')
-            if 'Robot-Test-Scripts' == name:
-                status = 'pass'
+for statistics in root.findall("statistics"):
+    for suite in statistics.findall("suite"):
+        for stat in suite.findall("stat"):
+            name = stat.get("name")
+            if "Robot-Test-Scripts" == name:
+                status = "pass"
                 print name, " ", status
             else:
-                if '1' == stat.get('pass'):
-                    status = 'pass'
+                if "1" == stat.get("pass"):
+                    status = "pass"
                 else:
-                    status = 'fail'
+                    status = "fail"
                 print name, " ", status

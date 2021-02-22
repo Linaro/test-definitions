@@ -21,5 +21,5 @@ class MyHandler(BaseHTTPRequestHandler):
         self.returnIP()
 
 
-server = HTTPServer(('', 8080), MyHandler)
+server = HTTPServer(("", 8080), MyHandler)
 server.handle_request()

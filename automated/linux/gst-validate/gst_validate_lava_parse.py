@@ -28,35 +28,37 @@ import sys
 
 
 def map_result_to_lava(result):
-    if result == 'Passed':
-        result = 'pass'
-    elif result == 'Failed':
-        result = 'fail'
-    elif result == 'Skipped':
-        result = 'skip'
-    elif result == 'Timeout':
-        result = 'fail'
+    if result == "Passed":
+        result = "pass"
+    elif result == "Failed":
+        result = "fail"
+    elif result == "Skipped":
+        result = "skip"
+    elif result == "Timeout":
+        result = "fail"
 
     return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: %s <result_file> [ignore_file]" % sys.argv[0])
         sys.exit(1)
 
     ignore_tests = []
     if len(sys.argv) == 3:
-        with open(sys.argv[2], 'r') as f:
+        with open(sys.argv[2], "r") as f:
             ignore_tests = f.read().split()
 
-    rex = re.compile(r'^(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))')
-    with open(sys.argv[1], 'r') as f:
+    rex = re.compile(
+        r"^(?P<test_case_id>validate\..*):\s+(?P<result>(Failed|Passed|Skipped|Timeout))"
+    )
+    with open(sys.argv[1], "r") as f:
         for line in f.readlines():
             s = rex.search(line)
             if s:
-                test_case_id = s.group('test_case_id')
-                result = s.group('result')
+                test_case_id = s.group("test_case_id")
+                result = s.group("result")
 
                 if test_case_id not in ignore_tests:
                     print("%s %s" % (test_case_id, map_result_to_lava(result)))

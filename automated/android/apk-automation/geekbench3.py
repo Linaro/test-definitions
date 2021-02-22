@@ -10,21 +10,23 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config['apk_file_name'] = "com.primatelabs.geekbench3.apk"
-        self.config['apk_package'] = "com.primatelabs.geekbench3"
-        self.config['activity'] = "com.primatelabs.geekbench3/.HomeActivity"
+        self.config["apk_file_name"] = "com.primatelabs.geekbench3.apk"
+        self.config["apk_package"] = "com.primatelabs.geekbench3"
+        self.config["activity"] = "com.primatelabs.geekbench3/.HomeActivity"
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def all_fail(self):
-        self.report_result('geekbench-run', 'fail')
-        self.report_result('geekbench-single-core', 'skip')
-        self.report_result('geekbench-multi-core', 'skip')
+        self.report_result("geekbench-run", "fail")
+        self.report_result("geekbench-single-core", "skip")
+        self.report_result("geekbench-multi-core", "skip")
 
     def execute(self):
         try:
             time.sleep(2)
             self.dump_always()
-            trigger = self.vc.findViewByIdOrRaise(self.config['apk_package'] + ":id/runBenchmarks")
+            trigger = self.vc.findViewByIdOrRaise(
+                self.config["apk_package"] + ":id/runBenchmarks"
+            )
             trigger.touch()
             self.logger.info("Geekbench 3 Test Started!")
         except ViewNotFoundException:
@@ -33,7 +35,7 @@ class ApkRunnerImpl(ApkTestRunner):
             sys.exit(1)
 
         finished = False
-        while (not finished):
+        while not finished:
             time.sleep(10)
             self.dump_always()
             flag = self.vc.findViewWithText("RESULT")
@@ -44,12 +46,14 @@ class ApkRunnerImpl(ApkTestRunner):
             elif in_progress:
                 self.logger.info("Geekbench 3 Test is still in progress...")
             else:
-                self.logger.error("Something goes wrong! It is unusual that the test has not been started after 10+ seconds! Please manually check it!")
+                self.logger.error(
+                    "Something goes wrong! It is unusual that the test has not been started after 10+ seconds! Please manually check it!"
+                )
                 # self.all_fail()
                 # sys.exit(1)
 
         # Generate the .gb3 file
-        self.device.press('KEYCODE_MENU')
+        self.device.press("KEYCODE_MENU")
         time.sleep(1)
         self.dump_always()
         share_button = self.vc.findViewWithText("Share")
@@ -57,16 +61,26 @@ class ApkRunnerImpl(ApkTestRunner):
             share_button.touch()
             time.sleep(5)
         else:
-            self.logger.error("Can not find the Share button to generate .gb3 file! Please check the screen!")
+            self.logger.error(
+                "Can not find the Share button to generate .gb3 file! Please check the screen!"
+            )
             sys.exit(1)
 
     def parseResult(self):
-        raw_output_file = '%s/geekbench3-result-itr%s.gb3' % (self.config['output'], self.config['itr'])
-        self.logger.info('Pulling /data/user/0/com.primatelabs.geekbench3/files to output directory...')
-        self.call_adb('pull /data/user/0/com.primatelabs.geekbench3/files %s/files' % self.config['output'])
-        db_file_list = glob.glob('%s/files/*.gb3' % self.config['output'])
+        raw_output_file = "%s/geekbench3-result-itr%s.gb3" % (
+            self.config["output"],
+            self.config["itr"],
+        )
+        self.logger.info(
+            "Pulling /data/user/0/com.primatelabs.geekbench3/files to output directory..."
+        )
+        self.call_adb(
+            "pull /data/user/0/com.primatelabs.geekbench3/files %s/files"
+            % self.config["output"]
+        )
+        db_file_list = glob.glob("%s/files/*.gb3" % self.config["output"])
         if len(db_file_list) > 1:
-            self.logger.error('More then one db file found...')
+            self.logger.error("More then one db file found...")
             sys.exit(1)
         db_file = db_file_list[0]
         os.rename(db_file, raw_output_file)
@@ -84,13 +98,19 @@ class ApkRunnerImpl(ApkTestRunner):
                 # Find the ending point with the information we want
                 endpoint = line.find(endpoint_keyword)
                 if endpoint == -1:
-                    self.logger.error("Can not find %s in log file! Please manually check it!" % endpoint_keyword)
+                    self.logger.error(
+                        "Can not find %s in log file! Please manually check it!"
+                        % endpoint_keyword
+                    )
                     self.all_fail()
                     sys.exit(1)
                 else:
                     self.report_result("geekbench-run", "pass")
                     result_cut = line[0:endpoint].split(",")
-                    result_cut = [element.replace('"', '').replace(' ', '') for element in result_cut]
+                    result_cut = [
+                        element.replace('"', "").replace(" ", "")
+                        for element in result_cut
+                    ]
                     for item in result_cut:
                         if singlecore_keyword == item.split(":")[0]:
                             singlecore_result[singlecore_keyword] = item.split(":")[1]
@@ -98,18 +118,32 @@ class ApkRunnerImpl(ApkTestRunner):
                             multicore_result[multicore_keyword] = item.split(":")[1]
                     if len(singlecore_result) != 1:
                         run_result = "fail"
-                        self.logger.error("Incorrect value for single core test result! Please check the test result file!")
-                        self.report_result('geekbench-single-core', run_result)
+                        self.logger.error(
+                            "Incorrect value for single core test result! Please check the test result file!"
+                        )
+                        self.report_result("geekbench-single-core", run_result)
                     else:
                         run_result = "pass"
-                        self.report_result('geekbench-single-core', run_result, singlecore_result[singlecore_keyword], 'points')
+                        self.report_result(
+                            "geekbench-single-core",
+                            run_result,
+                            singlecore_result[singlecore_keyword],
+                            "points",
+                        )
                     if len(multicore_result) != 1:
                         run_result = "fail"
-                        self.logger.error("Incorrect value for multi core test result! Please check the test result file!")
-                        self.report_result('geekbench-multi-core', run_result)
+                        self.logger.error(
+                            "Incorrect value for multi core test result! Please check the test result file!"
+                        )
+                        self.report_result("geekbench-multi-core", run_result)
                     else:
                         run_result = "pass"
-                        self.report_result('geekbench-multi-core', run_result, multicore_result[multicore_keyword], 'points')
+                        self.report_result(
+                            "geekbench-multi-core",
+                            run_result,
+                            multicore_result[multicore_keyword],
+                            "points",
+                        )
 
             logfile.close()
         else:
@@ -118,4 +152,4 @@ class ApkRunnerImpl(ApkTestRunner):
 
     def tearDown(self):
         super(ApkRunnerImpl, self).tearDown()
-        shutil.rmtree('%s/files/' % self.config['output'])
+        shutil.rmtree("%s/files/" % self.config["output"])

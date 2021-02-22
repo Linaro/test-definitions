@@ -8,9 +8,9 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config['apk_file_name'] = 'CF-Bench-Pro-1.3.apk'
-        self.config['apk_package'] = 'eu.chainfire.cfbench'
-        self.config['activity'] = 'eu.chainfire.cfbench/.MainActivity'
+        self.config["apk_file_name"] = "CF-Bench-Pro-1.3.apk"
+        self.config["apk_package"] = "eu.chainfire.cfbench"
+        self.config["activity"] = "eu.chainfire.cfbench/.MainActivity"
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def execute(self):
@@ -18,11 +18,13 @@ class ApkRunnerImpl(ApkTestRunner):
         while not find_start_btn:
             time.sleep(2)
             self.dump_always()
-            warn_msg = self.vc.findViewWithText(u'This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer.')
-            continue_btn = self.vc.findViewWithText(u'CONTINUE')
+            warn_msg = self.vc.findViewWithText(
+                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+            )
+            continue_btn = self.vc.findViewWithText(u"CONTINUE")
             if warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u'OK')
+                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
                 warning_ok_btn.touch()
             elif continue_btn:
                 continue_btn.touch()
@@ -38,7 +40,9 @@ class ApkRunnerImpl(ApkTestRunner):
             try:
                 time.sleep(5)
                 self.dump_always()
-                self.vc.findViewByIdOrRaise("eu.chainfire.cfbench:id/admob_preference_layout")
+                self.vc.findViewByIdOrRaise(
+                    "eu.chainfire.cfbench:id/admob_preference_layout"
+                )
                 finished = True
             except ViewNotFoundException:
                 pass
@@ -54,7 +58,7 @@ class ApkRunnerImpl(ApkTestRunner):
             while not found_score_view:
                 score_view = self.vc.findViewWithText(content_desc)
                 if not score_view:
-                    self.device.press('DPAD_DOWN')
+                    self.device.press("DPAD_DOWN")
                     time.sleep(2)
                     try:
                         self.dump_always()
@@ -66,15 +70,25 @@ class ApkRunnerImpl(ApkTestRunner):
                     found_score_view = True
 
             score_uid = score_view.getUniqueId()
-            uid = int(re.search(r"id/no_id/(?P<uid>\d+)", score_uid).group('uid'))
+            uid = int(re.search(r"id/no_id/(?P<uid>\d+)", score_uid).group("uid"))
             score = self.vc.findViewByIdOrRaise("id/no_id/%s" % (uid + offset))
             score_text = score.getText()
             if score_text.find("%") > 0:
                 score_value, units = score_text.split(" ")
-                self.report_result("cfbench-" + content_desc.replace(" ", "-"), 'pass', score_value, units)
+                self.report_result(
+                    "cfbench-" + content_desc.replace(" ", "-"),
+                    "pass",
+                    score_value,
+                    units,
+                )
 
             else:
-                self.report_result("cfbench-" + content_desc.replace(" ", "-"), 'pass', score_text, 'points')
+                self.report_result(
+                    "cfbench-" + content_desc.replace(" ", "-"),
+                    "pass",
+                    score_text,
+                    "points",
+                )
         except ViewNotFoundException:
             self.logger.error("%s not found" % content_desc)
             pass
