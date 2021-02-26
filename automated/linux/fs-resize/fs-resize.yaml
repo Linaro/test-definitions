@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: fs-resize
+    description: "Test if rootfs was properly resized
+
+    This test checks whether rootfs occupies the whole block device.
+    It tests the scenario when rootfs should be resized after first
+    boot."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - bcm2711-rpi-4-b
+
+params:
+        MOUNTPOINT: "sysroot"
+        SKIP_INSTALL: "true"
+
+run:
+    steps:
+        - cd ./automated/linux/fs-resize/
+        - ./fs-resize.sh -m "${MOUNTPOINT}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
