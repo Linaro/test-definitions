@@ -30,9 +30,20 @@ params:
     INTERFACE: ""
     NFS: "false"
     SKIP_INSTALL: "False"
+    # CURL command needs to end with parameter that
+    # names the file in which the downloaded content will be saved
+    CURL: "curl -o"
+    # CURL_PACKAGE is a name of the package that will be installed
+    # if SKIP_INSTALL is set to "False"
+    CURL_PACKAGE: "curl"
+    # DHCLIENT command will be called in attempt to assign IPv4 address
+    DHCLIENT: "dhclient -v"
+    # DHCLIENT_PACKAGE is a name of the package that will be installed
+    # if SKIP_INSTALL is set to "False"
+    DHCLIENT_PACKAGE: "isc-dhcp-client"
 
 run:
     steps:
         - cd ./automated/linux/network-basic/
-        - ./network-basic.sh -s "${SKIP_INSTALL}" -i "${INTERFACE}" -n "${NFS}"
+        - ./network-basic.sh -s "${SKIP_INSTALL}" -i "${INTERFACE}" -n "${NFS}" -c "${CURL}" -g "${CURL_PACKAGE}" -d "${DHCLIENT}" -p "${DHCLIENT_PACKAGE}"
         - ../../utils/send-to-lava.sh ./output/result.txt

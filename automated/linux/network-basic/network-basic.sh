@@ -4,25 +4,40 @@
 . ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
+DHCLIENT="dhclient -v"
+DHCLIENT_PACKAGE="isc-dhcp-client"
+CURL="curl -o"
+CURL_PACKAGE="curl"
 export RESULT_FILE
 NFS="false"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>] [-i <interface>] [-n <true|false>]" 1>&2
+    printf "Usage: %s \
+        \n\t[-s <true|false>] \
+        \n\t[-i <interface>] \
+        \n\t[-n <true|false>] \
+        \n\t[-c <curl -o| wget -O>] \
+        \n\t[-g <curl/wget package name>] \
+        \n\t[-d <dhclient -v|udhcpc>] \
+        \n\t[-p <dhclient/udhcpc package name]" "$0" 1>&2
     exit 1
 }
 
-while getopts "s:i:n:" o; do
+while getopts "s:i:n:c:d:p:g:" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     i) INTERFACE="${OPTARG}" ;;
     n) NFS="${OPTARG}" ;;
+    c) CURL="${OPTARG}" ;;
+    g) CURL_PACKAGE="${OPTARG}" ;;
+    d) DHCLIENT="${OPTARG}" ;;
+    p) DHCLIENT_PACKAGE="${OPTARG}" ;;
     *) usage ;;
   esac
 done
 
 install() {
-    pkgs="curl net-tools"
+    pkgs="${CURL_PACKAGE} ${DHCLIENT_PACKAGE} net-tools"
     install_deps "${pkgs}" "${SKIP_INSTALL}"
 }
 
@@ -68,13 +83,14 @@ case "${dist}" in
     centos|fedora)
        # dhclient exits with non-zero when it is already running.
        # Kill it first for the next dhclient test.
-       pkill dhclient || true
+       # shellcheck disable=SC2086
+       pkill ${DHCLIENT} || true
        # It takes time to kill dhclient.
        sleep 10
        ;;
 esac
 
-run "dhclient -v ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
+run "${DHCLIENT} ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
 run "route" "print-routing-tables-after-dhclient-request"
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
-run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_480p_MPEG4_MP3_25fps_1600K_short.AVI -o ${OUTPUT}/curl_big_video.avi" "download-a-file"
+run "${CURL} ${OUTPUT}/curl_big_video.avi http://samplemedia.linaro.org/MPEG4/big_buck_bunny_480p_MPEG4_MP3_25fps_1600K_short.AVI" "download-a-file"
