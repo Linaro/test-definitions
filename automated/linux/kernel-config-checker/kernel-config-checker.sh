@@ -76,7 +76,7 @@ check_config() {
     for c in ${@}; do
         info_msg "Checking config option ${c}..."
         cat < "${kernel_config}" | grep "${c}=[y|m]" > /dev/null
-        check_return "config value: ${c}"
+        check_return "config_value_${c}"
     done
 }
 
