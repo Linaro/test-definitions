@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: aklite
+    description: "Check basic information provided by
+    aktualizr-lite. This includes systemd service status,
+    device registration status and actual target. If device
+    is registered, device name is retrieved."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - bcm2711-rpi-4-b
+
+params:
+        DEVICE_NAME: ""
+        TARGET: ""
+
+run:
+    steps:
+        - cd ./automated/linux/aklite
+        - ./aklite.sh -n "${DEVICE_NAME}" -t "${TARGET}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
