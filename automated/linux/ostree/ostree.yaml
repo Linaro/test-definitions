@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ostree
+    description: "Test if OSTree hash on the device matches the
+    expected value"
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm-evk
+        - bcm2711-rpi-4-b
+
+params:
+        OSTREE_HASH: ""
+        SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/ostree
+        - ./ostree.sh -m "${OSTREE_HASH}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
