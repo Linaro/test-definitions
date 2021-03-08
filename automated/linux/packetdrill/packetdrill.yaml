@@ -1,0 +1,62 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: packetdrill
+    description: |
+                  The packetdrill scripting tool enables quick, precise tests for entire
+                  TCP/UDP/IPv4/IPv6 network stacks, from the system call layer down to the NIC
+                  hardware. packetdrill currently works on Linux, FreeBSD, OpenBSD, and NetBSD.
+                  It can test network stack behavior over physical NICs on a LAN, or on a single
+                  machine using a tun virtual network device.
+
+                  The code is GPLv2. Currently the source for the testing tool and a number of
+                  test scripts is in the git repository. We will continue to post more tests from
+                  our team's Linux TCP test suite (described in our USENIX paper), as time
+                  permits.
+
+
+    maintainer:
+        - anders.roxell@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - dragonboard410c
+        - hi6220-hikey
+        - juno
+        - nxp-ls2088
+        - x15
+        - x86
+
+params:
+        # If the following parameter is set, then the packetdrill suite is
+        # cloned and used unconditionally. In particular, the version
+        # of the suite is set to the commit pointed to by the
+        # parameter. A simple choice for the value of the parameter
+        # is, e.g., HEAD.  If, instead, the parameter is
+        # not set, then the suite present in TEST_DIRis used.
+        TEST_PROG_VERSION: ""
+
+        # If next parameter is set, then the packetdrill suite is cloned
+        # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
+        # standard repository for the suite. Note that cloning is done
+        # only if TEST_PROG_VERSION is not empty
+        TEST_GIT_URL: ""
+
+        # If next parameter is set, then the packetdrill suite is cloned to or
+        # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/packetdrill
+        TEST_DIR: ""
+
+        # If the user space already have everything installed. default: false
+        SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/packetdrill/
+        - ./packetdrill.sh -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
