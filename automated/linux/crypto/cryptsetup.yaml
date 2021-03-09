@@ -1,0 +1,28 @@
+metadata:
+    name: cryptsetup
+    format: "Lava-Test Test Definition 1.0"
+    description: "Cryptsetup benchmark tests"
+    maintainer:
+        - nicolas.dechesne@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - crypto
+    devices:
+        - all
+    environment:
+        - lava-test-shell
+
+params:
+    SKIP_INSTALL: "false"
+    HASH: "sha1 sha256 sha512"
+    CIPHER: "aes-cbc_128 aes-cbc_256 aes-xts_256 aes-xts_512"
+
+run:
+    steps:
+        - cd ./automated/linux/crypto/
+        - ./cryptsetup.sh -s "${SKIP_INSTALL}" -h "${HASH}" -c "${CIPHER}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
