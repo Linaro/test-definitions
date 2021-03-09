@@ -1,0 +1,29 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: tvm-unit-tests
+    description: "Carry out tvm unit tests from the
+    TVM/tests/scripts dir
+    from https://github.com/apache/tvm.
+    The purpose is to check the validity of PR's and
+    ensure that there are no regressions. Apache TVM
+    is a compiler stack for deep learning systems.
+    Current UnitTests being tested include cpp and
+    crt unit tests."
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - dragonboard-845c
+params:
+    TVM_TARBALL: 'http://snapshots.linaro.org/components/tvm/latest/tvm.tar.xz'
+    TEST_DIR: '/usr/local/bin'
+    SKIP_INSTALL: false
+    TVM_HOME: '/usr/local/bin/tvm'
+run:
+    steps:
+        - cd ./automated/linux/tvm/
+        - ./tvm-unit-tests.sh -s "${SKIP_INSTALL}" -t "${TVM_TARBALL}" -d "${TEST_DIR}" -e "${TVM_HOME}"
+        - ./../../utils/send-to-lava.sh ./output/results.txt
