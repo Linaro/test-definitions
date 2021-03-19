@@ -52,11 +52,14 @@ params:
         # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/packetdrill
         TEST_DIR: ""
 
+        # If next parameter is set, then the packetdrill suite installed in this PATH
+        INSTALL_PATH: ""
+
         # If the user space already have everything installed. default: false
         SKIP_INSTALL: "false"
 
 run:
     steps:
         - cd ./automated/linux/packetdrill/
-        - ./packetdrill.sh -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}"
+        - ./packetdrill.sh -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -d "${INSTALL_PATH}"
         - ../../utils/send-to-lava.sh ./output/result.txt
