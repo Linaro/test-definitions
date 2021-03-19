@@ -11,12 +11,13 @@ TMP_LOG="${OUTPUT}/tmp_log.txt"
 TEST_PROGRAM=packetdrill
 TEST_PROG_VERSION=
 TEST_GIT_URL=https://github.com/google/packetdrill.git
-TEST_DIR="/opt/${TEST_PROGRAM}"
+TEST_DIR="$(pwd)/${TEST_PROGRAM}"
+INSTALL_PATH="/opt/${TEST_PROGRAM}"
 SKIP_INSTALL="false"
 
 usage() {
     echo "\
-    Usage: [sudo] ./packetdrill.sh [-d <DURATION>] [-v <TEST_PROG_VERSION>]
+    Usage: [sudo] ./packetdrill.sh [-d <INSTALL_PATH>] [-v <TEST_PROG_VERSION>]
                   [-u <TEST_GIT_URL>] [-p <TEST_DIR>] [-s <true|false>]
 
     <TEST_PROG_VERSION>:
@@ -36,16 +37,19 @@ usage() {
     If this parameter is set, then the ${TEST_PROGRAM} suite is cloned to or
     looked for in TEST_DIR. Otherwise it is cloned to /opt/${TEST_PROGRAM}
 
+    <INSTALL_PATH>:
+    # If next parameter is set, then the packetdrill suite installed in this PATH
+
     <SKIP_INSTALL>:
     If you already have it installed into the rootfs.
     default: false"
 }
 
-while getopts "h:p:u:s:v:" opt; do
+while getopts "d:h:p:s:u:v:" opt; do
     case $opt in
-        u)
+        d)
             if [[ "$OPTARG" != '' ]]; then
-                TEST_GIT_URL="${OPTARG}"
+                INSTALL_PATH="${OPTARG}"
             fi
             ;;
         p)
@@ -55,6 +59,11 @@ while getopts "h:p:u:s:v:" opt; do
             ;;
         s)
             SKIP_INSTALL="${OPTARG}"
+            ;;
+        u)
+            if [[ "$OPTARG" != '' ]]; then
+                TEST_GIT_URL="${OPTARG}"
+            fi
             ;;
         v)
             TEST_PROG_VERSION="${OPTARG}"
@@ -110,33 +119,45 @@ parse_output() {
 
     # Clean up
     rm -rf "${TMP_LOG}" "${RESULT_LOG}"
-
 }
 
+# shellcheck disable=SC2035
 build_install_tests() {
     pushd "${TEST_DIR}/gtests/net/packetdrill" || exit 1
     ./configure
     make all
+    mkdir -p "${INSTALL_PATH}"/"${TEST_PROGRAM}"/
+    cp packetdrill "${INSTALL_PATH}"/"${TEST_PROGRAM}"/
+    # Copy required files into install test program path
+    cp *.py "${INSTALL_PATH}"/"${TEST_PROGRAM}"/
+    cp *.sh "${INSTALL_PATH}"/"${TEST_PROGRAM}"/
+    # Copy required tcp directory into install path
+    cp -r ../tcp "${INSTALL_PATH}"/
+    # Copy required common directory into install path
+    cp -r ../common "${INSTALL_PATH}"/
     popd || exit 1
 }
 
 run_test() {
-    pushd "${TEST_DIR}/gtests/net" || exit 1
+    pushd "${INSTALL_PATH}" || exit 1
     python3 ./packetdrill/run_all.py -v -l -L  2>&1 | tee -a "${RESULT_LOG}"
     popd || exit 1
 }
 
 ! check_root && error_msg "This script must be run as root"
+create_out_dir "${OUTPUT}"
 
 # Install and run test
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
-    info_msg "Skip installing package dependency for ${TEST_PROG_VERSION}"
+    info_msg "Skip installing package dependency for ${TEST_PROGRAM}"
 else
     install
 fi
 
-get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
-build_install_tests
-create_out_dir "${OUTPUT}"
+if [ ! -d "${INSTALL_PATH}" ]; then
+    get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
+    build_install_tests
+fi
+
 run_test
 parse_output
