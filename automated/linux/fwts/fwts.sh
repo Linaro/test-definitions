@@ -14,6 +14,7 @@ TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 export RESULT_FILE
 
 TESTS=""
+SKIP_TESTS=""
 TEST_PROGRAM=fwts
 TEST_PROG_VERSION=
 TEST_GIT_URL=https://github.com/ColinIanKing/fwts.git
@@ -34,6 +35,9 @@ usage() {
 	(such as having an X session running). Results are
 	indistinguishable w.r.t. to actually starting these applications.
 	Default value: \"throughput replayed-startup\"
+
+	<SKIP_TESTS>:
+	Skip listed tests, e.g. s3,nx,method
 
 	<TEST_PROG_VERSION>:
 	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
@@ -57,10 +61,13 @@ usage() {
 	default: false"
 }
 
-while getopts "h:t:p:u:v:s:" opt; do
+while getopts "h:t:k:p:u:v:s:" opt; do
 	case $opt in
 		t)
 			TESTS="$OPTARG"
+			;;
+		k)
+			SKIP_TESTS="--skip-test=$OPTARG"
 			;;
 		v)
 			TEST_PROG_VERSION="$OPTARG"
@@ -166,7 +173,7 @@ run_test() {
 	# In this case we don't want to add extra quote since that can make the
 	# string get splitted.
 	# shellcheck disable=SC2086
-	fwts ${TESTS} - 2>&1 | tee -a "${RESULT_LOG}"
+	fwts ${TESTS} ${SKIP_TESTS} - 2>&1 | tee -a "${RESULT_LOG}"
 	parse_fwts_test_results
 }
 
