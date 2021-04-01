@@ -95,6 +95,7 @@ sed -i 's/^# *PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 grep "PermitRootLogin yes" /etc/ssh/sshd_config
 echo "root:linaro123" | chpasswd
 /etc/init.d/ssh restart && sleep 3
+echo "$(lava-target-ip) lava-target-ip" >> /etc/hosts
 
 # Ensure that csv is enabled in result processors.
 if ! grep -q 'csv' ./config.yaml; then
