@@ -32,15 +32,15 @@ RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 
 if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
-    info_msg "Dependency and python2 venv installation skipped"
-    test -d .venv || error_msg "python2 venv for LISA is required, but not found!"
+    info_msg "Dependency and python3 venv installation skipped"
+    test -d .venv || error_msg "python3 venv for LISA is required, but not found!"
     . .venv/bin/activate
 else
-    PKGS="virtualenv build-essential autoconf automake libtool pkg-config trace-cmd sshpass kernelshark nmap net-tools tree libfreetype6-dev libpng12-dev python-pip python-dev python-tk"
+    PKGS="virtualenv build-essential autoconf automake libtool pkg-config trace-cmd sshpass kernelshark nmap net-tools tree libfreetype6-dev libpng-dev python3-pip python3-dev python3-tk"
     install_deps "${PKGS}"
-    virtualenv --python=python2 .venv
+    virtualenv --python=python3 .venv
     . .venv/bin/activate
-    pip install --quiet matplotlib numpy nose Cython trappy bart-py devlib psutil wrapt scipy IPython
+    pip3 install --quiet matplotlib numpy nose devlib wrapt scipy IPython
     git clone "${LISA_REPOSITORY}" lisa
     (
     cd lisa
@@ -51,9 +51,9 @@ fi
 cd lisa
 . init_env
 lisa-update submodules
-python "${LISA_SCRIPT}"
+python3 "${LISA_SCRIPT}"
 ls
 for FILE in *.csv
 do
-    python "${TEST_DIR}/postprocess_lisa_results.py" -f "${FILE}" -o "${RESULT_FILE}"
+    python3 "${TEST_DIR}/postprocess_lisa_results.py" -f "${FILE}" -o "${RESULT_FILE}"
 done
