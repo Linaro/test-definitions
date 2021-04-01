@@ -24,6 +24,9 @@ params:
         # Set of tests.
         TESTS: ""
 
+        # Skip listed tests, e.g. s3,nx,method
+        SKIP_TESTS: ""
+
         # If the following parameter is set, then the FWTS suite is
         # cloned and used unconditionally. In particular, the version
         # of the suite is set to the commit pointed to by the
@@ -46,5 +49,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/fwts/
-        - ./fwts.sh -t "${TESTS}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}"
+        - ./fwts.sh -t "${TESTS}" -k "${SKIP_TESTS}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
