@@ -1,0 +1,49 @@
+metadata:
+    name: mmtests
+    format: "Lava-Test Test Definition 1.0"
+    description: "MMTests is a configurable test suite that runs performance tests
+                  against arbitrary workloads. This is not the only test framework
+                  but care is taken to make sure the test configurations are accurate,
+                  representative and reproducible. Reporting and analysis is common across
+                  all benchmarks. Support exists for gathering additional telemetry while
+                  tests are running and hooks exist for more detailed tracing using ftrace
+                  or perf."
+
+params:
+    # Skips the installation of mmtests
+    SKIP_INSTALL: "false"
+
+    # If the following parameter is set, then the mmtests suite is
+    # cloned and used unconditionally. In particular, the version
+    # of the suite is set to the commit pointed to by the
+    # parameter. A simple choice for the value of the parameter
+    # is, e.g., HEAD.  If, instead, the parameter is
+    # not set, then the suite present in TEST_DIR is used.
+    TEST_PROG_VERSION: "HEAD"
+
+    # If next parameter is set, then the mmtests suite is cloned
+    # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
+    # standard repository for the suite. Note that cloning is done
+    # only if TEST_PROG_VERSION is not empty.
+    TEST_GIT_URL: "https://github.com/gormanm/mmtests"
+
+    # If next parameter is set, then the mmtests suite is cloned to or
+    # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/mmtests
+    TEST_DIR: ""
+
+    # Mtests test type, e.g. sysbenchcpu, iozone, sqlite, etc.
+    MMTESTS_TYPE_NAME: "sqlite"
+
+    # Mmtests configuration file that describes how the benchmarks should be
+    # configured and executed.
+    MMTESTS_CONFIG_FILE: "configs/config-db-sqlite-insert-small"
+
+    # Maximum number of retries for the single benchmark source file download
+    MMTESTS_MAX_RETRIES: 10
+
+run:
+    steps:
+        - cd ./automated/linux/mmtests/
+        - ./mmtests.sh -s "${SKIP_INSTALL}" -v "${TEST_PROG_VERSION}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -c "${MMTESTS_CONFIG_FILE}" -t "${MMTESTS_TYPE_NAME}" -r ${MMTESTS_MAX_RETRIES}
+        - ./json-to-lava.py "./${MMTESTS_TYPE_NAME}.json" > ./output/result.txt
+        - ../../utils/send-to-lava.sh ./output/result.txt
