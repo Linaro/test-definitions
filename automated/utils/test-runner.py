@@ -61,7 +61,7 @@ SSH_PARAMS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o Ser
 
 
 def run_command(command, target=None):
-    """ Run a shell command. If target is specified, ssh to the given target first. """
+    """Run a shell command. If target is specified, ssh to the given target first."""
 
     run = command
     if target:
