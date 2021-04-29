@@ -27,34 +27,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3297
     environments: all
     boards: all
-    branches:
-      - next
-      - mainline
-      - 5.11
-      - 5.10
-      - 5.9
-      - 5.8
-      - 5.7
-      - 5.6
-      - 5.4
-      - 4.19
-      - 4.14
-      - 4.9
-      - 4.4
-      - master
-      - linux-5.8.y
-      - linux-5.7.y
-      - linux-5.6.y
-      - linux-5.4.y
-      - linux-4.19.y
-      - linux-4.14.y
-      - linux-4.9.y
-      - linux-4.4.y
-      - v5.4-rt
-      - v4.19-rt
-      - v4.14-rt
-      - v4.9-rt
-      - v4.4-rt
+    branches: all
     tests:
       - ftrace:ftracetest
 
