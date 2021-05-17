@@ -8,7 +8,14 @@ metadata:
                   all benchmarks. Support exists for gathering additional telemetry while
                   tests are running and hooks exist for more detailed tracing using ftrace
                   or perf."
-
+    maintainer:
+        - anders.roxell@linaro.org
+        - naresh.kamboju@linaro.org
+        - romagnoli.mirco@gmail.com
+    os:
+        - debian
+    devices:
+        - juno-r2
 params:
     # Skips the installation of mmtests
     SKIP_INSTALL: "false"
