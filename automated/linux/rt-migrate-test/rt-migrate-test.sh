@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 # rt-migrate-test verifies the RT threads scheduler balancing.
 
 # shellcheck disable=SC1091
