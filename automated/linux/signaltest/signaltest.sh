@@ -40,7 +40,7 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -q -D "${DURATION}" -m -p "${PRIORITY}" -t "${THREADS}" --json="${LOGFILE}"
+"${binary}" -q -D "${DURATION}" -a -m -p "${PRIORITY}" -t "${THREADS}" --json="${LOGFILE}"
 
 background_process_stop bgcmd
 
