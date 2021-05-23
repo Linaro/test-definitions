@@ -44,7 +44,7 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" \
+"${binary}" -q -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" \
 	-D "${DURATION}" | tee "${LOGFILE}"
 
 background_process_stop bgcmd
