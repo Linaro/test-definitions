@@ -38,7 +38,7 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
+"${binary}" -q -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
 
 background_process_stop bgcmd
 
