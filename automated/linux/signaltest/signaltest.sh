@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 # signaltest is a RT signal roundtrip test software.
 
 # shellcheck disable=SC1091
