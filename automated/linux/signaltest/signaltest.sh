@@ -5,7 +5,7 @@
 . ../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
-LOGFILE="${OUTPUT}/signaltest.txt"
+LOGFILE="${OUTPUT}/signaltest.json"
 RESULT_FILE="${OUTPUT}/result.txt"
 
 PRIORITY="98"
@@ -40,8 +40,7 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -q -D "${DURATION}" -m -p "${PRIORITY}" -t "${THREADS}" \
-    | tee "${LOGFILE}"
+"${binary}" -q -D "${DURATION}" -m -p "${PRIORITY}" -t "${THREADS}" --json="${LOGFILE}"
 
 background_process_stop bgcmd
 

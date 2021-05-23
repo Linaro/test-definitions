@@ -6,7 +6,7 @@
 
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
-LOGFILE="${OUTPUT}/pmqtest.log"
+LOGFILE="${OUTPUT}/pmqtest.json"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
 BACKGROUND_CMD=""
@@ -38,7 +38,7 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -q -S -p 98 -D "${DURATION}" | tee "${LOGFILE}"
+"${binary}" -q -S -p 98 -D "${DURATION}" --json="${LOGFILE}"
 
 background_process_stop bgcmd
 

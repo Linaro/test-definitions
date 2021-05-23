@@ -7,7 +7,7 @@
 . ../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
-LOGFILE="${OUTPUT}/cyclicdeadline.txt"
+LOGFILE="${OUTPUT}/cyclicdeadline.json"
 RESULT_FILE="${OUTPUT}/result.txt"
 
 INTERVAL="1000"
@@ -45,7 +45,7 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 "${binary}" -q -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" \
-	-D "${DURATION}" | tee "${LOGFILE}"
+	-D "${DURATION}" --json="${LOGFILE}"
 
 background_process_stop bgcmd
 

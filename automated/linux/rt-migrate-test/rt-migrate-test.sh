@@ -5,7 +5,7 @@
 . ../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
-LOGFILE="${OUTPUT}/rt-migrate-test.txt"
+LOGFILE="${OUTPUT}/rt-migrate-test.json"
 RESULT_FILE="${OUTPUT}/result.txt"
 PRIORITY="51"
 DURATION="1m"
@@ -37,18 +37,10 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -q -p "${PRIORITY}" -D "${DURATION}" -c | tee "${LOGFILE}"
+"${binary}" -q -p "${PRIORITY}" -D "${DURATION}" -c --json="${LOGFILE}"
 
 background_process_stop bgcmd
 
 # Parse test log.
-task_num=$(grep "Task" "${LOGFILE}" | tail -1 | awk '{print $2}')
-r=$(sed -n 's/Passed!/pass/p; s/Failed!/fail/p' "${LOGFILE}" | awk '{$1=$1;print}')
-for t in $(seq 0 "${task_num}"); do
-    # Get the priority of the task.
-    p=$(grep "Task $t" "${LOGFILE}" | awk '{print substr($4,1,length($4)-1)}')
-    sed -n "/Task $t/,/Avg/p" "${LOGFILE}" \
-        | grep -v "Task" \
-        | awk -v t="$t" -v p="$p" -v r="$r" '{printf("t%s-p%s-%s %s %s %s\n",t,p,tolower(substr($1, 1, length($1)-1)),r,$2,$3)}' \
-        | tee -a "${RESULT_FILE}"
-done
+../../lib/parse_rt_tests_results.py rt-migrate-test "${LOGFILE}" \
+    | tee -a "${RESULT_FILE}"

@@ -7,7 +7,7 @@
 . ../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
-LOGFILE="${OUTPUT}/cyclictest.txt"
+LOGFILE="${OUTPUT}/cyclictest.json"
 RESULT_FILE="${OUTPUT}/result.txt"
 
 PRIORITY="98"
@@ -47,7 +47,7 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 "${binary}" -q -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
-    -D "${DURATION}" -m | tee "${LOGFILE}"
+    -D "${DURATION}" -m --json="${LOGFILE}"
 
 background_process_stop bgcmd
 

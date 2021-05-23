@@ -24,106 +24,46 @@
 # SOFTWARE.
 #
 
-import os
-import re
 import sys
+import json
 
 
-def print_res(res, key):
-    print("t{}-{}-latency pass {} us".format(res["t"], key, res[key]))
+def print_res(t, res, key):
+    print("t{}-{}-latency pass {} us".format(t, key, res[key]))
 
 
-def get_block(filename):
-    # Fetch a text block from the file iterating backwards. Each block
-    # starts with an escape sequence which starts with '\x1b'.
-    with open(filename, "rb") as f:
-        try:
-            f.seek(0, os.SEEK_END)
-            while True:
-                pe = f.tell()
+def parse_threads(rawdata):
+    num_threads = int(rawdata["num_threads"])
+    for thread_id in range(num_threads):
+        tid = str(thread_id)
+        if "receiver" in rawdata["thread"][tid]:
+            data = rawdata["thread"][tid]["receiver"]
+        else:
+            data = rawdata["thread"][tid]
 
-                f.seek(-2, os.SEEK_CUR)
-                while f.read(1) != b"\x1b":
-                    f.seek(-2, os.SEEK_CUR)
-                    pa = f.tell()
-
-                blk = f.read(pe - pa)
-
-                # Remove escape sequence at the start of the block
-                # The control sequence ends in 'A'
-                i = blk.find("A") + 1
-                yield blk[i:]
-
-                # Jump back to next block
-                f.seek(pa - 1, os.SEEK_SET)
-        except IOError:
-            # No escape sequence found
-            f.seek(0, os.SEEK_SET)
-            yield f.read()
+        for k in ["min", "avg", "max"]:
+            print_res(tid, data, k)
 
 
-def get_lastlines(filename):
-    for b in get_block(filename):
-        # Ignore empty blocks
-        if len(b.strip("\n")) == 0:
-            continue
+def parse_json(testname, filename):
+    with open(filename) as file:
+        rawdata = json.load(file)
 
-        return b.split("\n")
+    if "num_threads" in rawdata:
+        # most rt-tests have generic per thread results
+        parse_threads(rawdata)
+    elif "inversions" in rawdata:
+        # pi_stress
+        print("inversion {}\n".format(rawdata("inversions")))
 
-
-def parse_cyclictest(filename):
-    fields = ["t", "min", "avg", "max"]
-
-    r = re.compile("[ :\n]+")
-    for line in get_lastlines(filename):
-        if not line.startswith("T:"):
-            continue
-
-        data = [x.lower() for x in r.split(line)]
-        res = {}
-        it = iter(data)
-        for e in it:
-            if e in fields:
-                res[e] = next(it)
-
-        print_res(res, "min")
-        print_res(res, "avg")
-        print_res(res, "max")
-
-
-def parse_pmqtest(filename):
-    fields = ["min", "avg", "max"]
-
-    rl = re.compile("[ ,:\n]+")
-    rt = re.compile("[ ,#]+")
-    for line in get_lastlines(filename):
-        data = [x.lower() for x in rl.split(line)]
-        res = {}
-        it = iter(data)
-        for e in it:
-            if e in fields:
-                res[e] = next(it)
-
-        if not res:
-            continue
-
-        # The id is constructed from the '#FROM -> #TO' output, e.g.
-        # #1 -> #0, Min    1, Cur    3, Avg    4, Max  119
-        data = rt.split(line)
-        res["t"] = "{}-{}".format(data[1], data[3])
-
-        print_res(res, "min")
-        print_res(res, "avg")
-        print_res(res, "max")
+    if int(rawdata["return_code"]) == 0:
+        print("{} pass".format(testname))
+    else:
+        print("{} fail".format(testname))
 
 
 def main():
-    tool = sys.argv[1]
-    logfile = sys.argv[2]
-    if tool in ["cyclictest", "signaltest", "cyclicdeadline"]:
-        parse_cyclictest(logfile)
-    elif tool in ["pmqtest", "ptsematest", "sigwaittest", "svsematest"]:
-        parse_pmqtest(logfile)
+    parse_json(sys.argv[1], sys.argv[2])
 
 
 if __name__ == "__main__":
