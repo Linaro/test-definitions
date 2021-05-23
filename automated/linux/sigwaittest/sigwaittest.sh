@@ -7,7 +7,7 @@
 
 TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
-LOGFILE="${OUTPUT}/sigwaittest.log"
+LOGFILE="${OUTPUT}/sigwaittest.json"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
 BACKGROUND_CMD=""
@@ -39,7 +39,7 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -q -t -a -p 98 -D "${DURATION}" | tee "${LOGFILE}"
+"${binary}" -q -t -a -p 98 -D "${DURATION}" --json="${LOGFILE}"
 
 background_process_stop bgcmd
 
