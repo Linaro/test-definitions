@@ -38,6 +38,8 @@ params:
     AFFINITY: "0"
     # Execute cyclictest for given time
     DURATION: "5m"
+    # Dump a latency histogram after the run, max latency in us.
+    HISTOGRAM: ""
     # Background workload to be run during the meassurement
     BACKGROUND_CMD: ""
     # Specify url and token for publishing artifacts.
@@ -50,6 +52,6 @@ params:
 run:
     steps:
         - cd ./automated/linux/cyclictest/
-        - ./cyclictest.sh -D "${DURATION}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" -w "${BACKGROUND_CMD}"
+        - ./cyclictest.sh -D "${DURATION}" -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" -h "${HISTOGRAM}" -w "${BACKGROUND_CMD}"
         - ../../utils/upload-to-artifactorial.sh -a "output/cyclictest.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/send-to-lava.sh ./output/result.txt

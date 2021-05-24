@@ -16,26 +16,34 @@ THREADS="1"
 AFFINITY="0"
 DURATION="1m"
 BACKGROUND_CMD=""
+HISTOGRAM=""
 
 usage() {
-    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-a affinity] [-D duration ] [-w background_cmd]" 1>&2
+    echo "Usage: $0 [-p priority] [-i interval] [-t threads] [-a affinity] [-D duration ] [-h max_latency ] [-w background_cmd]" 1>&2
     exit 1
 }
 
-while getopts ":p:i:t:a:D:w:" opt; do
+while getopts ":p:i:t:a:D:h:w:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         i) INTERVAL="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
-	a) AFFINITY="${OPTARG}" ;;
+        a) AFFINITY="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
-	w) BACKGROUND_CMD="${OPTARG}" ;;
+        h) HISTOGRAM="${OPTARG}" ;;
+        w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
 
 ! check_root && error_msg "Please run this script as root."
 create_out_dir "${OUTPUT}"
+
+if [ -n "${HISTOGRAM}" ]; then
+    HISTOGRAM="-h ${HISTOGRAM}"
+else
+    HISTOGRAM=""
+fi
 
 # Run cyclictest.
 if ! binary=$(command -v cyclictest); then
@@ -47,7 +55,7 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 "${binary}" -q -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
-    -D "${DURATION}" -m --json="${LOGFILE}"
+    -D "${DURATION}" ${HISTOGRAM} -m --json="${LOGFILE}"
 
 background_process_stop bgcmd
 
