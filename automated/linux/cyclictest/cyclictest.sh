@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 # cyclictest measures event latency in Linux kernel by measuring the amount of
 # time that passes between when a timer expires and when the thread which set
 # the timer actually runs.
