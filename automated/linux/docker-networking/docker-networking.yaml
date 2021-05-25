@@ -1,0 +1,34 @@
+metadata:
+    name: docker-networking
+    format: "Lava-Test Test Definition 1.0"
+    description: "Docker networking test. It will try to find the 'bridge'
+                  network, start a container and ping it. Container by
+                  default should use 'bridge' network."
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - thunderX
+        - d05
+        - imx8mm-evk
+
+params:
+    # Docker image.
+    IMAGE: "alpine:latest"
+    SKIP_INSTALL: "true"
+
+run:
+    steps:
+        - cd ./automated/linux/docker-networking/
+        - ./docker-networking.sh -i "${IMAGE}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
