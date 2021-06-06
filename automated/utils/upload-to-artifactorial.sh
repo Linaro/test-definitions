@@ -33,11 +33,11 @@ done
 
 if [ -z "${ARTIFACTORIAL_URL}" ]; then
     echo "test-attachment skip"
-    which lava-test-case && lava-test-case "test-attachment" --result "skip"
+    command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "skip"
     exit 0
 fi
 
-if which lava-test-reference; then
+if command -v lava-test-reference > /dev/null 2>&1; then
     # If 'ARTIFACTORIAL_TOKEN' defined in 'secrects' dictionary defined in job
     # definition file, it will be used.
     lava_test_dir="$(find /lava-* -maxdepth 0 -type d | grep -E '^/lava-[0-9]+' 2>/dev/null | sort | tail -1)"
@@ -49,7 +49,7 @@ if which lava-test-reference; then
     if [ -z "${ARTIFACTORIAL_TOKEN}" ]; then
         echo "WARNING: ARTIFACTORIAL_TOKEN is empty! File uploading skipped."
         echo "test-attachment skip"
-        which lava-test-case && lava-test-case "test-attachment" --result "skip"
+        command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "skip"
         exit 0
     else
         return=$(curl "${CURL_VERBOSE_FLAG}" -F "path=@${ATTACHMENT}" -F "token=${ARTIFACTORIAL_TOKEN}" "${ARTIFACTORIAL_URL}")
@@ -62,10 +62,10 @@ if which lava-test-reference; then
         echo "test-attachment fail"
         echo "Expected the basename of the attachment file (\"${attachmentBasename}\") to be part \
 of the Artifactorial URL, but curl returned \"${return}\"."
-        which lava-test-case && lava-test-case "test-attachment" --result "fail"
+        command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "fail"
         exit "${FAILURE_RETURN_VALUE}"
     fi
 else
     echo "test-attachment skip"
-    which lava-test-case && lava-test-case "test-attachment" --result "skip"
+    command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "skip"
 fi
