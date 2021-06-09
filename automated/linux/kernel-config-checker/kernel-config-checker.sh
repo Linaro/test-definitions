@@ -23,11 +23,10 @@
 #
 
 # shellcheck disable=SC1091
-. ../../lib/sh-test-lib
+. ./kernel-config-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
-kernel_config=""
 
 # A list of space-separated config values to be checked.
 # Example: CONFIG_VALUES="CONFIG_X CONFIG_Y CONFIG_Z"
@@ -44,41 +43,6 @@ while getopts "c:h" o; do
         h|*) usage ;;
     esac
 done
-
-# Find the location of the kernel's config file based on various standard
-# locations.
-find_config_file() {
-    if [ -e "/boot/config-$(uname -r)" ]; then
-        kernel_config="/boot/config-$(uname -r)"
-    elif [ -e "/lib/modules/$(uname -r)/config" ]; then
-        kernel_config="/lib/modules/$(uname -r)/config"
-    elif [ -e "/lib/kernel/config-$(uname -r)" ]; then
-        kernel_config="/lib/kernel/config-$(uname -r)"
-    elif [ -e "/proc/config.gz" ]; then
-        tmpfile=$(mktemp /tmp/config.XXXXX)
-        zcat /proc/config.gz > "${tmpfile}"
-        kernel_config=${tmpfile}
-    fi
-}
-
-check_config() {
-
-    # Fetch the config file.
-    find_config_file
-
-    if [ ! -f "${kernel_config}" ]; then
-        exit_on_fail "Kernel Config File ${kernel_config} does not exist..."
-    fi
-
-    info_msg "Found kernel config file in $kernel_config."
-
-    # shellcheck disable=SC2068
-    for c in ${@}; do
-        info_msg "Checking config option ${c}..."
-        cat < "${kernel_config}" | grep "${c}=[y|m]" > /dev/null
-        check_return "config_value_${c}"
-    done
-}
 
 # Test run.
 create_out_dir "${OUTPUT}"
