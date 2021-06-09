@@ -1,0 +1,39 @@
+metadata:
+    name: ima-smoke
+    format: "Lava-Test Test Definition 1.0"
+    description: "Check if IMA is enabled in the kernel
+          The test only checks kernel configs presence,
+          IMA initialization and presence of measurements
+          file. There is no comparison between measurements
+          taken in different boot stages. There is also no
+          requirement to use TPM."
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - d05
+        - imx8mmevk
+        - imx6ullevk
+params:
+    # Specify a space-separated configs that are specific to your
+    # IMA implementation. The default list includes:
+    # CONFIG_IMA CONFIG_IMA_NG_TEMPLATE CONFIG_IMA_DEFAULT_HASH_SHA256
+    # CONFIG_IMA_WRITE_POLICY CONFIG_IMA_READ_POLICY CONFIG_IMA_APPRAISE
+    # CONFIG_IMA_APPRAISE_BOOTPARAM
+    # If the CONFIG_VALUES parameter is empty, the above list is used.
+    CONFIG_VALUES: ""
+run:
+    steps:
+        - cd ./automated/linux/ima/
+        - ./ima.sh -c "${CONFIG_VALUES}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
