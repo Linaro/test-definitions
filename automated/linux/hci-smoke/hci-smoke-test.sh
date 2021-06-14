@@ -3,6 +3,7 @@
 # HCI smoke tests
 #
 # Copyright (C) 2017, Linaro Limited.
+# Copyright (C) 2021, Foundries.io.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # Author: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+# Author: Milosz Wasilewski <milosz.wasilewski@foundries.io>
 #
 
 # shellcheck disable=SC1091
@@ -28,19 +30,21 @@ RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 DEVICE="hci0"
 BOOT="enabled"
+MODE="scan"
 
 # Pattern for HCI device baddr
 BADDR_PATTERN="..:..:..:..:..:.."
 
 usage() {
-    echo "Usage: $0 [-b <enabled|disabled>] [-d <device>]" 1>&2
+    echo "Usage: $0 [-b <enabled|disabled>] [-d <device>] [-m <scan|lescan|scan lescan>]" 1>&2
     exit 1
 }
 
-while getopts "d:b:" o; do
+while getopts "d:b:m:" o; do
   case "$o" in
     d) DEVICE="${OPTARG}" ;;
     b) BOOT="${OPTARG}" ;;
+    m) MODE="${OPTARG}" ;;
     *) usage ;;
   esac
 done
@@ -60,7 +64,7 @@ test_hciconfig_boot() {
     if [ "${BOOT}" = "auto" ]; then
         # get rid of spaces and comments
         sed 's/\s\+//g;/^#/d' /etc/bluetooth/main.conf | grep "^AutoEnable=true"
-	# shellcheck disable=SC2181
+        # shellcheck disable=SC2181
         if [ "$?" -eq 0 ]; then
             BOOT="enabled"
         else
@@ -102,6 +106,16 @@ test_hcitool_scan() {
     check_return "hciconfig-scan-verify-available-devices"
 }
 
+# Test HCI device scanning
+test_hcitool_lescan() {
+    info_msg "Running hcitool-lescan test..."
+    hcitool -i "${DEVICE}" lescan > lescan.txt & sleep 15 && pkill --signal SIGINT hcitool
+    sleep 5 # give hcitool time to write to file
+    cat lescan.txt
+    grep ${BADDR_PATTERN} lescan.txt
+    check_return "hciconfig-lescan-verify-available-devices"
+}
+
 # Test HCI device inquiry
 test_hcitool_inq() {
     info_msg "Running hcitool-inq test..."
@@ -123,7 +137,18 @@ test_hciconfig
 test_hciconfig_boot
 test_hciconfig_down
 test_hciconfig_up
-test_hcitool_scan
+info_msg "Using mode: ${MODE}"
+if (expr "${MODE}" : ".*\bscan\b.*" 1>/dev/null); then
+    test_hcitool_scan
+else
+    report_skip "hciconfig-scan"
+    report_skip "hciconfig-scan-verify-available-devices"
+fi
+if (expr "${MODE}" : ".*\blescan\b.*" 1>/dev/null); then
+    test_hcitool_lescan
+else
+    report_skip "hciconfig-lescan-verify-available-devices"
+fi
 test_hcitool_inq
 
 exit 0
