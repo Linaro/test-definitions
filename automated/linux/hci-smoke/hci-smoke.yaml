@@ -1,7 +1,14 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: hci-smoke
-    description: "Basic HCI smoke tests"
+    description: "Basic HCI smoke tests
+        The test will run the following commands:
+            - hciconfig up/down
+            - hcitool scan
+            - hcitool lescan (when le mode is enabled)
+            - hcitool inq
+        When testing LE mode some helper BT device must be
+        in DUT's proximity."
     maintainer:
         - nicolas.dechesne@linaro.org
     os:
@@ -13,14 +20,19 @@ metadata:
         - functional
     devices:
         - dragonboard410c
+        - imx8mmevk
+        - imx6ullevk
+        - rpi4
 
 params:
     DEVICE: hci0
     # expected state on first boot: <enabled> or <disabled> or <auto>
     BOOT: enabled
+    # MODE can be set to "scan", "lescam" or "scan lescan" for testing both
+    MODE: scan
 
 run:
     steps:
         - cd ./automated/linux/hci-smoke
-        - ./hci-smoke-test.sh -d "${DEVICE}" -b "${BOOT}"
+        - ./hci-smoke-test.sh -d "${DEVICE}" -b "${BOOT}" -m "${MODE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
