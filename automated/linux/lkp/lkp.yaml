@@ -1,0 +1,78 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: lkp
+    description: |
+      lkp-tests (Linux Kernel Performance) is an open source tool that allows
+      developers to evaluate their patches in a thorough way. It integrates 80+
+      popular industry open source test suites and provides a standard interface
+      to do installation, execution and result analysis. Besides the outputs from
+      benchmark itself, it is specialized at collecting data from every aspect of
+      systems such as vmstat, which is very handy to assist performance analysis
+      and root causing issues. Lkp-tests is integrated in 0-Day for Linux kernel
+      regression test.
+
+    maintainer:
+        - someone@linaro.org
+    os:
+        - debian
+        - ubuntu
+    scope:
+        - functional
+
+    devices:
+        - aarch64
+        - x86_64
+params:
+    # The git repository used for download and installation.
+    # If not specified, the standard one is used.
+    # NOTE: that the link is used only if -s|--skip-install is set
+    # to be 'False'.
+    TEST_GIT_URL: "https://github.com/intel/lkp-tests.git"
+
+    # If the following parameter is set, then the LKP is
+    # cloned and used unconditionally. In particular, the version
+    # of the suite is set to the commit pointed to by the
+    # parameter. A simple choice for the value of the parameter
+    # is, e.g., HEAD.
+    TEST_PROG_VERSION: "HEAD"
+
+    # If next parameter is set, then the LKP suite is cloned to or
+    # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/lkp-test
+    # NOTE: the directory specified must exist.
+    TEST_DIR: ""
+
+    # The boolean decide if lkp and its dependencies will be installed.
+    # - 'False' and lkp already presents: check only dependencies.
+    # - 'True' and lkp not present: the script will exit with an error.
+    # Lkp has its own dependencies installation system that takes care of
+    # package naming consistency respect different distributions;
+    # check there if a problem with packages installations occurs.
+    #
+    # NOTE: even if all dependecies are installed, the check can last some
+    # times anyway, especially if there are many repositories to update.
+    SKIP_INSTALL: "False"
+
+    # The boolean decides if single atomic-jobs dependencies will be installed.
+    # Actually, this flag decides for every atomic-jobs and not individually.
+    # Lkp has its own dependencies installation system that takes care of
+    # package naming consistency with different distributions;
+    # check there if a problem with packages installations occurs.
+    #
+    # NOTE: ckeck with attention when 'True' is passed because incomplete
+    # dependecies could lead to undefined test results.
+    SKIP_TEST_INSTALL: "False"
+
+    # List of lkp-tests to run; separate each name with space.
+    # Test name must be present inside ${LKP_DIR}jobs/<test-name>.yaml"
+    TEST_QUEUE: "sysbench-cpu"
+
+    # List of atomic-job files to run; separate each name with space.
+    # Test name must be a .yaml file created by '$lkp split-job' command.
+    # Include .yaml extension.
+    ATOMIC_JOBS: ""
+
+run:
+    steps:
+        - cd ./automated/linux/lkp
+        - ./lkp.sh -d "${TEST_DIR}" -g "${TEST_GIT_URL}" -V "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -S "${SKIP_TEST_INSTALL}" -t "${TEST_QUEUE}" -T "${ATOMIC_JOBS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
