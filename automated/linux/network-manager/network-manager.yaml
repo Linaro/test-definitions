@@ -1,0 +1,28 @@
+metadata:
+    name: network-manager-smoke
+    format: "Lava-Test Test Definition 1.0"
+    description: "The test runs basic nmcli subcommands"
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - imx8mmevk
+        - imx6ullevk
+params:
+    INTERFACE: "eth0"
+    SKIP_INSTALL: "true"
+run:
+    steps:
+        - cd ./automated/linux/network-manager/
+        - ./network-manager.sh -i "${INTERFACE}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
