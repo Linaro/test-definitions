@@ -361,3 +361,31 @@ skiplist:
       - v4.4-rt
     tests:
       - kvm:kvm_create_max_vcpus
+  - reason: >
+      kvm: get-reg-list hang on arm64 devices for stable rc 5.12
+    url: https://bugs.linaro.org/show_bug.cgi?id=5767
+    environments: all
+    boards:
+      - dragonboard-410c
+      - hi6220-hikey
+      - juno-r2
+    branches:
+      - 5.12
+      - 5.4
+      - 4.19
+      - 4.14
+      - 4.9
+      - 4.4
+      - linux-5.12.y
+      - linux-5.4.y
+      - linux-4.19.y
+      - linux-4.14.y
+      - linux-4.9.y
+      - linux-4.4.y
+      - v5.4-rt
+      - v4.19-rt
+      - v4.14-rt
+      - v4.9-rt
+      - v4.4-rt
+    tests:
+      - kvm:get-reg-list
