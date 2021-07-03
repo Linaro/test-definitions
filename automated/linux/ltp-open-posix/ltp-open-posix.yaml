@@ -22,9 +22,11 @@ params:
     # LTP version
     LTP_VERSION: 20180515
     SKIP_INSTALL: true
+    # Run Option Group Feature Tests. Available Groups are AIO, MEM, MSG, SEM, SIG, THR, TMR, TPS
+    GRP_TEST: ""
 
 run:
     steps:
         - cd ./automated/linux/ltp-open-posix/
-        - ./ltp-open-posix.sh -s "${SKIP_INSTALL}" -v "${LTP_VERSION}"
+        - ./ltp-open-posix.sh -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -t "${GRP_TEST}"
         - ../../utils/send-to-lava.sh ./output/result.txt
