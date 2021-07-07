@@ -41,6 +41,7 @@ skiplist:
       - qemu_arm64
       - x15
       - nxp-ls2088
+      - fx700
     branches: all
     tests:
       - breakpoints:breakpoint_test_arm64
@@ -82,6 +83,7 @@ skiplist:
       - juno-r2
       - x15
       - nxp-ls2088
+      - fx700
     branches: all
     tests:
       - mqueue:mq_perf_tests
