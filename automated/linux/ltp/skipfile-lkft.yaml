@@ -77,7 +77,6 @@ skiplist:
       - dragonboard-410c
       - rzn1d
       - qemu_arm64
-      - nxp-ls2088
     branches:
       - 4.4
       - 4.9
@@ -192,7 +191,6 @@ skiplist:
       - hi6220-hikey
       - dragonboard-410c
       - rzn1d
-      - nxp-ls2088
     branches:
       - all
     tests:
@@ -221,7 +219,6 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
-      - nxp-ls2088
     branches:
       - all
     tests:
@@ -254,7 +251,6 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
-      - nxp-ls2088
     branches:
       - all
     tests:
@@ -288,7 +284,6 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
-      - nxp-ls2088
     branches:
       - all
     tests:
