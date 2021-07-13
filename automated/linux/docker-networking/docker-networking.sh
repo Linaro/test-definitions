@@ -49,22 +49,22 @@ else
     install_docker
 fi
 # verify that docker is available
-skip_list="docker-network-list docker-start-container docker-network-inspect docker-network-bridge ping-container-test docker-kill-container"
+skip_list="docker-network-list docker-start-container docker-network-inspect docker-network-bridge ping-container-test docker-kill-container docker-ping-localhost-host-network"
 docker --version
 exit_on_fail "docker-version" "${skip_list}"
 
 # check if bridge network is present
-skip_list="docker-start-container docker-network-inspect docker-network-bridge ping-container-test docker-kill-container"
+skip_list="docker-start-container docker-network-inspect docker-network-bridge ping-container-test docker-kill-container docker-ping-localhost-host-network"
 docker network ls -f name=bridge | grep bridge
 exit_on_fail "docker-network-list" "${skip_list}"
 
 # start simple alpine container
-skip_list="docker-network-inspect docker-network-bridge ping-container-test docker-kill-container"
+skip_list="docker-network-inspect docker-network-bridge ping-container-test docker-kill-container docker-ping-localhost-host-network"
 docker run --name ping_test_container --rm -d "${IMAGE}" /bin/sleep 90
 exit_on_fail "docker-start-container" "${skip_list}"
 
 # container should join bridge network
-skip_list="docker-network-bridge ping-container-test docker-kill-container"
+skip_list="docker-network-bridge ping-container-test docker-kill-container docker-ping-localhost-host-network"
 DOCKER_INSPECT=$(docker network inspect bridge)
 exit_on_fail "docker-network-inspect" "${skip_list}"
 
@@ -82,5 +82,9 @@ fi
 
 docker kill ping_test_container
 check_return "docker-kill-container"
+
+# IPv4 try pinging localhost from container with host networking
+docker run --name ping_localhost_host_network --rm -d "${IMAGE}" ping -4 -c 4 localhost
+check_return "docker-ping-localhost-host-network"
 
 exit 0
