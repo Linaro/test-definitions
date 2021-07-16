@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: aklite-download-interrupt
+    description: "This test stops at the beginning of download
+    update by aktualizr-lite. It can be used in a test job with
+    user commands to disable DUT networking and force timeout
+    during OTA download."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - bcm2711-rpi-4-b
+
+params:
+        DEVICE_NAME: ""
+        TARGET: ""
+
+run:
+    steps:
+        - cd ./automated/linux/aklite-download-interrupt
+        - ./aklite-download-interrupt.sh -n "${DEVICE_NAME}" -t "${TARGET}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: aklite-download-interrupt
+    description: "This test confirms that aktualizr-lite
+    download was successfully resumed after timeout caused
+    by missing networking on DUT."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - bcm2711-rpi-4-b
+
+params:
+        DEVICE_NAME: ""
+        TARGET: ""
+
+run:
+    steps:
+        - cd ./automated/linux/aklite-download-interrupt
+        - ./aklite-download-confirm.sh -n "${DEVICE_NAME}" -t "${TARGET}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
