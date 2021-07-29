@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ota-rollback-download
+    description: "Download OTA update and corrupt
+    kernel to force rollback."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - bcm2711-rpi-4-b
+
+params:
+        UBOOT_VAR_TOOL: "fw_printenv"
+
+run:
+    steps:
+        - cd ./automated/linux/ota-rollback
+        - ./download-update.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
