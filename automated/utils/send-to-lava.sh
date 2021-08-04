@@ -2,9 +2,9 @@
 
 RESULT_FILE="$1"
 
-which lava-test-case > /dev/null 2>&1
+command -v lava-test-case > /dev/null 2>&1
 lava_test_case="$?"
-which lava-test-set > /dev/null 2>&1
+command -v lava-test-set > /dev/null 2>&1
 lava_test_set="$?"
 
 if [ -f "${RESULT_FILE}" ]; then
