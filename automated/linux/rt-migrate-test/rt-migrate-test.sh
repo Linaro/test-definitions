@@ -43,7 +43,7 @@ background_process_stop bgcmd
 
 # Parse test log.
 task_num=$(grep "Task" "${LOGFILE}" | tail -1 | awk '{print $2}')
-r=$(sed -n 's/Passed!/pass/p; s/Failed!/fail/p' "${LOGFILE}")
+r=$(sed -n 's/Passed!/pass/p; s/Failed!/fail/p' "${LOGFILE}" | awk '{$1=$1;print}')
 for t in $(seq 0 "${task_num}"); do
     # Get the priority of the task.
     p=$(grep "Task $t" "${LOGFILE}" | awk '{print substr($4,1,length($4)-1)}')
