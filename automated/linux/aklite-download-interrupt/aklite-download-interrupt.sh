@@ -49,6 +49,13 @@ report_pass "create-aklite-callback"
 touch /var/sota/ota.signal
 touch /var/sota/ota.result
 report_pass "create-signal-files"
+
+# remove some ostree objects to artificially increase the update size
+find /sysroot/ostree/repo/ -name "*.commit" -delete
+find /sysroot/ostree/repo/ -name "*.dirmeta" -delete
+rm -rf /sysroot/ostree/repo/refs/heads/*
+rm -rf /sysroot/ostree/repo/objects/0*
+
 # run autoregistration script
 lmp-device-auto-register
 check_return "lmp-device-auto-register" || error_fatal "Unable to register device"
