@@ -7,6 +7,25 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
+PATTERN="ostree-pull: Receiving objects:"
+
+usage() {
+       echo "\
+       Usage: $0
+
+       -p <pattern>
+               This is the pattern to search for in aklite logs
+               The network connection is cut upon finding this
+               pattern
+       "
+}
+
+while getopts "p:h" opts; do
+       case "$opts" in
+               p) PATTERN="${OPTARG}";;
+               h|*) usage ; exit 1 ;;
+       esac
+done
 
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
@@ -60,7 +79,7 @@ do
     # check if aktualizr-lite log contains timeout
     journalctl --no-pager -u aktualizr-lite
     echo "********************"
-    if journalctl --no-pager -u aktualizr-lite | grep "ostree-pull: Receiving objects:"; then
+    if journalctl --no-pager -u aktualizr-lite | grep "${PATTERN}"; then
         echo "Setting FOUND=1"
         FOUND=1
     fi
