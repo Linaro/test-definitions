@@ -47,6 +47,8 @@ find /sysroot/ostree/repo/ -name "*.commit" -delete
 find /sysroot/ostree/repo/ -name "*.dirmeta" -delete
 rm -rf /sysroot/ostree/repo/refs/heads/*
 rm -rf /sysroot/ostree/repo/objects/0*
+# shellcheck disable=SC2046
+find /sysroot/ostree/repo/ -samefile $(find /usr/ -name "*vmlinuz*") -delete
 
 # run autoregistration script
 lmp-device-auto-register
