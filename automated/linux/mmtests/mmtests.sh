@@ -121,7 +121,7 @@ prepare_system() {
 	pushd "${TEST_DIR}" || exit
 	PERL_MM_USE_DEFAULT=1
 	export PERL_MM_USE_DEFAULT
-	cpan -F JSON Cpanel::JSON::XS List::BinarySearch
+	cpan -f -i JSON Cpanel::JSON::XS List::BinarySearch
 	AUTO_PACKAGE_INSTALL=yes
 	export AUTO_PACKAGE_INSTALL
 	DOWNLOADED=0
