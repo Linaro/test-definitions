@@ -17,13 +17,8 @@ metadata:
     devices:
         - imx8mm
         - bcm2711-rpi-4-b
-
-params:
-        DEVICE_NAME: ""
-        TARGET: ""
-
 run:
     steps:
         - cd ./automated/linux/aklite-download-interrupt
-        - ./aklite-download-resume.sh -n "${DEVICE_NAME}" -t "${TARGET}"
+        - ./aklite-download-resume.sh
         - ../../utils/send-to-lava.sh ./output/result.txt
