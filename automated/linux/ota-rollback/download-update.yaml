@@ -4,7 +4,7 @@ metadata:
     format: Lava-Test Test Definition 1.0
     name: ota-rollback-download
     description: "Download OTA update and corrupt
-    kernel to force rollback."
+    kernel or uboot to force rollback."
 
     maintainer:
         - milosz.wasilewski@foundries.io
@@ -15,13 +15,14 @@ metadata:
 
     devices:
         - imx8mm
-        - bcm2711-rpi-4-b
+        - imx6ull
 
 params:
         UBOOT_VAR_TOOL: "fw_printenv"
-
+        UBOOT_VAR_SET_TOOL: "fw_setenv"
+        TYPE: "kernel"
 run:
     steps:
-        - cd ./automated/linux/ota-rollback
-        - ./download-update.sh
+        - cd ./automated/linux/ota-rollback-spl
+        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
