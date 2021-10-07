@@ -60,7 +60,7 @@ run:
         # Include logs dumped from TF shell 'd l' command.
         - if ls /tmp/tradefed*; then cp -r /tmp/tradefed* ./output || true; fi
         - sudo dmesg > ./output/dmesg-host.txt || true
-        - tar caf tradefed-output-$(date +%Y%m%d%H%M%S).tar.xz ./output
+        - if ! tar caf tradefed-output-$(date +%Y%m%d%H%M%S).tar.xz ./output; then error_fatal "tradefed - failed to collect results and log files [$ANDROID_SERIAL]"; fi
         - ATTACHMENT=$(ls tradefed-output-*.tar.xz)
         - ../../utils/upload-to-artifactorial.sh -a "${ATTACHMENT}" -u "${URL}" -t "${TOKEN}"
         # Send test result to LAVA.
