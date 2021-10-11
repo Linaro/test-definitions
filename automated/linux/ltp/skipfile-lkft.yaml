@@ -330,3 +330,14 @@ skiplist:
       - all
     tests:
       - ftrace_stress_test.sh
+
+  - reason: >
+      LTP ping602 added into smoketest in the latest release
+      which need full ping commmand in OE rootfs.
+    url: https://bugs.linaro.org/show_bug.cgi?id=5792
+    environments: production
+    boards:
+      - all
+    branches:
+      - all
+    tests:
