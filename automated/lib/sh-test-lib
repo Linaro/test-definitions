@@ -708,15 +708,15 @@ exit_cleanup()
 
 mount_debugfs()
 {
-	if [ "$(mount | grep debugfs)" -eq 1 ]; then
+	if [ "$(mount | grep debugfs)" != "debugfs" ]; then
 		# try to mount the debugfs hierarchy ourselves and remember it to umount afterwards
 		mount -t debugfs debugfs /sys/kernel/debug && mounted_debugfs=1
 		if [ $mounted_debugfs -eq 1 ]; then
-			exit 0
+			return
 		else
-			exit 1
+			error_msg "not able to mount debugfs"
 		fi
 	else
-		exit 0
+		return
 	fi
 }
