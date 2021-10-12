@@ -699,3 +699,24 @@ get_test_program() {
 		cd "$test_dir" || exit 1
 	fi
 }
+
+exit_cleanup()
+{
+	# cleanup the temp decompressed config & kernel image
+	[ "$mounted_debugfs" = 1 ] && umount /sys/kernel/debug 2>/dev/null
+}
+
+mount_debugfs()
+{
+	if [ "$(mount | grep debugfs)" -eq 1 ]; then
+		# try to mount the debugfs hierarchy ourselves and remember it to umount afterwards
+		mount -t debugfs debugfs /sys/kernel/debug && mounted_debugfs=1
+		if [ $mounted_debugfs -eq 1 ]; then
+			exit 0
+		else
+			exit 1
+		fi
+	else
+		exit 0
+	fi
+}
