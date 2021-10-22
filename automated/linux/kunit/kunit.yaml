@@ -22,8 +22,9 @@ metadata:
         - x86
 
 params:
-    # Example: kunit-test.ko
-    KUNIT_TEST_MODULE: ""
+    # This will try to find all modules that ends with '*test.ko'
+    # Example: test.ko
+    KUNIT_TEST_MODULE: "test.ko"
 
 run:
     steps:

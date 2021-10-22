@@ -9,8 +9,9 @@ TEST_LOG="${OUTPUT}/test_log.txt"
 TEST_PASS_FAIL_LOG="${OUTPUT}/test_pass_fail_log.txt"
 TEST_CMD="dmesg"
 TEST_CMD_FILE="${OUTPUT}/${TEST_CMD}.txt"
-# Example KUNIT_TEST_MODULE="kunit-test.ko"
-KUNIT_TEST_MODULE=""
+# This will try to find all modules that ends with '*test.ko'
+# Example KUNIT_TEST_MODULE="test.ko"
+KUNIT_TEST_MODULE="test.ko"
 
 usage() {
     echo "Usage: $0 [-m <kunit test module> ]" 1>&2
@@ -57,30 +58,44 @@ check_root || error_msg "Please run this script as root"
 # Test run.
 create_out_dir "${OUTPUT}"
 
-if [ -n "${KUNIT_TEST_MODULE}" ] && ! lsmod | grep "${KUNIT_TEST_MODULE%.*}";
+find "/lib/modules/$(uname -r)" -name "*${KUNIT_TEST_MODULE}*"| tee /tmp/kunit_modules.txt
+rm /tmp/kunit_module_names_not_loaded.txt 2>/dev/null
+# find modules that isn't loaded
+while read -r module; do
+    module_name=$(echo "${module}"|awk -F '/' '{print $NF}')
+    lsmod |grep "${module_name}"
+    if [ $? != "${module_name}" ]; then
+        echo "${module_name}" | tee -a /tmp/kunit_module_names_not_loaded.txt
+    fi
+done < "/tmp/kunit_modules.txt"
+if [ -f /tmp/kunit_module_names_not_loaded.txt ]
 then
-    echo KUNIT_TEST_MODULE="${KUNIT_TEST_MODULE}"
-    ln -s "$(find "/lib/modules/$(uname -r)" -name "${KUNIT_TEST_MODULE}*")" \
-        "/lib/modules/$(uname -r)"
+    while read -r module; do
+        module_name=$(echo "${module}"|awk -F '/' '{print $NF}')
+        echo KUNIT_TEST_MODULE="${module_name}"
+        ln -s "${module}" \
+        "/lib/modules/$(uname -r)/${module_name}"
+    done < "/tmp/kunit_modules.txt"
     depmod -a
-    modprobe "${KUNIT_TEST_MODULE%.*}"
-    exit_on_fail "modprobe-${KUNIT_TEST_MODULE%.*}"
-    lsmod
+    while read -r module_name; do
+        modprobe "${module_name}"
+        exit_on_fail "modprobe-${module_name}"
+        lsmod
+    done < "/tmp/kunit_module_names_not_loaded.txt"
+fi
+if [ -f /proc/config.gz ]
+then
+    CONFIG_KUNIT_TEST=$(zcat /proc/config.gz | grep "CONFIG_KUNIT_TEST=")
+elif [ -f /boot/config-"$(uname -r)" ]
+then
+    KERNEL_CONFIG_FILE="/boot/config-$(uname -r)"
+    CONFIG_KUNIT_TEST=$(grep "CONFIG_KUNIT_TEST=" "${KERNEL_CONFIG_FILE}")
 else
-    if [ -f /proc/config.gz ]
-    then
-        CONFIG_KUNIT_TEST=$(zcat /proc/config.gz | grep "CONFIG_KUNIT_TEST=")
-    elif [ -f /boot/config-"$(uname -r)" ]
-    then
-        KERNEL_CONFIG_FILE="/boot/config-$(uname -r)"
-        CONFIG_KUNIT_TEST=$(grep "CONFIG_KUNIT_TEST=" "${KERNEL_CONFIG_FILE}")
-    else
-        exit_on_skip "kunit-pre-requirements" "Kernel config file not available"
-    fi
-    if [ "${CONFIG_KUNIT_TEST}" = "CONFIG_KUNIT_TEST=y" ]
-    then
-        exit_on_skip "kunit-pre-requirements" "Kernel config CONFIG_KUNIT_TEST=y not enabled"
-    fi
+    exit_on_skip "kunit-pre-requirements" "Kernel config file not available"
+fi
+if [ "${CONFIG_KUNIT_TEST}" = "CONFIG_KUNIT_TEST=y" ]
+then
+    exit_on_skip "kunit-pre-requirements" "Kernel config CONFIG_KUNIT_TEST=y not enabled"
 fi
 
 run "${TEST_CMD}"
