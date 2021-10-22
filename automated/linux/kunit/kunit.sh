@@ -91,11 +91,11 @@ then
     KERNEL_CONFIG_FILE="/boot/config-$(uname -r)"
     CONFIG_KUNIT_TEST=$(grep "CONFIG_KUNIT_TEST=" "${KERNEL_CONFIG_FILE}")
 else
-    exit_on_skip "kunit-pre-requirements" "Kernel config file not available"
+    info_msg"Kernel config file not available"
 fi
 if [ "${CONFIG_KUNIT_TEST}" = "CONFIG_KUNIT_TEST=y" ]
 then
-    exit_on_skip "kunit-pre-requirements" "Kernel config CONFIG_KUNIT_TEST=y not enabled"
+    info_msg "Kernel config CONFIG_KUNIT_TEST=y not enabled"
 fi
 
 run "${TEST_CMD}"
