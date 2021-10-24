@@ -342,3 +342,17 @@ skiplist:
       - all
     tests:
       - ping602
+
+  - reason: >
+      LTP ping01 added into smoketest in the latest release
+      which is not supported on Juno running 4.4 kernel.
+    url: https://bugs.linaro.org/show_bug.cgi?id=5799
+    environments: production
+    boards:
+      - juno-r2
+    branches:
+      - 4.4
+      - linux-4.4.y
+      - v4.4-rt
+    tests:
+      - ping01
