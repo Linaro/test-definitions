@@ -708,7 +708,9 @@ exit_cleanup()
 
 mount_debugfs()
 {
-	if [ "$(mount | grep debugfs)" != "debugfs" ]; then
+	mount | grep -q debugfs
+	ret=$?
+	if [ ${ret} -ne 0 ]; then
 		# try to mount the debugfs hierarchy ourselves and remember it to umount afterwards
 		mounted_debugfs=0
 		mount -t debugfs debugfs /sys/kernel/debug && mounted_debugfs=1
