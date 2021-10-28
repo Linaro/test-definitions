@@ -43,12 +43,22 @@ touch /var/sota/ota.result
 report_pass "create-signal-files"
 
 # remove some ostree objects to artificially increase the update size
+echo "Removing data from ostree"
+set -x
 find /sysroot/ostree/repo/ -name "*.commit" -delete
 find /sysroot/ostree/repo/ -name "*.dirmeta" -delete
 rm -rf /sysroot/ostree/repo/refs/heads/*
 rm -rf /sysroot/ostree/repo/objects/0*
+rm -rf /sysroot/ostree/repo/objects/1*
+rm -rf /sysroot/ostree/repo/objects/2*
+rm -rf /sysroot/ostree/repo/objects/3*
+rm -rf /sysroot/ostree/repo/objects/a*
+rm -rf /sysroot/ostree/repo/objects/b*
+rm -rf /sysroot/ostree/repo/objects/e*
+rm -rf /sysroot/ostree/repo/objects/f*
 # shellcheck disable=SC2046
 find /sysroot/ostree/repo/ -samefile $(find /usr/ -name "*vmlinuz*") -delete
+set +x
 
 # run autoregistration script
 lmp-device-auto-register
