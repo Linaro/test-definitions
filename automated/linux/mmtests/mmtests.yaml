@@ -52,5 +52,6 @@ run:
     steps:
         - cd ./automated/linux/mmtests/
         - ./mmtests.sh -s "${SKIP_INSTALL}" -v "${TEST_PROG_VERSION}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -c "${MMTESTS_CONFIG_FILE}" -t "${MMTESTS_TYPE_NAME}" -r ${MMTESTS_MAX_RETRIES}
-        - ./json-to-lava.py "./${MMTESTS_TYPE_NAME}.json" > ./output/result.txt
+        - if [ ! -z ${TEST_DIR} ]; then mv ${TEST_DIR}/../${MMTESTS_TYPE_NAME}*.json .; fi
+        - for file in ./${MMTESTS_TYPE_NAME}*.json; do ./json-to-lava.py $file >> ./output/result.txt; done
         - ../../utils/send-to-lava.sh ./output/result.txt
