@@ -18,6 +18,8 @@ MMTESTS_MAX_RETRIES=10
 MMTESTS_TYPE_NAME=
 MMTESTS_CONFIG_FILE=
 
+declare -A altreport_mappings=( ["dbench4"]="tput latency opslatency")
+
 usage() {
 	echo "\
 	Usage: $0 [-s <true|false>] [-v <TEST_PROG_VERSION>]
@@ -135,10 +137,15 @@ prepare_system() {
 
 run_test() {
 	pushd "${TEST_DIR}" || exit
-	info_msg "Running ${MMTESTS_TYPE_NAME} cpu test..."
+	info_msg "Running ${MMTESTS_TYPE_NAME} test..."
 	extracted_json="../${MMTESTS_TYPE_NAME}.json"
 	./run-mmtests.sh --no-monitor --config "${MMTESTS_CONFIG_FILE}" benchmark
 	./bin/extract-mmtests.pl -d work/log/ -b "${MMTESTS_TYPE_NAME}" -n benchmark --print-json > "$extracted_json"
+	altreports=${altreport_mappings[${MMTESTS_TYPE_NAME}]}
+	for altreport in ${altreports}; do
+		./bin/extract-mmtests.pl -d work/log/ -b "${MMTESTS_TYPE_NAME}" -n benchmark\
+		-a "${altreport}" --print-json > "../${MMTESTS_TYPE_NAME}_${altreport}.json"
+	done
 	popd || exit
 }
 
