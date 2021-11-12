@@ -26,7 +26,7 @@ set -x
 # shellcheck disable=SC1091
 . ../../lib/android-test-lib
 
-PKG_DEPS="git wget binutils curl bc xz-utils python python3 python3-scipy"
+PKG_DEPS="git wget binutils bc xz-utils python python3 python3-scipy"
 
 SKIP_INSTALL="false"
 
@@ -51,23 +51,23 @@ fi
 
 mkdir workspace
 cd workspace || exit
+
+# Download/extract the stripped down tree.
+wget  -q "${SNAPSHOTS_URL}/test-tree.txz"
+tar -xf "test-tree.txz"
+
+# Download/extract the build results.
 wget  -q "${SNAPSHOTS_URL}"/"${BUILD_TARBALL}"
-[ -z "$HOME" ] && export HOME="/"
-git config --global user.email "ci_notify@linaro.org"
-git config --global user.name "Linaro CI"
-git config --global --add color.ui auto
 tar -xf "${BUILD_TARBALL}"
+
+[ -z "$HOME" ] && export HOME="/"
 export PATH=${PWD}/out/host/linux-x86/bin/:${PATH}
 
 # FIXME removing latest adb from build since it is not working well from container
 rm -rf "${PWD}"/out/host/linux-x86/bin/adb
 initialize_adb
 adb_root
-curl https://storage.googleapis.com/git-repo-downloads/repo > "${PWD}"/out/host/linux-x86/bin/repo
-chmod a+x "${PWD}"/out/host/linux-x86/bin/repo
-repo init -q -u https://android.googlesource.com/platform/manifest
-cp ../manifest.xml  .repo/manifest.xml
-repo sync -j16 -c -q --no-tags
+
 which lava-test-case && lava-test-case "test-progress" --result pass
 sed -i "s| /data/local/tmp/system| /data/local/tmp/system > /dev/null|g" scripts/benchmarks/benchmarks_run_target.sh
 sed -i "s| /data/art-test| /data/art-test > /dev/null|g" scripts/benchmarks/benchmarks_run_target.sh
