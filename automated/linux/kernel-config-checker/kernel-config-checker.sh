@@ -23,7 +23,7 @@
 #
 
 # shellcheck disable=SC1091
-. ./kernel-config-lib
+. ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
