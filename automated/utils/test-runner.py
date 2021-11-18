@@ -15,6 +15,7 @@ import sys
 import textwrap
 import time
 from uuid import uuid4
+from datetime import datetime
 from distutils.spawn import find_executable
 
 
@@ -834,6 +835,7 @@ class ResultParser(object):
         self.dict_to_json()
         self.dict_to_csv()
         self.send_to_qa_reports()
+        self.send_to_fiotest()
         self.logger.info("Result files saved to: %s" % self.test["test_path"])
         print("--- Printing result.csv ---")
         with open("%s/result.csv" % self.test["test_path"]) as f:
@@ -906,6 +908,42 @@ class ResultParser(object):
             )
         self.logger.debug("lava-run: cmd: {}".format(cmd))
         subprocess.call(shlex.split(cmd))
+
+    def send_to_fiotest(self):
+        """
+        This method saves results as filesystem tree. This is required by
+        fiotest: https://github.com/foundriesio/fiotest/
+        """
+        # check if TEST_DIR variable is set
+        test_path = os.environ.get("TEST_DIR")
+        if not test_path:
+            self.logger.warning("TEST_DIR is not set")
+            self.logger.warning("NOT reporting result to fiotest")
+            return
+        # create directory with test name
+        try:
+            for metric in self.metrics:
+                local_ts = datetime.now()
+                dir_name = "{}-{}".format(local_ts.timestamp(), metric["test_case_id"])
+                os.makedirs(os.path.join(test_path, dir_name), exist_ok=True)
+                if metric["measurement"] != "":
+                    metrics_dir = os.path.join(test_path, dir_name, "metrics")
+                    os.makedirs(metrics_dir, exist_ok=True)
+                    with open(os.path.join(metrics_dir, "value"), "w") as value_file:
+                        value_file.write(metric["measurement"])
+                else:
+                    if metric["result"] == "fail":
+                        os.makedirs(
+                            os.path.join(test_path, dir_name, "failed"), exist_ok=True
+                        )
+                    if metric["result"] == "skip":
+                        os.makedirs(
+                            os.path.join(test_path, dir_name, "skipped"), exist_ok=True
+                        )
+        except PermissionError:
+            self.logger.error(
+                "Unable to prepare fiotest results due to lack of permissions"
+            )
 
     def send_to_qa_reports(self):
         if None in (
