@@ -917,8 +917,8 @@ class ResultParser(object):
         # check if TEST_DIR variable is set
         test_path = os.environ.get("TEST_DIR")
         if not test_path:
-            self.logger.warning("TEST_DIR is not set")
-            self.logger.warning("NOT reporting result to fiotest")
+            self.logger.debug("TEST_DIR is not set")
+            self.logger.debug("NOT reporting result to fiotest")
             return
         # create directory with test name
         try:
