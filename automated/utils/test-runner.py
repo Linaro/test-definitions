@@ -470,6 +470,10 @@ class RemoteTestRun(AutomatedTestRun):
             "rm %s/%s" % (self.test["target_test_path"], tarball_name), self.args.target
         )
 
+    def cleanup_target(self):
+        self.logger.info("Removing files from target after testing")
+        run_command("rm -rf %s" % (self.test["target_test_path"]), self.args.target)
+
     def run(self):
         self.copy_to_target()
         self.logger.info(
@@ -486,6 +490,7 @@ class RemoteTestRun(AutomatedTestRun):
         self.child = pexpect.spawnu(shell_cmd)
         self.child.logfile = output
         self.check_result()
+        self.cleanup_target()
 
 
 class ManualTestShell(cmd.Cmd):
