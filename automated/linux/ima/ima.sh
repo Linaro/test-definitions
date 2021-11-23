@@ -72,9 +72,10 @@ test_name="ima_runtime_measurements"
 measurement_file="/sys/kernel/security/ima/ascii_runtime_measurements"
 if [ -f "${measurement_file}" ]; then
     report_pass "${test_name}"
+    head -1 "${measurement_file}" | grep "boot_aggregate"
+    check_return "ima_boot_aggregate"
 else
     report_fail "${test_name}"
+    report_skip "ima_boot_aggregate"
 fi
 
-head -1 "${measurement_file}" | grep "boot_aggregate"
-check_return "ima_boot_aggregate"
