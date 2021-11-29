@@ -36,6 +36,10 @@ FILE_URL=""
 FILE_CHECKSUM=""
 TIME_DELAY="0s"
 NAMESERVER=""
+DHPIDFILE="/tmp/dhclient.pid"
+export DHPIDFILE
+WPAPIDFILE="/tmp/wpa_supplicant.pid"
+export WPAPIDFILE
 
 usage() {
     echo "Usage: $0 <-s ssid_name> <-p ssid_password> [-d device] [-e ethernet_device] [-u file_url] [-c file_checksum] [-t time_delay] [-n nameserver]" 1>&2
@@ -66,15 +70,38 @@ test_wlan_connection() {
     echo "ctrl_interface=/var/run/wpa_supplicant" > /tmp/wpa.conf
     echo "update_config=1" >> /tmp/wpa.conf
     wpa_passphrase "${SSID_NAME}" "${SSID_PASSWORD}" >> /tmp/wpa.conf
-    wpa_supplicant -dd -Dnl80211 -P /tmp/wpa_supplicant.pid -i "${DEVICE}" -c /tmp/wpa.conf -B
-    dhclient -pf /tmp/dhclient.pid "${DEVICE}"
-    check_return "wlan-connect"
+    wpa_supplicant -dd -Dnl80211 -P "${WPAPIDFILE}" -i "${DEVICE}" -c /tmp/wpa.conf -B
+    if command -v dhclient; then
+        dhclient -pf "${DHPIDFILE}" "${DEVICE}"
+        check_return "wlan-connect"
+    elif command -v udhcpc; then
+        # try udhcpc 5 times and then move to background
+        udhcpc -p "${DHPIDFILE}" -i "${DEVICE}" -t 5 -b
+        check_return "wlan-connect"
+    else
+        # bail because there is no DHCP client available
+        report_fail "wlan-connect"
+        report_skip "wlan-ip-address"
+        report_skip "wlan-ping"
+        report_skip "wlan-download"
+        report_skip "wlan-download-checksum"
+        cleanup
+        warn_msg "DHCP client not available"
+        exit 0
+    fi
+
     has_address=$(ip -f inet addr show "${DEVICE}")
     if [ -z "${has_address}" ]; then
         report_fail "wlan-ip-address"
-        kill -9 "$(cat /tmp/wpa_supplicant.pid)"
-        kill -9 "$(cat /tmp/dhclient.pid)"
-        exit 1
+        report_skip "wlan-ping"
+        report_skip "wlan-download"
+        report_skip "wlan-download-checksum"
+        # debug
+        ip addr
+        # end debug
+        cleanup
+        warn_msg "IP address not assigned"
+        exit 0
     fi
     echo "IP Address:"
     echo "${has_address}"
@@ -93,14 +120,45 @@ test_wlan_download() {
     info_msg "Running wlan download test..."
     ping -c 4 www.google.com
     check_return "wlan-ping"
-    curl -OL --interface "${DEVICE}" "${FILE_URL}"
-    check_return "wlan-download"
+    if command -v curl; then
+        curl -OL --interface "${DEVICE}" "${FILE_URL}"
+        check_return "wlan-download"
+    elif command -v wget; then
+        wget "${FILE_URL}"
+    else
+        info_msg "cURL and WGET missing, skipping download"
+        report_skip "wlan-download"
+        report_skip "wlan-download-checksum"
+    fi
     local_file="$(basename "${FILE_URL}")"
-    local_md5="$(md5sum "$(basename "${local_file}")" | awk '{print $1}')"
-    echo "local_md5=${local_md5}"
-    test "${local_md5}" = "${FILE_CHECKSUM}"
-    check_return "wlan-download-checksum"
-    rm -f "${local_file}"
+    if [ -f "${local_file}" ]; then
+        local_md5="$(md5sum "$(basename "${local_file}")" | awk '{print $1}')"
+        echo "local_md5=${local_md5}"
+        test "${local_md5}" = "${FILE_CHECKSUM}"
+        check_return "wlan-download-checksum"
+        rm -f "${local_file}"
+    fi
+}
+
+cleanup() {
+    wpa_cli remove_network 0
+    check_return "wlan-disconnect"
+    ip link set "${DEVICE}" down
+    if [ -f "${WPAPIDFILE}" ]; then
+        kill -9 "$(cat ${WPAPIDFILE})" || true
+    fi
+    if [ -f "${DHPIDFILE}" ]; then
+        kill -9 "$(cat ${DHPIDFILE})" || true
+    fi
+
+    if [ -n "${NAMESERVER}" ]; then
+        mv /etc/resolv.conf.backup /etc/resolv.conf
+    fi
+
+    if [ -n "${ETHERNET_DEVICE}" ]; then
+        ip link set "${ETHERNET_DEVICE}" up
+        check_return "eth-up"
+    fi
 }
 
 # Test run.
@@ -125,17 +183,5 @@ if [ -n "${FILE_URL}" ]; then
     test_wlan_download
 fi
 
-wpa_cli remove_network 0
-check_return "wlan-disconnect"
-ip link set "${DEVICE}" down
-kill -9 "$(cat /tmp/wpa_supplicant.pid)"
-kill -9 "$(cat /tmp/dhclient.pid)"
-
-if [ -n "${NAMESERVER}" ]; then
-    mv /etc/resolv.conf.backup /etc/resolv.conf
-fi
-
-if [ -n "${ETHERNET_DEVICE}" ]; then
-    ip link set "${ETHERNET_DEVICE}" up
-    check_return "eth-up"
-fi
+# finalize the test and remove temporary files
+cleanup
