@@ -64,8 +64,18 @@ info_msg "Output directory: ${OUTPUT}"
 check_config "${CONFIG_VALUES}"
 
 # check dmesg for IMA initialization
-dmesg | grep "ima: policy update completed"
-check_return "ima_initialization"
+# checking if policy file exists works in scenario
+# when the appropriate message is removed from dmesg
+if [ -f /sys/kernel/security/ima/policy ]; then
+    POLICY="$(cat /sys/kernel/security/ima/policy)"
+    if [ -n "${POLICY}" ]; then
+        report_pass "ima_initialization"
+    else
+        report_fail "ima_initialization"
+    fi
+else
+    report_fail "ima_initialization"
+fi
 
 # check if checksum files is present
 test_name="ima_runtime_measurements"
