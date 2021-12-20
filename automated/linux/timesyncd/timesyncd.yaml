@@ -1,0 +1,31 @@
+metadata:
+    name: timesyncd-test
+    format: "Lava-Test Test Definition 1.0"
+    description: "The test checks whether the systemd-timesyncd is
+        running and uses NTP. It should only be used when it's expected
+        to use NTP. As an additional check the test will contact default
+        NTP server to check whether the time is synced properly."
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+    scope:
+        - functional
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - imx8mmevk
+        - imx6ullevk
+params:
+    NTP_SERVER: "pool.ntp.org"
+    SKIP_INSTALL: "true"
+run:
+    steps:
+        - cd ./automated/linux/timesyncd/
+        - ./timesynctest.sh -n "${NTP_SERVER}" -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
