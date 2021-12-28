@@ -39,6 +39,9 @@ params:
     # aosp-master version needs to use openjdk-11, other older versions needs to use openjdk-8
     # for aosp master version, the value of ANDROID_VERSION must have aosp-master in its value
     ANDROID_VERSION: ""
+    # when we need to set the DUT to be run in the powersave governor policy
+    # to avoid shutting down by high temperature when run the cts vts test
+    SET_GOVERNOR_POWERSAVE: "false"
 
 run:
     steps:
