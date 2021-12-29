@@ -34,3 +34,11 @@ esac
 install_latest_adb
 initialize_adb
 adb_root
+
+if echo "X${SET_GOVERNOR_POWERSAVE}" | grep -i "Xtrue"; then
+    echo "Set the device to be run with the powersave governor policy"
+    for f_cpu_governor in $(adb shell 'su root ls /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'); do
+        adb shell "echo powersave | su root tee ${f_cpu_governor}"
+    done
+    adb shell 'su root cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+fi
