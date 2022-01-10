@@ -42,6 +42,7 @@ skiplist:
       - x15
       - nxp-ls2088
       - fx700
+      - bcm2711-rpi-4-b
     branches: all
     tests:
       - breakpoints:breakpoint_test_arm64
@@ -84,6 +85,7 @@ skiplist:
       - x15
       - nxp-ls2088
       - fx700
+      - bcm2711-rpi-4-b
     branches: all
     tests:
       - mqueue:mq_perf_tests
@@ -99,6 +101,7 @@ skiplist:
       - qemu_arm64
       - qemu_arm
       - x15
+      - bcm2711-rpi-4-b
     branches:
       - all
     tests:
