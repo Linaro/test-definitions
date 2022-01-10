@@ -36,6 +36,7 @@ skiplist:
       - i386
       - nxp-ls2088
       - fx700
+      - bcm2711-rpi-4-b
     branches: all
     tests:
       - fork13
@@ -59,6 +60,7 @@ skiplist:
       - i386
       - nxp-ls2088
       - fx700
+      - bcm2711-rpi-4-b
     branches: all
     tests:
       - msgctl10
@@ -138,6 +140,7 @@ skiplist:
       - i386
       - nxp-ls2088
       - fx700
+      - bcm2711-rpi-4-b
     branches: all
     tests:
       - pth_str01
@@ -191,6 +194,7 @@ skiplist:
       - hi6220-hikey
       - dragonboard-410c
       - rzn1d
+      - bcm2711-rpi-4-b
     branches:
       - all
     tests:
@@ -219,6 +223,7 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
+      - bcm2711-rpi-4-b
     branches:
       - all
     tests:
@@ -237,6 +242,7 @@ skiplist:
       - qemu_arm64
       - nxp-ls2088
       - fx700
+      - bcm2711-rpi-4-b
     branches:
       - all
     tests:
@@ -251,6 +257,7 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
+      - bcm2711-rpi-4-b
     branches:
       - all
     tests:
@@ -284,6 +291,7 @@ skiplist:
     boards:
       - dragonboard-410c
       - rzn1d
+      - bcm2711-rpi-4-b
     branches:
       - all
     tests:
