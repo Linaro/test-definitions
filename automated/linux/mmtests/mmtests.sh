@@ -19,6 +19,7 @@ MMTESTS_TYPE_NAME=
 MMTESTS_CONFIG_FILE=
 
 declare -A altreport_mappings=( ["dbench4"]="tput latency opslatency")
+declare -A env_variable_mappings=( ["dbench4"]="DBENCH" )
 
 usage() {
 	echo "\
@@ -100,7 +101,7 @@ install() {
 			pkgs="build-essential wget perl git autoconf automake \
 					bc binutils-dev btrfs-progs linux-cpupower expect \
 					gcc hdparm hwloc-nox libtool numactl tcl time \
-					xfsprogs xfslibs-dev libopenmpi-dev"
+					xfsprogs xfslibs-dev libopenmpi-dev jq"
 			install_deps "${pkgs}" "${SKIP_INSTALL}"
 		;;
 	fedora|centos)
@@ -146,6 +147,28 @@ run_test() {
 		./bin/extract-mmtests.pl -d work/log/ -b "${MMTESTS_TYPE_NAME}" -n benchmark\
 		-a "${altreport}" --print-json > "../${MMTESTS_TYPE_NAME}_${altreport}.json"
 	done
+
+	chmod u+x ./"${MMTESTS_CONFIG_FILE}"
+	eval 'source ./${MMTESTS_CONFIG_FILE}'
+
+	env_variables_prefix=${env_variable_mappings[${MMTESTS_TYPE_NAME}]}
+	if [ -z "$env_variables_prefix" ]; then
+		env_variables_prefix=${MMTESTS_TYPE_NAME^^}
+	fi
+	
+	vars=""
+	eval 'vars=${!'"$env_variables_prefix"'*}'
+	for variable in ${vars}; do
+		mykey=CONFIG_${variable}
+		mykey=${mykey//_/-}
+		myvalue=${!variable}
+		echo "$mykey":"$myvalue"
+		tmp=$(mktemp)
+		jq --arg key "$mykey" --arg value "$myvalue" '. += {($key):$value}' ../"${MMTESTS_TYPE_NAME}".json > "$tmp" && mv "$tmp" ../"${MMTESTS_TYPE_NAME}".json
+	done
+
+	chmod a+r ../"${MMTESTS_TYPE_NAME}".json
+
 	popd || exit
 }
 
