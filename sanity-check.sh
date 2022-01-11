@@ -3,11 +3,14 @@ set -ex
 
 python3 validate.py \
     -r build-error.txt \
-    -p E501 W503 \
+    -p E501 W503 E203 \
     -s SC1091 SC2230
 
 # pycodestyle checks skipped:
-# E510: line too long
+# E501: line too long
+# E203: Whitespace before ':'
+#   Disabled because conflicting with black, refer to the link for details
+#   https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices
 
 # Shellchecks skipped:
 # SC1091: not following

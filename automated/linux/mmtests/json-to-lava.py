@@ -26,12 +26,23 @@ def main(args):
                 op.replace("_", "-")
                 for val, sample in zip(values, samples):
                     print(f"{module_name}_{op}_{i}_{sample} pass {val}")
-        if "_Cmd" in module:
-            string = ""
-            for i in range(len(module["_Cmd"])):
-                string = string + module["_Cmd"][i]
-            b64string = b64encode(bytes(string, "utf-8")).decode("utf-8")
-            print(f"{module_name}_$Cmd_0_{b64string} pass {0}")
+        for key, value in module.items():
+            if key.startswith("_Cmd"):
+                string = ""
+                for i in range(len(module["_Cmd"])):
+                    string = string + module["_Cmd"][i]
+                b64string = (
+                    b64encode(bytes(string, "utf-8")).decode("utf-8").replace("=", "")
+                )
+                chunk_size = 25
+                string_split = [
+                    b64string[i : i + chunk_size]
+                    for i in range(0, len(b64string), chunk_size)
+                ]
+                for i in range(len(string_split)):
+                    print(f"{module_name}_#Cmd_{i}_{string_split[i]} pass {0}")
+            if key.startswith("CONFIG-"):
+                print(f"{module_name}_#{key}_0_{value} pass {0}")
     exit(exitcode)
 
 
