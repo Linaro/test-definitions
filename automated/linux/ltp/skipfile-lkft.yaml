@@ -37,6 +37,7 @@ skiplist:
       - nxp-ls2088
       - fx700
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches: all
     tests:
       - fork13
@@ -61,6 +62,7 @@ skiplist:
       - nxp-ls2088
       - fx700
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches: all
     tests:
       - msgctl10
@@ -141,6 +143,7 @@ skiplist:
       - nxp-ls2088
       - fx700
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches: all
     tests:
       - pth_str01
@@ -195,6 +198,7 @@ skiplist:
       - dragonboard-410c
       - rzn1d
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches:
       - all
     tests:
@@ -224,6 +228,7 @@ skiplist:
       - dragonboard-410c
       - rzn1d
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches:
       - all
     tests:
@@ -243,6 +248,7 @@ skiplist:
       - nxp-ls2088
       - fx700
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches:
       - all
     tests:
@@ -258,6 +264,7 @@ skiplist:
       - dragonboard-410c
       - rzn1d
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches:
       - all
     tests:
@@ -292,6 +299,7 @@ skiplist:
       - dragonboard-410c
       - rzn1d
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches:
       - all
     tests:
