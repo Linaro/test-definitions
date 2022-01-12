@@ -43,6 +43,7 @@ skiplist:
       - nxp-ls2088
       - fx700
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches: all
     tests:
       - breakpoints:breakpoint_test_arm64
@@ -86,6 +87,7 @@ skiplist:
       - nxp-ls2088
       - fx700
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches: all
     tests:
       - mqueue:mq_perf_tests
@@ -102,6 +104,7 @@ skiplist:
       - qemu_arm
       - x15
       - bcm2711-rpi-4-b
+      - dragonboard-845c
     branches:
       - all
     tests:
