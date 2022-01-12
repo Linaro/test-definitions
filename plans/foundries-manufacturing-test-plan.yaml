@@ -17,40 +17,40 @@ metadata:
 tests:
   automated:
     - path: automated/linux/disable-aklite-reboot/disable-aklite-reboot.yaml
-      repository: https://github.com/mwasilew/test-definitions.git
+      repository: https://github.com/linaro/test-definitions.git
       timeout: 1800
     - path: automated/linux/fs-resize/fs-resize.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
     - path: automated/linux/docker/docker.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
       parameters:
           IMAGE: hello-world
     - path: automated/linux/docker-networking/docker-networking.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
     - path: automated/linux/kernel-config-checker/kernel-config-checker.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
       parameters:
           CONFIG_VALUES: CONFIG_CGROUPS
     - path: automated/linux/ostree/ostree.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
       parameters:
           OSTREE_HASH: 33f79eee2caa8b336a96c0e8cd24a34e524439b6345229a076026cdcf5c362d0
     - path: automated/linux/kernel-config-checker/kernel-config-checker.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
     - path: automated/linux/aklite/aklite.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
       parameteres:
           TARGET: 243
     - path: automated/linux/ima/ima.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
     - path: automated/linux/ima/ima.yaml
-      repository: http://github.com/mwasilew/test-definitions.git
+      repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
