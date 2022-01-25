@@ -1,0 +1,36 @@
+metadata:
+    name: network-manager
+    format: "Manual Test Definition 1.0"
+    description: "Test network features work."
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - am64x
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board to console
+        - run "systemctl status NetworkManager" expected = running 
+        - run "nmcli -c no general status" 
+        - run "nmcli -c no general hostname"
+        - run "nmcli -c no networking connectivity" expected = full
+        - run "nmcli -c no networking off" expected = turns networking off
+        - run "nmcli -c no networking connectivity" expected = none 
+        - run "nmcli -c no -w 10 networking on" expected = networking on
+        - run "nmcli -c no networking connectivity" expected = full
+        - run "nmcli -c no device show eth0"
+        - run "nmcli -c no device disconnect eth0" 
+        - run "nmcli -c no networking connectivity" expected = none
+        - run "nmcli -c no -w 10 device connect eth0"  
+        - run "nmcli -c no networking connectivity" expected = full
+        
+    expected:
+        - Network manager sucessfully switches off and on again
+        - No kernel error crashes occur
