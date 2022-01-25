@@ -1,0 +1,35 @@
+metadata:
+    name: network-basic
+    format: "Manual Test Definition 1.0"
+    description: "Test if basic board networking features work."
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - am64x
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot the board to console
+        - run "netstat -an" 
+        - run "ip addr" 
+        - run "route" 
+        - run "ip link set lo up" 
+        - run "route"
+        - run "ip link set ${INTERFACE} up" default eth0
+        - run "ip link set ${INTERFACE} down" default eth0 
+        - run "run "${DHCLIENT} ${INTERFACE}" 
+        - run "route"
+        - run "ping -c 5 ${GATEWAY}" 
+        - run "curl http://samplemedia.linaro.org/MPEG4/big_buck_bunny_480p_MPEG4_MP3_25fps_1600K_short.AVI > manual-output/big-video
+
+        
+    expected:
+        - network switched off and on again
+        - No kernel errors crashes occur

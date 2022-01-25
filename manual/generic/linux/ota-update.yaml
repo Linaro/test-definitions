@@ -1,0 +1,28 @@
+metadata:
+    name: manual-ota
+    format: "Manual Test Definition 1.0"
+    description: "Test if OTA update for Foundries Factory is sucessful."
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - am64x
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash old/not-latest target to board
+        - Boot the board to console
+        - Ensure device is registered to factory
+        - Check current build "cat /etc/os-release"
+        - Device will update and reboot
+        - Check device build once update is complete "cat /etc/os-release"
+    expected:
+        - Update to latest build 
+        - device will reboot & apply update 
+        - Updated to latest target

@@ -1,0 +1,36 @@
+metadata:
+    name: ota-rollback
+    format: "Manual Test Definition 1.0"
+    description: "Test OTA rollback"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - am64x
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash old image to device
+        - Ensure device is NOT registered to a factory before test
+        - mkdir -p /etc/sota/conf.d
+        - create z-99-aklite-callback.toml file 
+          file contents = [bootloader] reboot_command = "/bin/true"
+        - Check device target number "cat /etc/os-release"
+        - Register device to factory "sudo lmp-device-register -n <device-name>"
+        - Wait for update download
+        - run "cat /boot/loader/uEnv.txt" for kernel image path overwrite kernel image file 
+        - cat "bad" >  path/to/file 
+        - run "sudo reboot"
+        - Wait for device to boot
+        - Check device build number cat /etc/os-release
+        
+    expected:
+       - Device will fail to update to latest target
+       - Device will roll back to initial build after 3 attempts to boot 
+       - Device target will be the same as before test
