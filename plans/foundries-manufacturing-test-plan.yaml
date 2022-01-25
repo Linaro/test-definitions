@@ -34,15 +34,12 @@ tests:
       repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
       parameters:
-          CONFIG_VALUES: CONFIG_CGROUPS
+          CONFIG_VALUES: "CONFIG_CGROUPS"
     - path: automated/linux/ostree/ostree.yaml
       repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
       parameters:
           OSTREE_HASH: 33f79eee2caa8b336a96c0e8cd24a34e524439b6345229a076026cdcf5c362d0
-    - path: automated/linux/kernel-config-checker/kernel-config-checker.yaml
-      repository: http://github.com/linaro/test-definitions.git
-      timeout: 1800
     - path: automated/linux/aklite/aklite.yaml
       repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
