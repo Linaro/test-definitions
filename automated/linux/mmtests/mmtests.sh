@@ -148,6 +148,17 @@ run_test() {
 		-a "${altreport}" --print-json > "../${MMTESTS_TYPE_NAME}_${altreport}.json"
 	done
 
+	MEMTOTAL_BYTES=$(free -b | grep Mem: | awk '{print $2}')
+	export MEMTOTAL_BYTES
+	NUMCPUS=$(grep -c '^processor' /proc/cpuinfo)
+	export NUMCPUS
+	NUMNODES=$(grep ^Node /proc/zoneinfo | awk '{print $2}' | sort | uniq | wc -l)
+	export NUMNODES
+	LLC_INDEX=$(find /sys/devices/system/cpu/ -type d -name "index*" | sed -e 's/.*index//' | sort -n | tail -1)
+	export LLC_INDEX
+	NUMLLCS=$(grep . /sys/devices/system/cpu/cpu*/cache/index"$LLC_INDEX"/shared_cpu_map | awk -F : '{print $NF}' | sort | uniq | wc -l)
+	export NUMLLCS
+
 	chmod u+x ./"${MMTESTS_CONFIG_FILE}"
 	eval 'source ./${MMTESTS_CONFIG_FILE}'
 
