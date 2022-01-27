@@ -64,13 +64,13 @@ nmcli -c no general hostname
 check_return "nmcli-general-hostname"
 
 # check networking status
-nmcli -c no networking connectivity | grep full
+nmcli -c no networking connectivity check | grep full
 check_return "nmcli-initial-full-connectivity"
 
 nmcli -c no networking off
 check_return "nmcli-networking-off"
 
-nmcli -c no networking connectivity | grep none
+nmcli -c no networking connectivity check | grep none
 check_return "nmcli-none-connectivity"
 
 # it takes a moment to bring networking back up
@@ -81,7 +81,7 @@ check_return "nmcli-networking-on"
 # connectivity reporting is delayed despite using blocking call
 sleep 10
 
-nmcli -c no networking connectivity | grep full
+nmcli -c no networking connectivity check | grep full
 check_return "nmcli-offon-full-connectivity"
 
 nmcli -c no device show "${IFACE}"
@@ -90,7 +90,7 @@ check_return "nmcli-device-show"
 nmcli -c no device disconnect "${IFACE}"
 check_return "nmcli-device-disconnect"
 
-nmcli -c no networking connectivity | grep none
+nmcli -c no networking connectivity check | grep none
 check_return "nmcli-disconnect-connectivity-none"
 
 # it takes a moment to bring networking back up
@@ -98,5 +98,5 @@ check_return "nmcli-disconnect-connectivity-none"
 nmcli -c no -w 10 device connect "${IFACE}"
 check_return "nmcli-device-connect"
 
-nmcli -c no networking connectivity | grep full
+nmcli -c no networking connectivity check | grep full
 check_return "nmcli-device-full-connectivity"
