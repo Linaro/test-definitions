@@ -139,14 +139,7 @@ prepare_system() {
 run_test() {
 	pushd "${TEST_DIR}" || exit
 	info_msg "Running ${MMTESTS_TYPE_NAME} test..."
-	extracted_json="../${MMTESTS_TYPE_NAME}.json"
 	./run-mmtests.sh --no-monitor --config "${MMTESTS_CONFIG_FILE}" benchmark
-	./bin/extract-mmtests.pl -d work/log/ -b "${MMTESTS_TYPE_NAME}" -n benchmark --print-json > "$extracted_json"
-	altreports=${altreport_mappings[${MMTESTS_TYPE_NAME}]}
-	for altreport in ${altreports}; do
-		./bin/extract-mmtests.pl -d work/log/ -b "${MMTESTS_TYPE_NAME}" -n benchmark\
-		-a "${altreport}" --print-json > "../${MMTESTS_TYPE_NAME}_${altreport}.json"
-	done
 
 	MEMTOTAL_BYTES=$(free -b | grep Mem: | awk '{print $2}')
 	export MEMTOTAL_BYTES
@@ -162,6 +155,24 @@ run_test() {
 	chmod u+x ./"${MMTESTS_CONFIG_FILE}"
 	eval 'source ./${MMTESTS_CONFIG_FILE}'
 
+	if [ "${MMTESTS_TYPE_NAME}" != "${MMTESTS}" ]; then
+		EXTRACT_NAMES="${MMTESTS}"
+	else
+		EXTRACT_NAMES="${MMTESTS_TYPE_NAME}"
+	fi
+
+	echo "test[s] to extract: ${EXTRACT_NAMES}"
+	for test in ${EXTRACT_NAMES}; do
+		echo "extraction for test: $test"
+		./bin/extract-mmtests.pl -d work/log/ -b "${test}" -n benchmark --print-json >> "../${MMTESTS_TYPE_NAME}_${test}.json"
+
+		altreports=${altreport_mappings[${test}]}
+		for altreport in ${altreports}; do
+			./bin/extract-mmtests.pl -d work/log/ -b "${test}" -n benchmark\
+			-a "${altreport}" --print-json > "../${MMTESTS_TYPE_NAME}_${test}${altreport}.json"
+		done
+	done
+
 	env_variables_prefix=${env_variable_mappings[${MMTESTS_TYPE_NAME}]}
 	if [ -z "$env_variables_prefix" ]; then
 		env_variables_prefix=${MMTESTS_TYPE_NAME^^}
@@ -175,10 +186,10 @@ run_test() {
 		myvalue=${!variable}
 		echo "$mykey":"$myvalue"
 		tmp=$(mktemp)
-		jq --arg key "$mykey" --arg value "$myvalue" '. += {($key):$value}' ../"${MMTESTS_TYPE_NAME}".json > "$tmp" && mv "$tmp" ../"${MMTESTS_TYPE_NAME}".json
+		jq -c --arg key "$mykey" --arg value "$myvalue" '. += {($key):$value}' ../"${MMTESTS_TYPE_NAME}"_"${test}".json > "$tmp" && mv "$tmp" ../"${MMTESTS_TYPE_NAME}"_"${test}".json
 	done
 
-	chmod a+r ../"${MMTESTS_TYPE_NAME}".json
+	chmod a+r "../$MMTESTS_TYPE_NAME"*".json"
 
 	popd || exit
 }

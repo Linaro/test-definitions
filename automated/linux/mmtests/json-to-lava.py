@@ -23,9 +23,9 @@ def main(args):
                 op_data = data[op][i]
                 values = op_data["Values"]
                 samples = op_data["SampleNrs"]
-                op.replace("_", "-")
+                op_formatted = op.replace("_", "-").replace("/", "-")
                 for val, sample in zip(values, samples):
-                    print(f"{module_name}_{op}_{i}_{sample} pass {val}")
+                    print(f"{module_name}_{op_formatted}_{i}_{sample} pass {val}")
         for key, value in module.items():
             if key.startswith("_Cmd"):
                 string = ""
