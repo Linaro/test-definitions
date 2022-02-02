@@ -62,7 +62,7 @@ find "/lib/modules/$(uname -r)" -name "*${KUNIT_TEST_MODULE}*"| tee /tmp/kunit_m
 rm /tmp/kunit_module_names_not_loaded.txt 2>/dev/null
 # find modules that isn't loaded
 while read -r module; do
-    module_name=$(echo "${module}"|awk -F '/' '{print $NF}')
+    module_name=$(basename "${module}" ".ko")
     lsmod |grep "${module_name}"
     if [ $? != "${module_name}" ]; then
         echo "${module_name}" | tee -a /tmp/kunit_module_names_not_loaded.txt
