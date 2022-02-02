@@ -33,10 +33,10 @@ for statistics in root.findall("statistics"):
             name = stat.get("name")
             if "Robot-Test-Scripts" == name:
                 status = "pass"
-                print name, " ", status
+                print(name, " ", status)
             else:
                 if "1" == stat.get("pass"):
                     status = "pass"
                 else:
                     status = "fail"
-                print name, " ", status
+                print(name, " ", status)

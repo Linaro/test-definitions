@@ -15,7 +15,7 @@ class ApkRunnerImpl(ApkTestRunner):
     def choose_chapter(self, chapter_name):
         # ToDo: scroll screen if chapter is not found on the first screen
         self.dump_always()
-        scroll = self.vc.findViewWithText(u"""LET'S ROLL""")
+        scroll = self.vc.findViewWithText("""LET'S ROLL""")
         if scroll:
             print("Click LET'S ROLL")
             scroll.touch()
@@ -23,7 +23,7 @@ class ApkRunnerImpl(ApkTestRunner):
         chapter_tab = None
         self.dump_always()
         while chapter_tab is None:
-            gotit_button = self.vc.findViewWithText(u"GOT IT")
+            gotit_button = self.vc.findViewWithText("GOT IT")
             if gotit_button:
                 print("Click GOT IT")
                 gotit_button.touch()
@@ -53,18 +53,18 @@ class ApkRunnerImpl(ApkTestRunner):
                 "com.quicinc.vellamo:id/main_toolbar_wheel"
             )
             btn_animations = self.vc.findViewWithText(
-                u"Make Vellamo even more beautiful"
+                "Make Vellamo even more beautiful"
             )
             warn_msg = self.vc.findViewWithText(
-                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+                "This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
             )
-            continue_btn = self.vc.findViewWithText(u"CONTINUE")
+            continue_btn = self.vc.findViewWithText("CONTINUE")
             if btn_setup_1:
                 # Accept Vellamo EULA
                 btn_setup_1.touch()
             elif warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise("OK")
                 warning_ok_btn.touch()
             elif continue_btn:
                 continue_btn.touch()
@@ -88,7 +88,7 @@ class ApkRunnerImpl(ApkTestRunner):
             # Start benchmark
             self.dump_always()
             try:
-                gotit_button = self.vc.findViewWithText(u"GOT IT")
+                gotit_button = self.vc.findViewWithText("GOT IT")
                 if gotit_button:
                     gotit_button.touch()
             except ViewNotFoundException:

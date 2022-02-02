@@ -27,14 +27,14 @@ class ApkRunnerImpl(ApkTestRunner):
         while need_continue:
             self.dump_always()
             view_license_btn = self.vc.findViewWithText("View license")
-            run_full_item = self.vc.findViewWithText(u"Run full benchmark")
+            run_full_item = self.vc.findViewWithText("Run full benchmark")
             warn_msg = self.vc.findViewWithText(
-                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+                "This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
             )
-            continue_btn = self.vc.findViewWithText(u"CONTINUE")
+            continue_btn = self.vc.findViewWithText("CONTINUE")
             if warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise("OK")
                 warning_ok_btn.touch()
             elif continue_btn:
                 continue_btn.touch()
@@ -56,7 +56,7 @@ class ApkRunnerImpl(ApkTestRunner):
         while need_continue:
             self.dump_always()
             view_license_btn = self.vc.findViewWithText("View license")
-            run_full_item = self.vc.findViewWithText(u"Run full benchmark")
+            run_full_item = self.vc.findViewWithText("Run full benchmark")
             if view_license_btn:
                 ok_button = self.vc.findViewWithTextOrRaise("OK")
                 ok_button.touch()

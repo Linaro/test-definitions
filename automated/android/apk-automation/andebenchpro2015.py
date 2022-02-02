@@ -82,21 +82,21 @@ class ApkRunnerImpl(ApkTestRunner):
         time.sleep(10)
 
         self.dump_always()
-        continue_btn = self.vc.findViewWithText(u"CONTINUE")
+        continue_btn = self.vc.findViewWithText("CONTINUE")
         if continue_btn:
             continue_btn.touch()
 
         self.dump_always()
         warn_msg = self.vc.findViewWithText(
-            u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+            "This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
         )
         if warn_msg:
             self.logger.info("Older version warning popped up")
-            warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
+            warning_ok_btn = self.vc.findViewWithTextOrRaise("OK")
             warning_ok_btn.touch()
 
         self.dump_always()
-        btn_license = self.vc.findViewWithText(u"I Agree")
+        btn_license = self.vc.findViewWithText("I Agree")
         if btn_license:
             btn_license.touch()
 
@@ -109,7 +109,7 @@ class ApkRunnerImpl(ApkTestRunner):
             item.touch()
             time.sleep(3)
             self.dump_always()
-            item = self.vc.findViewWithText(u"Options")
+            item = self.vc.findViewWithText("Options")
             if item:
                 item.touch()
                 time.sleep(3)
@@ -118,7 +118,7 @@ class ApkRunnerImpl(ApkTestRunner):
                 opt_expandableListView1 = self.vc.findViewByIdOrRaise(opt_str)
                 if opt_expandableListView1:
                     for sub in opt_expandableListView1.children:
-                        if not self.vc.findViewWithText(u"Memory", sub):
+                        if not self.vc.findViewWithText("Memory", sub):
                             cbx1_str = "com.eembc.andebench:id/cbx1"
                             self.vc.findViewByIdOrRaise(cbx1_str, sub).touch()
                             time.sleep(3)
@@ -129,7 +129,7 @@ class ApkRunnerImpl(ApkTestRunner):
                     ).touch()
                     time.sleep(3)
                     self.dump_always()
-                    self.vc.findViewWithTextOrRaise(u"Home").touch()
+                    self.vc.findViewWithTextOrRaise("Home").touch()
 
         while True:
             try:
@@ -152,13 +152,13 @@ class ApkRunnerImpl(ApkTestRunner):
                 self.dump_always()
                 self.vc.findViewWithTextOrRaise("DEVICE SCORE")
 
-                self.vc.findViewWithTextOrRaise(u"3D").touch()
-                self.vc.findViewWithTextOrRaise(u"Platform").touch()
-                self.vc.findViewWithTextOrRaise(u"Storage").touch()
-                self.vc.findViewWithTextOrRaise(u"Memory Latency").touch()
-                self.vc.findViewWithTextOrRaise(u"Memory Bandwidth").touch()
-                self.vc.findViewWithTextOrRaise(u"CoreMark-PRO (Peak)").touch()
-                self.vc.findViewWithTextOrRaise(u"CoreMark-PRO (Base)").touch()
+                self.vc.findViewWithTextOrRaise("3D").touch()
+                self.vc.findViewWithTextOrRaise("Platform").touch()
+                self.vc.findViewWithTextOrRaise("Storage").touch()
+                self.vc.findViewWithTextOrRaise("Memory Latency").touch()
+                self.vc.findViewWithTextOrRaise("Memory Bandwidth").touch()
+                self.vc.findViewWithTextOrRaise("CoreMark-PRO (Peak)").touch()
+                self.vc.findViewWithTextOrRaise("CoreMark-PRO (Base)").touch()
                 find_result = True
             except ViewNotFoundException:
                 pass

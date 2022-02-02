@@ -45,7 +45,7 @@ def match_sha_on_server(sha):
         loop = loop + 1
         time.sleep(30)
         if loop == 10:
-            print "FAIL: Installed sha on device did not match"
+            print("FAIL: Installed sha on device did not match")
             return -1
 
 
@@ -54,10 +54,12 @@ if match_sha_on_server(args.installed_sha) == 0:
     r = requests.put(url, data=data, headers=headers)
     if match_sha_on_server(args.update_sha) == 0:
         py_test_lib.add_result(RESULT_FILE, "ota-update-to-%s pass" % args.update_sha)
-        print "PASS: %s updated to %s successfully" % (args.devicename, args.update_sha)
+        print(
+            "PASS: %s updated to %s successfully" % (args.devicename, args.update_sha)
+        )
     else:
         py_test_lib.add_result(RESULT_FILE, "ota-update-to-%s fail" % args.update_sha)
-        print "FAIL: %s update to %s failed" % (args.devicename, args.update_sha)
+        print("FAIL: %s update to %s failed" % (args.devicename, args.update_sha))
 else:
     py_test_lib.add_result(RESULT_FILE, "installed-device-sha-match-server fail")
-    print "FAIL: Insalled device sha to %s mismatched on the server" % args.devicename
+    print("FAIL: Insalled device sha to %s mismatched on the server" % args.devicename)

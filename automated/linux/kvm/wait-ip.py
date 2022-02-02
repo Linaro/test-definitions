@@ -8,7 +8,7 @@ class MyHandler(BaseHTTPRequestHandler):
     def returnIP(self):
         self.send_response(200)
         self.end_headers()
-        print self.client_address[0]
+        print(self.client_address[0])
         return
 
     def log_message(self, format, *args):

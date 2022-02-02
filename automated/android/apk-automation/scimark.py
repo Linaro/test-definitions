@@ -18,17 +18,17 @@ class ApkRunnerImpl(ApkTestRunner):
         while not find_start_btn:
             self.dump_always()
             warn_msg = self.vc.findViewWithText(
-                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+                "This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
             )
-            continue_btn = self.vc.findViewWithText(u"CONTINUE")
+            continue_btn = self.vc.findViewWithText("CONTINUE")
             if warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise("OK")
                 warning_ok_btn.touch()
             elif continue_btn:
                 continue_btn.touch()
             else:
-                btn_java_bench = self.vc.findViewWithTextOrRaise(u"Java bench")
+                btn_java_bench = self.vc.findViewWithTextOrRaise("Java bench")
                 btn_java_bench.touch()
                 find_start_btn = True
 
