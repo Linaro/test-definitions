@@ -35,15 +35,15 @@ class ApkRunnerImpl(ApkTestRunner):
             time.sleep(5)
             self.dump_always()
             agreement = self.vc.findViewWithText(
-                u"By using Geekbench you are agreeing to the terms of the Geekbench End User License Agreement and Privacy Policy."
+                "By using Geekbench you are agreeing to the terms of the Geekbench End User License Agreement and Privacy Policy."
             )
             if agreement:
-                accept_btn = self.vc.findViewWithTextOrRaise(u"ACCEPT")
+                accept_btn = self.vc.findViewWithTextOrRaise("ACCEPT")
                 accept_btn.touch()
                 continue
 
             no_internet = self.vc.findViewWithText(
-                u"Geekbench encountered an error communicating with the Geekbench Browser. Geekbench requires an active internet connection in order to run benchmarks."
+                "Geekbench encountered an error communicating with the Geekbench Browser. Geekbench requires an active internet connection in order to run benchmarks."
             )
             if no_internet:
                 self.logger.info(
@@ -52,7 +52,7 @@ class ApkRunnerImpl(ApkTestRunner):
                 self.all_fail()
                 sys.exit(1)
 
-            runBench = self.vc.findViewWithText(u"RUN CPU BENCHMARK")
+            runBench = self.vc.findViewWithText("RUN CPU BENCHMARK")
             if runBench:
                 runBench.touch()
                 find_run_btn = True
@@ -68,7 +68,7 @@ class ApkRunnerImpl(ApkTestRunner):
                 self.logger.info("Geekbench 4 Test is still in progress...")
                 continue
 
-            geekbench_score = self.vc.findViewWithText(u"Geekbench Score")
+            geekbench_score = self.vc.findViewWithText("Geekbench Score")
             if geekbench_score:
                 self.logger.info("Geekbench 4 Test Finished!")
                 finished = True

@@ -52,11 +52,11 @@ class ApkRunnerImpl(ApkTestRunner):
             select_all_btn = self.vc.findViewWithText("All")
             display_tests_menu = self.vc.findViewWithText("Performance Tests")
             warn_msg = self.vc.findViewWithText(
-                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+                "This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
             )
-            continue_btn = self.vc.findViewWithText(u"CONTINUE")
+            continue_btn = self.vc.findViewWithText("CONTINUE")
             attention_msg = self.vc.findViewWithText(
-                u"""Network connection not found!
+                """Network connection not found!
 Do you want to setup network connection? (If you can not upload the results you will not see it)"""
             )
             if select_all_btn:
@@ -68,7 +68,7 @@ Do you want to setup network connection? (If you can not upload the results you 
                 self.logger.info("Display all tests to select all")
             elif warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise("OK")
                 warning_ok_btn.touch()
             elif continue_btn:
                 continue_btn.touch()

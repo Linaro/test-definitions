@@ -23,18 +23,18 @@ class ApkRunnerImpl(ApkTestRunner):
         self.uninstall_apk(self.apk_3d_pkg)
 
     def parseResult(self):
-        test_items = [u"3D", u"UX", u"CPU", u"RAM"]
+        test_items = ["3D", "UX", "CPU", "RAM"]
         test_subitems = {
-            u"3D": [u"3D [Garden]", u"3D [Marooned]"],
-            u"UX": [
-                u"UX Data Secure",
-                u"UX Data process",
-                u"UX Strategy games",
-                u"UX Image process",
-                u"UX I/O performance",
+            "3D": ["3D [Garden]", "3D [Marooned]"],
+            "UX": [
+                "UX Data Secure",
+                "UX Data process",
+                "UX Strategy games",
+                "UX Image process",
+                "UX I/O performance",
             ],
-            u"CPU": [u"CPU Mathematics", u"CPU Common Use", u"CPU Multi-Core"],
-            u"RAM": [],
+            "CPU": ["CPU Mathematics", "CPU Common Use", "CPU Multi-Core"],
+            "RAM": [],
         }
         antutu_sum = 0
         for item in test_items:
@@ -140,7 +140,7 @@ class ApkRunnerImpl(ApkTestRunner):
 
             time.sleep(30)
             self.dump_always()
-            text_qr_code = self.vc.findViewWithText(u"QRCode of result")
+            text_qr_code = self.vc.findViewWithText("QRCode of result")
             if text_qr_code:
                 finished = True
                 self.logger.info("Benchmark test finished!")
@@ -148,7 +148,7 @@ class ApkRunnerImpl(ApkTestRunner):
             stop_msg = "Unfortunately, AnTuTu 3DBench has stopped."
             msg_stopped = self.vc.findViewWithText(stop_msg)
             if msg_stopped:
-                btn_ok = self.vc.findViewWithTextOrRaise(u"OK")  # nopep8
+                btn_ok = self.vc.findViewWithTextOrRaise("OK")  # nopep8
                 btn_ok.touch()
 
             # cancel the update
@@ -158,20 +158,20 @@ class ApkRunnerImpl(ApkTestRunner):
             )
             allow_permission_btn = self.vc.findViewWithText("ALLOW")
             warn_msg = self.vc.findViewWithText(
-                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+                "This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
             )
-            continue_btn = self.vc.findViewWithText(u"CONTINUE")
+            continue_btn = self.vc.findViewWithText("CONTINUE")
             if update_window:
-                btn_cancel = self.vc.findViewWithTextOrRaise(u"Cancel")
+                btn_cancel = self.vc.findViewWithTextOrRaise("Cancel")
                 btn_cancel.touch()
             elif need_permission_msg:
-                btn_ok = self.vc.findViewWithTextOrRaise(u"OK")
+                btn_ok = self.vc.findViewWithTextOrRaise("OK")
                 btn_ok.touch()
             elif allow_permission_btn:
                 allow_permission_btn.touch()
             elif warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise("OK")
                 warning_ok_btn.touch()
             elif continue_btn:
                 continue_btn.touch()

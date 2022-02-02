@@ -28,11 +28,11 @@ class ApkRunnerImpl(ApkTestRunner):
             time.sleep(2)
             self.dump_always()
             warn_msg = self.vc.findViewWithText(
-                u"This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
+                "This app was built for an older version of Android and may not work properly. Try checking for updates, or contact the developer."
             )
             if warn_msg:
                 self.logger.info("Older version warning popped up")
-                warning_ok_btn = self.vc.findViewWithTextOrRaise(u"OK")
+                warning_ok_btn = self.vc.findViewWithTextOrRaise("OK")
                 warning_ok_btn.touch()
             else:
                 btn_run = self.vc.findViewByIdOrRaise("com.roywhet:id/startButton")
