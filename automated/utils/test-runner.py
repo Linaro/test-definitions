@@ -1025,15 +1025,16 @@ class ResultParser(object):
         with open("%s/result.json" % self.test["test_path"], "w") as f:
             json.dump([self.results], f, indent=4)
 
-        # Collect test results of all tests in output/result.json
-        feeds = []
-        if os.path.isfile("%s/result.json" % self.test["output"]):
-            with open("%s/result.json" % self.test["output"], "r") as f:
-                feeds = json.load(f)
+        if not self.args.cleanup:
+            # Collect test results of all tests in output/result.json
+            feeds = []
+            if os.path.isfile("%s/result.json" % self.test["output"]):
+                with open("%s/result.json" % self.test["output"], "r") as f:
+                    feeds = json.load(f)
 
-        feeds.append(self.results)
-        with open("%s/result.json" % self.test["output"], "w") as f:
-            json.dump(feeds, f, indent=4)
+            feeds.append(self.results)
+            with open("%s/result.json" % self.test["output"], "w") as f:
+                json.dump(feeds, f, indent=4)
 
     def dict_to_csv(self):
         # Convert dict self.results['params'] to a string.
@@ -1061,16 +1062,17 @@ class ResultParser(object):
             for metric in self.results["metrics"]:
                 writer.writerow(metric)
 
-        # Collect test results of all tests in output/result.csv
-        if not os.path.isfile("%s/result.csv" % self.test["output"]):
-            with open("%s/result.csv" % self.test["output"], "w") as f:
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
+        if not self.args.cleanup:
+            # Collect test results of all tests in output/result.csv
+            if not os.path.isfile("%s/result.csv" % self.test["output"]):
+                with open("%s/result.csv" % self.test["output"], "w") as f:
+                    writer = csv.DictWriter(f, fieldnames=fieldnames)
+                    writer.writeheader()
 
-        with open("%s/result.csv" % self.test["output"], "a") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            for metric in self.results["metrics"]:
-                writer.writerow(metric)
+            with open("%s/result.csv" % self.test["output"], "a") as f:
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                for metric in self.results["metrics"]:
+                    writer.writerow(metric)
 
 
 def get_token_from_netrc(qa_reports_server):
@@ -1280,6 +1282,17 @@ def get_args():
         default=None,
         help="YAML file that defines metadata to be reported to SQUAD",
     )
+    parser.add_argument(
+        "--cleanup",
+        dest="cleanup",
+        default=False,
+        action="store_true",
+        help="If set to true, test-runner will remove all temporary files \
+              after running the test. It includes all collected logs and \
+              test results. This option should only be used if uploading \
+              results to SQUAD or LAVA. \
+              Default: false",
+    )
 
     args = parser.parse_args()
     return args
@@ -1373,6 +1386,11 @@ def main():
             # Parse test output, save results in json and csv format.
             result_parser = ResultParser(test, args)
             result_parser.run()
+            if args.cleanup:
+                # remove a copy of test-definitions
+                logger.warning("Removing a copy of test-definitions")
+                logger.warning("Removing all collected logs")
+                shutil.rmtree(test["test_path"])
         else:
             logger.warning("Requested test definition %s doesn't exist" % test["path"])
 
