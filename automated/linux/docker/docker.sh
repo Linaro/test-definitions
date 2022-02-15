@@ -51,10 +51,10 @@ exit_on_fail "start-docker-service" "${skip_list}"
 
 case "${IMAGE}" in
     hello-world)
-        docker run "${IMAGE}"
+        docker run --rm "${IMAGE}"
         ;;
     *)
-        docker run -it "${IMAGE}" /bin/echo "Hello Docker"
+        docker run --rm "${IMAGE}" /bin/echo "Hello Docker"
         ;;
 esac
 check_return "run-docker-image"
