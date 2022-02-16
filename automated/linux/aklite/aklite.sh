@@ -18,7 +18,7 @@ usage() {
 		     -t <target> [-n <device name>]
 
 	-n <device name>
-		This is the name of the registered device 
+		This is the name of the registered device
 	-t <target>
 		This is the target that is expected to be active
 	"
@@ -33,7 +33,7 @@ while getopts "n:t:h" opts; do
 done
 
 if [ -z "${TARGET}" ]; then
-    exit_msg "TARGET variable is missing"
+    error_msg "TARGET variable is missing"
 fi
 
 ! check_root && error_msg "You need to be root to run this script."
