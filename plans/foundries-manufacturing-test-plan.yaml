@@ -43,11 +43,8 @@ tests:
     - path: automated/linux/aklite/aklite.yaml
       repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
-      parameteres:
+      parameters:
           TARGET: 243
-    - path: automated/linux/ima/ima.yaml
-      repository: http://github.com/linaro/test-definitions.git
-      timeout: 1800
     - path: automated/linux/ima/ima.yaml
       repository: http://github.com/linaro/test-definitions.git
       timeout: 1800
