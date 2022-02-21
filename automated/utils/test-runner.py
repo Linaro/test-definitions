@@ -93,7 +93,7 @@ class TestPlan(object):
         fixed_test_list = copy.deepcopy(test_list)
         logger = logging.getLogger("RUNNER.TestPlan.Overlay")
         with open(self.overlay) as f:
-            data = yaml.load(f)
+            data = yaml.load(f, Loader=yaml.SafeLoader)
 
         if data.get("skip"):
             skip_tests = data["skip"]
@@ -114,7 +114,7 @@ class TestPlan(object):
                 for amend_test in amend_tests:
                     if (
                         test["path"] == amend_test["path"]
-                        and test["repository"] == skip_test["repository"]
+                        and test["repository"] == amend_test["repository"]
                     ):
                         if amend_test.get("parameters"):
                             if test.get("parameters"):
