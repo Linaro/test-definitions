@@ -1,0 +1,94 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: vdsotest
+    description: |
+                  vdsotest is a utility for testing and benchmarking a Linux VDSO.
+                  The "vDSO" (virtual dynamic shared object) is a small shared
+                  library that the kernel automatically maps into the address space
+                  of all user-space applications.  Applications usually do not need
+                  to concern themselves with these details as the vDSO is most
+                  commonly called by the C library.  This way you can code in the
+                  normal way using standard functions and the C library will take
+                  care of using any functionality that is available via the vDSO.
+
+    maintainer:
+        - naresh.kamboju@linaro.org
+        - anders.roxell@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - performance
+        - functional
+    devices:
+        - juno
+        - x15
+        - x86
+        - i386
+
+params:
+        # How long the test will run for. DURATION can be set
+        DURATION: "10"
+
+        # where API must be one of:
+        # clock-gettime-monotonic
+        # clock-getres-monotonic
+        # clock-gettime-monotonic-coarse
+        # clock-getres-monotonic-coarse
+        # clock-gettime-monotonic-raw
+        # clock-getres-monotonic-raw
+        # clock-gettime-tai
+        # clock-getres-tai
+        # clock-gettime-boottime
+        # clock-getres-boottime
+        # clock-gettime-realtime
+        # clock-getres-realtime
+        # clock-gettime-realtime-coarse
+        # clock-getres-realtime-coarse
+        # getcpu
+        # gettimeofday
+        API: ""
+
+        # TEST_TYPE must be one of:
+        # verify
+        # bench
+        # abi
+        TEST_TYPE: ""
+
+        # If the following parameter is set, then the vdso suite is
+        # cloned and used unconditionally. In particular, the version
+        # of the suite is set to the commit pointed to by the
+        # parameter. A simple choice for the value of the parameter
+        # is, e.g., HEAD.  If, instead, the parameter is
+        # not set, then the suite present in TEST_DIRis used.
+        TEST_PROG_VERSION: ""
+
+        # If next parameter is set, then the vdso suite is cloned
+        # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
+        # standard repository for the suite. Note that cloning is done
+        # only if TEST_PROG_VERSION is not empty
+        # "https://github.com/nathanlynch/vdsotest.git"
+        TEST_GIT_URL: ""
+
+        # If next parameter is set, then the vdso suite is cloned to or
+        # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/vdso
+        TEST_DIR: ""
+
+        # If next parameter is set, then the vdso suite is cloned to or
+        # looked for in VDSO_INSTALL_PATH. Otherwise it will be installed
+        # on the default location to /usr/bin/
+        # which is also the default location if its pre-installed
+        VDSO_INSTALL_PATH: "/usr"
+
+        # If the user space already have everything installed. default: false
+        SKIP_INSTALL: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/vdsotest/
+        - ./vdsotest.sh -d "${DURATION}" -f "${VDSOTESTALL}" -a "${API}" -t "${TEST_TYPE}" -v "${TEST_PROG_VERSION}" -s "${SKIP_INSTALL}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -i "${VDSO_INSTALL_PATH}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
+        - ../../utils/send-to-lava.sh ./output/metric.txt
