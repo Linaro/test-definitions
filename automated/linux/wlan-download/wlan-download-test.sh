@@ -168,16 +168,34 @@ create_out_dir "${OUTPUT}"
 info_msg "About to run wlan download test..."
 info_msg "Output directory: ${OUTPUT}"
 
-if [ -n "${ETHERNET_DEVICE}" ]; then
-    ip link set "${ETHERNET_DEVICE}" down
-    check_return "eth-down"
+SKIPLIST="eth-down wlan-connect wlan-ip-address wlan-ping wlan-download wland-download-checksum wlan-disconnect eth-up"
+# check if DEVICE matches any existing network interface
+if [ ! -L "/sys/class/net/${DEVICE}" ]; then
+    # exit with skiplist
+    exit_on_fail "wlan-device-exists" "wlan-device-wireless wlan-scan ${SKIPLIST}"
+else
+    report_pass "wlan-device-exists"
+fi
+
+# check if DEVICE is a wireless device
+if [ ! -d "/sys/class/net/${DEVICE}/wireless" ]; then
+    # exit with skiplist
+    exit_on_fail "wlan-device-wireless" "wlan-scan ${SKIPLIST}"
+else
+    report_pass "wlan-device-wireless"
 fi
 
 systemctl stop wpa_supplicant # to don't interfere with our wpa_supplicant instance
 ip link set "${DEVICE}" up
 sleep "${TIME_DELAY}" # XXX: some devices needs a wait after up to be ready, default: 0s
 iw dev "${DEVICE}" scan
-exit_on_fail "wlan-scan"
+exit_on_fail "wlan-scan" "${SKIPLIST}"
+
+if [ -n "${ETHERNET_DEVICE}" ]; then
+    ip link set "${ETHERNET_DEVICE}" down
+    check_return "eth-down"
+fi
+
 test_wlan_connection
 if [ -n "${FILE_URL}" ]; then
     test_wlan_download
