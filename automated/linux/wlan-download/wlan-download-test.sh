@@ -159,6 +159,9 @@ cleanup() {
         ip link set "${ETHERNET_DEVICE}" up
         check_return "eth-up"
     fi
+    # restore wpa_supplicant service
+    systemctl unmask wpa_supplicant
+    systemctl start wpa_supplicant
 }
 
 # Test run.
@@ -186,6 +189,8 @@ else
 fi
 
 systemctl stop wpa_supplicant # to don't interfere with our wpa_supplicant instance
+systemctl mask wpa_supplicant # prevent wpa_supplicant from being started. ip link usually starts it and makes this test unpredictable
+ip link
 ip link set "${DEVICE}" up
 sleep "${TIME_DELAY}" # XXX: some devices needs a wait after up to be ready, default: 0s
 iw dev "${DEVICE}" scan
