@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -ex
 # shellcheck disable=SC1091
 
 . ./../../lib/sh-test-lib
@@ -41,11 +41,31 @@ if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
     info_msg "Package installation skipped"
 else
     ! check_root && error_msg "Please run this script as superuser!"
-    install_deps "git python python-lxml python-pil python-setuptools python-requests python-matplotlib python-requests ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
-    git clone --depth 1 https://github.com/dtmilano/AndroidViewClient
+    #install_deps "git python python-lxml python-pil python-setuptools python-requests python-matplotlib python-requests ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
+    install_deps "python3-distutils git ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
+    if python3 --version|grep 'Python 3.6'; then
+        # Workaround for Ubuntu 18.04 Bionic version.
+        # ModuleNotFoundError: No module named 'distutils.cmd' needs python3-distutils
+        url_pip="https://bootstrap.pypa.io/pip/3.6/get-pip.py"
+        url_android_view_clien="https://github.com/liuyq/AndroidViewClient.git"
+    else
+        url_pip="https://bootstrap.pypa.io/get-pip.py"
+        url_android_view_clien="https://github.com/dtmilano/AndroidViewClient"
+    fi
+
+    curl "${url_pip}" -o get-pip.py
+    sudo python3 get-pip.py
+    sudo pip install virtualenv
+    pip --version
+    virenv_dir=python-workspace
+    virtualenv --python=python3 ${virenv_dir}
+    [ ! -d AndroidViewClient ]  && git clone --depth 1 "${url_android_view_clien}"
+    # shellcheck disable=SC1090
+    source ${virenv_dir}/bin/activate
+
     (
     cd AndroidViewClient/ || exit
-    python setup.py install
+    python3 setup.py install
     )
 fi
 
@@ -59,4 +79,4 @@ option_g="-g"
 if [ -n "${SET_GOVERNOR_POLICY}" ] && [ "X${SET_GOVERNOR_POLICY}" = "Xfalse" ]; then
     option_g=""
 fi
-python main.py -l "${LOOPS}" -n "${TEST_NAME}" -d "${APK_DIR}" -u "${BASE_URL}" ${option_g}
+python3 main.py -l "${LOOPS}" -n "${TEST_NAME}" -d "${APK_DIR}" -u "${BASE_URL}" ${option_g}
