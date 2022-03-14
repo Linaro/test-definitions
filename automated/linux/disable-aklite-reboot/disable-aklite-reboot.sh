@@ -17,5 +17,13 @@ report_pass "create-aklite-toml"
 
 systemctl enable --now lmp-device-auto-register
 
+# the below aklite status call is added for debugging
+# aklite should take it's config from the .toml file and the
+# following should be included in the output:
+#    info: Reading config: \"/etc/sota/conf.d/z-99-aklite-callback.toml\"
+# reboot_command = \"/bin/true\"
 sleep 5
 aktualizr-lite status --loglevel 0
+# exit with code 0 to allow result collection in case of race
+# between aklite systemd service and above call
+exit 0
