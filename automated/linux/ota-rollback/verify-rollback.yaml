@@ -22,6 +22,6 @@ params:
         TYPE: "kernel"
 run:
     steps:
-        - cd ./automated/linux/ota-rollback-spl
+        - cd ./automated/linux/ota-rollback
         - ./verify-rollback.sh  -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
