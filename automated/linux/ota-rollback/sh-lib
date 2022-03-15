@@ -21,6 +21,10 @@ compare_test_value() {
     # shellcheck disable=SC2039
     local tested_value="$3"
 
+    echo "Testing: #${test_name}#"
+    echo "Expected: #${expected_value}#"
+    echo "Actual: #${tested_value}#"
+
     if [ "${expected_value}" = "${tested_value}" ]; then
         report_pass "${test_name}"
     else
