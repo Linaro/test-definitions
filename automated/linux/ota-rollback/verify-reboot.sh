@@ -64,19 +64,25 @@ compare_test_value "bootcount_after_reboot" "${ref_bootcount_after_reboot}" "${b
 rollback_after_reboot=$(uboot_variable_value rollback)
 echo "Rollback: ${rollback_after_reboot}"
 compare_test_value "rollback_after_reboot" "${ref_rollback_after_reboot}" "${rollback_after_reboot}"
-bootupgrade_available_after_reboot=$(uboot_variable_value bootupgrade_available)
-compare_test_value "bootupgrade_available_after_reboot" "${ref_bootupgrade_available_after_reboot}" "${bootupgrade_available_after_reboot}"
 upgrade_available_after_reboot=$(uboot_variable_value upgrade_available)
 compare_test_value "upgrade_available_after_reboot" "${ref_upgrade_available_after_reboot}" "${upgrade_available_after_reboot}"
+if [ -f /usr/lib/firmware/version.txt ]; then
+    . /usr/lib/firmware/version.txt
+    bootupgrade_available_after_reboot=$(uboot_variable_value bootupgrade_available)
+    compare_test_value "bootupgrade_available_after_reboot" "${ref_bootupgrade_available_after_reboot}" "${bootupgrade_available_after_reboot}"
 
-. /usr/lib/firmware/version.txt
-# shellcheck disable=SC2154
-ref_bootfirmware_version_after_reboot="${bootfirmware_version}"
-if [ "${TYPE}" = "uboot" ]; then
-    ref_bootfirmware_version_after_reboot=0
+    # shellcheck disable=SC2154
+    ref_bootfirmware_version_after_reboot="${bootfirmware_version}"
+    if [ "${TYPE}" = "uboot" ]; then
+        ref_bootfirmware_version_after_reboot=0
+    fi
+    bootfirmware_version_after_reboot=$(uboot_variable_value bootfirmware_version)
+    # shellcheck disable=SC2154
+    compare_test_value "bootfirmware_version_after_reboot" "${ref_bootfirmware_version_after_reboot}" "${bootfirmware_version_after_reboot}"
+    fiovb_is_secondary_boot_after_reboot=$(uboot_variable_value fiovb.is_secondary_boot)
+    compare_test_value "fiovb_is_secondary_boot_after_reboot" "${ref_fiovb_is_secondary_boot_after_reboot}" "${fiovb_is_secondary_boot_after_reboot}"
+else
+    report_skip "bootupgrade_available_after_reboot"
+    report_skip "bootfirmware_version_after_reboot"
+    report_skip "fiovb_is_secondary_boot_after_reboot"
 fi
-bootfirmware_version_after_reboot=$(uboot_variable_value bootfirmware_version)
-# shellcheck disable=SC2154
-compare_test_value "bootfirmware_version_after_reboot" "${ref_bootfirmware_version_after_reboot}" "${bootfirmware_version_after_reboot}"
-fiovb_is_secondary_boot_after_reboot=$(uboot_variable_value fiovb.is_secondary_boot)
-compare_test_value "fiovb_is_secondary_boot_after_reboot" "${ref_fiovb_is_secondary_boot_after_reboot}" "${fiovb_is_secondary_boot_after_reboot}"

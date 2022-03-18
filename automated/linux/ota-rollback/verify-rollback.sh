@@ -58,23 +58,28 @@ bootcount_after_rollback=$(uboot_variable_value bootcount)
 compare_test_value "bootcount_after_rollback" "${ref_bootcount_after_rollback}" "${bootcount_after_rollback}"
 rollback_after_rollback=$(uboot_variable_value rollback)
 compare_test_value "rollback_after_rollback" "${ref_rollback_after_rollback}" "${rollback_after_rollback}"
-bootupgrade_available_after_rollback=$(uboot_variable_value bootupgrade_available)
-compare_test_value "bootupgrade_available_after_rollback" "${ref_bootupgrade_available_after_rollback}" "${bootupgrade_available_after_rollback}"
 upgrade_available_after_rollback=$(uboot_variable_value upgrade_available)
 compare_test_value "upgrade_available_after_rollback" "${ref_upgrade_available_after_rollback}" "${upgrade_available_after_rollback}"
+if [ -f /usr/lib/firmware/version.txt ]; then
+    . /usr/lib/firmware/version.txt
+    bootupgrade_available_after_rollback=$(uboot_variable_value bootupgrade_available)
+    compare_test_value "bootupgrade_available_after_rollback" "${ref_bootupgrade_available_after_rollback}" "${bootupgrade_available_after_rollback}"
 
-. /usr/lib/firmware/version.txt
-# shellcheck disable=SC2154
-ref_bootfirmware_version_after_rollback="${bootfirmware_version}"
-if [ "${TYPE}" = "uboot" ]; then
-    ref_bootfirmware_version_after_rollback=0
+    # shellcheck disable=SC2154
+    ref_bootfirmware_version_after_rollback="${bootfirmware_version}"
+    if [ "${TYPE}" = "uboot" ]; then
+        ref_bootfirmware_version_after_rollback=0
+    fi
+    bootfirmware_version_after_rollback=$(uboot_variable_value bootfirmware_version)
+    # shellcheck disable=SC2154
+    compare_test_value "bootfirmware_version_after_rollback" "${ref_bootfirmware_version_after_rollback}" "${bootfirmware_version_after_rollback}"
+    fiovb_is_secondary_boot_after_rollback=$(uboot_variable_value fiovb.is_secondary_boot)
+    compare_test_value "fiovb_is_secondary_boot_after_rollback" "${ref_fiovb_is_secondary_boot_after_rollback}" "${fiovb_is_secondary_boot_after_rollback}"
+else
+    report_skip "bootupgrade_available_after_rollback"
+    report_skip "bootfirmware_version_after_rollback"
+    report_skip "fiovb_is_secondary_boot_after_rollback"
 fi
-bootfirmware_version_after_rollback=$(uboot_variable_value bootfirmware_version)
-# shellcheck disable=SC2154
-compare_test_value "bootfirmware_version_after_rollback" "${ref_bootfirmware_version_after_rollback}" "${bootfirmware_version_after_rollback}"
-fiovb_is_secondary_boot_after_rollback=$(uboot_variable_value fiovb.is_secondary_boot)
-compare_test_value "fiovb_is_secondary_boot_after_rollback" "${ref_fiovb_is_secondary_boot_after_rollback}" "${fiovb_is_secondary_boot_after_rollback}"
-
 # for now ignore /etc/os-release
 cat /etc/os-release
 cat /boot/loader/uEnv.txt

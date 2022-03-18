@@ -63,28 +63,6 @@ if [ "${TYPE}" = "uboot" ]; then
     ref_bootupgrade_available_after_download=1
 fi
 
-# check u-boot variables to ensure we're on freshly flashed device
-bootcount_before_download=$(uboot_variable_value bootcount)
-compare_test_value "${TYPE}_bootcount_before_download" "${ref_bootcount_before_download}" "${bootcount_before_download}"
-rollback_before_download=$(uboot_variable_value rollback)
-compare_test_value "${TYPE}_rollback_before_download" "${ref_rollback_before_download}" "${rollback_before_download}"
-bootupgrade_available_before_download=$(uboot_variable_value bootupgrade_available)
-compare_test_value "${TYPE}_bootupgrade_available_before_download" "${ref_bootupgrade_available_before_download}" "${bootupgrade_available_before_download}"
-upgrade_available_before_download=$(uboot_variable_value upgrade_available)
-compare_test_value "${TYPE}_upgrade_available_before_download" "${ref_upgrade_available_before_download}" "${upgrade_available_before_download}"
-
-. /usr/lib/firmware/version.txt
-bootfirmware_version_before_download=$(uboot_variable_value bootfirmware_version)
-# shellcheck disable=SC2154
-compare_test_value "${TYPE}_bootfirmware_version_before_download" "${bootfirmware_version}" "${bootfirmware_version_before_download}"
-fiovb_is_secondary_boot_before_download=$(uboot_variable_value fiovb.is_secondary_boot)
-compare_test_value "${TYPE}_fiovb_is_secondary_boot_before_download" "${ref_fiovb_is_secondary_boot_before_download}" "${fiovb_is_secondary_boot_before_download}"
-
-if [ "${TYPE}" = "uboot" ]; then
-    # manually set boot firmware version to 0
-    "${UBOOT_VAR_SET_TOOL}" bootfirmware_version 0
-fi
-
 # configure aklite callback
 cp aklite-callback.sh /var/sota/
 chmod 755 /var/sota/aklite-callback.sh
@@ -105,6 +83,41 @@ systemctl enable --now lmp-device-auto-register || error_fatal "Unable to regist
 # if there isn't, terminate the job
 # use "${upgrade_available_after_download}" for now. Find a better solution later
 
+while ! systemctl is-active aktualizr-lite; do
+    echo "Waiting for aktualizr-lite to start"
+    sleep 1
+done
+
+# u-boot variables change when aklite starts (at least on some devices)
+# check u-boot variables to ensure we're on freshly flashed device
+bootcount_before_download=$(uboot_variable_value bootcount)
+compare_test_value "${TYPE}_bootcount_before_download" "${ref_bootcount_before_download}" "${bootcount_before_download}"
+rollback_before_download=$(uboot_variable_value rollback)
+compare_test_value "${TYPE}_rollback_before_download" "${ref_rollback_before_download}" "${rollback_before_download}"
+upgrade_available_before_download=$(uboot_variable_value upgrade_available)
+compare_test_value "${TYPE}_upgrade_available_before_download" "${ref_upgrade_available_before_download}" "${upgrade_available_before_download}"
+
+if [ -f /usr/lib/firmware/version.txt ]; then
+    # boot firmware is upgreadable
+    . /usr/lib/firmware/version.txt
+    bootupgrade_available_before_download=$(uboot_variable_value bootupgrade_available)
+    compare_test_value "${TYPE}_bootupgrade_available_before_download" "${ref_bootupgrade_available_before_download}" "${bootupgrade_available_before_download}"
+    bootfirmware_version_before_download=$(uboot_variable_value bootfirmware_version)
+    # shellcheck disable=SC2154
+    compare_test_value "${TYPE}_bootfirmware_version_before_download" "${bootfirmware_version}" "${bootfirmware_version_before_download}"
+    fiovb_is_secondary_boot_before_download=$(uboot_variable_value fiovb.is_secondary_boot)
+    compare_test_value "${TYPE}_fiovb_is_secondary_boot_before_download" "${ref_fiovb_is_secondary_boot_before_download}" "${fiovb_is_secondary_boot_before_download}"
+else
+    report_skip "${TYPE}_bootupgrade_available_before_download"
+    report_skip "${TYPE}_bootfirmware_version_before_download"
+    report_skip "${TYPE}_fiovb_is_secondary_boot_before_download"
+fi
+
+if [ "${TYPE}" = "uboot" ]; then
+    # manually set boot firmware version to 0
+    "${UBOOT_VAR_SET_TOOL}" bootfirmware_version 0
+fi
+
 # wait for 'install-post' signal
 SIGNAL=$(</var/sota/ota.signal)
 while [ ! "${SIGNAL}" = "install-post" ]
@@ -122,22 +135,27 @@ bootcount_after_download=$(uboot_variable_value bootcount)
 compare_test_value "${TYPE}_bootcount_after_download" "${ref_bootcount_after_download}" "${bootcount_after_download}"
 rollback_after_download=$(uboot_variable_value rollback)
 compare_test_value "${TYPE}_rollback_after_download" "${ref_rollback_after_download}" "${rollback_after_download}"
-bootupgrade_available_after_download=$(uboot_variable_value bootupgrade_available)
-compare_test_value "${TYPE}_bootupgrade_available_after_download" "${ref_bootupgrade_available_after_download}" "${bootupgrade_available_after_download}"
 upgrade_available_after_download=$(uboot_variable_value upgrade_available)
 compare_test_value "${TYPE}_upgrade_available_after_download" "${ref_upgrade_available_after_download}" "${upgrade_available_after_download}"
-
-. /usr/lib/firmware/version.txt
-# shellcheck disable=SC2154
-ref_bootfirmware_version_after_download="${bootfirmware_version}"
-if [ "${TYPE}" = "uboot" ]; then
-    ref_bootfirmware_version_after_download=0
+if [ -f /usr/lib/firmware/version.txt ]; then
+    . /usr/lib/firmware/version.txt
+    bootupgrade_available_after_download=$(uboot_variable_value bootupgrade_available)
+    compare_test_value "${TYPE}_bootupgrade_available_after_download" "${ref_bootupgrade_available_after_download}" "${bootupgrade_available_after_download}"
+    # shellcheck disable=SC2154
+    ref_bootfirmware_version_after_download="${bootfirmware_version}"
+    if [ "${TYPE}" = "uboot" ]; then
+        ref_bootfirmware_version_after_download=0
+    fi
+    bootfirmware_version_after_download=$(uboot_variable_value bootfirmware_version)
+    # shellcheck disable=SC2154
+    compare_test_value "${TYPE}_bootfirmware_version_after_download" "${ref_bootfirmware_version_after_download}" "${bootfirmware_version_after_download}"
+    fiovb_is_secondary_boot_after_download=$(uboot_variable_value fiovb.is_secondary_boot)
+    compare_test_value "${TYPE}_fiovb_is_secondary_boot_after_download" "${ref_fiovb_is_secondary_boot_after_download}" "${fiovb_is_secondary_boot_after_download}"
+else
+    report_skip "${TYPE}_bootupgrade_available_after_download"
+    report_skip "${TYPE}_bootfirmware_version_after_download"
+    report_skip "${TYPE}_fiovb_is_secondary_boot_after_download"
 fi
-bootfirmware_version_after_download=$(uboot_variable_value bootfirmware_version)
-# shellcheck disable=SC2154
-compare_test_value "${TYPE}_bootfirmware_version_after_download" "${ref_bootfirmware_version_after_download}" "${bootfirmware_version_after_download}"
-fiovb_is_secondary_boot_after_download=$(uboot_variable_value fiovb.is_secondary_boot)
-compare_test_value "${TYPE}_fiovb_is_secondary_boot_after_download" "${ref_fiovb_is_secondary_boot_after_download}" "${fiovb_is_secondary_boot_after_download}"
 
 UPGRADE_AVAILABLE="${upgrade_available_after_download}"
 if [ "${TYPE}" = "uboot" ]; then
