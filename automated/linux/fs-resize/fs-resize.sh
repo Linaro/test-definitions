@@ -52,7 +52,7 @@ INODES=$(df --output=itotal,size,target | grep "$MOUNTPOINT" | xargs echo -n | c
 echo "Inodes: $INODES"
 BLOCKS=$(df --output=itotal,size,target | grep "$MOUNTPOINT" | xargs echo -n | cut -d " " -f 2)
 echo "1k Blocks: $BLOCKS"
-DISK_SIZE=$(lsblk -b | grep "$MOUNTPOINT" | xargs echo -n | cut -d " " -f 4)
+DISK_SIZE=$(lsblk -b -o SIZE,MOUNTPOINT | grep "$MOUNTPOINT" | xargs echo -n | cut -d " " -f 1)
 echo "Disk Size (bytes): $DISK_SIZE"
 # Subtract inode table and fs size from disk size. Result should be withing 1%
 
