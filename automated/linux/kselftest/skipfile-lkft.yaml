@@ -394,3 +394,11 @@ skiplist:
       - v4.4-rt
     tests:
       - kvm:get-reg-list
+  - reason: >
+      net tls hangs on all devices
+    url: https://lore.kernel.org/linux-next/CA+G9fYsntwPrwk39VfsAjRwoSNnb3nX8kCEUa=Gxit7_pfD6bg@mail.gmail.com/
+    environments: all
+    boards: all
+    branches: all
+    tests:
+      - net:tls
