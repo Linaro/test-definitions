@@ -1,0 +1,26 @@
+metadata:
+    name: lmp-device-register-devel
+    format: "Manual Test Definition 1.0"
+    description: "Register device to follow only builds with devel tag"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is not currently registered to a factory
+        - Run lmp-device-register -t devel -n <name>
+        - authenticate device with user code in browser   
+                       
+    expected:
+       - Device should registered and following devel tagged builds
+       - No kernal crashes   

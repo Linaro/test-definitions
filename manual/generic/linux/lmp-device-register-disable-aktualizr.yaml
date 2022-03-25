@@ -1,0 +1,26 @@
+metadata:
+    name: lmp-device-register-disable-aktualizr-lite
+    format: "Manual Test Definition 1.0"
+    description: "Disable aktualizr-lite and attempt to re-register device"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is currently registered to a factory
+        - run sudo systemctl stop aktualizr-lite
+        - run lmp-device-register -n <name>
+                       
+    expected:
+       - Device should not register
+       - expected error- Device appears to already be registered in /var/sota/sql.db

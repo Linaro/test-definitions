@@ -1,0 +1,28 @@
+metadata:
+    name: lmp-device-register-delete
+    format: "Manual Test Definition 1.0"
+    description: "Re-register device after deleting sql.db"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is currently registered to a factory
+        - delete /var/sota/sql.db  
+        - run lmp-device-register -n <same name as used previously>
+        - authenticate device with user code in browser                   
+        
+    expected:
+       - Device should be prevented from registering
+       - expected error = Unable to create device- HTTP_409
+       - message Conflict /ota/devices/?

@@ -1,0 +1,25 @@
+metadata:
+    name: lmp-device-register-drive
+    format: "Manual Test Definition 1.0"
+    description: "Attempt to re-register device to a different drive"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is currently registered to a factory
+        - run lmp-device-register -d <other/file/path>      
+       
+    expected:
+       - Device should be prevented from registering
+       - expected error = aktualizr-lite daemon appears to be running       

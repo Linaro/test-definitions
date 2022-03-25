@@ -1,0 +1,25 @@
+metadata:
+    name: lmp-device-re-register
+    format: "Manual Test Definition 1.0"
+    description: "attempt to re-register a device with a new name"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is currently registered to a factory
+        - run lmp-device-register -n <new-name>                         
+        
+    expected:
+       - Device should be prevented from registering
+       - expected error device appears to already be registered in /var/sota/sql.db       

@@ -1,0 +1,27 @@
+metadata:
+    name: lmp-device-register-api
+    format: "Manual Test Definition 1.0"
+    description: "Register device via specified api token"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is not currently registered to a factory
+        - Run lmp-device-register -T <valid api token> -n <name> 
+        - authenticate device with user code in browser   
+                       
+    expected:
+       - Device should register normally
+       - incorrect or invalid token will prevent registration
+       - expected error - HTTP_401 Polis Error

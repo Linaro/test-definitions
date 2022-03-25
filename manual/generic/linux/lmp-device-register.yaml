@@ -1,0 +1,26 @@
+metadata:
+    name: lmp-device-register
+    format: "Manual Test Definition 1.0"
+    description: "Simple device register test"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is not currently registered to a factory
+        - run lmp-device-register -n <name> 
+        - authenticate device with user code in browser   
+                       
+    expected:
+       - Device should register normally
+       - No kernal crashes

@@ -1,0 +1,26 @@
+metadata:
+    name: lmp-device-register-apps
+    format: "Manual Test Definition 1.0"
+    description: "Register device and enable only specific apps"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - boot up the device
+        - ensure the device is not currently registered to a factory
+        - Run lmp-device-register -apps <appname> -n <name>
+        - authenticate device with user code in browser   
+                       
+    expected:
+       - Device should register normally
+       - Only specified apps should be enabled on the device
