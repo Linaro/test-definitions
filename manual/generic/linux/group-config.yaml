@@ -1,0 +1,33 @@
+metadata:
+    name: group-config
+    format: "Manual Test Definition 1.0"
+    description: "Test for applying group specific config"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - ensure factory has fleetwide config set 
+        - create factory group 
+        - fioctl config device-group create <group-name> -f <factory-name> 
+        - verify group exists - fioctl config device-group -f <factory> list
+        - create group config
+        - fioctl config updates -g <group-name>-f <factory> -c <path/to/file> 
+        - add device to group
+        - fioctl devices config group <device> <group>
+        - boot up device 
+        - run lmp-device-register -n <name>
+        - check config cd /run/secrets/ 
+                       
+    expected:
+       - fleet wide, group and device config file is present in /run/secrets/
+       - device>group>fleetwide overwite if clash

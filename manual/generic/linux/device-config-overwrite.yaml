@@ -1,0 +1,28 @@
+metadata:
+    name: device-config
+    format: "Manual Test Definition 1.0"
+    description: "Test for applying device specific config"
+    maintainer:
+        - brendan.wood@foundires.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - 
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - ensure factory has fleetwide config set 
+        - run fioctl devices config set <device> --reason <"reason"> -f<factory>
+        - create <filename==file/path>
+        - boot up device 
+        - run lmp-device-register -n<name>
+        - check config cd /run/secrets/ 
+                       
+    expected:
+       - fleet wide and device config file is present in /run/secrets/
+       - device specific setting overwrite fleetwide if clash

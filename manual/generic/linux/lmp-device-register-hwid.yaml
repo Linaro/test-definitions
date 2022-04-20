@@ -1,7 +1,7 @@
 metadata:
-    name: lmp-device-register-api
+    name: lmp-device-register-hwid
     format: "Manual Test Definition 1.0"
-    description: "Register device via specified api token"
+    description: "Register device with specified HWID"
     maintainer:
         - brendan.wood@foundires.io
     os:
@@ -18,7 +18,10 @@ run:
     steps:
         - boot up the device
         - ensure the device is not currently registered to a factory
-        - Run lmp-device-register -T <valid api token> -n <name>          
+        - Run lmp-device-register -n <name> -i <hwid> 
+        - authenticate device with user code in browser 
+        - check device hwid factory>devices    
                        
     expected:
        - Device should register normally
+       - <hwid> will overwrite value in /usr/lib/sota/conf.d/40-hardware-id.toml    
