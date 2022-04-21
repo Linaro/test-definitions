@@ -202,9 +202,13 @@ add_metric() {
 detect_abi() {
     abi=$(uname -m)
     case "${abi}" in
-      armv7|armv7l|armv7el|armv7lh) abi="armeabi" ;;
-      arm64|armv8|arm64-v8a|aarch64) abi="arm64" ;;
-      i386|i686) abi="i386" ;;
+      armv8l) abi="armeabi" ;;
+      armv*l) abi="armeabi" ;;
+      #armv8b) abi="armeabibe" ;;
+      #armv*b) abi="armeabibe" ;;
+      aarch64) abi="arm64" ;;
+      #aarch64_be) abi="arm64be" ;;
+      i*86) abi="i386" ;;
       x86_64) abi="x86_64" ;;
       *) error_msg "Unsupported architecture: ${abi}" ;;
     esac
