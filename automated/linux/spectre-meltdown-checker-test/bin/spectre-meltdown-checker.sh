@@ -1,6 +1,6 @@
 #! /bin/sh
 # SPDX-License-Identifier: GPL-3.0-only
-# vim: set ts=8 sw=8 sts=4 noet:
+# vim: set ts=4 sw=4 sts=4 noet:
 #
 # Spectre & Meltdown checker
 #
@@ -12,24 +12,24 @@
 #
 # Stephane Lesimple
 #
-VERSION='0.44'
+VERSION='0.45'
 
 trap 'exit_cleanup' EXIT
 trap '_warn "interrupted, cleaning up..."; exit_cleanup; exit 1' INT
 exit_cleanup()
 {
 	# cleanup the temp decompressed config & kernel image
-	[ -n "$dumped_config" ] && [ -f "$dumped_config" ] && rm -f "$dumped_config"
-	[ -n "$kerneltmp"     ] && [ -f "$kerneltmp"     ] && rm -f "$kerneltmp"
-	[ -n "$kerneltmp2"    ] && [ -f "$kerneltmp2"    ] && rm -f "$kerneltmp2"
-	[ -n "$mcedb_tmp"     ] && [ -f "$mcedb_tmp"     ] && rm -f "$mcedb_tmp"
-	[ -n "$intel_tmp"     ] && [ -d "$intel_tmp"     ] && rm -rf "$intel_tmp"
-	[ "$mounted_debugfs" = 1 ] && umount /sys/kernel/debug 2>/dev/null
-	[ "$mounted_procfs"  = 1 ] && umount "$procfs" 2>/dev/null
-	[ "$insmod_cpuid"    = 1 ] && rmmod cpuid 2>/dev/null
-	[ "$insmod_msr"      = 1 ] && rmmod msr 2>/dev/null
-	[ "$kldload_cpuctl"  = 1 ] && kldunload cpuctl 2>/dev/null
-	[ "$kldload_vmm"     = 1 ] && kldunload vmm    2>/dev/null
+	[ -n "${dumped_config:-}" ] && [ -f "$dumped_config" ] && rm -f "$dumped_config"
+	[ -n "${kerneltmp:-}"     ] && [ -f "$kerneltmp"     ] && rm -f "$kerneltmp"
+	[ -n "${kerneltmp2:-}"    ] && [ -f "$kerneltmp2"    ] && rm -f "$kerneltmp2"
+	[ -n "${mcedb_tmp:-}"     ] && [ -f "$mcedb_tmp"     ] && rm -f "$mcedb_tmp"
+	[ -n "${intel_tmp:-}"     ] && [ -d "$intel_tmp"     ] && rm -rf "$intel_tmp"
+	[ "${mounted_debugfs:-}" = 1 ] && umount /sys/kernel/debug 2>/dev/null
+	[ "${mounted_procfs:-}"  = 1 ] && umount "$procfs" 2>/dev/null
+	[ "${insmod_cpuid:-}"    = 1 ] && rmmod cpuid 2>/dev/null
+	[ "${insmod_msr:-}"      = 1 ] && rmmod msr 2>/dev/null
+	[ "${kldload_cpuctl:-}"  = 1 ] && kldunload cpuctl 2>/dev/null
+	[ "${kldload_vmm:-}"     = 1 ] && kldunload vmm    2>/dev/null
 }
 
 # if we were git clone'd, adjust VERSION
@@ -91,6 +91,8 @@ show_usage()
 		--hw-only		only check for CPU information, don't check for any variant
 		--no-hw			skip CPU information and checks, if you're inspecting a kernel not to be run on this host
 		--vmm [auto,yes,no]	override the detection of the presence of a hypervisor, default: auto
+		--allow-msr-write	allow probing for write-only MSRs, this might produce kernel logs or be blocked by your system
+		--cpu [#,all]		interact with CPUID and MSR of CPU core number #, or all (default: CPU core 0)
 		--update-fwdb		update our local copy of the CPU microcodes versions database (using the awesome
 					MCExtractor project and the Intel firmwares GitHub repository)
 		--update-builtin-fwdb	same as --update-fwdb but update builtin DB inside the script itself
@@ -156,6 +158,8 @@ opt_arch_prefix=''
 opt_hw_only=0
 opt_no_hw=0
 opt_vmm=-1
+opt_allow_msr_write=0
+opt_cpu=0
 opt_explain=0
 opt_paranoid=0
 opt_mock=0
@@ -293,8 +297,8 @@ cve2name()
 	esac
 }
 
-is_cpu_vulnerable_cached=0
-_is_cpu_vulnerable_cached()
+is_cpu_affected_cached=0
+_is_cpu_affected_cached()
 {
 	# shellcheck disable=SC2086
 	case "$1" in
@@ -313,19 +317,19 @@ _is_cpu_vulnerable_cached()
 		CVE-2019-11135) return $variant_taa;;
 		CVE-2018-12207) return $variant_itlbmh;;
 		CVE-2020-0543) return $variant_srbds;;
-		*) echo "$0: error: invalid variant '$1' passed to is_cpu_vulnerable()" >&2; exit 255;;
+		*) echo "$0: error: invalid variant '$1' passed to is_cpu_affected()" >&2; exit 255;;
 	esac
 }
 
-is_cpu_vulnerable()
+is_cpu_affected()
 {
 	# param: one of the $supported_cve_list items
-	# returns 0 if vulnerable, 1 if not vulnerable
+	# returns 0 if affected, 1 if not affected
 	# (note that in shell, a return of 0 is success)
-	# by default, everything is vulnerable, we work in a "whitelist" logic here.
-	# usage: is_cpu_vulnerable CVE-xxxx-yyyy && do something if vulnerable
-	if [ "$is_cpu_vulnerable_cached" = 1 ]; then
-		_is_cpu_vulnerable_cached "$1"
+	# by default, everything is affected, we work in a "whitelist" logic here.
+	# usage: is_cpu_affected CVE-xxxx-yyyy && do something if affected
+	if [ "$is_cpu_affected_cached" = 1 ]; then
+		_is_cpu_affected_cached "$1"
 		return $?
 	fi
 
@@ -348,17 +352,17 @@ is_cpu_vulnerable()
 		[ -z "$variant_mfbds" ] && variant_mfbds=immune
 		[ -z "$variant_mlpds" ] && variant_mlpds=immune
 		[ -z "$variant_mdsum" ] && variant_mdsum=immune
-		_debug "is_cpu_vulnerable: cpu not affected by Microarchitectural Data Sampling"
+		_debug "is_cpu_affected: cpu not affected by Microarchitectural Data Sampling"
 	fi
 
 	if is_cpu_taa_free; then
 		[ -z "$variant_taa" ] && variant_taa=immune
-		_debug "is_cpu_vulnerable: cpu not affected by TSX Asynhronous Abort"
+		_debug "is_cpu_affected: cpu not affected by TSX Asynhronous Abort"
 	fi
 
 	if is_cpu_srbds_free; then
 		[ -z "$variant_srbds" ] && variant_srbds=immune
-		_debug "is_cpu_vulnerable: cpu not affected by Special Register Buffer Data Sampling"
+		_debug "is_cpu_affected: cpu not affected by Special Register Buffer Data Sampling"
 	fi
 
 	if is_cpu_specex_free; then
@@ -376,8 +380,8 @@ is_cpu_vulnerable()
 		variant_srbds=immune
 	elif is_intel; then
 		# Intel
-		# https://github.com/crozone/SpectrePoC/issues/1 ^F E5200 => spectre 2 not vulnerable
-		# https://github.com/paboldin/meltdown-exploit/issues/19 ^F E5200 => meltdown vulnerable
+		# https://github.com/crozone/SpectrePoC/issues/1 ^F E5200 => spectre 2 not affected
+		# https://github.com/paboldin/meltdown-exploit/issues/19 ^F E5200 => meltdown affected
 		# model name : Pentium(R) Dual-Core  CPU      E5200  @ 2.50GHz
 		if echo "$cpu_friendly_name" | grep -qE 'Pentium\(R\) Dual-Core[[:space:]]+CPU[[:space:]]+E[0-9]{4}K?'; then
 			variant1=vuln
@@ -386,36 +390,36 @@ is_cpu_vulnerable()
 		fi
 		if [ "$capabilities_rdcl_no" = 1 ]; then
 			# capability bit for future Intel processor that will explicitly state
-			# that they're not vulnerable to Meltdown
+			# that they're not affected to Meltdown
 			# this var is set in check_cpu()
 			[ -z "$variant3" ]    && variant3=immune
 			[ -z "$variantl1tf" ] && variantl1tf=immune
-			_debug "is_cpu_vulnerable: RDCL_NO is set so not vuln to meltdown nor l1tf"
+			_debug "is_cpu_affected: RDCL_NO is set so not vuln to meltdown nor l1tf"
 		fi
 		if [ "$capabilities_ssb_no" = 1 ]; then
 			# capability bit for future Intel processor that will explicitly state
-			# that they're not vulnerable to Variant 4
+			# that they're not affected to Variant 4
 			# this var is set in check_cpu()
 			[ -z "$variant4" ] && variant4=immune
-			_debug "is_cpu_vulnerable: SSB_NO is set so not vuln to variant4"
+			_debug "is_cpu_affected: SSB_NO is set so not vuln to variant4"
 		fi
 		if is_cpu_ssb_free; then
 			[ -z "$variant4" ] && variant4=immune
-			_debug "is_cpu_vulnerable: cpu not affected by speculative store bypass so not vuln to variant4"
+			_debug "is_cpu_affected: cpu not affected by speculative store bypass so not vuln to variant4"
 		fi
 		# variant 3a
 		if [ "$cpu_family" = 6 ]; then
 			if [ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNL" ] || [ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNM" ]; then
-				_debug "is_cpu_vulnerable: xeon phi immune to variant 3a"
+				_debug "is_cpu_affected: xeon phi immune to variant 3a"
 				[ -z "$variant3a" ] && variant3a=immune
 			elif [ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT" ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT_MID" ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_ATOM_SILVERMONT_D" ]; then
 					# https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00115.html
 					# https://github.com/speed47/spectre-meltdown-checker/issues/310
-					# => silvermont CPUs (aka cherry lake for tablets and brawsell for mobile/desktop) don't seem to be vulnerable
-					# => goldmont ARE vulnerable
-					_debug "is_cpu_vulnerable: silvermont immune to variant 3a"
+					# => silvermont CPUs (aka cherry lake for tablets and brawsell for mobile/desktop) don't seem to be affected
+					# => goldmont ARE affected
+					_debug "is_cpu_affected: silvermont immune to variant 3a"
 					[ -z "$variant3a" ] && variant3a=immune
 			fi
 		fi
@@ -439,18 +443,18 @@ is_cpu_vulnerable()
 				[ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNL"     ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_XEON_PHI_KNM" ]; then
 
-				_debug "is_cpu_vulnerable: intel family 6 but model known to be immune to l1tf"
+				_debug "is_cpu_affected: intel family 6 but model known to be immune to l1tf"
 				[ -z "$variantl1tf" ] && variantl1tf=immune
 			else
-				_debug "is_cpu_vulnerable: intel family 6 is vuln to l1tf"
+				_debug "is_cpu_affected: intel family 6 is vuln to l1tf"
 				variantl1tf=vuln
 			fi
 		elif [ "$cpu_family" -lt 6 ]; then
-			_debug "is_cpu_vulnerable: intel family < 6 is immune to l1tf"
+			_debug "is_cpu_affected: intel family < 6 is immune to l1tf"
 			[ -z "$variantl1tf" ] && variantl1tf=immune
 		fi
 	elif is_amd || is_hygon; then
-		# AMD revised their statement about variant2 => vulnerable
+		# AMD revised their statement about variant2 => affected
 		# https://www.amd.com/en/corporate/speculative-execution
 		variant1=vuln
 		variant2=vuln
@@ -460,10 +464,14 @@ is_cpu_vulnerable()
 		[ -z "$variant3a" ] && variant3a=immune
 		if is_cpu_ssb_free; then
 			[ -z "$variant4" ] && variant4=immune
-			_debug "is_cpu_vulnerable: cpu not affected by speculative store bypass so not vuln to variant4"
+			_debug "is_cpu_affected: cpu not affected by speculative store bypass so not vuln to variant4"
 		fi
 		variantl1tf=immune
 	elif [ "$cpu_vendor" = CAVIUM ]; then
+		variant3=immune
+		variant3a=immune
+		variantl1tf=immune
+	elif [ "$cpu_vendor" = PHYTIUM ]; then
 		variant3=immune
 		variant3a=immune
 		variantl1tf=immune
@@ -485,57 +493,59 @@ is_cpu_vulnerable()
 			if [ -n "$cpupart" ] && [ -n "$cpuarch" ]; then
 				# Cortex-R7 and Cortex-R8 are real-time and only used in medical devices or such
 				# I can't find their CPU part number, but it's probably not that useful anyway
-				# model R7 R8 A8  A9  A12 A15 A17 A57 A72 A73 A75 A76
-				# part   ?  ? c08 c09 c0d c0f c0e d07 d08 d09 d0a d0b?
-				# arch  7? 7? 7   7   7   7   7   8   8   8   8   8
+				# model R7 R8 A8  A9  A12 A15 A17 A57 A72 A73 A75 A76 Neoverse-N1 A77
+				# part   ?  ? c08 c09 c0d c0f c0e d07 d08 d09 d0a d0b d0c         d0d
+				# arch  7? 7? 7   7   7   7   7   8   8   8   8   8   8           8
 				#
-				# Whitelist identified non-vulnerable processors, use vulnerability information from 
+				# Whitelist identified non-affected processors, use vulnerability information from 
 				# https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability
+				# Partnumbers can be found here:
+				# https://github.com/gcc-mirror/gcc/blob/master/gcc/config/arm/arm-cpus.in
 				#
 				# Maintain cumulative check of vulnerabilities -
-				# if at least one of the cpu is vulnerable, then the system is vulnerable
+				# if at least one of the cpu is affected, then the system is affected
 				if [ "$cpuarch" = 7 ] && echo "$cpupart" | grep -q -w -e 0xc08 -e 0xc09 -e 0xc0d -e 0xc0e; then
 					variant1=vuln
 					variant2=vuln
 					[ -z "$variant3" ] && variant3=immune
 					[ -z "$variant3a" ] && variant3a=immune
 					[ -z "$variant4" ] && variant4=immune
-					_debug "checking cpu$i: armv7 A8/A9/A12/A17 non vulnerable to variants 3, 3a & 4"
+					_debug "checking cpu$i: armv7 A8/A9/A12/A17 non affected to variants 3, 3a & 4"
 				elif [ "$cpuarch" = 7 ] && echo "$cpupart" | grep -q -w -e 0xc0f; then
 					variant1=vuln
 					variant2=vuln
 					[ -z "$variant3" ] && variant3=immune
 					variant3a=vuln
 					[ -z "$variant4" ] && variant4=immune
-					_debug "checking cpu$i: armv7 A15 non vulnerable to variants 3 & 4"
+					_debug "checking cpu$i: armv7 A15 non affected to variants 3 & 4"
 				elif [ "$cpuarch" = 8 ] && echo "$cpupart" | grep -q -w -e 0xd07 -e 0xd08; then
 					variant1=vuln
 					variant2=vuln
 					[ -z "$variant3" ] && variant3=immune
 					variant3a=vuln
 					variant4=vuln
-					_debug "checking cpu$i: armv8 A57/A72 non vulnerable to variants 3"
+					_debug "checking cpu$i: armv8 A57/A72 non affected to variants 3"
 				elif [ "$cpuarch" = 8 ] && echo "$cpupart" | grep -q -w -e 0xd09; then
 					variant1=vuln
 					variant2=vuln
 					[ -z "$variant3" ] && variant3=immune
 					[ -z "$variant3a" ] && variant3a=immune
 					variant4=vuln
-					_debug "checking cpu$i: armv8 A73 non vulnerable to variants 3 & 3a"
+					_debug "checking cpu$i: armv8 A73 non affected to variants 3 & 3a"
 				elif [ "$cpuarch" = 8 ] && echo "$cpupart" | grep -q -w -e 0xd0a; then
 					variant1=vuln
 					variant2=vuln
 					variant3=vuln
 					[ -z "$variant3a" ] && variant3a=immune
 					variant4=vuln
-					_debug "checking cpu$i: armv8 A75 non vulnerable to variant 3a"
-				elif [ "$cpuarch" = 8 ] && echo "$cpupart" | grep -q -w -e 0xd0b; then
+					_debug "checking cpu$i: armv8 A75 non affected to variant 3a"
+				elif [ "$cpuarch" = 8 ] && echo "$cpupart" | grep -q -w -e 0xd0b -e 0xd0c -e 0xd0d; then
 					variant1=vuln
 					[ -z "$variant2" ] && variant2=immune
 					[ -z "$variant3" ] && variant3=immune
 					[ -z "$variant3a" ] && variant3a=immune
 					variant4=vuln
-					_debug "checking cpu$i: armv8 A76 non vulnerable to variant 2, 3 & 3a"
+					_debug "checking cpu$i: armv8 A76/A77/NeoverseN1 non affected to variant 2, 3 & 3a"
 				elif [ "$cpuarch" -le 7 ] || { [ "$cpuarch" = 8 ] && [ $(( cpupart )) -lt $(( 0xd07 )) ]; } ; then
 					[ -z "$variant1" ] && variant1=immune
 					[ -z "$variant2" ] && variant2=immune
@@ -552,7 +562,7 @@ is_cpu_vulnerable()
 					_debug "checking cpu$i: arm unknown arch$cpuarch part$cpupart, considering vuln"
 				fi
 			fi
-			_debug "is_cpu_vulnerable: for cpu$i and so far, we have <$variant1> <$variant2> <$variant3> <$variant3a> <$variant4>"
+			_debug "is_cpu_affected: for cpu$i and so far, we have <$variant1> <$variant2> <$variant3> <$variant3a> <$variant4>"
 		done
 		variantl1tf=immune
 	fi
@@ -576,22 +586,22 @@ is_cpu_vulnerable()
 				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT" ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT_D" ] || \
 				[ "$cpu_model" = "$INTEL_FAM6_ATOM_GOLDMONT_PLUS" ]; then
-				_debug "is_cpu_vulnerable: intel family 6 but model known to be immune to itlbmh"
+				_debug "is_cpu_affected: intel family 6 but model known to be immune to itlbmh"
 				[ -z "$variant_itlbmh" ] && variant_itlbmh=immune
 			else
-				_debug "is_cpu_vulnerable: intel family 6 is vuln to itlbmh"
+				_debug "is_cpu_affected: intel family 6 is vuln to itlbmh"
 				variant_itlbmh=vuln
 			fi
 		elif [ "$cpu_family" -lt 6 ]; then
-			_debug "is_cpu_vulnerable: intel family < 6 is immune to itlbmh"
+			_debug "is_cpu_affected: intel family < 6 is immune to itlbmh"
 			[ -z "$variant_itlbmh" ] && variant_itlbmh=immune
 		fi
 	else
-		_debug "is_cpu_vulnerable: non-intel not vulnerable to itlbmh"
+		_debug "is_cpu_affected: non-intel not affected to itlbmh"
 		[ -z "$variant_itlbmh" ] && variant_itlbmh=immune
 	fi
 
-	_debug "is_cpu_vulnerable: temp results are <$variant1> <$variant2> <$variant3> <$variant3a> <$variant4> <$variantl1tf>"
+	_debug "is_cpu_affected: temp results are <$variant1> <$variant2> <$variant3> <$variant3a> <$variant4> <$variantl1tf>"
 	[ "$variant1"       = "immune" ] && variant1=1       || variant1=0
 	[ "$variant2"       = "immune" ] && variant2=1       || variant2=0
 	[ "$variant3"       = "immune" ] && variant3=1       || variant3=0
@@ -606,11 +616,11 @@ is_cpu_vulnerable()
 	[ "$variant_itlbmh" = "immune" ] && variant_itlbmh=1 || variant_itlbmh=0
 	[ "$variant_srbds" = "immune" ] && variant_srbds=1 || variant_srbds=0
 	variantl1tf_sgx="$variantl1tf"
-	# even if we are vulnerable to L1TF, if there's no SGX, we're not vulnerable to the original foreshadow
+	# even if we are affected to L1TF, if there's no SGX, we're not affected to the original foreshadow
 	[ "$cpuid_sgx" = 0 ] && variantl1tf_sgx=1
-	_debug "is_cpu_vulnerable: final results are <$variant1> <$variant2> <$variant3> <$variant3a> <$variant4> <$variantl1tf> <$variantl1tf_sgx>"
-	is_cpu_vulnerable_cached=1
-	_is_cpu_vulnerable_cached "$1"
+	_debug "is_cpu_affected: final results are <$variant1> <$variant2> <$variant3> <$variant3a> <$variant4> <$variantl1tf> <$variantl1tf_sgx>"
+	is_cpu_affected_cached=1
+	_is_cpu_affected_cached "$1"
 	return $?
 }
 
@@ -677,7 +687,7 @@ is_cpu_mds_free()
 		[ "$capabilities_mds_no" = 1 ] && return 0
 	fi
 
-	# official statement from AMD says none of their CPUs are vulnerable
+	# official statement from AMD says none of their CPUs are affected
 	# https://www.amd.com/en/corporate/product-security
 	# https://www.amd.com/system/files/documents/security-whitepaper.pdf
 	if is_amd; then
@@ -685,6 +695,8 @@ is_cpu_mds_free()
 	elif is_hygon; then
 		return 0
 	elif [ "$cpu_vendor" = CAVIUM ]; then
+		return 0
+	elif [ "$cpu_vendor" = PHYTIUM ]; then
 		return 0
 	elif [ "$cpu_vendor" = ARM ]; then
 		return 0
@@ -831,12 +843,14 @@ update_fwdb()
 {
 	show_header
 
+	set -e
+
 	if [ -r "$mcedb_cache" ]; then
 		previous_dbversion=$(awk '/^# %%% MCEDB / { print $4 }' "$mcedb_cache")
 	fi
 
 	# first, download the MCE.db from the excellent platomav's MCExtractor project
-	mcedb_tmp="$(mktemp /tmp/mcedb-XXXXXX)"
+	mcedb_tmp="$(mktemp -t smc-mcedb-XXXXXX)"
 	mcedb_url='https://github.com/platomav/MCExtractor/raw/master/MCE.db'
 	_info_nol "Fetching MCE.db from the MCExtractor project... "
 	if command -v wget >/dev/null 2>&1; then
@@ -856,7 +870,7 @@ update_fwdb()
 	echo DONE
 
 	# second, get the Intel firmwares from GitHub
-	intel_tmp="$(mktemp -d /tmp/intelfw-XXXXXX)"
+	intel_tmp="$(mktemp -d -t smc-intelfw-XXXXXX)"
 	intel_url="https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/main.zip"
 	_info_nol "Fetching Intel firmwares... "
 	## https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files.git
@@ -883,7 +897,6 @@ update_fwdb()
 		return 1
 	fi
 	mcedb_revision=$(sqlite3 "$mcedb_tmp" "select revision from MCE")
-	mcedb_date=$(sqlite3 "$mcedb_tmp" "select strftime('%Y/%m/%d', date, 'unixepoch') from MCE")
 	if [ -z "$mcedb_revision" ]; then
 		echo ERROR "downloaded file seems invalid"
 		return 1
@@ -891,7 +904,7 @@ update_fwdb()
 	sqlite3 "$mcedb_tmp" "alter table Intel add column origin text"
 	sqlite3 "$mcedb_tmp" "update Intel set origin='mce'"
 
-	echo OK "MCExtractor database revision $mcedb_revision dated $mcedb_date"
+	echo OK "MCExtractor database revision $mcedb_revision"
 
 	# parse Intel firmwares to get their versions
 	_info_nol "Integrating Intel firmwares data to db... "
@@ -940,11 +953,7 @@ update_fwdb()
 	fi
 	echo DONE "(version $_intel_latest_date)"
 
-	dbdate=$(echo "$mcedb_date" | tr -d '/')
-	if [ "$dbdate" -lt "$_intel_latest_date" ]; then
-		dbdate="$_intel_latest_date"
-	fi
-	dbversion="$mcedb_revision.$dbdate+i$_intel_latest_date"
+	dbversion="$mcedb_revision+i$_intel_latest_date"
 
 	if [ "$1" != builtin ] && [ -n "$previous_dbversion" ] && [ "$previous_dbversion" = "v$dbversion" ]; then
 		echo "We already have this version locally, no update needed"
@@ -961,7 +970,7 @@ update_fwdb()
 	echo DONE "(version $dbversion)"
 
 	if [ "$1" = builtin ]; then
-		newfile=$(mktemp /tmp/smc-XXXXXX)
+		newfile=$(mktemp -t smc-builtin-XXXXXX)
 		awk '/^# %%% MCEDB / { exit }; { print }' "$0" > "$newfile"
 		awk '{ if (NR>1) { print } }' "$mcedb_cache" >> "$newfile"
 		cat "$newfile" > "$0"
@@ -996,7 +1005,7 @@ parse_opt_file()
 	exit 0
 }
 
-while [ -n "$1" ]; do
+while [ -n "${1:-}" ]; do
 	if [ "$1" = "--kernel" ]; then
 		opt_kernel=$(parse_opt_file kernel "$2"); ret=$?
 		[ $ret -ne 0 ] && exit 255
@@ -1040,6 +1049,20 @@ while [ -n "$1" ]; do
 	elif [ "$1" = "--no-hw" ]; then
 		opt_no_hw=1
 		shift
+	elif [ "$1" = "--allow-msr-write" ]; then
+		opt_allow_msr_write=1
+		shift
+	elif [ "$1" = "--cpu" ]; then
+		opt_cpu=$2
+		if [ "$opt_cpu" != all ]; then
+			if echo "$opt_cpu" | grep -Eq '^[0-9]+'; then
+				opt_cpu=$(( opt_cpu ))
+			else
+				echo "$0: error: --cpu should be an integer or 'all', got '$opt_cpu'" >&2
+				exit 255
+			fi
+		fi
+		shift 2
 	elif [ "$1" = "--no-explain" ]; then
 		# deprecated, kept for compatibility
 		opt_explain=0
@@ -1168,23 +1191,26 @@ if [ "$opt_live" = -1 ]; then
 fi
 
 # print status function
+# param1: color
+# param2: message to print
+# param3(optional): supplement message to print between ()
 pstatus()
 {
 	if [ "$opt_no_color" = 1 ]; then
 		_info_nol "$2"
 	else
 		case "$1" in
-			red)    col="\033[41m\033[30m";;
-			green)  col="\033[42m\033[30m";;
-			yellow) col="\033[43m\033[30m";;
-			blue)   col="\033[44m\033[30m";;
-			*)      col="";;
+			red)    _col="\033[41m\033[30m";;
+			green)  _col="\033[42m\033[30m";;
+			yellow) _col="\033[43m\033[30m";;
+			blue)   _col="\033[44m\033[30m";;
+			*)      _col="";;
 		esac
-		_info_nol "$col $2 \033[0m"
+		_info_nol "$_col $2 \033[0m"
 	fi
-	[ -n "$3" ] && _info_nol " ($3)"
+	[ -n "${3:-}" ] && _info_nol " ($3)"
 	_info
-	unset col
+	unset _col
 }
 
 # Print the final status of a vulnerability (incl. batch mode)
@@ -1246,6 +1272,7 @@ pvulnstatus()
 	vulnstatus="$2"
 	shift 2
 	_info_nol "> \033[46m\033[30mSTATUS:\033[0m "
+	: "${final_summary:=}"
 	case "$vulnstatus" in
 		UNK)  pstatus yellow 'UNKNOWN'        "$@"; final_summary="$final_summary \033[43m\033[30m$pvulnstatus_last_cve:??\033[0m";;
 		VULN) pstatus red    'VULNERABLE'     "$@"; final_summary="$final_summary \033[41m\033[30m$pvulnstatus_last_cve:KO\033[0m";;
@@ -1276,7 +1303,7 @@ kernel_err=''
 check_kernel()
 {
 	_file="$1"
-	_mode="$2"
+	_mode="${2:-normal}"
 	# checking the return code of readelf -h is not enough, we could get
 	# a damaged ELF file and validate it, check for stderr warnings too
 
@@ -1350,7 +1377,7 @@ try_decompress()
 			return 0
 		elif [ "$3" != "cat" ]; then
 			_debug "try_decompress: decompression with $3 worked but result is not a kernel, trying with an offset"
-			[ -z "$kerneltmp2" ] && kerneltmp2=$(mktemp /tmp/kernel-XXXXXX)
+			[ -z "$kerneltmp2" ] && kerneltmp2=$(mktemp -t smc-kernel-XXXXXX)
 			cat "$kerneltmp" > "$kerneltmp2"
 			try_decompress '\177ELF' xxy 'cat' '' cat "$kerneltmp2" && return 0
 		else
@@ -1362,9 +1389,9 @@ try_decompress()
 
 extract_kernel()
 {
-	[ -n "$1" ] || return 1
+	[ -n "${1:-}" ] || return 1
 	# Prepare temp files:
-	kerneltmp="$(mktemp /tmp/kernel-XXXXXX)"
+	kerneltmp="$(mktemp -t smc-kernel-XXXXXX)"
 
 	# Initial attempt for uncompressed images or objects:
 	if check_kernel "$1"; then
@@ -1388,7 +1415,10 @@ extract_kernel()
 			try_decompress '(\265/\375'       xxy   unzstd  ''      zstd        "$1" "$mode" "$pass" && return 0
 		done
 	done
-	kernel_err="kernel compression format is unknown or image is invalid"
+	# kernel_err might already have been populated by try_decompress() if we're missing one of the tools
+	if [ -z "$kernel_err" ]; then
+		kernel_err="kernel compression format is unknown or image is invalid"
+	fi
 	_verbose "Couldn't extract the kernel image ($kernel_err), accuracy might be reduced"
 	return 1
 }
@@ -1405,6 +1435,10 @@ mount_debugfs()
 
 load_msr()
 {
+	# only attempt to do it once even if called multiple times
+	[ "${load_msr_once:-}" = 1 ] && return
+	load_msr_once=1
+
 	if [ "$os" = Linux ]; then
 		if ! grep -qw msr "$procfs/modules" 2>/dev/null; then
 			modprobe msr 2>/dev/null && insmod_msr=1
@@ -1424,6 +1458,10 @@ load_msr()
 
 load_cpuid()
 {
+	# only attempt to do it once even if called multiple times
+	[ "${load_cpuid_once:-}" = 1 ] && return
+	load_cpuid_once=1
+
 	if [ "$os" = Linux ]; then
 		if ! grep -qw cpuid "$procfs/modules" 2>/dev/null; then
 			modprobe cpuid 2>/dev/null && insmod_cpuid=1
@@ -1443,21 +1481,69 @@ load_cpuid()
 
 # shellcheck disable=SC2034
 EAX=1; EBX=2; ECX=3; EDX=4;
+READ_CPUID_RET_OK=0
+READ_CPUID_RET_KO=1
+READ_CPUID_RET_ERR=2
 read_cpuid()
 {
-	# leaf is the value of the eax register when calling the cpuid instruction:
-	_leaf="$1"
-	# eax=1 ebx=2 ecx=3 edx=4:
-	_register="$2"
-	# number of bits to shift the register right to:
-	_shift="$3"
-	# mask to apply as an AND operand to the shifted register value
-	_mask="$4"
-	# wanted value (optional), if present we return 0(true) if the obtained value is equal, 1 otherwise:
-	_wanted="$5"
-	# in any case, the read value is globally available in $read_cpuid_value
+	if [ "$opt_cpu" != all ]; then
+		# we only have one core to read, do it and return the result
+		read_cpuid_one_core $opt_cpu "$@"
+		return $?
+	fi
 
+	# otherwise we must read all cores
+	for _core in $(seq 0 "$max_core_id"); do
+		read_cpuid_one_core "$_core" "$@"; ret=$?
+		if [ "$_core" = 0 ]; then
+			# save the result of the first core, for comparison with the others
+			_first_core_ret=$ret
+			_first_core_value=$read_cpuid_value
+		else
+			# compare first core with the other ones
+			if [ $_first_core_ret != $ret ] || [ "$_first_core_value" != "$read_cpuid_value" ]; then
+				read_cpuid_msg="result is not homogeneous between all cores, at least core 0 and $_core differ!"
+				return $READ_CPUID_RET_ERR
+			fi
+		fi
+	done
+	# if we're here, all cores agree, return the result
+	return $ret
+}
+
+read_cpuid_one_core()
+{
+	# on which core to send the CPUID instruction
+	_core="$1"
+	# leaf is the value of the eax register when calling the cpuid instruction:
+	_leaf="$2"
+	# subleaf is the value of the ecx register when calling the cpuid instruction:
+	_subleaf="$3"
+	# eax=1 ebx=2 ecx=3 edx=4:
+	_register="$4"
+	# number of bits to shift the register right to, 0-31:
+	_shift="$5"
+	# mask to apply as an AND operand to the shifted register value
+	_mask="$6"
+	# wanted value (optional), if present we return 0(true) if the obtained value is equal, 1 otherwise:
+	_wanted="${7:-}"
+	# in any case, the read value is globally available in $read_cpuid_value
 	read_cpuid_value=''
+	read_cpuid_msg='unknown error'
+
+	if [ $# -lt 6 ]; then
+		read_cpuid_msg="read_cpuid: missing arguments, got only $#, expected at least 6: $*"
+		return $READ_CPUID_RET_ERR
+	fi
+	if [ "$_register" -gt 4 ]; then
+		read_cpuid_msg="read_cpuid: register must be 0-4, got $_register"
+		return $READ_CPUID_RET_ERR
+	fi
+	if [ "$_shift" -gt 32 ]; then
+		read_cpuid_msg="read_cpuid: shift must be 0-31, got $_shift"
+		return $READ_CPUID_RET_ERR
+	fi
+
 	if [ ! -e /dev/cpu/0/cpuid ] && [ ! -e /dev/cpuctl0 ]; then
 		# try to load the module ourselves (and remember it so we can rmmod it afterwards)
 		load_cpuid
@@ -1466,38 +1552,51 @@ read_cpuid()
 	if [ -e /dev/cpu/0/cpuid ]; then
 		# Linux
 		if [ ! -r /dev/cpu/0/cpuid ]; then
-			return 2
+			read_cpuid_msg="Couldn't load cpuid module"
+			return $READ_CPUID_RET_ERR
 		fi
-		# on some kernel versions, /dev/cpu/0/cpuid doesn't imply that the cpuid module is loaded, in that case dd returns an error
-		dd if=/dev/cpu/0/cpuid bs=16 count=1 >/dev/null 2>&1 || load_cpuid
+		# on some kernel versions, /dev/cpu/0/cpuid doesn't imply that the cpuid module is loaded, in that case dd returns an error,
+		# we use that fact to load the module if dd returns an error
+		if ! dd if=/dev/cpu/0/cpuid bs=16 count=1 >/dev/null 2>&1; then
+			load_cpuid
+		fi
 		# we need _leaf to be converted to decimal for dd
 		_leaf=$(( _leaf ))
+		_subleaf=$(( _subleaf ))
+		_position=$(( _leaf + (_subleaf << 32) ))
 		# to avoid using iflag=skip_bytes, which doesn't exist on old versions of dd, seek to the closer multiple-of-16
-		_ddskip=$(( _leaf / 16 ))
-		_odskip=$(( _leaf - _ddskip * 16 ))
+		_ddskip=$(( _position / 16 ))
+		_odskip=$(( _position - _ddskip * 16 ))
 		# now read the value
-		_cpuid=$(dd if=/dev/cpu/0/cpuid bs=16 skip=$_ddskip count=$((_odskip + 1)) 2>/dev/null | od -j $((_odskip * 16)) -A n -t u4)
+		_cpuid=$(dd if="/dev/cpu/$_core/cpuid" bs=16 skip=$_ddskip count=$((_odskip + 1)) 2>/dev/null | od -j $((_odskip * 16)) -A n -t u4)
 	elif [ -e /dev/cpuctl0 ]; then
 		# BSD
 		if [ ! -r /dev/cpuctl0 ]; then
-			return 2
+			read_cpuid_msg="Couldn't read cpuid info from cpuctl"
+			return $READ_CPUID_RET_ERR
 		fi
-		_cpuid=$(cpucontrol -i "$_leaf" /dev/cpuctl0 2>/dev/null | awk '{print $4,$5,$6,$7}')
-		# cpuid level 0x1: 0x000306d4 0x00100800 0x4dfaebbf 0xbfebfbff
+		_cpuid=$(cpucontrol -i "$_leaf","$_subleaf" "/dev/cpuctl$_core" 2>/dev/null | cut -d: -f2-)
+		# cpuid level 0x4, level_type 0x2: 0x1c004143 0x01c0003f 0x000001ff 0x00000000
 	else
-		return 2
+		read_cpuid_msg="Found no way to read cpuid info"
+		return $READ_CPUID_RET_ERR
 	fi
 
-	_debug "cpuid: leaf$_leaf on cpu0, eax-ebx-ecx-edx: $_cpuid"
-	_mockvarname="SMC_MOCK_CPUID_${_leaf}"
-	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+	_debug "cpuid: leaf$_leaf subleaf$_subleaf on cpu$_core, eax-ebx-ecx-edx: $_cpuid"
+	_mockvarname="SMC_MOCK_CPUID_${_leaf}_${_subleaf}"
+	# shellcheck disable=SC1083
+	if [ -n "$(eval echo \${$_mockvarname:-})" ]; then
 		_cpuid="$(eval echo \$$_mockvarname)"
-		_debug "read_cpuid: MOCKING enabled for leaf $_leaf, will return $_cpuid"
+		_debug "read_cpuid: MOCKING enabled for leaf $_leaf subleaf $_subleaf, will return $_cpuid"
 		mocked=1
 	else
-		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPUID_${_leaf}='$_cpuid'")
+		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPUID_${_leaf}_${_subleaf}='$_cpuid'")
 	fi
-	[ -z "$_cpuid" ] && return 2
+	if [ -z "$_cpuid" ]; then
+		read_cpuid_msg="Failed to get cpuid data"
+		return $READ_CPUID_RET_ERR
+	fi
+
 	# get the value of the register we want
 	_reg=$(echo "$_cpuid" | awk '{print $'"$_register"'}')
 	# Linux returns it as decimal, BSD as hex, normalize to decimal
@@ -1513,13 +1612,13 @@ read_cpuid()
 	if [ -n "$_wanted" ]; then
 		_debug "cpuid: wanted $_wanted and got $read_cpuid_value"
 		if [ "$read_cpuid_value" = "$_wanted" ]; then
-			return 0
+			return $READ_CPUID_RET_OK
 		else
-			return 1
+			return $READ_CPUID_RET_KO
 		fi
 	fi
 
-	return 0
+	return $READ_CPUID_RET_OK
 }
 
 dmesg_grep()
@@ -1546,7 +1645,19 @@ is_coreos()
 
 parse_cpu_details()
 {
-	[ "$parse_cpu_details_done" = 1 ] && return 0
+	[ "${parse_cpu_details_done:-}" = 1 ] && return 0
+
+	if command -v nproc >/dev/null; then
+		number_of_cores=$(nproc)
+	elif echo "$os" | grep -q BSD; then
+		number_of_cores=$(sysctl -n hw.ncpu 2>/dev/null || echo 1)
+	elif [ -e "$procfs/cpuinfo" ]; then
+		number_of_cores=$(grep -c ^processor "$procfs/cpuinfo" 2>/dev/null || echo 1)
+	else
+		# if we don't know, default to 1 CPU
+		number_of_cores=1
+	fi
+	max_core_id=$(( number_of_cores - 1 ))
 
 	if [ -e "$procfs/cpuinfo" ]; then
 		cpu_vendor=$(  grep '^vendor_id'  "$procfs/cpuinfo" | awk '{print $3}' | head -1)
@@ -1555,7 +1666,7 @@ parse_cpu_details()
 		if grep -qi 'CPU implementer[[:space:]]*:[[:space:]]*0x41' "$procfs/cpuinfo"; then
 			cpu_vendor='ARM'
 			# some devices (phones or other) have several ARMs and as such different part numbers,
-			# an example is "bigLITTLE", so we need to store the whole list, this is needed for is_cpu_vulnerable
+			# an example is "bigLITTLE", so we need to store the whole list, this is needed for is_cpu_affected
 			cpu_part_list=$(awk '/CPU part/         {print $4}' "$procfs/cpuinfo")
 			cpu_arch_list=$(awk '/CPU architecture/ {print $3}' "$procfs/cpuinfo")
 			# take the first one to fill the friendly name, do NOT quote the vars below
@@ -1570,6 +1681,8 @@ parse_cpu_details()
 
 		elif grep -qi 'CPU implementer[[:space:]]*:[[:space:]]*0x43' "$procfs/cpuinfo"; then
 			cpu_vendor='CAVIUM'
+		elif grep -qi 'CPU implementer[[:space:]]*:[[:space:]]*0x70' "$procfs/cpuinfo"; then
+			cpu_vendor='PHYTIUM'
 		fi
 
 		cpu_family=$(  grep '^cpu family' "$procfs/cpuinfo" | awk '{print $4}' | grep -E '^[0-9]+$' | head -1)
@@ -1586,35 +1699,35 @@ parse_cpu_details()
 		cpu_friendly_name=$(sysctl -n hw.model 2>/dev/null)
 	fi
 
-	if [ -n "$SMC_MOCK_CPU_FRIENDLY_NAME" ]; then
+	if [ -n "${SMC_MOCK_CPU_FRIENDLY_NAME:-}" ]; then
 		cpu_friendly_name="$SMC_MOCK_CPU_FRIENDLY_NAME"
 		_debug "parse_cpu_details: MOCKING cpu friendly name to $cpu_friendly_name"
 		mocked=1
 	else
 		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_FRIENDLY_NAME='$cpu_friendly_name'")
 	fi
-	if [ -n "$SMC_MOCK_CPU_VENDOR" ]; then
+	if [ -n "${SMC_MOCK_CPU_VENDOR:-}" ]; then
 		cpu_vendor="$SMC_MOCK_CPU_VENDOR"
 		_debug "parse_cpu_details: MOCKING cpu vendor to $cpu_vendor"
 		mocked=1
 	else
 		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_VENDOR='$cpu_vendor'")
 	fi
-	if [ -n "$SMC_MOCK_CPU_FAMILY" ]; then
+	if [ -n "${SMC_MOCK_CPU_FAMILY:-}" ]; then
 		cpu_family="$SMC_MOCK_CPU_FAMILY"
 		_debug "parse_cpu_details: MOCKING cpu family to $cpu_family"
 		mocked=1
 	else
 		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_FAMILY='$cpu_family'")
 	fi
-	if [ -n "$SMC_MOCK_CPU_MODEL" ]; then
+	if [ -n "${SMC_MOCK_CPU_MODEL:-}" ]; then
 		cpu_model="$SMC_MOCK_CPU_MODEL"
 		_debug "parse_cpu_details: MOCKING cpu model to $cpu_model"
 		mocked=1
 	else
 		mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_CPU_MODEL='$cpu_model'")
 	fi
-	if [ -n "$SMC_MOCK_CPU_STEPPING" ]; then
+	if [ -n "${SMC_MOCK_CPU_STEPPING:-}" ]; then
 		cpu_stepping="$SMC_MOCK_CPU_STEPPING"
 		_debug "parse_cpu_details: MOCKING cpu stepping to $cpu_stepping"
 		mocked=1
@@ -1623,7 +1736,7 @@ parse_cpu_details()
 	fi
 
 	# get raw cpuid, it's always useful (referenced in the Intel doc for firmware updates for example)
-	if read_cpuid 0x1 $EAX 0 0xFFFFFFFF; then
+	if read_cpuid 0x1 0x0 $EAX 0 0xFFFFFFFF; then
 		cpu_cpuid="$read_cpuid_value"
 	else
 		cpu_cpuid=0
@@ -1647,9 +1760,9 @@ parse_cpu_details()
 	fi
 
 	# if we got no cpu_ucode (e.g. we're in a vm), fall back to 0x0
-	[ -z "$cpu_ucode" ] && cpu_ucode=0x0
+	: "${cpu_ucode:=0x0}"
 
-	if [ -n "$SMC_MOCK_CPU_UCODE" ]; then
+	if [ -n "${SMC_MOCK_CPU_UCODE:-}" ]; then
 		cpu_ucode="$SMC_MOCK_CPU_UCODE"
 		_debug "parse_cpu_details: MOCKING cpu ucode to $cpu_ucode"
 		mocked=1
@@ -1662,7 +1775,7 @@ parse_cpu_details()
 
 	# also define those that we will need in other funcs
 	# taken from https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/include/asm/intel-family.h
-	# curl -s 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/arch/x86/include/asm/intel-family.h' | awk '/#define INTEL_FAM6/ {print $2"=$(( "$3" )) # "$4,$5,$6,$7,$8,$9}'
+	# curl -s 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/arch/x86/include/asm/intel-family.h' | awk '/#define INTEL_FAM6/ {print $2"=$(( "$3" )) # "$4,$5,$6,$7,$8,$9}' | sed -re 's/ +$//'
 	# shellcheck disable=SC2034
 	{
 	INTEL_FAM6_CORE_YONAH=$(( 0x0E )) #
@@ -1689,21 +1802,27 @@ parse_cpu_details()
 	INTEL_FAM6_BROADWELL_G=$(( 0x47 )) #
 	INTEL_FAM6_BROADWELL_X=$(( 0x4F )) #
 	INTEL_FAM6_BROADWELL_D=$(( 0x56 )) #
-	INTEL_FAM6_SKYLAKE_L=$(( 0x4E )) #
-	INTEL_FAM6_SKYLAKE=$(( 0x5E )) #
-	INTEL_FAM6_SKYLAKE_X=$(( 0x55 )) #
-	INTEL_FAM6_KABYLAKE_L=$(( 0x8E )) #
-	INTEL_FAM6_KABYLAKE=$(( 0x9E )) #
-	INTEL_FAM6_CANNONLAKE_L=$(( 0x66 )) #
-	INTEL_FAM6_ICELAKE_X=$(( 0x6A )) #
-	INTEL_FAM6_ICELAKE_D=$(( 0x6C )) #
-	INTEL_FAM6_ICELAKE=$(( 0x7D )) #
-	INTEL_FAM6_ICELAKE_L=$(( 0x7E )) #
-	INTEL_FAM6_ICELAKE_NNPI=$(( 0x9D )) #
-	INTEL_FAM6_TIGERLAKE_L=$(( 0x8C )) #
-	INTEL_FAM6_TIGERLAKE=$(( 0x8D )) #
-	INTEL_FAM6_COMETLAKE=$(( 0xA5 )) #
-	INTEL_FAM6_COMETLAKE_L=$(( 0xA6 )) #
+	INTEL_FAM6_SKYLAKE_L=$(( 0x4E )) # /* Sky Lake */
+	INTEL_FAM6_SKYLAKE=$(( 0x5E )) # /* Sky Lake */
+	INTEL_FAM6_SKYLAKE_X=$(( 0x55 )) # /* Sky Lake */
+	INTEL_FAM6_KABYLAKE_L=$(( 0x8E )) # /* Sky Lake */
+	INTEL_FAM6_KABYLAKE=$(( 0x9E )) # /* Sky Lake */
+	INTEL_FAM6_COMETLAKE=$(( 0xA5 )) # /* Sky Lake */
+	INTEL_FAM6_COMETLAKE_L=$(( 0xA6 )) # /* Sky Lake */
+	INTEL_FAM6_CANNONLAKE_L=$(( 0x66 )) # /* Palm Cove */
+	INTEL_FAM6_ICELAKE_X=$(( 0x6A )) # /* Sunny Cove */
+	INTEL_FAM6_ICELAKE_D=$(( 0x6C )) # /* Sunny Cove */
+	INTEL_FAM6_ICELAKE=$(( 0x7D )) # /* Sunny Cove */
+	INTEL_FAM6_ICELAKE_L=$(( 0x7E )) # /* Sunny Cove */
+	INTEL_FAM6_ICELAKE_NNPI=$(( 0x9D )) # /* Sunny Cove */
+	INTEL_FAM6_LAKEFIELD=$(( 0x8A )) # /* Sunny Cove / Tremont */
+	INTEL_FAM6_ROCKETLAKE=$(( 0xA7 )) # /* Cypress Cove */
+	INTEL_FAM6_TIGERLAKE_L=$(( 0x8C )) # /* Willow Cove */
+	INTEL_FAM6_TIGERLAKE=$(( 0x8D )) # /* Willow Cove */
+	INTEL_FAM6_SAPPHIRERAPIDS_X=$(( 0x8F )) # /* Golden Cove */
+	INTEL_FAM6_ALDERLAKE=$(( 0x97 )) # /* Golden Cove / Gracemont */
+	INTEL_FAM6_ALDERLAKE_L=$(( 0x9A )) # /* Golden Cove / Gracemont */
+	INTEL_FAM6_RAPTORLAKE=$(( 0xB7 )) #
 	INTEL_FAM6_ATOM_BONNELL=$(( 0x1C )) # /* Diamondville, Pineview */
 	INTEL_FAM6_ATOM_BONNELL_MID=$(( 0x26 )) # /* Silverthorne, Lincroft */
 	INTEL_FAM6_ATOM_SALTWELL=$(( 0x36 )) # /* Cedarview */
@@ -1720,9 +1839,9 @@ parse_cpu_details()
 	INTEL_FAM6_ATOM_GOLDMONT_PLUS=$(( 0x7A )) # /* Gemini Lake */
 	INTEL_FAM6_ATOM_TREMONT_D=$(( 0x86 )) # /* Jacobsville */
 	INTEL_FAM6_ATOM_TREMONT=$(( 0x96 )) # /* Elkhart Lake */
+	INTEL_FAM6_ATOM_TREMONT_L=$(( 0x9C )) # /* Jasper Lake */
 	INTEL_FAM6_XEON_PHI_KNL=$(( 0x57 )) # /* Knights Landing */
 	INTEL_FAM6_XEON_PHI_KNM=$(( 0x85 )) # /* Knights Mill */
-	INTEL_FAM6_CORE_YONAH=$(( 0x0E ))
 	}
 	parse_cpu_details_done=1
 }
@@ -1774,24 +1893,23 @@ is_ucode_blacklisted()
 	# 2018-02-08 update: https://newsroom.intel.com/wp-content/uploads/sites/11/2018/02/microcode-update-guidance.pdf
 	# model,stepping,microcode
 	for tuple in \
-		$INTEL_FAM6_KABYLAKE_DESKTOP,0x0B,0x80 \
-		$INTEL_FAM6_KABYLAKE_DESKTOP,0x0A,0x80 \
-		$INTEL_FAM6_KABYLAKE_DESKTOP,0x09,0x80 \
-		$INTEL_FAM6_KABYLAKE_MOBILE,0x0A,0x80  \
-		$INTEL_FAM6_KABYLAKE_MOBILE,0x09,0x80  \
+		$INTEL_FAM6_KABYLAKE,0x0B,0x80 \
+		$INTEL_FAM6_KABYLAKE,0x0A,0x80 \
+		$INTEL_FAM6_KABYLAKE,0x09,0x80 \
+		$INTEL_FAM6_KABYLAKE_L,0x0A,0x80  \
+		$INTEL_FAM6_KABYLAKE_L,0x09,0x80  \
 		$INTEL_FAM6_SKYLAKE_X,0x03,0x0100013e  \
 		$INTEL_FAM6_SKYLAKE_X,0x04,0x02000036  \
 		$INTEL_FAM6_SKYLAKE_X,0x04,0x0200003a  \
 		$INTEL_FAM6_SKYLAKE_X,0x04,0x0200003c  \
-		$INTEL_FAM6_BROADWELL_CORE,0x04,0x28   \
-		$INTEL_FAM6_BROADWELL_GT3E,0x01,0x1b   \
-		$INTEL_FAM6_BROADWELL_XEON_D,0x02,0x14 \
-		$INTEL_FAM6_BROADWELL_XEON_D,0x03,0x07000011 \
-		$INTEL_FAM6_BROADWELL_X,0x01,0x0b000023 \
+		$INTEL_FAM6_BROADWELL,0x04,0x28   \
+		$INTEL_FAM6_BROADWELL_G,0x01,0x1b   \
+		$INTEL_FAM6_BROADWELL_D,0x02,0x14 \
+		$INTEL_FAM6_BROADWELL_D,0x03,0x07000011 \
 		$INTEL_FAM6_BROADWELL_X,0x01,0x0b000025 \
 		$INTEL_FAM6_HASWELL_L,0x01,0x21        \
-		$INTEL_FAM6_HASWELL_GT3E,0x01,0x18     \
-		$INTEL_FAM6_HASWELL_CORE,0x03,0x23     \
+		$INTEL_FAM6_HASWELL_G,0x01,0x18     \
+		$INTEL_FAM6_HASWELL,0x03,0x23     \
 		$INTEL_FAM6_HASWELL_X,0x02,0x3b        \
 		$INTEL_FAM6_HASWELL_X,0x04,0x10        \
 		$INTEL_FAM6_IVYBRIDGE_X,0x04,0x42a     \
@@ -1927,7 +2045,7 @@ if [ -r "$mcedb_cache" ]; then
 	fi
 fi
 # if mcedb_source is not set, either we don't have a local cached db, or it is older than the builtin db
-if [ -z "$mcedb_source" ]; then
+if [ -z "${mcedb_source:-}" ]; then
 	mcedb_source="$0"
 	mcedb_info="builtin firmwares DB $builtin_dbversion"
 fi
@@ -1970,11 +2088,11 @@ is_latest_known_ucode()
 
 get_cmdline()
 {
-	if [ -n "$kernel_cmdline" ]; then
+	if [ -n "${kernel_cmdline:-}" ]; then
 		return
 	fi
 
-	if [ -n "$SMC_MOCK_CMDLINE" ]; then
+	if [ -n "${SMC_MOCK_CMDLINE:-}" ]; then
 		mocked=1
 		_debug "get_cmdline: using mocked cmdline '$SMC_MOCK_CMDLINE'"
 		kernel_cmdline="$SMC_MOCK_CMDLINE"
@@ -1992,6 +2110,14 @@ if uname -a | grep -qE -- '-Microsoft #[0-9]+-Microsoft '; then
 	_warn "This script doesn't work under Windows Subsystem for Linux"
 	_warn "You should use the official Microsoft tool instead."
 	_warn "It can be found under https://aka.ms/SpeculationControlPS"
+	exit 1
+fi
+
+# or other UNIX-ish OSes non-Linux non-supported-BSDs
+if [ "$os" = Darwin ] || [ "$os" = VMkernel ]; then
+	_warn "You're running under the $os OS, but this script"
+	_warn "only works under Linux and some BSD systems, sorry."
+	_warn "Please read the README and FAQ for more information."
 	exit 1
 fi
 
@@ -2048,8 +2174,24 @@ if echo "$os" | grep -q BSD; then
 	fi
 fi
 
+# define a few vars we might reference later without these being inited
+mockme=''
+mocked=0
+specex_knob_dir=/dev/no_valid_path
+
+# if /tmp doesn't exist and TMPDIR is not set, try to set it to a sane default for Android
+if [ -z "${TMPDIR:-}" ] && ! [ -d "/tmp" ] && [ -d "/data/local/tmp" ]; then
+	TMPDIR=/data/local/tmp
+	export TMPDIR
+fi
+
 parse_cpu_details
 get_cmdline
+
+if [ "$opt_cpu" != all ] && [ "$opt_cpu" -gt "$max_core_id" ]; then
+	echo "$0: error: --cpu can't be higher than $max_core_id, got $opt_cpu" >&2
+	exit 255
+fi
 
 if [ "$opt_live" = 1 ]; then
 	# root check (only for live mode, for offline mode, we already checked if we could read the files)
@@ -2060,7 +2202,7 @@ if [ "$opt_live" = 1 ]; then
 		_warn
 	fi
 	_info "Checking for vulnerabilities on current system"
-	_info "Kernel is \033[35m$(uname -s) $(uname -r) $(uname -v) $(uname -m)\033[0m"
+	_info "Kernel is \033[35m$os $(uname -r) $(uname -v) $(uname -m)\033[0m"
 	_info "CPU is \033[35m$cpu_friendly_name\033[0m"
 
 	# try to find the image of the current running kernel
@@ -2141,7 +2283,7 @@ if [ "$opt_live" = 1 ]; then
 		# specified by user on cmdline, with --live, don't override
 		:
 	elif [ -e "$procfs/config.gz" ] ; then
-		dumped_config="$(mktemp /tmp/config-XXXXXX)"
+		dumped_config="$(mktemp -t smc-config-XXXXXX)"
 		gunzip -c "$procfs/config.gz" > "$dumped_config"
 		# dumped_config will be deleted at the end of the script
 		opt_config="$dumped_config"
@@ -2173,7 +2315,7 @@ if [ "$os" = Linux ]; then
 		opt_config=''
 	fi
 
-	if [ -n "$dumped_config" ] && [ -n "$opt_config" ]; then
+	if [ -n "${dumped_config:-}" ] && [ -n "$opt_config" ]; then
 		_verbose "Will use kconfig \033[35m$procfs/config.gz (decompressed)\033[0m"
 	elif [ -n "$opt_config" ]; then
 		_verbose "Will use kconfig \033[35m$opt_config\033[0m"
@@ -2189,7 +2331,7 @@ if [ "$os" = Linux ]; then
 		bad_accuracy=1
 	fi
 
-	if [ "$bad_accuracy" = 1 ]; then
+	if [ "${bad_accuracy:=0}" = 1 ]; then
 		_warn "We're missing some kernel info (see -v), accuracy might be reduced"
 	fi
 fi
@@ -2246,8 +2388,8 @@ _info
 sys_interface_check()
 {
 	file="$1"
-	regex="$2"
-	mode="$3"
+	regex="${2:-}"
+	mode="${3:-}"
 	msg=''
 	fullmsg=''
 
@@ -2259,8 +2401,8 @@ sys_interface_check()
 	fi
 
 	_mockvarname="SMC_MOCK_SYSFS_$(basename "$file")_RET"
-	# shellcheck disable=SC2086
-	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+	# shellcheck disable=SC2086,SC1083
+	if [ -n "$(eval echo \${$_mockvarname:-})" ]; then
 		_debug "sysfs: MOCKING enabled for $file func returns $(eval echo \$$_mockvarname)"
 		mocked=1
 		return "$(eval echo \$$_mockvarname)"
@@ -2268,8 +2410,8 @@ sys_interface_check()
 
 	[ -n "$regex" ] || regex='.*'
 	_mockvarname="SMC_MOCK_SYSFS_$(basename "$file")"
-	# shellcheck disable=SC2086
-	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+	# shellcheck disable=SC2086,SC1083
+	if [ -n "$(eval echo \${$_mockvarname:-})" ]; then
 		fullmsg="$(eval echo \$$_mockvarname)"
 		msg=$(echo "$fullmsg" | grep -Eo "$regex")
 		_debug "sysfs: MOCKING enabled for $file, will return $fullmsg"
@@ -2306,62 +2448,101 @@ sys_interface_check()
 	return 0
 }
 
-number_of_cpus()
-{
-	if echo "$os" | grep -q BSD; then
-		n=$(sysctl -n hw.ncpu 2>/dev/null || echo 1)
-	elif [ -e "$procfs/cpuinfo" ]; then
-		n=$(grep -c ^processor "$procfs/cpuinfo" 2>/dev/null || echo 1)
-	else
-		# if we don't know, default to 1 CPU
-		n=1
-	fi
-	return "$n"
-}
-
 # write_msr
 # param1 (mandatory): MSR, can be in hex or decimal.
 # param2 (optional): CPU index, starting from 0. Default 0.
+WRITE_MSR_RET_OK=0
+WRITE_MSR_RET_KO=1
+WRITE_MSR_RET_ERR=2
+WRITE_MSR_RET_LOCKDOWN=3
 write_msr()
 {
-	_msr_dec=$(( $1 ))
+	if [ "$opt_cpu" != all ]; then
+		# we only have one core to write to, do it and return the result
+		write_msr_one_core $opt_cpu "$@"
+		return $?
+	fi
+
+	# otherwise we must write on all cores
+	for _core in $(seq 0 $max_core_id); do
+		write_msr_one_core "$_core" "$@"; ret=$?
+		if [ "$_core" = 0 ]; then
+			# save the result of the first core, for comparison with the others
+			_first_core_ret=$ret
+		else
+			# compare first core with the other ones
+			if [ $_first_core_ret != $ret ]; then
+				write_msr_msg="result is not homogeneous between all cores, at least core 0 and $_core differ!"
+				return $WRITE_MSR_RET_ERR
+			fi
+		fi
+	done
+	# if we're here, all cores agree, return the result
+	return $ret
+}
+
+write_msr_one_core()
+{
+	_core="$1"
+	_msr_dec=$(( $2 ))
 	_msr=$(printf "0x%x" "$_msr_dec")
-	_cpu="$2"
-	[ -z "$_cpu" ] && _cpu=0
+
+	write_msr_msg='unknown error'
+	: "${msr_locked_down:=0}"
 
 	_mockvarname="SMC_MOCK_WRMSR_${_msr}_RET"
-	# shellcheck disable=SC2086
-	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+	# shellcheck disable=SC2086,SC1083
+	if [ -n "$(eval echo \${$_mockvarname:-})" ]; then
 		_debug "write_msr: MOCKING enabled for msr $_msr func returns $(eval echo \$$_mockvarname)"
 		mocked=1
-		[ "$(eval echo \$$_mockvarname)" = 202 ] && msr_locked_down=1
+		[ "$(eval echo \$$_mockvarname)" = $WRITE_MSR_RET_LOCKDOWN ] && msr_locked_down=1
 		return "$(eval echo \$$_mockvarname)"
 	fi
 
+	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
+		# try to load the module ourselves (and remember it so we can rmmod it afterwards)
+		load_msr
+	fi
+	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
+		read_msr_msg="is msr kernel module available?"
+		return $WRITE_MSR_RET_ERR
+	fi
+
+	_write_denied=0
 	if [ "$os" != Linux ]; then
-		cpucontrol -m "$_msr=0" "/dev/cpuctl$_cpu" >/dev/null 2>&1; ret=$?
+		cpucontrol -m "$_msr=0" "/dev/cpuctl$_core" >/dev/null 2>&1; ret=$?
 	else
 		# for Linux
 		# convert to decimal
-		if [ ! -w /dev/cpu/"$_cpu"/msr ]; then
-			ret=200 # permission error
+		if [ ! -w /dev/cpu/"$_core"/msr ]; then
+			write_msr_msg="No write permission on /dev/cpu/$_core/msr"
+			return $WRITE_MSR_RET_ERR
 		# if wrmsr is available, use it
-		elif command -v wrmsr >/dev/null 2>&1 && [ "$SMC_NO_WRMSR" != 1 ]; then
+		elif command -v wrmsr >/dev/null 2>&1 && [ "${SMC_NO_WRMSR:-}" != 1 ]; then
 			_debug "write_msr: using wrmsr"
 			wrmsr $_msr_dec 0 2>/dev/null; ret=$?
+			# ret=4: msr doesn't exist, ret=127: msr.allow_writes=off
+			[ "$ret" = 127 ] && _write_denied=1
+		# or fallback to dd if it supports seek_bytes, we prefer it over perl because we can tell the difference between EPERM and EIO
+		elif dd if=/dev/null of=/dev/null bs=8 count=1 seek="$_msr_dec" oflag=seek_bytes 2>/dev/null && [ "${SMC_NO_DD:-}" != 1 ]; then
+			_debug "write_msr: using dd"
+			dd if=/dev/zero of=/dev/cpu/"$_core"/msr bs=8 count=1 seek="$_msr_dec" oflag=seek_bytes 2>/dev/null; ret=$?
+			# if it failed, inspect stderrto look for EPERM
+			if [ "$ret" != 0 ]; then
+				if dd if=/dev/zero of=/dev/cpu/"$_core"/msr bs=8 count=1 seek="$_msr_dec" oflag=seek_bytes 2>&1 | grep -qF 'Operation not permitted'; then
+					_write_denied=1
+				fi
+			fi
 		# or if we have perl, use it, any 5.x version will work
-		elif command -v perl >/dev/null 2>&1 && [ "$SMC_NO_PERL" != 1 ]; then
+		elif command -v perl >/dev/null 2>&1 && [ "${SMC_NO_PERL:-}" != 1 ]; then
 			_debug "write_msr: using perl"
 			ret=1
-			perl -e "open(M,'>','/dev/cpu/$_cpu/msr') and seek(M,$_msr_dec,0) and exit(syswrite(M,pack('H16',0)))"; [ $? -eq 8 ] && ret=0
-		# fallback to dd if it supports seek_bytes
-		elif dd if=/dev/null of=/dev/null bs=8 count=1 seek="$_msr_dec" oflag=seek_bytes 2>/dev/null; then
-			_debug "write_msr: using dd"
-			dd if=/dev/zero of=/dev/cpu/"$_cpu"/msr bs=8 count=1 seek="$_msr_dec" oflag=seek_bytes 2>/dev/null; ret=$?
+			perl -e "open(M,'>','/dev/cpu/$_core/msr') and seek(M,$_msr_dec,0) and exit(syswrite(M,pack('H16',0)))"; [ $? -eq 8 ] && ret=0
 		else
 			_debug "write_msr: got no wrmsr, perl or recent enough dd!"
-			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=201")
-			return 201 # missing tool error
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=$WRITE_MSR_RET_ERR")
+			write_msr_msg="missing tool, install either msr-tools or perl"
+			return $WRITE_MSR_RET_ERR
 		fi
 		if [ "$ret" != 0 ]; then
 			# * Fedora (and probably Red Hat) have a "kernel lock down" feature that prevents us to write to MSRs
@@ -2370,24 +2551,38 @@ write_msr()
 			# when this happens, any write will fail and dmesg will have a msg printed "msr: Direct access to MSR"
 			# * A version of this patch also made it to vanilla in 5.4+, in that case the message is: 'raw MSR access is restricted'
 			# * we don't use dmesg_grep() because we don't care if dmesg is truncated here, as the message has just been printed
-			if dmesg | grep -qF "msr: Direct access to MSR"; then
-				_debug "write_msr: locked down kernel detected (Red Hat / Fedora)"
-				mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=202")
+			# yet more recent versions of the msr module can be set to msr.allow_writes=off, in which case no dmesg message is printed,
+			# but the write fails
+			if [ "$_write_denied" = 1 ]; then
+				_debug "write_msr: writing to msr has been denied"
+				mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=$WRITE_MSR_RET_LOCKDOWN")
 				msr_locked_down=1
-				msr_locked_down_msg="your kernel is locked down (Fedora/Red Hat), please reboot without secure boot and retry"
-				return 202 # lockdown error
+				write_msr_msg="your kernel is configured to deny writes to MSRs from user space"
+				return $WRITE_MSR_RET_LOCKDOWN
+			elif dmesg | grep -qF "msr: Direct access to MSR"; then
+				_debug "write_msr: locked down kernel detected (Red Hat / Fedora)"
+				mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=$WRITE_MSR_RET_LOCKDOWN")
+				msr_locked_down=1
+				write_msr_msg="your kernel is locked down (Fedora/Red Hat), please reboot without secure boot and retry"
+				return $WRITE_MSR_RET_LOCKDOWN
 			elif dmesg | grep -qF "raw MSR access is restricted"; then
 				_debug "write_msr: locked down kernel detected (vanilla)"
-				mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=202")
+				mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=$WRITE_MSR_RET_LOCKDOWN")
 				msr_locked_down=1
-				msr_locked_down_msg="your kernel is locked down, please reboot with lockdown=none in the kernel cmdline and retry"
-				return 202 # lockdown error
+				write_msr_msg="your kernel is locked down, please reboot with lockdown=none in the kernel cmdline and retry"
+				return $WRITE_MSR_RET_LOCKDOWN
 			fi
+			unset _write_denied
 		fi
 	fi
+
 	# normalize ret
-	[ "$ret" != 0 ] && ret=1
-	_debug "write_msr: for cpu $_cpu on msr $_msr, ret=$ret"
+	if [ "$ret" = 0 ]; then
+		ret=$WRITE_MSR_RET_OK
+	else
+		ret=$WRITE_MSR_RET_KO
+	fi
+	_debug "write_msr: for cpu $_core on msr $_msr, ret=$ret"
 	mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_WRMSR_${_msr}_RET=$ret")
 	return $ret
 }
@@ -2395,38 +2590,78 @@ write_msr()
 # read_msr
 # param1 (mandatory): MSR, can be in hex or decimal.
 # param2 (optional): CPU index, starting from 0. Default 0.
+# returned data is available in $read_msr_value
+READ_MSR_RET_OK=0
+READ_MSR_RET_KO=1
+READ_MSR_RET_ERR=2
 read_msr()
 {
-	_msr_dec=$(( $1 ))
+	if [ "$opt_cpu" != all ]; then
+		# we only have one core to read, do it and return the result
+		read_msr_one_core $opt_cpu "$@"
+		return $?
+	fi
+
+	# otherwise we must read all cores
+	for _core in $(seq 0 $max_core_id); do
+		read_msr_one_core "$_core" "$@"; ret=$?
+		if [ "$_core" = 0 ]; then
+			# save the result of the first core, for comparison with the others
+			_first_core_ret=$ret
+			_first_core_value=$read_msr_value
+		else
+			# compare first core with the other ones
+			if [ $_first_core_ret != $ret ] || [ "$_first_core_value" != "$read_msr_value" ]; then
+				read_msr_msg="result is not homogeneous between all cores, at least core 0 and $_core differ!"
+				return $READ_MSR_RET_ERR
+			fi
+		fi
+	done
+	# if we're here, all cores agree, return the result
+	return $ret
+}
+
+read_msr_one_core()
+{
+	_core="$1"
+	_msr_dec=$(( $2 ))
 	_msr=$(printf "0x%x" "$_msr_dec")
-	_cpu="$2"
-	[ -z "$_cpu" ] && _cpu=0
 
 	read_msr_value=''
+	read_msr_msg='unknown error'
 
 	_mockvarname="SMC_MOCK_RDMSR_${_msr}"
-	# shellcheck disable=SC2086
-	if [ -n "$(eval echo \$$_mockvarname)" ]; then
+	# shellcheck disable=SC2086,SC1083
+	if [ -n "$(eval echo \${$_mockvarname:-})" ]; then
 		read_msr_value="$(eval echo \$$_mockvarname)"
 		_debug "read_msr: MOCKING enabled for msr $_msr, returning $read_msr_value"
 		mocked=1
-		return 0
+		return $READ_MSR_RET_OK
 	fi
 
 	_mockvarname="SMC_MOCK_RDMSR_${_msr}_RET"
-	# shellcheck disable=SC2086
-	if [ -n "$(eval echo \$$_mockvarname)" ] && [ "$(eval echo \$$_mockvarname)" -ne 0 ]; then
+	# shellcheck disable=SC2086,SC1083
+	if [ -n "$(eval echo \${$_mockvarname:-})" ] && [ "$(eval echo \$$_mockvarname)" -ne 0 ]; then
 		_debug "read_msr: MOCKING enabled for msr $_msr func returns $(eval echo \$$_mockvarname)"
 		mocked=1
 		return "$(eval echo \$$_mockvarname)"
 	fi
 
+	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
+		# try to load the module ourselves (and remember it so we can rmmod it afterwards)
+		load_msr
+	fi
+	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
+		read_msr_msg="is msr kernel module available?"
+		return $READ_MSR_RET_ERR
+	fi
+
 	if [ "$os" != Linux ]; then
 		# for BSD
-		_msr=$(cpucontrol -m "$_msr" "/dev/cpuctl$_cpu" 2>/dev/null); ret=$?
+		_msr=$(cpucontrol -m "$_msr" "/dev/cpuctl$_core" 2>/dev/null); ret=$?
 		if [ $ret -ne 0 ]; then
-			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=1")
-			return 1
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=$READ_MSR_RET_KO")
+			return $READ_MSR_RET_KO
 		fi
 		# MSR 0x10: 0x000003e1 0xb106dded
 		_msr_h=$(echo "$_msr" | awk '{print $3}');
@@ -2434,37 +2669,39 @@ read_msr()
 		read_msr_value=$(( _msr_h << 32 | _msr_l ))
 	else
 		# for Linux
-		if [ ! -r /dev/cpu/"$_cpu"/msr ]; then
-			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=200")
-			return 200 # permission error
+		if [ ! -r /dev/cpu/"$_core"/msr ]; then
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=$READ_MSR_RET_ERR")
+			read_msr_msg="No read permission for /dev/cpu/$_core/msr"
+			return $READ_MSR_RET_ERR
 		# if rdmsr is available, use it
-		elif command -v rdmsr >/dev/null 2>&1 && [ "$SMC_NO_RDMSR" != 1 ]; then
+		elif command -v rdmsr >/dev/null 2>&1 && [ "${SMC_NO_RDMSR:-}" != 1 ]; then
 			_debug "read_msr: using rdmsr on $_msr"
 			read_msr_value=$(rdmsr -r $_msr_dec 2>/dev/null | od -t u8 -A n)
 		# or if we have perl, use it, any 5.x version will work
-		elif command -v perl >/dev/null 2>&1 && [ "$SMC_NO_PERL" != 1 ]; then
+		elif command -v perl >/dev/null 2>&1 && [ "${SMC_NO_PERL:-}" != 1 ]; then
 			_debug "read_msr: using perl on $_msr"
-			read_msr_value=$(perl -e "open(M,'<','/dev/cpu/$_cpu/msr') and seek(M,$_msr_dec,0) and read(M,\$_,8) and print" | od -t u8 -A n)
+			read_msr_value=$(perl -e "open(M,'<','/dev/cpu/$_core/msr') and seek(M,$_msr_dec,0) and read(M,\$_,8) and print" | od -t u8 -A n)
 		# fallback to dd if it supports skip_bytes
 		elif dd if=/dev/null of=/dev/null bs=8 count=1 skip="$_msr_dec" iflag=skip_bytes 2>/dev/null; then
 			_debug "read_msr: using dd on $_msr"
-			read_msr_value=$(dd if=/dev/cpu/"$_cpu"/msr bs=8 count=1 skip="$_msr_dec" iflag=skip_bytes 2>/dev/null | od -t u8 -A n)
+			read_msr_value=$(dd if=/dev/cpu/"$_core"/msr bs=8 count=1 skip="$_msr_dec" iflag=skip_bytes 2>/dev/null | od -t u8 -A n)
 		else
 			_debug "read_msr: got no rdmsr, perl or recent enough dd!"
-			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=201")
-			return 201 # missing tool error
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=$READ_MSR_RET_ERR")
+			read_msr_msg='missing tool, install either msr-tools or perl'
+			return $READ_MSR_RET_ERR
 		fi
 		if [ -z "$read_msr_value" ]; then
 			# MSR doesn't exist, don't check for $? because some versions of dd still return 0!
-			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=1")
-			return 1
+			mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}_RET=$READ_MSR_RET_KO")
+			return $READ_MSR_RET_KO
 		fi
-	# remove sparse spaces od might give us
-	read_msr_value=$(( read_msr_value ))
+		# remove sparse spaces od might give us
+		read_msr_value=$(( read_msr_value ))
 	fi
 	mockme=$(printf "%b\n%b" "$mockme" "SMC_MOCK_RDMSR_${_msr}='$read_msr_value'")
 	_debug "read_msr: MSR=$_msr value is $read_msr_value"
-	return 0
+	return $READ_MSR_RET_OK
 }
 
 check_cpu()
@@ -2478,145 +2715,85 @@ check_cpu()
 	_info     "* Hardware support (CPU microcode) for mitigation techniques"
 	_info     "  * Indirect Branch Restricted Speculation (IBRS)"
 	_info_nol "    * SPEC_CTRL MSR is available: "
-	number_of_cpus
-	ncpus=$?
-	idx_max_cpu=$((ncpus-1))
-	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
-		# try to load the module ourselves (and remember it so we can rmmod it afterwards)
-		load_msr
-	fi
-	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
-		spec_ctrl_msr=-1
-		pstatus yellow UNKNOWN "is msr kernel module available?"
+	# the new MSR 'SPEC_CTRL' is at offset 0x48
+	read_msr 0x48; ret=$?
+	if [ $ret = $READ_MSR_RET_OK ]; then
+		spec_ctrl_msr=1
+		pstatus green YES
+	elif [ $ret = $READ_MSR_RET_KO ]; then
+		spec_ctrl_msr=0
+		pstatus yellow NO
 	else
-		# the new MSR 'SPEC_CTRL' is at offset 0x48
-		# we check if we have it for all cpus
-		val=0
-		cpu_mismatch=0
-		for i in $(seq 0 "$idx_max_cpu")
-		do
-			read_msr 0x48 "$i"; ret=$?
-			if [ "$i" -eq 0 ]; then
-				val=$ret
-			else
-				if [ "$ret" -eq $val ]; then
-					continue
-				else
-					cpu_mismatch=1
-				fi
-			fi
-		done
-		if [ $val -eq 0 ]; then
-			if [ $cpu_mismatch -eq 0 ]; then
-				spec_ctrl_msr=1
-				pstatus green YES
-			else
-				spec_ctrl_msr=1
-				pstatus green YES "But not in all CPUs"
-			fi
-		elif [ $val -eq 200 ]; then
-			pstatus yellow UNKNOWN "is msr kernel module available?"
-			spec_ctrl_msr=-1
-		elif [ $val -eq 201 ]; then
-			pstatus yellow UNKNOWN "missing tool, install either msr-tools or perl"
-			spec_ctrl_msr=-1
-		elif [ $val -eq 202 ]; then
-			pstatus yellow UNKNOWN "$msr_locked_down_msg"
-			spec_ctrl_msr=-1
-		else
-			spec_ctrl_msr=0
-			pstatus yellow NO
-		fi
+		spec_ctrl_msr=-1
+		pstatus yellow UNKNOWN "$read_msr_msg"
 	fi
 
 	_info_nol "    * CPU indicates IBRS capability: "
 	# from kernel src: { X86_FEATURE_SPEC_CTRL,        CPUID_EDX,26, 0x00000007, 0 },
 	# amd: https://developer.amd.com/wp-content/resources/Architecture_Guidelines_Update_Indirect_Branch_Control.pdf
 	# amd: 8000_0008 EBX[14]=1
+	cpuid_ibrs=''
 	if is_intel; then
-		read_cpuid 0x7 $EDX 26 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x7 0x0 $EDX 26 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES "SPEC_CTRL feature bit"
 			cpuid_spec_ctrl=1
 			cpuid_ibrs='SPEC_CTRL'
 		fi
 	elif is_amd || is_hygon; then
-		read_cpuid 0x80000008 $EBX 14 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 14 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES "IBRS_SUPPORT feature bit"
 			cpuid_ibrs='IBRS_SUPPORT'
 		fi
 	else
-		ret=-1
-		pstatus yellow UNKNOWN "unknown CPU"
+		ret=invalid
+		pstatus yellow NO "unknown CPU"
 	fi
-	if [ $ret -eq 1 ]; then
+	if [ $ret = $READ_CPUID_RET_KO ]; then
 		pstatus yellow NO
-	elif [ $ret -eq 2 ]; then
-		pstatus yellow UNKNOWN "is cpuid kernel module available?"
+	elif [ $ret = $READ_CPUID_RET_ERR ]; then
+		pstatus yellow UNKNOWN "$read_cpuid_msg"
 		cpuid_spec_ctrl=-1
 	fi
 
 	if is_amd || is_hygon; then
 		_info_nol "    * CPU indicates preferring IBRS always-on: "
 		# amd or hygon
-		read_cpuid 0x80000008 $EBX 16 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 16 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES
-		else
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
 			pstatus yellow NO
+		else
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
 		fi
 
 		_info_nol "    * CPU indicates preferring IBRS over retpoline: "
 		# amd or hygon
-		read_cpuid 0x80000008 $EBX 18 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 18 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES
-		else
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
 			pstatus yellow NO
+		else
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
 		fi
 	fi
 
 	# IBPB
 	_info     "  * Indirect Branch Prediction Barrier (IBPB)"
-	_info_nol "    * PRED_CMD MSR is available: "
-	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
-		pstatus yellow UNKNOWN "is msr kernel module available?"
-	elif [ ! -r /dev/cpu/0/msr ] && [ ! -w /dev/cpuctl0 ]; then
-		pstatus yellow UNKNOWN "are you root?"
-	else
-		# the new MSR 'PRED_CTRL' is at offset 0x49, write-only
-		# we test if of all cpus
-		val=0
-		cpu_mismatch=0
-		for i in $(seq 0 "$idx_max_cpu")
-		do
-			write_msr 0x49 "$i"; ret=$?
-			if [ "$i" -eq 0 ]; then
-				val=$ret
-			else
-				if [ "$ret" -eq $val ]; then
-					continue
-				else
-					cpu_mismatch=1
-				fi
-			fi
-		done
 
-		if [ $val -eq 0 ]; then
-			if [ $cpu_mismatch -eq 0 ]; then
-				pstatus green YES
-			else
-				pstatus green YES "But not in all CPUs"
-			fi
-		elif [ $val -eq 200 ]; then
-			pstatus yellow UNKNOWN "is msr kernel module available?"
-		elif [ $val -eq 201 ]; then
-			pstatus yellow UNKNOWN "missing tool, install either msr-tools or perl"
-		elif [ $val -eq 202 ]; then
-			pstatus yellow UNKNOWN "$msr_locked_down_msg"
-		else
+	if [ "$opt_allow_msr_write" = 1 ]; then
+		_info_nol "    * PRED_CMD MSR is available: "
+		# the new MSR 'PRED_CTRL' is at offset 0x49, write-only
+		write_msr 0x49; ret=$?
+		if [ $ret = $WRITE_MSR_RET_OK ]; then
+			pstatus green YES
+		elif [ $ret = $WRITE_MSR_RET_KO ]; then
 			pstatus yellow NO
+		else
+			pstatus yellow UNKNOWN "$write_msr_msg"
 		fi
 	fi
 
@@ -2633,14 +2810,14 @@ check_cpu()
 			pstatus yellow NO
 		fi
 	elif is_amd || is_hygon; then
-		read_cpuid 0x80000008 $EBX 12 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 12 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			cpuid_ibpb='IBPB_SUPPORT'
 			pstatus green YES "IBPB_SUPPORT feature bit"
-		elif [ $ret -eq 1 ]; then
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
 			pstatus yellow NO
 		else
-			pstatus yellow UNKNOWN "is cpuid kernel module available?"
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
 		fi
 	fi
 
@@ -2659,41 +2836,43 @@ check_cpu()
 	# intel: A processor supports STIBP if it enumerates CPUID (EAX=7H,ECX=0):EDX[27] as 1
 	# amd: 8000_0008 EBX[15]=1
 	if is_intel; then
-		read_cpuid 0x7 $EDX 27 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x7 0x0 $EDX 27 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES "Intel STIBP feature bit"
 			#cpuid_stibp='Intel STIBP'
 		fi
 	elif is_amd; then
-		read_cpuid 0x80000008 $EBX 15 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 15 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES "AMD STIBP feature bit"
 			#cpuid_stibp='AMD STIBP'
 		fi
 	elif is_hygon; then
-		read_cpuid 0x80000008 $EBX 15 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 15 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES "HYGON STIBP feature bit"
 			#cpuid_stibp='HYGON STIBP'
 		fi
 	else
-		ret=-1
+		ret=invalid
 		pstatus yellow UNKNOWN "unknown CPU"
 	fi
-	if [ $ret -eq 1 ]; then
+	if [ $ret = $READ_CPUID_RET_KO ]; then
 		pstatus yellow NO
-	elif [ $ret -eq 2 ]; then
-		pstatus yellow UNKNOWN "is cpuid kernel module available?"
+	elif [ $ret = $READ_CPUID_RET_ERR ]; then
+		pstatus yellow UNKNOWN "$read_cpuid_msg"
 	fi
 
 
 	if is_amd || is_hygon; then
 		_info_nol "    * CPU indicates preferring STIBP always-on: "
-		read_cpuid 0x80000008 $EBX 17 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 17 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES
-		else
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
 			pstatus yellow NO
+		else
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
 		fi
 	fi
 
@@ -2701,19 +2880,19 @@ check_cpu()
 	if is_intel; then
 		_info     "  * Speculative Store Bypass Disable (SSBD)"
 		_info_nol "    * CPU indicates SSBD capability: "
-		read_cpuid 0x7 $EDX 31 1 1; ret24=$?; ret25=$ret24
-		if [ $ret24 -eq 0 ]; then
+		read_cpuid 0x7 0x0 $EDX 31 1 1; ret24=$?; ret25=$ret24
+		if [ $ret24 = $READ_CPUID_RET_OK ]; then
 			cpuid_ssbd='Intel SSBD'
 		fi
 	elif is_amd; then
 		_info     "  * Speculative Store Bypass Disable (SSBD)"
 		_info_nol "    * CPU indicates SSBD capability: "
-		read_cpuid 0x80000008 $EBX 24 1 1; ret24=$?
-		read_cpuid 0x80000008 $EBX 25 1 1; ret25=$?
-		if [ $ret24 -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 24 1 1; ret24=$?
+		read_cpuid 0x80000008 0x0 $EBX 25 1 1; ret25=$?
+		if [ $ret24 = $READ_CPUID_RET_OK ]; then
 			cpuid_ssbd='AMD SSBD in SPEC_CTRL'
 			#cpuid_ssbd_spec_ctrl=1
-		elif [ $ret25 -eq 0 ]; then
+		elif [ $ret25 = $READ_CPUID_RET_OK ]; then
 			cpuid_ssbd='AMD SSBD in VIRT_SPEC_CTRL'
 			#cpuid_ssbd_virt_spec_ctrl=1
 		elif [ "$cpu_family" -ge 21 ] && [ "$cpu_family" -le 23 ]; then
@@ -2722,13 +2901,13 @@ check_cpu()
 	elif is_hygon; then
 		_info     "  * Speculative Store Bypass Disable (SSBD)"
 		_info_nol "    * CPU indicates SSBD capability: "
-		read_cpuid 0x80000008 $EBX 24 1 1; ret24=$?
-		read_cpuid 0x80000008 $EBX 25 1 1; ret25=$?
+		read_cpuid 0x80000008 0x0 $EBX 24 1 1; ret24=$?
+		read_cpuid 0x80000008 0x0 $EBX 25 1 1; ret25=$?
 
-		if [ $ret24 -eq 0 ]; then
+		if [ $ret24 = $READ_CPUID_RET_OK ]; then
 			cpuid_ssbd='HYGON SSBD in SPEC_CTRL'
 			#hygon cpuid_ssbd_spec_ctrl=1
-		elif [ $ret25 -eq 0 ]; then
+		elif [ $ret25 = $READ_CPUID_RET_OK ]; then
 			cpuid_ssbd='HYGON SSBD in VIRT_SPEC_CTRL'
 			#hygon cpuid_ssbd_virt_spec_ctrl=1
 		elif [ "$cpu_family" -ge 24 ]; then
@@ -2736,97 +2915,131 @@ check_cpu()
 		fi
 	fi
 
-	if [ -n "$cpuid_ssbd" ]; then
+	if [ -n "${cpuid_ssbd:=}" ]; then
 		pstatus green YES "$cpuid_ssbd"
-	elif [ "$ret24" = 2 ] && [ "$ret25" = 2 ]; then
-		pstatus yellow UNKNOWN "is cpuid kernel module available?"
+	elif [ "$ret24" = $READ_CPUID_RET_ERR ] && [ "$ret25" = $READ_CPUID_RET_ERR ]; then
+		pstatus yellow UNKNOWN "$read_cpuid_msg"
 	else
 		pstatus yellow NO
 	fi
 
+	amd_ssb_no=0
+	hygon_ssb_no=0
 	if is_amd; then
 		# similar to SSB_NO for intel
-		read_cpuid 0x80000008 $EBX 26 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 26 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			amd_ssb_no=1
+		elif [ $ret = $READ_CPUID_RET_ERR ]; then
+			amd_ssb_no=-1
 		fi
 	elif is_hygon; then
 		# indicate when speculative store bypass disable is no longer needed to prevent speculative loads bypassing older stores
-		read_cpuid 0x80000008 $EBX 26 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x80000008 0x0 $EBX 26 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			hygon_ssb_no=1
-			_debug "hygon_ssb_no=1"
+		elif [ $ret = $READ_CPUID_RET_ERR ]; then
+			hygon_ssb_no=-1
 		fi
 	fi
 
 	_info "  * L1 data cache invalidation"
-	_info_nol "    * FLUSH_CMD MSR is available: "
-	if [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
-		pstatus yellow UNKNOWN "is msr kernel module available?"
-	elif [ ! -r /dev/cpu/0/msr ] && [ ! -w /dev/cpuctl0 ]; then
-		pstatus yellow UNKNOWN "are you root?"
-	else
-		# the new MSR 'FLUSH_CMD' is at offset 0x10b, write-only
-		# we test if of all cpus
-		val=0
-		cpu_mismatch=0
-		for i in $(seq 0 "$idx_max_cpu")
-		do
-			write_msr 0x10b "$i"; ret=$?
-			if [ "$i" -eq 0 ]; then
-				val=$ret
-			else
-				if [ "$ret" -eq $val ]; then
-					continue
-				else
-					cpu_mismatch=1
-				fi
-			fi
-		done
 
-		if [ $val -eq 0 ]; then
-			if [ $cpu_mismatch -eq 0 ]; then
-				pstatus green YES
-				cpu_flush_cmd=1
-			else
-				pstatus green YES "But not in all CPUs"
-			fi
-		elif [ $val -eq 200 ]; then
-			pstatus yellow UNKNOWN "is msr kernel module available?"
-		elif [ $val -eq 201 ]; then
-			pstatus yellow UNKNOWN "missing tool, install either msr-tools or perl"
-		elif [ $val -eq 202 ]; then
-			pstatus yellow UNKNOWN "$msr_locked_down_msg"
-		else
+	if [ "$opt_allow_msr_write" = 1 ]; then
+		_info_nol "    * FLUSH_CMD MSR is available: "
+		# the new MSR 'FLUSH_CMD' is at offset 0x10b, write-only
+		write_msr 0x10b; ret=$?
+		if [ $ret = $WRITE_MSR_RET_OK ]; then
+			pstatus green YES
+			cpu_flush_cmd=1
+		elif [ $ret = $WRITE_MSR_RET_KO ]; then
 			pstatus yellow NO
+			cpu_flush_cmd=0
+		else
+			pstatus yellow UNKNOWN "$write_msr_msg"
+			cpu_flush_cmd=-1
 		fi
 	fi
+
 	# CPUID of L1D
 	_info_nol "    * CPU indicates L1D flush capability: "
-	read_cpuid 0x7 $EDX 28 1 1; ret=$?
-	if [ $ret -eq 0 ]; then
+	read_cpuid 0x7 0x0 $EDX 28 1 1; ret=$?
+	if [ $ret = $READ_CPUID_RET_OK ]; then
 		pstatus green YES "L1D flush feature bit"
 		cpuid_l1df=1
-	elif [ $ret -eq 1 ]; then
+	elif [ $ret = $READ_CPUID_RET_KO ]; then
 		pstatus yellow NO
-	elif [ $ret -eq 2 ]; then
-		pstatus yellow UNKNOWN "is cpuid kernel module available?"
+		cpuid_l1df=0
+	else
+		pstatus yellow UNKNOWN "$read_cpuid_msg"
+		cpuid_l1df=-1
+	fi
+
+	# if we weren't allowed to probe the write-only MSR but the CPUID
+	# bit says that it shoul be there, make the assumption that it is
+	if [ "$opt_allow_msr_write" != 1 ]; then
+		cpu_flush_cmd=$cpuid_l1df
 	fi
 
 	if is_intel; then
-		_info "  * Microarchitectural Data Sampling"
+		_info     "  * Microarchitectural Data Sampling"
 		_info_nol "    * VERW instruction is available: "
-		read_cpuid 0x7 $EDX 10 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x7 0x0 $EDX 10 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			cpuid_md_clear=1
 			pstatus green YES "MD_CLEAR feature bit"
-		elif [ $ret -eq 2 ]; then
-			cpuid_md_clear=-1
-			pstatus yellow UNKNOWN "is cpuid kernel module available?"
-		else
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
 			cpuid_md_clear=0
 			pstatus yellow NO
+		else
+			cpuid_md_clear=-1
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
 		fi
+	fi
+
+	if is_intel; then
+		_info     "  * Indirect Branch Predictor Controls"
+		_info_nol "    * Indirect Predictor Disable feature is available: "
+		read_cpuid 0x7 0x2 $EDX 1 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
+			cpuid_ipred=1
+			pstatus green YES "IPRED_CTRL feature bit"
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
+			cpuid_ipred=0
+			pstatus yellow NO
+		else
+			cpuid_ipred=-1
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
+		fi
+
+		_info_nol "    * Bottomless RSB Disable feature is available: "
+		read_cpuid 0x7 0x2 $EDX 2 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
+			cpuid_rrsba=1
+			pstatus green YES "RRSBA_CTRL feature bit"
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
+			cpuid_rrsba=0
+			pstatus yellow NO
+		else
+			cpuid_rrsba=-1
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
+		fi
+
+		_info_nol "    * BHB-Focused Indirect Predictor Disable feature is available: "
+		read_cpuid 0x7 0x2 $EDX 2 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
+			cpuid_bhi=1
+			pstatus green YES "BHI_CTRL feature bit"
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
+			cpuid_bhi=0
+			pstatus yellow NO
+		else
+			cpuid_bhi=-1
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
+		fi
+
+		# make shellcheck happy while we're not yet using these new cpuid values in our checks
+		export cpuid_ipred cpuid_rrsba cpuid_bhi
 	fi
 
 	if is_intel; then
@@ -2834,15 +3047,15 @@ check_cpu()
 		_info_nol "    * CPU indicates ARCH_CAPABILITIES MSR availability: "
 		cpuid_arch_capabilities=-1
 		# A processor supports the ARCH_CAPABILITIES MSR if it enumerates CPUID (EAX=7H,ECX=0):EDX[29] as 1
-		read_cpuid 0x7 $EDX 29 1 1; ret=$?
-		if [ $ret -eq 0 ]; then
+		read_cpuid 0x7 0x0 $EDX 29 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
 			pstatus green YES
 			cpuid_arch_capabilities=1
-		elif [ $ret -eq 2 ]; then
-			pstatus yellow UNKNOWN "is cpuid kernel module available?"
-		else
+		elif [ $ret = $READ_CPUID_RET_KO ]; then
 			pstatus yellow NO
 			cpuid_arch_capabilities=0
+		else
+			pstatus yellow UNKNOWN "$read_cpuid_msg"
 		fi
 
 		_info_nol "    * ARCH_CAPABILITIES MSR advertises IBRS_ALL capability: "
@@ -2868,31 +3081,9 @@ check_cpu()
 			capabilities_pschange_msc_no=0
 			capabilities_tsx_ctrl_msr=0
 			pstatus yellow NO
-		elif [ ! -e /dev/cpu/0/msr ] && [ ! -e /dev/cpuctl0 ]; then
-			spec_ctrl_msr=-1
-			pstatus yellow UNKNOWN "is msr kernel module available?"
 		else
 			# the new MSR 'ARCH_CAPABILITIES' is at offset 0x10a
-			# we check if we have it for all cpus
-			val=0
-			val_cap_msr=0
-			cpu_mismatch=0
-			for i in $(seq 0 "$idx_max_cpu")
-			do
-				read_msr 0x10a "$i"; ret=$?
-				capabilities=$read_msr_value
-				if [ "$i" -eq 0 ]; then
-					val=$ret
-					val_cap_msr=$capabilities
-				else
-					if [ "$ret" -eq "$val" ] && [ "$capabilities" -eq "$val_cap_msr" ]; then
-						continue
-					else
-						cpu_mismatch=1
-					fi
-				fi
-			done
-			capabilities=$val_cap_msr
+			read_msr 0x10a; ret=$?
 			capabilities_rdcl_no=0
 			capabilities_taa_no=0
 			capabilities_mds_no=0
@@ -2902,7 +3093,8 @@ check_cpu()
 			capabilities_ssb_no=0
 			capabilities_pschange_msc_no=0
 			capabilities_tsx_ctrl_msr=0
-			if [ $val -eq 0 ]; then
+			if [ $ret = $READ_MSR_RET_OK ]; then
+				capabilities=$read_msr_value
 				# https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/x86/include/asm/msr-index.h#n82
 				_debug "capabilities MSR is $capabilities (decimal)"
 				[ $(( capabilities >> 0 & 1 )) -eq 1 ] && capabilities_rdcl_no=1
@@ -2916,26 +3108,18 @@ check_cpu()
 				[ $(( capabilities >> 8 & 1 )) -eq 1 ] && capabilities_taa_no=1
 				_debug "capabilities says rdcl_no=$capabilities_rdcl_no ibrs_all=$capabilities_ibrs_all rsba=$capabilities_rsba l1dflush_no=$capabilities_l1dflush_no ssb_no=$capabilities_ssb_no mds_no=$capabilities_mds_no taa_no=$capabilities_taa_no pschange_msc_no=$capabilities_pschange_msc_no"
 				if [ "$capabilities_ibrs_all" = 1 ]; then
-					if [ $cpu_mismatch -eq 0 ]; then
-						pstatus green YES
-					else
-						pstatus green YES "But not in all CPUs"
-					fi
+					pstatus green YES
 				else
 					pstatus yellow NO
 				fi
-			elif [ $val -eq 200 ]; then
-				pstatus yellow UNKNOWN "is msr kernel module available?"
-			elif [ $val -eq 201 ]; then
-				pstatus yellow UNKNOWN "missing tool, install either msr-tools or perl"
-			elif [ $val -eq 202 ]; then
-				pstatus yellow UNKNOWN "$msr_locked_down_msg"
-			else
+			elif [ $ret = $READ_MSR_RET_KO ]; then
 				pstatus yellow NO
+			else
+				pstatus yellow UNKNOWN "$read_msr_msg"
 			fi
 		fi
 
-		_info_nol "  * CPU explicitly indicates not being vulnerable to Meltdown/L1TF (RDCL_NO): "
+		_info_nol "  * CPU explicitly indicates not being affected by Meltdown/L1TF (RDCL_NO): "
 		if [ "$capabilities_rdcl_no" = -1 ]; then
 			pstatus yellow UNKNOWN
 		elif [ "$capabilities_rdcl_no" = 1 ]; then
@@ -2944,7 +3128,7 @@ check_cpu()
 			pstatus yellow NO
 		fi
 
-		_info_nol "  * CPU explicitly indicates not being vulnerable to Variant 4 (SSB_NO): "
+		_info_nol "  * CPU explicitly indicates not being affected by Variant 4 (SSB_NO): "
 		if [ "$capabilities_ssb_no" = -1 ]; then
 			pstatus yellow UNKNOWN
 		elif [ "$capabilities_ssb_no" = 1 ] || [ "$amd_ssb_no" = 1 ] || [ "$hygon_ssb_no" = 1 ]; then
@@ -2962,7 +3146,7 @@ check_cpu()
 			pstatus yellow NO
 		fi
 
-		_info_nol "  * Hypervisor indicates host CPU might be vulnerable to RSB underflow (RSBA): "
+		_info_nol "  * Hypervisor indicates host CPU might be affected by RSB underflow (RSBA): "
 		if [ "$capabilities_rsba" = -1 ]; then
 			pstatus yellow UNKNOWN
 		elif [ "$capabilities_rsba" = 1 ]; then
@@ -2971,7 +3155,7 @@ check_cpu()
 			pstatus blue NO
 		fi
 
-		_info_nol "  * CPU explicitly indicates not being vulnerable to Microarchitectural Data Sampling (MDS_NO): "
+		_info_nol "  * CPU explicitly indicates not being affected by Microarchitectural Data Sampling (MDS_NO): "
 		if [ "$capabilities_mds_no" = -1 ]; then
 			pstatus yellow UNKNOWN
 		elif [ "$capabilities_mds_no" = 1 ]; then
@@ -2980,7 +3164,7 @@ check_cpu()
 			pstatus yellow NO
 		fi
 
-		_info_nol "  * CPU explicitly indicates not being vulnerable to TSX Asynchronous Abort (TAA_NO): "
+		_info_nol "  * CPU explicitly indicates not being affected by TSX Asynchronous Abort (TAA_NO): "
 		if [ "$capabilities_taa_no" = -1 ]; then
 			pstatus yellow UNKNOWN
 		elif [ "$capabilities_taa_no" = 1 ]; then
@@ -2989,7 +3173,7 @@ check_cpu()
 			pstatus yellow NO
 		fi
 
-		_info_nol "  * CPU explicitly indicates not being vulnerable to iTLB Multihit (PSCHANGE_MSC_NO): "
+		_info_nol "  * CPU explicitly indicates not being affected by iTLB Multihit (PSCHANGE_MSC_NO): "
 		if [ "$capabilities_pschange_msc_no" = -1 ]; then
 			pstatus yellow UNKNOWN
 		elif [ "$capabilities_pschange_msc_no" = 1 ]; then
@@ -3008,8 +3192,8 @@ check_cpu()
 		fi
 
 		if [ "$capabilities_tsx_ctrl_msr" = 1 ]; then
-			read_msr 0x122 0; ret=$?
-			if [ "$ret" = 0 ]; then
+			read_msr 0x122; ret=$?
+			if [ "$ret" = $READ_MSR_RET_OK ]; then
 				tsx_ctrl_msr=$read_msr_value
 				tsx_ctrl_msr_rtm_disable=$(( tsx_ctrl_msr >> 0 & 1 ))
 				tsx_ctrl_msr_cpuid_clear=$(( tsx_ctrl_msr >> 1 & 1 ))
@@ -3036,52 +3220,52 @@ check_cpu()
 	fi
 
 	_info_nol "  * CPU supports Transactional Synchronization Extensions (TSX): "
-	ret=1
+	ret=$READ_CPUID_RET_KO
 	cpuid_rtm=0
 	if is_intel; then
-		read_cpuid 0x7 $EBX 11 1 1; ret=$?
+		read_cpuid 0x7 0x0 $EBX 11 1 1; ret=$?
 	fi
-	if [ $ret -eq 0 ]; then
+	if [ $ret = $READ_CPUID_RET_OK ]; then
 		cpuid_rtm=1
 		pstatus green YES "RTM feature bit"
-	elif [ $ret -eq 2 ]; then
-		cpuid_rtm=-1
-		pstatus yellow UNKNOWN "is cpuid kernel module available?"
-	else
+	elif [ $ret = $READ_CPUID_RET_KO ]; then
 		pstatus yellow NO
+	else
+		cpuid_rtm=-1
+		pstatus yellow UNKNOWN "$read_cpuid_msg"
 	fi
 
 	_info_nol "  * CPU supports Software Guard Extensions (SGX): "
-	ret=1
+	ret=$READ_CPUID_RET_KO
 	cpuid_sgx=0
 	if is_intel; then
-		read_cpuid 0x7 $EBX 2 1 1; ret=$?
+		read_cpuid 0x7 0x0 $EBX 2 1 1; ret=$?
 	fi
-	if [ $ret -eq 0 ]; then
+	if [ $ret = $READ_CPUID_RET_OK ]; then
 		pstatus blue YES
 		cpuid_sgx=1
-	elif [ $ret -eq 2 ]; then
-		pstatus yellow UNKNOWN "is cpuid kernel module available?"
-		cpuid_sgx=-1
-	else
+	elif [ $ret = $READ_CPUID_RET_KO ]; then
 		pstatus green NO
+	else
+		cpuid_sgx=-1
+		pstatus yellow UNKNOWN "$read_cpuid_msg"
 	fi
 
 	_info_nol "  * CPU supports Special Register Buffer Data Sampling (SRBDS): "
 	# A processor supports SRBDS if it enumerates CPUID (EAX=7H,ECX=0):EDX[9] as 1
 	# That means the mitigation disabling SRBDS exists
-	ret=1
+	ret=$READ_CPUID_RET_KO
 	cpuid_srbds=0
 	srbds_on=0
 	if is_intel; then
-		read_cpuid 0x7 $EDX 9 1 1; ret=$?
+		read_cpuid 0x7 0x0 $EDX 9 1 1; ret=$?
 	fi
-	if [ $ret -eq 0 ]; then
+	if [ $ret = $READ_CPUID_RET_OK ]; then
 		pstatus blue YES
 		cpuid_srbds=1
-		read_msr 0x123 0; ret=$?
-		if [ $ret -eq 0 ]; then
-			if [ $read_msr_value -eq 0 ]; then
+		read_msr 0x123; ret=$?
+		if [ $ret = $READ_MSR_RET_OK ]; then
+			if [ $read_msr_value = 0 ]; then
 				#SRBDS mitigation control exists and is enabled via microcode
 				srbds_on=1
 			else
@@ -3091,11 +3275,11 @@ check_cpu()
 		else
 			srbds_on=-1
 		fi
-	elif [ $ret -eq 2 ]; then
-		pstatus yellow UNKNOWN "is cpuid kernel module available?"
-		cpuid_srbds=0
-	else
+	elif [ $ret = $READ_CPUID_RET_KO ]; then
 		pstatus green NO
+	else
+		pstatus yellow UNKNOWN "$read_cpuid_msg"
+		cpuid_srbds=0
 	fi
 
 	_info_nol "  * CPU microcode is known to cause stability problems: "
@@ -3126,8 +3310,8 @@ check_cpu_vulnerabilities()
 {
 	_info     "* CPU vulnerability to the speculative execution attack variants"
 	for cve in $supported_cve_list; do
-		_info_nol "  * Vulnerable to $cve ($(cve2name "$cve")): "
-		if is_cpu_vulnerable "$cve"; then
+		_info_nol "  * Affected by $cve ($(cve2name "$cve")): "
+		if is_cpu_affected "$cve"; then
 			pstatus yellow YES
 		else
 			pstatus green NO
@@ -3138,7 +3322,7 @@ check_cpu_vulnerabilities()
 check_redhat_canonical_spectre()
 {
 	# if we were already called, don't do it again
-	[ -n "$redhat_canonical_spectre" ] && return
+	[ -n "${redhat_canonical_spectre:-}" ] && return
 
 	if ! command -v "${opt_arch_prefix}strings" >/dev/null 2>&1; then
 		redhat_canonical_spectre=-1
@@ -3183,7 +3367,7 @@ check_has_vmm()
 			# for each binary we want to grep, get the pids
 			for _binary in qemu kvm xenstored xenconsoled
 			do
-				for _pid in $(pgrep $_binary)
+				for _pid in $(pgrep -x $_binary)
 				do
 					# resolve the exe symlink, if it doesn't resolve with -m,
 					# which doesn't even need the dest to exist, it means the symlink
@@ -3199,7 +3383,7 @@ check_has_vmm()
 		else
 			# ignore SC2009 as `ps ax` is actually used as a fallback if `pgrep` isn't installed
 			# shellcheck disable=SC2009
-			if ps ax | grep -vw grep | grep -q -e '\<qemu' -e '/qemu' -e '<\kvm' -e '/kvm' -e '/xenstored' -e '/xenconsoled'; then
+			if command -v ps >/devnull && ps ax | grep -vw grep | grep -q -e '\<qemu' -e '/qemu' -e '<\kvm' -e '/kvm' -e '/xenstored' -e '/xenconsoled'; then
 				has_vmm=1
 			fi
 		fi
@@ -3280,6 +3464,7 @@ check_CVE_2017_5753_linux()
 		#: "cc");
 		#
 		# http://git.arm.linux.org.uk/cgit/linux-arm.git/commit/?h=spectre&id=a78d156587931a2c3b354534aa772febf6c9e855
+		v1_mask_nospec=''
 		if [ -n "$kernel_err" ]; then
 			pstatus yellow UNKNOWN "couldn't check ($kernel_err)"
 		elif ! command -v perl >/dev/null 2>&1; then
@@ -3415,9 +3600,9 @@ check_CVE_2017_5753_linux()
 	fi
 
 	# report status
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ -z "$msg" ]; then
 		# if msg is empty, sysfs check didn't fill it, rely on our own test
 		if [ -n "$v1_mask_nospec" ]; then
@@ -3442,7 +3627,7 @@ check_CVE_2017_5753_linux()
 				_explain="Your kernel is too old to have the mitigation for Variant 1, you should upgrade to a newer kernel. If you're using a Linux distro and didn't compile the kernel yourself, you should upgrade your distro to get a newer kernel."
 			fi
 			pvulnstatus $cve "$status" "$msg"
-			[ -n "$_explain" ] && explain "$_explain"
+			[ -n "${_explain:-}" ] && explain "$_explain"
 			unset _explain
 		fi
 	fi
@@ -3450,9 +3635,9 @@ check_CVE_2017_5753_linux()
 
 check_CVE_2017_5753_bsd()
 {
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	else
 		pvulnstatus $cve VULN "no mitigation for BSD yet"
 	fi
@@ -3703,6 +3888,8 @@ check_CVE_2017_5715_linux()
 
 		_info "* Mitigation 2"
 		_info_nol "  * Kernel has branch predictor hardening (arm): "
+		bp_harden_can_tell=0
+		bp_harden=''
 		if [ -r "$opt_config" ]; then
 			bp_harden_can_tell=1
 			bp_harden=$(grep -w 'CONFIG_HARDEN_BRANCH_PREDICTOR=y' "$opt_config")
@@ -3729,6 +3916,7 @@ check_CVE_2017_5715_linux()
 
 		_info_nol "  * Kernel compiled with retpoline option: "
 		# We check the RETPOLINE kernel options
+		retpoline=0
 		if [ -r "$opt_config" ]; then
 			if grep -q '^CONFIG_RETPOLINE=y' "$opt_config"; then
 				pstatus green YES
@@ -3751,8 +3939,11 @@ check_CVE_2017_5715_linux()
 			#
 			# if there is "retpoline" in the file and NOT "minimal", then it's full retpoline
 			# (works for vanilla and Red Hat variants)
+			#
+			# since 5.15.28, this is now "Retpolines" as the implementation was switched to a generic one,
+			# so we look for both "retpoline" and "retpolines"
 			if [ "$opt_live" = 1 ] && [ -n "$fullmsg" ]; then
-				if echo "$fullmsg" | grep -qwi retpoline; then
+				if echo "$fullmsg" | grep -qwi -e retpoline -e retpolines; then
 					if echo "$fullmsg" | grep -qwi minimal; then
 						retpoline_compiler=0
 						retpoline_compiler_reason="kernel reports minimal retpoline compilation"
@@ -3801,6 +3992,7 @@ check_CVE_2017_5715_linux()
 		fi
 
 		# only Red Hat has a tunable to disable it on runtime
+		retp_enabled=-1
 		if [ "$opt_live" = 1 ]; then
 			if [ -e "$specex_knob_dir/retp_enabled" ]; then
 				retp_enabled=$(cat "$specex_knob_dir/retp_enabled" 2>/dev/null)
@@ -3859,9 +4051,9 @@ check_CVE_2017_5715_linux()
 		status=UNK
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	else
 		if [ "$retpoline" = 1 ] && [ "$retpoline_compiler" = 1 ] && [ "$retp_enabled" != 0 ] && [ -n "$ibpb_enabled" ] && [ "$ibpb_enabled" -ge 1 ] && ( ! is_vulnerable_to_empty_rsb || [ "$rsb_filling" = 1 ] ); then
 			pvulnstatus $cve OK "Full retpoline + IBPB are mitigating the vulnerability"
@@ -3969,7 +4161,7 @@ check_CVE_2017_5715_linux()
 			# RETPOLINE (amd & intel &hygon )
 			if is_amd || is_intel || is_hygon; then
 				if [ "$retpoline" = 0 ]; then
-					explain "Your kernel is not compiled with retpoline support, so you need to either upgrade your kernel (if you're using a distro) or recompile your kernel with the CONFIG_RETPOLINE option enabled. You also need to compile your kernel with  a retpoline-aware compiler (re-run this script with -v to know if your version of gcc is retpoline-aware)."
+					explain "Your kernel is not compiled with retpoline support, so you need to either upgrade your kernel (if you're using a distro) or recompile your kernel with the CONFIG_RETPOLINE option enabled. You also need to compile your kernel with a retpoline-aware compiler (re-run this script with -v to know if your version of gcc is retpoline-aware)."
 				elif [ "$retpoline" = 1 ] && [ "$retpoline_compiler" = 0 ]; then
 					explain "Your kernel is compiled with retpoline, but without a retpoline-aware compiler (re-run this script with -v to know if your version of gcc is retpoline-aware)."
 				elif [ "$retpoline" = 1 ] && [ "$retpoline_compiler" = 1 ] && [ "$retp_enabled" = 0 ]; then
@@ -4021,6 +4213,7 @@ check_CVE_2017_5715_bsd()
 
 	_info     "* Mitigation 2"
 	_info_nol "  * Kernel compiled with RETPOLINE: "
+	retpoline=0
 	if [ -n "$kernel_err" ]; then
 		pstatus yellow UNKNOWN "couldn't check ($kernel_err)"
 	else
@@ -4037,9 +4230,9 @@ check_CVE_2017_5715_bsd()
 		fi
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ "$retpoline" = 1 ]; then
 		pvulnstatus $cve OK "Retpoline mitigates the vulnerability"
 	elif [ "$ibrs_active" = 1 ]; then
@@ -4071,15 +4264,19 @@ pti_performance_check()
 	if [ -e "$procfs/cpuinfo" ] && grep ^flags "$procfs/cpuinfo" | grep -qw pcid; then
 		cpu_pcid=1
 	else
-		read_cpuid 0x1 $ECX 17 1 1; ret=$?
-		[ $ret -eq 0 ] && cpu_pcid=1
+		read_cpuid 0x1 0x0 $ECX 17 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
+			cpu_pcid=1
+		fi
 	fi
 
 	if [ -e "$procfs/cpuinfo" ] && grep ^flags "$procfs/cpuinfo" | grep -qw invpcid; then
 		cpu_invpcid=1
 	else
-		read_cpuid 0x7 $EBX 10 1 1; ret=$?
-		[ $ret -eq 0 ] && cpu_invpcid=1
+		read_cpuid 0x7 0x0 $EBX 10 1 1; ret=$?
+		if [ $ret = $READ_CPUID_RET_OK ]; then
+			cpu_invpcid=1
+		fi
 	fi
 
 	if [ "$cpu_invpcid" = 1 ]; then
@@ -4222,6 +4419,8 @@ check_CVE_2017_5754_linux()
 
 
 	# Test if the current host is a Xen PV Dom0 / DomU
+	xen_pv_domo=0
+	xen_pv_domu=0
 	is_xen_dom0 && xen_pv_domo=1
 	is_xen_domU && xen_pv_domu=1
 
@@ -4236,9 +4435,9 @@ check_CVE_2017_5754_linux()
 		fi
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ -z "$msg" ]; then
 		# if msg is empty, sysfs check didn't fill it, rely on our own test
 		if [ "$opt_live" = 1 ]; then
@@ -4289,8 +4488,8 @@ check_CVE_2017_5754_linux()
 			_explain="If you're using a distro kernel, upgrade your distro to get the latest kernel available. Otherwise, recompile the kernel with the CONFIG_PAGE_TABLE_ISOLATION option (named CONFIG_KAISER for some kernels), or the CONFIG_UNMAP_KERNEL_AT_EL0 option (for ARM64)"
 		fi
 		pvulnstatus $cve "$status" "$msg"
-		[ -z "$_explain" ] && [ "$msg" = "Vulnerable" ] && _explain="If you're using a distro kernel, upgrade your distro to get the latest kernel available. Otherwise, recompile the kernel with the CONFIG_PAGE_TABLE_ISOLATION option (named CONFIG_KAISER for some kernels), or the CONFIG_UNMAP_KERNEL_AT_EL0 option (for ARM64)"
-		[ -n "$_explain" ] && explain "$_explain"
+		[ -z "${_explain:-}" ] && [ "$msg" = "Vulnerable" ] && _explain="If you're using a distro kernel, upgrade your distro to get the latest kernel available. Otherwise, recompile the kernel with the CONFIG_PAGE_TABLE_ISOLATION option (named CONFIG_KAISER for some kernels), or the CONFIG_UNMAP_KERNEL_AT_EL0 option (for ARM64)"
+		[ -n "${_explain:-}" ] && explain "$_explain"
 		unset _explain
 	fi
 
@@ -4323,9 +4522,9 @@ check_CVE_2017_5754_bsd()
 
 	pti_performance_check
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ "$kpti_enabled" = 1 ]; then
 		pvulnstatus $cve OK "PTI mitigates the vulnerability"
 	elif [ -n "$kpti_enabled" ]; then
@@ -4357,9 +4556,9 @@ check_CVE_2018_3640()
 		pstatus yellow NO
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ -n "$cpuid_ssbd" ]; then
 		pvulnstatus $cve OK "your CPU microcode mitigates the vulnerability"
 	else
@@ -4402,14 +4601,31 @@ check_CVE_2018_3639_linux()
 				_debug "found Speculation.Store.Bypass: in $procfs/self/status"
 			fi
 		fi
-		if [ -z "$kernel_ssb" ] && [ -n "$kernel" ]; then
+		# arm64 kernels can have cpu_show_spec_store_bypass with ARM64_SSBD, so exclude them
+		if [ -z "$kernel_ssb" ] && [ -n "$kernel" ] && ! grep -q 'arm64_sys_' "$kernel"; then
 			kernel_ssb=$("${opt_arch_prefix}strings" "$kernel" | grep spec_store_bypass | head -n1);
-			[ -n "$kernel_ssb" ] && _debug "found $kernel_ssb in kernel"
+			[ -n "$kernel_ssb" ] && kernel_ssb="found $kernel_ssb in kernel"
 		fi
+		# arm64 kernels can have cpu_show_spec_store_bypass with ARM64_SSBD, so exclude them
+		if [ -z "$kernel_ssb" ] && [ -n "$opt_map" ] && ! grep -q 'arm64_sys_' "$opt_map"; then
+			kernel_ssb=$(grep spec_store_bypass "$opt_map" | awk '{print $3}' | head -n1)
+			[ -n "$kernel_ssb" ] && kernel_ssb="found $kernel_ssb in System.map"
+		fi
+		# arm64 only:
 		if [ -z "$kernel_ssb" ] && [ -n "$opt_map" ]; then
-			kernel_ssb=$(grep spec_store_bypass "$opt_map" | head -n1)
-			[ -n "$kernel_ssb" ] && _debug "found $kernel_ssb in System.map"
+			kernel_ssb=$(grep -w cpu_enable_ssbs "$opt_map" | awk '{print $3}' | head -n1)
+			[ -n "$kernel_ssb" ] && kernel_ssb="found $kernel_ssb in System.map"
 		fi
+		if [ -z "$kernel_ssb" ] && [ -n "$opt_config" ]; then
+			kernel_ssb=$(grep -w 'CONFIG_ARM64_SSBD=y' "$opt_config")
+			[ -n "$kernel_ssb" ] && kernel_ssb="CONFIG_ARM64_SSBD enabled in kconfig"
+		fi
+		if [ -z "$kernel_ssb" ] && [ -n "$kernel" ]; then
+			# this string only appears in kernel if CONFIG_ARM64_SSBD is set
+			kernel_ssb=$(grep -w "Speculative Store Bypassing Safe (SSBS)" "$kernel")
+			[ -n "$kernel_ssb" ] && kernel_ssb="found 'Speculative Store Bypassing Safe (SSBS)' in kernel"
+		fi
+		# /arm64 only
 
 		if [ -n "$kernel_ssb" ]; then
 			pstatus green YES "$kernel_ssb"
@@ -4433,6 +4649,11 @@ check_CVE_2018_3639_linux()
 			elif grep -Eq 'Speculation.?Store.?Bypass:[[:space:]]+not vulnerable' "$procfs/self/status" 2>/dev/null; then
 				kernel_ssbd_enabled=-2
 				pstatus blue NO "not vulnerable"
+			elif grep -Eq 'Speculation.?Store.?Bypass:[[:space:]]+unknown' "$procfs/self/status" 2>/dev/null; then
+				kernel_ssbd_enabled=0
+				pstatus blue NO
+			else
+				pstatus blue UNKNOWN "unknown value: $(grep -E 'Speculation.?Store.?Bypass:' "$procfs/self/status" 2>/dev/null | cut -d: -f2-)"
 			fi
 
 			if [ "$kernel_ssbd_enabled" = 1 ]; then
@@ -4455,9 +4676,9 @@ check_CVE_2018_3639_linux()
 		status=UNK
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ -z "$msg" ] || [ "$msg" = "Vulnerable" ]; then
 		# if msg is empty, sysfs check didn't fill it, rely on our own test
 		if [ -n "$cpuid_ssbd" ]; then
@@ -4518,8 +4739,8 @@ check_CVE_2018_3639_bsd()
 		*) pstatus yellow NO;;
 	esac
 
-	if ! is_cpu_vulnerable "$cve"; then
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+	if ! is_cpu_affected "$cve"; then
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	else
 		if [ "$ssb_active" = 1 ]; then
 				pvulnstatus $cve OK "SSBD mitigates the vulnerability"
@@ -4566,9 +4787,9 @@ check_CVE_2018_3615()
 		pstatus blue N/A
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ "$cpu_flush_cmd" = 1 ] || { [ "$msr_locked_down" = 1 ] && [ "$cpuid_l1df" = 1 ]; } ; then
 		pvulnstatus $cve OK "your CPU microcode mitigates the vulnerability"
 	else
@@ -4641,9 +4862,9 @@ check_CVE_2018_3620_linux()
 		status=UNK
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ -z "$msg" ]; then
 		# if msg is empty, sysfs check didn't fill it, rely on our own test
 		if [ "$pteinv_supported" = 1 ]; then
@@ -4681,8 +4902,8 @@ check_CVE_2018_3620_bsd()
 		bsd_zero_reserved=0
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+	if ! is_cpu_affected "$cve"; then
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	else
 		if [ "$bsd_zero_reserved" = 1 ]; then
 			pvulnstatus $cve OK "kernel mitigates the vulnerability"
@@ -4721,6 +4942,7 @@ check_CVE_2018_3646_linux()
 
 		_info "* Mitigation 1 (KVM)"
 		_info_nol "  * EPT is disabled: "
+		ept_disabled=-1
 		if [ "$opt_live" = 1 ]; then
 			if ! [ -r /sys/module/kvm_intel/parameters/ept ]; then
 				pstatus blue N/A "the kvm_intel module is not loaded"
@@ -4835,12 +5057,12 @@ check_CVE_2018_3646_linux()
 		l1d_mode=-1
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	elif [ "$fullmsg" = "Not affected" ]; then
 		# just in case a very recent kernel knows better than we do
-		pvulnstatus $cve OK "your kernel reported your CPU model as not vulnerable"
+		pvulnstatus $cve OK "your kernel reported your CPU model as not affected"
 	elif [ "$has_vmm" = 0 ]; then
 		pvulnstatus $cve OK "this system is not running a hypervisor"
 	else
@@ -4898,8 +5120,8 @@ check_CVE_2018_3646_bsd()
 		*) pstatus yellow UNKNOWN;;
 	esac
 
-	if ! is_cpu_vulnerable "$cve"; then
-		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not vulnerable"
+	if ! is_cpu_affected "$cve"; then
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
 	else
 		if [ "$kernel_l1d_enabled" = 1 ]; then
 			pvulnstatus $cve OK "L1D flushing mitigates the vulnerability"
@@ -5026,8 +5248,8 @@ check_mds_bsd()
 		*)         pstatus yellow UNKNOWN
 	esac
 
-	if ! is_cpu_vulnerable "$cve"; then
-		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not vulnerable"
+	if ! is_cpu_affected "$cve"; then
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not affected"
 	else
 		if [ "$cpuid_md_clear" = 1 ]; then
 			if [ "$kernel_md_clear" = 1 ]; then
@@ -5072,7 +5294,7 @@ check_mds_linux()
 		_info_nol "* Kernel supports using MD_CLEAR mitigation: "
 		kernel_md_clear=''
 		kernel_md_clear_can_tell=1
-		if [ "$opt_live" = 1 ] && grep ^flags $procfs/cpuinfo | grep -qw md_clear; then
+		if [ "$opt_live" = 1 ] && grep ^flags "$procfs/cpuinfo" | grep -qw md_clear; then
 			kernel_md_clear="md_clear found in $procfs/cpuinfo"
 			pstatus green YES "$kernel_md_clear"
 		fi
@@ -5119,9 +5341,9 @@ check_mds_linux()
 		status=UNK
 	fi
 
-	if ! is_cpu_vulnerable "$cve"; then
+	if ! is_cpu_affected "$cve"; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not affected"
 	else
 		if [ "$opt_sysfs_only" != 1 ]; then
 			# compute mystatus and mymsg from our own logic
@@ -5191,8 +5413,8 @@ check_CVE_2019_11135()
 	_info "\033[1;34m$cve aka '$(cve2name "$cve")'\033[0m"
 	if [ "$os" = Linux ]; then
 		check_CVE_2019_11135_linux
-	#elif echo "$os" | grep -q BSD; then
-	#	check_CVE_2019_11135_bsd
+	elif echo "$os" | grep -q BSD; then
+		check_CVE_2019_11135_bsd
 	else
 		_warn "Unsupported OS ($os)"
 	fi
@@ -5243,9 +5465,9 @@ check_CVE_2019_11135_linux()
 		status=UNK
 	fi
 
-	if ! is_cpu_vulnerable "$cve" ; then
+	if ! is_cpu_affected "$cve" ; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not affected"
 	elif [ -z "$msg" ]; then
 		# if msg is empty, sysfs check didn't fill it, rely on our own test
 		if [ "$opt_live" = 1 ]; then
@@ -5274,6 +5496,16 @@ check_CVE_2019_11135_linux()
 	fi
 }
 
+check_CVE_2019_11135_bsd()
+{
+	if ! is_cpu_affected "$cve" ; then
+		# override status & msg in case CPU is not vulnerable after all
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not affected"
+	else
+		pvulnstatus "$cve" UNK "your CPU is affected, but mitigation detection has not yet been implemented for BSD in this script"
+	fi
+}
+
 #######################
 # iTLB Multihit section
 
@@ -5283,8 +5515,8 @@ check_CVE_2018_12207()
 	_info "\033[1;34m$cve aka '$(cve2name "$cve")'\033[0m"
 	if [ "$os" = Linux ]; then
 		check_CVE_2018_12207_linux
-	#elif echo "$os" | grep -q BSD; then
-	#	check_CVE_2018_12207_bsd
+	elif echo "$os" | grep -q BSD; then
+		check_CVE_2018_12207_bsd
 	else
 		_warn "Unsupported OS ($os)"
 	fi
@@ -5338,9 +5570,9 @@ check_CVE_2018_12207_linux()
 		status=UNK
 	fi
 
-	if ! is_cpu_vulnerable "$cve" ; then
+	if ! is_cpu_affected "$cve" ; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not affected"
 	elif [ "$has_vmm" = 0 ]; then
 		pvulnstatus "$cve" OK "this system is not running a hypervisor"
 	elif [ -z "$msg" ]; then
@@ -5360,6 +5592,36 @@ check_CVE_2018_12207_linux()
 	fi
 }
 
+check_CVE_2018_12207_bsd()
+{
+	_info_nol "* Kernel supports disabling superpages for executable mappings under EPT: "
+	kernel_2m_x_ept=$(sysctl -n vm.pmap.allow_2m_x_ept 2>/dev/null)
+	if [ -z "$kernel_2m_x_ept" ]; then
+		pstatus yellow NO
+	else
+		pstatus green YES
+	fi
+
+	_info_nol "* Superpages are disabled for executable mappings under EPT: "
+	if [ "$kernel_2m_x_ept" = 0 ]; then
+		pstatus green YES
+	else
+		pstatus yellow NO
+	fi
+
+	if ! is_cpu_affected "$cve"; then
+		# override status & msg in case CPU is not vulnerable after all
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
+	elif [ -z "$kernel_2m_x_ept" ]; then
+		pvulnstatus $cve VULN "Your kernel doesn't support mitigating this CVE, you should update it"
+	elif [ "$kernel_2m_x_ept" != 0 ]; then
+		pvulnstatus $cve VULN "Your kernel supports mitigating this CVE, but the mitigation is disabled"
+		explain "To enable the mitigation, use \`sysctl vm.pmap.allow_2m_x_ept=0\`"
+	else
+		pvulnstatus $cve OK "Your kernel has support for mitigation and the mitigation is enabled"
+	fi
+}
+
 ###################
 # SRBDS SECTION
 
@@ -5370,6 +5632,8 @@ check_CVE_2020_0543()
 	_info "\033[1;34m$cve aka '$(cve2name "$cve")'\033[0m"
 	if [ "$os" = Linux ]; then
 		check_CVE_2020_0543_linux
+	elif echo "$os" | grep -q BSD; then
+		check_CVE_2020_0543_bsd
 	else
 		_warn "Unsupported OS ($os)"
 	fi
@@ -5418,9 +5682,9 @@ check_CVE_2020_0543_linux()
 		msg="/sys vulnerability interface use forced, but it's not available!"
 		status=UNK
 	fi
-	if ! is_cpu_vulnerable "$cve" ; then
+	if ! is_cpu_affected "$cve" ; then
 		# override status & msg in case CPU is not vulnerable after all
-		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not vulnerable"
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not affected"
 	else
 		if [ "$opt_sysfs_only" != 1 ]; then
 			if [ "$cpuid_srbds" = 1 ]; then
@@ -5467,6 +5731,16 @@ check_CVE_2020_0543_linux()
 			pvulnstatus "$cve" "$status" "$fullmsg"
 			return
 		fi
+	fi
+}
+
+check_CVE_2020_0543_bsd()
+{
+	if ! is_cpu_affected "$cve"; then
+		# override status & msg in case CPU is not vulnerable after all
+		pvulnstatus $cve OK "your CPU vendor reported your CPU model as not affected"
+	else
+		pvulnstatus "$cve" UNK "your CPU is affected, but mitigation detection has not yet been implemented for BSD in this script"
 	fi
 }
 
@@ -5562,7 +5836,7 @@ exit 0  # ok
 # The builtin version follows, but the user can download an up-to-date copy (to be stored in his $HOME) by using --update-fwdb
 # To update the builtin version itself (by *modifying* this very file), use --update-builtin-fwdb
 
-# %%% MCEDB v165.20201021+i20200616
+# %%% MCEDB v222+i20220208
 # I,0x00000611,0x00000B27,19961218
 # I,0x00000612,0x000000C6,19961210
 # I,0x00000616,0x000000C6,19961210
@@ -5694,6 +5968,7 @@ exit 0  # ok
 # I,0x000106D1,0x0000002A,20150803
 # I,0x000106E0,0xFFFF0022,20090116
 # I,0x000106E1,0xFFFF000D,20090206
+# I,0x000106E2,0xFFFF0011,20090924
 # I,0x000106E3,0xFFFF0011,20090512
 # I,0x000106E4,0x00000003,20130701
 # I,0x000106E5,0x0000000A,20180508
@@ -5718,9 +5993,9 @@ exit 0  # ok
 # I,0x000206C2,0x0000001F,20180508
 # I,0x000206D0,0x80000006,20100816
 # I,0x000206D1,0x80000106,20101201
-# I,0x000206D2,0x9584020C,20110622
-# I,0x000206D3,0x80000304,20110420
-# I,0x000206D5,0x00000513,20111013
+# I,0x000206D2,0xAF506958,20110714
+# I,0x000206D3,0xAF50696A,20110816
+# I,0x000206D5,0xAF5069E5,20120118
 # I,0x000206D6,0x00000621,20200304
 # I,0x000206D7,0x0000071A,20200324
 # I,0x000206E0,0xE3493401,20090108
@@ -5730,7 +6005,7 @@ exit 0  # ok
 # I,0x000206E4,0xFFFF0008,20090619
 # I,0x000206E5,0xFFFF0018,20091215
 # I,0x000206E6,0x0000000D,20180515
-# I,0x000206F0,0x00000004,20100630
+# I,0x000206F0,0x00000005,20100729
 # I,0x000206F1,0x00000008,20101013
 # I,0x000206F2,0x0000003B,20180516
 # I,0x00030650,0x00000009,20120118
@@ -5758,17 +6033,17 @@ exit 0  # ok
 # I,0x000306D2,0xFFFF0009,20131219
 # I,0x000306D3,0xE3121338,20140825
 # I,0x000306D4,0x0000002F,20191112
-# I,0x000306E0,0x00000008,20120726
-# I,0x000306E2,0x0000020D,20130321
+# I,0x000306E0,0xE920080F,20121113
+# I,0x000306E2,0xE9220827,20130523
 # I,0x000306E3,0x00000308,20130321
 # I,0x000306E4,0x0000042E,20190314
 # I,0x000306E6,0x00000600,20130619
 # I,0x000306E7,0x00000715,20190314
 # I,0x000306F0,0xFFFF0017,20130730
-# I,0x000306F1,0x00000014,20140110
-# I,0x000306F2,0x00000044,20200527
+# I,0x000306F1,0xD141D629,20140416
+# I,0x000306F2,0x00000049,20210811
 # I,0x000306F3,0x0000000D,20160211
-# I,0x000306F4,0x00000016,20190617
+# I,0x000306F4,0x0000001A,20210524
 # I,0x00040650,0xFFFF000B,20121206
 # I,0x00040651,0x00000026,20191112
 # I,0x00040660,0xFFFF0011,20121012
@@ -5786,83 +6061,105 @@ exit 0  # ok
 # I,0x000406D8,0x0000012D,20190916
 # I,0x000406E1,0x00000020,20141111
 # I,0x000406E2,0x0000002C,20150521
-# I,0x000406E3,0x000000E2,20200714
+# I,0x000406E3,0x000000EC,20210428
 # I,0x000406E8,0x00000026,20160414
 # I,0x000406F0,0x00000014,20150702
-# I,0x000406F1,0x0B000038,20190618
+# I,0x000406F1,0x0B000040,20210519
 # I,0x00050650,0x8000002B,20160208
 # I,0x00050651,0x8000002B,20160208
 # I,0x00050652,0x80000037,20170502
-# I,0x00050653,0x01000159,20200618
-# I,0x00050654,0x02006A08,20200616
+# I,0x00050653,0x0100015C,20210526
+# I,0x00050654,0x02006C0A,20210616
 # I,0x00050655,0x03000012,20190412
-# I,0x00050656,0x04003003,20200618
-# I,0x00050657,0x05003003,20200618
-# I,0x0005065A,0x8600000D,20191108
+# I,0x00050656,0x0400320A,20210813
+# I,0x00050657,0x0500320A,20210813
+# I,0x0005065A,0x86002302,20210416
+# I,0x0005065B,0x07002402,20210604
 # I,0x00050661,0xF1000008,20150130
 # I,0x00050662,0x0000001C,20190617
-# I,0x00050663,0x07000019,20190617
-# I,0x00050664,0x0F000017,20190617
-# I,0x00050665,0x0E00000F,20190617
+# I,0x00050663,0x0700001C,20210612
+# I,0x00050664,0x0F00001A,20210612
+# I,0x00050665,0x0E000014,20210918
 # I,0x00050670,0xFFFF0030,20151113
 # I,0x00050671,0x000001B6,20180108
 # I,0x000506A0,0x00000038,20150112
 # I,0x000506C2,0x00000014,20180511
 # I,0x000506C8,0x90011010,20160323
-# I,0x000506C9,0x00000040,20200227
-# I,0x000506CA,0x0000001E,20200227
+# I,0x000506C9,0x00000046,20210510
+# I,0x000506CA,0x00000022,20210622
 # I,0x000506D1,0x00000102,20150605
 # I,0x000506E0,0x00000018,20141119
 # I,0x000506E1,0x0000002A,20150602
 # I,0x000506E2,0x0000002E,20150815
-# I,0x000506E3,0x000000E2,20200714
+# I,0x000506E3,0x000000F0,20211112
 # I,0x000506E8,0x00000034,20160710
 # I,0x000506F0,0x00000010,20160607
-# I,0x000506F1,0x00000032,20200307
+# I,0x000506F1,0x00000036,20210510
 # I,0x00060660,0x0000000C,20160821
 # I,0x00060661,0x0000000E,20170128
 # I,0x00060662,0x00000022,20171129
 # I,0x00060663,0x0000002A,20180417
 # I,0x000606A0,0x80000031,20200308
-# I,0x000606A4,0x8B0001B0,20200413
-# I,0x000606A5,0x8C000090,20200412
+# I,0x000606A4,0x0B000280,20200817
+# I,0x000606A5,0x0C0002F0,20210308
+# I,0x000606A6,0x0D000332,20211217
 # I,0x000606E0,0x0000000B,20161104
 # I,0x000606E1,0x00000108,20190423
 # I,0x000706A0,0x00000026,20170712
-# I,0x000706A1,0x00000034,20200609
-# I,0x000706A8,0x00000018,20200609
+# I,0x000706A1,0x00000038,20210510
+# I,0x000706A8,0x0000001C,20210510
 # I,0x000706E0,0x0000002C,20180614
 # I,0x000706E1,0x00000042,20190420
 # I,0x000706E2,0x00000042,20190420
 # I,0x000706E3,0x81000008,20181002
 # I,0x000706E4,0x00000046,20190905
-# I,0x000706E5,0x000000A0,20200730
+# I,0x000706E5,0x000000A8,20210526
 # I,0x00080650,0x00000018,20180108
+# I,0x00080664,0x0B00000F,20210217
+# I,0x00080665,0x0B00000F,20210217
 # I,0x000806A0,0x00000010,20190507
-# I,0x000806A1,0x00000028,20200626
+# I,0x000806A1,0x0000002D,20210902
 # I,0x000806C0,0x00000068,20200402
-# I,0x000806C1,0x00000066,20200925
-# I,0x000806D0,0x0000002E,20200709
-# I,0x000806E9,0x000000DE,20200527
-# I,0x000806EA,0x000000E0,20200617
-# I,0x000806EB,0x000000DE,20200603
-# I,0x000806EC,0x000000DE,20200518
-# I,0x00090660,0x80001001,20190918
-# I,0x000906E9,0x000000DE,20200526
-# I,0x000906EA,0x000000DE,20200525
-# I,0x000906EB,0x000000DE,20200525
-# I,0x000906EC,0x000000DE,20200603
-# I,0x000906ED,0x000000DE,20200524
+# I,0x000806C1,0x0000009C,20211026
+# I,0x000806C2,0x00000022,20210716
+# I,0x000806D0,0x00000050,20201217
+# I,0x000806D1,0x0000003C,20210716
+# I,0x000806E9,0x000000EC,20210428
+# I,0x000806EA,0x000000EC,20210428
+# I,0x000806EB,0x000000EC,20210428
+# I,0x000806EC,0x000000EC,20210428
+# I,0x00090660,0x00000009,20200617
+# I,0x00090661,0x00000015,20210921
+# I,0x00090670,0x00000019,20201111
+# I,0x00090671,0x0000001C,20210614
+# I,0x00090672,0x0000001F,20220303
+# I,0x00090674,0x00000219,20210425
+# I,0x00090675,0x0000001F,20220303
+# I,0x000906A0,0x0000001C,20210614
+# I,0x000906A1,0x0000011F,20211104
+# I,0x000906A2,0x00000315,20220102
+# I,0x000906A3,0x0000041B,20220308
+# I,0x000906A4,0x0000041B,20220308
+# I,0x000906C0,0x2400001F,20210809
+# I,0x000906E9,0x000000F0,20211112
+# I,0x000906EA,0x000000EC,20210428
+# I,0x000906EB,0x000000EC,20210428
+# I,0x000906EC,0x000000EC,20210428
+# I,0x000906ED,0x000000EC,20210428
 # I,0x000A0650,0x000000BE,20191010
 # I,0x000A0651,0x000000C2,20191113
-# I,0x000A0652,0x000000E0,20200708
-# I,0x000A0653,0x000000E0,20200708
+# I,0x000A0652,0x000000EC,20210428
+# I,0x000A0653,0x000000EC,20210428
 # I,0x000A0654,0x000000C6,20200123
-# I,0x000A0655,0x000000E2,20200914
-# I,0x000A0660,0x000000E0,20200708
-# I,0x000A0661,0x000000E0,20200702
-# I,0x000A0670,0x00000002,20200304
+# I,0x000A0655,0x000000EE,20210428
+# I,0x000A0660,0x000000EA,20210428
+# I,0x000A0661,0x000000EC,20210429
+# I,0x000A0670,0x0000002C,20201124
+# I,0x000A0671,0x00000050,20210829
 # I,0x000A0680,0x80000002,20200121
+# I,0x000B0670,0x00000009,20211115
+# I,0x000B06F2,0x0000001F,20220303
+# I,0x000B06F5,0x0000001F,20220303
 # A,0x00000F00,0x02000008,20070614
 # A,0x00000F01,0x0000001C,20021031
 # A,0x00000F10,0x00000003,20020325
@@ -5907,7 +6204,7 @@ exit 0  # ok
 # A,0x00580F00,0x0500000B,20100601
 # A,0x00580F01,0x0500001A,20100908
 # A,0x00580F10,0x05000028,20101124
-# A,0x00580F20,0x05000101,20110406
+# A,0x00580F20,0x05000103,20110526
 # A,0x00600F00,0x06000017,20101029
 # A,0x00600F01,0x0600011F,20110227
 # A,0x00600F10,0x06000425,20110408
@@ -5924,6 +6221,7 @@ exit 0  # ok
 # A,0x00680F00,0x06000017,20101029
 # A,0x00680F01,0x0600011F,20110227
 # A,0x00680F10,0x06000410,20110314
+# A,0x00690F00,0x06001009,20110613
 # A,0x00700F00,0x0700002A,20121218
 # A,0x00700F01,0x07000110,20180209
 # A,0x00730F00,0x07030009,20131206
@@ -5931,7 +6229,7 @@ exit 0  # ok
 # A,0x00800F00,0x0800002A,20161006
 # A,0x00800F10,0x0800100C,20170131
 # A,0x00800F11,0x08001138,20190204
-# A,0x00800F12,0x0800126C,20200619
+# A,0x00800F12,0x0800126E,20211111
 # A,0x00800F82,0x0800820D,20190416
 # A,0x00810F00,0x08100004,20161120
 # A,0x00810F10,0x08101016,20190430
@@ -5941,15 +6239,20 @@ exit 0  # ok
 # A,0x00820F00,0x08200002,20180214
 # A,0x00820F01,0x08200103,20190417
 # A,0x00830F00,0x08300027,20190401
-# A,0x00830F10,0x08301039,20200207
+# A,0x00830F10,0x08301052,20211111
 # A,0x00850F00,0x08500004,20180212
 # A,0x00860F00,0x0860000E,20200127
 # A,0x00860F01,0x08600106,20200619
-# A,0x00860F81,0x08608102,20200617
+# A,0x00860F81,0x08608103,20200702
 # A,0x00870F00,0x08700004,20181206
 # A,0x00870F10,0x08701021,20200125
 # A,0x00A00F00,0x0A000033,20200413
-# A,0x00A00F10,0x0A00100F,20200624
+# A,0x00A00F10,0x0A001053,20211217
+# A,0x00A00F11,0x0A00115D,20211119
+# A,0x00A00F12,0x0A001227,20211215
+# A,0x00A00F80,0x0A008003,20211015
+# A,0x00A00F82,0x0A008204,20211015
 # A,0x00A20F00,0x0A200025,20200121
-# A,0x00A20F10,0x0A201009,20200821
-# A,0x00A50F00,0x0A50000B,20200821
+# A,0x00A20F10,0x0A201016,20210408
+# A,0x00A20F12,0x0A201205,20210719
+# A,0x00A50F00,0x0A50000C,20201208
