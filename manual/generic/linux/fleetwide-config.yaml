@@ -16,10 +16,11 @@ metadata:
 
 run:
     steps:
-        - run fioctl config set --reason <"reason"> -f <factory> --create 
-        - <filename==file/path>  
+        - create fleetwide config setting
+        - run "fioctl config set --reason<"reason"> -f<factory> --create 
+        - <filename==file/path>" 
         - boot up device 
-        - run lmp-device-register -n<name>
+        - run "lmp-device-register -n<name>"
         - check config cd /run/secrets/ 
                        
     expected:

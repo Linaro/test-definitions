@@ -18,9 +18,9 @@ run:
     steps:
         - boot up the device
         - ensure the device is not currently registered to a factory
-        - Run lmp-device-register -n <name> -i <hwid> 
+        - run "lmp-device-register -n<name> -i<hwid>" 
         - authenticate device with user code in browser 
-        - check device hwid factory>devices    
+        - check device hwid in factory devices    
                        
     expected:
        - Device should register normally

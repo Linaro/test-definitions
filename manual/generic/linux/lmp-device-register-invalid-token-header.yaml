@@ -18,10 +18,9 @@ run:
     steps:
         - boot up the device
         - ensure the device is not currently registered to a factory
-        - Run lmp-device-register -T <invalid api token> -H <invalid-token-header> -n <name>   
+        - run "lmp-device-register -T<valid-api-token> -H<invalid-token-header> -n<name>"   
                        
     expected:
        - Device should not register
        - Failure to authenticate
-       - expected error  Unable to create device  HTTP_401 Authorization Required
-     
+       - expected error  Unable to create device  HTTP_401 Authorization Required     

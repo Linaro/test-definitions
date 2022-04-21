@@ -18,15 +18,17 @@ run:
     steps:
         - ensure factory has fleetwide config set 
         - create factory group 
-        - fioctl config device-group create <group-name> -f <factory-name> 
-        - verify group exists - fioctl config device-group -f <factory> list
+        - run "fioctl config device-group create<group-name> -f<factory-name>" 
+        - verify group exists 
+        - run "fioctl config device-group -f<factory> list"
         - create group config
-        - fioctl config updates -g <group-name>-f <factory> -c <path/to/file> 
+        - run "fioctl config updates -g<group-name> -f<factory> -c<path/to/file>" 
         - add device to group
-        - fioctl devices config group <device> <group>
+        - run "fioctl devices config group <device> <group>"
         - boot up device 
-        - run lmp-device-register -n <name>
-        - check config cd /run/secrets/ 
+        - run "lmp-device-register -n <name>"
+        - check config is present on device
+        - run "cd /run/secrets/"
                        
     expected:
        - fleet wide, group and device config file is present in /run/secrets/

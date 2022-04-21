@@ -19,12 +19,13 @@ run:
         - boot up the device
         - ensure the device is not currently registered to a factory
         - ensure multiple apps exist within the factory
-        - register 1 or more but not all available apps
-        - Run lmp-device-register -apps <appname,appname> -n <name>
+        - register 1 or more but not all available apps to device
+        - run "lmp-device-register -apps<appname,appname> -n<name>"
         - authenticate device with user code in browser   
-        - Verify only specified apps are enabled via fioctl devices list -f <factory>
+        - Verify only specified apps are enabled
+        - run "fioctl devices list -f <factory>"
                        
     expected:
        - Device should register normally
        - Only specified apps should be enabled on the device
-       - There is no error for assigning a non-existent app during registration
+       - it is possible to assign non-existent apps during registration with no effect

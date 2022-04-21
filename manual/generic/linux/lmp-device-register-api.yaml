@@ -18,7 +18,7 @@ run:
     steps:
         - boot up the device
         - ensure the device is not currently registered to a factory
-        - Run lmp-device-register -T <valid api token> -n <name>          
+        - run "lmp-device-register -T<valid-api-token> -n<name>"          
                        
     expected:
        - Device should register normally

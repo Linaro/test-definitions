@@ -19,7 +19,7 @@ run:
         - ensure factory has a least 2 targets tagged "devel" a more recent "main" target
         - flash device with older "devel" target"
         - boot up the device
-        - run lmp-device-register -t devel -n <name>
+        - run "lmp-device-register -t devel -n<name>"
         - authenticate device with user code in browser  
         - device should update to most recent "devel" target NOT more recent "main" target
                        
