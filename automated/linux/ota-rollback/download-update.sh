@@ -87,6 +87,8 @@ while ! systemctl is-active aktualizr-lite; do
     echo "Waiting for aktualizr-lite to start"
     sleep 1
 done
+# add some delay so aklite can setup variables
+sleep 5
 
 # u-boot variables change when aklite starts (at least on some devices)
 # check u-boot variables to ensure we're on freshly flashed device
