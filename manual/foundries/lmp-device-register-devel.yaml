@@ -1,0 +1,34 @@
+metadata:
+    name: lmp-device-register-devel
+    format: "Manual Test Definition 1.0"
+    description: "Register device to follow only builds with devel tag"
+    maintainer:
+        - brendan.wood@foundries,io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mm-evk-sec
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Ensure factory has a least 2 targets tagged "devel" and a more recent "main" target
+        - Flash device with older "devel" target
+        - Boot up the device
+        - Run "lmp-device-register -t devel -n <name>"
+        - Authenticate device with user code in browser
+
+    expected:
+        - Device should update to most recent "devel" target NOT more recent "main" target
+        - Device should only update to "devel" tagged builds
+        - No kernal crashes

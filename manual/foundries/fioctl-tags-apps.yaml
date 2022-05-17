@@ -1,0 +1,33 @@
+metadata:
+    name: fioctl-tags-apps
+    format: "Manual Test Definition 1.0"
+    description: "Test corner case for fioctl app setting"
+    maintainer:
+        - brendan.wood@foundries.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mm-evk-sec
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot up the device
+        - Set /var/sota/sota.toml tags = "master"
+        - On host machine run "fioctl config updates --tag=devel --f <factory-name>"
+        - On host machine run "fioctl devices config updates <device-name> --apps <app-name> -f <factory-name>"
+        - Check device /var/sota/sota.toml, tags will revert to "master"
+
+    expected:
+        - Effective setting will be apps=<appname>, tags=master
+

@@ -1,0 +1,32 @@
+metadata:
+    name: lmp-device-register-drive
+    format: "Manual Test Definition 1.0"
+    description: "Attempt to re-register device to a different drive"
+    maintainer:
+        - brendan.wood@foundries.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mm-evk-sec
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot up the device
+        - Ensure device is registered to a factory
+          Check /var/sota/sql.db is present on device
+        - Run "lmp-device-register -d <other/file/path>"
+
+    expected:
+        - Device should be prevented from registering
+        - Expected error = aktualizr-lite daemon appears to be running
