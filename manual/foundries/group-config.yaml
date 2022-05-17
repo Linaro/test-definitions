@@ -1,0 +1,42 @@
+metadata:
+    name: group-config
+    format: "Manual Test Definition 1.0"
+    description: "Test for applying group specific config"
+    maintainer:
+        - brendan.wood@foundries.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mm-evk-sec
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Create factory fleetwide config setting containing "fleet"
+          Run "fioctl config set --reason "for testing" -f <factory> testing-config=fleet"
+        - Create factory group
+          Run "fioctl config device-group create <group-name> -f <factory-name>"
+        - Verify group exists
+          Run "fioctl config device-group -f <factory> list"
+        - Create group config containing "group"
+          Run "fioctl --factory <factory-name> config set --group <group-name> testing-config=group"
+        - Boot up device
+        - Register device and add it to group
+          Run "lmp-device-register -n <name> -g <group-name>"
+        - Run "sudo su" to switch to root user
+        - Check config "cd /run/secrets/"
+
+    expected:
+        - Testing-config file is present in /run/secrets/
+        - Testing-config contains "group"
+        - Group config overwrites fleet config

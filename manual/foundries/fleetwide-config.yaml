@@ -1,0 +1,34 @@
+metadata:
+    name: fleetwide-config
+    format: "Manual Test Definition 1.0"
+    description: "Test for applying fleetwide configuration"
+    maintainer:
+        - brendan.wood@foundries.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mm-evk-sec
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Create factory fleetwide config setting containing "fleet"
+          Run "fioctl config set --reason "for testing" -f <factory> testing-config=fleet"
+        - Boot up device
+        - Run "lmp-device-register -n <name>"
+        - Run "sudo su" to switch to root user
+        - Check config "cd /run/secrets/"
+
+    expected:
+        - Testing-config file is present in /run/secrets/
+        - Testing-config contains "fleet"

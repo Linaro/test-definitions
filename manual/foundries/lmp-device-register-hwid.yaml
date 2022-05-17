@@ -1,0 +1,33 @@
+metadata:
+    name: lmp-device-register-hwid
+    format: "Manual Test Definition 1.0"
+    description: "Register device with specified HWID"
+    maintainer:
+        - brendan.wood@foundries.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mm-evk-sec
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot up the device
+        - Ensure device is not registered to a factory
+          Check /var/sota/sql.db is not present on device
+        - Run "lmp-device-register -n <name> -i <hwid>"
+        - Authenticate device with user code in browser
+        - Check device hwid in app.foundries.io > factory > devices
+
+    expected:
+        - Device should register normally

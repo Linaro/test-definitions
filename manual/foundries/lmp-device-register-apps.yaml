@@ -1,0 +1,37 @@
+metadata:
+    name: lmp-device-register-apps
+    format: "Manual Test Definition 1.0"
+    description: "Register device and enable only specific apps"
+    maintainer:
+        - brendan.wood@foundries.io
+    os:
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mm-evk-sec
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Boot up the device
+        - Ensure device is not registered to a factory
+          Check /var/sota/sql.db  is not present on device
+        - Register 1 or more but not all available apps to device
+          Run "lmp-device-register -apps <appname,appname> -n <name>"
+        - Authenticate device with user code in browser
+        - Verify only specified apps are enabled
+          Run "fioctl devices list -f <factory>"
+          Run "docker ps" on device
+
+    expected:
+        - Device should register normally
+        - Only specified apps should be enabled on the device
