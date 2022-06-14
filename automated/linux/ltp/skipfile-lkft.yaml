@@ -24,15 +24,19 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3719
     environments: all
     boards:
+      - fvp-aemva
       - hi6220-hikey
       - juno-r2
       - x15
       - dragonboard-410c
       - rzn1d
       - qemu_x86_64
+      - qemu-x86_64
       - qemu_arm64
+      - qemu-arm64
       - qemu_arm
       - qemu_i386
+      - qemu-i386
       - i386
       - nxp-ls2088
       - fx700
@@ -49,15 +53,19 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=2355
     environments: all
     boards:
+      - fvp-aemva
       - hi6220-hikey
       - juno-r2
       - x15
       - dragonboard-410c
       - rzn1d
       - qemu_x86_64
+      - qemu-x86_64
       - qemu_arm64
+      - qemu-arm64
       - qemu_arm
       - qemu_i386
+      - qemu-i386
       - i386
       - nxp-ls2088
       - fx700
@@ -76,11 +84,12 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3303
     environments: all
     boards:
+      - fvp-aemva
       - hi6220-hikey
       - juno-r2
       - dragonboard-410c
       - rzn1d
-      - qemu_arm64
+      - qemu-arm64
     branches:
       - 4.4
       - 4.9
@@ -134,10 +143,12 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3338
     environments: all
     boards:
+      - fvp-aemva
       - hi6220-hikey
       - juno-r2
       - x86
       - qemu_arm64
+      - qemu-arm64
       - qemu_arm
       - i386
       - nxp-ls2088
@@ -181,7 +192,8 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3777
     environments: all
     boards:
-      - qemu_arm64
+      - fvp-aemva
+      - qemu-arm64
       - qemu_arm
     branches: all
     tests:
@@ -240,11 +252,13 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=4273
     environments: all
     boards:
+      - fvp-aemva
       - dragonboard-410c
       - rzn1d
       - hi6220-hikey
       - juno-r2
       - qemu_arm64
+      - qemu-arm64
       - nxp-ls2088
       - fx700
       - bcm2711-rpi-4-b
