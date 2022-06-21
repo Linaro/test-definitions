@@ -1,0 +1,47 @@
+metadata:
+    name: aklite-full-disk
+    format: "Manual Test Definition 1.0"
+    description: "Test aktualizr-lite behaviour in full disk condition.
+        Also check if it goes back to it's normal behaviour after freeing
+        more space in the disk."
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx6mm-evk
+        - imx8mm-evk
+        - imx8mp-evk
+        - imx8mq-evk
+        - bcm2711-rpi-4-b
+        - stm32mp32mp157c-dk2
+    environment:
+        - manual-test
+
+run:
+    steps:
+        - Flash fresh build to the device. The build should not
+          be the latest available one but at least the previous build.
+        - Mask aktualizr-lite daemon in systemd by calling
+          "systemctl mask aktualizr-lite"
+        - Register the device with FoundriesFactory without
+          starting aktualizr-lite daemon by calling
+          "lmp-device-register --name <unique device name> --start-daemon=0"
+        - Fill in the disk space entirely with dd. Create
+          multiple files to be able to cleanup some room later.
+          Example command, where X is a sequence number
+          "dd if=/dev/urandom of=/home/fio/fileX bs=1M count=4000 status=progress"
+        - After disk is full, start unmask aktualizr-lite daemon
+          "systemctl unmask aktualizr-lite"
+        - Start aktualizr-lite daemon
+          "systemctl start aktualizr-lite"
+        - Wait for the daemon to perform the OTA update attempt and
+          watch the logs
+          "journalctl -f -u aktualizr-lite"
+    expected:
+        - aktualizr-lite starts and attempts to perform OTA
+        - aktualizr-lite fails to update the device due to lack of disk space
+        - aktualizr-lite attempts to perform OTA every 5 min
+        - aktualizr-lite doesn't get stuck, hung or frozen
