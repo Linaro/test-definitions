@@ -43,7 +43,7 @@ parse_smc_output() {
 }
 
 smc_run() {
-    ./spectre-meltdown-checker.sh  --no-color --batch | tee "${OUTPUT}/${LOG_FILE}.log"
+    sh ./spectre-meltdown-checker.sh  --no-color --batch | tee "${OUTPUT}/${LOG_FILE}.log"
     parse_smc_output "${OUTPUT}/${LOG_FILE}.log"
 }
 
