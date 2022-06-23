@@ -1,0 +1,24 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: imagenet-resnet50
+    description: "imagenet-resnet50 job, running resnet50 benchmark through mlperf."
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - debian
+    scope:
+        - functional
+    devices:
+        - hip07-d05
+params:
+    HOME_DIR: '/home/debiand05'
+    MNT_DIR: '/mnt'
+    MNT_EXISTS: true
+    SKIP_INSTALL: false
+    TEST_PROG_VERSION: "215c057fc6690a47f3f66c72c076a8f73d66cb12"
+    TEST_GIT_URL: "https://github.com/mlcommons/inference.git"
+    TEST_DIR: "${HOME_DIR}/src/${TEST_PROGRAM}"
+run:
+    steps:
+        - cd ./automated/linux/tensorflow/
+        - ./imagenet-resnet50.sh -s "${SKIP_INSTALL}" -a "${HOME_DIR}" -m "${MNT_DIR}" -t "${MNT_EXISTS}" -v "${TEST_PROG_VERSION}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}"
