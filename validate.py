@@ -131,7 +131,7 @@ def validate_yaml_contents(filepath, args):
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\t'name' contains whitespace")
             publish_result(result_message_list, args)
-            args.failed_message_list = args.ailed_message_list + result_message_list
+            args.failed_message_list = args.failed_message_list + result_message_list
             return 1
         # check 'format' value
         if metadata_dict["format"] not in [
