@@ -1,0 +1,51 @@
+metadata:
+    name: rtla-timerlat
+    format: "Lava-Test Test Definition 1.0"
+    description: "The rtla timerlat tool is an interface for the timerlat
+                  tracer. The timerlat tracer dispatches a kernel thread per-cpu.
+                  These threads set a periodic timer to wake themselves up and
+                  go back to sleep. After the wakeup, they collect and generate
+                  useful information for the debugging of operating system
+                  timer latency."
+    maintainer:
+        - Daniel Wagner <wagi@monom.org>
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - performance
+        - preempt-rt
+    environment:
+        - lava-test-shell
+    devices:
+        - hi6220-hikey
+        - apq8016-sbc
+        - mustang
+        - moonshot
+        - thunderX
+        - d03
+        - d05
+
+params:
+    # Execute rtla timerlat for given time
+    DURATION: "5m"
+    # Background workload to be run during the meassurement
+    BACKGROUND_CMD: ""
+    # Specify url and token for publishing artifacts.
+    # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
+    # 'secrets' dictionary, and set job visibility to personal or group.
+    # Refer to https://validation.linaro.org/static/docs/v2/publishing-artifacts.html
+    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
+    ARTIFACTORIAL_TOKEN: ""
+
+run:
+    steps:
+        - cd ./automated/linux/rtla/
+        - ./rtla-timerlat.sh -d "${DURATION}" -w "${BACKGROUND_CMD}"
+        - ../../utils/upload-to-artifactorial.sh -a "output/rtla-timerlat.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_thread_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_irq_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

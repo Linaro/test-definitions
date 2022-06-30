@@ -28,8 +28,12 @@ import sys
 import json
 
 
-def print_res(t, res, key):
-    print("t{}-{}-latency pass {} us".format(t, key, res[key]))
+def print_thread_res(tid, res, key):
+    print("t{}-{}-latency pass {} us".format(tid, key, res[key]))
+
+
+def print_irq_res(iid, res, key):
+    print("i{}-{}-latency pass {} us".format(iid, key, res[key]))
 
 
 def parse_threads(rawdata):
@@ -41,8 +45,17 @@ def parse_threads(rawdata):
         else:
             data = rawdata["thread"][tid]
 
-        for k in ["min", "avg", "max"]:
-            print_res(tid, data, k)
+        for key in ["min", "avg", "max"]:
+            print_thread_res(tid, data, key)
+
+
+def parse_irqs(rawdata):
+    num_irqs = int(rawdata["num_irqs"])
+    for irq_id in range(num_irqs):
+        iid = str(irq_id)
+        data = rawdata["irq"][iid]
+        for key in ["min", "avg", "max"]:
+            print_irq_res(iid, data, key)
 
 
 def parse_json(testname, filename):
@@ -52,6 +65,10 @@ def parse_json(testname, filename):
     if "num_threads" in rawdata:
         # most rt-tests have generic per thread results
         parse_threads(rawdata)
+    if "num_irqs" in rawdata:
+        # rlta timertat also knows about irqs
+        parse_irqs(rawdata)
+
     elif "inversions" in rawdata:
         # pi_stress
         print("inversion {}\n".format(rawdata("inversions")))
