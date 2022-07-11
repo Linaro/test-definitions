@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2022 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ota-update-reboot
+    description: "Verify system booted with upgrade. In case of u-boot
+        upgrade it should boot to primary partition with proper
+        firmware version."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        UBOOT_VAR_TOOL: "fw_printenv"
+        UBOOT_VAR_SET_TOOL: "fw_setenv"
+        TARGET_VERSION: "1"
+run:
+    steps:
+        - cd ./automated/linux/ota-update
+        - ./verify-reboot.sh  -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

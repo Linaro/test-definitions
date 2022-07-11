@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2022 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ota-upgrade-download
+    description: "Download OTA update and (optionally)
+    force u-boot upgrade."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        UBOOT_VAR_TOOL: "fw_printenv"
+        UBOOT_VAR_SET_TOOL: "fw_setenv"
+        TYPE: "kernel"
+run:
+    steps:
+        - cd ./automated/linux/ota-update
+        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
