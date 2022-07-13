@@ -52,6 +52,11 @@ rm -rf /sysroot/ostree/repo/objects/0*
 rm -rf /sysroot/ostree/repo/objects/1*
 rm -rf /sysroot/ostree/repo/objects/2*
 rm -rf /sysroot/ostree/repo/objects/3*
+rm -rf /sysroot/ostree/repo/objects/4*
+rm -rf /sysroot/ostree/repo/objects/5*
+rm -rf /sysroot/ostree/repo/objects/6*
+rm -rf /sysroot/ostree/repo/objects/7*
+rm -rf /sysroot/ostree/repo/objects/8*
 rm -rf /sysroot/ostree/repo/objects/a*
 rm -rf /sysroot/ostree/repo/objects/b*
 rm -rf /sysroot/ostree/repo/objects/e*
