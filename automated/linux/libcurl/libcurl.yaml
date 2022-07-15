@@ -1,0 +1,26 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: libcurl
+    description: "Test exercising libcurl support
+        for certificates without SAN"
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+    scope:
+        - functional
+    devices:
+        - imx8mm-evk
+        - imx6ull-evk
+
+params:
+    SKIP_INSTALL: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/libcurl/
+        - ./libcurl.sh -s "${SKIP_INSTALL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
