@@ -49,6 +49,11 @@ done
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 
+SECONDARY_BOOT_VAR_NAME="fiovb.is_secondary_boot"
+if [ "${UBOOT_VAR_TOOL}" != "fw_printenv" ]; then
+    SECONDARY_BOOT_VAR_NAME="is_secondary_boot"
+fi
+
 ref_bootcount_before_download=0
 ref_rollback_before_download=0
 ref_bootupgrade_available_before_download=0
@@ -107,7 +112,7 @@ if [ -f /usr/lib/firmware/version.txt ]; then
     bootfirmware_version_before_download=$(uboot_variable_value bootfirmware_version)
     # shellcheck disable=SC2154
     compare_test_value "${TYPE}_bootfirmware_version_before_download" "${bootfirmware_version}" "${bootfirmware_version_before_download}"
-    fiovb_is_secondary_boot_before_download=$(uboot_variable_value fiovb.is_secondary_boot)
+    fiovb_is_secondary_boot_before_download=$(uboot_variable_value "${SECONDARY_BOOT_VAR_NAME}")
     compare_test_value "${TYPE}_fiovb_is_secondary_boot_before_download" "${ref_fiovb_is_secondary_boot_before_download}" "${fiovb_is_secondary_boot_before_download}"
 else
     report_skip "${TYPE}_bootupgrade_available_before_download"
@@ -151,7 +156,7 @@ if [ -f /usr/lib/firmware/version.txt ]; then
     bootfirmware_version_after_download=$(uboot_variable_value bootfirmware_version)
     # shellcheck disable=SC2154
     compare_test_value "${TYPE}_bootfirmware_version_after_download" "${ref_bootfirmware_version_after_download}" "${bootfirmware_version_after_download}"
-    fiovb_is_secondary_boot_after_download=$(uboot_variable_value fiovb.is_secondary_boot)
+    fiovb_is_secondary_boot_after_download=$(uboot_variable_value "${SECONDARY_BOOT_VAR_NAME}")
     compare_test_value "${TYPE}_fiovb_is_secondary_boot_after_download" "${ref_fiovb_is_secondary_boot_after_download}" "${fiovb_is_secondary_boot_after_download}"
 else
     report_skip "${TYPE}_bootupgrade_available_after_download"

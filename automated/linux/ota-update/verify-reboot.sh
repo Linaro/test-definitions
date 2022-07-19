@@ -45,6 +45,11 @@ done
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 
+SECONDARY_BOOT_VAR_NAME="fiovb.is_secondary_boot"
+if [ "${UBOOT_VAR_TOOL}" != "fw_printenv" ]; then
+    SECONDARY_BOOT_VAR_NAME="is_secondary_boot"
+fi
+
 ref_bootcount_after_upgrade=0
 ref_rollback_after_upgrade=0
 ref_bootupgrade_available_after_upgrade=0
@@ -65,7 +70,7 @@ bootupgrade_available_after_upgrade=$(uboot_variable_value bootupgrade_available
 compare_test_value "bootupgrade_available_after_upgrade" "${ref_bootupgrade_available_after_upgrade}" "${bootupgrade_available_after_upgrade}"
 bootfirmware_version_after_upgrade=$(uboot_variable_value bootfirmware_version)
 compare_test_value "bootfirmware_version_after_upgrade" "${ref_bootfirmware_version_after_upgrade}" "${bootfirmware_version_after_upgrade}"
-fiovb_is_secondary_boot_after_upgrade=$(uboot_variable_value fiovb.is_secondary_boot)
+fiovb_is_secondary_boot_after_upgrade=$(uboot_variable_value "${SECONDARY_BOOT_VAR_NAME}")
 compare_test_value "fiovb_is_secondary_boot_after_upgrade" "${ref_fiovb_is_secondary_boot_after_upgrade}" "${fiovb_is_secondary_boot_after_upgrade}"
 
 . /etc/os-release

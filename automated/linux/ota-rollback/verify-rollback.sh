@@ -47,6 +47,11 @@ done
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 
+SECONDARY_BOOT_VAR_NAME="fiovb.is_secondary_boot"
+if [ "${UBOOT_VAR_TOOL}" != "fw_printenv" ]; then
+    SECONDARY_BOOT_VAR_NAME="is_secondary_boot"
+fi
+
 ref_bootcount_after_rollback=4
 ref_rollback_after_rollback=1
 ref_bootupgrade_available_after_rollback=0
@@ -73,7 +78,7 @@ if [ -f /usr/lib/firmware/version.txt ]; then
     bootfirmware_version_after_rollback=$(uboot_variable_value bootfirmware_version)
     # shellcheck disable=SC2154
     compare_test_value "bootfirmware_version_after_rollback" "${ref_bootfirmware_version_after_rollback}" "${bootfirmware_version_after_rollback}"
-    fiovb_is_secondary_boot_after_rollback=$(uboot_variable_value fiovb.is_secondary_boot)
+    fiovb_is_secondary_boot_after_rollback=$(uboot_variable_value "${SECONDARY_BOOT_VAR_NAME}")
     compare_test_value "fiovb_is_secondary_boot_after_rollback" "${ref_fiovb_is_secondary_boot_after_rollback}" "${fiovb_is_secondary_boot_after_rollback}"
 else
     report_skip "bootupgrade_available_after_rollback"
