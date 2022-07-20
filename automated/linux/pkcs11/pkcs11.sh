@@ -7,7 +7,7 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
-PTOOL="pkcs11-tool --module /usr/lib/libckteec.so.0.1"
+PTOOL="pkcs11-tool --module /usr/lib/libckteec.so.0.1.0"
 USE_SE05X="True"
 EXECUTE_LOOP="True"
 
