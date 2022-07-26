@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2022 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: lmp-device-register
+    description: "Run lmp-device-register and check if the
+        output is corret. It assumes the device is flashed
+        with FoundriesFactory image.
+
+        Providing token is essential for proper test execution.
+        Part of the test script is attempting to use a static,
+        invalid token.
+
+        HSM module can be set to either softhsm or hardware
+        backed libckteec:
+        /usr/lib/softhsm/libsofthsm2.so
+        or
+        /usr/lib/libckteec.so.0.1.0
+
+        UUID is usally generated randomly during test execution.
+        It can be set to a constant value to exercise the
+        backend response. Attempt to re-register the same UUID
+        should fail with proper HTTP code.
+        "
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        REG_UUID: ""
+        HSM_MODULE: "/usr/lib/softhsm/libsofthsm2.so"
+        TOKEN: ""
+        SKIP_INSTALL: "true"
+run:
+    steps:
+        - cd ./automated/linux/lmp-device-register
+        - ./lmp-device-register.sh -s "${SKIP_INSTALL}" -t "${TOKEN}" -u "${REG_UUID}" -m "${HSM_MODULE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
+
