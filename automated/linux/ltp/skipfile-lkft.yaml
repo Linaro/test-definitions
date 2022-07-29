@@ -386,3 +386,13 @@ skiplist:
       - v4.4-rt
     tests:
       - ping01
+  - reason: >
+      LTP setsockopt06 running more than 15mins 
+    url: https://bugs.linaro.org/show_bug.cgi?id=5872
+    environments: production
+    boards:
+      - all
+    branches:
+      - all
+    tests:
+      - setsockopt06
