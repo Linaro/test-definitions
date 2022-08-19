@@ -24,24 +24,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3719
     environments: all
     boards:
-      - fvp-aemva
-      - hi6220-hikey
-      - juno-r2
-      - x15
-      - dragonboard-410c
-      - rzn1d
-      - qemu_x86_64
-      - qemu-x86_64
-      - qemu_arm64
-      - qemu-arm64
-      - qemu_arm
-      - qemu_i386
-      - qemu-i386
-      - i386
-      - nxp-ls2088
-      - fx700
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all 
     branches: all
     tests:
       - fork13
@@ -53,24 +36,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=2355
     environments: all
     boards:
-      - fvp-aemva
-      - hi6220-hikey
-      - juno-r2
-      - x15
-      - dragonboard-410c
-      - rzn1d
-      - qemu_x86_64
-      - qemu-x86_64
-      - qemu_arm64
-      - qemu-arm64
-      - qemu_arm
-      - qemu_i386
-      - qemu-i386
-      - i386
-      - nxp-ls2088
-      - fx700
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all 
     branches: all
     tests:
       - msgctl10
@@ -84,12 +50,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3303
     environments: all
     boards:
-      - fvp-aemva
-      - hi6220-hikey
-      - juno-r2
-      - dragonboard-410c
-      - rzn1d
-      - qemu-arm64
+      - all 
     branches:
       - 4.4
       - 4.9
@@ -143,18 +104,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3338
     environments: all
     boards:
-      - fvp-aemva
-      - hi6220-hikey
-      - juno-r2
-      - x86
-      - qemu_arm64
-      - qemu-arm64
-      - qemu_arm
-      - i386
-      - nxp-ls2088
-      - fx700
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all 
     branches: all
     tests:
       - pth_str01
@@ -192,9 +142,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3777
     environments: all
     boards:
-      - fvp-aemva
-      - qemu-arm64
-      - qemu_arm
+      - all 
     branches: all
     tests:
       - hackbench01
@@ -206,11 +154,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3234
     environments: all
     boards:
-      - hi6220-hikey
-      - dragonboard-410c
-      - rzn1d
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all 
     branches:
       - all
     tests:
@@ -237,10 +181,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=4023
     environments: production
     boards:
-      - dragonboard-410c
-      - rzn1d
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all
     branches:
       - all
     tests:
@@ -252,17 +193,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=4273
     environments: all
     boards:
-      - fvp-aemva
-      - dragonboard-410c
-      - rzn1d
-      - hi6220-hikey
-      - juno-r2
-      - qemu_arm64
-      - qemu-arm64
-      - nxp-ls2088
-      - fx700
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all
     branches:
       - all
     tests:
@@ -275,10 +206,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=4272
     environments: production
     boards:
-      - dragonboard-410c
-      - rzn1d
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all
     branches:
       - all
     tests:
@@ -310,10 +238,7 @@ skiplist:
     url: https://projects.linaro.org/browse/KV-171
     environments: production
     boards:
-      - dragonboard-410c
-      - rzn1d
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
+      - all
     branches:
       - all
     tests:
@@ -386,6 +311,7 @@ skiplist:
       - v4.4-rt
     tests:
       - ping01
+
   - reason: >
       LTP setsockopt06 running more than 15mins 
     url: https://bugs.linaro.org/show_bug.cgi?id=5872
