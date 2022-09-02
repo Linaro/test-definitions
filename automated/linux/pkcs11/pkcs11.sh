@@ -58,11 +58,20 @@ se05x_cleanup()
     fi
 }
 
+se05x_connect()
+{
+    if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
+        echo "Connect SE05x"
+        ssscli connect se05x t1oi2c none
+    fi
+}
+
 test_cypher()
 {
     local cypher="$1"
     local mechanism="$2"
     FILE=hello
+    se05x_connect
 
     echo "$cypher test"
     echo "Create $cypher keypair"
@@ -124,6 +133,7 @@ test_cypher()
 
 test_ecc_derive()
 {
+    se05x_connect
     # Alice id = 01
     # shellcheck disable=SC2086
     $PTOOL --keypairgen --key-type EC:prime256v1 --id 01 --label alice --token-label fio --pin "${PIN}"
@@ -167,6 +177,7 @@ test_ecc_derive()
 test_rsa_sign_verify()
 {
     local ID=01
+    se05x_connect
 
     # Generate RSA keypair
     echo "Generate keypair 2048"
@@ -240,6 +251,7 @@ test_rsa_sign_verify()
 }
 
 test_import_key() {
+    se05x_connect
     if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
         OID=$(ssscli se05x readidlist | grep RSA_CRT | grep "Key Pair" | head -n 1 | awk '{print substr($2,3)}')
         ID=05
@@ -267,6 +279,7 @@ test_import_key() {
 
 test_rsa_loop()
 {
+    se05x_connect
     BREAK="False"
     while [ "$BREAK" = "False" ]
     do
@@ -279,9 +292,9 @@ test_rsa_loop()
     done
     NUM_CERTS=$($PTOOL --list-objects --pin "${PIN}" | grep ID | grep -c 33)
     echo "Found ${NUM_CERTS} certificates with ID=33"
-    if [ "${NUM_CERTS}" -eq "0" ]; then
+    if [ "${NUM_CERTS}" -ne "0" ]; then
         # remove all certificates
-        LOOPS=$(echo "${NUM_CERTS}/2" | bc)
+        LOOPS=$(echo "${NUM_CERTS}/2-1" | bc)
         for a in $(seq 0 "${LOOPS}")
         do
             echo "Removing ${a} cert pair"
@@ -292,7 +305,7 @@ test_rsa_loop()
         done
     fi
     NUM_CERTS=$($PTOOL --list-objects --pin "${PIN}" | grep ID | grep -c 33)
-    if [ "${NUM_CERTS}" -eq "0" ]; then
+    if [ "${NUM_CERTS}" -ne "0" ]; then
         report_fail "rsa-loop-remove-certs"
     else
         report_pass "rsa-loop-remove-certs"
@@ -321,6 +334,13 @@ check_return "pkcs11-list-mechanisms"
 $PTOOL --list-objects --pin "${PIN}"
 check_return "pkcs11-list-objects"
 
+if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
+    ssscli disconnect
+    check_return "ssscli-disconnect"
+else
+    report_skip "ssscli-disconnect"
+fi
+
 test_cypher "EC:prime256v1" "ECDSA"
 test_cypher "RSA:2048" "SHA256-RSA-PKCS"
 test_cypher "RSA:4096" "SHA256-RSA-PKCS"
@@ -333,9 +353,4 @@ else
     report_skip "rsa-loop-remove-certs"
 fi
 
-if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
-    ssscli disconnect
-    check_return "ssscli-disconnect"
-else
-    report_skip "ssscli-disconnect"
-fi
+exit 0
