@@ -43,6 +43,7 @@ initialize_adb() {
         if [ "${number}" -gt 1 ]; then
             error_msg "More than one device or emulator found! Please set ANDROID_SERIAL from test script."
         elif [ "${number}" -eq 1 ]; then
+            unset ANDROID_SERIAL
             ANDROID_SERIAL="$(adb get-serialno)"
         else
             error_msg "Device NOT found"
