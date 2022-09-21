@@ -12,10 +12,11 @@ UBOOT_VAR_TOOL=fw_printenv
 export UBOOT_VAR_TOOL
 UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
+PACMAN_TYPE="ostree+compose_apps"
 
 usage() {
 	echo "\
-	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>]
+	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>]
 
     -t <kernel|uboot>
         This determines type of upgrade test performed:
@@ -31,14 +32,19 @@ usage() {
         On the unsecured systems it will usually be
         fw_setenv. On secured systems it might be
         fiovb_setenv
+    -o ostree or ostree+compose_apps rollback
+        These change the 'type' variable in 'pacman' section
+        of the final .toml file used by aklite. Default is
+        ostree+compose_apps
 	"
 }
 
-while getopts "t:u:s:h" opts; do
+while getopts "t:u:s:o:h" opts; do
 	case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
+        o) PACMAN_TYPE="${OPTARG}";;
         h|*) usage ; exit 1 ;;
 	esac
 done
@@ -73,7 +79,11 @@ cp aklite-callback.sh /var/sota/
 chmod 755 /var/sota/aklite-callback.sh
 
 mkdir -p /etc/sota/conf.d
-cp z-99-aklite-callback.toml /etc/sota/conf.d/
+if [ "${PACMAN_TYPE}" = "ostree" ]; then
+    cp z-99-aklite-callback-ostree.toml /etc/sota/conf.d/
+else
+    cp z-99-aklite-callback.toml /etc/sota/conf.d/
+fi
 report_pass "${TYPE}-create-aklite-callback"
 # create signal files
 touch /var/sota/ota.signal
