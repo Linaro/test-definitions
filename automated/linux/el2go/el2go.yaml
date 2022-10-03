@@ -1,0 +1,28 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: el2go-registration
+    description: "Basic test suite EdgeLock2Go integration.
+        The test enables EL2GO registration to the
+        FoundriesFactory. If the device is successfully
+        registered, the test passes. Running the test requires
+        FoundriesFactory with EL2GO integration and a device
+        with SE050 secure element."
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+    PTOOL: "pkcs11-tool --module /usr/lib/libckteec.so.0.1"
+    SLOT_INIT: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/el2go/
+        - ./el2go.sh -s "${SLOT_INIT}" -p "${PTOOL}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
