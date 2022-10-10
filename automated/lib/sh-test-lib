@@ -210,6 +210,7 @@ detect_abi() {
       #aarch64_be) abi="arm64be" ;;
       i*86) abi="i386" ;;
       x86_64) abi="x86_64" ;;
+      riscv64) abi="riscv64" ;;
       *) error_msg "Unsupported architecture: ${abi}" ;;
     esac
 }
