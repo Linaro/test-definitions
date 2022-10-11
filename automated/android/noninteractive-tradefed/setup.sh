@@ -7,7 +7,7 @@
 
 JDK="openjdk-8-jdk-headless"
 java_path="/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java"
-if [ -n "${ANDROID_VERSION}" ] && echo "${ANDROID_VERSION}" | grep -q  "aosp-master\|aosp-android11\|aosp-android12"; then
+if [ -n "${ANDROID_VERSION}" ] && echo "${ANDROID_VERSION}" | grep -q  "aosp-master\|aosp-android11\|aosp-android12\|aosp-android13"; then
     # only use openjdk-11 for aosp master version
     JDK="openjdk-11-jdk-headless"
     java_path="/usr/lib/jvm/java-11-openjdk-amd64/bin/java"
