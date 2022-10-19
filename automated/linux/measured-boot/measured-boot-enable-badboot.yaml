@@ -1,0 +1,39 @@
+metadata:
+    name: measured-boot-enabled-PCR7
+    format: "Lava-Test Test Definition 1.0"
+    description: "Checking PCR7 value for measured boot testing"
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - any-linux
+    scope:
+        - functional
+    devices:
+        - qemu
+
+interactive:
+- name: basic-cmds
+  prompts: ['=> ', 'Booting:']
+  script:
+  - command: "virtio scan"
+  - command: ""
+  - command: "ls virtio 0"
+  - command: ""
+  - command: "printenv"
+  - command: ""
+  - command: "efidebug boot add -b 1 BootLedge virtio 0:1 efi/boot/bootaa64.efi -i virtio 0:1 ledge-initramfs.rootfs.cpio.gz -s 'console=ttyAMA0,115200 root=/dev/vda2 rootwait panic=60'"
+  - command: ""
+  - command: "efidebug boot order 1"
+  - command: ""
+  - command: "setenv bootcmd 'bootefi bootmgr'"
+  - command: ""
+  - command: "saveenv"
+  - command: ""
+  - command: "mw.b 0x50000000 a"
+  - command: ""
+  - command: "tpm init"
+  - command: ""
+  - command: "tpm startup TPM2_SU_CLEAR"
+  - command: ""
+  - command: "tpm pcr_extend 7 0x50000000"
+  - command: "bootefi bootmgr"
