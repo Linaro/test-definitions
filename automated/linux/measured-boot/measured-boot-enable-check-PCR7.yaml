@@ -1,0 +1,16 @@
+metadata:
+    name: measured-boot-enabled-PCR7
+    format: "Lava-Test Test Definition 1.0"
+    description: "Checking PCR7 value for measured boot testing"
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - any-linux
+    scope:
+        - functional
+    devices:
+        - qemu
+run:
+    steps:
+    - sudo tpm2_pcrread sha256:7
+    - sudo shutdown
