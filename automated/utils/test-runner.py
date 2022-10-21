@@ -679,6 +679,7 @@ def get_environment(target=None, skip_collection=False):
         "board_vendor": "Huawei",
         "kernel": "4.9.0-20.gitedc2a1c.linaro.aarch64",
         "linux_distribution": "centos",
+        "linux_distribution_version": "6.2",
         "packages": [
             "GeoIP-1.5.0-11.el7",
             "NetworkManager-1.4.0-20.el7_3",
@@ -702,6 +703,33 @@ def get_environment(target=None, skip_collection=False):
         )
     except subprocess.CalledProcessError:
         environment["linux_distribution"] = ""
+
+    try:
+        environment["linux_distribution_version"] = (
+            run_command("grep ^VERSION= /etc/os-release", target)
+            .split("=")[-1]
+            .strip('"')
+        )
+    except subprocess.CalledProcessError:
+        environment["linux_distribution_version"] = ""
+
+    try:
+        environment["linux_distribution_version_id"] = (
+            run_command("grep ^VERSION_ID= /etc/os-release", target)
+            .split("=")[-1]
+            .strip('"')
+        )
+    except subprocess.CalledProcessError:
+        environment["linux_distribution_version_id"] = ""
+
+    try:
+        environment["linux_distribution_version_codename"] = (
+            run_command("grep ^VERSION_CODENAME= /etc/os-release", target)
+            .split("=")[-1]
+            .strip('"')
+        )
+    except subprocess.CalledProcessError:
+        environment["linux_distribution_version_codename"] = ""
 
     try:
         environment["kernel"] = run_command("uname -r", target)
