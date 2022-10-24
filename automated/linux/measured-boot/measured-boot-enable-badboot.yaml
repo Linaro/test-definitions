@@ -1,0 +1,29 @@
+metadata:
+    name: measured-boot-changed-PCR7
+    format: "Lava-Test Test Definition 1.0"
+    description: "Checking PCR7 value for measured boot testing"
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - any-linux
+    scope:
+        - functional
+    devices:
+        - qemu
+
+interactive:
+- name: basic-cmds
+  prompts: ['=> ', 'Booting:']
+  script:
+  - command: ""
+  - command: "printenv"
+  - command: ""
+  - command: "mw.b 0x50000000 a"
+  - command: ""
+  - command: "tpm init"
+  - command: ""
+  - command: "tpm startup TPM2_SU_CLEAR"
+  - command: ""
+  - command: "tpm pcr_extend 7 0x50000000"
+  - command: ""
+  - command: "bootefi bootmgr"
