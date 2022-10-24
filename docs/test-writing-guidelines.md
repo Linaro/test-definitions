@@ -1,10 +1,10 @@
-#Test Writing Guidelines
+# Test Writing Guidelines
 
 This document describes guidelines and is intended for anybody who wants to write
 or modify a test case. It's not a definitive guide and it's not, by any means, a
 substitute for common sense.
 
-##General Rules
+## General Rules
 
 ### 1. Simplicity
 
