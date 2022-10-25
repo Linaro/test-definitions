@@ -27,6 +27,8 @@ TEST_PROGRAM=ltp
 TEST_GIT_URL=""
 TEST_DIR="$(pwd)/${TEST_PROGRAM}"
 BUILD_FROM_TAR="false"
+SHARD_NUMBER=1
+SHARD_INDEX=1
 
 LTP_TMPDIR=/ltp-tmp
 
@@ -47,11 +49,13 @@ usage() {
                       [-u git url]
                       [-p build directory]
                       [-t build from tarfile ]
+                      [-c sharding bucket to run ]
+                      [-n number of shard buckets to create ]
 " 1>&2
     exit 0
 }
 
-while getopts "M:T:S:b:d:g:e:i:s:v:R:u:p:t:" arg; do
+while getopts "M:T:S:b:d:g:e:i:s:v:R:u:p:t:c:n:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -121,6 +125,12 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:u:p:t:" arg; do
      t)
         BUILD_FROM_TAR="$OPTARG"
         ;;
+     c)
+        SHARD_INDEX="$OPTARG"
+        ;;
+     n)
+        SHARD_NUMBER="$OPTARG"
+        ;;
      *)
         usage
         error_msg "No flag ${OPTARG}"
@@ -153,7 +163,16 @@ run_ltp() {
     # shellcheck disable=SC2174
     mkdir -m 777 -p "${LTP_TMPDIR}"
 
-    pipe0_status "./runltp -p -q -f ${TST_CMDFILES} \
+    for file in ${TST_CMDFILES//,/ }; do
+      cat runtest/"${file}" >>alltests
+    done
+    sed -i 's/#.*$//;/^$/d' alltests
+    split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" alltests >runtest/shardfile
+    echo "============== Tests to run ==============="
+    cat runtest/shardfile
+    echo "===========End Tests to run ==============="
+
+    pipe0_status "./runltp -p -q -f shardfile \
                                  -l ${OUTPUT}/LTP_${LOG_FILE}.log \
                                  -C ${OUTPUT}/LTP_${LOG_FILE}.failed \
                                  -d ${LTP_TMPDIR} \
