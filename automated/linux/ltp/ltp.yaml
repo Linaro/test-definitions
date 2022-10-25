@@ -67,8 +67,14 @@ params:
     # a released tarball, set BUILD_FROM_TAR to 'true'. You have to
     # specify the LTP_VERSION to a release e.g., 20180926.
     BUILD_FROM_TAR: "false"
+
+    # Number of shards that will be done, default 1 which is the same as no sharding.
+    SHARD_NUMBER: 1
+
+    # Which bucket to run, default '1' which is the same as no sharding, run it as LTP upstream decides.
+    SHARD_INDEX: 1
 run:
     steps:
         - cd ./automated/linux/ltp/
-        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -d "${LTP_TMPDIR}" -g "${BRANCH}" -e "${ENVIRONMENT}" -i "${LTP_INSTALL_PATH}" -S "${SKIPFILE}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -t "${BUILD_FROM_TAR}"
+        - ./ltp.sh -T "${TST_CMDFILES}" -s "${SKIP_INSTALL}" -v "${LTP_VERSION}" -M "${TIMEOUT_MULTIPLIER}" -R "${ROOT_PASSWD}" -b "${BOARD}" -d "${LTP_TMPDIR}" -g "${BRANCH}" -e "${ENVIRONMENT}" -i "${LTP_INSTALL_PATH}" -S "${SKIPFILE}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -t "${BUILD_FROM_TAR}" -n "${SHARD_NUMBER}" -c "${SHARD_INDEX}"
         - ../../utils/send-to-lava.sh ./output/result.txt
