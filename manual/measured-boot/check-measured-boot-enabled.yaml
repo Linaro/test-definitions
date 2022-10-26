@@ -1,0 +1,22 @@
+metadata:
+    name: measured-boot-enabled-check
+    format: "Manual Test Definition 1.0"
+    description: "Booting TS image with an artificially changed PCR7 value. If measured boot is enabled the board wont boot."
+    maintainer:
+        - theodore.grey@linaro.org
+    os:
+        - any-linux
+    scope:
+        - functional
+    devices:
+        - qemu
+    environment:
+        - manual-test
+run:
+    steps:
+        - Device will boot from the bootefi bootmgr command
+
+    expected:
+        - While booting, if measured boot is enabled, there should be an error 'tpm:parameter(1):integrity check failed'
+        - The device will then give an error 'Unable to run tpm2_load' before giving a stack trace and rebooting to u-boot shell.
+        - If device doesnt give an error and instead boots to command line, measured-boot is not enabled.
