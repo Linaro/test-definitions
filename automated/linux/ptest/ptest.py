@@ -131,7 +131,7 @@ def check_ptest(ptest_dir, ptest_name, output_log):
         f.write("%s %s\n" % (ptest_name, "pass" if status == 0 else "fail"))
         for test, test_status in results:
             test = test.encode("ascii", errors="ignore").decode()
-            f.write("%s %s\n" % (re.sub(r"[^\w-]", "", test), test_status))
+            f.write("%s %s\n" % (re.sub(r"\s+", "_", test.strip()), test_status))
         f.write("lava-test-set stop %s\n" % ptest_name)
 
 
