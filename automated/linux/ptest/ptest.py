@@ -122,9 +122,11 @@ def run_ptest(command):
     return rc, results
 
 
-def check_ptest(ptest_dir, ptest_name, output_log):
+def check_ptest(ptest_dir, ptest_name, ptest_timeout, output_log):
     log_name = os.path.join(os.getcwd(), "%s.log" % ptest_name)
-    status, results = run_ptest("ptest-runner -d %s %s" % (ptest_dir, ptest_name))
+    status, results = run_ptest(
+        "ptest-runner -t %s -d %s %s" % (ptest_timeout, ptest_dir, ptest_name)
+    )
 
     with open(output_log, "a+") as f:
         f.write("lava-test-set start %s\n" % ptest_name)
@@ -142,6 +144,13 @@ def main():
     )
     parser.add_argument(
         "-e", "--exclude", action="store", nargs="*", help="Ptests to exclude"
+    )
+    parser.add_argument(
+        "-T",
+        "--ptest-timeout",
+        help="Timeout [s] value passed to ptest-runner (optional)",
+        action="store",
+        default=300,
     )
     parser.add_argument(
         "-d",
@@ -191,7 +200,7 @@ def main():
     required_ptests = dict.fromkeys(tests, False)
     ptests_to_run = filter_ptests(ptests, required_ptests, exclude)
     for ptest_name in ptests_to_run:
-        check_ptest(ptest_dir, ptest_name, args.output_log)
+        check_ptest(ptest_dir, ptest_name, args.ptest_timeout, args.output_log)
 
     return 0
 

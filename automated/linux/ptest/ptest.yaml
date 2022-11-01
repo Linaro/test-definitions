@@ -17,9 +17,10 @@ metadata:
 params:
     TESTS: ""
     EXCLUDE: ""
+    PTEST_TIMEOUT: 300
 
 run:
     steps:
         - cd ./automated/linux/ptest
-        - PYTHONIOENCODING=UTF-8 ./ptest.py -o ./result.txt -t ${TESTS} -e ${EXCLUDE}
+        - PYTHONIOENCODING=UTF-8 ./ptest.py -T ${PTEST_TIMEOUT} -o ./result.txt -t ${TESTS} -e ${EXCLUDE}
         - ../../utils/send-to-lava.sh ./result.txt
