@@ -26,4 +26,3 @@ interactive:
   - command: ""
   - command: "tpm pcr_extend 7 0x50000000"
   - command: ""
-  - command: "bootefi bootmgr"
