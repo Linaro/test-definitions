@@ -59,7 +59,7 @@ disable_suspend
 
 # Download CTS/VTS test package or copy it from local disk.
 if echo "${TEST_URL}" | grep "^http" ; then
-    wget -S --progress=dot:giga "${TEST_URL}"
+    wget --no-cache -S --progress=dot:giga "${TEST_URL}"
 else
     cp "${TEST_URL}" ./
 fi
