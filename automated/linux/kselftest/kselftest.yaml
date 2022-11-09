@@ -51,9 +51,14 @@ params:
     BRANCH: ""
     ENVIRONMENT: ""
 
+    # Number of shards that will be done, default 1 which is the same as no sharding.
+    SHARD_NUMBER: 1
+
+    # Which bucket to run, default '1' which is the same as no sharding, run it as LTP upstream decides.
+    SHARD_INDEX: 1
 
 run:
     steps:
         - cd ./automated/linux/kselftest/
-        - ./kselftest.sh -c "${TST_CMDFILES}" -T "${TST_CASENAME}" -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -p "${KSELFTEST_PATH}"
+        - ./kselftest.sh -c "${TST_CMDFILES}" -T "${TST_CASENAME}" -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -p "${KSELFTEST_PATH}" -n "${SHARD_NUMBER}" -i "${SHARD_INDEX}"
         - ../../utils/send-to-lava.sh ./output/result.txt

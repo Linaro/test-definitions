@@ -21,6 +21,8 @@ SKIPLIST=""
 TESTPROG_URL=""
 TST_CMDFILES=""
 TST_CASENAME=""
+SHARD_NUMBER=1
+SHARD_INDEX=1
 
 # Architecture-specific tarball name defaults.
 if [ "$(uname -m)" = "aarch64" ]; then
@@ -30,7 +32,9 @@ else
 fi
 
 usage() {
-    echo "Usage: $0 [-c bpf cpufreq net timers]
+    echo "Usage: $0 [-i sharding bucket to run ]
+                    [-n number of shard buckets to create ]
+                    [-c bpf cpufreq net timers]
                     [-T cpu-hotplug:cpu-on-off-test.sh]
                     [-t kselftest_aarch64.tar.gz | kselftest_armhf.tar.gz]
                     [-s True|False]
@@ -44,8 +48,10 @@ usage() {
     exit 1
 }
 
-while getopts "c:T:t:s:u:p:L:S:b:g:e:h" opt; do
+while getopts "i:n:c:T:t:s:u:p:L:S:b:g:e:h" opt; do
     case "${opt}" in
+        i) SHARD_INDEX="${OPTARG}" ;;
+        n) SHARD_NUMBER="${OPTARG}" ;;
         c) TST_CMDFILES="${OPTARG}" ;;
         T) TST_CASENAME="${OPTARG}" ;;
         t) TESTPROG="${OPTARG}" ;;
@@ -213,8 +219,16 @@ rm -f "${skips}"
 if [ -n "${TST_CASENAME}" ]; then
     ./run_kselftest.sh -t "${TST_CASENAME}" 2>&1 | tee -a "${LOGFILE}"
 elif [ -n "${TST_CMDFILES}" ]; then
+    cp kselftest-list.txt kselftest-list.txt.skips
     # shellcheck disable=SC2086
     for test in ${TST_CMDFILES}; do
+        cp kselftest-list.txt.skips kselftest-list.txt
+        grep "^${test}:" kselftest-list.txt | tee kselftest-list.txt
+        split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" kselftest-list.txt > shardfile
+        echo "============== Tests to run ==============="
+        cat shardfile
+        echo "===========End Tests to run ==============="
+        cp shardfile kselftest-list.txt
         ./run_kselftest.sh -c ${test} 2>&1 | tee -a "${LOGFILE}"
     done
 else
