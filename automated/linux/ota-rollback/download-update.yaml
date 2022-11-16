@@ -20,10 +20,11 @@ metadata:
 params:
         UBOOT_VAR_TOOL: "fw_printenv"
         UBOOT_VAR_SET_TOOL: "fw_setenv"
+        UBOOT_IMAGE_NAME: "u-boot.itb"
         TYPE: "kernel"
         PACMAN_TYPE: "ostree+compose_apps"
 run:
     steps:
         - cd ./automated/linux/ota-rollback
-        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}"
+        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}" -f "${UBOOT_IMAGE_NAME}"
         - ../../utils/send-to-lava.sh ./output/result.txt
