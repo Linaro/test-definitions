@@ -13,6 +13,7 @@ export UBOOT_VAR_TOOL
 UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
 PACMAN_TYPE="ostree+compose_apps"
+UBOOT_IMAGE_NAME="u-boot.itb"
 
 usage() {
 	echo "\
@@ -36,15 +37,18 @@ usage() {
         These change the 'type' variable in 'pacman' section
         of the final .toml file used by aklite. Default is
         ostree+compose_apps
+    -f u-boot image file name to corrupt. On some machines
+        u-boot image has different name. Default is u-boot.itb
 	"
 }
 
-while getopts "t:u:s:o:h" opts; do
+while getopts "t:u:s:o:f:h" opts; do
 	case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         o) PACMAN_TYPE="${OPTARG}";;
+        f) UBOOT_IMAGE_NAME="${OPTARG}";;
         h|*) usage ; exit 1 ;;
 	esac
 done
@@ -191,9 +195,9 @@ if [ "${UPGRADE_AVAILABLE}" -eq 1 ]; then
 
         # obtain new deployment hash
         DEPLOYMENT_HASH=$(ostree admin status | grep pending | awk -F' ' '{print $2}')
-        echo "Corrupting u-boot.itb in /sysroot/ostree/deploy/lmp/deploy/${DEPLOYMENT_HASH}/usr/lib/firmware/"
+        echo "Corrupting u-boot.itb in /sysroot/ostree/deploy/lmp/deploy/${DEPLOYMENT_HASH}/usr/lib/firmware/${UBOOT_IMAGE_NAME}"
         # corrupt u-boot.itb
-        echo bad > "/sysroot/ostree/deploy/lmp/deploy/${DEPLOYMENT_HASH}/usr/lib/firmware/u-boot.itb"
+        echo bad > "/sysroot/ostree/deploy/lmp/deploy/${DEPLOYMENT_HASH}/usr/lib/firmware/${UBOOT_IMAGE_NAME}"
     fi
     if [ "${TYPE}" = "kernel" ]; then
         cat /etc/os-release
