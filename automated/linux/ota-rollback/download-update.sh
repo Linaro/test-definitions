@@ -204,9 +204,20 @@ if [ "${UPGRADE_AVAILABLE}" -eq 1 ]; then
         cat /boot/loader/uEnv.txt
         . /boot/loader/uEnv.txt
         # shellcheck disable=SC2154
-        echo "Corrupting kernel image ${kernel_image}"
-        # shellcheck disable=SC2154
-        echo bad > "${kernel_image}"
+        if [ "${kernel_image}" = "${kernel_image2}" ]; then
+            # when there is just one kernel, create a fake one and update uEnv.txt
+            # shellcheck disable=SC2154
+            kernel_dirname=$(dirname "${kernel_image}")
+            # shellcheck disable=SC2154
+            echo "bad" > "${kernel_dirname}/vmlinuz-corrupt"
+            # shellcheck disable=SC2154
+            sed -i "s|kernel_image=${kernel_image}|kernel_image=${kernel_dirname}/vmlinuz-corrupt|g" /boot/loader/uEnv.txt
+        else
+            # shellcheck disable=SC2154
+            echo "Corrupting kernel image ${kernel_image}"
+            # shellcheck disable=SC2154
+            echo bad > "${kernel_image}"
+        fi
     fi
 else
     lava-test-raise "No-update-available-${TYPE}"
