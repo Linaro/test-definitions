@@ -4,8 +4,8 @@ metadata:
   description: |
     Validate UEFI SecureBoot is enabled by checking the value of variable
     8be4df61-93ca-11d2-aa0d-00e098032b8c-SecureBoot. This long variable is
-    predefined in the UEFI standard and it will never change. Check page 82
-    from https://shorturl.at/fpLV6
+    predefined in the UEFI standard and it will never change. Refer to
+    https://uefi.org/specs/UEFI/2.10/03_Boot_Manager.html#globally-defined-variables
   maintainer:
     - javier.tia@linaro.org
   os:
