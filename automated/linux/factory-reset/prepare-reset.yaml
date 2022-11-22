@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: lmp-factory-reset
+    description: "Perform device factory reset.
+      The end result should be a device filesystem
+      restored to the condition after initial manufacturing.
+      Only a limited subset of files is checked.
+      Reset type is evaluated in the following priority:
+
+        1. factory_reset
+        2. factory_reset_keep_sota
+        3. factory_reset_keep_sota_docker
+
+      If higher priority type is present, lower priority
+      type is ignored.
+      "
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        # primary type of reset
+        TYPE: "factory_reset"
+        # additional type. Behaviour depens on both
+        # TYPE and ADDITIONAL_TYPE
+        ADDITIONAL_TYPE: ""
+run:
+    steps:
+        - cd ./automated/linux/factory-reset
+        - ./prepare-reset.sh -t "${TYPE}" -a "${ADDITIONAL_TYPE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
