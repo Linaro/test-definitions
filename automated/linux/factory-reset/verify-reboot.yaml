@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: lmp-factory-reset-verify
+    description: "Verify device factory reset.
+      The end result should be a device filesystem
+      restored to the condition after initial manufacturing.
+      Only a limited subset of files is checked."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        TYPE: "factory_reset"
+run:
+    steps:
+        - cd ./automated/linux/factory-reset
+        - ./verify-reboot.sh -t "${TYPE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
