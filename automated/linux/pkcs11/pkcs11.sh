@@ -281,17 +281,37 @@ test_rsa_loop()
 {
     se05x_connect
     BREAK="False"
+    LABEL=0
     while [ "$BREAK" = "False" ]
     do
         # generate RSA:1024 certificate pairs until there is no
         # more space to keep them.
         # shellcheck disable=SC2086
-        if ! $PTOOL --keypairgen --key-type RSA:1024 --id 33 --token-label fio --pin "${PIN}"; then
+        LABEL=$((LABEL+1))
+        pipe0_status "$PTOOL --keypairgen --key-type RSA:1024 --label ${LABEL} --id 33 --token-label fio --pin ${PIN} 2>&1" "tee ${LABEL}.log"
+        test_status=$?
+        if [ "${test_status}" -ne 0 ]; then
+            if grep "CKR_DEVICE_MEMORY" "${LABEL}.log"; then
+                # If this test fails, remaining results may be tainted
+                # TA is unlikely to recover from OOM situation
+                echo "Out of memory"
+                report_fail "rsa-loop-key-create-memory"
+            else
+                report_pass "rsa-loop-key-create-memory"
+            fi
             break
         fi
     done
-    NUM_CERTS=$($PTOOL --list-objects --pin "${PIN}" | grep ID | grep -c 33)
+    NUM_CERTS=$($PTOOL --list-objects --token-label fio --pin "${PIN}" | grep ID | grep -c 33)
     echo "Found ${NUM_CERTS} certificates with ID=33"
+    EXPECTED=$(echo "${LABEL}*2" | bc)
+    if [ "${NUM_CERTS}" = "${EXPECTED}" ]; then
+        report_pass "rsa-loop-key-create"
+    else
+        echo "Expected ${EXPECTED} keys, found ${NUM_CERTS}"
+        report_fail "rsa-loop-key-create"
+    fi
+
     if [ "${NUM_CERTS}" -ne "0" ]; then
         # remove all certificates
         LOOPS=$(echo "${NUM_CERTS}/2-1" | bc)
@@ -304,13 +324,12 @@ test_rsa_loop()
             $PTOOL -b --type pubkey --id 33 --pin "${PIN}"
         done
     fi
-    NUM_CERTS=$($PTOOL --list-objects --pin "${PIN}" | grep ID | grep -c 33)
+    NUM_CERTS=$($PTOOL --list-objects --token-label fio --pin "${PIN}" | grep ID | grep -c 33)
     if [ "${NUM_CERTS}" -ne "0" ]; then
         report_fail "rsa-loop-remove-certs"
     else
         report_pass "rsa-loop-remove-certs"
     fi
-
 
     se05x_cleanup
 }
