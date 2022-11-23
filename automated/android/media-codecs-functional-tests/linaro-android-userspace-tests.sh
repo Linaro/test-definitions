@@ -4,6 +4,11 @@
 # shellcheck disable=SC2181
 # shellcheck disable=SC2155
 # shellcheck disable=SC2166
+# shellcheck disable=SC3006
+# shellcheck disable=SC3010
+# shellcheck disable=SC3018
+# shellcheck disable=SC3037
+# shellcheck disable=SC3057
 # shellcheck disable=SC3060
 #############################################################################
 # Copyright (c) 2014 Linaro
