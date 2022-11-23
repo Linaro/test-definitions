@@ -54,7 +54,7 @@ lapack_build_test() {
     # shellcheck disable=SC2164
     cd lapack
     cp make.inc.example make.inc
-    # shellcheck disable=SC2039
+    # shellcheck disable=SC2039,SC3045
     ulimit -s 100000
     make blaslib
     make | tee -a "${RESULT_LOG}"
