@@ -41,7 +41,7 @@ else
         x86_64) make linux ;;
         *) warn_msg "Unsupported architecture" ;;
     esac
-    export PATH=$PWD:$PATH
+    export PATH="$PWD:$PATH"
 fi
 
 which iozone || error_msg "'iozone' not found, exiting..."

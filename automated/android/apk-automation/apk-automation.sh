@@ -79,4 +79,5 @@ option_g="-g"
 if [ -n "${SET_GOVERNOR_POLICY}" ] && [ "X${SET_GOVERNOR_POLICY}" = "Xfalse" ]; then
     option_g=""
 fi
+# shellcheck disable=SC2086
 python3 main.py -l "${LOOPS}" -n "${TEST_NAME}" -d "${APK_DIR}" -u "${BASE_URL}" ${option_g}

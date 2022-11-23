@@ -4,7 +4,7 @@ install_latest_adb() {
     install_deps "wget zip"
     wget -S --progress=dot:giga https://dl.google.com/android/repository/platform-tools-latest-linux.zip
     unzip -q platform-tools-latest-linux.zip
-    export PATH=$PWD/platform-tools:$PATH
+    export PATH="$PWD/platform-tools:$PATH"
     which adb
     adb version
 }
@@ -312,9 +312,9 @@ parse_common_args() {
 #   AP_KEY: "${AP_KEY}"
 adb_join_wifi() {
     # shellcheck disable=SC2039
-    local AP_SSID=$1
+    local AP_SSID="$1"
     # shellcheck disable=SC2039
-    local AP_KEY=$2
+    local AP_KEY="$2"
     if [ -z "${AP_SSID}" ] || [ -z "${AP_KEY}" ]; then
         # Try to find the WIFI AP information specified by the job definition if not specified via command line
         lava_test_dir="$(find /lava-* -maxdepth 0 -type d -regex '/lava-[0-9]+' 2>/dev/null | sort | tail -1)"

@@ -63,7 +63,7 @@ else
     git checkout "${WA_TAG}"
     )
     pip3 install --quiet ./workload-automation
-    export PATH=$PATH:/usr/local/bin
+    export PATH="$PATH:/usr/local/bin"
     which wa
     mkdir -p ~/.workload_automation
     export WA_USER_DIRECTORY=~/.workload_automation

@@ -56,6 +56,7 @@ background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 # pi_stress will send SIGTERM when test fails. The signal will terminate the
 # test script. Catch and ignore it with trap.
 trap '' TERM
+# shellcheck disable=SC2086
 "${binary}" -q --duration "${DURATION}" ${MLOCKALL} ${RR} --json="${LOGFILE}"
 
 background_process_stop bgcmd

@@ -77,7 +77,7 @@ else
     git checkout "${WA_TAG}"
     )
     pip3 install --quiet ./workload-automation
-    export PATH=$PATH:/usr/local/bin
+    export PATH="$PATH:/usr/local/bin"
     which wa
 
     # Make sure that we use the latest devlib and not an old stable version

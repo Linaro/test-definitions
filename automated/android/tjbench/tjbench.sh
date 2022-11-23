@@ -69,8 +69,8 @@ for img in ${IMGS}; do
         fi
         img_name="$(echo "${img}" | sed 's/[.]/_/g')"
         case "${test}" in
-            ${cmd_name}32) prefix="32bit_${img_name}" ;;
-            ${cmd_name}64) prefix="64bit_${img_name}" ;;
+            "${cmd_name}32") prefix="32bit_${img_name}" ;;
+            "${cmd_name}64") prefix="64bit_${img_name}" ;;
         esac
 
         info_msg "device-${ANDROID_SERIAL}: About to run ${test}..."

@@ -54,6 +54,7 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
+# shellcheck disable=SC2086
 "${binary}" -q -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
     -D "${DURATION}" ${HISTOGRAM} -m --json="${LOGFILE}"
 
