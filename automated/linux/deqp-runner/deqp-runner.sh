@@ -52,8 +52,8 @@ export RESULT_FILE
 DEQP_RESULT_FILE="${OUTPUT}/deqp_result.txt"
 create_out_dir "${OUTPUT}"
 
-export DISPLAY=${DISPLAY}
-export EGL_PLATFORM=${EGL_PLATFORM}
+export DISPLAY="${DISPLAY}"
+export EGL_PLATFORM="${EGL_PLATFORM}"
 
 test_set_name="$(basename "${DEQP_BIN}")"
 

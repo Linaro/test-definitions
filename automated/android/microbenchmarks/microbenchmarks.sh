@@ -61,7 +61,7 @@ wget  -q "${SNAPSHOTS_URL}"/"${BUILD_TARBALL}"
 tar -xf "${BUILD_TARBALL}"
 
 [ -z "$HOME" ] && export HOME="/"
-export PATH=${PWD}/out/host/linux-x86/bin/:${PATH}
+export PATH="${PWD}/out/host/linux-x86/bin/:${PATH}"
 
 # FIXME removing latest adb from build since it is not working well from container
 rm -rf "${PWD}"/out/host/linux-x86/bin/adb
@@ -72,7 +72,7 @@ which lava-test-case && lava-test-case "test-progress" --result pass
 sed -i "s| /data/local/tmp/system| /data/local/tmp/system > /dev/null|g" scripts/benchmarks/benchmarks_run_target.sh
 sed -i "s| /data/art-test| /data/art-test > /dev/null|g" scripts/benchmarks/benchmarks_run_target.sh
 sed -i "s|mode \"\$1\"|mode \"\$1\" --noverbose|g" scripts/benchmarks/benchmarks_run_target.sh
-export OUT=${PWD}/out/target/product/${LUNCH_TARGET}/
+export OUT="${PWD}/out/target/product/${LUNCH_TARGET}/"
 ./scripts/benchmarks/benchmarks_run_target.sh  --skip-build true --iterations "${ITERATIONS}" \
   --mode "${MODE}" --target-device "${LUNCH_TARGET}"
 

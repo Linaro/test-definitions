@@ -379,9 +379,9 @@ convert_to_sec() {
     [ "$#" -ne 1 ] && error_msg "Usage: convert_to_sec value (including unit)"
 
     # shellcheck disable=SC2039,SC2155
-    local value=$(echo "$1" | sed 's/[smhdSMHD]$//')
+    local value="$(echo "$1" | sed 's/[smhdSMHD]$//')"
     # shellcheck disable=SC2039,SC2155
-    local unit=$(echo "$1" | sed -n 's/^[0-9]*\([smhdSMHD]\)/\1/p' )
+    local unit="$(echo "$1" | sed -n 's/^[0-9]*\([smhdSMHD]\)/\1/p' )"
 
     if ! echo "$value" | grep -E -q "^[0-9.]+$"; then
         error_msg "The argument isn't a valid (number optionally with unit)"
@@ -468,7 +468,7 @@ add_repo() {
 create_out_dir() {
     [ -z "$1" ] && error_msg "Usage: create_out_dir output_dir"
     # shellcheck disable=SC2039
-    local OUTPUT=$1
+    local OUTPUT="$1"
     [ -d "${OUTPUT}" ] &&
         mv "${OUTPUT}" "${OUTPUT}_$(date -r "${OUTPUT}" +%Y%m%d%H%M%S)"
     mkdir -p "${OUTPUT}"
@@ -506,7 +506,7 @@ generate_skipfile() {
 # Dependency packages for fdisk and mkfs are "fdisk e2fsprogs dosfstools"
 # fdisk and mkfs commands might be in $PATH /sbin or /usr/sbin or
 # /usr/local/sbin export PATH for better usage.
-export PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
+export PATH="$PATH:/sbin:/usr/sbin:/usr/local/sbin"
 
 
 # Usage:

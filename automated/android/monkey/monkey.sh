@@ -69,6 +69,7 @@ else
 fi
 
 info_msg "device-${ANDROID_SERIAL}: About to run monkey..."
+# shellcheck disable=SC2086
 adb shell monkey "${MONKEY_PARAMS}" ${BLACKLIST_OPT} ${THROTTLE_OPT} "${EVENT_COUNT}" 2>&1 \
     | tee "${LOGFILE}"
 

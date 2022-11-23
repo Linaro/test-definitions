@@ -5,7 +5,7 @@
 # shellcheck disable=SC1091
 . ../../lib/android-test-lib
 
-export PATH=$PWD/platform-tools:$PATH
+export PATH="$PWD/platform-tools:$PATH"
 TIMEOUT="300"
 TEST_URL="http://testdata.validation.linaro.org/cts/android-cts-7.1_r1.zip"
 TEST_PARAMS="run cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-preconditions --skip-device-info"
