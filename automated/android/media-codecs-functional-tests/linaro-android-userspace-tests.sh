@@ -4,6 +4,7 @@
 # shellcheck disable=SC2181
 # shellcheck disable=SC2155
 # shellcheck disable=SC2166
+# shellcheck disable=SC3060
 #############################################################################
 # Copyright (c) 2014 Linaro
 # All rights reserved. This program and the accompanying materials
@@ -91,7 +92,7 @@ run_audio_codec_aac()
 	fi
 
 	echo "Checking MD5SUM of output file"
-	local MD5SUM=$(func_md5 ${OUT_FILE})
+	local MD5SUM="$(func_md5 ${OUT_FILE})"
 	MD5SUM=${MD5SUM%% *}
 	rm ${OUT_FILE}
 	if [[ "${MD5SUM}" == "${EXPECTED_MD5SUM}" ]]; then
@@ -154,7 +155,7 @@ run_audio_codec_mp3()
 	fi
 
 	echo "Checking MD5SUM of output file"
-	local MD5SUM=$(func_md5 ${OUT_FILE})
+	local MD5SUM="$(func_md5 ${OUT_FILE})"
 	MD5SUM=${MD5SUM%% *}
 	rm ${OUT_FILE}
 	if [[ "${MD5SUM}" == "${EXPECTED_MD5SUM}" ]]; then
@@ -195,7 +196,7 @@ run_audio_codec_tremolo()
 	fi
 
 	echo "Checking MD5SUM of output file"
-	local MD5SUM=$(func_md5 ${OUT_FILE})
+	local MD5SUM="$(func_md5 ${OUT_FILE})"
 	MD5SUM=${MD5SUM%% *}
 	rm ${OUT_FILE}
 	if [[ "${MD5SUM}" == "${EXPECTED_MD5SUM}" ]]; then
@@ -291,7 +292,7 @@ run_speech_codec()
 				continue
 			fi
 
-			local MD5SUM=$(func_md5 ${OUT_FILE})
+			local MD5SUM="$(func_md5 ${OUT_FILE})"
 			MD5SUM="${MD5SUM%% *}"
 			if [[ "${MD5SUM}" != "${EXPECTED_MD5SUM}" ]]; then
 				echo
@@ -425,7 +426,7 @@ run_video_codec_h264_dec()
 			return 1
 		fi
 
-		local MD5SUM=$(func_md5 ${OUT_FILE})
+		local MD5SUM="$(func_md5 ${OUT_FILE})"
 		MD5SUM="${MD5SUM%% *}"
 		if [[ "${MD5SUM}" != "${EXPECTED_MD5SUM}" ]]; then
 			echo
@@ -514,7 +515,7 @@ run_video_codec_h264_enc()
 			continue
 		fi
 
-		local MD5SUM=$(func_md5 ${OUT_FILE})
+		local MD5SUM="$(func_md5 ${OUT_FILE})"
 		MD5SUM="${MD5SUM%% *}"
 		if [[ "${MD5SUM}" != "${EXPECTED_MD5SUM}" ]]; then
 			echo
@@ -605,7 +606,7 @@ run_video_codec_h263_dec()
 			return 1
 		fi
 
-		local MD5SUM=$(func_md5 ${OUT_FILE})
+		local MD5SUM="$(func_md5 ${OUT_FILE})"
 		MD5SUM="${MD5SUM%% *}"
 		if [[ "${MD5SUM}" != "${EXPECTED_MD5SUM}" ]]; then
 			echo
@@ -692,7 +693,7 @@ run_video_codec_h263_enc()
 			return 1
 		fi
 
-		local MD5SUM=$(func_md5 ${OUT_FILE})
+		local MD5SUM="$(func_md5 ${OUT_FILE})"
 		MD5SUM="${MD5SUM%% *}"
 		if [[ "${MD5SUM}" != "${EXPECTED_MD5SUM}" ]]; then
 			echo
