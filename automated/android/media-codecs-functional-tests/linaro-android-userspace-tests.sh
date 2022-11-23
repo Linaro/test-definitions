@@ -81,7 +81,7 @@ run_audio_codec_aac()
 	if [ "${VERBOSE}" -eq "1" ]; then
 		libaacenc_test ${TEST_FILE} ${OUT_FILE}
 	else
-		libaacenc_test ${TEST_FILE} ${OUT_FILE} &> /dev/null
+		libaacenc_test ${TEST_FILE} ${OUT_FILE} > /dev/null 2>&1
 	fi
 	if [ "$?" -ne "0" ]; then
 		echo "ERROR: AAC encoder test returned error"
@@ -113,7 +113,7 @@ run_audio_codec_flac()
 	if [ "${VERBOSE}" -eq "1" ]; then
 		libFLAC_test
 	else
-		libFLAC_test &> /dev/null
+		libFLAC_test > /dev/null 2>&1
 	fi
 	if [ "$?" -eq "0" ]; then
 		echo "FLAC encoder/decoder test: PASSED"
@@ -144,7 +144,7 @@ run_audio_codec_mp3()
 	if [ "${VERBOSE}" -eq "1" ]; then
 		libstagefright_mp3dec_test ${TEST_FILE} ${OUT_FILE}
 	else
-		libstagefright_mp3dec_test ${TEST_FILE} ${OUT_FILE} &> /dev/null
+		libstagefright_mp3dec_test ${TEST_FILE} ${OUT_FILE} > /dev/null 2>&1
 	fi
 	if [ "$?" -ne "0" ]; then
 		echo "ERROR: MP3 decoder test returned error"
@@ -185,7 +185,7 @@ run_audio_codec_tremolo()
 	if [ "${VERBOSE}" -eq "1" ]; then
 		libvorbisidec_test ${TEST_FILE} ${OUT_FILE}
 	else
-		libvorbisidec_test ${TEST_FILE} ${OUT_FILE} &> /dev/null
+		libvorbisidec_test ${TEST_FILE} ${OUT_FILE} > /dev/null 2>&1
 	fi
 	if [ "$?" -ne "0" ]; then
 		echo "ERROR: Tremolo decoder test returned error"
@@ -273,14 +273,14 @@ run_speech_codec()
 				if [ "${VERBOSE}" -eq "1" ]; then
 					${cmd}
 				else
-					${cmd} &> /dev/null
+					${cmd} > /dev/null 2>&1
 				fi
 			else
 				cmd="${RUN} ${TEST_FILE} ${OUT_FILE}"
 				if [ "${VERBOSE}" -eq "1" ]; then
 					${cmd}
 				else
-					${cmd} &> /dev/null
+					${cmd} > /dev/null 2>&1
 				fi
 			fi
 			if [ "$?" -ne "0" ]; then
@@ -414,7 +414,7 @@ run_video_codec_h264_dec()
 		if [ "${VERBOSE}" -eq "1" ]; then
 			${RUN} -O${OUT_FILE} ${TEST_FILE}
 		else
-			${RUN} -O${OUT_FILE} ${TEST_FILE} &> /dev/null
+			${RUN} -O${OUT_FILE} ${TEST_FILE} > /dev/null 2>&1
 		fi
 
 		if [ "$?" -ne "0" ]; then
@@ -503,7 +503,7 @@ run_video_codec_h264_enc()
 		if [ "${VERBOSE}" -eq "1" ]; then
 			$cmd
 		else
-			${cmd} &> /dev/null
+			${cmd} > /dev/null 2>&1
 		fi
 
 		if [ "$?" -ne "0" ]; then
@@ -594,7 +594,7 @@ run_video_codec_h263_dec()
 		if [ "${VERBOSE}" -eq "1" ]; then
 			${RUN} ${TEST_FILE} ${OUT_FILE} ${OUT_WIDTH} ${OUT_HEIGHT}
 		else
-			${RUN} ${TEST_FILE} ${OUT_FILE} ${OUT_WIDTH} ${OUT_HEIGHT} &> /dev/null
+			${RUN} ${TEST_FILE} ${OUT_FILE} ${OUT_WIDTH} ${OUT_HEIGHT} > /dev/null 2>&1
 		fi
 
 		if [ "$?" -ne "0" ]; then
@@ -681,7 +681,7 @@ run_video_codec_h263_enc()
 		if [ "${VERBOSE}" -eq "1" ]; then
 			${RUN} ${TEST_FILE} ${OUT_FILE} mpeg4 ${OUT_WIDTH} ${OUT_HEIGHT} ${OUT_FRAMERATE} ${OUT_BITRATE}
 		else
-			${RUN} ${TEST_FILE} ${OUT_FILE} mpeg4 ${OUT_WIDTH} ${OUT_HEIGHT} ${OUT_FRAMERATE} ${OUT_BITRATE} &> /dev/null
+			${RUN} ${TEST_FILE} ${OUT_FILE} mpeg4 ${OUT_WIDTH} ${OUT_HEIGHT} ${OUT_FRAMERATE} ${OUT_BITRATE} > /dev/null 2>&1
 		fi
 
 		if [ "$?" -ne "0" ]; then
