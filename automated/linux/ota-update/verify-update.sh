@@ -50,6 +50,14 @@ done
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
 
+# wait for aklite to start
+while ! systemctl is-active --quiet aktualizr-lite; do
+    echo "Waiting for aktualizr-lite to start"
+    sleep 1
+done
+# print ostree status for debug purposes
+ostree admin status
+
 SECONDARY_BOOT_VAR_NAME="fiovb.is_secondary_boot"
 if [ "${UBOOT_VAR_TOOL}" != "fw_printenv" ]; then
     SECONDARY_BOOT_VAR_NAME="is_secondary_boot"
