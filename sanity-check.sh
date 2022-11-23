@@ -4,7 +4,7 @@ set -ex
 python3 validate.py \
     -r build-error.txt \
     -p E501 W503 E203 \
-    -s SC1091 SC2230
+    -s SC1091 SC2230 SC3043
 
 # pycodestyle checks skipped:
 # E501: line too long
