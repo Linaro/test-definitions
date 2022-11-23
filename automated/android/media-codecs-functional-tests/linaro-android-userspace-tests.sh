@@ -260,7 +260,7 @@ run_speech_codec()
 		fi
 
 		# Remove the test file, leaving the MD5SUMs
-		LINE="${LINE#${TEST_FILE}}"
+		LINE="${LINE#"${TEST_FILE}"}"
 
 		TEST_FILE="${DATA_DIR}/${TEST_FILE}"
 		if [ ! -f ${TEST_FILE} ]; then
