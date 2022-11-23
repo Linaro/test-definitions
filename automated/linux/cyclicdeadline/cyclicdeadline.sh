@@ -24,7 +24,7 @@ usage() {
 while getopts ":i:s:t:D:w:" opt; do
     case "${opt}" in
         i) INTERVAL="${OPTARG}" ;;
-	s) STEP="${STEP}" ;;
+        s) STEP="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
 	w) BACKGROUND_CMD="${OPTARG}" ;;
