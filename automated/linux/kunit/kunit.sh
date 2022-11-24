@@ -5,8 +5,6 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
-TEST_LOG="${OUTPUT}/test_log.txt"
-TEST_PASS_FAIL_LOG="${OUTPUT}/test_pass_fail_log.txt"
 TEST_CMD="dmesg"
 TEST_CMD_FILE="${OUTPUT}/${TEST_CMD}.txt"
 # This will try to find all modules that ends with '*test.ko'
@@ -32,26 +30,28 @@ run() {
 }
 
 # Example Test output to be parsed
-# [    2.561241]     ok 4 - mptcp_token_test_destroyed
-# [    2.562914] ok 12 - mptcp-token
-# [    2.562984] not ok 1 test_xdp_veth.sh_1 # SKIP
-# [    2.564424] not ok 2 test_xdp_veth.sh_2
+# [   14.863117]     KTAP version 1
+# [   14.863300]     # Subtest: fat_test
+# [   14.863331]     1..3
+# [   14.865700]     ok 1 fat_checksum_test
+# [   14.865943]         KTAP version 1
+# [   14.866295]         # Subtest: fat_time_fat2unix_test
+# [   14.867871]         ok 1 Earliest possible UTC (1980-01-01 00:00:00)
+# [   14.869285]         ok 2 Latest possible UTC (2107-12-31 23:59:58)
+# [   14.871139]         ok 3 Earliest possible (UTC-11) (== 1979-12-31 13:00:00 UTC)
+# [   14.872645]         ok 4 Latest possible (UTC+11) (== 2108-01-01 10:59:58 UTC)
+# [   14.874433]         ok 5 Leap Day / Year (1996-02-29 00:00:00)
+# [   14.876449]         ok 6 Year 2000 is leap year (2000-02-29 00:00:00)
+# [   14.878015]         ok 7 Year 2100 not leap year (2100-03-01 00:00:00)
+# [   14.879633]         ok 8 Leap year + timezone UTC+1 (== 2004-02-29 00:30:00 UTC)
+# [   14.881756]         ok 9 Leap year + timezone UTC-1 (== 2004-02-29 23:30:00 UTC)
+# [   14.883477]         ok 10 VFAT odd-second resolution (1999-12-31 23:59:59)
+# [   14.885472]         ok 11 VFAT 10ms resolution (1980-01-01 00:00:00:0010)
+# [   14.885871]     # fat_time_fat2unix_test: pass:11 fail:0 skip:0 total:11
 
 parse_results() {
     test_log_file="$1"
-    grep -e "not ok" -e "ok" "${test_log_file}" > "${TEST_LOG}"
-    while read -r line; do {
-	# shellcheck disable=SC2046
-        if [ $(echo "${line}" | awk '{print $NF }') = "SKIP" ]; then
-	    echo "${line}" | awk '{print $(NF-2) " " "skip"}' 2>&1 | tee -a "${RESULT_FILE}"
-        else
-            echo "${line}" 2>&1 | tee -a "${TEST_PASS_FAIL_LOG}"
-        fi
-    } done < "${TEST_LOG}"
-
-    sed  -i -e 's/not ok/fail/g' "${TEST_PASS_FAIL_LOG}"
-    sed  -i -e 's/ok/pass/g' "${TEST_PASS_FAIL_LOG}"
-    awk '{print $NF " " $3}' "${TEST_PASS_FAIL_LOG}"  2>&1 | tee -a "${RESULT_FILE}"
+    ./parse-output.py < "${test_log_file}" | tee -a "${RESULT_FILE}"
 }
 
 check_root || error_msg "Please run this script as root"
