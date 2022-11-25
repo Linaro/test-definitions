@@ -199,7 +199,8 @@ test_rsa_sign_verify()
     $PTOOL --pin "${PIN}" --salt-len=-1 --sign --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --output-file data.sig
     openssl dgst -keyform PEM -verify rsa-pubkey.pub -sha256 -sigopt rsa_padding_mode:pss -sigopt rsa_mgf1_md:sha256 -sigopt rsa_pss_saltlen:-1 -signature data.sig data
     # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --signature-file data.sig
+    $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --signature-file data.sig | tee RSA-PKCS-PSS-sign-verify.log
+    grep "Signature is valid" RSA-PKCS-PSS-sign-verify.log
     check_return "RSA-PKCS-PSS-sign-verify"
 
     # RSA-PKCS: test sign/verify
@@ -208,7 +209,8 @@ test_rsa_sign_verify()
     $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data --output-file data.sig
     openssl rsautl -verify -inkey rsa-pubkey.pub -in data.sig -pubin
     # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data --signature-file data.sig
+    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data --signature-file data.sig | tee RSA-PKCS-sign-verify.log
+    grep "Signature is valid" RSA-PKCS-sign-verify.log
     check_return "RSA-PKCS-sign-verify"
 
     # RSA-PKCS-SHA256: test sign/verify
@@ -217,7 +219,8 @@ test_rsa_sign_verify()
     $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism SHA256-RSA-PKCS --input-file data --output-file data.sig
     openssl dgst -keyform PEM -verify rsa-pubkey.pub -sha256 -signature data.sig data
     # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism SHA256-RSA-PKCS --input-file data --signature-file data.sig
+    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism SHA256-RSA-PKCS --input-file data --signature-file data.sig | tee RSA-PKCS-SHA256-sign-verify.log
+    grep "Signature is valid" RSA-PKCS-SHA256-sign-verify.log
     check_return "RSA-PKCS-SHA256-sign-verify"
 
     # Encrypt (RSA-PKCS)
@@ -247,6 +250,9 @@ test_rsa_sign_verify()
     rm data.decrypted
     rm rsa-pubkey.der
     rm rsa-pubkey.pub
+    rm RSA-PKCS-SHA256-sign-verify.log
+    rm RSA-PKCS-sign-verify.log
+    rm RSA-PKCS-PSS-sign-verify.log
     se05x_cleanup
 }
 
