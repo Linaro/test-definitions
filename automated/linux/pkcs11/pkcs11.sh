@@ -202,6 +202,8 @@ test_rsa_sign_verify()
     $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --signature-file data.sig | tee RSA-PKCS-PSS-sign-verify.log
     grep "Signature is valid" RSA-PKCS-PSS-sign-verify.log
     check_return "RSA-PKCS-PSS-sign-verify"
+    rm data.sig
+    rm data.hash
 
     # RSA-PKCS: test sign/verify
     echo "RSA-PKCS test sign/verify"
@@ -212,6 +214,7 @@ test_rsa_sign_verify()
     $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data --signature-file data.sig | tee RSA-PKCS-sign-verify.log
     grep "Signature is valid" RSA-PKCS-sign-verify.log
     check_return "RSA-PKCS-sign-verify"
+    rm data.sig
 
     # RSA-PKCS-SHA256: test sign/verify
     echo "RSA-PKCS-SHA256 test sign/verify"
@@ -245,7 +248,6 @@ test_rsa_sign_verify()
     echo "Remove temporary files"
     rm data
     rm data.sig
-    rm data.hash
     rm data.crypt
     rm data.decrypted
     rm rsa-pubkey.der
@@ -253,6 +255,66 @@ test_rsa_sign_verify()
     rm RSA-PKCS-SHA256-sign-verify.log
     rm RSA-PKCS-sign-verify.log
     rm RSA-PKCS-PSS-sign-verify.log
+    se05x_cleanup
+}
+
+test_ec_sign_verify()
+{
+    local ID=02
+    se05x_connect
+
+    # Generate RSA keypair
+    echo "Generate keypair EC:prime256v1"
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --keypairgen --key-type EC:prime256v1 --id "${ID}" --label ec1 --token-label fio
+
+    echo "Read object "
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --read-object --type pubkey --id "${ID}" --token-label fio --output-file ec-pubkey.der
+    openssl ec -inform DER -outform PEM -in ec-pubkey.der -pubin > ec-pubkey.pub
+
+    echo "Creating data to sign"
+    echo "data to sign (max 100 bytes)" > data
+
+    # RSA-PKCS-PSS: test sign/verify
+    echo "ECDSA-SHA256 test sign/verify"
+    openssl dgst -binary -sha256 data > data.hash
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --salt-len=-1 --sign --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism ECDSA-SHA256 --input-file data.hash --output-file data.sig
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism ECDSA-SHA256 --input-file data.hash --signature-file data.sig | tee ECDSA-SHA256-sign-verify.log
+    grep "Signature is valid" ECDSA-SHA256-sign-verify.log
+    check_return "ECDSA-SHA256-sign-verify"
+    rm data.hash
+    rm data.sig
+
+    # RSA-PKCS: test sign/verify
+    echo "ECDSA test sign/verify"
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism ECDSA --input-file data --output-file data.sig
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism ECDSA --input-file data --signature-file data.sig | tee ECDSA-sign-verify.log
+    grep "Signature is valid" ECDSA-sign-verify.log
+    check_return "ECDSA-sign-verify"
+    rm data.sig
+
+    # House keeping
+    echo "Cleanup"
+    # shellcheck disable=SC2086
+    $PTOOL --list-objects --pin "${PIN}"
+    # shellcheck disable=SC2086
+    $PTOOL -b  --type privkey --id "${ID}" --pin "${PIN}"
+    # shellcheck disable=SC2086
+    $PTOOL -b  --type pubkey --id "${ID}" --pin "${PIN}"
+    # shellcheck disable=SC2086
+    $PTOOL --list-objects --pin "${PIN}"
+
+    echo "Remove temporary files"
+    rm data
+    rm ec-pubkey.der
+    rm ec-pubkey.pub
+    rm ECDSA-SHA256-sign-verify.log
+    rm ECDSA-sign-verify.log
     se05x_cleanup
 }
 
@@ -371,6 +433,7 @@ test_cypher "RSA:2048" "SHA256-RSA-PKCS"
 test_cypher "RSA:4096" "SHA256-RSA-PKCS"
 test_ecc_derive
 test_rsa_sign_verify
+test_ec_sign_verify
 test_import_key
 if [ "${EXECUTE_LOOP}" = "True" ] || [ "${EXECUTE_LOOP}" = "true" ]; then
     test_rsa_loop
