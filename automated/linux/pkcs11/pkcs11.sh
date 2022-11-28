@@ -66,8 +66,32 @@ se05x_connect()
     fi
 }
 
+housekeeping()
+{
+    local ID="$1"
+    local FILE_LIST=$@
+    # remove ID from the file list
+    unset FILE_LIST[0]
+
+    echo "Cleanup"
+    # shellcheck disable=SC2086
+    $PTOOL --list-objects --pin "${PIN}"
+    # shellcheck disable=SC2086
+    $PTOOL -b  --type privkey --id "${ID}" --pin "${PIN}"
+    # shellcheck disable=SC2086
+    $PTOOL -b  --type pubkey --id "${ID}" --pin "${PIN}"
+    # shellcheck disable=SC2086
+    $PTOOL --list-objects --pin "${PIN}"
+
+    for FILE in "${FILE_LIST}";
+    do
+        rm "${FILE}"
+    done
+}
+
 test_cypher()
 {
+    local ID=01
     local cypher="$1"
     local mechanism="$2"
     FILE=hello
@@ -76,18 +100,18 @@ test_cypher()
     echo "$cypher test"
     echo "Create $cypher keypair"
     # shellcheck disable=SC2086
-    $PTOOL --keypairgen --key-type "${cypher}" --id 01 --label ldts  --token-label fio --pin $PIN
+    $PTOOL --keypairgen --key-type "${cypher}" --id "${ID}" --label ldts  --token-label fio --pin "${PIN}"
     check_return "$cypher-keypair"
 
     echo "Get the publick key to pubkey.spki"
     # shellcheck disable=SC2086
-    $PTOOL -l --pin $PIN --id 01 --read-object --type pubkey --output-file pubkey.spki
+    $PTOOL -l --pin "${PIN}" --id "${ID}" --read-object --type pubkey --output-file pubkey.spki
     check_return "$cypher-pubkey-read"
 
-    echo "hello world" > $FILE
+    echo "hello world" > "${FILE}"
 
     echo "Create a digest sha256 : hello.hash"
-    openssl dgst -binary -sha256 $FILE > $FILE.hash
+    openssl dgst -binary -sha256 "${FILE}" > "${FILE}.hash"
 
     # The block below is used to make sure that
     # signing works for both ECC and RSA. In case of
@@ -95,10 +119,10 @@ test_cypher()
     # while in case of RSS signing is done using the data
     # itself.
     OPERATION="ec"
-    INFILE=$FILE.hash
+    INFILE="${FILE}.hash"
     if [ -z "${cypher##*RSA*}" ]; then
         OPERATION="rsa"
-        INFILE=$FILE
+        INFILE="${FILE}"
     fi
 
     echo "Transform pubkey.spki from DER to PEM"
@@ -106,28 +130,13 @@ test_cypher()
 
     echo "Sign hello.hash with the PEM key and generate hello.sig signature"
     # shellcheck disable=SC2086
-    $PTOOL --sign --pin "${PIN}" --id 01 --input-file "${INFILE}" --output-file "${FILE}.sig" --mechanism "${mechanism}" -f openssl
+    $PTOOL --sign --pin "${PIN}" --id "${ID}" --input-file "${INFILE}" --output-file "${FILE}.sig" --mechanism "${mechanism}" -f openssl
 
     echo "Use the public key to verify the file signature"
     openssl dgst -sha256 -verify pubkey.pub -signature "${FILE}.sig" "${FILE}"
     check_return "$cypher-pubkey-verify"
 
-    echo "Delete private and public keys"
-    # shellcheck disable=SC2086
-    $PTOOL --list-objects --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b  --type privkey --id 01 --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b  --type pubkey --id 01 --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL --list-objects --pin "${PIN}"
-
-    echo "Remove temporary files"
-    rm "${FILE}"
-    rm "${FILE}.sig"
-    rm "${FILE}.hash"
-    rm pubkey.spki
-    rm pubkey.pub
+    housekeeping "${ID}" "${FILE}" "${FILE}.sig" "${FILE}.hash" pubkey.spki pubkey.pub
     se05x_cleanup
 }
 
@@ -153,30 +162,24 @@ test_ecc_derive()
     diff bob.secret alice.secret
     check_return "ecc-pubkey-derive"
 
-    # shellcheck disable=SC2086
-    $PTOOL --list-objects --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b --type privkey --id 01 --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b --type pubkey --id 01 --pin "${PIN}"
+    housekeeping "${ID}" alice-pub.der alice.secret bob-pub.der bob.secret
     # shellcheck disable=SC2086
     $PTOOL -b --type privkey --id 02 --pin "${PIN}"
     # shellcheck disable=SC2086
     $PTOOL -b --type pubkey --id 02 --pin "${PIN}"
     # shellcheck disable=SC2086
     $PTOOL --list-objects --pin "${PIN}"
-
-    echo "Remove temporary files"
-    rm alice-pub.der
-    rm alice.secret
-    rm bob-pub.der
-    rm bob.secret
     se05x_cleanup
 }
 
 test_rsa_sign_verify()
 {
+    # test_rsa_sign_verify <mechanism> <hash>
+    # test_rsa_sign_verify RSA-PKCS-PSS SHA256
+    # HASH can be emtpy
     local ID=01
+    local MECHANISM="$1"
+    local HASH="$2"
     se05x_connect
 
     # Generate RSA keypair
@@ -192,69 +195,54 @@ test_rsa_sign_verify()
     echo "Creating data to sign"
     echo "data to sign (max 100 bytes)" > data
 
-    # RSA-PKCS-PSS: test sign/verify
-    echo "RSA-PKCS-PSS test sign/verify"
-    openssl dgst -binary -sha256 data > data.hash
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --salt-len=-1 --sign --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --output-file data.sig
-    openssl dgst -keyform PEM -verify rsa-pubkey.pub -sha256 -sigopt rsa_padding_mode:pss -sigopt rsa_mgf1_md:sha256 -sigopt rsa_pss_saltlen:-1 -signature data.sig data
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --signature-file data.sig | tee RSA-PKCS-PSS-sign-verify.log
-    grep "Signature is valid" RSA-PKCS-PSS-sign-verify.log
-    check_return "RSA-PKCS-PSS-sign-verify"
-    rm data.sig
-    rm data.hash
+    echo "${MECHANISM} test sign/verify"
+    if [ -n "${HASH}" ]; then
+        openssl dgst -binary -sha256 data > data.hash
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --salt-len=-1 --sign --id "${ID}" --token-label fio --hash-algorithm="${HASH}" --mechanism "${MECHANISM}" --input-file data.hash --output-file data.sig
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --signature-file data.sig | tee "${MECHANISM}-sign-verify.log"
+        rm data.hash
+    else
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism "${MECHANISM}" --input-file data --output-file data.sig
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism "${MECHANISM}" --input-file data --signature-file data.sig | tee "${MECHANISM}-sign-verify.log"
+    fi
+    grep "Signature is valid" "${MECHANISM}-sign-verify.log"
+    check_return "${MECHANISM}-sign-verify"
 
-    # RSA-PKCS: test sign/verify
-    echo "RSA-PKCS test sign/verify"
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data --output-file data.sig
-    openssl rsautl -verify -inkey rsa-pubkey.pub -in data.sig -pubin
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data --signature-file data.sig | tee RSA-PKCS-sign-verify.log
-    grep "Signature is valid" RSA-PKCS-sign-verify.log
-    check_return "RSA-PKCS-sign-verify"
-    rm data.sig
+    housekeeping "${ID}" data data.sig rsa-pubkey.der rsa-pubkey.pub "${MECHANISM}-sign-verify.log"
+    se05x_cleanup
+}
 
-    # RSA-PKCS-SHA256: test sign/verify
-    echo "RSA-PKCS-SHA256 test sign/verify"
+test_rsa_encrypt_decrypt()
+{
+    local ID=03
+    se05x_connect
+
+    echo "Creating data to sign"
+    echo "data to sign (max 100 bytes)" > data
+
+    # Generate RSA keypair
+    echo "Generate keypair 2048"
     # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism SHA256-RSA-PKCS --input-file data --output-file data.sig
-    openssl dgst -keyform PEM -verify rsa-pubkey.pub -sha256 -signature data.sig data
+    $PTOOL --pin "${PIN}" --keypairgen --key-type rsa:2048 --id "${ID}" --label rsa1 --token-label fio
+
+    echo "Read object "
     # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism SHA256-RSA-PKCS --input-file data --signature-file data.sig | tee RSA-PKCS-SHA256-sign-verify.log
-    grep "Signature is valid" RSA-PKCS-SHA256-sign-verify.log
-    check_return "RSA-PKCS-SHA256-sign-verify"
+    $PTOOL --pin "${PIN}" --read-object --type pubkey --id "${ID}" --token-label fio --output-file rsa-pubkey.der
+    openssl rsa -inform DER -outform PEM -in rsa-pubkey.der -pubin > rsa-pubkey.pub
 
     # Encrypt (RSA-PKCS)
-    echo "Encrypt/decrypt"
+    echo "RSA-PKCS Encrypt/decrypt"
     openssl rsautl -encrypt -inkey rsa-pubkey.pub -in data -pubin -out data.crypt
     # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --decrypt --id 01 --token-label fio --mechanism RSA-PKCS --input-file data.crypt > data.decrypted
+    $PTOOL --pin "${PIN}" --decrypt --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data.crypt > data.decrypted
     diff data data.decrypted
     check_return "rsa-encrypt-decrypt"
 
-    # House keeping
-    echo "Cleanup"
-    # shellcheck disable=SC2086
-    $PTOOL --list-objects --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b  --type privkey --id "${ID}" --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b  --type pubkey --id "${ID}" --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL --list-objects --pin "${PIN}"
-
-    echo "Remove temporary files"
-    rm data
-    rm data.sig
-    rm data.crypt
-    rm data.decrypted
-    rm rsa-pubkey.der
-    rm rsa-pubkey.pub
-    rm RSA-PKCS-SHA256-sign-verify.log
-    rm RSA-PKCS-sign-verify.log
-    rm RSA-PKCS-PSS-sign-verify.log
+    housekeeping "${ID}" data data.crypt data.decrypt rsa-pubkey.der rsa-pubkey.pub
     se05x_cleanup
 }
 
@@ -296,25 +284,8 @@ test_ec_sign_verify()
     $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism ECDSA --input-file data --signature-file data.sig | tee ECDSA-sign-verify.log
     grep "Signature is valid" ECDSA-sign-verify.log
     check_return "ECDSA-sign-verify"
-    rm data.sig
 
-    # House keeping
-    echo "Cleanup"
-    # shellcheck disable=SC2086
-    $PTOOL --list-objects --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b  --type privkey --id "${ID}" --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL -b  --type pubkey --id "${ID}" --pin "${PIN}"
-    # shellcheck disable=SC2086
-    $PTOOL --list-objects --pin "${PIN}"
-
-    echo "Remove temporary files"
-    rm data
-    rm ec-pubkey.der
-    rm ec-pubkey.pub
-    rm ECDSA-SHA256-sign-verify.log
-    rm ECDSA-sign-verify.log
+    housekeeping "${ID}" data data.sig data.decrypt ec-pubkey.der ec-pubkey.pub ECDSA-SHA256-sign-verify.log ECDSA-sign-verify.log
     se05x_cleanup
 }
 
@@ -332,14 +303,7 @@ test_import_key() {
             report_fail "se05x-import-keys"
         fi
         echo "Cleanup temporary certificates"
-        # shellcheck disable=SC2086
-        $PTOOL --list-objects --pin "${PIN}"
-        # shellcheck disable=SC2086
-        $PTOOL -b  --type privkey --id "${ID}" --pin "${PIN}"
-        # shellcheck disable=SC2086
-        $PTOOL -b  --type pubkey --id "${ID}" --pin "${PIN}"
-        # shellcheck disable=SC2086
-        $PTOOL --list-objects --pin "${PIN}"
+        housekeeping "${ID}"
     else
         report_skip "se05x-import-keys"
     fi
@@ -432,7 +396,10 @@ test_cypher "EC:prime256v1" "ECDSA"
 test_cypher "RSA:2048" "SHA256-RSA-PKCS"
 test_cypher "RSA:4096" "SHA256-RSA-PKCS"
 test_ecc_derive
-test_rsa_sign_verify
+test_rsa_sign_verify RSA-PKCS-PSS SHA256
+test_rsa_sign_verify RSA-PKCS
+test_rsa_sign_verify SHA256-RSA-PKCS
+test_rsa_encrypt_decrypt
 test_ec_sign_verify
 test_import_key
 if [ "${EXECUTE_LOOP}" = "True" ] || [ "${EXECUTE_LOOP}" = "true" ]; then
