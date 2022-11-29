@@ -15,13 +15,14 @@ export UBOOT_VAR_SET_TOOL
 
 usage() {
     echo "\
-    Usage: $0 [-type <kernel|uboot>]
+    Usage: $0 [-type <kernel|uboot|app>]
 
-    -t <kernel|uboot>
+    -t <kernel|uboot|app>
         This determines type of corruption test
         performed:
         kernel: corrupt OTA updated kernel binary
         uboot: corrupt OTA updated u-boot binary
+        app: corrupt OTA app sync
     -u <u-boot variable read tool>
         Set the name of the tool to read u-boot variables
         On the unsecured systems it will usually be
@@ -84,6 +85,26 @@ else
     report_skip "bootupgrade_available_after_rollback"
     report_skip "bootfirmware_version_after_rollback"
     report_skip "fiovb_is_secondary_boot_after_rollback"
+fi
+
+if [ "${TYPE}" = "app" ]; then
+    echo "Checking for broken app"
+    runtime="5 minute"
+    endtime=$(date -ud "$runtime" +%s)
+    FOUND=0
+
+    while [ ! "${FOUND}" -eq 1 ]; do
+        if [ "$(date -u +%s)" -ge "$endtime" ]; then
+            report_fail "app-rollback"
+            break
+        elif (journalctl --no-pager -u aktualizr-lite | grep "Finalization has failed; reason: apps start failure"); then
+            echo "broken app found"
+            FOUND=1
+            report_pass "app-rollback"
+        fi
+    done
+else
+    report_skip "app-rollback"
 fi
 # for now ignore /etc/os-release
 cat /etc/os-release

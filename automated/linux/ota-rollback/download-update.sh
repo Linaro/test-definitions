@@ -19,10 +19,11 @@ usage() {
 	echo "\
 	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>]
 
-    -t <kernel|uboot>
+    -t <kernel|uboot|app>
         This determines type of corruption test performed:
         kernel: corrupt OTA updated kernel binary
         uboot: corrupt OTA updated u-boot binary
+        app: corrupt OTA app sync
     -u <u-boot variable read tool>
         Set the name of the tool to read u-boot variables
         On the unsecured systems it will usually be
@@ -218,6 +219,10 @@ if [ "${UPGRADE_AVAILABLE}" -eq 1 ]; then
             # shellcheck disable=SC2154
             echo bad > "${kernel_image}"
         fi
+    fi
+    if [ "${TYPE}" = "app" ]; then
+        cat /etc/os-relese
+        echo "Starting broken-app rollback"
     fi
 else
     lava-test-raise "No-update-available-${TYPE}"
