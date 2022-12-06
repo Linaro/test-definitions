@@ -219,10 +219,10 @@ rm -f "${skips}"
 if [ -n "${TST_CASENAME}" ]; then
     ./run_kselftest.sh -t "${TST_CASENAME}" 2>&1 | tee -a "${LOGFILE}"
 elif [ -n "${TST_CMDFILES}" ]; then
-    cp kselftest-list.txt kselftest-list.txt.skips
+    cp kselftest-list.txt kselftest-list.txt.original
     # shellcheck disable=SC2086
     for test in ${TST_CMDFILES}; do
-        cp kselftest-list.txt.skips kselftest-list.txt
+        cp kselftest-list.txt.original kselftest-list.txt
         grep "^${test}:" kselftest-list.txt | tee kselftest-list.tmp
         split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" kselftest-list.tmp > shardfile
         echo "============== Tests to run ==============="
@@ -231,6 +231,7 @@ elif [ -n "${TST_CMDFILES}" ]; then
         cp shardfile kselftest-list.txt
         ./run_kselftest.sh -c ${test} 2>&1 | tee -a "${LOGFILE}"
     done
+    cp kselftest-list.txt.original kselftest-list.txt
 else
     ./run_kselftest.sh 2>&1 | tee "${LOGFILE}"
 fi
