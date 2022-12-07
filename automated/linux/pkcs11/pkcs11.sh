@@ -11,6 +11,7 @@ PTOOL="pkcs11-tool --module /usr/lib/libckteec.so.0.1.0"
 USE_SE05X="True"
 EXECUTE_LOOP="True"
 TOKEN_LABEL=fio
+SE05X_TOOL=ssscli
 
 usage() {
     echo "\
@@ -23,7 +24,7 @@ usage() {
         This flag switches on/off the use of SE05X TPM device.
         It is turned on by default but users can choose to use
         softhsm as alternative. Setting this flag to False will
-        prevent script from calling ssscli.
+        prevent script from calling ssscli or fio-se05x-cli.
     -l <true|false>
         Run loop test. The test is meant to only be executed on
         SE05x device. Running this test with sofhsm might take
@@ -39,6 +40,7 @@ while getopts "p:t:s:l:h" opts; do
         t) USE_SE05X="${OPTARG}";;
         s) SKIP_INSTALL="${OPTARG}";;
         l) EXECUTE_LOOP="${OPTARG}";;
+        c) SE05X_TOOL="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -55,7 +57,12 @@ se05x_cleanup()
 {
     if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
         echo "Reset SE05x"
-        ssscli se05x reset
+        if [ "${SE05X_TOOL}" = "ssscli" ]; then
+            ssscli se05x reset
+        fi
+        if [ "${SE05X_TOOL}" = "fio-se05x-cli" ]; then
+            fio-se05x-cli --delete-objects all --se050
+        fi
     fi
 }
 
@@ -63,7 +70,10 @@ se05x_connect()
 {
     if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
         echo "Connect SE05x"
-        ssscli connect se05x t1oi2c none
+        if [ "${SE05X_TOOL}" = "ssscli" ]; then
+            ssscli connect se05x t1oi2c none
+        fi
+        # no need to connect when using fio-se05x-cli
     fi
 }
 
@@ -252,7 +262,7 @@ test_ec_sign_verify()
     local ID=02
     se05x_connect
 
-    # Generate RSA keypair
+    # Generate EC keypair
     echo "Generate keypair EC:prime256v1"
     # shellcheck disable=SC2086
     $PTOOL --pin "${PIN}" --keypairgen --key-type EC:prime256v1 --id "${ID}" --label ec1 --token-label fio
@@ -265,7 +275,7 @@ test_ec_sign_verify()
     echo "Creating data to sign"
     echo "data to sign (max 100 bytes)" > data
 
-    # RSA-PKCS-PSS: test sign/verify
+    # ECDSA-SHA256: test sign/verify
     echo "ECDSA-SHA256 test sign/verify"
     openssl dgst -binary -sha256 data > data.hash
     # shellcheck disable=SC2086
@@ -277,7 +287,7 @@ test_ec_sign_verify()
     rm data.hash
     rm data.sig
 
-    # RSA-PKCS: test sign/verify
+    # ECDSA: test sign/verify
     echo "ECDSA test sign/verify"
     # shellcheck disable=SC2086
     $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism ECDSA --input-file data --output-file data.sig
@@ -293,7 +303,11 @@ test_ec_sign_verify()
 test_import_key() {
     se05x_connect
     if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
-        OID=$(ssscli se05x readidlist | grep RSA_CRT | grep "Key Pair" | head -n 1 | awk '{print substr($2,3)}')
+        if [ "${SE05X_TOOL}" = "ssscli" ]; then
+            OID=$(ssscli se05x readidlist | grep RSA_CRT | grep "Key Pair" | head -n 1 | awk '{print substr($2,3)}')
+        else
+            OID=$(fio-se05x-cli --list-objects --se050 2>&1 | grep RSA_KEY_PAIR_CRT | head -n 1 | awk '{print substr($2,3)}')
+        fi
         ID=05
         # shellcheck disable=SC2086
         $PTOOL --keypairgen --key-type RSA:4096 --id "${ID}" --label "SE_${OID}" --token-label fio --pin "${PIN}"
@@ -368,10 +382,12 @@ test_rsa_loop()
 }
 
 if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
-    ssscli connect se05x t1oi2c none
-    check_return "ssscli-connect"
-else
-    report_skip "ssscli-connect"
+    if [ "${SE05X_TOOL}" = "ssscli" ]; then
+        ssscli connect se05x t1oi2c none
+        check_return "ssscli-connect"
+    else
+        report_skip "ssscli-connect"
+    fi
 fi
 # shellcheck disable=SC2086
 $PTOOL --init-token --label "${TOKEN_LABEL}" --so-pin "${SO_PIN}"
@@ -387,10 +403,12 @@ $PTOOL --list-objects --token-label "${TOKEN_LABEL}" --pin "${PIN}"
 check_return "pkcs11-list-objects"
 
 if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
-    ssscli disconnect
-    check_return "ssscli-disconnect"
-else
-    report_skip "ssscli-disconnect"
+    if [ "${SE05X_TOOL}" = "ssscli" ]; then
+        ssscli disconnect
+        check_return "ssscli-disconnect"
+    else
+        report_skip "ssscli-disconnect"
+    fi
 fi
 
 test_cypher "EC:prime256v1" "ECDSA"

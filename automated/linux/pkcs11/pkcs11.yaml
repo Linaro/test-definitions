@@ -35,9 +35,10 @@ params:
     PTOOL: "pkcs11-tool --module /usr/lib/libckteec.so.0.1"
     USE_SE05X: "True"
     EXECUTE_LOOP: "True"
+    SE05X_TOOL: "ssscli"
 
 run:
     steps:
         - cd ./automated/linux/pkcs11/
-        - ./pkcs11.sh -s "${SKIP_INSTALL}" -t "${USE_SE05X}" -p "${PTOOL}" -l "${EXECUTE_LOOP}"
+        - ./pkcs11.sh -s "${SKIP_INSTALL}" -t "${USE_SE05X}" -p "${PTOOL}" -l "${EXECUTE_LOOP}" -c "${SE05X_TOOL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
