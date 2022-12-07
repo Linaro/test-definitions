@@ -10,8 +10,8 @@ lava_test_set="$?"
 if [ -f "${RESULT_FILE}" ]; then
     while read -r line; do
         if echo "${line}" | grep -iq -E ".* +(pass|fail|skip|unknown)$"; then
-            test="$(echo "${line}" | awk '{print $1}')"
-            result="$(echo "${line}" | awk '{print $2}')"
+            test="${line%% *}"
+            result="${line##* }"
 
             if [ "${lava_test_case}" -eq 0 ]; then
                 lava-test-case "${test}" --result "${result}"
