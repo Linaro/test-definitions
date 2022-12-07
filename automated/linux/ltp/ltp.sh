@@ -183,6 +183,7 @@ run_ltp() {
     # Cleanup
     # don't fail the whole test job if rm fails
     rm -rf "${LTP_TMPDIR}" || true
+    rm -rf alltests || true
 }
 
 # Prepare system
