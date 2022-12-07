@@ -10,6 +10,7 @@ export RESULT_FILE
 PTOOL="pkcs11-tool --module /usr/lib/libckteec.so.0.1.0"
 USE_SE05X="True"
 EXECUTE_LOOP="True"
+TOKEN_LABEL=fio
 
 usage() {
     echo "\
@@ -373,16 +374,16 @@ else
     report_skip "ssscli-connect"
 fi
 # shellcheck disable=SC2086
-$PTOOL --init-token --label fio --so-pin "${SO_PIN}"
+$PTOOL --init-token --label "${TOKEN_LABEL}" --so-pin "${SO_PIN}"
 check_return "pkcs11-init-token"
 # shellcheck disable=SC2086
-$PTOOL --init-pin --so-pin "${SO_PIN}" --pin "${PIN}"
+$PTOOL --init-pin --token-label "${TOKEN_LABEL}" --so-pin "${SO_PIN}" --pin "${PIN}"
 check_return "pkcs11-init-pin"
 # shellcheck disable=SC2086
-$PTOOL --list-mechanisms --pin "${PIN}"
+$PTOOL --list-mechanisms --token-label "${TOKEN_LABEL}" --pin "${PIN}"
 check_return "pkcs11-list-mechanisms"
 # shellcheck disable=SC2086
-$PTOOL --list-objects --pin "${PIN}"
+$PTOOL --list-objects --token-label "${TOKEN_LABEL}" --pin "${PIN}"
 check_return "pkcs11-list-objects"
 
 if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
