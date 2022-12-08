@@ -5,10 +5,6 @@
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 RESULT_LOG="${OUTPUT}/result_log.txt"
-TMP_LOG="${OUTPUT}/tmp_log.txt"
-TEST_PASS_LOG="${OUTPUT}/test_pass_log.txt"
-TEST_FAIL_LOG="${OUTPUT}/test_fail_log.txt"
-TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 export RESULT_FILE
 SKIP_INSTALL="false"
 # List of test cases
@@ -88,40 +84,10 @@ run_perf_test() {
 
 # Parse perf test results
 parse_perf_test_results() {
-    grep -a -E "Ok" "${RESULT_LOG}" | tee -a "${TEST_PASS_LOG}"
-    sed -i -e 's/(//g' "${TEST_PASS_LOG}"
-    sed -i -e 's/)//g' "${TEST_PASS_LOG}"
-    sed -i -e 's/://g' "${TEST_PASS_LOG}"
-    sed -i -e "s/'//g" "${TEST_PASS_LOG}"
-    sed -i -e 's/&//g' "${TEST_PASS_LOG}"
-    sed -i -e 's/\*//g' "${TEST_PASS_LOG}"
-    awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF}' "${TEST_PASS_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
-    sed -i -e 's/Ok/pass/g' "${RESULT_FILE}"
-
-    grep -a -E "FAILED" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_FAIL_LOG}"
-    sed -i -e 's/\[[0-9]*m//g' "${TEST_FAIL_LOG}"
-    sed -i -e 's/(//g' "${TEST_FAIL_LOG}"
-    sed -i -e 's/)//g' "${TEST_FAIL_LOG}"
-    sed -i -e 's/://g' "${TEST_FAIL_LOG}"
-    sed -i -e "s/'//g" "${TEST_FAIL_LOG}"
-    sed -i -e 's/&//g' "${TEST_FAIL_LOG}"
-    sed -i -e 's/\*//g' "${TEST_FAIL_LOG}"
-    awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF }' "${TEST_FAIL_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
-    sed -i -e 's/FAILED\!/fail/g' "${RESULT_FILE}"
-
-    grep -a -E "Skip" "${RESULT_LOG}" | cut -d: -f 1-2 2>&1 | tee -a "${TEST_SKIP_LOG}"
-    sed -i -e 's/\[[0-9]*m//g' "${TEST_SKIP_LOG}"
-    sed -i -e 's/(//g' "${TEST_SKIP_LOG}"
-    sed -i -e 's/)//g' "${TEST_SKIP_LOG}"
-    sed -i -e 's/://g' "${TEST_SKIP_LOG}"
-    sed -i -e "s/'//g" "${TEST_SKIP_LOG}"
-    sed -i -e 's/&//g' "${TEST_SKIP_LOG}"
-    sed -i -e 's/\*//g' "${TEST_SKIP_LOG}"
-    awk '{for (i=1; i<NF-1; i++) printf $i "-"; print $i " " $NF}' "${TEST_SKIP_LOG}" 2>&1 | tee -a "${RESULT_FILE}"
-    sed -i -e 's/Skip/skip/g' "${RESULT_FILE}"
+    ./parse-output.py "${RESULT_LOG}" "${RESULT_FILE}"
 
     # Clean up
-    rm -rf "${TMP_LOG}" "${RESULT_LOG}" "${TEST_PASS_LOG}" "${TEST_FAIL_LOG}" "${TEST_SKIP_LOG}"
+    rm -rf "${RESULT_LOG}"
 }
 
 # Test run.
