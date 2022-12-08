@@ -128,34 +128,7 @@ fi
 
 
 parse_output() {
-    perl -ne '
-    if (m|^# selftests: (.*)$|) {
-	$testdir = $1;
-	$testdir =~ s|[:/]\s*|.|g;
-    } elsif (m|^(?:# )*(not )?ok (?:\d+) ([^#]+)(# (SKIP)?)?|) {
-        $not = $1;
-        $test = $2;
-        $skip = $4;
-        $test =~ s|\s+$||;
-        # If the test name starts with "selftests: " it is "fully qualified".
-        if ($test =~ /selftests: (.*)/) {
-            $test = $1;
-	    $test =~ s|[:/]\s*|.|g;
-        } else {
-            # Otherwise, it likely needs the testdir prepended.
-            $test = "$testdir.$test";
-        }
-        # Any appearance of the SKIP is a skip.
-        if ($skip eq "SKIP") {
-            $result="skip";
-        } elsif ($not eq "not ") {
-            $result="fail";
-        } else {
-            $result="pass";
-        }
-	print "$test $result\n";
-    }
-' "${LOGFILE}" >> "${RESULT_FILE}"
+    ./parse-output.py < "${LOGFILE}" | tee -a "${RESULT_FILE}"
 }
 
 install() {
