@@ -34,7 +34,7 @@ usage() {
     "
 }
 
-while getopts "p:t:s:l:h" opts; do
+while getopts "p:t:s:l:c:h" opts; do
     case "$opts" in
         p) PTOOL="${OPTARG}";;
         t) USE_SE05X="${OPTARG}";;
@@ -80,9 +80,9 @@ se05x_connect()
 housekeeping()
 {
     local ID="$1"
-    local FILE_LIST=$@
+    local FILE_LIST=( "$@" )
     # remove ID from the file list
-    unset FILE_LIST[0]
+    unset "${FILE_LIST[0]}"
 
     echo "Cleanup"
     # shellcheck disable=SC2086
@@ -94,7 +94,7 @@ housekeeping()
     # shellcheck disable=SC2086
     $PTOOL --list-objects --pin "${PIN}"
 
-    for FILE in "${FILE_LIST}";
+    for FILE in "${FILE_LIST[@]}";
     do
         rm "${FILE}"
     done
@@ -183,47 +183,115 @@ test_ecc_derive()
     se05x_cleanup
 }
 
-test_rsa_sign_verify()
+test_sign()
 {
-    # test_rsa_sign_verify <mechanism> <hash>
-    # test_rsa_sign_verify RSA-PKCS-PSS SHA256
+    local ID="$1"
+    local HASH="$2"
+    local MECHANISM="$3"
+    local DATA_FILE="$4"
+    if [ -n "${HASH}" ]; then
+        openssl dgst -binary -sha256 "${DATA_FILE}" > "${DATA_FILE}.hash"
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --salt-len=-1 --sign --id "${ID}" --token-label fio --hash-algorithm="${HASH}" --mechanism "${MECHANISM}" --input-file "${DATA_FILE}.hash" --output-file "${DATA_FILE}.sig"
+    else
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism "${MECHANISM}" --input-file "${DATA_FILE}" --output-file "${DATA_FILE}.sig"
+    fi
+}
+
+test_verify()
+{
+    local ID="$1"
+    local HASH="$2"
+    local MECHANISM="$3"
+    local DATA_FILE="$4"
+    local LOG_FILE="$5"
+    if [ -n "${HASH}" ]; then
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm="${HASH}" --mechanism "${MECHANISM}" --input-file "${DATA_FILE}.hash" --signature-file "${DATA_FILE}.sig" | tee "${LOG_FILE}"
+    else
+        # shellcheck disable=SC2086
+        $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism "${MECHANISM}" --input-file "${DATA_FILE}" --signature-file "${DATA_FILE}.sig" | tee "${LOG_FILE}"
+    fi
+}
+
+generate_pubkey()
+{
+    local ID="$1"
+    local FILE_NAME="$2"
+    local KEY_TYPE="$3"
+    local LABEL=rsa1
+    local SSL_OP=rsa
+    case "${KEY_TYPE}" in
+        "*EC*")
+            LABEL=ec1;
+            SSL_OP=ec;
+            ;;
+    esac
+    # Generate keypair
+    echo "Generate ${KEY_TYPE} keypair"
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --keypairgen --key-type "${KEY_TYPE}" --id "${ID}" --label "${LABEL}" --token-label fio
+
+    echo "Read object "
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --read-object --type pubkey --id "${ID}" --token-label fio --output-file "${FILE_NAME}.der"
+    openssl "${SSL_OP}" -inform DER -outform PEM -in "${FILE_NAME}.der" -pubin > "${FILE_NAME}.pub"
+}
+
+generate_rsa_pubkey()
+{
+    local ID="$1"
+    local FILE_NAME="$2"
+    generate_pubkey "${ID}" "${FILE_NAME}" rsa:2048
+}
+
+generate_ec_pubkey()
+{
+    local ID="$1"
+    local FILE_NAME="$2"
+    generate_pubkey "${ID}" "${FILE_NAME}" EC:prime256v1
+}
+
+test_rsa_encrypt()
+{
+    local ID="$1"
+    local PUB_KEY="$2"
+    local DATA_FILE="$3"
+    echo "RSA-PKCS Encrypt"
+    openssl rsautl -encrypt -inkey "${PUB_KEY}" -in "${DATA_FILE}" -pubin -out "${DATA_FILE}.crypt"
+}
+
+test_rsa_decrypt()
+{
+    local ID="$1"
+    local DATA_FILE="$2"
+    echo "RSA-PKCS Decrypt"
+    # shellcheck disable=SC2086
+    $PTOOL --pin "${PIN}" --decrypt --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file "${DATA_FILE}.crypt" > "${DATA_FILE}.decrypted"
+}
+
+test_sign_verify()
+{
+    # test_sign_verify <mechanism> <hash> <rsa|ec>
     # HASH can be emtpy
     local ID=01
     local MECHANISM="$1"
     local HASH="$2"
+    local KEY_TYPE="$3"
     se05x_connect
 
-    # Generate RSA keypair
-    echo "Generate keypair 2048"
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --keypairgen --key-type rsa:2048 --id "${ID}" --label rsa1 --token-label fio
-
-    echo "Read object "
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --read-object --type pubkey --id "${ID}" --token-label fio --output-file rsa-pubkey.der
-    openssl rsa -inform DER -outform PEM -in rsa-pubkey.der -pubin > rsa-pubkey.pub
-
+    "generate_${KEY_TYPE}_pubkey" "${ID}" "${KEY_TYPE}-pubkey"
     echo "Creating data to sign"
     echo "data to sign (max 100 bytes)" > data
 
     echo "${MECHANISM} test sign/verify"
-    if [ -n "${HASH}" ]; then
-        openssl dgst -binary -sha256 data > data.hash
-        # shellcheck disable=SC2086
-        $PTOOL --pin "${PIN}" --salt-len=-1 --sign --id "${ID}" --token-label fio --hash-algorithm="${HASH}" --mechanism "${MECHANISM}" --input-file data.hash --output-file data.sig
-        # shellcheck disable=SC2086
-        $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism RSA-PKCS-PSS --input-file data.hash --signature-file data.sig | tee "${MECHANISM}-sign-verify.log"
-        rm data.hash
-    else
-        # shellcheck disable=SC2086
-        $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism "${MECHANISM}" --input-file data --output-file data.sig
-        # shellcheck disable=SC2086
-        $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism "${MECHANISM}" --input-file data --signature-file data.sig | tee "${MECHANISM}-sign-verify.log"
-    fi
+    test_sign "${ID}" "${HASH}" "${MECHANISM}" data
+    test_verify "${ID}" "${HASH}" "${MECHANISM}" data "${MECHANISM}-sign-verify.log"
     grep "Signature is valid" "${MECHANISM}-sign-verify.log"
     check_return "${MECHANISM}-sign-verify"
 
-    housekeeping "${ID}" data data.sig rsa-pubkey.der rsa-pubkey.pub "${MECHANISM}-sign-verify.log"
+    housekeeping "${ID}" data data.sig "${KEY_TYPE}-pubkey.der" "${KEY_TYPE}-pubkey.pub" "${MECHANISM}-sign-verify.log"
     se05x_cleanup
 }
 
@@ -235,68 +303,15 @@ test_rsa_encrypt_decrypt()
     echo "Creating data to sign"
     echo "data to sign (max 100 bytes)" > data
 
-    # Generate RSA keypair
-    echo "Generate keypair 2048"
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --keypairgen --key-type rsa:2048 --id "${ID}" --label rsa1 --token-label fio
-
-    echo "Read object "
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --read-object --type pubkey --id "${ID}" --token-label fio --output-file rsa-pubkey.der
-    openssl rsa -inform DER -outform PEM -in rsa-pubkey.der -pubin > rsa-pubkey.pub
+    generate_rsa_pubkey "${ID}" rsa-pubkey
 
     # Encrypt (RSA-PKCS)
-    echo "RSA-PKCS Encrypt/decrypt"
-    openssl rsautl -encrypt -inkey rsa-pubkey.pub -in data -pubin -out data.crypt
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --decrypt --id "${ID}" --token-label fio --mechanism RSA-PKCS --input-file data.crypt > data.decrypted
+    test_rsa_encrypt "${ID}" rsa-pubkey.pub data
+    test_rsa_decrypt "${ID}" data
     diff data data.decrypted
     check_return "rsa-encrypt-decrypt"
 
     housekeeping "${ID}" data data.crypt data.decrypt rsa-pubkey.der rsa-pubkey.pub
-    se05x_cleanup
-}
-
-test_ec_sign_verify()
-{
-    local ID=02
-    se05x_connect
-
-    # Generate EC keypair
-    echo "Generate keypair EC:prime256v1"
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --keypairgen --key-type EC:prime256v1 --id "${ID}" --label ec1 --token-label fio
-
-    echo "Read object "
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --read-object --type pubkey --id "${ID}" --token-label fio --output-file ec-pubkey.der
-    openssl ec -inform DER -outform PEM -in ec-pubkey.der -pubin > ec-pubkey.pub
-
-    echo "Creating data to sign"
-    echo "data to sign (max 100 bytes)" > data
-
-    # ECDSA-SHA256: test sign/verify
-    echo "ECDSA-SHA256 test sign/verify"
-    openssl dgst -binary -sha256 data > data.hash
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --salt-len=-1 --sign --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism ECDSA-SHA256 --input-file data.hash --output-file data.sig
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --salt-len=-1 --id "${ID}" --token-label fio --hash-algorithm=SHA256 --mechanism ECDSA-SHA256 --input-file data.hash --signature-file data.sig | tee ECDSA-SHA256-sign-verify.log
-    grep "Signature is valid" ECDSA-SHA256-sign-verify.log
-    check_return "ECDSA-SHA256-sign-verify"
-    rm data.hash
-    rm data.sig
-
-    # ECDSA: test sign/verify
-    echo "ECDSA test sign/verify"
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --sign --id "${ID}" --token-label fio --mechanism ECDSA --input-file data --output-file data.sig
-    # shellcheck disable=SC2086
-    $PTOOL --pin "${PIN}" --verify --id "${ID}" --token-label fio --mechanism ECDSA --input-file data --signature-file data.sig | tee ECDSA-sign-verify.log
-    grep "Signature is valid" ECDSA-sign-verify.log
-    check_return "ECDSA-sign-verify"
-
-    housekeeping "${ID}" data data.sig data.decrypt ec-pubkey.der ec-pubkey.pub ECDSA-SHA256-sign-verify.log ECDSA-sign-verify.log
     se05x_cleanup
 }
 
@@ -415,11 +430,12 @@ test_cypher "EC:prime256v1" "ECDSA"
 test_cypher "RSA:2048" "SHA256-RSA-PKCS"
 test_cypher "RSA:4096" "SHA256-RSA-PKCS"
 test_ecc_derive
-test_rsa_sign_verify RSA-PKCS-PSS SHA256
-test_rsa_sign_verify RSA-PKCS
-test_rsa_sign_verify SHA256-RSA-PKCS
+test_sign_verify RSA-PKCS-PSS SHA256 rsa
+test_sign_verify RSA-PKCS "" rsa
+test_sign_verify SHA256-RSA-PKCS "" rsa
+test_sign_verify ECDSA-SHA256 SHA256 ec
+test_sign_verify ECDSA "" ec
 test_rsa_encrypt_decrypt
-test_ec_sign_verify
 test_import_key
 if [ "${EXECUTE_LOOP}" = "True" ] || [ "${EXECUTE_LOOP}" = "true" ]; then
     test_rsa_loop
