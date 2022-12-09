@@ -170,22 +170,20 @@ install() {
 
 ! check_root && error_msg "You need to be root to run this script."
 create_out_dir "${OUTPUT}"
-# shellcheck disable=SC2164
-cd "${OUTPUT}"
 
 install
 
 if [ -d "${KSELFTEST_PATH}" ]; then
     echo "kselftests found on rootfs"
-    # shellcheck disable=SC2164
-    cd "${KSELFTEST_PATH}"
+    # shellcheck disable=SC3044
+    pushd "${KSELFTEST_PATH}" || exit
 else
     # Fetch whatever we have been aimed at, assuming only that it can
     # be handled by "tar". Do not assume anything about the compression.
     wget "${TESTPROG_URL}"
     tar -xaf "$(basename "${TESTPROG_URL}")"
-    # shellcheck disable=SC2164
-    if [ ! -e "run_kselftest.sh" ]; then cd "kselftest"; fi
+    # shellcheck disable=SC3044
+    if [ ! -e "run_kselftest.sh" ]; then pushd "kselftest" || exit; fi
 fi
 
 skips=$(mktemp -p . -t skip-XXXXXX)
@@ -235,4 +233,6 @@ elif [ -n "${TST_CMDFILES}" ]; then
 else
     ./run_kselftest.sh 2>&1 | tee "${LOGFILE}"
 fi
+# shellcheck disable=SC3044
+popd || exit
 parse_output
