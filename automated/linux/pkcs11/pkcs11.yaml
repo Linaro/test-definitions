@@ -36,9 +36,12 @@ params:
     USE_SE05X: "True"
     EXECUTE_LOOP: "True"
     SE05X_TOOL: "ssscli"
+    OTA: "False"
+    OTA_ACTION: "sign"
+    OTA_DIRECTORY: "/home"
 
 run:
     steps:
         - cd ./automated/linux/pkcs11/
-        - ./pkcs11.sh -s "${SKIP_INSTALL}" -t "${USE_SE05X}" -p "${PTOOL}" -l "${EXECUTE_LOOP}" -c "${SE05X_TOOL}"
+        - ./pkcs11.sh -s "${SKIP_INSTALL}" -t "${USE_SE05X}" -p "${PTOOL}" -l "${EXECUTE_LOOP}" -c "${SE05X_TOOL}" -o "${OTA}" -a "${OTA_ACTION}" -d "${OTA_DIRECTORY}"
         - ../../utils/send-to-lava.sh ./output/result.txt

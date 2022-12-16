@@ -12,6 +12,9 @@ USE_SE05X="True"
 EXECUTE_LOOP="True"
 TOKEN_LABEL=fio
 SE05X_TOOL=ssscli
+OTA=false
+OTA_ACTION="sign"
+OTA_DIRECTORY="/home"
 
 usage() {
     echo "\
@@ -31,16 +34,26 @@ usage() {
         a very long time and exhaust memory/storage on the device.
     -s <true|false>
         Skip install. True by default.
+    -o <true|false>
+        Test sign/OTA/verify scenario
+    -a <sign|verify>
+        Action to perform in the test for OTA scenario
+    -d <absolute dir path>
+        Directory to store files for OTA test. Should be kept intact
+        during OTA.
     "
 }
 
-while getopts "p:t:s:l:c:h" opts; do
+while getopts "p:t:s:l:c:o:a:d:h" opts; do
     case "$opts" in
         p) PTOOL="${OPTARG}";;
         t) USE_SE05X="${OPTARG}";;
         s) SKIP_INSTALL="${OPTARG}";;
         l) EXECUTE_LOOP="${OPTARG}";;
         c) SE05X_TOOL="${OPTARG}";;
+        o) OTA="${OPTARG}";;
+        a) OTA_ACTION="${OPTARG}";;
+        d) OTA_DIRECTORY="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -426,21 +439,61 @@ if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
     fi
 fi
 
-test_cypher "EC:prime256v1" "ECDSA"
-test_cypher "RSA:2048" "SHA256-RSA-PKCS"
-test_cypher "RSA:4096" "SHA256-RSA-PKCS"
-test_ecc_derive
-test_sign_verify RSA-PKCS-PSS SHA256 rsa
-test_sign_verify RSA-PKCS "" rsa
-test_sign_verify SHA256-RSA-PKCS "" rsa
-test_sign_verify ECDSA-SHA256 SHA256 ec
-test_sign_verify ECDSA "" ec
-test_rsa_encrypt_decrypt
-test_import_key
-if [ "${EXECUTE_LOOP}" = "True" ] || [ "${EXECUTE_LOOP}" = "true" ]; then
-    test_rsa_loop
-else
-    report_skip "rsa-loop-remove-certs"
-fi
+if [ "${OTA}" = "true" ] || [ "${OTA}" = True ]; then
+    # test sign-OTA-verify scenario
+    cd "${OTA_DIRECTORY}" || error_fatal "Unable to find ${OTA_DIRECTORY} on the disk"
+    if [ "${OTA_ACTION}" = "sign" ]; then
+        echo "Sign RSA-PKCS-PSS SHA256" > rsa_sha256_pss
+        test_sign "01" SHA256 RSA-PKCS-PSS rsa_sha256_pss
 
+        echo "Sign RSA-PKCS" > rsa
+        test_sign "02" "" RSA-PKCS rsa
+
+        echo "Sign RSA-PKCS SHA256" > rsa_sha256
+        test_sign "03" "" SHA256-RSA-PKCS rsa_sha256
+
+        echo "Sign ECDSA-SHA256 SHA256" > ecdsa_sha256
+        test_sign "04" SHA256 ECDSA-SHA256 ecdsa_sha256
+
+        echo "Sign ECDSA-SHA256" > ecdsa
+        test_sign "05" "" ECDSA ec
+    else
+        test_verify "01" SHA256 RSA-PKCS-PSS rsa_sha256_pss rsa_sha256_pss.log
+        grep "Signature is valid" "rsa_sha256_pss.log"
+        check_return "RSA-PKCS-PSS-sign-ota-verify"
+
+        test_verify "02" "" RSA-PKCS rsa rsa.log
+        grep "Signature is valid" "rsa.log"
+        check_return "RSA-PKCS-sign-ota-verify"
+
+        test_verify "03" "" SHA256-RSA-PKCS rsa_sha256.log
+        grep "Signature is valid" "rsa_sha256.log"
+        check_return "SHA256-RSA-PKCS-sign-ota-verify"
+
+        test_verify "04" SHA256 ECDSA-SHA256 ecdsa_sha256 ecdsa_sha256.log
+        grep "Signature is valid" "ecdsa_sha256.log"
+        check_return "ECDSA-SHA256-sign-ota-verify"
+
+        test_verify "05" "" ECDSA ec ec.log
+        grep "Signature is valid" "ec.log"
+        check_return "ECDSA-sign-ota-verify"
+    fi
+else
+    test_cypher "EC:prime256v1" "ECDSA"
+    test_cypher "RSA:2048" "SHA256-RSA-PKCS"
+    test_cypher "RSA:4096" "SHA256-RSA-PKCS"
+    test_ecc_derive
+    test_sign_verify RSA-PKCS-PSS SHA256 rsa
+    test_sign_verify RSA-PKCS "" rsa
+    test_sign_verify SHA256-RSA-PKCS "" rsa
+    test_sign_verify ECDSA-SHA256 SHA256 ec
+    test_sign_verify ECDSA "" ec
+    test_rsa_encrypt_decrypt
+    test_import_key
+    if [ "${EXECUTE_LOOP}" = "True" ] || [ "${EXECUTE_LOOP}" = "true" ]; then
+        test_rsa_loop
+    else
+        report_skip "rsa-loop-remove-certs"
+    fi
+fi
 exit 0
