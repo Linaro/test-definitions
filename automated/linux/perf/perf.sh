@@ -84,7 +84,7 @@ run_perf_test() {
 
 # Parse perf test results
 parse_perf_test_results() {
-    ./parse-output.py "${RESULT_LOG}" "${RESULT_FILE}"
+    ./parse-output.py < "${RESULT_LOG}" | tee -a "${RESULT_FILE}"
 
     # Clean up
     rm -rf "${RESULT_LOG}"
