@@ -629,6 +629,9 @@ def get_packages(linux_distribution, target=None, target_port=None):
     linux_distribution is a string that may be 'debian',
         'ubuntu', 'centos', or 'fedora'.
 
+    If linux_distribution is not provided, then rpm, dpkg and opkg
+    tools will be tried to get the package list.
+
     For example (ubuntu):
     'packages': ['acl-2.2.52-2',
                  'adduser-3.113+nmu3',
@@ -642,6 +645,11 @@ def get_packages(linux_distribution, target=None, target_port=None):
                  ...
                  "zlib-1.2.7-17.el7",
                  "zlib-devel-1.2.7-17.el7"
+    ]
+    (yocto/opkg):
+    "packages": ["alsa-conf - 1.2.6.1-r0.3",
+                 "alsa-state - 0.2.0-r5.3",
+                 ...
     ]
     """
 
@@ -660,10 +668,31 @@ def get_packages(linux_distribution, target=None, target_port=None):
         ).splitlines()
     else:
         logger.warning(
-            "Unknown linux distribution '{}'; package list not populated.".format(
+            "Unknown linux distribution '{}'; trying to populate package list.".format(
                 linux_distribution
             )
         )
+        try:
+            packages = run_command(
+                "which rpm > /dev/null && rpm -qa --qf '%{NAME}-%{VERSION}-%{RELEASE}\n'", target, target_port
+            ).splitlines()
+        except subprocess.CalledProcessError:
+            pass
+        logger.debug("packages = %s" % packages)
+        try:
+            packages += run_command(
+                "which dpkg > /dev/null && dpkg-query -W -f '${package}-${version}\n'", target, target_port
+            ).splitlines()
+        except subprocess.CalledProcessError:
+            pass
+        logger.debug("packages = %s" % packages)
+        try:
+            packages += run_command(
+                "which opkg > /dev/null && opkg list-installed", target, target_port
+            ).splitlines()
+        except subprocess.CalledProcessError:
+            pass
+        logger.debug("packages = %s" % packages)
 
     packages.sort()
     return packages
