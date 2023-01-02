@@ -402,3 +402,11 @@ skiplist:
     branches: all
     tests:
       - net:tls
+  - reason: >
+      arm64 fp-stress hangs on qemu devices
+    url: https://linaro.atlassian.net/browse/LKQ-1087
+    environments: all
+    boards: qemu_arm64
+    branches: all
+    tests:
+      - arm64:fp-stress
