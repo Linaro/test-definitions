@@ -61,12 +61,12 @@ class StoreDictKeyPair(argparse.Action):
 SSH_PARAMS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=5"
 
 
-def run_command(command, target=None):
+def run_command(command, target=None, target_port=22):
     """Run a shell command. If target is specified, ssh to the given target first."""
 
     run = command
     if target:
-        run = 'ssh {} {} "{}"'.format(SSH_PARAMS, target, command)
+        run = 'ssh -p {} {} {} "{}"'.format(target_port, SSH_PARAMS, target, command)
 
     logger = logging.getLogger("RUNNER.run_command")
     logger.debug(run)
@@ -446,12 +446,13 @@ class RemoteTestRun(AutomatedTestRun):
         )
 
         self.logger.info("Creating test path")
-        run_command("mkdir -p %s" % (self.test["target_test_path"]), self.args.target)
+        run_command("mkdir -p %s" % (self.test["target_test_path"]), self.args.target, self.args.target_port)
 
         self.logger.info("Copying test archive to target host")
         run_command(
-            "scp %s ./%s %s:%s"
+            "scp -P %s %s ./%s %s:%s"
             % (
+                self.args.target_port,
                 SSH_PARAMS,
                 tarball_name,
                 self.args.target,
@@ -463,16 +464,17 @@ class RemoteTestRun(AutomatedTestRun):
         run_command(
             "cd %s && tar -xf %s" % (self.test["target_test_path"], tarball_name),
             self.args.target,
+            self.args.target_port,
         )
 
         self.logger.info("Removing test file archive from target")
         run_command(
-            "rm %s/%s" % (self.test["target_test_path"], tarball_name), self.args.target
+            "rm %s/%s" % (self.test["target_test_path"], tarball_name), self.args.target, self.args.target_port
         )
 
     def cleanup_target(self):
         self.logger.info("Removing files from target after testing")
-        run_command("rm -rf %s" % (self.test["target_test_path"]), self.args.target)
+        run_command("rm -rf %s" % (self.test["target_test_path"]), self.args.target, self.args.target_port)
 
     def run(self):
         self.copy_to_target()
@@ -480,7 +482,8 @@ class RemoteTestRun(AutomatedTestRun):
             "Executing %s/run.sh remotely on %s"
             % (self.test["target_test_path"], self.args.target)
         )
-        shell_cmd = 'ssh %s %s "%s/run.sh 2>&1"' % (
+        shell_cmd = 'ssh -p %s %s %s "%s/run.sh 2>&1"' % (
+            self.args.target_port,
             SSH_PARAMS,
             self.args.target,
             self.test["target_test_path"],
@@ -620,7 +623,7 @@ class ManualTestRun(TestRun, cmd.Cmd):
         pass
 
 
-def get_packages(linux_distribution, target=None):
+def get_packages(linux_distribution, target=None, target_port=None):
     """Return a list of installed packages with versions
 
     linux_distribution is a string that may be 'debian',
@@ -647,13 +650,13 @@ def get_packages(linux_distribution, target=None):
     if linux_distribution in ["debian", "ubuntu"]:
         # Debian (apt) based system
         packages = run_command(
-            "dpkg-query -W -f '${package}-${version}\n'", target
+            "dpkg-query -W -f '${package}-${version}\n'", target, target_port
         ).splitlines()
 
     elif linux_distribution in ["centos", "fedora"]:
         # RedHat (rpm) based system
         packages = run_command(
-            "rpm -qa --qf '%{NAME}-%{VERSION}-%{RELEASE}\n'", target
+            "rpm -qa --qf '%{NAME}-%{VERSION}-%{RELEASE}\n'", target, target_port
         ).splitlines()
     else:
         logger.warning(
@@ -666,7 +669,7 @@ def get_packages(linux_distribution, target=None):
     return packages
 
 
-def get_environment(target=None, skip_collection=False):
+def get_environment(target=None, target_port=None, skip_collection=False):
     """Return a dictionary with environmental information
 
     target: optional ssh host string to gather environment remotely.
@@ -696,7 +699,7 @@ def get_environment(target=None, skip_collection=False):
         return environment
     try:
         environment["linux_distribution"] = (
-            run_command("grep ^ID= /etc/os-release", target)
+            run_command("grep ^ID= /etc/os-release", target, target_port)
             .split("=")[-1]
             .strip('"')
             .lower()
@@ -706,7 +709,7 @@ def get_environment(target=None, skip_collection=False):
 
     try:
         environment["linux_distribution_version"] = (
-            run_command("grep ^VERSION= /etc/os-release", target)
+            run_command("grep ^VERSION= /etc/os-release", target, target_port)
             .split("=")[-1]
             .strip('"')
         )
@@ -715,7 +718,7 @@ def get_environment(target=None, skip_collection=False):
 
     try:
         environment["linux_distribution_version_id"] = (
-            run_command("grep ^VERSION_ID= /etc/os-release", target)
+            run_command("grep ^VERSION_ID= /etc/os-release", target, target_port)
             .split("=")[-1]
             .strip('"')
         )
@@ -724,7 +727,7 @@ def get_environment(target=None, skip_collection=False):
 
     try:
         environment["linux_distribution_version_codename"] = (
-            run_command("grep ^VERSION_CODENAME= /etc/os-release", target)
+            run_command("grep ^VERSION_CODENAME= /etc/os-release", target, target_port)
             .split("=")[-1]
             .strip('"')
         )
@@ -732,39 +735,39 @@ def get_environment(target=None, skip_collection=False):
         environment["linux_distribution_version_codename"] = ""
 
     try:
-        environment["kernel"] = run_command("uname -r", target)
+        environment["kernel"] = run_command("uname -r", target, target_port)
     except subprocess.CalledProcessError:
         environment["kernel"] = ""
 
     try:
-        environment["uname"] = run_command("uname -a", target)
+        environment["uname"] = run_command("uname -a", target, target_port)
     except subprocess.CalledProcessError:
         environment["uname"] = ""
 
     try:
         environment["bios_version"] = run_command(
-            "cat /sys/devices/virtual/dmi/id/bios_version", target
+            "cat /sys/devices/virtual/dmi/id/bios_version", target, target_port
         )
     except subprocess.CalledProcessError:
         environment["bios_version"] = ""
 
     try:
         environment["board_vendor"] = run_command(
-            "cat /sys/devices/virtual/dmi/id/board_vendor", target
+            "cat /sys/devices/virtual/dmi/id/board_vendor", target, target_port
         )
     except subprocess.CalledProcessError:
         environment["board_vendor"] = ""
 
     try:
         environment["board_name"] = run_command(
-            "cat /sys/devices/virtual/dmi/id/board_name", target
+            "cat /sys/devices/virtual/dmi/id/board_name", target, target_port
         )
     except subprocess.CalledProcessError:
         environment["board_name"] = ""
 
     try:
         environment["packages"] = get_packages(
-            environment["linux_distribution"], target
+            environment["linux_distribution"], target, target_port
         )
     except subprocess.CalledProcessError:
         environment["packages"] = []
@@ -781,7 +784,7 @@ class ResultParser(object):
         self.results["id"] = test["test_uuid"]
         self.results["test_plan"] = args.test_plan
         self.results["environment"] = get_environment(
-            target=self.args.target, skip_collection=self.args.skip_environment
+            target=self.args.target, target_port=self.args.target_port, skip_collection=self.args.skip_environment
         )
         self.logger = logging.getLogger("RUNNER.ResultParser")
         self.results["params"] = {}
@@ -1207,6 +1210,18 @@ def get_args():
         ),
     )
     parser.add_argument(
+        "-tp",
+        "--target-port",
+        default=22,
+        dest="target_port",
+        help=textwrap.dedent(
+            """\
+                        Specify SSH target port
+                        Default: 22
+                        """
+        ),
+    )
+    parser.add_argument(
         "-s",
         "--skip_install",
         dest="skip_install",
@@ -1356,7 +1371,7 @@ def main():
             logger.error("openssh client must be installed on the host.")
             sys.exit(1)
         try:
-            run_command("exit", args.target)
+            run_command("exit", args.target, args.target_port)
         except subprocess.CalledProcessError as e:
             logger.error("ssh login failed.")
             print(e)
@@ -1387,7 +1402,7 @@ def main():
                 args.kind,
                 tc_dirname.split(args.kind)[1],
             )
-            target_user_home = run_command("echo $HOME", args.target)
+            target_user_home = run_command("echo $HOME", args.target, args.target_port)
             test["target_test_path"] = "%s/output/%s" % (
                 target_user_home,
                 test["test_uuid"],
