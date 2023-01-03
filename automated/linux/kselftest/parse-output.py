@@ -18,6 +18,7 @@ for line in sys.stdin:
     elif re.search(r"^.*?not ok \d{1,5} ", line):
         match = re.match(r"^.*?not ok (.*?)$", line)
         ascii_test_line = slugify(re.sub("# .*$", "", match.group(1)))
+        output = f"{tests}_{ascii_test_line} fail"
         if f"selftests_{tests}" in output:
             output = re.sub(r"^.*_selftests_", "", output)
         print(f"{output}")
