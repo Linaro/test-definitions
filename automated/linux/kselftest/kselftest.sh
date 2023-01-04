@@ -142,6 +142,7 @@ install() {
 }
 
 ! check_root && error_msg "You need to be root to run this script."
+saved_pwd=$(pwd)
 create_out_dir "${OUTPUT}"
 
 install
@@ -207,5 +208,5 @@ else
     ./run_kselftest.sh 2>&1 | tee "${LOGFILE}"
 fi
 # shellcheck disable=SC2164
-cd - || exit
+cd "$saved_pwd" || exit
 parse_output
