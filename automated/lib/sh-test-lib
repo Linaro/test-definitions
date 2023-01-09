@@ -495,7 +495,8 @@ generate_skipfile() {
     test -n "${ENVIRONMENT}" && SKIPGEN_ARGS="${SKIPGEN_ARGS} --environment ${ENVIRONMENT}"
     # shellcheck disable=SC2086
     ../../bin/${abi}/skipgen ${SKIPGEN_ARGS} "${SKIPFILE_YAML}" > "${SKIPFILE_PATH}"
-    test $? -eq 0 || error_msg "skipgen failed to generate a skipfile"
+    res=$?
+    test ${res} -eq 0 || error_msg "skipgen failed to generate a skipfile: ${res}"
     info_msg "Using the following generated skipfile contents (until EOF):"
     cat "${SKIPFILE_PATH}"
     info_msg "EOF"
