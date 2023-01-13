@@ -32,7 +32,7 @@ metadata:
 
 params:
     SKIP_INSTALL: "True"
-    PTOOL: "pkcs11-tool --module /usr/lib/libckteec.so.0.1"
+    PTOOL: "pkcs11-tool --module /usr/lib/libckteec.so.0.1.0"
     USE_SE05X: "True"
     EXECUTE_LOOP: "True"
     SE05X_TOOL: "ssscli"
