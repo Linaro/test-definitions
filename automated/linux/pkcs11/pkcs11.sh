@@ -417,18 +417,28 @@ if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
         report_skip "ssscli-connect"
     fi
 fi
-# shellcheck disable=SC2086
-$PTOOL --init-token --label "${TOKEN_LABEL}" --so-pin "${SO_PIN}"
-check_return "pkcs11-init-token"
-# shellcheck disable=SC2086
-$PTOOL --init-pin --token-label "${TOKEN_LABEL}" --so-pin "${SO_PIN}" --pin "${PIN}"
-check_return "pkcs11-init-pin"
-# shellcheck disable=SC2086
-$PTOOL --list-mechanisms --token-label "${TOKEN_LABEL}" --pin "${PIN}"
-check_return "pkcs11-list-mechanisms"
-# shellcheck disable=SC2086
-$PTOOL --list-objects --token-label "${TOKEN_LABEL}" --pin "${PIN}"
-check_return "pkcs11-list-objects"
+SKIP_INIT="False"
+if [ "${OTA}" = "true" ] || [ "${OTA}" = "True" ]; then
+    if [ "${OTA_ACTION}" = "verify" ]; then
+        SKIP_INIT="True"
+    fi
+fi
+if [ "${SKIP_INIT}" = "true" ] || [ "${SKIP_INIT}" = "True" ]; then
+    info_msg "Skipping PKCS#11 initialization"
+else
+    # shellcheck disable=SC2086
+    $PTOOL --init-token --label "${TOKEN_LABEL}" --so-pin "${SO_PIN}"
+    check_return "pkcs11-init-token"
+    # shellcheck disable=SC2086
+    $PTOOL --init-pin --token-label "${TOKEN_LABEL}" --so-pin "${SO_PIN}" --pin "${PIN}"
+    check_return "pkcs11-init-pin"
+    # shellcheck disable=SC2086
+    $PTOOL --list-mechanisms --token-label "${TOKEN_LABEL}" --pin "${PIN}"
+    check_return "pkcs11-list-mechanisms"
+    # shellcheck disable=SC2086
+    $PTOOL --list-objects --token-label "${TOKEN_LABEL}" --pin "${PIN}"
+    check_return "pkcs11-list-objects"
+fi
 
 if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
     if [ "${SE05X_TOOL}" = "ssscli" ]; then
@@ -439,7 +449,7 @@ if [ "${USE_SE05X}" = "True" ] || [ "${USE_SE05X}" = "true" ]; then
     fi
 fi
 
-if [ "${OTA}" = "true" ] || [ "${OTA}" = True ]; then
+if [ "${OTA}" = "true" ] || [ "${OTA}" = "True" ]; then
     # test sign-OTA-verify scenario
     cd "${OTA_DIRECTORY}" || error_fatal "Unable to find ${OTA_DIRECTORY} on the disk"
     if [ "${OTA_ACTION}" = "sign" ]; then
