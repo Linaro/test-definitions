@@ -19,13 +19,15 @@ FAILURES_PRINTED="0"
 AP_SSID=""
 # WIFI AP KEY
 AP_KEY=""
+SHARD_NUMBER=1
+SHARD_INDEX=1
 
 usage() {
-    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>]" 1>&2
+    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>] [-s <shard_number>] [-i <shard_index>]" 1>&2
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:f:a:k:' opt; do
+while getopts ':o:n:c:t:p:r:f:a:k:s:i:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) export ANDROID_SERIAL="${OPTARG}" ;;
@@ -36,6 +38,8 @@ while getopts ':o:n:c:t:p:r:f:a:k:' opt; do
         f) FAILURES_PRINTED="${OPTARG}" ;;
         a) AP_SSID="${OPTARG}" ;;
         k) AP_KEY="${OPTARG}" ;;
+        s) SHARD_NUMBER="${OPTARG}" ;;
+        i) SHARD_INDEX="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -66,6 +70,11 @@ fi
 file_name=$(basename "${TEST_URL}")
 unzip -q "${file_name}"
 rm -f "${file_name}"
+
+# Split test module by shard_number and only keep shard #shard_index.
+if [ "${SHARD_NUMBER}" -gt 1 ]; then
+    python3 ./xts_module_sharding.py -p "${TEST_PATH}" -t "${TEST_PARAMS}" -n "${SHARD_NUMBER}" -i "${SHARD_INDEX}" -v
+fi
 
 if [ -d "${TEST_PATH}/results" ]; then
     mv "${TEST_PATH}/results" "${TEST_PATH}/results_$(date +%Y%m%d%H%M%S)"

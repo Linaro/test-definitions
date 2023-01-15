@@ -15,7 +15,7 @@ if [ -n "${ANDROID_VERSION}" ] && echo "${ANDROID_VERSION}" | grep -q  "aosp-mas
 #   JDK="openjdk-8-jdk-headless"
 fi
 
-PKG_DEPS="coreutils usbutils curl wget zip xz-utils python-lxml python-setuptools python-pexpect aapt lib32z1-dev libc6-dev-i386 lib32gcc1 libc6:i386 libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 python-dev python-protobuf protobuf-compiler python-virtualenv python-pip python-pexpect psmisc"
+PKG_DEPS="coreutils usbutils curl wget zip xz-utils python3-lxml python-lxml python-setuptools python-pexpect aapt lib32z1-dev libc6-dev-i386 lib32gcc1 libc6:i386 libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 python-dev python-protobuf protobuf-compiler python-virtualenv python-pip python-pexpect psmisc"
 
 dist_name
 case "${dist}" in

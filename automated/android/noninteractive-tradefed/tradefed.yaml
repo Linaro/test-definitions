@@ -43,6 +43,22 @@ params:
     # to avoid shutting down by high temperature when run the cts vts test
     SET_GOVERNOR_POWERSAVE: "false"
 
+    # XTS test plan is organized by test modules. Big test plan can be split
+    # into a set of small test plans already. For test modules that are time
+    # consuming and cause stability issue, the below variables can be defined
+    # to shard a big module into small chunks so that they can be run with
+    # multiple single node LAVA jobs in parallel.
+    # Known supported modules:
+    # - vts_kernel_net_tests
+    # - vts_linux_kselftest_*
+    # - vts_ltp_test_*
+    # Number of shards that will be done, defaults to 1 which is the same as
+    # no sharding.
+    SHARD_NUMBER: 1
+    # Which shard to run, defaults to 1 which is the same as no sharding and
+    # run it as XTS upstream decides.
+    SHARD_INDEX: 1
+
 run:
     steps:
         - cd ./automated/android/noninteractive-tradefed
@@ -57,7 +73,7 @@ run:
         - chown testuser:testuser .
         - if echo "${TEST_REBOOT_EXPECTED}" |grep -i "true" ; then ./monitor_fastboot.sh & fi
         - ./monitor_adb.sh &
-        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" || true
+        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" -s "${SHARD_NUMBER}" -i "${SHARD_INDEX}"|| true
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
         - cp -r ./${TEST_PATH}/logs ./output/ || true
