@@ -426,6 +426,7 @@ fi
 if [ "${SKIP_INIT}" = "true" ] || [ "${SKIP_INIT}" = "True" ]; then
     info_msg "Skipping PKCS#11 initialization"
 else
+    info_msg "PKCS#11 initialization"
     # shellcheck disable=SC2086
     $PTOOL --init-token --label "${TOKEN_LABEL}" --so-pin "${SO_PIN}"
     check_return "pkcs11-init-token"
@@ -454,19 +455,34 @@ if [ "${OTA}" = "true" ] || [ "${OTA}" = "True" ]; then
     cd "${OTA_DIRECTORY}" || error_fatal "Unable to find ${OTA_DIRECTORY} on the disk"
     if [ "${OTA_ACTION}" = "sign" ]; then
         echo "Sign RSA-PKCS-PSS SHA256" > rsa_sha256_pss
+        generate_rsa_pubkey "01" "RSA-01-pubkey"
         test_sign "01" SHA256 RSA-PKCS-PSS rsa_sha256_pss
+        rm "RSA-01-pubkey.der"
+        rm "RSA-01-pubkey.pub"
 
         echo "Sign RSA-PKCS" > rsa
+        generate_rsa_pubkey "02" "RSA-01-pubkey"
         test_sign "02" "" RSA-PKCS rsa
+        rm "RSA-02-pubkey.der"
+        rm "RSA-02-pubkey.pub"
 
         echo "Sign RSA-PKCS SHA256" > rsa_sha256
+        generate_rsa_pubkey "03" "RSA-03-pubkey"
         test_sign "03" "" SHA256-RSA-PKCS rsa_sha256
+        rm "RSA-03-pubkey.der"
+        rm "RSA-03-pubkey.pub"
 
         echo "Sign ECDSA-SHA256 SHA256" > ecdsa_sha256
-        test_sign "04" SHA256 ECDSA-SHA256 ecdsa_sha256
+        generate_ec_pubkey "04" "ECDSA-04-pubkey"
+        test_sign "04" "" ECDSA-SHA256 ecdsa_sha256
+        rm "ECDSA-04-pubkey.der"
+        rm "ECDSA-04-pubkey.pub"
 
         echo "Sign ECDSA-SHA256" > ecdsa
-        test_sign "05" "" ECDSA ec
+        generate_ec_pubkey "05" "ECDSA-05-pubkey"
+        test_sign "05" "" ECDSA ecdsa
+        rm "ECDSA-05-pubkey.der"
+        rm "ECDSA-05-pubkey.pub"
     else
         test_verify "01" SHA256 RSA-PKCS-PSS rsa_sha256_pss rsa_sha256_pss.log
         grep "Signature is valid" "rsa_sha256_pss.log"
@@ -476,16 +492,16 @@ if [ "${OTA}" = "true" ] || [ "${OTA}" = "True" ]; then
         grep "Signature is valid" "rsa.log"
         check_return "RSA-PKCS-sign-ota-verify"
 
-        test_verify "03" "" SHA256-RSA-PKCS rsa_sha256.log
+        test_verify "03" "" SHA256-RSA-PKCS rsa_sha256 rsa_sha256.log
         grep "Signature is valid" "rsa_sha256.log"
         check_return "SHA256-RSA-PKCS-sign-ota-verify"
 
-        test_verify "04" SHA256 ECDSA-SHA256 ecdsa_sha256 ecdsa_sha256.log
+        test_verify "04" "" ECDSA-SHA256 ecdsa_sha256 ecdsa_sha256.log
         grep "Signature is valid" "ecdsa_sha256.log"
         check_return "ECDSA-SHA256-sign-ota-verify"
 
-        test_verify "05" "" ECDSA ec ec.log
-        grep "Signature is valid" "ec.log"
+        test_verify "05" "" ECDSA ecdsa ecdsa.log
+        grep "Signature is valid" "ecdsa.log"
         check_return "ECDSA-sign-ota-verify"
     fi
 else
