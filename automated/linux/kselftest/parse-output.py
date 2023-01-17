@@ -16,14 +16,14 @@ for line in sys.stdin:
     if "# selftests: " in line:
         tests = slugify(line.replace("\n", "").split("selftests:")[1])
     elif re.search(r"^.*?not ok \d{1,5} ", line):
-        match = re.match(r"^.*?not ok (.*?)$", line)
+        match = re.match(r"^.*?not ok [0-9]+ (.*?)$", line)
         ascii_test_line = slugify(re.sub("# .*$", "", match.group(1)))
         output = f"{tests}_{ascii_test_line} fail"
         if f"selftests_{tests}" in output:
             output = re.sub(r"^.*_selftests_", "", output)
         print(f"{output}")
     elif re.search(r"^.*?ok \d{1,5} ", line):
-        match = re.match(r"^.*?ok (.*?)$", line)
+        match = re.match(r"^.*?ok [0-9]+ (.*?)$", line)
         if "# SKIP" in match.group(1):
             ascii_test_line = slugify(re.sub("# SKIP", "", match.group(1)))
             output = f"{tests}_{ascii_test_line} skip"
