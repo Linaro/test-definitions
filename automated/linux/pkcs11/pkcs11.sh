@@ -512,7 +512,7 @@ else
     test_sign_verify RSA-PKCS-PSS SHA256 rsa
     test_sign_verify RSA-PKCS "" rsa
     test_sign_verify SHA256-RSA-PKCS "" rsa
-    test_sign_verify ECDSA-SHA256 SHA256 ec
+    test_sign_verify ECDSA-SHA256 "" ec
     test_sign_verify ECDSA "" ec
     test_rsa_encrypt_decrypt
     test_import_key
