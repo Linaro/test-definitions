@@ -366,6 +366,8 @@ test_rsa_loop()
         pipe0_status "$PTOOL --keypairgen --key-type RSA:1024 --label ${LABEL} --id 33 --token-label fio --pin ${PIN} 2>&1" "tee ${LABEL}.log"
         test_status=$?
         if [ "${test_status}" -ne 0 ]; then
+			# decrement the counter when key creation fails
+			LABEL=$((LABEL-1))
             if grep "CKR_DEVICE_MEMORY" "${LABEL}.log"; then
                 # If this test fails, remaining results may be tainted
                 # TA is unlikely to recover from OOM situation
