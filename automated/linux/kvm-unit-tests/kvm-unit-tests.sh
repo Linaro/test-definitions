@@ -98,8 +98,12 @@ else
   install
 fi
 
-# Build kvm unit tests
-kvm_unit_tests_build_test
+# Build kvm unit tests if needed
+if [ -f /opt/kvm-unit-tests/run-tests.sh ]; then
+  cd /opt/kvm-unit-tests || exit 1
+else
+  kvm_unit_tests_build_test
+fi
 
 # Run kvm unit tests
 kvm_unit_tests_run_test
