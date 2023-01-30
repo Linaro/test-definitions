@@ -13,6 +13,7 @@ UBOOT_VAR_TOOL=fw_printenv
 export UBOOT_VAR_TOOL
 UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
+BOOTROM_USE_SECONDARY="true"
 
 usage() {
     echo "\
@@ -34,15 +35,20 @@ usage() {
         On the unsecured systems it will usually be
         fw_setenv. On secured systems it might be
         fiovb_setenv
+    -b <true|false> BootROM supports secondary boot path
+        Defaults to 'true'. When set to 'false' the test
+        'fiovb_is_secondary_boot_after_rollback' will use
+        0 as a reference value.
     "
 }
 
-while getopts "t:u:s:v:h" opts; do
+while getopts "t:u:s:v:b:h" opts; do
     case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         v) REF_TARGET_VERSION="${OPTARG}";;
+        b) BOOTROM_USE_SECONDARY="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -73,6 +79,9 @@ if [ "${TYPE}" = "uboot" ]; then
     ref_bootupgrade_available_after_upgrade=1
     # boots to secondary slot. Set to 0 on a subsequent reboot
     ref_fiovb_is_secondary_boot_after_upgrade=1
+    if [ "${BOOTROM_USE_SECONDARY}" = "false" ] || [ "${BOOTROM_USE_SECONDARY}" = "False" ]; then
+        ref_fiovb_is_secondary_boot_after_upgrade=0
+    fi
     # set to 0 forcibly. It stays this way on the 1st reboot
     ref_bootfirmware_version_after_upgrade=0
 else

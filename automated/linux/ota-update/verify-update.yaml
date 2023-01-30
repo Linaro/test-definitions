@@ -15,14 +15,16 @@ metadata:
     devices:
         - imx8mm
         - imx6ull
+        - stm32mp15-disco
 
 params:
         UBOOT_VAR_TOOL: "fw_printenv"
         UBOOT_VAR_SET_TOOL: "fw_setenv"
         TYPE: "kernel"
         TARGET_VERSION: "1"
+        BOOTROM_USE_SECONDARY: "true"
 run:
     steps:
         - cd ./automated/linux/ota-update
-        - ./verify-update.sh  -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}"
+        - ./verify-update.sh  -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}" -b "${BOOTROM_USE_SECONDARY}"
         - ../../utils/send-to-lava.sh ./output/result.txt
