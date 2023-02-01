@@ -10,7 +10,6 @@ from mdutils.fileutils.fileutils import MarkDownFile
 
 
 class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
-
     config_scheme = (
         ("table_file", Type(str, default="tests_table")),
         ("table_dirs", Type(list, default=["automated", "manual"])),
