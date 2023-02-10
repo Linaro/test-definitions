@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2021 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: docker-prune
+    description: "Prune app image after disabling app"
+
+    maintainer:
+        - brendan.wood@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx8mm
+
+run:
+    steps:
+        - cd ./automated/linux/docker-prune
+        - ./disable_prune.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
