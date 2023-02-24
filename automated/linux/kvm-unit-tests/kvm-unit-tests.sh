@@ -92,7 +92,7 @@ info_msg "Output directory: ${OUTPUT}"
 
 
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
-    info_msg "kvm-unit-tests skipped"
+    info_msg "Dependency installation for kvm-unit-tests skipped"
 else
   # Install packages
   install
