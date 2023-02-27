@@ -20,17 +20,6 @@
 
 skiplist:
 
-  - reason: >
-      LKFT: linux-next: x15: kselftest: ftracetest hangs forever
-      LKFT: linux-mainline: kernel panic on X15 when running ftrace kseltest
-      https://bugs.linaro.org/show_bug.cgi?id=3304
-    url: https://bugs.linaro.org/show_bug.cgi?id=3297
-    environments: all
-    boards: all
-    branches: all
-    tests:
-      - ftrace:ftracetest
-
   - reason: "LKFT: linux-next: kselftest: breakpoint_test_arm64 build failed"
     url: https://bugs.linaro.org/show_bug.cgi?id=3208
     environments: all
