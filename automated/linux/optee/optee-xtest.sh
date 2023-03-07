@@ -5,16 +5,18 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 TEST_LEVEL="0"
 TEST_SUITE="regression"
+SE05X_TOOL=""
 
 usage() {
-    echo "Usage: $0 [-l <0-15> -t <regression|benchmark>]" 1>&2
+    echo "Usage: $0 [-l <0-15>] [-t <regression|benchmark>] [-s <se050-tool>]" 1>&2
     exit 1
 }
 
-while getopts "l:t:h:" o; do
+while getopts "l:t:s:h:" o; do
   case "$o" in
     l) TEST_LEVEL="${OPTARG}" ;;
     t) TEST_SUITE="${OPTARG}" ;;
+    s) SE05X_TOOL="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -55,3 +57,11 @@ grep -E "^[0-9]+ test case was skipped" "${LOG_FILE}" \
 
 # Cleanup.
 kill "${tee_supplicant_pid}" || true
+# remove temporary SE050 objects
+if [ "${SE05X_TOOL}" = "ssscli" ]; then
+    ssscli connect se05x t1oi2c none
+    ssscli se05x reset
+fi
+if [ "${SE05X_TOOL}" = "fio-se05x-cli" ]; then
+    fio-se05x-cli --delete-objects --se050
+fi

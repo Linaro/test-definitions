@@ -19,9 +19,11 @@ params:
     TEST_LEVEL: "0"
     # Available test suite: regression, benchmark
     TEST_SUITE: "regression"
+    # SE05X tool
+    SE05X_TOOL: ""
 
 run:
     steps:
         - cd ./automated/linux/optee/
-        - ./optee-xtest.sh -l "${TEST_LEVEL}" -t "${TEST_SUITE}"
+        - ./optee-xtest.sh -l "${TEST_LEVEL}" -t "${TEST_SUITE}" -s "${SE05X_TOOL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
