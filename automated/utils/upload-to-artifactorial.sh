@@ -52,7 +52,7 @@ if command -v lava-test-reference > /dev/null 2>&1; then
         command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "skip"
         exit 0
     else
-        return=$(curl "${CURL_VERBOSE_FLAG}" -F "path=@${ATTACHMENT}" -F "token=${ARTIFACTORIAL_TOKEN}" "${ARTIFACTORIAL_URL}")
+        return=$(curl ${CURL_VERBOSE_FLAG} -F "path=@${ATTACHMENT}" -F "token=${ARTIFACTORIAL_TOKEN}" "${ARTIFACTORIAL_URL}")
     fi
 
     attachmentBasename="$(basename "${ATTACHMENT}")"
