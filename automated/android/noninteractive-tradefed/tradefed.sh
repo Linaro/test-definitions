@@ -12,6 +12,10 @@ TEST_PARAMS="cts -m CtsBionicTestCases --abi arm64-v8a --disable-reboot --skip-p
 TEST_PATH="android-cts"
 RESULT_FORMAT="aggregated"
 RESULT_FILE="$(pwd)/output/result.txt"
+DIR_RESULT_FILE="$(pwd)/output"
+# create the directory for ${RESULT_FILE}
+# so that report_pass and report_fail would work
+mkdir -p "${DIR_RESULT_FILE}"
 export RESULT_FILE
 # the default number of failed test cases to be printed
 FAILURES_PRINTED="0"
@@ -85,6 +89,19 @@ else
     # https://github.com/steinwurf/adb-join-wifi
     # if AP_SSID and AP_KEY are not specified for this tradefed test action
     adb_join_wifi "${AP_SSID}" "${AP_KEY}"
+fi
+
+# wait for a while till the wifi connecting operation finished
+sleep 60
+
+SERVER="www.google.com"
+info_msg "device-${ANDROID_SERIAL}: About to check with ping ${SERVER}..."
+if adb shell 'ping -c 10 '"${SERVER}"'; echo exitcode: $?' | grep -q "exitcode: 0"; then
+    report_pass "network-available"
+else
+    report_fail "network-available"
+    # to be caught by the yaml file
+    exit 100
 fi
 
 # Run tradefed test.
