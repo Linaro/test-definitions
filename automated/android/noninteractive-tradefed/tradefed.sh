@@ -100,6 +100,8 @@ if adb shell 'ping -c 10 '"${SERVER}"'; echo exitcode: $?' | grep -q "exitcode: 
     report_pass "network-available"
 else
     report_fail "network-available"
+    # print more debug information
+    adb shell ip address
     # to be caught by the yaml file
     exit 100
 fi
