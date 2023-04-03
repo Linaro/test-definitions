@@ -62,12 +62,12 @@ disable_suspend
 # wait_homescreen "${TIMEOUT}"
 
 # Download CTS/VTS test package or copy it from local disk.
-if echo "${TEST_URL}" | grep "^http" ; then
-    wget -S --progress=dot:giga "${TEST_URL}"
-else
-    cp "${TEST_URL}" ./
-fi
 file_name=$(basename "${TEST_URL}")
+if echo "${TEST_URL}" | grep "^http" ; then
+    wget -S --progress=dot:giga "${TEST_URL}" -O "${file_name}"
+else
+    cp "${TEST_URL}" "./${file_name}"
+fi
 unzip -q "${file_name}"
 rm -f "${file_name}"
 
