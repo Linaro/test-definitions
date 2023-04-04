@@ -63,7 +63,9 @@ disable_suspend
 
 # Download CTS/VTS test package or copy it from local disk.
 file_name=$(basename "${TEST_URL}")
-if echo "${TEST_URL}" | grep "^http" ; then
+if echo "${TEST_URL}" | grep "^http://lkft-cache.lkftlab/" ; then
+    NO_PROXY=.lkftlab wget -S --progress=dot:giga "${TEST_URL}" -O "${file_name}"
+elif echo "${TEST_URL}" | grep "^http" ; then
     wget -S --progress=dot:giga "${TEST_URL}" -O "${file_name}"
 else
     cp "${TEST_URL}" "./${file_name}"
