@@ -102,6 +102,7 @@ else
     report_fail "network-available"
     # print more debug information
     adb shell ip address
+    adb shell ping -c 10 8.8.8.8
     # to be caught by the yaml file
     exit 100
 fi
