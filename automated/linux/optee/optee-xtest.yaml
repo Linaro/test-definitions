@@ -25,5 +25,6 @@ params:
 run:
     steps:
         - cd ./automated/linux/optee/
+        - xtest --clear-storage || true
         - ./optee-xtest.sh -l "${TEST_LEVEL}" -t "${TEST_SUITE}" -s "${SE05X_TOOL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
