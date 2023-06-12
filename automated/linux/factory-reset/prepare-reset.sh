@@ -9,6 +9,7 @@ RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 TYPE="factory_reset"
 ADDITIONAL_TYPE=""
+LABEL=""
 
 usage() {
     echo "\
@@ -21,13 +22,17 @@ usage() {
         factory_reset_keep_sota_docker: Keeps /var/sota and /var/lib without changes
     -a <factory_reset|factory_reset_keep_sota|factory_reset_keep_sota_docker>
         same as -t. Allows to create 2 files and test the priority order
+    -l <target label>
+        Adds a label/tag to the [pacman] section of the toml. This forces aktualizr-lite
+        to use the tag and avoids possible unintentional OTA update.
     "
 }
 
-while getopts "t:a:h" opts; do
+while getopts "t:a:l:h" opts; do
     case "$opts" in
         t) TYPE="${OPTARG}";;
         a) ADDITIONAL_TYPE="${OPTARG}";;
+        l) LABEL="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -44,6 +49,9 @@ chmod 755 /var/sota/aklite-callback.sh
 
 mkdir -p /etc/sota/conf.d
 cp z-99-aklite-callback.toml /etc/sota/conf.d/
+if [ -n "${LABEL}" ]; then
+    echo "tags = \"${LABEL}\"" >> /etc/sota/conf.d/z-99-aklite-callback.toml
+fi
 # create signal files
 touch /var/sota/ota.signal
 touch /var/sota/ota.result

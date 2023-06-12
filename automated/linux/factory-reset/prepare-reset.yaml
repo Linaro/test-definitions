@@ -34,8 +34,9 @@ params:
         # additional type. Behaviour depens on both
         # TYPE and ADDITIONAL_TYPE
         ADDITIONAL_TYPE: ""
+        LABEL: ""
 run:
     steps:
         - cd ./automated/linux/factory-reset
-        - ./prepare-reset.sh -t "${TYPE}" -a "${ADDITIONAL_TYPE}"
+        - ./prepare-reset.sh -t "${TYPE}" -a "${ADDITIONAL_TYPE}" -l "${LABEL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
