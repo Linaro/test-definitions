@@ -24,8 +24,8 @@ for line in sys.stdin:
         print(f"{output}")
     elif re.search(r"^.*?ok \d{1,5} ", line):
         match = re.match(r"^.*?ok [0-9]+ (.*?)$", line)
-        if "# SKIP" in match.group(1):
-            ascii_test_line = slugify(re.sub("# SKIP", "", match.group(1)))
+        if "# skip" in match.group(1).lower():
+            ascii_test_line = slugify(re.sub("# skip", "", match.group(1).lower()))
             output = f"{tests}_{ascii_test_line} skip"
         else:
             ascii_test_line = slugify(match.group(1))
