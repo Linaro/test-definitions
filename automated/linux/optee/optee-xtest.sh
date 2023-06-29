@@ -63,5 +63,5 @@ if [ "${SE05X_TOOL}" = "ssscli" ]; then
     ssscli se05x reset
 fi
 if [ "${SE05X_TOOL}" = "fio-se05x-cli" ]; then
-    fio-se05x-cli --delete-objects --se050
+    fio-se05x-cli --factory-reset --se050
 fi
