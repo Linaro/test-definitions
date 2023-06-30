@@ -1,0 +1,89 @@
+metadata:
+    name: xenomai4
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run 'evl test' from Xenomai4"
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+        - performance
+    devices:
+        - imx8mm-lpddr4-evk
+
+params:
+    TEST_LIST: "basic-xbuf \
+    clock-timer-periodic \
+    clone-fork-exec \
+    detach-self \
+    duplicate-element \
+    element-visibility \
+    fault \
+    fpu-preload \
+    fpu-stress \
+    heap-torture \
+    mapfd \
+    monitor-deadlock \
+    monitor-deboost-stress \
+    monitor-event \
+    monitor-event-targeted \
+    monitor-event-untrack \
+    monitor-flags \
+    monitor-flags-broadcast \
+    monitor-pi \
+    monitor-pi-deadlock \
+    monitor-pi-deboost \
+    monitor-pi-stress \
+    monitor-pp-dynamic \
+    monitor-pp-lazy \
+    monitor-pp-lower \
+    monitor-pp-nested \
+    monitor-pp-pi \
+    monitor-pp-raise \
+    monitor-pp-tryenter \
+    monitor-pp-weak \
+    monitor-steal \
+    monitor-trylock \
+    monitor-wait-multiple \
+    monitor-wait-requeue \
+    observable-hm \
+    observable-inband \
+    observable-onchange \
+    observable-oob \
+    observable-race \
+    observable-thread \
+    observable-unicast \
+    poll-close \
+    poll-flags \
+    poll-many \
+    poll-multiple \
+    poll-nested \
+    poll-observable-inband \
+    poll-observable-oob \
+    poll-sem \
+    poll-xbuf \
+    proxy-echo \
+    proxy-eventfd \
+    proxy-pipe \
+    proxy-poll \
+    ring-spray \
+    rwlock-read \
+    rwlock-write \
+    sched-quota-accuracy \
+    sched-tp-accuracy \
+    sched-tp-overrun \
+    sem-close-unblock \
+    sem-flush \
+    sem-timedwait \
+    sem-wait \
+    simple-clone \
+    stax-lock \
+    stax-warn \
+    thread-mode-bits"
+
+run:
+    steps:
+        - cd ./automated/linux/xenomai4/
+        - ./xenomai4-smoke.sh -l "${TEST_LIST}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
