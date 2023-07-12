@@ -50,7 +50,7 @@ chmod 755 /var/sota/aklite-callback.sh
 mkdir -p /etc/sota/conf.d
 cp z-99-aklite-callback.toml /etc/sota/conf.d/
 if [ -n "${LABEL}" ]; then
-    echo "tags = \"${LABEL}\"" >> /etc/sota/conf.d/z-99-aklite-callback.toml
+    echo "${LABEL}" >> /etc/sota/tag
 fi
 # create signal files
 touch /var/sota/ota.signal
