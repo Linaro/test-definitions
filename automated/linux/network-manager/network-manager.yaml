@@ -21,8 +21,9 @@ metadata:
 params:
     INTERFACE: "eth0"
     SKIP_INSTALL: "true"
+    DELAY: 10
 run:
     steps:
         - cd ./automated/linux/network-manager/
-        - ./network-manager.sh -i "${INTERFACE}" -s "${SKIP_INSTALL}"
+        - ./network-manager.sh -i "${INTERFACE}" -s "${SKIP_INSTALL}" -d "${DELAY}"
         - ../../utils/send-to-lava.sh ./output/result.txt

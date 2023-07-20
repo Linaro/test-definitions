@@ -26,16 +26,18 @@ RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 IFACE=eth0
 SKIP_INSTALL="true"
+DELAY=10
 
 usage() {
-    echo "Usage: $0 [-i interface] [-s <true|false>]" 1>&2
+    echo "Usage: $0 [-i interface] [-s <true|false>] [-d delay in seconds]" 1>&2
     exit 1
 }
 
-while getopts "s:i:h" o; do
+while getopts "s:i:d:h" o; do
     case "$o" in
         i) IFACE="${OPTARG}" ;;
         s) SKIP_INSTALL="${OPTARG}" ;;
+        d) DELAY="${OPTARG}" ;;
         h|*) usage ;;
     esac
 done
@@ -64,6 +66,7 @@ nmcli -c no general hostname
 check_return "nmcli-general-hostname"
 
 # check networking status
+nmcli -c no networking connectivity check
 nmcli -c no networking connectivity check | grep full
 check_return "nmcli-initial-full-connectivity"
 
@@ -79,7 +82,8 @@ nmcli -c no -w 10 networking on
 check_return "nmcli-networking-on"
 
 # connectivity reporting is delayed despite using blocking call
-sleep 10
+# DELAY can be configured as it takes longer on some boards
+sleep "${DELAY}"
 
 nmcli -c no networking connectivity check | grep full
 check_return "nmcli-offon-full-connectivity"
