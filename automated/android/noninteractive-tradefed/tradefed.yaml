@@ -14,7 +14,6 @@ metadata:
         - functional
 
 params:
-    SKIP_INSTALL: "false"
     # Specify timeout in seconds for wait_boot_completed and wait_homescreen.
     TIMEOUT: "300"
     # Download CTS package or copy it from local disk.

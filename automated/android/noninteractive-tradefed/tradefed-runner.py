@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import datetime
 import os
@@ -27,7 +27,7 @@ ATOMIC = "atomic"
 
 def result_parser(xml_file, result_format):
     etree_file = open(xml_file, "rb")
-    etree_content = etree_file.read()
+    etree_content = etree_file.read().decode("utf-8")
     rx = re.compile("&#([0-9]+);|&#x([0-9a-fA-F]+);")
     endpos = len(etree_content)
     pos = 0
