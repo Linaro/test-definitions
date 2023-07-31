@@ -42,7 +42,7 @@ if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
 else
     ! check_root && error_msg "Please run this script as superuser!"
     #install_deps "git python python-lxml python-pil python-setuptools python-requests python-matplotlib python-requests ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
-    install_deps "python3-distutils git ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
+    install_deps "python3.9 python3-distutils git ca-certificates curl tar xz-utils" "${SKIP_INSTALL}"
     if python3 --version|grep 'Python 3.6'; then
         # Workaround for Ubuntu 18.04 Bionic version.
         # ModuleNotFoundError: No module named 'distutils.cmd' needs python3-distutils
@@ -58,7 +58,7 @@ else
     sudo pip install virtualenv
     pip --version
     virenv_dir=python-workspace
-    virtualenv --python=python3 ${virenv_dir}
+    virtualenv --python=python3.9 ${virenv_dir}
     [ ! -d AndroidViewClient ]  && git clone --depth 1 "${url_android_view_clien}"
     # shellcheck disable=SC1090
     source ${virenv_dir}/bin/activate
