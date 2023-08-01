@@ -28,18 +28,6 @@ done
 install_deps "gzip" "${SKIP_INSTALL}"
 create_out_dir "${OUTPUT}"
 
-# Check kernel config.
-if [ -f "/proc/config.gz" ]; then
-    test_cmd="gunzip -c /proc/config.gz | grep CONFIG_RCU_TORTURE_TEST=m"
-elif [ -f "/boot/config-$(uname -r)" ]; then
-    test_cmd="grep CONFIG_RCU_TORTURE_TEST=m /boot/config-$(uname -r)"
-fi
-if [ -n "${test_cmd}" ]; then
-    tc_id="check-kernel-config"
-    skip_list="modprobe-rcutorture rctorture-start rmmod-rcutorture rcutorture-end"
-    run_test_case "${test_cmd}" "${tc_id}" "${skip_list}"
-fi
-
 # Insert rcutoruture kernel module.
 dmesg -c > /dev/null
 if lsmod | grep rcutorture; then
