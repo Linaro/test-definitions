@@ -27,11 +27,10 @@ metadata:
         - functional
 
 params:
-    SKIP_INSTALL: "false"
     TORTURE_TIME: 600
 
 run:
     steps:
         - cd automated/linux/rcutorture
-        - ./rcutorture.sh -s "${SKIP_INSTALL}" -t "${TORTURE_TIME}"
+        - ./rcutorture.sh -t "${TORTURE_TIME}"
         - ../../utils/send-to-lava.sh ./output/result.txt
