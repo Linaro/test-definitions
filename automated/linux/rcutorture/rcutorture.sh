@@ -5,17 +5,15 @@ OUTPUT="${TEST_DIR}/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 LOGFILE="${OUTPUT}/dmesg-rcutorture.txt"
-SKIP_INSTALL="false"
 TORTURE_TIME="600"
 
 usage() {
-    echo "Usage: $0 [-s <skip_install>] [-t <rcutorture_time>]" 1>&2
+    echo "Usage: $0 [-t <rcutorture_time>]" 1>&2
     exit 1
 }
 
-while getopts ':s:t:' opt; do
+while getopts ':t:' opt; do
     case "${opt}" in
-        s) SKIP_INSTALL="${OPTARG}" ;;
         t) TORTURE_TIME="${OPTARG}" ;;
         *) usage ;;
     esac
@@ -25,7 +23,6 @@ done
 . "${TEST_DIR}/../../lib/sh-test-lib"
 
 ! check_root && error_msg "Please run this script as root."
-install_deps "gzip" "${SKIP_INSTALL}"
 create_out_dir "${OUTPUT}"
 
 # Insert rcutoruture kernel module.
