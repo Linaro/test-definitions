@@ -47,7 +47,7 @@ if lsmod | grep rcutorture; then
 fi
 test_cmd="modprobe rcutorture"
 tc_id="modprobe-rcutorture"
-skip_list="rctorture-start rmmod-rcutorture rcutorture-end"
+skip_list="rcutorture-start rmmod-rcutorture rcutorture-end"
 run_test_case "${test_cmd}" "${tc_id}" "${skip_list}"
 
 # Check if rcutoruture started.
