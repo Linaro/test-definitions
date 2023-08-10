@@ -18,13 +18,40 @@
 # tests:
 #   List of tests to skip
 
+
+globals:
+# This list represents the devices in the lab from lkft.validation.linaro.org,
+# and the qemu devices available in tuxsuite.
+  - boards: &all_boards
+    - bcm2711-rpi-4-b
+    - dragonboard-410c
+    - dragonboard-845c
+    - e850-96
+    - fvp-aemva
+    - hi6220-hikey-r2
+    - i386
+    - juno-r2
+    - qcom-qdf2400
+    - qemu-arm64
+    - qemu-armv7
+    - qemu-i386
+    - qemu-riscv64
+    - qemu-x86_64
+    - qemu_arm
+    - qemu_arm64
+    - qemu_i386
+    - qemu_x86_64
+    - qrb5165-rb5
+    - x15
+    - x86
+    - x86_64
+
 skiplist:
   - reason: >
       LKFT: LTP: fork13: runs long and hangs machine on branches
     url: https://bugs.linaro.org/show_bug.cgi?id=3719
     environments: all
-    boards:
-      - all
+    boards: *all_boards
     branches: all
     tests:
       - fork13
@@ -35,8 +62,7 @@ skiplist:
       LTP: msgctl10 fork failed
     url: https://bugs.linaro.org/show_bug.cgi?id=2355
     environments: all
-    boards:
-      - all
+    boards: *all_boards
     branches: all
     tests:
       - msgctl10
@@ -49,8 +75,7 @@ skiplist:
       of the time. See
     url: https://bugs.linaro.org/show_bug.cgi?id=3303
     environments: all
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - 4.4
       - 4.9
@@ -68,7 +93,7 @@ skiplist:
       inotify07 is not supported on 4.4 and 4.9
     url: https://bugs.linaro.org/show_bug.cgi?id=3931
     environments: all
-    boards: all
+    boards: *all_boards
     branches:
       - 4.4
       - 4.9
@@ -84,7 +109,7 @@ skiplist:
       inotify08 is not supported on 4.14, 4.9 and 4.4
     url: https://bugs.linaro.org/show_bug.cgi?id=3881
     environments: all
-    boards: all
+    boards: *all_boards
     branches:
       - 4.4
       - 4.9
@@ -103,8 +128,7 @@ skiplist:
       x86: ltp sched tests hang due to NFS not responding
     url: https://bugs.linaro.org/show_bug.cgi?id=3338
     environments: all
-    boards:
-      - all
+    boards: *all_boards
     branches: all
     tests:
       - pth_str01
@@ -118,7 +142,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3382
     environments:
       - production
-    boards: all
+    boards: *all_boards
     branches: all
     tests:
       - perf_event_open02
@@ -129,7 +153,7 @@ skiplist:
     url: https://bugs.linaro.org/show_bug.cgi?id=3720
     environments:
       - production
-    boards: all
+    boards: *all_boards
     branches: all
     tests:
       - gf01
@@ -141,8 +165,7 @@ skiplist:
       LKFT: LTP skip hackbench01/02 on qemu_arm and qemu_arm64 causing kernel dump
     url: https://bugs.linaro.org/show_bug.cgi?id=3777
     environments: all
-    boards:
-      - all
+    boards: *all_boards
     branches: all
     tests:
       - hackbench01
@@ -154,8 +177,7 @@ skiplist:
       Test creates more than 3GB file which is time consuming so skipping.
     url: https://bugs.linaro.org/show_bug.cgi?id=3234
     environments: all
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -181,8 +203,7 @@ skiplist:
       memory (specially ones having short memory)
     url: https://bugs.linaro.org/show_bug.cgi?id=4023
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -193,8 +214,7 @@ skiplist:
       intermittent failure
     url: https://bugs.linaro.org/show_bug.cgi?id=4273
     environments: all
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -206,8 +226,7 @@ skiplist:
       Board doesn't have enough memory to run the test (1GB)
     url: https://bugs.linaro.org/show_bug.cgi?id=4272
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -217,8 +236,7 @@ skiplist:
       skip long running LTP dio tests on all devices
     url: https://projects.linaro.org/browse/KV-171
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -238,8 +256,7 @@ skiplist:
       skip long running LTP dio tests on all devices
     url: https://projects.linaro.org/browse/KV-171
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -257,8 +274,7 @@ skiplist:
       skip long running LTP memcg_stress_test on all devices
     url: https://bugs.linaro.org/show_bug.cgi?id=5657
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -268,8 +284,7 @@ skiplist:
       skip long running LTP bind06 and cve-2018-18559 on all devices
     url: https://bugs.linaro.org/show_bug.cgi?id=5721
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -280,8 +295,7 @@ skiplist:
       LTP tracing test case ftrace_stress_test.sh crashing on all devices.
     url: https://bugs.linaro.org/show_bug.cgi?id=5722
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -292,8 +306,7 @@ skiplist:
       which need full ping commmand in OE rootfs.
     url: https://bugs.linaro.org/show_bug.cgi?id=5792
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
@@ -317,8 +330,7 @@ skiplist:
       LTP setsockopt06 running more than 15mins 
     url: https://bugs.linaro.org/show_bug.cgi?id=5872
     environments: production
-    boards:
-      - all
+    boards: *all_boards
     branches:
       - all
     tests:
