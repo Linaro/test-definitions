@@ -766,3 +766,52 @@ check_config() {
         check_return "config_value_${c}"
     done
 }
+
+major() {
+    # shellcheck disable=SC2039
+    local pv="${1}"
+    echo "${pv}" | awk -F'.' '{print $1}'
+}
+
+minor() {
+    # shellcheck disable=SC2039
+    local pv="${1}"
+    echo "${pv}" | awk -F'.' '{print $2}'
+}
+
+check_python_version() {
+    # send in "python --version"
+    local pv="${1}"
+    python_version=$(echo "${pv}" | awk -F' ' '{print $NF}')
+    # example "3.9"
+    local min_version="${2}"
+    local err="${3}"
+    # shellcheck disable=SC2155
+    local x="$(major "${python_version}")"
+    # shellcheck disable=SC2155
+    local y="$(minor "${python_version}")"
+    # shellcheck disable=SC2155
+    local mx="$(major "${min_version}")"
+    # shellcheck disable=SC2155
+    local my="$(minor "${min_version}")"
+    # shellcheck disable=SC2155
+    local str="Wrong Python version installed ${pv}"
+    if [ "${x}" -lt "${mx}" ]; then
+        if [ "${err}" = "Error" ]; then
+            error_msg "${str}"
+        else
+            warn_msg "${str}"
+            return
+        fi
+    fi
+
+    if [ "${y}" -lt "${my}" ]; then
+        if [ "${x}" -le "${mx}" ]; then
+            if [ "${err}" = "Error" ]; then
+                error_msg "${str}"
+            else
+                warn_msg "${str}"
+            fi
+        fi
+    fi
+}
