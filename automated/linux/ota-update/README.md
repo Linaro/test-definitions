@@ -1,7 +1,13 @@
 This test consists of 3 parts:
- * download-update.yaml
+ * download-update.yaml/static-delta.yaml
  * verify-upgrade.yaml
  * verify-reboot.yaml
+
+download-update.yaml can be exchanged with static-delta.yaml. Static
+delta test can exercise OTA update and full disk conditions. Testing
+full disk with atomic ostree updates is almost impossible as ostree checks
+the disk thresholds for each object and the objects are usually small.
+For this reason there is no full disk condition in the download-update.yaml
 
 To confirm full upgrade all 3 .yaml files need to be used in a test job.
 The DUT needs to reboot twice during the job. Therefore interactive
