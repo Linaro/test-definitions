@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2023 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ota-static-delta-upgrade-download
+    description: "Download OTA assuming static delta is available"
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        ROOT: "/sysroot"
+        NEXT_TARGET: ""
+        OTA_THRESHOLD: "90"
+        # FILL_SIZE > 100 forces the OTA upgrade to be aborted
+        FILL_SIZE: "99"
+run:
+    steps:
+        - cd ./automated/linux/ota-update
+        - ./static-delta.sh -r "${ROOT}" -n "${NEXT_TARGET}" -t "${OTA_THRESHOLD}" -f "${FILL_SIZE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
