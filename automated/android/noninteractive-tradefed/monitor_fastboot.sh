@@ -17,5 +17,4 @@ do
         echo "No boot image found under /lava-lxc and /lava-downloads, please check and try again!"
         exit 1
     fi
-    sleep 30
 done
