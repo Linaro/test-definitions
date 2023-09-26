@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2023 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: offline-run
+    description: "Perform 2nd part of offline-update with aklite-offline"
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        UBOOT_VAR_TOOL: "fw_printenv"
+        UBOOT_VAR_SET_TOOL: "fw_setenv"
+        TYPE: "kernel"
+        REF_TARGET_VERSION: ""
+run:
+    steps:
+        - cd ./automated/linux/offline-update
+        - ./offline-run.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -r "${REF_TARGET_VERSION}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

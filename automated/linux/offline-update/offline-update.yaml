@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2023 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: offline-update
+    description: "Perform 1st part of offline-update with aklite-offline"
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        UBOOT_VAR_TOOL: "fw_printenv"
+        UBOOT_VAR_SET_TOOL: "fw_setenv"
+        TYPE: "kernel"
+        PACMAN_TYPE: "ostree+compose_apps"
+        OFFLINE_UPDATE_DIR: "/dev/sda1"
+run:
+    steps:
+        - cd ./automated/linux/offline-update
+        - ./offline-update.sh -w "${OFFLINE_UPDATE_DIR}" -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
