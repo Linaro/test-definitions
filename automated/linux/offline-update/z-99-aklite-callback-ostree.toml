@@ -1,0 +1,5 @@
+[pacman]
+type = "ostree"
+[bootloader]
+reboot_command = "/bin/true"
+
