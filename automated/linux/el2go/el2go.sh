@@ -11,12 +11,16 @@ SLOT_INIT=False
 PTOOL="pkcs11-tool --module /usr/lib/libckteec.so.0.1.0"
 SO_PIN=12345678
 PIN=87654321
-#SE05X_SLOT_LABEL=aktualizr
+AKLITE_TOKEN_LABEL=aktualizr
+AKLITE_CERT_LABEL=SE_83000043
 SE05X_TEST_LABEL=test_label
+RESET_SE05X=True
+AWS_ENDPOINT=""
+AWS_CONTAINER=""
 
 usage() {
     echo "\
-    Usage: $0 [-p <pkcs11-tool>] [-s <true|false>]
+    Usage: $0 [-p <pkcs11-tool>] [-s <true|false>] [-r <true|false>] [-e <AWS endpoint>] [-c <AWS container>]
 
     -p <pkcs11-tool>
         pkcs11-tool with all the options required. Default is:
@@ -26,6 +30,13 @@ usage() {
         This checks whether auto-registration script
         can deal with alread initialized pkcs11.
         Default: false
+    -r <true|false>
+        Reset SE050 element to factory settings
+        Default: true
+    -e <AWS IoT Endpoint URL>
+    -c <AWS test container>
+        Container connects to the endpoint to create
+        AWS IoT Thing
     "
 }
 
@@ -43,10 +54,13 @@ systemd_variable_value() {
 }
 
 
-while getopts "p:s:h" opts; do
+while getopts "p:s:r:e:c:h" opts; do
     case "$opts" in
         p) PTOOL="${OPTARG}";;
         s) SLOT_INIT="${OPTARG}";;
+        r) RESET_SE05X="${OPTARG}";;
+        e) AWS_ENDPOINT="${OPTARG}";;
+        c) AWS_CONTAINER="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -82,7 +96,7 @@ done
 # check if the device was registered
 
 echo "Check if the device is properly registered"
-systemctl status --no-pager lmp-el2go-auto-register
+systemctl status --no-pager --full lmp-el2go-auto-register
 # should be 0 - exit without error
 EXEC_STATUS=$(systemd_variable_value ExecMainStatus lmp-el2go-auto-register)
 if [  "${EXEC_STATUS}" = 0 ]; then
@@ -98,18 +112,36 @@ else
     report_fail lmp-el2go-auto-register-running
 fi
 
-journalctl --no-pager -u lmp-el2go-auto-register | grep "Getting Certificate"
-check_return "el2go-get-certificate"
-journalctl --no-pager -u lmp-el2go-auto-register | grep "Retrieved Certificate"
+journalctl --no-pager -u lmp-el2go-auto-register
+
+. /etc/os-release
+$PTOOL --pin "${PIN}" --token-label "${AKLITE_TOKEN_LABEL}" --read-object --label "${AKLITE_CERT_LABEL}" --type cert --output-file cert.der
+# LMP_FACTORY is set in /etc/os-release
+openssl x509 -in cert.der -issuer -noout | grep "${LMP_FACTORY}"
 check_return "el2go-retrieve-certificate"
+if [ -s /var/sota/sota.toml ]; then
+    report_pass "sota_toml_created"
+else
+    report_fail "sota_toml_created"
+fi
 journalctl --no-pager -u lmp-el2go-auto-register | grep "Deactivated successfully"
 check_return "lmp-el2go-service-deactivate"
 systemctl is-active aktualizr-lite
 check_return "el2go-aklite-running"
 
+# test AWS
+# This only works if AWS IoT JIT is configured properly
+if [ -n "${AWS_ENDPOINT}" ] && [ -n "${AWS_CONTAINER}" ]; then
+    docker run -it -e AWS_ENDPOINT="${AWS_ENDPOINT}" --device=/dev/tee0:/dev/tee0 "${AWS_CONTAINER}"
+    check_return "el2go-aws-iot"
+else
+    report_skip "el2go-aws-iot"
+fi
+
 # cleanup
-echo "Cleanup SE050"
-# reset se050
-ssscli connect se05x t1oi2c none
-ssscli se05x reset
-ssscli disconnect
+if [ "${RESET_SE05X}" = "True" ] || [ "${RESET_SE05X}" = "true" ]; then
+    echo "Cleanup SE050"
+    # stop aklite to prevent TA panic
+    systemctl stop aktualizr-lite
+    fio-se05x-cli --factory-reset --se050
+fi
