@@ -102,9 +102,23 @@ if adb shell 'ping -c 10 '"${SERVER}"'; echo exitcode: $?' | grep -q "exitcode: 
     report_pass "network-available"
 else
     report_fail "network-available"
-    # print more debug information
+    # print more debug information on the DUT side
     adb shell ip address || true
+    adb shell ip route || true
     adb shell ping -c 10 8.8.8.8 || true
+    # ip of the dns server
+    adb shell ping -c 10 10.66.16.15 || true
+    # check "Setting DNS servers for network"
+    # or "DnsResolverService::setResolverConfiguration"
+    adb logcat -d resolv:V|grep -i dns
+    # print more debug information on the host side
+    ip address || true
+    ip route || true
+    cat /etc/resolv.conf
+    ping -c 10 "${SERVER}" || true
+    ping -c 10 8.8.8.8 || true
+    # ip of the dns server
+    ping -c 10 10.66.16.15 || true
     # to be caught by the yaml file
     exit 100
 fi
