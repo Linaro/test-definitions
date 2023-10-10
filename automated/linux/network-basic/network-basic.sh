@@ -94,3 +94,6 @@ run "${DHCLIENT} ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhcli
 run "route" "print-routing-tables-after-dhclient-request"
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
 run "${CURL} ${OUTPUT}/curl_big_video.avi http://samplemedia.linaro.org/MPEG4/big_buck_bunny_480p_MPEG4_MP3_25fps_1600K_short.AVI" "download-a-file"
+
+# exit with return code 0 to help LAVA parse results
+exit 0
