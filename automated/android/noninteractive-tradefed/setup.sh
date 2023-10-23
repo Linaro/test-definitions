@@ -6,7 +6,7 @@
 . ../../lib/android-test-lib
 
 java_path="/usr/lib/jvm/java-11-openjdk-amd64/bin/java"
-if [ -n "${ANDROID_VERSION}" ] && echo "${ANDROID_VERSION}" | grep -q  "aosp-android14"; then
+if [ -n "${ANDROID_VERSION}" ] && echo "${ANDROID_VERSION}" | grep -E -q "aosp-android14|aosp-main"; then
     # use openjdk-17 for Android14+ versions
     java_path="/usr/lib/jvm/java-17-openjdk-amd64/bin/java"
 fi
