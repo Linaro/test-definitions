@@ -14,6 +14,7 @@ metadata:
         - functional
 
 params:
+    SKIP_INSTALL: "false"
     # Specify timeout in seconds for wait_boot_completed and wait_homescreen.
     TIMEOUT: "300"
     # Download CTS package or copy it from local disk.
@@ -46,7 +47,7 @@ run:
     steps:
         - cd ./automated/android/noninteractive-tradefed
         # Run setup.sh in the original shell to reserve env variables.
-        - . ./setup.sh
+        - . ./setup.sh "${SKIP_INSTALL}"
         - echo "after ./setup.sh"
         # delete the test user to clean environment
         - userdel testuser -r -f || true
