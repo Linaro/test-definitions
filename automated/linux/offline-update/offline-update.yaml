@@ -22,8 +22,9 @@ params:
         TYPE: "kernel"
         PACMAN_TYPE: "ostree+compose_apps"
         OFFLINE_UPDATE_DIR: "/dev/sda1"
+        OFFLINE_MOUNT_POINT: "/mnt/offline"
 run:
     steps:
         - cd ./automated/linux/offline-update
-        - ./offline-update.sh -w "${OFFLINE_UPDATE_DIR}" -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}"
+        - ./offline-update.sh -w "${OFFLINE_UPDATE_DIR}" -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}" -m "${OFFLINE_MOUNT_POINT}"
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -14,10 +14,11 @@ UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
 PACMAN_TYPE="ostree+compose_apps"
 OFFLINE_UPDATE_DRIVE=""
+OFFLINE_MOUNT_POINT="/mnt/offline"
 
 usage() {
 	echo "\
-     Usage: $0 -w <offline update dir> [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>]
+     Usage: $0 -w <offline update dir> [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-m <mount point>]
 
     -t <kernel|uboot>
         This determines type of upgrade test performed:
@@ -37,17 +38,20 @@ usage() {
         These change the 'type' variable in 'pacman' section
         of the final .toml file used by aklite. Default is
         ostree+compose_apps
+    -m </path/to/offline/mount>
+        Path to offline mount point. Defaults to /mnt/offline
     -w offline update directory
 	"
 }
 
-while getopts "t:u:s:o:w:h" opts; do
+while getopts "t:u:s:o:w:m:h" opts; do
 	case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         o) PACMAN_TYPE="${OPTARG}";;
         w) OFFLINE_UPDATE_DRIVE="${OPTARG}";;
+        m) OFFLINE_MOUNT_POINT="${OPTARG}";;
         h|*) usage ; exit 1 ;;
 	esac
 done
@@ -107,8 +111,9 @@ if [ "${TYPE}" = "uboot" ]; then
     "${UBOOT_VAR_SET_TOOL}" bootfirmware_version 0
 fi
 
-mount "${OFFLINE_UPDATE_DRIVE}" /mnt
-aklite-offline install --log-level 1 --src-dir /mnt
+mkdir -p "${OFFLINE_MOUNT_POINT}"
+mount "${OFFLINE_UPDATE_DRIVE}" "${OFFLINE_MOUNT_POINT}"
+aklite-offline install --log-level 1 --src-dir "${OFFLINE_MOUNT_POINT}"
 
 # check variables after download is completed
 bootcount_after_upgrade=$(uboot_variable_value bootcount)
