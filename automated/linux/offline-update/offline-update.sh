@@ -3,7 +3,7 @@
 # Copyright (C) 2023 Foundries.io Ltd.
 
 # shellcheck disable=SC1091
-. ./sh-lib
+. ../../lib/sh-test-lib
 OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
