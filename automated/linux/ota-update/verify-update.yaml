@@ -23,8 +23,10 @@ params:
         TYPE: "kernel"
         TARGET_VERSION: "1"
         BOOTROM_USE_SECONDARY: "true"
+        UBOOT_VARIABLE_NAME: "foobar"
+        UBOOT_VARIABLE_VALUE: "baz"
 run:
     steps:
         - cd ./automated/linux/ota-update
-        - ./verify-update.sh  -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}" -b "${BOOTROM_USE_SECONDARY}"
+        - ./verify-update.sh  -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}" -b "${BOOTROM_USE_SECONDARY}" -V "${UBOOT_VARIABLE_NAME}" -w "${UBOOT_VARIABLE_VALUE}"
         - ../../utils/send-to-lava.sh ./output/result.txt

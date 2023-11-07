@@ -13,10 +13,12 @@ export UBOOT_VAR_TOOL
 UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
 PACMAN_TYPE="ostree+compose_apps"
+U_BOOT_VARIABLE_NAME="foobar"
+U_BOOT_VARIABLE_VALUE="baz"
 
 usage() {
 	echo "\
-	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>]
+	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-V <variable name>] [-w <variable value>]
 
     -t <kernel|uboot>
         This determines type of upgrade test performed:
@@ -36,15 +38,22 @@ usage() {
         These change the 'type' variable in 'pacman' section
         of the final .toml file used by aklite. Default is
         ostree+compose_apps
+    -V u-boot variable name to be set before the OTA upgrade
+        It is expected that this variable will be preserved through
+        the update process. Default: foobar
+    -w u-boot variable value. This is assigned to the variable set
+        with -v flag. Default: baz
 	"
 }
 
-while getopts "t:u:s:o:h" opts; do
+while getopts "t:u:s:o:V:w:h" opts; do
 	case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         o) PACMAN_TYPE="${OPTARG}";;
+        w) U_BOOT_VARIABLE_VALUE="${OPTARG}";;
+        V) U_BOOT_VARIABLE_NAME="${OPTARG}";;
         h|*) usage ; exit 1 ;;
 	esac
 done
@@ -90,6 +99,9 @@ touch /var/sota/ota.signal
 touch /var/sota/ota.result
 report_pass "${TYPE}-create-signal-files"
 
+if [ "${TYPE}" = "uboot" ]; then
+    "${UBOOT_VAR_SET_TOOL}" "${U_BOOT_VARIABLE_NAME}" "${U_BOOT_VARIABLE_VALUE}"
+fi
 #systemctl mask aktualizr-lite
 # enabling lmp-device-auto-register will fail because aklite is masked
 systemctl enable --now lmp-device-auto-register || error_fatal "Unable to register device"
@@ -113,6 +125,10 @@ rollback_before_download=$(uboot_variable_value rollback)
 compare_test_value "${TYPE}_rollback_before_download" "${ref_rollback_before_download}" "${rollback_before_download}"
 upgrade_available_before_download=$(uboot_variable_value upgrade_available)
 compare_test_value "${TYPE}_upgrade_available_before_download" "${ref_upgrade_available_before_download}" "${upgrade_available_before_download}"
+if [ "${TYPE}" = "uboot" ]; then
+    uboot_variable_before_download=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
+    compare_test_value "${TYPE}_uboot_variable_value_before_download" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_before_download}"
+fi
 
 if [ -f /usr/lib/firmware/version.txt ]; then
     # boot firmware is upgreadable
@@ -172,6 +188,11 @@ else
     report_skip "${TYPE}_bootupgrade_available_after_download"
     report_skip "${TYPE}_bootfirmware_version_after_download"
     report_skip "${TYPE}_fiovb_is_secondary_boot_after_download"
+fi
+
+if [ "${TYPE}" = "uboot" ]; then
+    uboot_variable_after_download=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
+    compare_test_value "${TYPE}_uboot_variable_value_after_download" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_after_download}"
 fi
 
 UPGRADE_AVAILABLE="${upgrade_available_after_download}"
