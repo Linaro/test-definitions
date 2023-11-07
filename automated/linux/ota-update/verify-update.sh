@@ -14,10 +14,12 @@ export UBOOT_VAR_TOOL
 UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
 BOOTROM_USE_SECONDARY="true"
+U_BOOT_VARIABLE_NAME="foobar"
+U_BOOT_VARIABLE_VALUE="baz"
 
 usage() {
     echo "\
-    Usage: $0 [-t <kernel|uboot>] [-u <u-boot variable read>] [-s <u-boot variable set>] [-v <expected version>]
+    Usage: $0 [-t <kernel|uboot>] [-u <u-boot variable read>] [-s <u-boot variable set>] [-v <expected version>] [-V <variable name>] [-w <variable value>]
 
     -t <kernel|uboot>
         Defauts to 'kernel'. It either enables or disables
@@ -39,16 +41,23 @@ usage() {
         Defaults to 'true'. When set to 'false' the test
         'fiovb_is_secondary_boot_after_rollback' will use
         0 as a reference value.
+    -V u-boot variable name to be set before the OTA upgrade
+        It is expected that this variable will be preserved through
+        the update process. Default: foobar
+    -w u-boot variable value. This is assigned to the variable set
+        with -v flag. Default: baz
     "
 }
 
-while getopts "t:u:s:v:b:h" opts; do
+while getopts "t:u:s:v:b:V:w:h" opts; do
     case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         v) REF_TARGET_VERSION="${OPTARG}";;
         b) BOOTROM_USE_SECONDARY="${OPTARG}";;
+        w) U_BOOT_VARIABLE_VALUE="${OPTARG}";;
+        V) U_BOOT_VARIABLE_NAME="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -103,6 +112,10 @@ compare_test_value "bootfirmware_version_after_upgrade" "${ref_bootfirmware_vers
 fiovb_is_secondary_boot_after_upgrade=$(uboot_variable_value "${SECONDARY_BOOT_VAR_NAME}")
 compare_test_value "fiovb_is_secondary_boot_after_upgrade" "${ref_fiovb_is_secondary_boot_after_upgrade}" "${fiovb_is_secondary_boot_after_upgrade}"
 
+if [ "${TYPE}" = "uboot" ]; then
+    uboot_variable_after_upgrade=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
+    compare_test_value "${TYPE}_uboot_variable_value_after_upgrade" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_after_upgrade}"
+fi
 . /etc/os-release
 # shellcheck disable=SC2154
 compare_test_value "target_version_after_upgrade" "${REF_TARGET_VERSION}" "${IMAGE_VERSION}"

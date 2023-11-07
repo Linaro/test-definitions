@@ -22,8 +22,10 @@ params:
         UBOOT_VAR_TOOL: "fw_printenv"
         UBOOT_VAR_SET_TOOL: "fw_setenv"
         TARGET_VERSION: "1"
+        UBOOT_VARIABLE_NAME: "foobar"
+        UBOOT_VARIABLE_VALUE: "baz"
 run:
     steps:
         - cd ./automated/linux/ota-update
-        - ./verify-reboot.sh  -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}"
+        - ./verify-reboot.sh  -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}" -V "${UBOOT_VARIABLE_NAME}" -w "${UBOOT_VARIABLE_VALUE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
