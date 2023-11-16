@@ -15,10 +15,11 @@ export UBOOT_VAR_SET_TOOL
 PACMAN_TYPE="ostree+compose_apps"
 U_BOOT_VARIABLE_NAME="foobar"
 U_BOOT_VARIABLE_VALUE="baz"
+DEBUG="false"
 
 usage() {
 	echo "\
-	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-V <variable name>] [-w <variable value>]
+	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-V <variable name>] [-w <variable value>] [-d <true|false> ]
 
     -t <kernel|uboot>
         This determines type of upgrade test performed:
@@ -43,10 +44,11 @@ usage() {
         the update process. Default: foobar
     -w u-boot variable value. This is assigned to the variable set
         with -v flag. Default: baz
+    -d <true|false> Enables more debug messages. Default: false
 	"
 }
 
-while getopts "t:u:s:o:V:w:h" opts; do
+while getopts "t:u:s:o:V:w:d:h" opts; do
 	case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
@@ -54,6 +56,7 @@ while getopts "t:u:s:o:V:w:h" opts; do
         o) PACMAN_TYPE="${OPTARG}";;
         w) U_BOOT_VARIABLE_VALUE="${OPTARG}";;
         V) U_BOOT_VARIABLE_NAME="${OPTARG}";;
+        d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
 	esac
 done
@@ -199,4 +202,7 @@ fi
 
 if [ "${UPGRADE_AVAILABLE}" -ne 1 ]; then
     lava-test-raise "No-update-available-${TYPE}"
+fi
+if [ "${DEBUG}" = "true" ]; then
+    journalctl --no-pager -u aktualizr-lite
 fi

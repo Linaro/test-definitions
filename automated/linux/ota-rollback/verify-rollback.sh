@@ -12,10 +12,11 @@ UBOOT_VAR_TOOL=fw_printenv
 export UBOOT_VAR_TOOL
 UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
+DEBUG="false"
 
 usage() {
     echo "\
-    Usage: $0 [-type <kernel|uboot|app>]
+    Usage: $0 [-type <kernel|uboot|app>] [-u <u-boot var read>] [-s <u-boot var set>] [-d <true|false>]
 
     -t <kernel|uboot|app>
         This determines type of corruption test
@@ -33,14 +34,16 @@ usage() {
         On the unsecured systems it will usually be
         fw_setenv. On secured systems it might be
         fiovb_setenv
+    -d <true|false> Enables more debug messages. Default: false
     "
 }
 
-while getopts "t:u:s:h" opts; do
+while getopts "t:u:s:d:h" opts; do
     case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
+        d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -109,3 +112,7 @@ fi
 # for now ignore /etc/os-release
 cat /etc/os-release
 cat /boot/loader/uEnv.txt
+
+if [ "${DEBUG}" = "true" ]; then
+    journalctl --no-pager -u aktualizr-lite
+fi

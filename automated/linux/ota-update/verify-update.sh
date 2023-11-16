@@ -16,10 +16,11 @@ export UBOOT_VAR_SET_TOOL
 BOOTROM_USE_SECONDARY="true"
 U_BOOT_VARIABLE_NAME="foobar"
 U_BOOT_VARIABLE_VALUE="baz"
+DEBUG="false"
 
 usage() {
     echo "\
-    Usage: $0 [-t <kernel|uboot>] [-u <u-boot variable read>] [-s <u-boot variable set>] [-v <expected version>] [-V <variable name>] [-w <variable value>]
+    Usage: $0 [-t <kernel|uboot>] [-u <u-boot variable read>] [-s <u-boot variable set>] [-v <expected version>] [-V <variable name>] [-w <variable value>] [-d <true|false>]
 
     -t <kernel|uboot>
         Defauts to 'kernel'. It either enables or disables
@@ -46,10 +47,11 @@ usage() {
         the update process. Default: foobar
     -w u-boot variable value. This is assigned to the variable set
         with -v flag. Default: baz
+    -d <true|false> Enables more debug messages. Default: false
     "
 }
 
-while getopts "t:u:s:v:b:V:w:h" opts; do
+while getopts "t:u:s:v:b:V:w:d:h" opts; do
     case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
@@ -58,6 +60,7 @@ while getopts "t:u:s:v:b:V:w:h" opts; do
         b) BOOTROM_USE_SECONDARY="${OPTARG}";;
         w) U_BOOT_VARIABLE_VALUE="${OPTARG}";;
         V) U_BOOT_VARIABLE_NAME="${OPTARG}";;
+        d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -121,3 +124,7 @@ fi
 compare_test_value "target_version_after_upgrade" "${REF_TARGET_VERSION}" "${IMAGE_VERSION}"
 cat /etc/os-release
 cat /boot/loader/uEnv.txt
+
+if [ "${DEBUG}" = "true" ]; then
+    journalctl --no-pager -u aktualizr-lite
+fi
