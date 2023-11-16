@@ -14,10 +14,11 @@ UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
 PACMAN_TYPE="ostree+compose_apps"
 UBOOT_IMAGE_NAME="u-boot.itb"
+DEBUG="false"
 
 usage() {
 	echo "\
-	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>]
+	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-d <true|false>]
 
     -t <kernel|uboot|app>
         This determines type of corruption test performed:
@@ -40,16 +41,18 @@ usage() {
         ostree+compose_apps
     -f u-boot image file name to corrupt. On some machines
         u-boot image has different name. Default is u-boot.itb
+    -d <true|false> Enables more debug messages. Default: false
 	"
 }
 
-while getopts "t:u:s:o:f:h" opts; do
+while getopts "t:u:s:o:f:d:h" opts; do
 	case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         o) PACMAN_TYPE="${OPTARG}";;
         f) UBOOT_IMAGE_NAME="${OPTARG}";;
+        d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
 	esac
 done
@@ -182,6 +185,10 @@ fi
 UPGRADE_AVAILABLE="${upgrade_available_after_download}"
 if [ "${TYPE}" = "uboot" ]; then
     UPGRADE_AVAILABLE="${bootupgrade_available_after_download}"
+fi
+
+if [ "${DEBUG}" = "true" ]; then
+    journalctl --no-pager -u aktualizr-lite
 fi
 
 if [ "${UPGRADE_AVAILABLE}" -eq 1 ]; then

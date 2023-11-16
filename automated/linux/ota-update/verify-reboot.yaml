@@ -24,8 +24,9 @@ params:
         TARGET_VERSION: "1"
         UBOOT_VARIABLE_NAME: "foobar"
         UBOOT_VARIABLE_VALUE: "baz"
+        DEBUG: "false"
 run:
     steps:
         - cd ./automated/linux/ota-update
-        - ./verify-reboot.sh  -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}" -V "${UBOOT_VARIABLE_NAME}" -w "${UBOOT_VARIABLE_VALUE}"
+        - ./verify-reboot.sh  -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -v "${TARGET_VERSION}" -V "${UBOOT_VARIABLE_NAME}" -w "${UBOOT_VARIABLE_VALUE}" -d "${DEBUG}"
         - ../../utils/send-to-lava.sh ./output/result.txt

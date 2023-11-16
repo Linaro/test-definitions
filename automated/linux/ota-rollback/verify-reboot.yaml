@@ -20,8 +20,9 @@ params:
         UBOOT_VAR_TOOL: "fw_printenv"
         UBOOT_VAR_SET_TOOL: "fw_setenv"
         TYPE: "kernel"
+        DEBUG: "false"
 run:
     steps:
         - cd ./automated/linux/ota-rollback
-        - ./verify-reboot.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}"
+        - ./verify-reboot.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -d "${DEBUG}"
         - ../../utils/send-to-lava.sh ./output/result.txt

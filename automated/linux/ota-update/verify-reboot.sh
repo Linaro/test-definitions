@@ -14,10 +14,11 @@ UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
 U_BOOT_VARIABLE_NAME="foobar"
 U_BOOT_VARIABLE_VALUE="baz"
+DEBUG="false"
 
 usage() {
     echo "\
-    Usage: $0 [-u <u-boot variable read>] [-s <u-boot variable set>] [-v <expected version>] [-V <variable name>] [-w <variable value>]
+    Usage: $0 [-u <u-boot variable read>] [-s <u-boot variable set>] [-v <expected version>] [-V <variable name>] [-w <variable value>] [-d <true|false>]
 
     -v <target version>
         Version of the target expected after reboot.
@@ -37,16 +38,18 @@ usage() {
         the update process. Default: foobar
     -w u-boot variable value. This is assigned to the variable set
         with -v flag. Default: baz
+    -d <true|false> Enables more debug messages. Default: false
     "
 }
 
-while getopts "u:s:v:V:w:h" opts; do
+while getopts "u:s:v:V:w:d:h" opts; do
     case "$opts" in
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         v) REF_TARGET_VERSION="${OPTARG}";;
         w) U_BOOT_VARIABLE_VALUE="${OPTARG}";;
         V) U_BOOT_VARIABLE_NAME="${OPTARG}";;
+        d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -91,3 +94,7 @@ fi
 compare_test_value "target_version_after_upgrade" "${REF_TARGET_VERSION}" "${IMAGE_VERSION}"
 cat /etc/os-release
 cat /boot/loader/uEnv.txt
+
+if [ "${DEBUG}" = "true" ]; then
+    journalctl --no-pager -u aktualizr-lite
+fi

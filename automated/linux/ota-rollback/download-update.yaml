@@ -23,8 +23,9 @@ params:
         UBOOT_IMAGE_NAME: "u-boot.itb"
         TYPE: "kernel"
         PACMAN_TYPE: "ostree+compose_apps"
+        DEBUG: "false"
 run:
     steps:
         - cd ./automated/linux/ota-rollback
-        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}" -f "${UBOOT_IMAGE_NAME}"
+        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}" -f "${UBOOT_IMAGE_NAME}" -d "${DEBUG}"
         - ../../utils/send-to-lava.sh ./output/result.txt
