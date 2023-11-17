@@ -1,0 +1,1 @@
+../ota-update/aklite-callback.sh

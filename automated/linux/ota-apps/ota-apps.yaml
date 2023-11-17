@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2023 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: ota-apps
+    description: "Download OTA apps update. Use eiter proper or corrupt app"
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        TYPE: "regular"
+        APPNAME: "shellhttpd"
+        VERSION: ""
+        DEBUG: "false"
+run:
+    steps:
+        - cd ./automated/linux/ota-apps
+        - ./update-apps.sh -t "${TYPE}" -a "${APPNAME}" -v "${VERSION}" -d "${DEBUG}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
