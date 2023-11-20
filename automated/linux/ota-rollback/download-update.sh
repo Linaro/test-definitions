@@ -141,14 +141,11 @@ if [ "${TYPE}" = "uboot" ]; then
 fi
 
 # wait for 'install-post' signal
-SIGNAL=$(</var/sota/ota.signal)
-while [ ! "${SIGNAL}" = "install-post" ]
+while ! grep "install-post" /var/sota/ota.signal
 do
 	echo "Sleeping 1s"
 	sleep 1
 	cat /var/sota/ota.signal
-	SIGNAL=$(</var/sota/ota.signal)
-	echo "SIGNAL: ${SIGNAL}."
 done
 report_pass "${TYPE}-install-post-received"
 
