@@ -16,7 +16,7 @@ PACMAN_TYPE="ostree+compose_apps"
 U_BOOT_VARIABLE_NAME="foobar"
 U_BOOT_VARIABLE_VALUE="baz"
 DEBUG="false"
-SOTA_CONFDIR="/etc/sota/conf.d/"
+SOTA_CONFDIR="/etc/sota/conf.d"
 
 usage() {
 	echo "\
