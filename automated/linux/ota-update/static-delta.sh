@@ -16,6 +16,7 @@ OTA_THRESHOLD=90
 # than 100 means there should not be enough space for the
 # OTA update
 FILL_SIZE=99
+SOTA_CONFDIR="/etc/sota/conf.d/"
 
 usage() {
     echo "\
@@ -55,11 +56,13 @@ create_out_dir "${OUTPUT}"
 cp aklite-callback.sh /var/sota/
 chmod 755 /var/sota/aklite-callback.sh
 # disable reboot by aklite
-mkdir -p /etc/sota/conf.d
-cp z-99-aklite-callback.toml /etc/sota/conf.d/
+mkdir -p "${SOTA_CONFDIR}"
+cp z-99-aklite-callback.toml "${SOTA_CONFDIR}"
+cp z-99-aklite-disable-reboot.toml "${SOTA_CONFDIR}"
 # force OTA threshold in .toml
 RESERVED_PERCENTAGE=$(echo "100-${OTA_THRESHOLD}" | bc -l)
-echo "sysroot_ostree_reserved_space_percentage = ${RESERVED_PERCENTAGE}" >> /etc/sota/conf.d/z-99-aklite-callback.toml
+echo "[pacman]" > "${SOTA_CONFDIR}"/z-99-aklite-threshold.toml
+echo "sysroot_ostree_reserved_space_percentage = ${RESERVED_PERCENTAGE}" >> "${SOTA_CONFDIR}"/z-99-aklite-threshold.toml
 
 report_pass "create-aklite-callback"
 # create signal files

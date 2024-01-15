@@ -15,6 +15,7 @@ export UBOOT_VAR_SET_TOOL
 PACMAN_TYPE="ostree+compose_apps"
 UBOOT_IMAGE_NAME="u-boot.itb"
 DEBUG="false"
+SOTA_CONFDIR="/etc/sota/conf.d/"
 
 usage() {
 	echo "\
@@ -86,12 +87,13 @@ fi
 cp aklite-callback.sh /var/sota/
 chmod 755 /var/sota/aklite-callback.sh
 
-mkdir -p /etc/sota/conf.d
+mkdir -p "${SOTA_CONFDIR}"
+cp z-99-aklite-callback.toml "${SOTA_CONFDIR}"
+cp z-99-aklite-disable-reboot.toml "${SOTA_CONFDIR}"
 if [ "${PACMAN_TYPE}" = "ostree" ]; then
-    cp z-99-aklite-callback-ostree.toml /etc/sota/conf.d/
-else
-    cp z-99-aklite-callback.toml /etc/sota/conf.d/
+    cp z-99-ostree.toml "${SOTA_CONFDIR}"
 fi
+
 report_pass "${TYPE}-create-aklite-callback"
 # create signal files
 touch /var/sota/ota.signal

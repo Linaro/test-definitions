@@ -1,5 +1,3 @@
-[bootloader]
-reboot_command = "/bin/true"
 [pacman]
 callback_program = "/var/sota/aklite-callback.sh"
 
