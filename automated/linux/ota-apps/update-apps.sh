@@ -11,7 +11,7 @@ TYPE="regular"
 APPNAME=""
 VERSION=""
 DEBUG="false"
-SOTA_CONFDIR="/etc/sota/conf.d/"
+SOTA_CONFDIR="/etc/sota/conf.d"
 
 usage() {
     echo "\

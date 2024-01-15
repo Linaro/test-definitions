@@ -16,7 +16,7 @@ OTA_THRESHOLD=90
 # than 100 means there should not be enough space for the
 # OTA update
 FILL_SIZE=99
-SOTA_CONFDIR="/etc/sota/conf.d/"
+SOTA_CONFDIR="/etc/sota/conf.d"
 
 usage() {
     echo "\

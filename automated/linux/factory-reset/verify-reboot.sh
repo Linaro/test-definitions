@@ -8,6 +8,7 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 export RESULT_FILE
 TYPE="factory_reset"
+SOTA_CONFDIR="/etc/sota/conf.d"
 
 usage() {
     echo "\
@@ -36,7 +37,7 @@ create_out_dir "${OUTPUT}"
 ls -l /etc/
 ls -l /var/sota
 
-if [ -f /etc/sota/conf.d/z-99-aklite-callback.toml ]; then
+if [ -f "${SOTA_CONFDIR}/z-99-aklite-callback.toml" ]; then
     report_fail "${TYPE}-reset-aklite-callback-exists"
 else
     report_pass "${TYPE}-reset-aklite-callback-exists"
