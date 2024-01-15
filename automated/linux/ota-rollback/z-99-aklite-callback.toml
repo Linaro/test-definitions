@@ -1,5 +1,1 @@
-[pacman]
-callback_program = "/var/sota/aklite-callback.sh"
-[bootloader]
-reboot_command = "/bin/true"
-
+../ota-update/z-99-aklite-callback.toml

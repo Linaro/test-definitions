@@ -11,6 +11,7 @@ TYPE="regular"
 APPNAME=""
 VERSION=""
 DEBUG="false"
+SOTA_CONFDIR="/etc/sota/conf.d/"
 
 usage() {
     echo "\
@@ -49,8 +50,9 @@ create_out_dir "${OUTPUT}"
 # configure aklite callback
 cp aklite-callback.sh /var/sota/
 chmod 755 /var/sota/aklite-callback.sh
-mkdir -p /etc/sota/conf.d/
-cp z-99-aklite-callback.toml /etc/sota/conf.d/
+mkdir -p "${SOTA_CONFDIR}"
+cp z-99-aklite-callback.toml "${SOTA_CONFDIR}"
+cp z-99-aklite-disable-reboot.toml "${SOTA_CONFDIR}"
 
 report_pass "${TYPE}-create-aklite-callback"
 

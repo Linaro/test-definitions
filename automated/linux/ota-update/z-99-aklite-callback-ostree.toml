@@ -1,6 +1,0 @@
-[bootloader]
-reboot_command = "/bin/true"
-[pacman]
-type = "ostree"
-callback_program = "/var/sota/aklite-callback.sh"
-
