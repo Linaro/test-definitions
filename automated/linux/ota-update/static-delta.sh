@@ -108,7 +108,7 @@ SIZE_SEARCH_STRING=".[].\"${CURRENT_OSTREE_SHA}\".u_size"
 DELTA_SIZE=$(jq -r "${SIZE_SEARCH_STRING}" delta.json)
 if [ -z "${DELTA_SIZE}" ] || [ "${DELTA_SIZE}" = "null" ]; then
     error_msg "Size of static delta for update from ${CURRENT_OSTREE_SHA} not found"
-    exit 0;
+    exit 1;
 fi
 
 # check how much disk is free
@@ -151,24 +151,21 @@ done
 if [ "${FILL_SIZE}" -gt 100 ]; then
     # no OTA should be performed
     # wait for 'install-post' signal
-    SIGNAL=$(</var/sota/ota.signal)
-    while [ ! "${SIGNAL}" = "install-post" ] && [ ! "${SIGNAL}" = "download-post" ]
+    while ! grep "install-post" /var/sota/ota.signal && ! grep "download-post" /var/sota/ota.signal
     do
         echo "Sleeping 1s"
         sleep 1
         cat /var/sota/ota.signal
-        SIGNAL=$(</var/sota/ota.signal)
-        echo "SIGNAL: ${SIGNAL}."
     done
-    sleep 5
-    if [ "${SIGNAL}" = "download-post" ]; then
+
+    if grep "download-post" /var/sota/ota.signal; then
         if (journalctl --no-pager -u aktualizr-lite | grep "Fetching ostree commit"); then
             report_fail "full-disk-abort-download"
         else
             report_pass "full-disk-abort-download"
         fi
     fi
-    if [ "${SIGNAL}" = "install-post" ]; then
+    if grep "install-post" /var/sota/ota.signal; then
         report_fail "full-disk-abort-download"
     fi
 else
@@ -191,6 +188,12 @@ else
             df -B1
             report_pass "ota-static-delta-update"
         fi
+    done
+    while ! grep "install-post" /var/sota/ota.signal
+    do
+        echo "Waiting 1s for aklite to complete installation"
+        sleep 1
+        cat /var/sota/ota.signal
     done
 fi
 journalctl --no-pager -u aktualizr-lite
