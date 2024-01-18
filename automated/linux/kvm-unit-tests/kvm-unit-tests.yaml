@@ -16,6 +16,7 @@ metadata:
         - dragonboard410c
         - hi6220-hikey
         - juno
+        - rk3399-rock-pi-4b
         - x15
         - x86
     environment:
