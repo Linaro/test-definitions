@@ -17,10 +17,11 @@ U_BOOT_VARIABLE_NAME="foobar"
 U_BOOT_VARIABLE_VALUE="baz"
 DEBUG="false"
 SOTA_CONFDIR="/etc/sota/conf.d"
+HSM_MODULE=""
 
 usage() {
-	echo "\
-	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-V <variable name>] [-w <variable value>] [-d <true|false> ]
+    echo "\
+    Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-V <variable name>] [-w <variable value>] [-d <true|false> ] [-S <hsm module>]
 
     -t <kernel|uboot>
         This determines type of upgrade test performed:
@@ -46,20 +47,22 @@ usage() {
     -w u-boot variable value. This is assigned to the variable set
         with -v flag. Default: baz
     -d <true|false> Enables more debug messages. Default: false
-	"
+    -S <hsm module> Register device with HSM module.
+    "
 }
 
-while getopts "t:u:s:o:V:w:d:h" opts; do
-	case "$opts" in
+while getopts "t:u:s:o:V:w:d:S:h" opts; do
+    case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         o) PACMAN_TYPE="${OPTARG}";;
         w) U_BOOT_VARIABLE_VALUE="${OPTARG}";;
         V) U_BOOT_VARIABLE_NAME="${OPTARG}";;
+        S) HSM_MODULE="${OPTARG}";;
         d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
-	esac
+    esac
 done
 
 # the script works only on builds with aktualizr-lite
@@ -97,6 +100,11 @@ cp z-99-aklite-disable-reboot.toml "${SOTA_CONFDIR}"
 if [ "${PACMAN_TYPE}" = "ostree" ]; then
     cp z-99-ostree.toml "${SOTA_CONFDIR}"
 fi
+if [ -n "${HSM_MODULE}" ]; then
+    echo "HSM_MODULE=\"${HSM_MODULE}\"" > /etc/sota/hsm
+    echo "HSM_PIN=87654321" >> /etc/sota/hsm
+    echo "HSM_SOPIN=12345678" >> /etc/sota/hsm
+fi
 report_pass "${TYPE}-create-aklite-callback"
 # create signal files
 touch /var/sota/ota.signal
@@ -120,6 +128,16 @@ while ! systemctl is-active aktualizr-lite; do
 done
 # add some delay so aklite can setup variables
 sleep 5
+
+if [ -n "${HSM_MODULE}" ]; then
+    if grep "${HSM_MODULE}" /var/sota/sota.toml; then
+        report_pass "${TYPE}-hsm-registration"
+    else
+        report_fail "${TYPE}-hsm-registration"
+    fi
+else
+    report_skip "${TYPE}-hsm-registration"
+fi
 
 # u-boot variables change when aklite starts (at least on some devices)
 # check u-boot variables to ensure we're on freshly flashed device
@@ -158,9 +176,9 @@ fi
 # wait for 'install-post' signal
 while ! grep "install-post" /var/sota/ota.signal
 do
-	echo "Sleeping 1s"
-	sleep 1
-	cat /var/sota/ota.signal
+    echo "Sleeping 1s"
+    sleep 1
+    cat /var/sota/ota.signal
 done
 report_pass "${TYPE}-install-post-received"
 

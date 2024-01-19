@@ -11,11 +11,14 @@ TYPE="factory_reset"
 ADDITIONAL_TYPE=""
 LABEL=""
 SOTA_CONFDIR="/etc/sota/conf.d"
+HSM_MODULE=""
 
 usage() {
     echo "\
     Usage: $0 [-t <factory_reset|factory_reset_keep_sota|factory_reset_keep_sota_docker>]
               [-a <factory_reset|factory_reset_keep_sota|factory_reset_keep_sota_docker>]
+              [-l <target label>]
+              [-S <hsm module>]
 
     -t <factory_reset|factory_reset_keep_sota|factory_reset_keep_sota_docker>
         factory_reset: Full reset, removes contents of /etc/ and /var/
@@ -26,14 +29,19 @@ usage() {
     -l <target label>
         Adds a label/tag to the [pacman] section of the toml. This forces aktualizr-lite
         to use the tag and avoids possible unintentional OTA update.
+    -S <hsm module>
+        Enables factory registration with HSM module. This option assumes using
+        pkcs#11 database. Works with FoundriesFactory. Requires support in
+        FoundriesFactory auto registration script.
     "
 }
 
-while getopts "t:a:l:h" opts; do
+while getopts "t:a:l:S:h" opts; do
     case "$opts" in
         t) TYPE="${OPTARG}";;
         a) ADDITIONAL_TYPE="${OPTARG}";;
         l) LABEL="${OPTARG}";;
+        S) HSM_MODULE="${OPTARG}";;
         h|*) usage ; exit 1 ;;
     esac
 done
@@ -54,6 +62,11 @@ cp z-99-aklite-disable-reboot.toml "${SOTA_CONFDIR}"
 if [ -n "${LABEL}" ]; then
     echo "[pacman]" > "${SOTA_CONFDIR}"/z-99-aklite-tag.toml
     echo "tags = ${LABEL}" >> "${SOTA_CONFDIR}"/z-99-aklite-tag.toml
+fi
+if [ -n "${HSM_MODULE}" ]; then
+    echo "HSM_MODULE=\"${HSM_MODULE}\"" > /etc/sota/hsm
+    echo "HSM_PIN=87654321" >> /etc/sota/hsm
+    echo "HSM_SOPIN=12345678" >> /etc/sota/hsm
 fi
 # create signal files
 touch /var/sota/ota.signal
@@ -87,6 +100,16 @@ if [ -f /var/sota/sql.db ]; then
 else
     report_fail "${TYPE}-device-registration"
 fi
+if [ -n "${HSM_MODULE}" ]; then
+    if grep "${HSM_MODULE}" /var/sota/sota.toml; then
+        report_pass "${TYPE}-hsm-registration"
+    else
+        report_fail "${TYPE}-hsm-registration"
+    fi
+else
+    report_skip "${TYPE}-hsm-registration"
+fi
+
 touch "/var/.${TYPE}"
 if [ -n "${ADDITIONAL_TYPE}" ]; then
     touch "/var/.${ADDITIONAL_TYPE}"
