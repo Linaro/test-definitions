@@ -15,6 +15,9 @@ metadata:
 
       If higher priority type is present, lower priority
       type is ignored.
+
+      Device can be registered with specifig tag using LABEL variable.
+      Device can be registered with HSM using HSM_MODULE variable.
       "
 
     maintainer:
@@ -35,8 +38,9 @@ params:
         # TYPE and ADDITIONAL_TYPE
         ADDITIONAL_TYPE: ""
         LABEL: ""
+        HSM_MODULE: ""
 run:
     steps:
         - cd ./automated/linux/factory-reset
-        - ./prepare-reset.sh -t "${TYPE}" -a "${ADDITIONAL_TYPE}" -l "${LABEL}"
+        - ./prepare-reset.sh -t "${TYPE}" -a "${ADDITIONAL_TYPE}" -l "${LABEL}" -S "${HSM_MODULE}"
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -25,8 +25,9 @@ params:
         UBOOT_VARIABLE_NAME: "foobar"
         UBOOT_VARIABLE_VALUE: "baz"
         DEBUG: "false"
+        HSM_MODULE: ""
 run:
     steps:
         - cd ./automated/linux/ota-update
-        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}" -V "${UBOOT_VARIABLE_NAME}" -w "${UBOOT_VARIABLE_VALUE}" -d "${DEBUG}"
+        - ./download-update.sh -t "${TYPE}" -u "${UBOOT_VAR_TOOL}" -s "${UBOOT_VAR_SET_TOOL}" -o "${PACMAN_TYPE}" -V "${UBOOT_VARIABLE_NAME}" -w "${UBOOT_VARIABLE_VALUE}" -d "${DEBUG}" -S "${HSM_MODULE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
