@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2024 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: apps-early-start
+    description: "Run apps without registration using systemd
+    Setting DEFAULT_APPS tells the script which docker-compose
+    apps should be running."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - bcm2711-rpi-4-b
+
+params:
+        DEFAULT_APPS: ""
+
+run:
+    steps:
+        - cd ./automated/linux/aklite-apps
+        - ./apps-early-start.sh -d "${DEFAULT_APPS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
