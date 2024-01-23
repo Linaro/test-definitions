@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2024 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: aklite-apps
+    description: "Run apps without registration
+    The test checks if docker-compose apps can be started
+    with 'aklite-apps'.
+    When using APPS parameter the script will run
+
+        aklite-apps run --apps ${APPS}
+
+    When using DEFAULT_APPS the script will run
+
+        aklite-apps run"
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - bcm2711-rpi-4-b
+
+params:
+        APPS: ""
+        DEFAULT_APPS: ""
+
+run:
+    steps:
+        - cd ./automated/linux/aklite-apps
+        - ./aklite-apps.sh -a "${APPS}" -d "${DEFAULT_APPS}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
