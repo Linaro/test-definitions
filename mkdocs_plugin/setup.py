@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="mkdocs-test-definitions-plugin",
-    version="1.2",
+    version="1.3",
     description="An MkDocs plugin that converts LAVA test definitions to documentation",
     long_description="",
     keywords="mkdocs python markdown wiki",
