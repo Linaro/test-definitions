@@ -11,7 +11,8 @@ plugins:
             - 'automated/linux'
             - 'automated/android'
             - 'manual'
-    - tags
+    - tags:
+        tags_file: tags.md
     - exclude:
         glob:
           - plans/*

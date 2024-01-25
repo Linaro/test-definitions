@@ -51,11 +51,11 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
                 mdFile = mdutils.MdUtils(file_name=tmp_filename)
                 tags_section = "---\n"
                 tags_section += "title: %s\n" % metadata["name"]
-                tags_section += "tags:\n"
                 scope_list = metadata.get("scope", [])
                 os_list = metadata.get("os", [])
                 device_list = metadata.get("devices", [])
-                if scope_list is not None:
+                if scope_list:
+                    tags_section += "tags:\n"
                     for item in scope_list:
                         tags_section += " - %s\n" % item
                 tags_section += "---\n"
