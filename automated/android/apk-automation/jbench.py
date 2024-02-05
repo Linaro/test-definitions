@@ -7,9 +7,9 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config[
-            "apk_file_name"
-        ] = "JavaBenchmark/pure-java-benchmarks/03-JBench.apk"
+        self.config["apk_file_name"] = (
+            "JavaBenchmark/pure-java-benchmarks/03-JBench.apk"
+        )
         self.config["apk_package"] = "it.JBench.bench"
         self.config["activity"] = "it.JBench.bench/it.JBench.jbench.MainActivity"
         super(ApkRunnerImpl, self).__init__(self.config)

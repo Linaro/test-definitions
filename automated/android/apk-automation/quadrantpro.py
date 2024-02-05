@@ -5,13 +5,13 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config[
-            "apk_file_name"
-        ] = "com.aurorasoftworks.quadrant.ui.professional-1.apk"
+        self.config["apk_file_name"] = (
+            "com.aurorasoftworks.quadrant.ui.professional-1.apk"
+        )
         self.config["apk_package"] = "com.aurorasoftworks.quadrant.ui.professional"
-        self.config[
-            "activity"
-        ] = "com.aurorasoftworks.quadrant.ui.professional/.QuadrantProfessionalLauncherActivity"
+        self.config["activity"] = (
+            "com.aurorasoftworks.quadrant.ui.professional/.QuadrantProfessionalLauncherActivity"
+        )
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def setUp(self):

@@ -7,9 +7,9 @@ from com.dtmilano.android.viewclient import ViewNotFoundException
 class ApkRunnerImpl(ApkTestRunner):
     def __init__(self, config):
         self.config = config
-        self.config[
-            "apk_file_name"
-        ] = "JavaBenchmark/pure-java-benchmarks/01-Java_Whetstone.apk"
+        self.config["apk_file_name"] = (
+            "JavaBenchmark/pure-java-benchmarks/01-Java_Whetstone.apk"
+        )
         self.config["apk_package"] = "com.roywhet"
         self.config["activity"] = "com.roywhet/.JavaWhetstoneActivity"
         super(ApkRunnerImpl, self).__init__(self.config)
