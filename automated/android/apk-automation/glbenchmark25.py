@@ -9,9 +9,9 @@ class ApkRunnerImpl(ApkTestRunner):
         self.config = config
         self.config["apk_file_name"] = "GLBenchmark_2.5.1.apk"
         self.config["apk_package"] = "com.glbenchmark.glbenchmark25"
-        self.config[
-            "activity"
-        ] = "com.glbenchmark.glbenchmark25/com.glbenchmark.activities.GLBenchmarkDownloaderActivity"
+        self.config["activity"] = (
+            "com.glbenchmark.glbenchmark25/com.glbenchmark.activities.GLBenchmarkDownloaderActivity"
+        )
         super(ApkRunnerImpl, self).__init__(self.config)
 
     def setUp(self):
