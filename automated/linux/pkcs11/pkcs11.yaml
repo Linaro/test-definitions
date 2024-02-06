@@ -1,21 +1,24 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: pkcs11-tests
-    description: "Basic test suite for pkcs11 operations.
-    The main motivation behind the tests is checking the interaction
-    with SE05x TPM devices. Tests can also be used with softhsm if
-    TPM is not available
+    description: |
+        Basic test suite for pkcs11 operations.
+        The main motivation behind the tests is checking the interaction
+        with SE05x TPM devices. Tests can also be used with softhsm if
+        TPM is not available
 
-    Example use with TPM:
-        ./pkcs11.sh -p 'pkcs11-tool --module /usr/lib/libckteec.so.0.1'
+        Example use with TPM:
 
-    Example use with softhsm:
-        ./pkcs11.sh -p 'pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so' -t false
+            ./pkcs11.sh -p 'pkcs11-tool --module /usr/lib/libckteec.so.0.1'
 
-    ssscli tool comes from NXP and is not packaged for any distribution
-    at the moment. It needs to be preinstalled in the OS in order to use
-    SE05x TPM for this test.
-    "
+        Example use with softhsm:
+
+            ./pkcs11.sh -p 'pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so' -t false
+
+        ssscli tool comes from NXP and is not packaged for any distribution
+        at the moment. It needs to be preinstalled in the OS in order to use
+        SE05x TPM for this test.
+
     maintainer:
         - milosz.wasilewski@foundries.io
     os:
