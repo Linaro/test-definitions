@@ -152,4 +152,4 @@ class LinaroTestDefinitionsMkDocsPlugin(BasePlugin):
             use_directory_urls=False,
         )
         files.append(newfile)
-        return sorted(files, key=lambda x: x.src_pat, reverse=True)
+        return sorted(files, key=lambda x: x.src_path, reverse=False)
