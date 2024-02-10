@@ -135,7 +135,7 @@ install() {
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
-        debian|ubuntu) install_deps "sed perl wget xz-utils iproute2" "${SKIP_INSTALL}" ;;
+        debian|ubuntu) install_deps "sed perl wget xz-utils iproute2 python3-tap" "${SKIP_INSTALL}" ;;
         centos|fedora) install_deps "sed perl wget xz iproute" "${SKIP_INSTALL}" ;;
         unknown) warn_msg "Unsupported distro: package install skipped" ;;
     esac
