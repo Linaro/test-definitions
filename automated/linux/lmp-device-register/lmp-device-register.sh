@@ -39,8 +39,12 @@ fi
 
 # quit if token is not provided
 if [ -z "${TOKEN}" ]; then
-    # exit the test
-    error_fatal "Token not provided"
+	if [ -f /etc/lmp-device-register-token ]; then
+		TOKEN=$(head -n1 /etc/lmp-device-register-token)
+	else
+	    # exit the test
+    	error_fatal "Token not provided"
+	fi
 fi
 
 if [ -z "${REG_UUID}" ]; then
