@@ -100,7 +100,7 @@ fi
 pipe0_status "lmp-device-register --name ${DEVICE_NAME} -T ${TOKEN} -u ${REG_UUID} -m ${HSM_MODULE} -S 12345678 -P 87654321 2>&1" "tee ${OUTPUT}/registration.log"
 # shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
-    grep "ERROR: Device appears to already be registered" "${OUTPUT}/registration.log"
+    grep "HSM incorrectly configured" "${OUTPUT}/registration.log"
     check_return "lmp-device-registered-already"
 else
     report_fail "lmp-device-registered-already"
