@@ -33,7 +33,7 @@ if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
     warn_msg "Dependencies installation skipped."
 else
     # same package name for debian and fedora
-    pkgs="uuid-runtime"
+    pkgs="uuid-runtime python3-toml"
     install_deps "${pkgs}"
 fi
 
@@ -91,8 +91,11 @@ fi
 
 if [ -f /var/sota/sota.toml ]; then
     report_pass "sotatoml-present"
+	./check_toml.py --toml-file /var/sota/sota.toml
+	check_return "sotatoml-parse"
 else
     report_fail "sotatom-present"
+	report_skip "sotatoml-parse"
 fi
 
 # try to register again
