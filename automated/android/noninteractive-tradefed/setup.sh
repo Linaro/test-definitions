@@ -22,7 +22,6 @@ case "${dist}" in
         ;;
 esac
 
-install_latest_adb
 initialize_adb
 adb_root
 
