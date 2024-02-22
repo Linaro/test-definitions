@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2019 Schneider Electric
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: yepkit
+    description: "Yepkit YKUSH USB Hub library
+
+    This library will build and install the YepKit YKUSH library if not already
+    installed.
+
+    It will allow the user to operate the YepKit USB hub ports, and will optionally
+    check if the expected device was added to the system.
+
+    It is not intended to be a test of the Yepkit device itself, but to provide
+    the functionality of the device to other tests."
+
+    maintainer:
+        - ryan.harkin@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - openembedded
+    scope:
+        - functional
+        - library
+        - usb
+        - yepkit
+    devices:
+        - rzn1d
+        - soca9
+
+params:
+        SKIP_INSTALL: "false"
+        SERIAL_NUM: ""
+        LIST: "false"
+        PORT_UP: ""
+        PORT_DOWN: ""
+        PORT_GET: ""
+        PORT_DEVICE: ""
+
+run:
+    steps:
+        - cd ./automated/linux/yepkit
+        - ./yepkit.sh -s "${SKIP_INSTALL}" -n "${SERIAL_NUM}" -l "${LIST}" -d "${PORT_DOWN}" -u "${PORT_UP}" -g "${PORT_GET}" -p "${PORT_DEVICE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
