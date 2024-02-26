@@ -33,11 +33,17 @@ params:
     # Specify url and token for file uploading.
     URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
     TOKEN: ""
+    # The SQUAD url to be used to upload the result and log files.
+    # see https://squad.readthedocs.io/en/latest/intro.html#submitting-results.
+    # SQUAD_ARCHIVE_SUBMIT_TOKEN is used for uploading authentication,
+    # and must be defined by the submitter as one profile managed token
+    SQUAD_UPLOAD_URL: ""
 
 run:
     steps:
         - cd ./automated/android/boottime
         - ./boottime.sh -S "${SKIP_INSTALL}" -t "${BOOT_TIMEOUT}" -o "${OPERATION}" -n "${COLLECT_NO}" -v "${ANDROID_VERSION}"
-        - if [ "${OPERATION}" = "ANALYZE" ]; then ../../utils/upload-to-artifactorial.sh -a "output/boottime.tgz" -u "${URL}" -t "${TOKEN}"; fi
+        - if [ -n "${SQUAD_UPLOAD_URL}" ] && [ "${OPERATION}" = "ANALYZE" ]; then ../../utils/upload-to-squad.sh -a "output/boottime.tgz" -u "${SQUAD_UPLOAD_URL}"; fi
+        - if [ -z "${SQUAD_UPLOAD_URL}" ] && [ "${OPERATION}" = "ANALYZE" ]; then ../../utils/upload-to-artifactorial.sh -a "output/boottime.tgz" -u "${URL}" -t "${TOKEN}"; fi
         - ../../utils/send-to-lava.sh ./output/boot_result.txt
         - ../../utils/send-to-lava.sh ./output/result.txt
