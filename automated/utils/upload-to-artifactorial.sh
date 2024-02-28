@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ATTACHMENT=""
-ARTIFACTORIAL_URL=""
+URL=""
 ARTIFACTORIAL_TOKEN=""
 CURL_VERBOSE_FLAG=""
 FAILURE_RETURN_VALUE=0
@@ -23,7 +23,7 @@ usage() {
 while getopts ":a:u:t:vr" opt; do
     case "${opt}" in
         a) ATTACHMENT="${OPTARG}" ;;
-        u) ARTIFACTORIAL_URL="${OPTARG}" ;;
+        u) URL="${OPTARG}" ;;
         t) ARTIFACTORIAL_TOKEN="${OPTARG}" ;;
         v) CURL_VERBOSE_FLAG="-v" ;;
         r) FAILURE_RETURN_VALUE=1 ;;
@@ -31,7 +31,7 @@ while getopts ":a:u:t:vr" opt; do
     esac
 done
 
-if [ -z "${ARTIFACTORIAL_URL}" ]; then
+if [ -z "${URL}" ]; then
     echo "test-attachment skip"
     command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "skip"
     exit 0
@@ -41,18 +41,27 @@ if command -v lava-test-reference > /dev/null 2>&1; then
     # If 'ARTIFACTORIAL_TOKEN' defined in 'secrects' dictionary defined in job
     # definition file, it will be used.
     lava_test_dir="$(find /lava-* -maxdepth 0 -type d | grep -E '^/lava-[0-9]+' 2>/dev/null | sort | tail -1)"
-    if test -f "${lava_test_dir}/secrets" && grep -q "ARTIFACTORIAL_TOKEN" "${lava_test_dir}/secrets"; then
+    if test -f "${lava_test_dir}/secrets" && grep -q "_TOKEN" "${lava_test_dir}/secrets"; then
         # shellcheck disable=SC1090
         . "${lava_test_dir}/secrets"
     fi
 
-    if [ -z "${ARTIFACTORIAL_TOKEN}" ]; then
-        echo "WARNING: ARTIFACTORIAL_TOKEN is empty! File uploading skipped."
+    if [ -n "${ARTIFACTORIAL_TOKEN}" ]; then
+        return=$(curl ${CURL_VERBOSE_FLAG} -F "path=@${ATTACHMENT}" -F "token=${ARTIFACTORIAL_TOKEN}" "${URL}")
+    elif [ -n "${SQUAD_ARCHIVE_SUBMIT_TOKEN}" ]; then
+        squad_testrun_id=$(curl ${CURL_VERBOSE_FLAG} --header "Auth-Token: ${SQUAD_ARCHIVE_SUBMIT_TOKEN}" --form "attachment=@${ATTACHMENT}" "${URL}")
+        # URL will be in the format like this:
+        #    https://qa-reports.linaro.org/api/submit/squad_group/squad_project/squad_build/environment
+        url_squad=$(echo "${URL}"|sed 's|/api/submit/.*||')
+        return="${url_squad}/api/testruns/${squad_testrun_id}/attachments/?filename=${attachmentBasename}"
+        if ! echo "${return}" | grep -E "^[0-9]+$"; then
+            return="${squad_testrun_id}"
+        fi
+    else
+        echo "WARNING: ARTIFACTORIAL_TOKEN or SQUAD_ARCHIVE_SUBMIT_TOKEN is empty! File uploading skipped."
         echo "test-attachment skip"
         command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "skip"
         exit 0
-    else
-        return=$(curl ${CURL_VERBOSE_FLAG} -F "path=@${ATTACHMENT}" -F "token=${ARTIFACTORIAL_TOKEN}" "${ARTIFACTORIAL_URL}")
     fi
 
     attachmentBasename="$(basename "${ATTACHMENT}")"
@@ -61,7 +70,7 @@ if command -v lava-test-reference > /dev/null 2>&1; then
     else
         echo "test-attachment fail"
         echo "Expected the basename of the attachment file (\"${attachmentBasename}\") to be part \
-of the Artifactorial URL, but curl returned \"${return}\"."
+of the ${URL}, but curl returned \"${return}\"."
         command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-attachment" --result "fail"
         exit "${FAILURE_RETURN_VALUE}"
     fi
