@@ -28,14 +28,12 @@ params:
     BASE_URL: "http://testdata.validation.linaro.org/apks/"
     # Specify url and token for publishing artifacts.
     ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
-    # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
+    # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' or
+    # 'SQUAD_ARCHIVE_SUBMIT_TOKEN' variable in job definition with
     # 'secrets' dictionary, and set job visibility to personal or group.
     # Refer to https://validation.linaro.org/static/docs/v2/publishing-artifacts.html
-    ARTIFACTORIAL_TOKEN: ""
     # The SQUAD url to be used to upload the result and log files.
     # see https://squad.readthedocs.io/en/latest/intro.html#submitting-results.
-    # SQUAD_ARCHIVE_SUBMIT_TOKEN is used for uploading authentication,
-    # and must be defined by the submitter as one profile managed token
     SQUAD_UPLOAD_URL: ""
 
 run:
@@ -46,6 +44,6 @@ run:
         - cp "./output/${TEST_NAME}/result.txt" "./output/result.txt"
         - tar caf "output-${TEST_NAME}.tar.xz" "./output"
         - if [ -n "${SQUAD_UPLOAD_URL}" ]; then ../../utils/upload-to-squad.sh -a "output-${TEST_NAME}.tar.xz" -u "${SQUAD_UPLOAD_URL}"; fi
-        - if [ -z "${SQUAD_UPLOAD_URL}" ]; then ../../utils/upload-to-artifactorial.sh -a "output-${TEST_NAME}.tar.xz" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"; fi
+        - if [ -z "${SQUAD_UPLOAD_URL}" ]; then ../../utils/upload-to-artifactorial.sh -a "output-${TEST_NAME}.tar.xz" -u "${ARTIFACTORIAL_URL}"; fi
         # Send test result to LAVA.
         - ../../utils/send-to-lava.sh "./output/result.txt"
