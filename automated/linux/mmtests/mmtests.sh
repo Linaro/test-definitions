@@ -148,10 +148,16 @@ prepare_system() {
 }
 
 run_test() {
-	pushd "${TEST_DIR}" || exit
-	info_msg "Running ${MMTESTS_CONFIG_FILE} test..."
-	./run-mmtests.sh --no-monitor --config "${MMTESTS_CONFIG_FILE}" benchmark
-	popd || exit
+  info_msg "Running ${MMTESTS_CONFIG_FILE} test..."
+  # It's required to export MMTEST_ITERATIONS as it will be used by
+  # run-mmtests.sh from the MMTests package.
+  export MMTEST_ITERATIONS=${MMTEST_ITERATIONS}
+  # Disable packages auto installation
+  touch ~/.mmtests-never-auto-package-install
+  # Run benchmark according config file and with disabled monitoring.
+  # Using nice to increase priority for the benchmark.
+  nice -n -5 ./run-mmtests.sh -np -c "${MMTESTS_CONFIG_FILE}" "${RESULTS_DIR}"
+}
 }
 
 ! check_root && error_msg "Please run this script as root."
