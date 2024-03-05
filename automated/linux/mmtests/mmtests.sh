@@ -7,69 +7,81 @@ set +x
 TEST_PROGRAM="mmtests"
 
 usage() {
-	echo "\
-	Usage: $0 [-s <true|false>] [-v <TEST_PROG_VERSION>]
-			[-u <TEST_GIT_URL>] [-p <TEST_DIR>]
-			[-c <MMTESTS_CONFIG_FILE>] [-r <MMTESTS_MAX_RETRIES>]
+  echo "\
+  Usage: $0 [-s] [-v <TEST_PROG_VERSION>] [-u <TEST_GIT_URL>] [-p <TEST_DIR>]
+          [-c <MMTESTS_CONFIG_FILE>] [-r <MMTESTS_MAX_RETRIES>]
+          [-i <MMTEST_ITERATIONS>]
 
-	<TEST_PROG_VERSION>:
-	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
-	particular, the version of the suite is set to the commit
-	pointed to by the parameter. A simple choice for the value of
-	the parameter is, e.g., HEAD. If, instead, the parameter is
-	not set, then the suite present in TEST_DIR is used.
+  -v <TEST_PROG_VERSION>
+    If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
+    particular, the version of the suite is set to the commit pointed to by the
+    parameter. A simple choice for the value of the parameter is, e.g., HEAD.
+    If, instead, the parameter is not set, then the suite present in TEST_DIR
+    is used.
 
-	<TEST_GIT_URL>:
-	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned
-	from the URL in TEST_GIT_URL. Otherwise it is cloned from the
-	standard repository for the suite. Note that cloning is done
-	only if TEST_PROG_VERSION is not empty
+  -u <TEST_GIT_URL>
+    If this parameter is set, then the ${TEST_PROGRAM} suite is cloned from the
+    URL in TEST_GIT_URL. Otherwise it is cloned from the standard repository
+    for the suite. Note that cloning is done only if TEST_PROG_VERSION is not
+    empty.
 
-	<TEST_DIR>:
-	If this parameter is set, then the ${TEST_PROGRAM} suite is cloned to or
-	looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/${TEST_PROGRAM}
+  -p <TEST_DIR>
+    If this parameter is set, then the ${TEST_PROGRAM} suite is cloned to or
+    looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/${TEST_PROGRAM}
 
-	<SKIP_INSTALL>:
-	If you already have it installed into the rootfs.
-	default: false
+  -s
+    This flag disables benchmark installation and benchmark's
+    dependencies installation.
 
-	<MMTESTS_CONFIG_FILE>:
-	Mmtests configuration file that describes how the benchmarks should be
-	configured and executed.
+  -c <MMTESTS_CONFIG_FILE>
+    MMTests configuration file name that describes how the benchmarks should
+    be configured and executed. Mandatory parameter. List of all config files
+    can be found in <mmtests-root>/configs/ directory.
+    For example, configs/config-db-sqlite-insert-small
 
-	<MMTESTS_MAX_RETRIES>:
-	Maximum number of retries for the single benchamrk's source file download"
+  -r <MMTESTS_MAX_RETRIES>
+    Maximum number of retries for the single benchmark's source file download.
+
+  -i <MMTEST_ITERATIONS>
+    The number of iterations to run the benchmark for."
 	exit 1
 }
 
-while getopts "c:p:r:s:t:u:v:" opt; do
-	case "${opt}" in
-		c)
-			MMTESTS_CONFIG_FILE="${OPTARG}"
-			;;
-		p)
-			if [[ "$OPTARG" != '' ]]; then
-				TEST_DIR="$OPTARG"
-			fi
-			;;
-		r)
-			MMTESTS_MAX_RETRIES="${OPTARG}"
-			;;
-		s)
-			SKIP_INSTALL="${OPTARG}"
-			;;
-		u)
-			if [[ "$OPTARG" != '' ]]; then
-				TEST_GIT_URL="$OPTARG"
-			fi
-			;;
-		v)
-			TEST_PROG_VERSION="$OPTARG"
-			;;
-		*)
-			usage
-			;;
-	esac
+while getopts "c:p:r:su:v:i:" opt; do
+  case "${opt}" in
+    c)
+      if [[ ! "${OPTARG}" == config* ]]; then
+        error_msg "Please specify correct MMTests configuration file."
+        usage
+      fi
+      MMTESTS_CONFIG_FILE="${OPTARG}"
+      ;;
+    p)
+      if [[ "$OPTARG" != '' ]]; then
+        TEST_DIR="${OPTARG}"
+      fi
+      ;;
+    r)
+      MMTESTS_MAX_RETRIES="${OPTARG}"
+      ;;
+    s)
+      SKIP_INSTALL=true
+      ;;
+    u)
+      if [[ "$OPTARG" != '' ]]; then
+        TEST_GIT_URL="${OPTARG}"
+      fi
+      ;;
+    v)
+      TEST_PROG_VERSION="${OPTARG}"
+      ;;
+    i)
+      MMTEST_ITERATIONS="${OPTARG}"
+      ;;
+    *)
+      usage
+      ;;
+  esac
 done
 
 if [ -z "$MMTESTS_CONFIG_FILE" ]; then
