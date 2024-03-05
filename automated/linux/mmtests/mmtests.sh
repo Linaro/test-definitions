@@ -4,15 +4,7 @@ set +x
 
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
-
-OUTPUT="$(pwd)/output"
 TEST_PROGRAM="mmtests"
-TEST_PROG_VERSION=
-TEST_GIT_URL=https://github.com/gormanm/mmtests
-TEST_DIR="$(pwd)/${TEST_PROGRAM}"
-SKIP_INSTALL="false"
-MMTESTS_MAX_RETRIES=10
-MMTESTS_CONFIG_FILE=
 
 usage() {
 	echo "\
@@ -79,6 +71,21 @@ while getopts "c:p:r:s:t:u:v:" opt; do
 			;;
 	esac
 done
+
+if [ -z "$MMTESTS_CONFIG_FILE" ]; then
+  error_msg "Please specify MMTests configuration file."
+  usage
+fi
+
+SKIP_INSTALL=${SKIP_INSTALL:-"false"}
+TEST_PROG_VERSION=${TEST_PROG_VERSION:-"master"}
+TEST_GIT_URL=https://github.com/gormanm/mmtests
+TEST_DIR=${TEST_DIR:-"$(pwd)/${TEST_PROGRAM}"}
+OUTPUT="${TEST_DIR}/output"
+MMTESTS_MAX_RETRIES=${MMTESTS_MAX_RETRIES:-"3"}
+MMTEST_ITERATIONS=${MMTEST_ITERATIONS:-"10"}
+# Name of the directory where results will be stored by MMTests
+RESULTS_DIR=$(basename "$MMTESTS_CONFIG_FILE")
 
 install() {
 	dist=
