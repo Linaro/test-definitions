@@ -38,8 +38,6 @@ params:
     # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/mmtests
     TEST_DIR: ""
 
-    # Mtests test type, e.g. sysbenchcpu, iozone, sqlite, etc.
-    MMTESTS_TYPE_NAME: "sqlite"
 
     # Mmtests configuration file that describes how the benchmarks should be
     # configured and executed.
