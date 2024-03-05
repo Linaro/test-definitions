@@ -10,7 +10,7 @@ usage() {
   echo "\
   Usage: $0 [-s] [-v <TEST_PROG_VERSION>] [-u <TEST_GIT_URL>] [-p <TEST_DIR>]
           [-c <MMTESTS_CONFIG_FILE>] [-r <MMTESTS_MAX_RETRIES>]
-          [-i <MMTEST_ITERATIONS>]
+          [-i <MMTEST_ITERATIONS>] [-f] [-k]
 
   -v <TEST_PROG_VERSION>
     If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
@@ -43,11 +43,19 @@ usage() {
     Maximum number of retries for the single benchmark's source file download.
 
   -i <MMTEST_ITERATIONS>
-    The number of iterations to run the benchmark for."
-	exit 1
+    The number of iterations to run the benchmark for.
+
+  -f
+    If this parameter is set, then the full archive of the benchmark logs is
+    saved. Otherwise only the JSON files are saved.
+
+  -k
+    If this parameter is set, then results & system info will be collected.
+    Requires python3 installed."
+  exit 1
 }
 
-while getopts "c:p:r:su:v:i:" opt; do
+while getopts "c:p:r:su:v:i:fk" opt; do
   case "${opt}" in
     c)
       if [[ ! "${OPTARG}" == config* ]]; then
@@ -78,6 +86,12 @@ while getopts "c:p:r:su:v:i:" opt; do
     i)
       MMTEST_ITERATIONS="${OPTARG}"
       ;;
+    f)
+      FULL_ARCHIVE=true
+      ;;
+    k)
+      COLLECT_RESULTS=true
+      ;;
     *)
       usage
       ;;
@@ -98,6 +112,7 @@ MMTESTS_MAX_RETRIES=${MMTESTS_MAX_RETRIES:-"3"}
 MMTEST_ITERATIONS=${MMTEST_ITERATIONS:-"10"}
 # Name of the directory where results will be stored by MMTests
 RESULTS_DIR=$(basename "$MMTESTS_CONFIG_FILE")
+COLLECTOR=$PWD/collector.py
 
 check_perl_module() {
   # Function to check if a Perl module is installed
@@ -169,6 +184,15 @@ run_test() {
   # Using nice to increase priority for the benchmark.
   nice -n -5 ./run-mmtests.sh -np -c "${MMTESTS_CONFIG_FILE}" "${RESULTS_DIR}"
 }
+
+collect_results() {
+  command="python3 $COLLECTOR -c $MMTESTS_CONFIG_FILE -d $TEST_DIR -i $MMTEST_ITERATIONS -o $OUTPUT"
+
+  if [ ! -f "$FULL_ARCHIVE" ]; then
+    eval "$command" -f
+  else
+    eval "$command"
+  fi
 }
 
 ! check_root && error_msg "Please run this script as root."
@@ -191,3 +215,9 @@ fi
 create_out_dir "${OUTPUT}"
 pushd "${TEST_DIR}" || exit 1
 run_test
+
+if [ "${COLLECT_RESULTS}" = "true" ]; then
+  collect_results
+else
+  info_msg "Results can be found in ${TEST_DIR}/work/log/${RESULTS_DIR}"
+fi
