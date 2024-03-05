@@ -17,10 +17,10 @@ metadata:
     devices:
         - juno-r2
 params:
-    # Skips the installation of mmtests
-    SKIP_INSTALL: "false"
+    # Skips the installation of benchmark(s) and required dependencies
+    SKIP_INSTALL: true
 
-    # If the following parameter is set, then the mmtests suite is
+    # If the following parameter is set, then the MMTests suite is
     # cloned and used unconditionally. In particular, the version
     # of the suite is set to the commit pointed to by the
     # parameter. A simple choice for the value of the parameter
@@ -28,28 +28,52 @@ params:
     # not set, then the suite present in TEST_DIR is used.
     TEST_PROG_VERSION: "HEAD"
 
-    # If next parameter is set, then the mmtests suite is cloned
-    # from the URL in TEST_GIT_URL. Otherwise it is cloned from the
+    # If next parameter is set, then the MMTests suite is cloned
+    # from the URL in TEST_GIT_URL. Otherwise, it is cloned from the
     # standard repository for the suite. Note that cloning is done
     # only if TEST_PROG_VERSION is not empty.
     TEST_GIT_URL: "https://github.com/gormanm/mmtests"
 
-    # If next parameter is set, then the mmtests suite is cloned to or
-    # looked for in TEST_DIR. Otherwise it is cloned to $(pwd)/mmtests
-    TEST_DIR: ""
+    # If next parameter is set, then the MMTests suite is cloned to or
+    # looked for in TEST_DIR. Otherwise, it is cloned to $(pwd)/mmtests
+    TEST_DIR: "/mmtests"
 
+    # Name of the test, which used to distinguish tests in reporting system
+    TEST_NAME: null
 
-    # Mmtests configuration file that describes how the benchmarks should be
+    # MMTests configuration file that describes how the benchmarks should be
     # configured and executed.
-    MMTESTS_CONFIG_FILE: "configs/config-db-sqlite-insert-small"
+    MMTESTS_CONFIG_FILE: null
 
     # Maximum number of retries for the single benchmark source file download
-    MMTESTS_MAX_RETRIES: 10
+    MMTESTS_MAX_RETRIES: 3
+
+    # MMTEST iterations for config
+    MMTEST_ITERATIONS: 10
+
+
+    # Collect full archive of results
+    FULL_ARCHIVE: false
 
 run:
     steps:
         - cd ./automated/linux/mmtests/
-        - ./mmtests.sh -s "${SKIP_INSTALL}" -v "${TEST_PROG_VERSION}" -p "${TEST_DIR}" -u "${TEST_GIT_URL}" -c "${MMTESTS_CONFIG_FILE}" -t "${MMTESTS_TYPE_NAME}" -r ${MMTESTS_MAX_RETRIES}
-        - if [ ! -z ${TEST_DIR} ]; then mv ${TEST_DIR}/../${MMTESTS_TYPE_NAME}*.json .; fi
-        - for file in ./${MMTESTS_TYPE_NAME}*.json; do ./json-to-lava.py $file >> ./output/result.txt; done
-        - ../../utils/send-to-lava.sh ./output/result.txt
+        - |
+            cmd="./mmtests.sh -k";
+            [ -n "${SKIP_INSTALL}" ] && cmd="${cmd} -s";
+            [ -n "${TEST_PROG_VERSION}" ] && cmd="${cmd} -v '${TEST_PROG_VERSION}'";
+            [ -n "${TEST_DIR}" ] && cmd="${cmd} -p '${TEST_DIR}'";
+            [ -n "${TEST_GIT_URL}" ] && cmd="${cmd} -u '${TEST_GIT_URL}'";
+            [ -n "${MMTESTS_CONFIG_FILE}" ] && cmd="${cmd} -c '${MMTESTS_CONFIG_FILE}'";
+            [ -n "${MMTESTS_MAX_RETRIES}" ] && cmd="${cmd} -r '${MMTESTS_MAX_RETRIES}'";
+            [ -n "${MMTEST_ITERATIONS}" ] && cmd="${cmd} -i '${MMTEST_ITERATIONS}'";
+            [ -n "${FULL_ARCHIVE}" ] && cmd="${cmd} -f";
+            eval $cmd
+        - |
+            results_archive=$(echo ${MMTESTS_CONFIG_FILE} | sed -e 's|^.*config-|mmtests-|g')-$(date +'%Y%m%d%H%M').tar.xz
+            cd ${TEST_DIR} ; tar cfJ $results_archive output ; cd -
+            if [ -f /tmp/check_results_ok ] ; then
+              command -v lava-test-case > /dev/null 2>&1 && lava-test-case "contains-results" --result "pass"
+            else
+              command -v lava-test-case > /dev/null 2>&1 && lava-test-case "contains-results" --result "fail"
+            fi
