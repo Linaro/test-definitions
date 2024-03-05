@@ -51,6 +51,11 @@ params:
     # MMTEST iterations for config
     MMTEST_ITERATIONS: 10
 
+    # URL to artifactorial storage
+    ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/private/lkft-performance/"
+
+    # Shared dir flag for tuxrun
+    SHARED_DIR: false
 
     # Collect full archive of results
     FULL_ARCHIVE: false
@@ -76,4 +81,12 @@ run:
               command -v lava-test-case > /dev/null 2>&1 && lava-test-case "contains-results" --result "pass"
             else
               command -v lava-test-case > /dev/null 2>&1 && lava-test-case "contains-results" --result "fail"
+            fi
+            if [ ${SHARED_DIR} ]; then
+              mv ${TEST_DIR}/${results_archive} /mnt/tuxrun/
+              command -v lava-test-case > /dev/null 2>&1 && lava-test-case "test-shared" --result "pass"
+            else
+              # Calculate network interface and configure network
+              dhclient $(ip link | awk -F': ' '/^[0-9]/ { iface=$2; getline; if(/ether/) print iface }')
+              ../../utils/upload-to-artifactorial.sh -a "$(ls ${TEST_DIR}/${results_archive})" -u "${ARTIFACTORIAL_URL}"
             fi
