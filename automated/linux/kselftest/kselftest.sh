@@ -154,8 +154,8 @@ if [ -d "${KSELFTEST_PATH}" ]; then
 else
     # Fetch whatever we have been aimed at, assuming only that it can
     # be handled by "tar". Do not assume anything about the compression.
-    wget "${TESTPROG_URL}"
-    tar -xaf "$(basename "${TESTPROG_URL}")"
+    wget "${TESTPROG_URL}" -O "${TESTPROG}"
+    tar -xaf "${TESTPROG}"
     # shellcheck disable=SC3044
     if [ ! -e "run_kselftest.sh" ]; then cd "kselftest" || exit; fi
 fi
