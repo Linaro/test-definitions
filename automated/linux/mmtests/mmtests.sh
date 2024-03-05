@@ -87,6 +87,25 @@ MMTEST_ITERATIONS=${MMTEST_ITERATIONS:-"10"}
 # Name of the directory where results will be stored by MMTests
 RESULTS_DIR=$(basename "$MMTESTS_CONFIG_FILE")
 
+check_perl_module() {
+  # Function to check if a Perl module is installed
+  cpan -l | grep -q "$1"
+}
+
+install_perl_deps() {
+  # List of Perl dependencies for MMTests
+  declare -a perl_modules=("JSON" "Cpanel::JSON::XS" "List::BinarySearch")
+  # Check each module and install if necessary
+  for module in "${perl_modules[@]}"; do
+    if ! check_perl_module "${module}"; then
+      cpan -f -i "${module}"
+    else
+      info_msg "perl module ${module} is already installed"
+    fi
+  done
+  unset PERL_MM_USE_DEFAULT
+}
+
 install() {
 	dist=
 	dist_name
@@ -116,9 +135,7 @@ install() {
 
 prepare_system() {
 	pushd "${TEST_DIR}" || exit
-	PERL_MM_USE_DEFAULT=1
-	export PERL_MM_USE_DEFAULT
-	cpan -f -i JSON Cpanel::JSON::XS List::BinarySearch
+
 	AUTO_PACKAGE_INSTALL=yes
 	export AUTO_PACKAGE_INSTALL
 	DOWNLOADED=0
@@ -144,6 +161,8 @@ if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
 	info_msg "${MMTESTS_CONFIG_FILE} installation skipped"
 else
 	install
+	# Install perl dependencies.
+  install_perl_deps
 fi
 
 get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
