@@ -134,17 +134,17 @@ install() {
 }
 
 prepare_system() {
-	pushd "${TEST_DIR}" || exit
-
-	AUTO_PACKAGE_INSTALL=yes
-	export AUTO_PACKAGE_INSTALL
-	DOWNLOADED=0
-	COUNTER=0
-	while [ $DOWNLOADED -eq 0 ] && [ $COUNTER -lt "$MMTESTS_MAX_RETRIES" ]; do
-		./run-mmtests.sh -b --no-monitor --config "${MMTESTS_CONFIG_FILE}" benchmark && DOWNLOADED=1
-		COUNTER=$((COUNTER+1))
-	done
-	popd || exit
+  pushd "${TEST_DIR}" || exit 1
+  AUTO_PACKAGE_INSTALL=yes
+  export AUTO_PACKAGE_INSTALL
+  downloaded=0
+  counter=0
+  # Install benchmark according to the configuration file.
+  while [ $downloaded -eq 0 ] && [ $counter -lt "$MMTESTS_MAX_RETRIES" ]; do
+    ./run-mmtests.sh -b -n -c "${MMTESTS_CONFIG_FILE}" "${RESULTS_DIR}" && downloaded=1
+    counter=$((counter+1))
+  done
+  popd || exit 1
 }
 
 run_test() {
