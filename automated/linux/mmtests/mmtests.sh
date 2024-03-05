@@ -106,31 +106,30 @@ install_perl_deps() {
   unset PERL_MM_USE_DEFAULT
 }
 
-install() {
-	dist=
-	dist_name
-	case "${dist}" in
-	debian|ubuntu)
-			pkgs="build-essential wget perl git autoconf automake \
-					bc binutils-dev btrfs-progs linux-cpupower expect \
-					gcc hdparm hwloc-nox libtool numactl tcl time \
-					xfsprogs xfslibs-dev libopenmpi-dev jq"
-			install_deps "${pkgs}" "${SKIP_INSTALL}"
-		;;
-	fedora|centos)
-		pkgs="git gcc make automake libtool wget perl autoconf \
-					bc binutils-devel btrfs-progs kernel-tools expect \
-					hdparm hwloc libtool numactl tcl time xfsprogs \
-					openmpi-devel"
-			install_deps "${pkgs}" "${SKIP_INSTALL}"
-		;;
-	oe-rpb)
-		# Assume all dependent packages are already installed.
-		;;
-	*)
-		warn_msg "Unsupported distro: ${dist}! Package installation skipped!"
-		;;
-	esac
+install_system_deps() {
+  # Install system-wide dependencies required for the benchmarks and MMTests framework.
+  dist=
+  dist_name
+  case "${dist}" in
+  debian|ubuntu)
+    pkgs="build-essential wget perl git autoconf automake bc binutils-dev \
+      btrfs-progs linux-cpupower expect gcc hdparm hwloc-nox libtool numactl \
+      tcl time xfsprogs xfslibs-dev libopenmpi-dev"
+    install_deps "${pkgs}" "${SKIP_INSTALL}"
+    ;;
+  fedora|centos)
+    pkgs="git gcc make automake libtool wget perl autoconf bc binutils-devel \
+      btrfs-progs kernel-tools expect hdparm hwloc libtool numactl tcl time \
+      xfsprogs openmpi-devel"
+    install_deps "${pkgs}" "${SKIP_INSTALL}"
+    ;;
+  oe-rpb)
+    # Assume all dependent packages are already installed.
+    ;;
+  *)
+    warn_msg "Unsupported distro: ${dist}! Package installation skipped!"
+    ;;
+  esac
 }
 
 prepare_system() {
@@ -162,17 +161,21 @@ run_test() {
 
 ! check_root && error_msg "Please run this script as root."
 
-# Test installation.
-if [ "${SKIP_INSTALL}" = "true" ] || [ "${SKIP_INSTALL}" = "True" ]; then
-	info_msg "${MMTESTS_CONFIG_FILE} installation skipped"
+if [ "${SKIP_INSTALL}" = "true" ]; then
+  info_msg "Installation skipped"
 else
-	install
-	# Install perl dependencies.
+  # Install system-wide dependencies.
+  install_system_deps
+  # Install perl dependencies.
   install_perl_deps
+  # Clone MMTests repository.
+  get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
+  # Due to logic of get_test_program function, its needed to get back
+  cd - || exit 1
+  # Install benchmark and Perl dependencies.
+  prepare_system
 fi
 
-get_test_program "${TEST_GIT_URL}" "${TEST_DIR}" "${TEST_PROG_VERSION}" "${TEST_PROGRAM}"
-
 create_out_dir "${OUTPUT}"
-prepare_system
+pushd "${TEST_DIR}" || exit 1
 run_test
