@@ -121,7 +121,7 @@ check_perl_module() {
 
 install_perl_deps() {
   # List of Perl dependencies for MMTests
-  declare -a perl_modules=("JSON" "Cpanel::JSON::XS" "List::BinarySearch")
+  declare -a perl_modules=("JSON" "Cpanel::JSON::XS" "List::BinarySearch" "List::MoreUtils")
   # Check each module and install if necessary
   for module in "${perl_modules[@]}"; do
     if ! check_perl_module "${module}"; then
