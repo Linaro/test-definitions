@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2024 Foundries.io
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: switch-apps
+    description: "Switch list of the active apps. Use fioconfig
+    callback handler in the process."
+
+    maintainer:
+        - milosz.wasilewski@foundries.io
+    os:
+        - openembedded
+    scope:
+        - functional
+
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+        FORCE: "false"
+        DEFAULT_APPS: "shellhttpd"
+        NEW_APPS: "shellhttpd,testapp"
+        CONDUCTOR_URL: ""
+        DEBUG: "false"
+run:
+    steps:
+        - cd ./automated/linux/ota-apps
+        - ./switch-apps.sh -e "${DEFAULT_APPS}" -a "${NEW_APPS}" -f "${FORCE}" -u "${CONDUCTOR_URL}" -d "${DEBUG}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
