@@ -1,0 +1,38 @@
+metadata:
+    name: xfstests
+    format: "Lava-Test Test Definition 1.0"
+    description: "xfstests is a test suite for validating the reliability and
+                  stability of file systems in the Linux kernel."
+    maintainer:
+        - anders.roxell@linaro.org
+        - naresh.kamboju@linaro.org
+    os:
+        - debian
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - all
+    environment:
+        - lava-test-shell
+
+params:
+    # example: TEST_DEV=/dev/loop0
+    TEST_DEV: "/dev/loop0"
+    # example: SCRATCH_DEV=/dev/loop1
+    SCRATCH_DEV: "/dev/loop1"
+    # example: TEST_DIR=/mnt/test
+    TEST_DIR: "/mnt/test"
+    # example: SCRATCH_MNT=/mnt/scratch
+    SCRATCH_MNT: "/mnt/scratch"
+
+    FILESYSTEM: "ext4"
+    T_SIZE: "5G"
+    S_SIZE: "8G"
+    SKIP_INSTALL: "true"
+
+run:
+    steps:
+        - cd ./automated/linux/xfstests/
+        - ./xfstests.sh -d "${TEST_DEV}" -e "${SCRATCH_DEV}" -f "${FILESYSTEM}" -m "${SCRATCH_MNT}" -s "${SKIP_INSTALL}" -t "${TEST_DIR}" -x "${T_SIZE}" -z "${S_SIZE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
