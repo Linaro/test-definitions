@@ -29,7 +29,9 @@ params:
     # Priority of highest prio thread.
     PRIORITY: "98"
     # Number of threads.
+    # A value of "0" will run a thread per available CPU.
     THREADS: "2"
+    # Execute cyclictest for given time
     DURATION: "1m"
     # Background workload to be run during the meassurement
     BACKGROUND_CMD: ""
