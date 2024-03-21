@@ -33,6 +33,7 @@ params:
     # Step size in us.
     STEP: "500"
     # Number of threads to test
+    # A value of "0" will run a thread per available CPU.
     THREADS: "1"
     # Execute cyclicdeadline for given time
     DURATION: "5m"
