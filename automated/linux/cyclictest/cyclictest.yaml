@@ -33,6 +33,8 @@ params:
     # Base interval of thread in us.
     INTERVAL: "1000"
     # Number of threads.
+    # A value of "0" will run a thread per available CPU and overwrite the
+    # AFFINITY mask to "all"
     THREADS: "1"
     # Set the affinity
     AFFINITY: "0"

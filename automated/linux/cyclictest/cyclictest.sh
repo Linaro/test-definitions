@@ -39,6 +39,11 @@ done
 ! check_root && error_msg "Please run this script as root."
 create_out_dir "${OUTPUT}"
 
+if [ "${THREADS}" -eq "0" ]; then
+    THREADS=$(nproc)
+    AFFINITY="all"
+fi
+
 if [ -n "${HISTOGRAM}" ]; then
     HISTOGRAM="-h ${HISTOGRAM}"
 else
