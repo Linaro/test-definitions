@@ -66,8 +66,7 @@ find /sysroot/ostree/repo/ -samefile $(find /usr/ -name "*vmlinuz*") -delete
 set +x
 
 # run autoregistration script
-lmp-device-auto-register
-check_return "lmp-device-auto-register" || error_fatal "Unable to register device"
+systemctl enable --now lmp-device-auto-register || error_fatal "Unable to register device"
 
 # wait for 'download-pre' signal
 SIGNAL=$(</var/sota/ota.signal)
