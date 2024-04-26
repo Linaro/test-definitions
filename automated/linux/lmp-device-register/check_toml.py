@@ -12,7 +12,7 @@ def main(toml_file):
         import toml as tlib
 
     with open(toml_file, "rb") as f:
-        tlib.load(f)
+        tlib.loads(f.read().decode())
 
 
 if __name__ == "__main__":
