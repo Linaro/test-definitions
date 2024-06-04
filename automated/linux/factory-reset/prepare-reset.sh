@@ -10,7 +10,8 @@ export RESULT_FILE
 TYPE="factory_reset"
 ADDITIONAL_TYPE=""
 LABEL=""
-SOTA_CONFDIR="/etc/sota/conf.d"
+SOTA_DIR="/etc/sota"
+SOTA_CONFDIR="${SOTA_DIR}/conf.d"
 HSM_MODULE=""
 
 usage() {
@@ -60,8 +61,9 @@ mkdir -p "${SOTA_CONFDIR}"
 cp z-99-aklite-callback.toml "${SOTA_CONFDIR}"
 cp z-99-aklite-disable-reboot.toml "${SOTA_CONFDIR}"
 if [ -n "${LABEL}" ]; then
-    echo "[pacman]" > "${SOTA_CONFDIR}"/z-99-aklite-tag.toml
-    echo "tags = ${LABEL}" >> "${SOTA_CONFDIR}"/z-99-aklite-tag.toml
+    # tag will be applied to aklite settings
+    # from auto-registration script
+    echo "${LABEL}" > "${SOTA_DIR}/tag"
 fi
 if [ -n "${HSM_MODULE}" ]; then
     echo "HSM_MODULE=\"${HSM_MODULE}\"" > /etc/sota/hsm
