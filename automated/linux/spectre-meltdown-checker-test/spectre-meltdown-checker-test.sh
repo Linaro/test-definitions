@@ -6,7 +6,7 @@ OUTPUT="$(pwd)/output"
 RESULT_FILE="${OUTPUT}/result.txt"
 LOG_FILE="smc_logfile"
 export RESULT_FILE
-SMC_VERSION=v0.45
+SMC_VERSION=v0.46
 SKIP_INSTALL="False"
 WGET_UPSTREAM="False"
 SMC_PATH=/opt/spectre-meltdown-checker

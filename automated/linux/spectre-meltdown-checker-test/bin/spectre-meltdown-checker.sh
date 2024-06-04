@@ -12,24 +12,27 @@
 #
 # Stephane Lesimple
 #
-VERSION='0.45'
+VERSION='0.46'
 
 trap 'exit_cleanup' EXIT
 trap '_warn "interrupted, cleaning up..."; exit_cleanup; exit 1' INT
 exit_cleanup()
 {
+	saved_ret=$?
 	# cleanup the temp decompressed config & kernel image
 	[ -n "${dumped_config:-}" ] && [ -f "$dumped_config" ] && rm -f "$dumped_config"
 	[ -n "${kerneltmp:-}"     ] && [ -f "$kerneltmp"     ] && rm -f "$kerneltmp"
 	[ -n "${kerneltmp2:-}"    ] && [ -f "$kerneltmp2"    ] && rm -f "$kerneltmp2"
 	[ -n "${mcedb_tmp:-}"     ] && [ -f "$mcedb_tmp"     ] && rm -f "$mcedb_tmp"
 	[ -n "${intel_tmp:-}"     ] && [ -d "$intel_tmp"     ] && rm -rf "$intel_tmp"
+	[ -n "${linuxfw_tmp:-}"   ] && [ -f "$linuxfw_tmp"   ] && rm -f "$linuxfw_tmp"
 	[ "${mounted_debugfs:-}" = 1 ] && umount /sys/kernel/debug 2>/dev/null
 	[ "${mounted_procfs:-}"  = 1 ] && umount "$procfs" 2>/dev/null
 	[ "${insmod_cpuid:-}"    = 1 ] && rmmod cpuid 2>/dev/null
 	[ "${insmod_msr:-}"      = 1 ] && rmmod msr 2>/dev/null
 	[ "${kldload_cpuctl:-}"  = 1 ] && kldunload cpuctl 2>/dev/null
 	[ "${kldload_vmm:-}"     = 1 ] && kldunload vmm    2>/dev/null
+	exit $saved_ret
 }
 
 # if we were git clone'd, adjust VERSION
@@ -84,10 +87,11 @@ show_usage()
 		--batch nrpe		produce machine readable output formatted for NRPE
 		--batch prometheus      produce output for consumption by prometheus-node-exporter
 
-		--variant VARIANT	specify which variant you'd like to check, by default all variants are checked
-					VARIANT can be one of 1, 2, 3, 3a, 4, l1tf, msbds, mfbds, mlpds, mdsum, taa, mcepsc, srbds
-					can be specified multiple times (e.g. --variant 2 --variant 3)
-		--cve [cve1,cve2,...]	specify which CVE you'd like to check, by default all supported CVEs are checked
+		--variant VARIANT	specify which variant you'd like to check, by default all variants are checked.
+					can be used multiple times (e.g. --variant 3a --variant l1tf)
+					for a list of supported VARIANT parameters, use --variant help
+		--cve CVE		specify which CVE you'd like to check, by default all supported CVEs are checked
+					can be used multiple times (e.g. --cve CVE-2017-5753 --cve CVE-2020-0543)
 		--hw-only		only check for CPU information, don't check for any variant
 		--no-hw			skip CPU information and checks, if you're inspecting a kernel not to be run on this host
 		--vmm [auto,yes,no]	override the detection of the presence of a hypervisor, default: auto
@@ -168,7 +172,7 @@ global_critical=0
 global_unknown=0
 nrpe_vuln=''
 
-supported_cve_list='CVE-2017-5753 CVE-2017-5715 CVE-2017-5754 CVE-2018-3640 CVE-2018-3639 CVE-2018-3615 CVE-2018-3620 CVE-2018-3646 CVE-2018-12126 CVE-2018-12130 CVE-2018-12127 CVE-2019-11091 CVE-2019-11135 CVE-2018-12207 CVE-2020-0543'
+supported_cve_list='CVE-2017-5753 CVE-2017-5715 CVE-2017-5754 CVE-2018-3640 CVE-2018-3639 CVE-2018-3615 CVE-2018-3620 CVE-2018-3646 CVE-2018-12126 CVE-2018-12130 CVE-2018-12127 CVE-2019-11091 CVE-2019-11135 CVE-2018-12207 CVE-2020-0543 CVE-2023-20593'
 
 # find a sane command to print colored messages, we prefer `printf` over `echo`
 # because `printf` behavior is more standard across Linux/BSD
@@ -293,6 +297,7 @@ cve2name()
 		CVE-2019-11135) echo "ZombieLoad V2, TSX Asynchronous Abort (TAA)";;
 		CVE-2018-12207) echo "No eXcuses, iTLB Multihit, machine check exception on page size changes (MCEPSC)";;
 		CVE-2020-0543) echo "Special Register Buffer Data Sampling (SRBDS)";;
+		CVE-2023-20593) echo "Zenbleed, cross-process information leak";;
 		*) echo "$0: error: invalid CVE '$1' passed to cve2name()" >&2; exit 255;;
 	esac
 }
@@ -317,6 +322,7 @@ _is_cpu_affected_cached()
 		CVE-2019-11135) return $variant_taa;;
 		CVE-2018-12207) return $variant_itlbmh;;
 		CVE-2020-0543) return $variant_srbds;;
+		CVE-2023-20593) return $variant_zenbleed;;
 		*) echo "$0: error: invalid variant '$1' passed to is_cpu_affected()" >&2; exit 255;;
 	esac
 }
@@ -346,6 +352,8 @@ is_cpu_affected()
 	variant_taa=''
 	variant_itlbmh=''
 	variant_srbds=''
+	# Zenbleed if extremely AMD specific, look for "is_and" below:
+	variant_zenbleed=immune
 
 	if is_cpu_mds_free; then
 		[ -z "$variant_msbds" ] && variant_msbds=immune
@@ -467,6 +475,11 @@ is_cpu_affected()
 			_debug "is_cpu_affected: cpu not affected by speculative store bypass so not vuln to variant4"
 		fi
 		variantl1tf=immune
+
+		# Zenbleed
+		amd_legacy_erratum "$(amd_model_range 0x17 0x30 0x0 0x4f 0xf)" && variant_zenbleed=vuln
+		amd_legacy_erratum "$(amd_model_range 0x17 0x60 0x0 0x7f 0xf)" && variant_zenbleed=vuln
+		amd_legacy_erratum "$(amd_model_range 0x17 0xa0 0x0 0xaf 0xf)" && variant_zenbleed=vuln
 	elif [ "$cpu_vendor" = CAVIUM ]; then
 		variant3=immune
 		variant3a=immune
@@ -493,9 +506,9 @@ is_cpu_affected()
 			if [ -n "$cpupart" ] && [ -n "$cpuarch" ]; then
 				# Cortex-R7 and Cortex-R8 are real-time and only used in medical devices or such
 				# I can't find their CPU part number, but it's probably not that useful anyway
-				# model R7 R8 A8  A9  A12 A15 A17 A57 A72 A73 A75 A76 Neoverse-N1 A77
-				# part   ?  ? c08 c09 c0d c0f c0e d07 d08 d09 d0a d0b d0c         d0d
-				# arch  7? 7? 7   7   7   7   7   8   8   8   8   8   8           8
+				# model R7 R8 A8  A9  A12 A15 A17 A57 A72 A73 A75 A76 A77 Neoverse-N1 Neoverse-V1 Neoverse-N1 Neoverse-V2 
+				# part   ?  ? c08 c09 c0d c0f c0e d07 d08 d09 d0a d0b d0d d0c         d40	  d49	      d4f
+				# arch  7? 7? 7   7   7   7   7   8   8   8   8   8   8   8           8		  8	      8
 				#
 				# Whitelist identified non-affected processors, use vulnerability information from 
 				# https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability
@@ -546,6 +559,13 @@ is_cpu_affected()
 					[ -z "$variant3a" ] && variant3a=immune
 					variant4=vuln
 					_debug "checking cpu$i: armv8 A76/A77/NeoverseN1 non affected to variant 2, 3 & 3a"
+				elif [ "$cpuarch" = 8 ] && echo "$cpupart" | grep -q -w -e 0xd40 -e 0xd49 -e 0xd4f; then
+					variant1=vuln
+					[ -z "$variant2" ] && variant2=immune
+					[ -z "$variant3" ] && variant3=immune
+					[ -z "$variant3a" ] && variant3a=immune
+					[ -z "$variant4" ] && variant4=immune
+					_debug "checking cpu$i: armv8 NeoverseN2/V1/V2 non affected to variant 2, 3, 3a & 4"
 				elif [ "$cpuarch" -le 7 ] || { [ "$cpuarch" = 8 ] && [ $(( cpupart )) -lt $(( 0xd07 )) ]; } ; then
 					[ -z "$variant1" ] && variant1=immune
 					[ -z "$variant2" ] && variant2=immune
@@ -615,6 +635,7 @@ is_cpu_affected()
 	[ "$variant_taa"    = "immune" ] && variant_taa=1    || variant_taa=0
 	[ "$variant_itlbmh" = "immune" ] && variant_itlbmh=1 || variant_itlbmh=0
 	[ "$variant_srbds" = "immune" ] && variant_srbds=1 || variant_srbds=0
+	[ "$variant_zenbleed" = "immune" ] && variant_zenbleed=1 || variant_zenbleed=0
 	variantl1tf_sgx="$variantl1tf"
 	# even if we are affected to L1TF, if there's no SGX, we're not affected to the original foreshadow
 	[ "$cpuid_sgx" = 0 ] && variantl1tf_sgx=1
@@ -837,6 +858,29 @@ show_header()
 	_info
 }
 
+# Family-Model-Stepping to CPUID
+# prints CPUID in base-10 to stdout
+fms2cpuid()
+{
+	_family="$1"
+	_model="$2"
+	_stepping="$3"
+
+	if [ "$(( _family ))" -le 15 ]; then
+		_extfamily=0
+		_lowfamily=$(( _family ))
+	else
+		# when we have a family > 0xF, then lowfamily is stuck at 0xF
+		# and extfamily is ADDED to it (as in "+"), to ensure old software
+		# never sees a lowfamily < 0xF for newer families
+		_lowfamily=15
+		_extfamily=$(( (_family) - 15 ))
+	fi
+	_extmodel=$((  (_model  & 0xF0 ) >> 4 ))
+	_lowmodel=$((  (_model  & 0x0F ) >> 0 ))
+	echo $(( (_stepping & 0x0F) | (_lowmodel << 4) | (_lowfamily << 8) | (_extmodel << 16) | (_extfamily << 20) ))
+}
+
 [ -z "$HOME" ] && HOME="$(getent passwd "$(whoami)" | cut -d: -f6)"
 mcedb_cache="$HOME/.mcedb"
 update_fwdb()
@@ -896,13 +940,15 @@ update_fwdb()
 		echo ERROR "please install the \`sqlite3\` program"
 		return 1
 	fi
-	mcedb_revision=$(sqlite3 "$mcedb_tmp" "select revision from MCE")
+	mcedb_revision=$(sqlite3 "$mcedb_tmp" "SELECT \"revision\" from \"MCE\"")
 	if [ -z "$mcedb_revision" ]; then
 		echo ERROR "downloaded file seems invalid"
 		return 1
 	fi
-	sqlite3 "$mcedb_tmp" "alter table Intel add column origin text"
-	sqlite3 "$mcedb_tmp" "update Intel set origin='mce'"
+	sqlite3 "$mcedb_tmp" "ALTER TABLE \"Intel\" ADD COLUMN \"origin\" TEXT"
+	sqlite3 "$mcedb_tmp" "ALTER TABLE \"AMD\" ADD COLUMN \"origin\" TEXT"
+	sqlite3 "$mcedb_tmp" "UPDATE \"Intel\" SET \"origin\"='mce'"
+	sqlite3 "$mcedb_tmp" "UPDATE \"AMD\" SET \"origin\"='mce'"
 
 	echo OK "MCExtractor database revision $mcedb_revision"
 
@@ -940,7 +986,7 @@ update_fwdb()
 		_version=$(echo "$_line" | awk '{print $8}')
 		_version=$(( _version ))
 		_version=$(printf "0x%08X" "$_version")
-		_sqlstm="$(printf "INSERT INTO Intel (origin,cpuid,version,yyyymmdd) VALUES (\"%s\",\"%s\",\"%s\",\"%s\");" "intel" "$(printf "%08X" "$_cpuid")" "$(printf "%08X" "$_version")" "$_date")"
+		_sqlstm="$(printf "INSERT INTO \"Intel\" (\"origin\",\"cpuid\",\"version\",\"yyyymmdd\") VALUES ('%s','%s','%s','%s');" "intel" "$(printf "%08X" "$_cpuid")" "$(printf "%08X" "$_version")" "$_date")"
 		sqlite3 "$mcedb_tmp" "$_sqlstm"
 	done
 	_intel_timestamp=$(stat -c %Y "$intel_tmp/Intel-Linux-Processor-Microcode-Data-Files-main/license" 2>/dev/null)
@@ -949,9 +995,51 @@ update_fwdb()
 		_intel_latest_date=$(date +%Y%m%d -d @"$_intel_timestamp")
 	else
 		echo "Falling back to the latest microcode date"
-		_intel_latest_date=$(sqlite3 "$mcedb_tmp" "SELECT yyyymmdd from Intel WHERE origin = 'intel' ORDER BY yyyymmdd DESC LIMIT 1;")
+		_intel_latest_date=$(sqlite3 "$mcedb_tmp" "SELECT \"yyyymmdd\" FROM \"Intel\" WHERE \"origin\"='intel' ORDER BY \"yyyymmdd\" DESC LIMIT 1;")
 	fi
 	echo DONE "(version $_intel_latest_date)"
+
+	# now parse the most recent linux-firmware amd-ucode README file
+	_info_nol "Fetching latest amd-ucode README from linux-firmware project... "
+	linuxfw_url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/amd-ucode/README"
+	linuxfw_tmp=$(mktemp -t smc-linuxfw-XXXXXX)
+	if command -v wget >/dev/null 2>&1; then
+		wget -q "$linuxfw_url" -O "$linuxfw_tmp"; ret=$?
+	elif command -v curl >/dev/null 2>&1; then
+		curl -sL "$linuxfw_url" -o "$linuxfw_tmp"; ret=$?
+	elif command -v fetch >/dev/null 2>&1; then
+		fetch -q "$linuxfw_url" -o "$linuxfw_tmp"; ret=$?
+	else
+		echo ERROR "please install one of \`wget\`, \`curl\` of \`fetch\` programs"
+		return 1
+	fi
+	if [ "$ret" != 0 ]; then
+		echo ERROR "error $ret while downloading linux-firmware README"
+		return $ret
+	fi
+	echo DONE
+
+	_info_nol "Parsing the README... "
+	nbfound=0
+	for line in $(grep -E 'Family=0x[0-9a-f]+ Model=0x[0-9a-f]+ Stepping=0x[0-9a-f]+: Patch=0x[0-9a-f]+' "$linuxfw_tmp" | tr " " ","); do
+		_debug "Parsing line $line"
+		_family=$(  echo "$line" | grep -Eoi 'Family=0x[0-9a-f]+'   | cut -d= -f2)
+		_model=$(   echo "$line" | grep -Eoi 'Model=0x[0-9a-f]+'    | cut -d= -f2)
+		_stepping=$(echo "$line" | grep -Eoi 'Stepping=0x[0-9a-f]+' | cut -d= -f2)
+		_version=$( echo "$line" | grep -Eoi 'Patch=0x[0-9a-f]+'    | cut -d= -f2)
+		_version=$(printf "0x%08X" "$(( _version ))")
+		_cpuid=$(fms2cpuid "$_family" "$_model" "$_stepping")
+		_cpuid=$(printf "0x%08X" "$_cpuid")
+		_date="20000101"
+		_sqlstm="$(printf "INSERT INTO \"AMD\" (\"origin\",\"cpuid\",\"version\",\"yyyymmdd\") VALUES ('%s','%s','%s','%s');" "linux-firmware" "$(printf "%08X" "$_cpuid")" "$(printf "%08X" "$_version")" "$_date")"
+		_debug "family $_family model $_model stepping $_stepping cpuid $_cpuid"
+		_debug "$_sqlstm"
+		sqlite3 "$mcedb_tmp" "$_sqlstm"
+		nbfound=$((nbfound + 1))
+		unset _family _model _stepping _version _cpuid _date _sqlstm
+	done
+	echo "found $nbfound microcodes"
+	unset nbfound
 
 	dbversion="$mcedb_revision+i$_intel_latest_date"
 
@@ -964,8 +1052,11 @@ update_fwdb()
 	{
 		echo "# Spectre & Meltdown Checker";
 		echo "# %%% MCEDB v$dbversion";
-		sqlite3 "$mcedb_tmp" "SELECT '# I,0x'||t1.cpuid||',0x'||MAX(t1.version)||','||t1.yyyymmdd FROM Intel AS t1 LEFT OUTER JOIN Intel AS t2 ON t2.cpuid=t1.cpuid AND t2.yyyymmdd > t1.yyyymmdd WHERE t2.yyyymmdd IS NULL GROUP BY t1.cpuid ORDER BY t1.cpuid ASC;" | grep -v '^# .,0x00000000,';
-		sqlite3 "$mcedb_tmp" "SELECT '# A,0x'||t1.cpuid||',0x'||MAX(t1.version)||','||t1.yyyymmdd FROM AMD   AS t1 LEFT OUTER JOIN AMD   AS t2 ON t2.cpuid=t1.cpuid AND t2.yyyymmdd > t1.yyyymmdd WHERE t2.yyyymmdd IS NULL GROUP BY t1.cpuid ORDER BY t1.cpuid ASC;" | grep -v '^# .,0x00000000,';
+		# ensure the official Intel DB always has precedence over mcedb, even if mcedb has seen a more recent fw
+		sqlite3 "$mcedb_tmp" "DELETE FROM \"Intel\" WHERE \"origin\"!='intel' AND \"cpuid\" IN (SELECT \"cpuid\" FROM \"Intel\" WHERE \"origin\"='intel' GROUP BY \"cpuid\" ORDER BY \"cpuid\" ASC);"
+		# we'll use the more recent fw for Intel and AMD
+		sqlite3 "$mcedb_tmp" "SELECT '# I,0x'||\"t1\".\"cpuid\"||',0x'||MAX(\"t1\".\"version\")||','||\"t1\".\"yyyymmdd\" FROM \"Intel\" AS \"t1\" LEFT OUTER JOIN \"Intel\" AS \"t2\" ON \"t2\".\"cpuid\"=\"t1\".\"cpuid\" AND \"t2\".\"yyyymmdd\" > \"t1\".\"yyyymmdd\" WHERE \"t2\".\"yyyymmdd\" IS NULL GROUP BY \"t1\".\"cpuid\" ORDER BY \"t1\".\"cpuid\" ASC;" | grep -v '^# .,0x00000000,';
+		sqlite3 "$mcedb_tmp" "SELECT '# A,0x'||\"t1\".\"cpuid\"||',0x'||MAX(\"t1\".\"version\")||','||\"t1\".\"yyyymmdd\" FROM \"AMD\" AS \"t1\" LEFT OUTER JOIN \"AMD\" AS \"t2\" ON \"t2\".\"cpuid\"=\"t1\".\"cpuid\" AND \"t2\".\"yyyymmdd\" > \"t1\".\"yyyymmdd\" WHERE \"t2\".\"yyyymmdd\" IS NULL GROUP BY \"t1\".\"cpuid\" ORDER BY \"t1\".\"cpuid\" ASC;" | grep -v '^# .,0x00000000,';
 	} > "$mcedb_cache"
 	echo DONE "(version $dbversion)"
 
@@ -1126,25 +1217,29 @@ while [ -n "${1:-}" ]; do
 		shift 2
 	elif [ "$1" = "--variant" ]; then
 		if [ -z "$2" ]; then
-			echo "$0: error: option --variant expects a parameter (1, 2, 3, 3a, 4 or l1tf)" >&2
+			echo "$0: error: option --variant expects a parameter (see --variant help)" >&2
 			exit 255
 		fi
 		case "$2" in
-			1)		opt_cve_list="$opt_cve_list CVE-2017-5753"; opt_cve_all=0;;
-			2)		opt_cve_list="$opt_cve_list CVE-2017-5715"; opt_cve_all=0;;
-			3)		opt_cve_list="$opt_cve_list CVE-2017-5754"; opt_cve_all=0;;
-			3a)		opt_cve_list="$opt_cve_list CVE-2018-3640"; opt_cve_all=0;;
-			4)		opt_cve_list="$opt_cve_list CVE-2018-3639"; opt_cve_all=0;;
-			msbds)  opt_cve_list="$opt_cve_list CVE-2018-12126"; opt_cve_all=0;;
-			mfbds)  opt_cve_list="$opt_cve_list CVE-2018-12130"; opt_cve_all=0;;
-			mlpds)  opt_cve_list="$opt_cve_list CVE-2018-12127"; opt_cve_all=0;;
-			mdsum)  opt_cve_list="$opt_cve_list CVE-2019-11091"; opt_cve_all=0;;
-			l1tf)	opt_cve_list="$opt_cve_list CVE-2018-3615 CVE-2018-3620 CVE-2018-3646"; opt_cve_all=0;;
-			taa)	opt_cve_list="$opt_cve_list CVE-2019-11135"; opt_cve_all=0;;
-			mcepsc)	opt_cve_list="$opt_cve_list CVE-2018-12207"; opt_cve_all=0;;
-			srbds)  opt_cve_list="$opt_cve_list CVE-2020-0543"; opt_cve_all=0;;
+			help)	echo "The following parameters are supported for --variant (can be used multiple times):";
+					echo "1, 2, 3, 3a, 4, msbds, mfbds, mlpds, mdsum, l1tf, taa, mcepsc, srbds, zenbleed";
+					exit 0;;
+			1)			opt_cve_list="$opt_cve_list CVE-2017-5753"; opt_cve_all=0;;
+			2)			opt_cve_list="$opt_cve_list CVE-2017-5715"; opt_cve_all=0;;
+			3)			opt_cve_list="$opt_cve_list CVE-2017-5754"; opt_cve_all=0;;
+			3a)			opt_cve_list="$opt_cve_list CVE-2018-3640"; opt_cve_all=0;;
+			4)			opt_cve_list="$opt_cve_list CVE-2018-3639"; opt_cve_all=0;;
+			msbds)		opt_cve_list="$opt_cve_list CVE-2018-12126"; opt_cve_all=0;;
+			mfbds)		opt_cve_list="$opt_cve_list CVE-2018-12130"; opt_cve_all=0;;
+			mlpds)		opt_cve_list="$opt_cve_list CVE-2018-12127"; opt_cve_all=0;;
+			mdsum)		opt_cve_list="$opt_cve_list CVE-2019-11091"; opt_cve_all=0;;
+			l1tf)		opt_cve_list="$opt_cve_list CVE-2018-3615 CVE-2018-3620 CVE-2018-3646"; opt_cve_all=0;;
+			taa)		opt_cve_list="$opt_cve_list CVE-2019-11135"; opt_cve_all=0;;
+			mcepsc)		opt_cve_list="$opt_cve_list CVE-2018-12207"; opt_cve_all=0;;
+			srbds)		opt_cve_list="$opt_cve_list CVE-2020-0543"; opt_cve_all=0;;
+			zenbleed)	opt_cve_list="$opt_cve_list CVE-2023-20593"; opt_cve_all=0;;
 			*)
-				echo "$0: error: invalid parameter '$2' for --variant, expected either 1, 2, 3, 3a, 4, l1tf, msbds, mfbds, mlpds, mdsum, taa, mcepsc or srbds" >&2;
+				echo "$0: error: invalid parameter '$2' for --variant, see --variant help for a list" >&2;
 				exit 255
 				;;
 		esac
@@ -1235,6 +1330,7 @@ pvulnstatus()
 			CVE-2019-11135) aka="TAA";;
 			CVE-2018-12207) aka="ITLBMH";;
 			CVE-2020-0543) aka="SRBDS";;
+			CVE-2023-20593) aka="ZENBLEED";;
 			*) echo "$0: error: invalid CVE '$1' passed to pvulnstatus()" >&2; exit 255;;
 		esac
 
@@ -1975,12 +2071,75 @@ is_zen_cpu()
 	[ "$cpu_family" = 23 ] && return 0
 	return 1
 }
+
 is_moksha_cpu()
 {
 	parse_cpu_details
 	is_hygon || return 1
 	[ "$cpu_family" = 24 ] && return 0
 	return 1
+}
+
+# mimick the Linux macro
+##define AMD_MODEL_RANGE(f, m_start, s_start, m_end, s_end) \
+#	((f << 24) | (m_start << 16) | (s_start << 12) | (m_end << 4) | (s_end))
+amd_model_range()
+{
+	echo $(( ($1 << 24) | ($2 << 16) | ($3 << 12) | ($4 << 4) | ($5) ))
+}
+
+# mimick the Linux func, usage:
+# amd_legacy_erratum $(amd_model_range 0x17 0x30 0x0 0x4f 0xf)
+# return true (0) if the current CPU is affected by this erratum, 1 otherwise
+amd_legacy_erratum()
+{
+	_range="$1"
+	_ms=$((cpu_model << 4 | cpu_stepping))
+	if [ "$cpu_family" = $(( ( (_range) >> 24) & 0xff )) ] && \
+		[ $_ms -ge $(( ( (_range) >> 12) & 0xfff )) ] && \
+		[ $_ms -le $(( (_range) & 0xfff )) ]; then
+		return 0
+	fi
+	return 1
+}
+
+# returns 0 (true) if yes, 1 otherwise
+# returns 2 if not applicable
+has_zenbleed_fixed_firmware()
+{
+	# return cached data
+	[ -n "$zenbleed_fw" ] && return "$zenbleed_fw"
+	# or compute it:
+	zenbleed_fw=2 # unknown
+	# only amd
+	if ! is_amd; then
+		zenbleed_fw=1
+		return $zenbleed_fw
+	fi
+	# list of known fixed firmwares, from commit 522b1d69219d8f083173819fde04f994aa051a98
+	_tuples="
+		0x30,0x3f,0x0830107a
+		0x60,0x67,0x0860010b
+		0x68,0x6f,0x08608105
+		0x70,0x7f,0x08701032
+		0xa0,0xaf,0x08a00008
+	"
+	for tuple in $_tuples; do
+		_model_low=$( echo "$tuple" | cut -d, -f1)
+		_model_high=$(echo "$tuple" | cut -d, -f2)
+		_fwver=$(     echo "$tuple" | cut -d, -f3)
+		if [ $((cpu_model)) -ge $((_model_low)) ] && [ $((cpu_model)) -le $((_model_high)) ]; then
+			if [ $((cpu_ucode)) -ge $((_fwver)) ]; then
+				zenbleed_fw=0 # true
+				break
+			else
+				zenbleed_fw=1 # false
+				zenbleed_fw_required=$_fwver
+			fi
+		fi
+	done
+	unset _tuples
+	return $zenbleed_fw
 }
 
 # Test if the current host is a Xen PV Dom0 / DomU
@@ -2248,6 +2407,8 @@ if [ "$opt_live" = 1 ]; then
 		[ -e "/boot/kernel-genkernel-$(uname -m)-$(uname -r)" ] && opt_kernel="/boot/kernel-genkernel-$(uname -m)-$(uname -r)"
 		# NixOS:
 		[ -e "/run/booted-system/kernel" ] && opt_kernel="/run/booted-system/kernel"
+		# Guix System:
+		[ -e "/run/booted-system/kernel/bzImage" ] && opt_kernel="/run/booted-system/kernel/bzImage"
 		# systemd kernel-install:
 		[ -e "/etc/machine-id" ] && [ -e "/boot/$(cat /etc/machine-id)/$(uname -r)/linux" ] && opt_kernel="/boot/$(cat /etc/machine-id)/$(uname -r)/linux"
 		# Clear Linux:
@@ -3282,6 +3443,21 @@ check_cpu()
 		cpuid_srbds=0
 	fi
 
+	if is_amd; then
+		_info_nol "  * CPU microcode is known to fix Zenbleed: "
+		has_zenbleed_fixed_firmware; ret=$?
+		if [ $ret -eq 0 ]; then
+			# affected CPU, new fw
+			pstatus green YES
+		elif [ $ret -eq 1 ]; then
+			# affected CPU, old fw
+			pstatus red NO "required version: $zenbleed_fw_required"
+		else
+			# unaffected CPU
+			pstatus yellow NO
+		fi
+	fi
+
 	_info_nol "  * CPU microcode is known to cause stability problems: "
 	if is_ucode_blacklisted; then
 		pstatus red YES "$ucode_found"
@@ -3383,7 +3559,7 @@ check_has_vmm()
 		else
 			# ignore SC2009 as `ps ax` is actually used as a fallback if `pgrep` isn't installed
 			# shellcheck disable=SC2009
-			if command -v ps >/devnull && ps ax | grep -vw grep | grep -q -e '\<qemu' -e '/qemu' -e '<\kvm' -e '/kvm' -e '/xenstored' -e '/xenconsoled'; then
+			if command -v ps >/dev/null && ps ax | grep -vw grep | grep -q -e '\<qemu' -e '/qemu' -e '<\kvm' -e '/kvm' -e '/xenstored' -e '/xenconsoled'; then
 				has_vmm=1
 			fi
 		fi
@@ -5744,6 +5920,132 @@ check_CVE_2020_0543_bsd()
 	fi
 }
 
+####################
+# Zenbleed section
+
+check_CVE_2023_20593()
+{
+	cve='CVE-2023-20593'
+	_info "\033[1;34m$cve aka '$(cve2name "$cve")'\033[0m"
+	if [ "$os" = Linux ]; then
+		check_CVE_2023_20593_linux
+	#elif echo "$os" | grep -q BSD; then
+	#	check_CVE_2023_20593_bsd
+	else
+		_warn "Unsupported OS ($os)"
+	fi
+}
+
+check_CVE_2023_20593_linux()
+{
+	status=UNK
+	sys_interface_available=0
+	msg=''
+	if [ "$opt_sysfs_only" != 1 ]; then
+		_info_nol "* Zenbleed mitigation is supported by kernel: "
+		kernel_zenbleed=''
+		if [ -n "$kernel_err" ]; then
+			kernel_zenbleed_err="$kernel_err"
+		# commit 522b1d69219d8f083173819fde04f994aa051a98
+		elif grep -q 'Zenbleed:' "$kernel"; then
+			kernel_zenbleed="found zenbleed message in kernel image"
+		fi
+		if [ -n "$kernel_zenbleed" ]; then
+			pstatus green YES "$kernel_zenbleed"
+		elif [ -n "$kernel_zenbleed_err" ]; then
+			pstatus yellow UNKNOWN "$kernel_zenbleed_err"
+		else
+			pstatus yellow NO
+		fi
+		_info_nol "* Zenbleed kernel mitigation enabled and active: "
+		if [ "$opt_live" = 1 ]; then
+			# read the DE_CFG MSR, we want to check the 9th bit
+			# don't do it on non-Zen2 AMD CPUs or later, aka Family 17h,
+			# as the behavior could be unknown on others
+			if is_amd && [ "$cpu_family" -ge $((0x17)) ]; then
+				read_msr 0xc0011029; ret=$?
+				if [ $ret = $READ_MSR_RET_OK ]; then
+					if [ $(( read_msr_value >> 9 & 1 )) -eq 1 ]; then
+						pstatus green YES "FP_BACKUP_FIX bit set in DE_CFG"
+						fp_backup_fix=1
+					else
+						pstatus yellow NO "FP_BACKUP_FIX is cleared in DE_CFG"
+						fp_backup_fix=0
+					fi
+				elif [ $ret = $READ_MSR_RET_KO ]; then
+					pstatus yellow UNKNOWN "Couldn't read the DE_CFG MSR"
+				else
+					pstatus yellow UNKNOWN "$read_msr_msg"
+				fi
+			else
+				fp_backup_fix=0
+				pstatus blue N/A "CPU is incompatible"
+			fi
+		else
+			pstatus blue N/A "not testable in offline mode"
+		fi
+
+		_info_nol "* Zenbleed mitigation is supported by CPU microcode: "
+		has_zenbleed_fixed_firmware; ret=$?
+		if [ $ret -eq 0 ]; then
+			pstatus green YES
+			cpu_ucode_zenbleed=1
+		elif [ $ret -eq 1 ]; then
+			pstatus yellow NO
+			cpu_ucode_zenbleed=2
+		else
+			pstatus yellow UNKNOWN
+			cpu_ucode_zenbleed=3
+		fi
+
+	elif [ "$sys_interface_available" = 0 ]; then
+		# we have no sysfs but were asked to use it only!
+		msg="/sys vulnerability interface use forced, but it's not available!"
+		status=UNK
+	fi
+
+	if ! is_cpu_affected "$cve" ; then
+		# override status & msg in case CPU is not vulnerable after all
+		pvulnstatus "$cve" OK "your CPU vendor reported your CPU model as not affected"
+	elif [ -z "$msg" ]; then
+		# if msg is empty, sysfs check didn't fill it, rely on our own test
+		zenbleed_print_vuln=0
+		if [ "$opt_live" = 1 ]; then
+			if [ "$fp_backup_fix" = 1 ] && [ "$cpu_ucode_zenbleed" = 1 ]; then
+				# this should never happen, but if it does, it's interesting to know
+				pvulnstatus $cve OK "Both your CPU microcode and kernel are mitigating Zenbleed"
+			elif [ "$cpu_ucode_zenbleed" = 1 ]; then
+				pvulnstatus $cve OK "Your CPU microcode mitigates Zenbleed"
+			elif [ "$fp_backup_fix" = 1 ]; then
+				pvulnstatus $cve OK "Your kernel mitigates Zenbleed"
+			else
+				zenbleed_print_vuln=1
+			fi
+		else
+			if [ "$cpu_ucode_zenbleed" = 1 ]; then
+				pvulnstatus $cve OK "Your CPU microcode mitigates Zenbleed"
+			elif [ -n "$kernel_zenbleed" ]; then
+				pvulnstatus $cve OK "Your kernel mitigates Zenbleed"
+			else
+				zenbleed_print_vuln=1
+			fi
+		fi
+		if [ "$zenbleed_print_vuln" = 1 ]; then
+			pvulnstatus $cve VULN "Your kernel is too old to mitigate Zenbleed and your CPU microcode doesn't mitigate it either"
+			explain "Your CPU vendor may have a new microcode for your CPU model that mitigates this issue (refer to the hardware section above).\n " \
+"Otherwise, the Linux kernel is able to mitigate this issue regardless of the microcode version you have, but in this case\n " \
+"your kernel is too old to support this, your Linux distribution vendor might have a more recent version you should upgrade to.\n " \
+"Note that either having an up to date microcode OR an up to date kernel is enough to mitigate this issue.\n " \
+"To manually mitigate the issue right now, you may use the following command: \`wrmsr -a 0xc0011029 \$((\$(rdmsr -c 0xc0011029) | (1<<9)))\`,\n " \
+"however note that this manual mitigation will only be active until the next reboot."
+		fi
+		unset zenbleed_print_vuln
+	else
+		pvulnstatus $cve "$status" "$msg"
+	fi
+}
+
+
 #######################
 # END OF VULNS SECTIONS
 
@@ -5836,7 +6138,7 @@ exit 0  # ok
 # The builtin version follows, but the user can download an up-to-date copy (to be stored in his $HOME) by using --update-fwdb
 # To update the builtin version itself (by *modifying* this very file), use --update-builtin-fwdb
 
-# %%% MCEDB v222+i20220208
+# %%% MCEDB v271+i20230614
 # I,0x00000611,0x00000B27,19961218
 # I,0x00000612,0x000000C6,19961210
 # I,0x00000616,0x000000C6,19961210
@@ -5847,8 +6149,8 @@ exit 0  # ok
 # I,0x00000633,0x00000036,19980923
 # I,0x00000634,0x00000037,19980923
 # I,0x00000650,0x00000045,19990525
-# I,0x00000651,0x00000042,19990525
-# I,0x00000652,0x0000002D,19990518
+# I,0x00000651,0x00000040,19990525
+# I,0x00000652,0x0000002C,19990517
 # I,0x00000653,0x00000010,19990628
 # I,0x00000660,0x0000000A,19990505
 # I,0x00000665,0x00000003,19990505
@@ -5859,8 +6161,8 @@ exit 0  # ok
 # I,0x00000672,0x00000038,19990922
 # I,0x00000673,0x0000002E,19990910
 # I,0x00000680,0x00000017,19990610
-# I,0x00000681,0x00000014,19991209
-# I,0x00000683,0x00000014,20010206
+# I,0x00000681,0x00000011,19990921
+# I,0x00000683,0x00000008,19991015
 # I,0x00000686,0x00000008,20000505
 # I,0x0000068A,0x00000005,20001207
 # I,0x00000690,0x00000004,20000206
@@ -5883,8 +6185,8 @@ exit 0  # ok
 # I,0x000006E0,0x00000008,20050215
 # I,0x000006E1,0x0000000C,20050413
 # I,0x000006E4,0x00000026,20050816
-# I,0x000006E8,0x0000003C,20060208
-# I,0x000006EC,0x0000005B,20070208
+# I,0x000006E8,0x00000039,20051115
+# I,0x000006EC,0x00000059,20060912
 # I,0x000006F0,0x00000005,20050818
 # I,0x000006F1,0x00000012,20051129
 # I,0x000006F2,0x0000005D,20101002
@@ -5894,7 +6196,7 @@ exit 0  # ok
 # I,0x000006F7,0x0000006B,20101002
 # I,0x000006F9,0x00000084,20061012
 # I,0x000006FA,0x00000095,20101002
-# I,0x000006FB,0x000000C1,20111004
+# I,0x000006FB,0x000000BC,20101003
 # I,0x000006FD,0x000000A4,20101002
 # I,0x00000F00,0xFFFF0001,20000130
 # I,0x00000F01,0xFFFF0007,20000404
@@ -5908,7 +6210,7 @@ exit 0  # ok
 # I,0x00000F09,0x00000008,20010104
 # I,0x00000F0A,0x00000015,20020821
 # I,0x00000F11,0x0000000A,20030729
-# I,0x00000F12,0x0000002F,20030502
+# I,0x00000F12,0x0000002E,20030502
 # I,0x00000F13,0x00000005,20030508
 # I,0x00000F20,0x00000001,20010423
 # I,0x00000F21,0x00000003,20010529
@@ -5941,23 +6243,23 @@ exit 0  # ok
 # I,0x00000F62,0x0000000F,20051215
 # I,0x00000F63,0x00000005,20051010
 # I,0x00000F64,0x00000004,20051223
-# I,0x00000F65,0x0000000B,20070510
+# I,0x00000F65,0x00000008,20060426
 # I,0x00000F66,0x0000001B,20060310
 # I,0x00000F68,0x00000009,20060714
 # I,0x00001632,0x00000002,19980610
 # I,0x00010650,0x00000002,20060513
 # I,0x00010660,0x00000004,20060612
-# I,0x00010661,0x00000045,20101004
+# I,0x00010661,0x00000044,20101004
 # I,0x00010670,0x00000005,20070209
 # I,0x00010671,0x00000106,20070329
 # I,0x00010674,0x84050100,20070726
-# I,0x00010676,0x00000612,20150802
-# I,0x00010677,0x0000070D,20150802
-# I,0x0001067A,0x00000A0E,20150729
+# I,0x00010676,0x0000060F,20100929
+# I,0x00010677,0x0000070A,20100929
+# I,0x0001067A,0x00000A0B,20100928
 # I,0x000106A0,0xFFFF001A,20071128
 # I,0x000106A1,0xFFFF000B,20080220
 # I,0x000106A2,0xFFFF0019,20080714
-# I,0x000106A4,0x00000013,20150630
+# I,0x000106A4,0x00000012,20130621
 # I,0x000106A5,0x0000001D,20180511
 # I,0x000106C0,0x00000007,20070824
 # I,0x000106C1,0x00000109,20071203
@@ -5965,7 +6267,7 @@ exit 0  # ok
 # I,0x000106C9,0x00000007,20090213
 # I,0x000106CA,0x00000107,20090825
 # I,0x000106D0,0x00000005,20071204
-# I,0x000106D1,0x0000002A,20150803
+# I,0x000106D1,0x00000029,20100930
 # I,0x000106E0,0xFFFF0022,20090116
 # I,0x000106E1,0xFFFF000D,20090206
 # I,0x000106E2,0xFFFF0011,20090924
@@ -6061,20 +6363,20 @@ exit 0  # ok
 # I,0x000406D8,0x0000012D,20190916
 # I,0x000406E1,0x00000020,20141111
 # I,0x000406E2,0x0000002C,20150521
-# I,0x000406E3,0x000000EC,20210428
+# I,0x000406E3,0x000000F0,20211112
 # I,0x000406E8,0x00000026,20160414
 # I,0x000406F0,0x00000014,20150702
 # I,0x000406F1,0x0B000040,20210519
 # I,0x00050650,0x8000002B,20160208
 # I,0x00050651,0x8000002B,20160208
 # I,0x00050652,0x80000037,20170502
-# I,0x00050653,0x0100015C,20210526
-# I,0x00050654,0x02006C0A,20210616
-# I,0x00050655,0x03000012,20190412
-# I,0x00050656,0x0400320A,20210813
-# I,0x00050657,0x0500320A,20210813
+# I,0x00050653,0x01000171,20221221
+# I,0x00050654,0x02006F05,20221221
+# I,0x00050655,0x03000010,20181116
+# I,0x00050656,0x04003501,20221221
+# I,0x00050657,0x05003501,20221221
 # I,0x0005065A,0x86002302,20210416
-# I,0x0005065B,0x07002402,20210604
+# I,0x0005065B,0x07002601,20221221
 # I,0x00050661,0xF1000008,20150130
 # I,0x00050662,0x0000001C,20190617
 # I,0x00050663,0x0700001C,20210612
@@ -6083,10 +6385,11 @@ exit 0  # ok
 # I,0x00050670,0xFFFF0030,20151113
 # I,0x00050671,0x000001B6,20180108
 # I,0x000506A0,0x00000038,20150112
+# I,0x000506C0,0x00000002,20140613
 # I,0x000506C2,0x00000014,20180511
 # I,0x000506C8,0x90011010,20160323
-# I,0x000506C9,0x00000046,20210510
-# I,0x000506CA,0x00000022,20210622
+# I,0x000506C9,0x00000048,20211116
+# I,0x000506CA,0x00000028,20211116
 # I,0x000506D1,0x00000102,20150605
 # I,0x000506E0,0x00000018,20141119
 # I,0x000506E1,0x0000002A,20150602
@@ -6094,7 +6397,7 @@ exit 0  # ok
 # I,0x000506E3,0x000000F0,20211112
 # I,0x000506E8,0x00000034,20160710
 # I,0x000506F0,0x00000010,20160607
-# I,0x000506F1,0x00000036,20210510
+# I,0x000506F1,0x00000038,20211202
 # I,0x00060660,0x0000000C,20160821
 # I,0x00060661,0x0000000E,20170128
 # I,0x00060662,0x00000022,20171129
@@ -6102,64 +6405,79 @@ exit 0  # ok
 # I,0x000606A0,0x80000031,20200308
 # I,0x000606A4,0x0B000280,20200817
 # I,0x000606A5,0x0C0002F0,20210308
-# I,0x000606A6,0x0D000332,20211217
+# I,0x000606A6,0x0D000390,20221228
+# I,0x000606C0,0xFD000220,20210629
+# I,0x000606C1,0x01000230,20230127
 # I,0x000606E0,0x0000000B,20161104
 # I,0x000606E1,0x00000108,20190423
 # I,0x000706A0,0x00000026,20170712
-# I,0x000706A1,0x00000038,20210510
-# I,0x000706A8,0x0000001C,20210510
+# I,0x000706A1,0x0000003E,20220916
+# I,0x000706A8,0x00000022,20220920
 # I,0x000706E0,0x0000002C,20180614
 # I,0x000706E1,0x00000042,20190420
 # I,0x000706E2,0x00000042,20190420
 # I,0x000706E3,0x81000008,20181002
 # I,0x000706E4,0x00000046,20190905
-# I,0x000706E5,0x000000A8,20210526
+# I,0x000706E5,0x000000BA,20221225
 # I,0x00080650,0x00000018,20180108
-# I,0x00080664,0x0B00000F,20210217
-# I,0x00080665,0x0B00000F,20210217
+# I,0x00080664,0x4C000021,20220815
+# I,0x00080665,0x4C000021,20220815
+# I,0x00080667,0x4C000021,20220815
 # I,0x000806A0,0x00000010,20190507
-# I,0x000806A1,0x0000002D,20210902
+# I,0x000806A1,0x00000033,20230113
 # I,0x000806C0,0x00000068,20200402
-# I,0x000806C1,0x0000009C,20211026
-# I,0x000806C2,0x00000022,20210716
+# I,0x000806C1,0x000000AA,20221228
+# I,0x000806C2,0x0000002A,20221228
 # I,0x000806D0,0x00000050,20201217
-# I,0x000806D1,0x0000003C,20210716
-# I,0x000806E9,0x000000EC,20210428
-# I,0x000806EA,0x000000EC,20210428
-# I,0x000806EB,0x000000EC,20210428
-# I,0x000806EC,0x000000EC,20210428
+# I,0x000806D1,0x00000044,20221228
+# I,0x000806E9,0x000000F2,20230102
+# I,0x000806EA,0x000000F2,20221226
+# I,0x000806EB,0x000000F2,20221226
+# I,0x000806EC,0x000000F6,20221226
+# I,0x000806F3,0x8D000520,20220812
+# I,0x000806F4,0x2B000461,20230313
+# I,0x000806F5,0x2B000461,20230313
+# I,0x000806F6,0x2B000461,20230313
+# I,0x000806F7,0x2B000461,20230313
+# I,0x000806F8,0x2B000461,20230313
 # I,0x00090660,0x00000009,20200617
-# I,0x00090661,0x00000015,20210921
+# I,0x00090661,0x00000017,20220715
 # I,0x00090670,0x00000019,20201111
 # I,0x00090671,0x0000001C,20210614
-# I,0x00090672,0x0000001F,20220303
+# I,0x00090672,0x0000002C,20230104
 # I,0x00090674,0x00000219,20210425
-# I,0x00090675,0x0000001F,20220303
+# I,0x00090675,0x0000002C,20230104
 # I,0x000906A0,0x0000001C,20210614
 # I,0x000906A1,0x0000011F,20211104
 # I,0x000906A2,0x00000315,20220102
-# I,0x000906A3,0x0000041B,20220308
-# I,0x000906A4,0x0000041B,20220308
-# I,0x000906C0,0x2400001F,20210809
-# I,0x000906E9,0x000000F0,20211112
-# I,0x000906EA,0x000000EC,20210428
-# I,0x000906EB,0x000000EC,20210428
-# I,0x000906EC,0x000000EC,20210428
-# I,0x000906ED,0x000000EC,20210428
+# I,0x000906A3,0x0000042A,20230214
+# I,0x000906A4,0x0000042A,20230214
+# I,0x000906C0,0x24000024,20220902
+# I,0x000906E9,0x000000F2,20221226
+# I,0x000906EA,0x000000F2,20230112
+# I,0x000906EB,0x000000F2,20221226
+# I,0x000906EC,0x000000F2,20230112
+# I,0x000906ED,0x000000F8,20230205
 # I,0x000A0650,0x000000BE,20191010
 # I,0x000A0651,0x000000C2,20191113
-# I,0x000A0652,0x000000EC,20210428
-# I,0x000A0653,0x000000EC,20210428
+# I,0x000A0652,0x000000F6,20221227
+# I,0x000A0653,0x000000F6,20230101
 # I,0x000A0654,0x000000C6,20200123
-# I,0x000A0655,0x000000EE,20210428
-# I,0x000A0660,0x000000EA,20210428
-# I,0x000A0661,0x000000EC,20210429
+# I,0x000A0655,0x000000F6,20221226
+# I,0x000A0660,0x000000F6,20221226
+# I,0x000A0661,0x000000F6,20221226
 # I,0x000A0670,0x0000002C,20201124
-# I,0x000A0671,0x00000050,20210829
+# I,0x000A0671,0x00000058,20221225
 # I,0x000A0680,0x80000002,20200121
-# I,0x000B0670,0x00000009,20211115
-# I,0x000B06F2,0x0000001F,20220303
-# I,0x000B06F5,0x0000001F,20220303
+# I,0x000B0670,0x0000000E,20220220
+# I,0x000B0671,0x00000113,20230206
+# I,0x000B06A2,0x00004112,20230222
+# I,0x000B06A3,0x00004112,20230222
+# I,0x000B06E0,0x00000010,20221219
+# I,0x000B06F2,0x0000002C,20230104
+# I,0x000B06F5,0x0000002C,20230104
+# I,0x000C06F1,0x21000030,20230410
+# I,0x000C06F2,0x21000030,20230410
 # A,0x00000F00,0x02000008,20070614
 # A,0x00000F01,0x0000001C,20021031
 # A,0x00000F10,0x00000003,20020325
@@ -6183,13 +6501,17 @@ exit 0  # ok
 # A,0x00100F00,0x01000020,20070326
 # A,0x00100F20,0x010000CA,20100331
 # A,0x00100F22,0x010000C9,20100331
+# A,0x00100F2A,0x01000084,20000101
 # A,0x00100F40,0x01000085,20080501
 # A,0x00100F41,0x010000DB,20111024
 # A,0x00100F42,0x01000092,20081021
 # A,0x00100F43,0x010000C8,20100311
+# A,0x00100F52,0x010000DB,20000101
+# A,0x00100F53,0x010000C8,20000101
 # A,0x00100F62,0x010000C7,20100311
 # A,0x00100F80,0x010000DA,20111024
 # A,0x00100F81,0x010000D9,20111012
+# A,0x00100F91,0x010000D9,20000101
 # A,0x00100FA0,0x010000DC,20111024
 # A,0x00120F00,0x03000002,20100324
 # A,0x00200F30,0x02000018,20070921
@@ -6239,20 +6561,36 @@ exit 0  # ok
 # A,0x00820F00,0x08200002,20180214
 # A,0x00820F01,0x08200103,20190417
 # A,0x00830F00,0x08300027,20190401
-# A,0x00830F10,0x08301052,20211111
+# A,0x00830F10,0x0830107A,20230517
 # A,0x00850F00,0x08500004,20180212
 # A,0x00860F00,0x0860000E,20200127
-# A,0x00860F01,0x08600106,20200619
-# A,0x00860F81,0x08608103,20200702
+# A,0x00860F01,0x08600109,20220328
+# A,0x00860F81,0x08608104,20220328
 # A,0x00870F00,0x08700004,20181206
-# A,0x00870F10,0x08701021,20200125
+# A,0x00870F10,0x08701030,20220328
+# A,0x008A0F00,0x08A00008,20230615
 # A,0x00A00F00,0x0A000033,20200413
-# A,0x00A00F10,0x0A001053,20211217
-# A,0x00A00F11,0x0A00115D,20211119
-# A,0x00A00F12,0x0A001227,20211215
+# A,0x00A00F10,0x0A001079,20230609
+# A,0x00A00F11,0x0A0011D1,20230710
+# A,0x00A00F12,0x0A001234,20230710
 # A,0x00A00F80,0x0A008003,20211015
-# A,0x00A00F82,0x0A008204,20211015
+# A,0x00A00F82,0x0A008205,20220414
+# A,0x00A10F00,0x0A10004B,20220309
+# A,0x00A10F01,0x0A100104,20220207
+# A,0x00A10F0B,0x0A100B07,20220610
+# A,0x00A10F10,0x0A101020,20220913
+# A,0x00A10F11,0x0A101135,20230509
+# A,0x00A10F12,0x0A101235,20230509
 # A,0x00A20F00,0x0A200025,20200121
-# A,0x00A20F10,0x0A201016,20210408
-# A,0x00A20F12,0x0A201205,20210719
-# A,0x00A50F00,0x0A50000C,20201208
+# A,0x00A20F10,0x0A201025,20211014
+# A,0x00A20F12,0x0A20120A,20211014
+# A,0x00A40F00,0x0A400016,20210330
+# A,0x00A40F40,0x0A404002,20210408
+# A,0x00A40F41,0x0A404102,20211018
+# A,0x00A50F00,0x0A50000D,20211014
+# A,0x00A60F00,0x0A600005,20211220
+# A,0x00A60F11,0x0A601114,20220712
+# A,0x00A60F12,0x0A601203,20220715
+# A,0x00AA0F00,0x0AA00009,20221006
+# A,0x00AA0F01,0x0AA00112,20230510
+# A,0x00AA0F02,0x0AA0020E,20230510
