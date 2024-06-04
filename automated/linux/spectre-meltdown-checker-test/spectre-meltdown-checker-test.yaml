@@ -21,7 +21,7 @@ metadata:
         - lava-test-shell
 params:
     # Spectre meltdown checker version
-    SMC_VERSION: v0.45
+    SMC_VERSION: v0.46
     SKIP_INSTALL: "False"
     WGET_UPSTREAM: "False"
 
