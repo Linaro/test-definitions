@@ -44,11 +44,12 @@ usage() {
                     [-S kselftest-skipfile]
                     [-b board]
                     [-g branch]
-                    [-e environment]" 1>&2
+                    [-e environment]
+                    [-E ENV_NAME=ENV_VAL]" 1>&2
     exit 1
 }
 
-while getopts "i:n:c:T:t:s:u:p:L:S:b:g:e:h" opt; do
+while getopts "i:n:c:T:t:s:u:p:L:S:b:g:e:E:h" opt; do
     case "${opt}" in
         i) SHARD_INDEX="${OPTARG}" ;;
         n) SHARD_NUMBER="${OPTARG}" ;;
@@ -106,6 +107,13 @@ while getopts "i:n:c:T:t:s:u:p:L:S:b:g:e:h" opt; do
             ;;
         e)
             export ENVIRONMENT="${OPTARG}"
+            ;;
+        E)
+            if [ -n "${OPTARG}" ]; then
+                set -x
+                eval "export ${OPTARG}"
+                set +x
+            fi
             ;;
         h|*) usage ;;
     esac

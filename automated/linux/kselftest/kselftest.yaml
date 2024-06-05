@@ -50,6 +50,9 @@ params:
     BOARD: ""
     BRANCH: ""
     ENVIRONMENT: ""
+    # Set arbitrary environment variables. The value set here is directly evaluated
+    # as `eval "export ${ENV}"`.
+    ENV: ""
 
     # Number of shards that will be done, default 1 which is the same as no sharding.
     SHARD_NUMBER: 1
@@ -60,5 +63,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/kselftest/
-        - ./kselftest.sh -c "${TST_CMDFILES}" -T "${TST_CASENAME}" -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -p "${KSELFTEST_PATH}" -n "${SHARD_NUMBER}" -i "${SHARD_INDEX}"
+        - ./kselftest.sh -c "${TST_CMDFILES}" -T "${TST_CASENAME}" -t "${TESTPROG}" -s "${SKIP_INSTALL}" -u "${TESTPROG_URL}" -L "${SKIPLIST}" -S "${SKIPFILE}" -b "${BOARD}" -g "${BRANCH}" -e "${ENVIRONMENT}" -p "${KSELFTEST_PATH}" -n "${SHARD_NUMBER}" -i "${SHARD_INDEX}" -E "${ENV}"
         - ../../utils/send-to-lava.sh ./output/result.txt
