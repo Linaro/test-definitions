@@ -1,0 +1,1 @@
+upload-to-artifactorial.sh
