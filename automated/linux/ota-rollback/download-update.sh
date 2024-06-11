@@ -1,6 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-only
-# Copyright (C) 2021 Foundries.io Ltd.
+# Copyright (C) 2021-2024 Foundries.io Ltd.
 
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
@@ -13,7 +13,7 @@ export UBOOT_VAR_TOOL
 UBOOT_VAR_SET_TOOL=fw_setenv
 export UBOOT_VAR_SET_TOOL
 PACMAN_TYPE="ostree+compose_apps"
-UBOOT_IMAGE_NAME="u-boot.itb"
+UBOOT_IMAGE_PATH="/sysroot/ostree/deploy/lmp/deploy/\${DEPLOYMENT_HASH}/usr/lib/firmware/u-boot.itb"
 DEBUG="false"
 SOTA_CONFDIR="/etc/sota/conf.d"
 
@@ -40,8 +40,15 @@ usage() {
         These change the 'type' variable in 'pacman' section
         of the final .toml file used by aklite. Default is
         ostree+compose_apps
-    -f u-boot image file name to corrupt. On some machines
-        u-boot image has different name. Default is u-boot.itb
+    -f path to u-boot image file name to corrupt. On some machines
+        u-boot image has different name. Default is:
+        /sysroot/ostree/deploy/lmp/deploy/\${DEPLOYMENT_HASH}/usr/lib/firmware/u-boot.itb
+        DEPLOYMENT_HASH is substituted after the OTA update
+        is downloaded.
+        Additional variable FS_HASH is available to construct
+        the final path. FS_HASH is a string that corresponds to
+        DEPLOYMENT_HASH ostree commit ID and is used in the
+        filesystem paths.
     -d <true|false> Enables more debug messages. Default: false
 	"
 }
@@ -52,7 +59,9 @@ while getopts "t:u:s:o:f:d:h" opts; do
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
         o) PACMAN_TYPE="${OPTARG}";;
-        f) UBOOT_IMAGE_NAME="${OPTARG}";;
+        f) IMAGE_PATH="${OPTARG}"
+            eval UBOOT_IMAGE_PATH="${IMAGE_PATH}"
+            ;;
         d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
 	esac
@@ -191,19 +200,28 @@ fi
 
 if [ "${UPGRADE_AVAILABLE}" -eq 1 ]; then
     if [ "${TYPE}" = "uboot" ]; then
+        # obtain new deployment hash
+        DEPLOYMENT_HASH=$(ostree admin status | grep pending | awk -F' ' '{print $2}')
+        FS_HASH=""
         # add debug print to understand which file is corrupted
         ostree admin status
         for DIRECTORY in /ostree/boot.0/lmp/*
         do
             echo "$DIRECTORY/0 ->"
-            readlink "$DIRECTORY/0"
+            D=$(realpath "$DIRECTORY/0")
+            echo "${D}"
+            if echo "${D}" | grep "${DEPLOYMENT_HASH}"; then
+                FS_HASH=${DIRECTORY##*/}
+            fi
         done
+        echo "UBOOT_IMAGE_PATH: ${UBOOT_IMAGE_PATH}"
+        echo "FS_HASH: ${FS_HASH}"
+        echo "DEPLOYMENT_HASH: ${DEPLOYMENT_HASH}"
 
-        # obtain new deployment hash
-        DEPLOYMENT_HASH=$(ostree admin status | grep pending | awk -F' ' '{print $2}')
-        echo "Corrupting u-boot.itb in /sysroot/ostree/deploy/lmp/deploy/${DEPLOYMENT_HASH}/usr/lib/firmware/${UBOOT_IMAGE_NAME}"
+        eval UBOOT_PATH="${UBOOT_IMAGE_PATH}"
+        echo "Corrupting u-boot.itb in ${UBOOT_PATH}"
         # corrupt u-boot.itb
-        echo bad > "/sysroot/ostree/deploy/lmp/deploy/${DEPLOYMENT_HASH}/usr/lib/firmware/${UBOOT_IMAGE_NAME}"
+        echo bad > "${UBOOT_PATH}"
     fi
     if [ "${TYPE}" = "kernel" ]; then
         cat /etc/os-release
