@@ -116,8 +116,12 @@ fiovb_is_secondary_boot_after_upgrade=$(uboot_variable_value "${SECONDARY_BOOT_V
 compare_test_value "fiovb_is_secondary_boot_after_upgrade" "${ref_fiovb_is_secondary_boot_after_upgrade}" "${fiovb_is_secondary_boot_after_upgrade}"
 
 if [ "${TYPE}" = "uboot" ]; then
-    uboot_variable_after_upgrade=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
-    compare_test_value "${TYPE}_uboot_variable_value_after_upgrade" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_after_upgrade}"
+    if [ -n "${U_BOOT_VARIABLE_NAME}" ]; then
+        uboot_variable_after_upgrade=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
+        compare_test_value "${TYPE}_uboot_variable_value_after_upgrade" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_after_upgrade}"
+    else
+        report_skip "${TYPE}_uboot_variable_value_after_upgrade"
+    fi
 fi
 . /etc/os-release
 # shellcheck disable=SC2154

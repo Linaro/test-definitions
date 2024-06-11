@@ -111,7 +111,7 @@ touch /var/sota/ota.signal
 touch /var/sota/ota.result
 report_pass "${TYPE}-create-signal-files"
 
-if [ "${TYPE}" = "uboot" ]; then
+if [ "${TYPE}" = "uboot" ] && [ -n "${U_BOOT_VARIABLE_NAME}" ]; then
     "${UBOOT_VAR_SET_TOOL}" "${U_BOOT_VARIABLE_NAME}" "${U_BOOT_VARIABLE_VALUE}"
 fi
 #systemctl mask aktualizr-lite
@@ -148,8 +148,12 @@ compare_test_value "${TYPE}_rollback_before_download" "${ref_rollback_before_dow
 upgrade_available_before_download=$(uboot_variable_value upgrade_available)
 compare_test_value "${TYPE}_upgrade_available_before_download" "${ref_upgrade_available_before_download}" "${upgrade_available_before_download}"
 if [ "${TYPE}" = "uboot" ]; then
-    uboot_variable_before_download=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
-    compare_test_value "${TYPE}_uboot_variable_value_before_download" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_before_download}"
+    if [ -n "${U_BOOT_VARIABLE_NAME}" ]; then
+        uboot_variable_before_download=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
+        compare_test_value "${TYPE}_uboot_variable_value_before_download" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_before_download}"
+    else
+        report_skip "${TYPE}_uboot_variable_value_before_download"
+    fi
 fi
 
 if [ -f /usr/lib/firmware/version.txt ]; then
@@ -210,8 +214,12 @@ else
 fi
 
 if [ "${TYPE}" = "uboot" ]; then
-    uboot_variable_after_download=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
-    compare_test_value "${TYPE}_uboot_variable_value_after_download" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_after_download}"
+    if [ -n "${U_BOOT_VARIABLE_NAME}" ]; then
+        uboot_variable_after_download=$(uboot_variable_value "${U_BOOT_VARIABLE_NAME}")
+        compare_test_value "${TYPE}_uboot_variable_value_after_download" "${U_BOOT_VARIABLE_VALUE}" "${uboot_variable_after_download}"
+    else
+        report_skip "${TYPE}_uboot_variable_value_after_download"
+    fi
 fi
 
 UPGRADE_AVAILABLE="${upgrade_available_after_download}"
