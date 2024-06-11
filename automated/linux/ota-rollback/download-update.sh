@@ -18,8 +18,8 @@ DEBUG="false"
 SOTA_CONFDIR="/etc/sota/conf.d"
 
 usage() {
-	echo "\
-	Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-d <true|false>]
+    echo "\
+    Usage: $0 [-t <kernel|uboot>] [-u <u-boot var read>] [-s <u-boot var set>] [-o <ostree|ostree+compose_apps>] [-d <true|false>]
 
     -t <kernel|uboot|app>
         This determines type of corruption test performed:
@@ -50,11 +50,11 @@ usage() {
         DEPLOYMENT_HASH ostree commit ID and is used in the
         filesystem paths.
     -d <true|false> Enables more debug messages. Default: false
-	"
+    "
 }
 
 while getopts "t:u:s:o:f:d:h" opts; do
-	case "$opts" in
+    case "$opts" in
         t) TYPE="${OPTARG}";;
         u) UBOOT_VAR_TOOL="${OPTARG}";;
         s) UBOOT_VAR_SET_TOOL="${OPTARG}";;
@@ -64,7 +64,7 @@ while getopts "t:u:s:o:f:d:h" opts; do
             ;;
         d) DEBUG="${OPTARG}";;
         h|*) usage ; exit 1 ;;
-	esac
+    esac
 done
 
 # the script works only on builds with aktualizr-lite
@@ -156,9 +156,9 @@ fi
 # wait for 'install-post' signal
 while ! grep "install-post" /var/sota/ota.signal
 do
-	echo "Sleeping 1s"
-	sleep 1
-	cat /var/sota/ota.signal
+    echo "Sleeping 1s"
+    sleep 1
+    cat /var/sota/ota.signal
 done
 report_pass "${TYPE}-install-post-received"
 
