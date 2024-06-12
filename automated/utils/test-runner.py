@@ -1137,7 +1137,7 @@ def get_args():
         dest="test_plan",
         help=textwrap.dedent(
             """\
-                        specify an test plan file which has tests and related
+                        specify a test plan file which has tests and related
                         params listed in yaml format.
                         """
         ),
@@ -1237,7 +1237,7 @@ def get_args():
         dest="overlay",
         help=textwrap.dedent(
             """\
-                        Specify test plan ovelay file to:
+                        Specify test plan overlay file to:
                         * skip tests
                         * amend test parameters
                         * add new tests
