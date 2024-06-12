@@ -203,7 +203,7 @@ class TestPlan(object):
                 self.logger.error("%s is missing from test plan" % str(e))
                 sys.exit(1)
         else:
-            self.logger.error("Plese specify a test or test plan.")
+            self.logger.error("Please specify a test or test plan.")
             sys.exit(1)
 
         if self.overlay is None:
