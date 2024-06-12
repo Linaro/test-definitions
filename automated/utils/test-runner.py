@@ -1315,11 +1315,14 @@ def get_args():
         dest="cleanup",
         default=False,
         action="store_true",
-        help="If set to true, test-runner will remove all temporary files \
-              after running the test. It includes all collected logs and \
-              test results. This option should only be used if uploading \
-              results to SQUAD or LAVA. \
-              Default: false",
+        help=textwrap.dedent(
+            """\
+        If set to true, test-runner will remove all temporary files after
+        running the test. It includes all collected logs and test results. This
+        option should only be used if uploading results to SQUAD or LAVA.
+        Default: false
+        """
+        ),
     )
 
     args = parser.parse_args()
