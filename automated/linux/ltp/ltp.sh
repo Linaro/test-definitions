@@ -30,6 +30,8 @@ BUILD_FROM_TAR="false"
 SHARD_NUMBER=1
 SHARD_INDEX=1
 
+RUNNER=""
+
 LTP_TMPDIR=/ltp-tmp
 
 LTP_INSTALL_PATH=/opt/ltp
@@ -46,6 +48,7 @@ usage() {
                       [-v LTP_VERSION]
                       [-M Timeout_Multiplier]
                       [-R root_password]
+                      [-r new runner (kirk)]
                       [-u git url]
                       [-p build directory]
                       [-t build from tarfile ]
@@ -55,7 +58,7 @@ usage() {
     exit 0
 }
 
-while getopts "M:T:S:b:d:g:e:i:s:v:R:u:p:t:c:n:" arg; do
+while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -111,6 +114,7 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:u:p:t:c:n:" arg; do
      # Slow machines need more timeout Default is 5min and multiply * MINUTES
      M) export LTP_TIMEOUT_MUL="${OPTARG}";;
      R) export PASSWD="${OPTARG}";;
+     r) export RUNNER="${OPTARG}";;
      u)
         if [[ "$OPTARG" != '' ]]; then
           TEST_GIT_URL="$OPTARG"
@@ -156,6 +160,11 @@ parse_ltp_output() {
         | sed 's/PASS/pass/; s/FAIL/fail/; s/CONF/skip/'  >> "${RESULT_FILE}"
 }
 
+parse_ltp_json_results() {
+    jq -r '.results| .[]| "\(.test_fqn) \(.test.result)"'  "$1" \
+        | sed 's/brok/fail/; s/conf/skip/'  >> "${RESULT_FILE}"
+}
+
 # Run LTP test suite
 run_ltp() {
     # shellcheck disable=SC2164
@@ -172,14 +181,28 @@ run_ltp() {
     cat runtest/shardfile
     echo "===========End Tests to run ==============="
 
-    pipe0_status "./runltp -p -q -f shardfile \
+    if [ -n "${RUNNER}" ]; then
+        eval "${RUNNER}" --version
+        # shellcheck disable=SC2181
+        if [ $? -ne "0" ]; then
+          error_msg "${RUNNER} is not installed into the file system."
+        fi
+        pipe0_status "${RUNNER} --framework ltp --run-suite shardfile \
+                                -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
+                                --skip-file ${SKIPFILE_PATH} \
+                                --json-report /tmp/kirk-report.json \
+                                --verbose" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
+        parse_ltp_json_results "/tmp/kirk-report.json"
+    else
+        pipe0_status "./runltp -p -q -f shardfile \
                                  -l ${OUTPUT}/LTP_${LOG_FILE}.log \
                                  -C ${OUTPUT}/LTP_${LOG_FILE}.failed \
                                  -d ${LTP_TMPDIR} \
                                     ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
+        parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
+    fi
 #    check_return "runltp_${LOG_FILE}"
 
-    parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
     # Cleanup
     # don't fail the whole test job if rm fails
     rm -rf "${LTP_TMPDIR}" || true
