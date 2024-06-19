@@ -27,26 +27,16 @@ while getopts "s:m:g:h" o; do
 done
 
 parse_output() {
-    # Parse each type of results
-    # A note on the sed line used below to strip color codes:
-    # busybox's sed does not implement e.g. '\x1b', and so the literal
-    # control code is used below. Do not copy/paste it, or it will lose
-    # its magic.
-    grep -e PASS -e SKIP -e FAIL "${RESULT_LOG}" | \
-      sed 's/\[[0-9]*m//g' | \
-      sed -e 's/PASS/pass/g' \
-          -e 's/SKIP/skip/g' \
-          -e 's/FAIL/fail/g' | \
-       awk '{print $2" "$1}'  >> "${RESULT_FILE}"
-    cat "${RESULT_FILE}"
+    # Parse input test names and results log to results file
+    ./parse-output.py < "${RESULT_LOG}" | tee -a "${RESULT_FILE}"
 }
 
 kvm_unit_tests_run_test() {
     info_msg "running kvm unit tests ..."
     if [ "${SMP}" = "false" ]; then
-        taskset -c 0 ./run_tests.sh -a -v | tee -a "${RESULT_LOG}"
+        taskset -c 0 ./run_tests.sh -a -t -v | tee -a "${RESULT_LOG}"
     else
-        ./run_tests.sh -a -v | tee -a "${RESULT_LOG}"
+        ./run_tests.sh -a -t -v | tee -a "${RESULT_LOG}"
     fi
 }
 
@@ -84,8 +74,6 @@ install() {
 # Test run.
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
-# shellcheck disable=SC2164
-cd "${OUTPUT}"
 
 info_msg "About to run kvm unit tests ..."
 info_msg "Output directory: ${OUTPUT}"
@@ -107,6 +95,7 @@ fi
 
 # Run kvm unit tests
 kvm_unit_tests_run_test
+cd - || exit 1
 
 # Parse and print kvm unit tests results
 parse_output
