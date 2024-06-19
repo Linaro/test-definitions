@@ -11,6 +11,7 @@ TEST_PASS_LOG="${OUTPUT}/test_pass_log.txt"
 TEST_FAIL_LOG="${OUTPUT}/test_fail_log.txt"
 TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 CWD=""
+LIBHUGETLBFS_PATH=""
 
 WORD_SIZE="64"
 VERSION="02df38e93e25e07f4d54edae94fb4ec90b7a2824"
@@ -20,9 +21,10 @@ usage() {
     exit 1
 }
 
-while getopts "b:s:v:" o; do
+while getopts "b:p:s:v:" o; do
   case "$o" in
     b) WORD_SIZE="${OPTARG}" ;;
+    p) LIBHUGETLBFS_PATH="${OPTARG}" ;;
     s) SKIP_INSTALL="${OPTARG}" ;;
     v) VERSION="${OPTARG}" ;;
     *) usage ;;
@@ -163,9 +165,19 @@ install
 # Setup libhugetlbfs mount point
 libhugetlbfs_setup
 
-PRE_BUILD_PATH="$(find /usr/lib*/libhugetlbfs -type f -name run_tests.py)"
+if [ -n "${LIBHUGETLBFS_PATH}" ] && [ -d "${LIBHUGETLBFS_PATH}" ]
+then
+     overlay=yes
+else
+     LIBHUGETLBFS_PATH="$(find /usr/lib*/libhugetlbfs -type f -name run_tests.py)"
+fi
 
-if [ -n "${PRE_BUILD_PATH}" ]
+
+if [ -n "${overlay}" ]
+then
+    echo "pre built libhugtlbfs found in overlays"
+    cd "${LIBHUGETLBFS_PATH}" || exit
+elif [ -n "${LIBHUGETLBFS_PATH}" ]
 then
     echo "pre built libhugetlbfs found on rootfs"
     # shellcheck disable=SC2164
