@@ -238,6 +238,11 @@ def read_sha256_file(file_path):
         return "UNKNOWN"
 
 
+def collect_sha256_benchmark(config_name):
+    loc = f"/mmtests/{config_name}.SHA256"
+    return read_sha256_file(loc)
+
+
 def collect_system_info(config_name):
     """Build a dictionary with system information."""
     return {
@@ -248,6 +253,7 @@ def collect_system_info(config_name):
         "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
         "Instance type": get_instance_type(),
+        "Benchmark SHA256": collect_sha256_benchmark(config_name)
     }
 
 
