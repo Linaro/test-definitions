@@ -64,7 +64,7 @@ while getopts "c:p:r:su:v:i:w:fkm" opt; do
     c)
       if [[ ! "${OPTARG}" == config* ]]; then
         error_msg "Please specify correct MMTests configuration file."
-        usage
+        info_msg "For example: ./mmtests.sh -c configs/config-db-sqlite-insert-small"
       fi
       MMTESTS_CONFIG_FILE="${OPTARG}"
       ;;
@@ -109,8 +109,7 @@ while getopts "c:p:r:su:v:i:w:fkm" opt; do
 done
 
 if [ -z "$MMTESTS_CONFIG_FILE" ]; then
-  error_msg "Please specify MMTests configuration file."
-  usage
+  error_msg "Please specify MMTests configuration file. For example: ./mmtests.sh -c configs/config-db-sqlite-insert-small"
 fi
 
 SKIP_INSTALL=${SKIP_INSTALL:-"false"}
@@ -184,7 +183,7 @@ prepare_system() {
 }
 
 run_test() {
-  info_msg "Running ${MMTESTS_CONFIG_FILE} test..."
+  info_msg "Running ${MMTESTS_CONFIG_FILE} test, ${MMTEST_ITERATIONS} iterations"
   # It's required to export MMTEST_ITERATIONS as it will be used by
   # run-mmtests.sh from the MMTests package.
   export MMTEST_ITERATIONS=${MMTEST_ITERATIONS}
@@ -231,6 +230,12 @@ fi
 
 create_out_dir "${OUTPUT}"
 pushd "${TEST_DIR}" || exit 1
+
+if [[ ! -f "${TEST_DIR}/${MMTESTS_CONFIG_FILE}" ]]; then
+  error_msg "Configuration file '${TEST_DIR}/${MMTESTS_CONFIG_FILE}' does not exist"
+  exit 1
+fi
+
 run_test
 
 if [ "${COLLECT_RESULTS}" = "true" ]; then
