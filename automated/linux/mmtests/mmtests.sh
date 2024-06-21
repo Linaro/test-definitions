@@ -8,7 +8,7 @@ usage() {
   echo "\
   Usage: $0 [-s] [-v <TEST_PROG_VERSION>] [-u <TEST_GIT_URL>] [-p <TEST_DIR>]
           [-c <MMTESTS_CONFIG_FILE>] [-r <MMTESTS_MAX_RETRIES>]
-          [-i <MMTEST_ITERATIONS>] [-f] [-k]
+          [-i <MMTEST_ITERATIONS>] [-f] [-k] [-m]
 
   -v <TEST_PROG_VERSION>
     If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
@@ -49,11 +49,14 @@ usage() {
 
   -k
     If this parameter is set, then results & system info will be collected.
-    Requires python3 installed."
+    Requires python3 installed.
+
+  -m
+    Use monitors in MMTests run."
   exit 1
 }
 
-while getopts "c:p:r:su:v:i:fk" opt; do
+while getopts "c:p:r:su:v:i:fkm" opt; do
   case "${opt}" in
     c)
       if [[ ! "${OPTARG}" == config* ]]; then
@@ -89,6 +92,9 @@ while getopts "c:p:r:su:v:i:fk" opt; do
       ;;
     k)
       COLLECT_RESULTS=true
+      ;;
+    m)
+      USE_MONITORS=true
       ;;
     *)
       usage
@@ -178,9 +184,16 @@ run_test() {
   export MMTEST_ITERATIONS=${MMTEST_ITERATIONS}
   # Disable packages auto installation
   touch ~/.mmtests-never-auto-package-install
-  # Run benchmark according config file and with disabled monitoring.
-  # Using nice to increase priority for the benchmark.
-  nice -n -5 ./run-mmtests.sh -np -c "${MMTESTS_CONFIG_FILE}" "${RESULTS_DIR}"
+  # Use nice to increase priority for the benchmark
+  BASE_CMD="nice -n -5 ./run-mmtests.sh -c ${MMTESTS_CONFIG_FILE} ${RESULTS_DIR}"
+  if [ "${USE_MONITORS}" = "true" ]; then
+    BASE_CMD="${BASE_CMD} -m"
+    info_msg "Monitors are ON in MMTests run"
+  else
+    BASE_CMD="${BASE_CMD} -n"
+    info_msg "Monitors are OFF in MMTests run"
+  fi
+  eval "${BASE_CMD}"
 }
 
 collect_results() {
