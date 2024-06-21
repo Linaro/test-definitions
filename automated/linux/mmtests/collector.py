@@ -159,13 +159,13 @@ def parse_os_info():
 def get_installed_packages():
     """Get a list of installed packages"""
     output = subprocess.check_output(["dpkg", "-l"], text=True)
-    packages = []
+    packages = {}
     patt = re.compile(r"^ii\s+(\S+)\s+(\S+)")
     for line in output.splitlines():
         match = patt.match(line)
         if match:
             package_name, version = match.groups()
-            packages.append({package_name: version})
+            packages[package_name] = version
     return packages
 
 
@@ -243,6 +243,36 @@ def collect_sha256_benchmark(config_name):
     return read_sha256_file(loc)
 
 
+def parse_boottime():
+    """Parse the system boot time"""
+    blame_info = {}
+    time_info = {}
+
+    blame_output = run_command("systemd-analyze blame")
+    if blame_output:
+        for line in blame_output.split("\n"):
+            if line.strip():
+                time_str, name = line.split(maxsplit=1)
+                time_ms = int(time_str[:-2])
+                blame_info[name] = time_ms
+
+    time_output = run_command("systemd-analyze time")
+    if time_output:
+        lines = time_output.strip().split("\n")
+
+        startup_line = lines[1]
+        startup_parts = startup_line.split()
+        time_info["kernel"] = float(startup_parts[3][:-1])
+        time_info["userspace"] = float(startup_parts[5][:-1])
+        time_info["total"] = float(startup_parts[8][:-1])
+
+        graphical_target_line = lines[2]
+        graphical_target_parts = graphical_target_line.split()
+        time_info["graphical_target"] = float(graphical_target_parts[4][:-1])
+
+    return {"blame": blame_info, "time": time_info}
+
+
 def collect_system_info(config_name):
     """Build a dictionary with system information."""
     return {
@@ -253,7 +283,8 @@ def collect_system_info(config_name):
         "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
         "Instance type": get_instance_type(),
-        "Benchmark SHA256": collect_sha256_benchmark(config_name)
+        "Benchmark SHA256": collect_sha256_benchmark(config_name),
+        "Boot time": parse_boottime(),
     }
 
 
