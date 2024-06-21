@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set +x
-
 # shellcheck disable=SC1091
 . ../../lib/sh-test-lib
 TEST_PROGRAM="mmtests"
