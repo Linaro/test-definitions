@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 import subprocess
 import shutil
+import hashlib
 
 
 UNKNOWN = "UNKNOWN"
@@ -163,11 +164,12 @@ def get_installed_packages():
     return packages
 
 
-def parse_kernel_version():
+def parse_kernel_info():
     """Parse kernel version"""
     kernel_version = run_command("uname -r")
     return {
         "Version": kernel_version,
+        "SHA256": collect_sha256_kernel(kernel_version),
     }
 
 
@@ -193,14 +195,52 @@ def parse_filesystem_info():
     return {"Filesystems": fses}
 
 
-def collect_system_info():
+def get_file_sha256(file_path):
+    """Calculate the SHA256 hash of a file"""
+    sha256_hash = hashlib.sha256()
+    block_size = 4096
+    with open(file_path, "rb") as f:
+        for byte_block in iter(lambda: f.read(block_size), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest()
+
+
+def get_current_kernel_loc(ver):
+    """Get the location of the current kernel binary"""
+    loc = f"/boot/vmlinuz-{ver}"
+    if os.path.exists(loc):
+        return loc
+
+
+def collect_sha256_kernel(ver):
+    """Collect the SHA256 hash of the current kernel"""
+    loc = get_current_kernel_loc(ver)
+    if loc:
+        sha256 = get_file_sha256(loc)
+        return sha256
+    return "UNKNOWN"
+
+
+def read_sha256_file(file_path):
+    """Read the SHA256 hash from a file"""
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            line = f.readline().strip()
+            sha256 = line.split()[0]
+            return sha256
+    except IOError:
+        print(f"Error: Unable to read file {file_path}")
+        return "UNKNOWN"
+
+
+def collect_system_info(config_name):
     """Build a dictionary with system information."""
     return {
         "CPU": parse_cpu_info(),
         "Memory": parse_memory_info(),
         "Storage": parse_storage_info(),
         "OS": parse_os_info(),
-        "Kernel": parse_kernel_version(),
+        "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
     }
 
@@ -354,7 +394,7 @@ if __name__ == "__main__":
 
     # This is global info
     variables = collect_vars(config_path, args.i)
-    info = collect_system_info()
+    info = collect_system_info(config_name)
 
     results_root = get_results_root(args.d)
     results_dir = results_root / config_name
