@@ -190,7 +190,8 @@ run_test() {
   # Disable packages auto installation
   touch ~/.mmtests-never-auto-package-install
   # Use nice to increase priority for the benchmark
-  BASE_CMD="nice -n -5 ./run-mmtests.sh -c ${MMTESTS_CONFIG_FILE} ${RESULTS_DIR}"
+  # Use taskset to bind benchmark to the first CPU
+  BASE_CMD="nice -n -5 taskset -c 0 ./run-mmtests.sh -c ${MMTESTS_CONFIG_FILE} ${RESULTS_DIR}"
   if [ "${USE_MONITORS}" = "true" ]; then
     BASE_CMD="${BASE_CMD} -m"
     info_msg "Monitors are ON in MMTests run"
