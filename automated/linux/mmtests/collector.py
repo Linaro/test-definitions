@@ -103,6 +103,11 @@ def parse_memory_info():
     }
 
 
+def get_instance_type():
+    """Get the instance type from the environment variable"""
+    return os.getenv("INSTANCE_TYPE", "UNKNOWN")
+
+
 def parse_storage_info():
     """Parse storage information from lsblk command."""
     # Remove header and split lines
@@ -242,6 +247,7 @@ def collect_system_info(config_name):
         "OS": parse_os_info(),
         "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
+        "Instance type": get_instance_type(),
     }
 
 
