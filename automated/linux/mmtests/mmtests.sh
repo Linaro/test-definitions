@@ -8,7 +8,7 @@ usage() {
   echo "\
   Usage: $0 [-s] [-v <TEST_PROG_VERSION>] [-u <TEST_GIT_URL>] [-p <TEST_DIR>]
           [-c <MMTESTS_CONFIG_FILE>] [-r <MMTESTS_MAX_RETRIES>]
-          [-i <MMTEST_ITERATIONS>] [-f] [-k] [-m]
+          [-i <MMTEST_ITERATIONS>] [-f] [-k] [-m] [-w RESULTS_DIR]
 
   -v <TEST_PROG_VERSION>
     If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
@@ -43,6 +43,9 @@ usage() {
   -i <MMTEST_ITERATIONS>
     The number of iterations to run the benchmark for.
 
+  -w <RESULTS_DIR>
+    The name of the directory where results will be stored.
+
   -f
     If this parameter is set, then the full archive of the benchmark logs is
     saved. Otherwise only the JSON files are saved.
@@ -56,7 +59,7 @@ usage() {
   exit 1
 }
 
-while getopts "c:p:r:su:v:i:fkm" opt; do
+while getopts "c:p:r:su:v:i:w:fkm" opt; do
   case "${opt}" in
     c)
       if [[ ! "${OPTARG}" == config* ]]; then
@@ -87,6 +90,9 @@ while getopts "c:p:r:su:v:i:fkm" opt; do
     i)
       MMTEST_ITERATIONS="${OPTARG}"
       ;;
+    w)
+      RESULTS_DIR="${OPTARG}"
+      ;;
     f)
       FULL_ARCHIVE=true
       ;;
@@ -115,7 +121,7 @@ OUTPUT="${TEST_DIR}/output"
 MMTESTS_MAX_RETRIES=${MMTESTS_MAX_RETRIES:-"3"}
 MMTEST_ITERATIONS=${MMTEST_ITERATIONS:-"10"}
 # Name of the directory where results will be stored by MMTests
-RESULTS_DIR=$(basename "$MMTESTS_CONFIG_FILE")
+RESULTS_DIR=${RESULTS_DIR:-$(basename "$MMTESTS_CONFIG_FILE")}
 COLLECTOR=$PWD/collector.py
 
 check_perl_module() {
