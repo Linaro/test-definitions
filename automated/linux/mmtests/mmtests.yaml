@@ -51,6 +51,9 @@ params:
     # MMTEST iterations for config
     MMTEST_ITERATIONS: 10
 
+    # MMTESTS monitors
+    MMTESTS_MONITORS: false
+
     # URL to artifactorial storage
     ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/private/lkft-performance/"
 
@@ -72,6 +75,7 @@ run:
             [ -n "${MMTESTS_CONFIG_FILE}" ] && cmd="${cmd} -c '${MMTESTS_CONFIG_FILE}'";
             [ -n "${MMTESTS_MAX_RETRIES}" ] && cmd="${cmd} -r '${MMTESTS_MAX_RETRIES}'";
             [ -n "${MMTEST_ITERATIONS}" ] && cmd="${cmd} -i '${MMTEST_ITERATIONS}'";
+            [ -n "${MMTESTS_MONITORS}" ] && cmd="${cmd} -m";
             [ -n "${FULL_ARCHIVE}" ] && cmd="${cmd} -f";
             eval $cmd
         - |
