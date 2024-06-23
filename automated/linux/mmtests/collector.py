@@ -238,42 +238,66 @@ def read_sha256_file(file_path):
         return "UNKNOWN"
 
 
-def collect_sha256_benchmark(config_name):
-    loc = f"/mmtests/{config_name}.SHA256"
+def collect_sha256_benchmark(cfg_name):
+    loc = f"/mmtests/{cfg_name}.SHA256"
     return read_sha256_file(loc)
 
 
 def parse_boottime():
-    """Parse the system boot time"""
+    """Parse the system boot time."""
+    time_patt = re.compile(r"(\d+(?:\.\d+)?)(ms|us|s)")
+
+    def parse_time(t):
+        match = time_patt.match(t)
+        if not match:
+            return 0
+        value, unit = match.groups()
+        value = float(value)
+        if unit == "ms":
+            return int(value)
+        if unit == "us":
+            return int(value / 1000)
+        return int(value * 1000)
+
     blame_info = {}
     time_info = {}
 
-    blame_output = run_command("systemd-analyze blame")
-    if blame_output:
-        for line in blame_output.split("\n"):
-            if line.strip():
-                time_str, name = line.split(maxsplit=1)
-                time_ms = int(time_str[:-2])
-                blame_info[name] = time_ms
+    try:
+        blame_output = run_command("systemd-analyze blame")
+        if blame_output:
+            blame_info = {
+                name: parse_time(time_str)
+                for line in blame_output.splitlines()
+                if line.strip()
+                for time_str, name in [line.split(maxsplit=1)]
+            }
+    except Exception as e:
+        print(f"Error parsing blame output: {e}")
 
-    time_output = run_command("systemd-analyze time")
-    if time_output:
-        lines = time_output.strip().split("\n")
+    try:
+        time_output = run_command("systemd-analyze time")
+        if time_output:
+            lines = time_output.splitlines()
+            if lines:
+                startup_parts = lines[0].split()
+                time_info = {
+                    "kernel": float(startup_parts[3][:-1]),
+                    "userspace": float(startup_parts[6][:-1]),
+                    "total": float(startup_parts[9][:-1]),
+                }
 
-        startup_line = lines[1]
-        startup_parts = startup_line.split()
-        time_info["kernel"] = float(startup_parts[3][:-1])
-        time_info["userspace"] = float(startup_parts[5][:-1])
-        time_info["total"] = float(startup_parts[8][:-1])
-
-        graphical_target_line = lines[2]
-        graphical_target_parts = graphical_target_line.split()
-        time_info["graphical_target"] = float(graphical_target_parts[4][:-1])
+                if len(lines) > 1:
+                    graphical_target_parts = lines[1].split()
+                    time_info["graphical_target"] = float(
+                        graphical_target_parts[3][:-1]
+                    )
+    except Exception as e:
+        print(f"Error parsing time output: {e}")
 
     return {"blame": blame_info, "time": time_info}
 
 
-def collect_system_info(config_name):
+def collect_system_info(cfg_name):
     """Build a dictionary with system information."""
     return {
         "CPU": parse_cpu_info(),
@@ -283,7 +307,7 @@ def collect_system_info(config_name):
         "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
         "Instance type": get_instance_type(),
-        "Benchmark SHA256": collect_sha256_benchmark(config_name),
+        "Benchmark SHA256": collect_sha256_benchmark(cfg_name),
         "Boot time": parse_boottime(),
     }
 
