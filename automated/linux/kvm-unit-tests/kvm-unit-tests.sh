@@ -27,7 +27,7 @@ while getopts "s:m:g:h" o; do
 done
 
 parse_output() {
-    ./parse-output.py < "${RESULT_LOG}" | tee -a "${RESULT_FILE}"
+    ./parse-output.py < "${RESULT_LOG}" >> "${RESULT_FILE}"
 }
 
 kvm_unit_tests_run_test() {
