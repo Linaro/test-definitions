@@ -32,8 +32,11 @@ params:
     SKIP_INSTALL: "False"
     VERSION: "02df38e93e25e07f4d54edae94fb4ec90b7a2824"
 
+    # Pre-installed tests
+    LIBHUGETLBFS_PATH: ""
+
 run:
     steps:
         - cd ./automated/linux/libhugetlbfs/
-        - ./libhugetlbfs.sh -b "${WORD_SIZE}" -s "${SKIP_INSTALL}" -v "${VERSION}"
+        - ./libhugetlbfs.sh -b "${WORD_SIZE}" -p "${LIBHUGETLBFS_PATH}" -s "${SKIP_INSTALL}" -v "${VERSION}"
         - ../../utils/send-to-lava.sh ./output/result.txt
