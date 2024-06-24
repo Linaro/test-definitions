@@ -93,19 +93,14 @@ def main():
     """
     try:
         lines = parse_input_file()
-        output_lines = []
-
         for line in lines:
             try:
                 result, description = parse_line(line)
                 formatted_line = format_output(result, description)
-                output_lines.append(formatted_line)
+                sys.stdout.write(formatted_line)
             except ValueError as e:
                 sys.stderr.write(f"Error processing line: {e}\n")
                 continue
-
-        for line in output_lines:
-            sys.stdout.write(line)
     except Exception as e:
         sys.stderr.write(f"Unexpected error: {e}\n")
         sys.exit(1)
