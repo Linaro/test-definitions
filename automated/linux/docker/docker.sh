@@ -50,7 +50,7 @@ systemctl start docker
 exit_on_fail "start-docker-service" "${skip_list}"
 
 case "${IMAGE}" in
-    hello-world)
+    *hello-world)
         docker run --rm "${IMAGE}"
         ;;
     *)
