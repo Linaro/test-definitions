@@ -1,0 +1,40 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: module-tests
+    description: |
+                 Load and unload kernel modules.
+    maintainer:
+        - anders.roxell@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rockpi4
+        - x86
+
+params:
+    # If MODULES_LIST is specified with a list of space separated modules then
+    # MOUDLES_SUBDIRS wont have any affect.
+    MODULES_LIST: ""
+
+    # A list of space separated module directories like: 'net, or 'mm'.
+    MODULES_SUBDIRS: ""
+
+    # Number of load/unload of every module
+    MODULE_MODPROBE_NUMBER: 1
+
+    # Number of shards that will be done, default 1 which is the same as no
+    # sharding.
+    SHARD_NUMBER: 1
+
+    # Which bucket to run, default '1' which is the same as no sharding, run
+    # all modules in the MODULES_SUBDIRS list.
+    SHARD_INDEX: 1
+run:
+    steps:
+        - cd ./automated/linux/modules/
+        - ./modules.sh -d "${MODULES_SUBDIRS}" -l "${MODULES_LIST}" -c "${MODULE_MODPROBE_NUMBER}" -n "${SHARD_NUMBER}" -i "${SHARD_INDEX}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
