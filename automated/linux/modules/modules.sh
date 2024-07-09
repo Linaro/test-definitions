@@ -41,15 +41,15 @@ get_modules_list() {
 		for subdir in ${MODULES_SUBDIRS}; do
 			find /lib/modules/"$(uname -r)"/kernel/"${subdir}" -type f -name '*.ko*' | tee -a /tmp/find_modules.txt
 		done
-	split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" /tmp/find_modules.txt > /tmp/shardfile
-	echo "============== Tests to run ==============="
-	cat /tmp/shardfile
-	echo "===========End Tests to run ==============="
-	if [ -s /tmp/shardfile ]; then
-		report_pass "shardfile"
-	else
-		report_fail "shardfile"
-	fi
+		split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" /tmp/find_modules.txt > /tmp/shardfile
+		echo "============== Tests to run ==============="
+		cat /tmp/shardfile
+		echo "===========End Tests to run ==============="
+		if [ -s /tmp/shardfile ]; then
+			report_pass "shardfile"
+		else
+			report_fail "shardfile"
+		fi
 		while IFS= read -r line
 		do
 			module_basename=$(basename "${line}")
