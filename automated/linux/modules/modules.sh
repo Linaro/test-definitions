@@ -37,10 +37,8 @@ done
 
 get_modules_list() {
 	if [ -z "${MODULES_LIST}" ]; then
-		rm -f /tmp/find_modules.txt
-		for subdir in ${MODULES_SUBDIRS}; do
-			find /lib/modules/"$(uname -r)"/kernel/"${subdir}" -type f -name '*.ko*' | tee -a /tmp/find_modules.txt
-		done
+		subdir=$(echo "${MODULES_SUBDIRS}" | tr ' ' '|')
+		grep -E "kernel/(${subdir})" /lib/modules/"$(uname -r)"/modules.order | tee /tmp/find_modules.txt
 		split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" /tmp/find_modules.txt > /tmp/shardfile
 		echo "============== Tests to run ==============="
 		cat /tmp/shardfile
