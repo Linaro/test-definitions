@@ -11,6 +11,7 @@ export RESULT_FILE
 MODULES_LIST=""
 MODULES_SUBDIRS=""
 MODULE_MODPROBE_NUMBER="1"
+SKIPLIST=""
 SHARD_NUMBER=1
 SHARD_INDEX=1
 
@@ -20,17 +21,19 @@ usage() {
 		[-c <Number of load/unload of a module> ]
 		[-i <sharding bucket to run> ]
 		[-n <number of shard buckets to create> ]
+		[-s <skiplist modules to skip> ]
 		[-h ]" 1>&2
 	exit 0
 }
 
-while getopts "c:d:i:l:n:h" o; do
+while getopts "c:d:i:l:n:s:h" o; do
 	case "$o" in
 		d) MODULES_SUBDIRS="${OPTARG}" ;;
 		l) MODULES_LIST="${OPTARG}" ;;
 		c) MODULE_MODPROBE_NUMBER="${OPTARG}" ;;
 		i) SHARD_INDEX="${OPTARG}" ;;
 		n) SHARD_NUMBER="${OPTARG}" ;;
+		s) SKIPLIST="${OPTARG}" ;;
 		h|*) usage ;;
 	esac
 done
@@ -38,8 +41,10 @@ done
 get_modules_list() {
 	if [ -z "${MODULES_LIST}" ]; then
 		subdir=$(echo "${MODULES_SUBDIRS}" | tr ' ' '|')
+		skiplist=$(echo "${SKIPLIST}" | tr ' ' '|')
 		grep -E "kernel/(${subdir})" /lib/modules/"$(uname -r)"/modules.order | tee /tmp/find_modules.txt
-		split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" /tmp/find_modules.txt > /tmp/shardfile
+		grep -E -v "(${skiplist})" /tmp/find_modules.txt | tee /tmp/modules_to_run.txt
+		split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" /tmp/modules_to_run.txt > /tmp/shardfile
 		echo "============== Tests to run ==============="
 		cat /tmp/shardfile
 		echo "===========End Tests to run ==============="
