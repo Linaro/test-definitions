@@ -65,7 +65,7 @@ DEVICE_NAME=$(cat /etc/hostname)
 pipe0_status "lmp-device-register --name ${DEVICE_NAME} -T 123456789 -u ${REG_UUID} -m ${HSM_MODULE} -S 12345678 -P 87654321 2>&1" "tee ${OUTPUT}/registration.log"
 # shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
-    grep "Cannot find a user with the provided token" "${OUTPUT}/registration.log"
+    grep "Provided token value is not valid" "${OUTPUT}/registration.log"
     check_return "lmp-device-register-bad-token"
 else
     report_fail "lmp-device-register-bad-token"
