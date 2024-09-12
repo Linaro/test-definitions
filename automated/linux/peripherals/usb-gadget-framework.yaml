@@ -18,5 +18,5 @@ metadata:
 run:
     steps:
         - cd ./automated/linux/peripherals/
-        - ./usb-gadget-framwork.sh
+        - ./usb-gadget-framework.sh
         - ../../utils/send-to-lava.sh ./output/result.txt
