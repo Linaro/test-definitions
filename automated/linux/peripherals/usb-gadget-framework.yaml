@@ -2,7 +2,7 @@ metadata:
     format: Lava-Test Test Definition 1.0
     name: module-tests
     description: |
-                 USB Gadget Framwork test
+                 USB Gadget Framework test
     maintainer:
         - anders.roxell@linaro.org
     os:
