@@ -1,6 +1,6 @@
 metadata:
     format: Lava-Test Test Definition 1.0
-    name: module-tests
+    name: usb-gadget-framework
     description: |
                  USB Gadget Framework test
     maintainer:
