@@ -1,0 +1,22 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: module-tests
+    description: |
+                 USB Gadget Framwork test
+    maintainer:
+        - anders.roxell@linaro.org
+    os:
+        - debian
+        - ubuntu
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - rockpi4
+        - x86
+
+run:
+    steps:
+        - cd ./automated/linux/peripherals/
+        - ./sysfs-interface-test.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
