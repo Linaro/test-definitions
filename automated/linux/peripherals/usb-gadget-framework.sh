@@ -17,9 +17,21 @@ info_msg "Output directory: ${OUTPUT}"
 # CONFIG_USB_DUMMY_HCD=m
 # CONFIG_USB_F_MASS_STORAGE=m
 
-eval "modprobe dummy_hcd"
-check_return "modprobe dummy_hcd"
+run_test() {
+    local input="${1}"
+    eval "${input}"
+    local ret=$?
+    # slugify
+    local output
+    output="$(echo "${input}" | sed 's|[-/> =]|_|g')"
+    if [ ${ret} -eq 0 ]; then
+        report_pass "${output}"
+    else
+        report_fail "${output}"
+    fi
+}
 
+run_test "modprobe dummy_hcd"
 #Setup USB Gadget in ConfigFS
 mkdir /sys/kernel/config/usb_gadget/g1
 cd /sys/kernel/config/usb_gadget/g1 || exit
@@ -30,18 +42,15 @@ echo "0123456789" > strings/0x409/serialnumber
 echo "My Gadget" > strings/0x409/manufacturer
 echo "Test Device" > strings/0x409/product
 
-eval "dd bs=1M count=16 if=/dev/zero of=/tmp/lun0.img"
-check_return "dd bs=1M count=16 if=/dev/zero of=/tmp/lun0.img"
+run_test "dd bs=1M count=16 if=/dev/zero of=/tmp/lun0.img"
 
 # Create function and configure endpoint (e.g., mass storage, serial)
 mkdir -p functions/mass_storage.0
 
-eval "echo /tmp/lun0.img > functions/mass_storage.0/lun.0/file"
-check_return "echo /tmp/lun0.img > functions/mass_storage.0/lun.0/file"
+run_test "echo /tmp/lun0.img > functions/mass_storage.0/lun.0/file"
 
 # Bind the gadget to the virtual controller
 mkdir configs/c.1
 ln -s functions/mass_storage.0 configs/c.1/
-eval "echo dummy_udc.0 > UDC"
-check_return "echo dummy_udc.0 > UDC"
+run_test "echo dummy_udc.0 > UDC"
 cd - || exit
