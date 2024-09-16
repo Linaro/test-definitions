@@ -55,13 +55,19 @@ def get_sysinfo():
     return sysinfo
 
 
+def get_field_name(col):
+    if col[0].endswith(":"):
+        return col[0][:-1]
+    return None
+
+
 def parse_histogram(col, sel, i, hist):
     if i not in hist:
         hist[i] = {}
         hist[i]["histogram"] = {}
 
-    if col[0].endswith(":"):
-        name = col[0][:-1]
+    name = get_field_name(col)
+    if name:
         hist[i][name] = int(col[sel])
     else:
         hist[i]["histogram"][col[0]] = int(col[sel])
@@ -70,11 +76,16 @@ def parse_histogram(col, sel, i, hist):
 def parse_osnoise(result_file):
     data = {}
     threads = {}
+    num_cols = 0
+
     for line in result_file.readlines():
         if line.startswith(" "):
             continue
 
         col = line.split()
+        name = get_field_name(col)
+        if name == "ALL":
+            break
 
         num_cols = len(col) - 1
 
@@ -96,11 +107,15 @@ def parse_timerlat(result_file):
     threads = {}
     irqs = {}
     num_cols = 0
+
     for line in result_file.readlines():
         if line.startswith(" "):
             continue
 
         col = line.split()
+        name = get_field_name(col)
+        if name == "ALL":
+            break
 
         num_cols = len(col) - 1
 
