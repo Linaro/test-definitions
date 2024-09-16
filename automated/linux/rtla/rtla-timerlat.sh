@@ -32,9 +32,9 @@ create_out_dir "${OUTPUT}"
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 rtla timerlat hist --dma-latency=0 -d "${DURATION}" --no-header --trace \
-     -e osnoise:irq_noise \
+     --event osnoise:irq_noise \
      --trigger hist:key=cpu,desc,duration.buckets=1000:sort=duration \
-     -e osnoise:thread_noise \
+     --event osnoise:thread_noise \
      --trigger hist:key=cpu,comm,duration.buckets=1000:sort=duration \
     | tee -a "${TMPFILE}"
 

@@ -33,11 +33,11 @@ background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 # real-time priority FIFO:1, on all CPUs, for 900ms at each period (1s by default)
 rtla osnoise hist -P F:1 -r 900000 -d "${DURATION}" --no-header --trace \
-     -e osnoise:irq_noise \
+     --event osnoise:irq_noise \
      --trigger hist:key=cpu,desc,duration.buckets=1000:sort=duration \
-     -e osnoise:thread_noise \
+     --event osnoise:thread_noise \
      --trigger hist:key=cpu,comm,duration.buckets=1000:sort=duration \
-     -e osnoise:sample_threshold \
+     --event osnoise:sample_threshold \
      --trigger 'hist:key=cpu,duration.buckets=1000:sort=duration if interference == 0' \
     | tee -a "${TMPFILE}"
 
