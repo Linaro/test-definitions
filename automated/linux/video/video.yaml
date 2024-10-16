@@ -1,0 +1,43 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: video-compare
+    description: |
+        The test compares two images. The second image
+        can be either captured from v4l2 device by the script
+        or delivered to the script from outside.
+
+        Main purpose of the test is to verify video output
+        using a capture device connected to DUT
+
+        The test script should run on host, where the capture device is connected.
+
+    maintainer:
+        - mwasilew@quicinc.com
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - imx8mm
+        - imx6ull
+
+params:
+    # https://example.com/image.jpg
+    REFERENCE_IMAGE: ""
+    REFERENCE_IMAGE_USER: ""
+    REFERENCE_IMAGE_PASSWORD: ""
+    REFERENCE_IMAGE_TOKEN: ""
+    THRESHOLD: 0.99
+    DEVICE: "/dev/video0"
+    # /home/user/image.jpg
+    IMAGE: ""
+
+run:
+    steps:
+        - cd ./automated/linux/video/
+        - ./video.sh -r "${REFERENCE_IMAGE}" -t "${THRESHOLD}" -d "${DEVICE}" -u "${REFERENCE_IMAGE_USER}" -p "${REFERENCE_IMAGE_PASSWORD}" -T "${REFERENCE_IMAGE_TOKEN}" -i "${IMAGE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
