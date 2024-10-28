@@ -23,6 +23,9 @@ FAILURES_PRINTED="0"
 AP_SSID=""
 # WIFI AP KEY
 AP_KEY=""
+# default to set the wifi(when required) and check the internet when not specified or set to true
+# which means it needs to specify explicitly to false to not check the internet access
+INTERNET_ACCESS="true"
 
 check_internet_access() {
     if [ -n "${AP_SSID}" ] && [ -n "${AP_KEY}" ]; then
@@ -75,11 +78,11 @@ check_internet_access() {
 }
 
 usage() {
-    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>]" 1>&2
+    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>] [ -i [true|false]]" 1>&2
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:f:a:k:' opt; do
+while getopts ':o:n:c:t:p:r:f:a:k:i:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) export ANDROID_SERIAL="${OPTARG}" ;;
@@ -90,6 +93,7 @@ while getopts ':o:n:c:t:p:r:f:a:k:' opt; do
         f) FAILURES_PRINTED="${OPTARG}" ;;
         a) AP_SSID="${OPTARG}" ;;
         k) AP_KEY="${OPTARG}" ;;
+        i) INTERNET_ACCESS="${OPTARG}" ;; # if check the internet access
         *) usage ;;
     esac
 done
@@ -132,7 +136,9 @@ if [ -e "${TEST_PATH}/testcases/vts/testcases/kernel/linux_kselftest/kselftest_c
     sed -i "/suspend/d" "${TEST_PATH}"/testcases/vts/testcases/kernel/linux_kselftest/kselftest_config.py
 fi
 
-check_internet_access
+if [ "X${INTERNET_ACCESS}" = "Xtrue" ] && [ "X${INTERNET_ACCESS}" = "XTrue" ]; then
+    check_internet_access
+fi
 
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"

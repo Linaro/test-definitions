@@ -46,6 +46,9 @@ params:
     # when we need to set the DUT to be run in the powersave governor policy
     # to avoid shutting down by high temperature when run the cts vts test
     SET_GOVERNOR_POWERSAVE: "false"
+    # By default, WiFi setup and internet access checks are enabled (INTERNET_ACCESS="true").
+    # To disable internet access checks, set INTERNET_ACCESS="false".
+    INTERNET_ACCESS: "true"
 
 run:
     steps:
@@ -61,7 +64,7 @@ run:
         - chown testuser:testuser .
         - if echo "${TEST_REBOOT_EXPECTED}" |grep -i "true" ; then ./monitor_fastboot.sh & fi
         - ./monitor_adb.sh &
-        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" || if [ $? -eq 100 ]; then error_fatal "The network seems not available, as the ping command failed"; else true; fi
+        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" -i "${INTERNET_ACCESS}" || if [ $? -eq 100 ]; then error_fatal "The network seems not available, as the ping command failed"; else true; fi
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
         - cp -r ./${TEST_PATH}/logs ./output/ || true
