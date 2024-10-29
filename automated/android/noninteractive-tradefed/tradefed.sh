@@ -24,6 +24,56 @@ AP_SSID=""
 # WIFI AP KEY
 AP_KEY=""
 
+check_internet_access() {
+    if [ -n "${AP_SSID}" ] && [ -n "${AP_KEY}" ]; then
+        # try to connect to wifi with the feature provided by tradefed by default
+        # when AP_SSID and AP_KEY are specified for this tradefed test action explicitly
+        TEST_PARAMS="${TEST_PARAMS} --wifi-ssid ${AP_SSID} --wifi-psk ${AP_KEY}"
+    else
+        # try to connect to wifi with the external AdbJoinWifi apk from
+        # https://github.com/steinwurf/adb-join-wifi
+        # if AP_SSID and AP_KEY are not specified for this tradefed test action
+        adb_join_wifi "${AP_SSID}" "${AP_KEY}"
+    fi
+
+    # wait for a while till the wifi connecting operation finished
+    sleep 60
+
+    SERVER="www.google.com"
+    DNS_TEST_SERVER_IP="8.8.8.8"
+
+    info_msg "device-${ANDROID_SERIAL}: Checking network connectivity by pinging ${SERVER}..."
+
+    # Try pinging www.google.com first
+    if adb shell 'ping -c 10 '"${SERVER}"'; echo exitcode: $?' | grep -q "exitcode: 0"; then
+        report_pass "network-available"
+    else
+        info_msg "Ping to ${SERVER} failed, testing DNS by pinging ${DNS_TEST_SERVER_IP}..."
+        report_fail "network-available"
+
+        # If ping to $DNS_TEST_SERVER_IP succeeds, it's likely a DNS issue
+        if adb shell 'ping -c 10 '"${DNS_TEST_SERVER_IP}"'; echo exitcode: $?' | grep -q "exitcode: 0"; then
+            report_pass "network-ping-to-dns-server-IP"
+
+            # DNS-specific debug information
+            info_msg "DNS resolution issue suspected; Since pinging ${DNS_TEST_SERVER_IP} worked; gathering DNS configuration information..."
+            adb shell getprop || true  # As this is the failed case, display values of all properties, including the DNS settings
+
+        else
+            report_fail "network-ping-to-dns-server-IP"
+
+            # General network debug information
+            info_msg "Ping to ${DNS_TEST_SERVER_IP} failed too..."
+            info_msg "Network connectivity issue detected; gathering debug information..."
+            adb shell ip address || true
+            adb shell ifconfig || true
+        fi
+
+        # Exit with error to trigger YAML file handling
+        exit 100
+    fi
+}
+
 usage() {
     echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>]" 1>&2
     exit 1
@@ -82,32 +132,7 @@ if [ -e "${TEST_PATH}/testcases/vts/testcases/kernel/linux_kselftest/kselftest_c
     sed -i "/suspend/d" "${TEST_PATH}"/testcases/vts/testcases/kernel/linux_kselftest/kselftest_config.py
 fi
 
-if [ -n "${AP_SSID}" ] && [ -n "${AP_KEY}" ]; then
-    # try to connect to wifi with the feature provided by tradefed by default
-    # when AP_SSID and AP_KEY are specified for this tradefed test action explicitly
-    TEST_PARAMS="${TEST_PARAMS} --wifi-ssid ${AP_SSID} --wifi-psk ${AP_KEY}"
-else
-    # try to connect to wifi with the external AdbJoinWifi apk from
-    # https://github.com/steinwurf/adb-join-wifi
-    # if AP_SSID and AP_KEY are not specified for this tradefed test action
-    adb_join_wifi "${AP_SSID}" "${AP_KEY}"
-fi
-
-# wait for a while till the wifi connecting operation finished
-sleep 60
-
-SERVER="www.google.com"
-info_msg "device-${ANDROID_SERIAL}: About to check with ping ${SERVER}..."
-if adb shell 'ping -c 10 '"${SERVER}"'; echo exitcode: $?' | grep -q "exitcode: 0"; then
-    report_pass "network-available"
-else
-    report_fail "network-available"
-    # print more debug information
-    adb shell ip address || true
-    adb shell ping -c 10 8.8.8.8 || true
-    # to be caught by the yaml file
-    exit 100
-fi
+check_internet_access
 
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
