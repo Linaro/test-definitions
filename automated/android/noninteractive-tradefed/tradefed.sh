@@ -136,7 +136,7 @@ if [ -e "${TEST_PATH}/testcases/vts/testcases/kernel/linux_kselftest/kselftest_c
     sed -i "/suspend/d" "${TEST_PATH}"/testcases/vts/testcases/kernel/linux_kselftest/kselftest_config.py
 fi
 
-if [ "X${INTERNET_ACCESS}" = "Xtrue" ] && [ "X${INTERNET_ACCESS}" = "XTrue" ]; then
+if [ "X${INTERNET_ACCESS}" = "Xtrue" ] || [ "X${INTERNET_ACCESS}" = "XTrue" ]; then
     check_internet_access
 fi
 
