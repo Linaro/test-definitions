@@ -9,6 +9,7 @@ usage() {
   Usage: $0 [-s] [-v <TEST_PROG_VERSION>] [-u <TEST_GIT_URL>] [-p <TEST_DIR>]
           [-c <MMTESTS_CONFIG_FILE>] [-r <MMTESTS_MAX_RETRIES>]
           [-i <MMTEST_ITERATIONS>] [-f] [-k] [-m] [-w RESULTS_DIR]
+          [-o <OVERRIDE_STRING>]
 
   -v <TEST_PROG_VERSION>
     If this parameter is set, then the ${TEST_PROGRAM} suite is cloned. In
@@ -55,11 +56,17 @@ usage() {
     Requires python3 installed.
 
   -m
-    Use monitors in MMTests run."
+    Use monitors in MMTests run.
+
+  -o <OVERRIDE_STRING>
+    This parameter is used to override the default values in MMTests config.
+    Override string must be in the following format:
+    -o 'key1=value1;key2=value2;...;keyN=valueN'
+  "
   exit 1
 }
 
-while getopts "c:p:r:su:v:i:w:fkm" opt; do
+while getopts "c:p:r:su:v:i:w:fkmo:" opt; do
   case "${opt}" in
     c)
       if [[ ! "${OPTARG}" == config* ]]; then
@@ -101,6 +108,9 @@ while getopts "c:p:r:su:v:i:w:fkm" opt; do
       ;;
     m)
       USE_MONITORS=true
+      ;;
+    o)
+      OVERRIDE_STRING="${OPTARG}"
       ;;
     *)
       usage
@@ -212,6 +222,41 @@ collect_results() {
   fi
 }
 
+backup_config() {
+  if [[ -f "$MMTESTS_CONFIG_FILE" ]]; then
+      cp "$MMTESTS_CONFIG_FILE" "${MMTESTS_CONFIG_FILE}.bak"
+      info_msg "Backup saved as $(realpath "$MMTESTS_CONFIG_FILE".bak)"
+  else
+      error_msg "Config file '$MMTESTS_CONFIG_FILE' not found. Aborting."
+      exit 1
+  fi
+}
+
+apply_override() {
+    backup_config
+    if [[ -n "$OVERRIDE_STRING" ]]; then
+        OVERRIDE_STRING="${OVERRIDE_STRING#-o }"
+        # Split by semicolon and process each pair
+        OLD_IFS="$IFS"
+        IFS=';'
+        for pair in $OVERRIDE_STRING; do
+            # Split into key and value
+            IFS='=' read -r key value <<< "$pair"
+            [ -z "$key" ] || [ -z "$value" ] && continue
+
+            sed -i "s/^[[:space:]]*export[[:space:]]\+${key}=.*/export ${key}=${value}/" "$MMTESTS_CONFIG_FILE"
+
+            if grep -q "^[[:space:]]*export[[:space:]]*${key}=${value}" "$MMTESTS_CONFIG_FILE"; then
+                info_msg "Updated ${key} with ${value}"
+            else
+                warn_msg "Failed to update ${key}"
+            fi
+        done
+        IFS="$OLD_IFS"
+        info_msg "Overrides applied to ${MMTESTS_CONFIG_FILE}"
+    fi
+}
+
 ! check_root && error_msg "Please run this script as root."
 
 if [ "${SKIP_INSTALL}" = "true" ]; then
@@ -237,6 +282,7 @@ if [[ ! -f "${TEST_DIR}/${MMTESTS_CONFIG_FILE}" ]]; then
   exit 1
 fi
 
+apply_override
 run_test
 
 if [ "${COLLECT_RESULTS}" = "true" ]; then

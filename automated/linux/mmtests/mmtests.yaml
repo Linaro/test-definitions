@@ -63,6 +63,11 @@ params:
     # Collect full archive of results
     FULL_ARCHIVE: false
 
+    # MMTESTS override
+    # This parameter is used to override the default values in MMTests config.
+    # Override string must be in the following format: 'key1=value1;key2=value2;...;keyN=valueN'
+    MMTESTS_OVERRIDE: ""
+
 run:
     steps:
         - cd ./automated/linux/mmtests/
@@ -77,6 +82,7 @@ run:
             [ -n "${MMTEST_ITERATIONS}" ] && cmd="${cmd} -i '${MMTEST_ITERATIONS}'";
             [ -n "${MMTESTS_MONITORS}" ] && cmd="${cmd} -m";
             [ -n "${FULL_ARCHIVE}" ] && cmd="${cmd} -f";
+            [ -n "${MMTESTS_OVERRIDE}" ] && cmd="${cmd} -o '${MMTESTS_OVERRIDE}'";
             eval $cmd
         - |
             results_archive=$(echo ${MMTESTS_CONFIG_FILE} | sed -e 's|^.*config-|mmtests-|g')-$(date +'%Y%m%d%H%M').tar.xz
