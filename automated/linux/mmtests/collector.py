@@ -1,5 +1,6 @@
 import argparse
 import json
+import pathlib
 import re
 import os
 import sys
@@ -7,21 +8,16 @@ from pathlib import Path
 import subprocess
 import shutil
 import hashlib
+import logging
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - R.CLCTR - %(levelname)s - %(message)s')
+log = logging.getLogger(__name__)
 
 UNKNOWN = "UNKNOWN"
 RESULTS_OK = "/tmp/check_results_ok"
 # Note 1: it would be better to add lshw, dmidecode, and other tools to the image
 # to collect more detailed information about the system.
 # Note 2: script will work only on Debian-like systems
-
-
-def info_msg(msg):
-    print(f"INFO: {msg}")
-
-
-def error_msg(msg):
-    print(f"ERROR: {msg}")
 
 
 def capture_env(cmd):
@@ -71,7 +67,7 @@ def run_command(command):
         ).decode("utf-8")
         return out.strip()
     except subprocess.CalledProcessError as e:
-        error_msg(f"{e.cmd}, exit status: {e.returncode}")
+        log.error("%s, exit status: %s", e.cmd. e.returncode)
         return ""
 
 
@@ -234,13 +230,17 @@ def read_sha256_file(file_path):
             sha256 = line.split()[0]
             return sha256
     except IOError:
-        print(f"Error: Unable to read file {file_path}")
+        log.error("Unable to read %s", file_path)
         return "UNKNOWN"
 
 
 def collect_sha256_benchmark(cfg_name):
+    """Collect the SHA256 hash of the benchmark"""
     loc = f"/mmtests/{cfg_name}.SHA256"
-    return read_sha256_file(loc)
+    if pathlib.Path(loc).exists():
+        return read_sha256_file(loc)
+    else:
+        log.warning("Unable to find file: %s", loc)
 
 
 def parse_boottime():
@@ -272,7 +272,7 @@ def parse_boottime():
                 for time_str, name in [line.split(maxsplit=1)]
             }
     except Exception as e:
-        print(f"Error parsing blame output: {e}")
+        log.error("Parsing blame output:", e)
 
     try:
         time_output = run_command("systemd-analyze time")
@@ -292,7 +292,7 @@ def parse_boottime():
                         graphical_target_parts[3][:-1]
                     )
     except Exception as e:
-        print(f"Error parsing time output: {e}")
+        log.error("Parsing time output: %s", e)
 
     return {"blame": blame_info, "time": time_info}
 
@@ -326,7 +326,7 @@ def mmtest_extract_json(benchmark, r_root, c_name, extractor):
     if results_data:
         return results_data
 
-    error_msg(f"results data for {benchmark}")
+    log.error("results data for %s", benchmark)
     return None
 
 
@@ -335,19 +335,19 @@ def check_results(results_data):
     errors = False
 
     if "_OperationsSeen" not in results_data:
-        error_msg("_OperationsSeen is not present in the results data")
+        log.error("_OperationsSeen is not present in the results data")
         errors = True
 
     if len(results_data.get("_OperationsSeen", {})) == 0:
-        error_msg("_OperationsSeen is empty")
+        log.error("_OperationsSeen is empty")
         errors = True
 
     if "_ResultData" not in results_data:
-        error_msg("_ResultData is not present in the results data")
+        log.error("_ResultData is not present in the results data")
         errors = True
 
     if len(results_data.get("_ResultData", {}).keys()) == 0:
-        error_msg("_ResultData is empty")
+        log.error("_ResultData is empty")
         errors = True
 
     return errors
@@ -357,7 +357,7 @@ def get_results_root(test_dir):
     """Get the results directory from the test directory"""
     result = Path(test_dir) / "work/log"
     if not result.is_dir():
-        error_msg(f"results dir {result} does not exist")
+        log.error("results dir %s does not exist", result)
         raise FileNotFoundError
     return result
 
@@ -440,12 +440,12 @@ def parse_args():
 
     test_dir = Path(result.d)
     if not test_dir.exists():
-        error_msg(f"TEST_DIR {result.d} does not exist")
+        log.error("TEST_DIR %s does not exist", result.d)
         sys.exit(1)
 
     c_path = test_dir / result.c
     if not c_path.exists():
-        error_msg(f"MMTESTS_CONFIG_FILE {c_path} does not exist")
+        log.error("MMTESTS_CONFIG_FILE %s does not exist", c_path)
         sys.exit(1)
 
     return result
@@ -467,7 +467,7 @@ if __name__ == "__main__":
     results_dir = results_root / config_name
 
     if not results_dir.is_dir():
-        error_msg(f"results dir '{results_dir}' does not exist")
+        log.error("results dir '%s' does not exist", results_dir)
         sys.exit(1)
 
     # Clean up the results check file after previous run
@@ -479,14 +479,14 @@ if __name__ == "__main__":
     if args.f:
         try:
             shutil.copytree(results_dir, output_dir / results_dir.stem)
-            info_msg(f"full results dir collected in {output_dir}")
+            log.info("full results dir collected in %s", output_dir)
         except FileNotFoundError:
-            error_msg("the results directory does not exist")
+            log.error("the results directory does not exist")
 
     times = collect_times(results_dir)
 
     benchmarks = get_names(results_dir)
-    info_msg(f"benchmarks detected: {', '.join(benchmarks)}")
+    log.info("benchmarks detected: %s", ', '.join(benchmarks))
 
     for bench in benchmarks:
         output_file = compose_filename(bench, config_name)
@@ -494,10 +494,10 @@ if __name__ == "__main__":
         results = mmtest_extract_json(bench, results_root, config_name, mmtest_extr)
 
         if check_results(results):
-            error_msg(f"results check failed for {bench}")
+            log.error("results check failed for %s", bench)
             sys.exit(1)
         else:
-            info_msg(f"results check passed for {bench}")
+            log.info("results check passed for %s", bench)
             with open(RESULTS_OK, "w", encoding="utf-8") as file:
                 pass
 
@@ -510,4 +510,4 @@ if __name__ == "__main__":
 
         with open(output_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=2)
-            info_msg(f"results collected to {output_path}")
+            log.info("results collected to %s", output_path)
