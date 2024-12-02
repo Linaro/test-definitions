@@ -52,11 +52,11 @@ usage() {
 
 results_parser() {
     # Parse pass test cases
-    find results/*/*.full -print0 | awk -v RS='\0' -F'/' '{print $2"-"$3" pass"}' | sed 's/.full$//' >> "${RESULT_PASS}"
+    find results/*/*.full -print0 | awk -v RS='\0' -F'/' '{print $2"-"$3" pass"}' | sed 's/.full//' >> "${RESULT_PASS}"
     # Parse fail test cases
-    find results/*/*.out.bad -print0 | awk -v RS='\0' -F'/' '{print $2"-"$3" fail"}' | sed 's/.out.bad$//' >> "${RESULT_FAIL}"
+    find results/*/*.out.bad -print0 | awk -v RS='\0' -F'/' '{print $2"-"$3" fail"}' | sed 's/.out.bad//' >> "${RESULT_FAIL}"
     # Parse skip test cases
-    find results/*/*.notrun -print0 | awk -v RS='\0' -F'/' '{print $2"-"$3" skip"}' | sed 's/.notrun$//' >> "${RESULT_SKIP}"
+    find results/*/*.notrun -print0 | awk -v RS='\0' -F'/' '{print $2"-"$3" skip"}' | sed 's/.notrun//' >> "${RESULT_SKIP}"
     # Append all the results to results.txt file
     cat "${RESULT_PASS}" "${RESULT_FAIL}" "${RESULT_SKIP}" 2>&1 | tee -a "${RESULT_FILE}"
 }
