@@ -10,7 +10,9 @@ import shutil
 import hashlib
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - R.CLCTR - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - R.CLCTR - %(levelname)s - %(message)s"
+)
 log = logging.getLogger(__name__)
 
 UNKNOWN = "UNKNOWN"
@@ -67,7 +69,7 @@ def run_command(command):
         ).decode("utf-8")
         return out.strip()
     except subprocess.CalledProcessError as e:
-        log.error("%s, exit status: %s", e.cmd. e.returncode)
+        log.error("%s, exit status: %s", e.cmd, e.returncode)
         return ""
 
 
@@ -243,6 +245,13 @@ def collect_sha256_benchmark(cfg_name):
         log.warning("Unable to find file: %s", loc)
 
 
+def if_cmd_exists(cmd):
+    if not shutil.which(cmd):
+        log.warning("%s command is not available", cmd)
+        return False
+    return True
+
+
 def parse_boottime():
     """Parse the system boot time."""
     time_patt = re.compile(r"(\d+(?:\.\d+)?)(ms|us|s)")
@@ -261,6 +270,10 @@ def parse_boottime():
 
     blame_info = {}
     time_info = {}
+
+    if not if_cmd_exists("systemd-analyze"):
+        log.warning("System boot time information is not available")
+        return {"blame": blame_info, "time": time_info}
 
     try:
         blame_output = run_command("systemd-analyze blame")
@@ -486,7 +499,7 @@ if __name__ == "__main__":
     times = collect_times(results_dir)
 
     benchmarks = get_names(results_dir)
-    log.info("benchmarks detected: %s", ', '.join(benchmarks))
+    log.info("benchmarks detected: %s", ", ".join(benchmarks))
 
     for bench in benchmarks:
         output_file = compose_filename(bench, config_name)
