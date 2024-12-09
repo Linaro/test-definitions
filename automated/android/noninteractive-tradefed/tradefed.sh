@@ -26,6 +26,8 @@ AP_KEY=""
 # default to set the wifi(when required) and check the internet when not specified or set to true
 # which means it needs to specify explicitly to false to not check the internet access
 INTERNET_ACCESS="true"
+# Disable ENABLE_XTS_DYNAMIC_DOWNLOADER by default as suggested by google.
+ENABLE_XTS_DYNAMIC_DOWNLOADER=${ENABLE_XTS_DYNAMIC_DOWNLOADER:-"false"}
 
 check_internet_access() {
     if [ -n "${AP_SSID}" ] && [ -n "${AP_KEY}" ]; then
@@ -78,11 +80,11 @@ check_internet_access() {
 }
 
 usage() {
-    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>] [ -i [true|false]]" 1>&2
+    echo "Usage: $0 [-o timeout] [-n serialno] [-c cts_url] [-t test_params] [-p test_path] [-r <aggregated|atomic>] [-f failures_printed] [-a <ap_ssid>] [-k <ap_key>] [ -i [true|false]] [-x [true|false]]" 1>&2
     exit 1
 }
 
-while getopts ':o:n:c:t:p:r:f:a:k:i:' opt; do
+while getopts ':o:n:c:t:p:r:f:a:k:i:x:' opt; do
     case "${opt}" in
         o) TIMEOUT="${OPTARG}" ;;
         n) export ANDROID_SERIAL="${OPTARG}" ;;
@@ -94,6 +96,7 @@ while getopts ':o:n:c:t:p:r:f:a:k:i:' opt; do
         a) AP_SSID="${OPTARG}" ;;
         k) AP_KEY="${OPTARG}" ;;
         i) INTERNET_ACCESS="${OPTARG}" ;; # if check the internet access
+        x) ENABLE_XTS_DYNAMIC_DOWNLOADER="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -140,6 +143,7 @@ if [ "X${INTERNET_ACCESS}" = "Xtrue" ] || [ "X${INTERNET_ACCESS}" = "XTrue" ]; t
     check_internet_access
 fi
 
+export ENABLE_XTS_DYNAMIC_DOWNLOADER
 # Run tradefed test.
 info_msg "About to run tradefed shell on device ${ANDROID_SERIAL}"
 ./tradefed-runner.py -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULT_FORMAT}" -f "${FAILURES_PRINTED}"
