@@ -25,14 +25,14 @@ params:
     TEST_PATH: "android-cts"
     # Specify result format: aggregated or atomic
     RESULTS_FORMAT: "aggregated"
+    # Specify url and token for publishing artifacts.
+    # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' or
+    # 'SQUAD_ARCHIVE_SUBMIT_TOKEN' variable in job definition with
+    # 'secrets' dictionary, and set job visibility to personal or group.
+    # Refer to https://validation.linaro.org/static/docs/v2/publishing-artifacts.html
     # The SQUAD url to be used to upload the result and log files.
     # see https://squad.readthedocs.io/en/latest/intro.html#submitting-results.
-    # SQUAD_ARCHIVE_SUBMIT_TOKEN is used for uploading authentication,
-    # and must be defined by the submitter as one profile managed token
-    SQUAD_UPLOAD_URL: ""
-    # Specify url and token for file uploading.
-    URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
-    TOKEN: ""
+    UPLOAD_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
     AP_SSID: ""
     AP_KEY: ""
     # Specify the failures number to be printed
@@ -75,8 +75,8 @@ run:
         - sudo dmesg > ./output/dmesg-host.txt || true
         - if ! tar caf tradefed-output-$(date +%Y%m%d%H%M%S).tar.xz ./output; then error_fatal "tradefed - failed to collect results and log files [$ANDROID_SERIAL]"; fi
         - ATTACHMENT=$(ls tradefed-output-*.tar.xz)
-        - if [ -n "${SQUAD_UPLOAD_URL}" ]; then ../../utils/upload-to-squad.sh -a "${ATTACHMENT}" -u "${SQUAD_UPLOAD_URL}"; fi
-        - if [ -z "${SQUAD_UPLOAD_URL}" ]; then ../../utils/upload-to-artifactorial.sh -a "${ATTACHMENT}" -u "${URL}" -t "${TOKEN}"; fi
+        - if [ -n "${SQUAD_UPLOAD_URL}" ]; then UPLOAD_URL="${SQUAD_UPLOAD_URL}"; fi
+        - ../../utils/upload-artifacts.sh -a "${ATTACHMENT}" -u "${UPLOAD_URL}"
         # Send test result to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
         - userdel testuser -f -r || true
