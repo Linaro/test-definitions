@@ -1,9 +1,9 @@
 metadata:
     format: Lava-Test Test Definition 1.0
     name: bootrr
-    description: "Run bootrr https://github.com/andersson/bootrr"
+    description: "Run bootrr https://github.com/linux-msm/bootrr"
     maintainer:
-        - milosz.wasilewski@linaro.org
+        - milosz.wasilewski@oss.qualcomm.com
         - chase.qi@linaro.org
     os:
         - debian
@@ -17,17 +17,16 @@ metadata:
         - apq8016-sbc
         - dragonboard-410c
         - dragonboard-820c
+        - qcs6490-rb3gen2
 
 params:
-    # Refer to https://github.com/andersson/bootrr/tree/master/boards for boards supported.
-    BOARD: "arrow,apq8096-db820c"
-    SKIP_INSTALL: false
+    # Refer to https://github.com/linux-msm/bootrr/tree/master/boards for boards supported.
+    BOARD: ""
+    REPOSITORY: "https://github.com/linux-msm/bootrr"
+    SKIP_INSTALL: true
 
 run:
     steps:
-        - . ./automated/lib/sh-test-lib
-        - install_deps git "${SKIP_INSTALL}"
-        - git clone https://github.com/andersson/bootrr
-        - cd bootrr
-        - export PATH=$PWD/helpers:$PATH
-        - ./boards/${BOARD}
+        - cd automated/linux/bootrr
+        # bootrr produces LAVA friendly output
+        - ./bootrr.sh -r "${REPOSITORY}" -s "S{SKIP_INSTALL}" -b "${BOARD}"
