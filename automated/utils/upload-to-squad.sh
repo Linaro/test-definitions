@@ -63,7 +63,7 @@ if command -v lava-test-reference > /dev/null 2>&1; then
     i=1
     while [ $i -le "${RETRY_COUNT}" ]; do
         # response is the squad testrun id when succeed
-        response=$(curl ${CURL_VERBOSE_FLAG} --header "Auth-Token: ${SQUAD_ARCHIVE_SUBMIT_TOKEN}" --form "attachment=@${ATTACHMENT}" "${ARTIFACTORIAL_URL}")
+        response=$(curl ${CURL_VERBOSE_FLAG} --header "Authorization: token ${SQUAD_ARCHIVE_SUBMIT_TOKEN}" --form "attachment=@${ATTACHMENT}" "${ARTIFACTORIAL_URL}")
 
         # generate the SQUAD url for download and report pass when uploading succeed
         if echo "${response}" | grep -E "^[0-9]+$"; then
