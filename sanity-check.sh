@@ -4,7 +4,8 @@ set -ex
 python3 validate.py \
     -r build-error.txt \
     -p E501 W503 E203 \
-    -s SC1091 SC2230 SC3043
+    -s SC1091 SC2230 SC3043 \
+    -l warning
 
 # pycodestyle checks skipped:
 # E501: line too long
@@ -18,3 +19,5 @@ python3 validate.py \
 # Reason: 'which' is widely used and supported. And 'command' applets isn't
 # available in busybox, refer to https://busybox.net/downloads/BusyBox.html
 # SC2230: which is non-standard. Use builtin 'command -v' instead.
+
+# "warning" is the default severity level for shellcheck
