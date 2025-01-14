@@ -4,6 +4,7 @@
 # shellcheck disable=SC2181
 # shellcheck disable=SC2155
 # shellcheck disable=SC2166
+# shellcheck disable=SC2320
 # shellcheck disable=SC3006
 # shellcheck disable=SC3010
 # shellcheck disable=SC3018
@@ -12,6 +13,7 @@
 # shellcheck disable=SC3060
 #############################################################################
 # Copyright (c) 2014 Linaro
+# Copyright (c) 2025 Qualcomm Inc
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -19,6 +21,7 @@
 #
 # Contributors:
 #     Linaro <linaro-dev@lists.linaro.org>
+#     Milosz Wasilewski <milosz.wasilewski@oss.qualcomm.com>
 #############################################################################
 
 # Individual and batch test definitions
