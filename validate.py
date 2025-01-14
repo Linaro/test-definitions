@@ -221,7 +221,7 @@ def validate_yaml(filename, args):
     return 0
 
 
-def validate_shell(filename, ignore_options):
+def validate_shell(filename, args):
     ignore_string = ""
     if args.shellcheck_ignore is not None:
         # Exclude types of warnings in the following format:
@@ -229,6 +229,7 @@ def validate_shell(filename, ignore_options):
         ignore_string = "-e %s" % ",".join(args.shellcheck_ignore)
     if len(ignore_string) < 4:  # contains only "-e "
         ignore_string = ""
+    ignore_string = "-S %s %s" % (args.shellcheck_level, ignore_string)
     cmd = "shellcheck %s" % ignore_string
     return validate_external(cmd, filename, "SHELLCHECK", args)
 
@@ -341,6 +342,14 @@ if __name__ == "__main__":
         help="Space separated list of shellcheck exclusions",
         dest="shellcheck_ignore",
     )
+    parser.add_argument(
+        "-l",
+        "--shellcheck-level",
+        default="warning",
+        help="Shellcheck level set with -S",
+        dest="shellcheck_level",
+    )
+
     parser.add_argument(
         "-g",
         "--git-latest",
