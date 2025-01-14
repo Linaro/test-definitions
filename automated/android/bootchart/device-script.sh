@@ -1,9 +1,11 @@
 #!/system/bin/sh
 # shellcheck disable=SC2181
+# shellcheck disable=SC2320
 #
 # script to start and stop bootchart test.
 #
 # Copyright (C) 2014, Linaro Limited.
+# Copyright (C) 2025, Qualcomm Inc.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
