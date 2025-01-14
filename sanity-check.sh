@@ -20,4 +20,7 @@ python3 validate.py \
 # available in busybox, refer to https://busybox.net/downloads/BusyBox.html
 # SC2230: which is non-standard. Use builtin 'command -v' instead.
 
+# SC3043: In POSIC 'local' is undefined but it's widely used. For this reason
+# it is acceptable to use 'local' in this repository
+
 # "warning" is the default severity level for shellcheck
