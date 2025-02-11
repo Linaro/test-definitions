@@ -1,5 +1,4 @@
-"""Shared Python 3 utility code.
-"""
+"""Shared Python 3 utility code."""
 
 from pathlib import Path
 import subprocess
