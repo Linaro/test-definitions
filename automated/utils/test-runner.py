@@ -16,7 +16,6 @@ import textwrap
 import time
 from uuid import uuid4
 from datetime import datetime
-from distutils.spawn import find_executable
 
 
 try:
@@ -844,7 +843,7 @@ class ResultParser(object):
             self.results["version"] = test_version.rstrip()
             os.chdir(path)
         self.lava_run = args.lava_run
-        if self.lava_run and not find_executable("lava-test-case"):
+        if self.lava_run and not shutil.which("lava-test-case"):
             self.logger.info(
                 "lava-test-case not found, '-l' or '--lava_run' option ignored'"
             )
