@@ -41,10 +41,11 @@ params:
     # Refer to https://validation.linaro.org/static/docs/v2/publishing-artifacts.html
     ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
     ARTIFACTORIAL_TOKEN: ""
+    ITERATIONS: 1
 
 run:
     steps:
         - cd ./automated/linux/signaltest
-        - ./signaltest.sh -D "${DURATION}" -p "${PRIORITY}" -t "${THREADS}" -w "${BACKGROUND_CMD}"
+        - ./signaltest.sh -D "${DURATION}" -p "${PRIORITY}" -t "${THREADS}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}"
         - ../../utils/upload-to-artifactorial.sh -a "output/signaltest.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/send-to-lava.sh ./output/result.txt
