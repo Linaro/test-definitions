@@ -10,18 +10,29 @@ LOGFILE="${OUTPUT}/pmqtest"
 RESULT_FILE="${OUTPUT}/result.txt"
 DURATION="5m"
 BACKGROUND_CMD=""
-ITERATIONS=1
+ITERATIONS=1  # Default value
 
 usage() {
     echo "Usage: $0 [-D duration] [-w background_cmd] [-i Iterations]" 1>&2
     exit 1
 }
 
-while getopts ":D:w:i" opt; do
+is_number() {
+    [ "$1" -eq "$1" ] 2>/dev/null
+}
+
+while getopts ":D:w:i:" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
-	w) BACKGROUND_CMD="${OPTARG}" ;;
-        i) ITERATIONS=${OPTARG} ;;
+        w) BACKGROUND_CMD="${OPTARG}" ;;
+        i) 
+            if is_number "${OPTARG}"; then
+                ITERATIONS="${OPTARG}"
+            else
+                echo "Error: Iterations (-i) must be a valid number." 1>&2
+                exit 1
+            fi
+            ;;
         *) usage ;;
     esac
 done
@@ -34,17 +45,15 @@ create_out_dir "${OUTPUT}"
 # Run pmqtest.
 if ! binary=$(command -v pmqtest); then
     detect_abi
-    # shellcheck disable=SC2154
     binary="./bin/${abi}/pmqtest"
 fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 counter=0
-#iter=$(echo "${ITERATIONS}" | bc)
 while [ "${counter}" -lt "${ITERATIONS}" ]; do
     "${binary}" -q -S -p 98 -D "${DURATION}" --json="${LOGFILE}-${counter}.json"
-    counter=$((counter+1))
+    counter=$((counter + 1))
 done
 
 background_process_stop bgcmd
@@ -55,5 +64,6 @@ while [ "${counter}" -lt "${ITERATIONS}" ]; do
     cat "${LOGFILE}-${counter}.json"
     ../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}-${counter}.json" \
         | tee -a "${RESULT_FILE}"
-    counter=$((counter+1))
+    counter=$((counter + 1))
 done
+
