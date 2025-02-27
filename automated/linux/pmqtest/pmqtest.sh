@@ -41,7 +41,7 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 counter=0
-while [ "$counter" -lt "$ITERATIONS" ]; do
+while [ "${counter}" -lt "${ITERATIONS}" ]; do
     "${binary}" -q -S -p 98 -D "${DURATION}" --json="${LOGFILE}-${counter}.json"
     counter=$((counter+1))
 done
@@ -50,7 +50,7 @@ background_process_stop bgcmd
 
 # Parse test log.
 counter=0
-while [ "$counter" -lt "$ITERATIONS" ]; do
+while [ "${counter}" -lt "${ITERATIONS}" ]; do
     cat "${LOGFILE}-${counter}.json"
     ../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}-${counter}.json" \
         | tee -a "${RESULT_FILE}"
