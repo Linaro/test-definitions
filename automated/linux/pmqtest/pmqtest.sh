@@ -41,7 +41,8 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 counter=0
-while [ "${counter}" -lt "${ITERATIONS}" ]; do
+iter=$(echo "${ITERATIONS}" | bc)
+while [ "${counter}" -lt "${iter}" ]; do
     "${binary}" -q -S -p 98 -D "${DURATION}" --json="${LOGFILE}-${counter}.json"
     counter=$((counter+1))
 done
