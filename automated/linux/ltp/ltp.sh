@@ -193,6 +193,7 @@ run_ltp() {
                                 --json-report /tmp/kirk-report.json \
                                 --verbose" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
         parse_ltp_json_results "/tmp/kirk-report.json"
+        rm "/tmp/kirk-report.json"
     else
         pipe0_status "./runltp -p -q -f shardfile \
                                  -l ${OUTPUT}/LTP_${LOG_FILE}.log \
