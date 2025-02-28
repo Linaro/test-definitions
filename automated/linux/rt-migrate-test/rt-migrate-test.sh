@@ -5,22 +5,24 @@
 . ../../lib/sh-test-lib
 
 OUTPUT="$(pwd)/output"
-LOGFILE="${OUTPUT}/rt-migrate-test.json"
+LOGFILE="${OUTPUT}/rt-migrate-test"
 RESULT_FILE="${OUTPUT}/result.txt"
 PRIORITY="51"
 DURATION="1m"
 BACKGROUND_CMD=""
+ITERATIONS=1
 
 usage() {
-    echo "Usage: $0 [-p priority] [-D duration] [-w background_cmd]" 1>&2
+    echo "Usage: $0 [-p priority] [-D duration] [-w background_cmd] [-i iterations]" 1>&2
     exit 1
 }
 
-while getopts ":l:p:D:w:" opt; do
+while getopts ":l:p:D:w:i:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
         w) BACKGROUND_CMD="${OPTARG}" ;;
+        i) ITERATIONS="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -37,10 +39,19 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-"${binary}" -q -p "${PRIORITY}" -D "${DURATION}" -c --json="${LOGFILE}"
+for i in $(seq ${ITERATIONS}); do
+    "${binary}" -q -p "${PRIORITY}" -D "${DURATION}" -c --json="${LOGFILE}-${i}.json"
+done
+
 
 background_process_stop bgcmd
 
 # Parse test log.
-../../lib/parse_rt_tests_results.py rt-migrate-test "${LOGFILE}" \
-    | tee -a "${RESULT_FILE}"
+for i in $(seq ${ITERATIONS}); do
+    ../../lib/parse_rt_tests_results.py rt-migrate-test "${LOGFILE}-${i}.json" \
+        | tee "${RESULT_FILE}"
+
+    if [ ${ITERATIONS} -ne 1 ]; then
+        sed -i "s|^|iteration-${i}-|g" "${RESULT_FILE}"
+    fi
+done
