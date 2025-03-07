@@ -41,7 +41,7 @@ params:
 
     # New kirk runner (https://github.com/linux-test-project/kirk.git)
     # Needs to be installed onto the rootfs.
-    # Set RUNNER to full path to kik or to kirk if its in the PATH.
+    # Set RUNNER to full path to kirk or to kirk if its in the PATH.
     RUNNER: ""
 
     # If the following parameter is set, then the LTP suite is
