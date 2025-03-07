@@ -189,7 +189,7 @@ run_ltp() {
         fi
         pipe0_status "${RUNNER} --framework ltp --run-suite shardfile \
                                 -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
-                                --skip-file ${SKIPFILE_PATH} \
+                                ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
                                 --json-report /tmp/kirk-report.json \
                                 --verbose" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
         parse_ltp_json_results "/tmp/kirk-report.json"
