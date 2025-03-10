@@ -1,6 +1,22 @@
 #!/bin/sh
 
 RESULT_FILE="$1"
+RESULT_DIR="$2"
+if [ -z "${RESULT_DIR}" ]; then
+    RESULT_DIR="$(dirname "${RESULT_FILE}")"
+fi
+
+show_output() {
+    test_name="$1"
+    test_output="${RESULT_DIR}/${test_name}.log"
+    if [ -r "$test_output" ]; then
+        echo "<LAVA_SIGNAL_STARTTC $test_name>"
+        cat "$test_output"
+        echo "<LAVA_SIGNAL_ENDTC $test_name>"
+    else
+        echo "WARNING: no log file found for ${test_name} at ${test_output}" >&2
+    fi
+}
 
 command -v lava-test-case > /dev/null 2>&1
 lava_test_case="$?"
@@ -13,6 +29,7 @@ if [ -f "${RESULT_FILE}" ]; then
             test="${line%% *}"
             result="${line##* }"
 
+            show_output "${test}"
             if [ "${lava_test_case}" -eq 0 ]; then
                 lava-test-case "${test}" --result "${result}"
             else
@@ -24,6 +41,7 @@ if [ -f "${RESULT_FILE}" ]; then
             measurement="$(echo "${line}" | awk '{print $3}')"
             units="$(echo "${line}" | awk '{print $4}')"
 
+            show_output "${test}"
             if [ "${lava_test_case}" -eq 0 ]; then
                 if [ -n "${units}" ]; then
                     lava-test-case "${test}" --result "${result}" --measurement "${measurement}" --units "${units}"
