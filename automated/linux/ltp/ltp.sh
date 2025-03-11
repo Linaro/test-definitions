@@ -163,6 +163,9 @@ parse_ltp_output() {
 parse_ltp_json_results() {
     jq -r '.results| .[]| "\(.test_fqn) \(.test.result)"'  "$1" \
         | sed 's/brok/fail/; s/conf/skip/'  >> "${RESULT_FILE}"
+    for test_fqn in $(jq -r '.results| .[]| .test_fqn' "$1"); do
+      jq -r '.results | .[] | select(.test_fqn == "'"${test_fqn}"'") | .test.log' "$1" > ${OUTPUT}/${test_fqn}.log
+    done
 }
 
 # Run LTP test suite
