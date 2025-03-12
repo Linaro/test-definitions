@@ -1,0 +1,34 @@
+metadata:
+  format: Lava-Test Test Definition 1.0
+  name: tcpreplay
+  description: Replay a PCAP file using tcpreplay and verify via TUN interface
+  maintainer:
+    - anders.roxell@linaro.org
+  os:
+    - debian
+    - ubuntu
+    - centos
+    - fedora
+    - openembedded
+  scope:
+    - functional
+  devices:
+    - juno
+    - x86
+
+params:
+  # Interface to replay traffic on
+  INTERFACE: "tun0"
+  # Path to PCAP directory
+  PCAP: "./pcap/"
+  # IP address to assign to the TUN interface
+  IPADDR: "10.0.0.1"
+  # Netmask
+  MASK: "24"
+
+run:
+  steps:
+    - cd automated/linux/tcpreplay/
+    - python3 pcap/generate_pcap.py
+    - python3 tcpreplay.py --interface "${INTERFACE}" --ipaddr "${IPADDR}" --mask "${MASK}" --pcap-dir "${PCAP}" --output ./output/result.txt
+    - ../../utils/send-to-lava.sh ./output/result.txt
