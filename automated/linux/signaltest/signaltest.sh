@@ -22,8 +22,8 @@ while getopts ":p:t:D:w:" opt; do
     case "${opt}" in
         p) PRIORITY="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
-	D) DURATION="${OPTARG}" ;;
-	w) BACKGROUND_CMD="${OPTARG}" ;;
+        D) DURATION="${OPTARG}" ;;
+        w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
