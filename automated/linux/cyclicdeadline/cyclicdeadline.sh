@@ -27,7 +27,7 @@ while getopts ":i:s:t:D:w:" opt; do
         s) STEP="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
-	w) BACKGROUND_CMD="${OPTARG}" ;;
+        w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
