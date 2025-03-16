@@ -19,7 +19,7 @@ usage() {
 while getopts ":D:w:" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
-	w) BACKGROUND_CMD="${OPTARG}" ;;
+        w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
