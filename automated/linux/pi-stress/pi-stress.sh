@@ -26,7 +26,7 @@ while getopts ":D:m:r:w" opt; do
         D) DURATION="${OPTARG}" ;;
         m) MLOCKALL="${OPTARG}" ;;
         r) RR="${OPTARG}" ;;
-	w) BACKGROUND_CMD="${OPTARG}" ;;
+        w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
