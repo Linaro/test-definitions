@@ -18,9 +18,9 @@ usage() {
 
 while getopts ":l:p:D:w:" opt; do
     case "${opt}" in
-	p) PRIORITY="${OPTARG}" ;;
-	D) DURATION="${OPTARG}" ;;
-	w) BACKGROUND_CMD="${OPTARG}" ;;
+        p) PRIORITY="${OPTARG}" ;;
+        D) DURATION="${OPTARG}" ;;
+        w) BACKGROUND_CMD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
