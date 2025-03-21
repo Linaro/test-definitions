@@ -69,9 +69,9 @@ def parse_json(testname, filename):
         # rlta timertat also knows about irqs
         parse_irqs(rawdata)
 
-    elif "inversions" in rawdata:
+    elif "inversion" in rawdata:
         # pi_stress
-        print("inversion {}\n".format(rawdata("inversions")))
+        print("inversion pass {} count\n".format(rawdata["inversion"]))
 
     if int(rawdata["return_code"]) == 0:
         print("{} pass".format(testname))
