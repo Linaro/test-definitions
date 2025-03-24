@@ -5,10 +5,15 @@
 . ../../lib/sh-test-lib
 . ../../lib/android-test-lib
 
-java_path="/usr/lib/jvm/java-11-openjdk-amd64/bin/java"
+## To enable running x86_64 binary on aarch64 host or inside container of it
+java_path_arch_str="amd64"
+if [ "X$(uname -m)" = "Xaarch64" ]; then
+    java_path_arch_str="arm64"
+fi
+java_path="/usr/lib/jvm/java-11-openjdk-${java_path_arch_str}/bin/java"
 if [ -n "${ANDROID_VERSION}" ] && echo "${ANDROID_VERSION}" | grep -E -q "aosp-android14|aosp-main"; then
     # use openjdk-17 for Android14+ versions
-    java_path="/usr/lib/jvm/java-17-openjdk-amd64/bin/java"
+    java_path="/usr/lib/jvm/java-17-openjdk-${java_path_arch_str}/bin/java"
 fi
 
 dist_name
