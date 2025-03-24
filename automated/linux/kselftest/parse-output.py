@@ -40,18 +40,24 @@ def parse_nested_tap(string):
 
     output = ""
     ps = parser.Parser()
+    test_name = None
     for l in ps.parse_text(string):
         if l.category == "test":
+            test_name = make_name(l.description, l.directive.text, l.ok, l.skip)
             results.append(
                 {
                     "name": make_name(l.description, l.directive.text, l.ok, l.skip),
                     "result": make_result(l.ok, l.skip),
                     "children": parse_nested_tap(output),
+                    "logs": f"{l.directive.text}",
                 }
             )
             output = ""
         elif l.category == "diagnostic":
             output += f"{uncomment(l.text)}\n"
+            for r in results:
+                if r["name"] == test_name and not None:
+                    r["logs"] += f"{uncomment(l.text)}\n"
 
     return results
 
@@ -61,7 +67,8 @@ def flatten_results(prefix, results):
     for r in results:
         test = f"{prefix}{r['name']}"
         children = flatten_results(f"{test}_", r["children"])
-        ret += children + [{"name": test, "result": r["result"]}]
+        output = r["logs"]
+        ret += children + [{"name": test, "result": r["result"], "logs": output}]
     return ret
 
 
@@ -74,9 +81,22 @@ def make_names_unique(results):
             r["name"] += f"_dup{namecounts[name]}"
 
 
+def make_log_files(results):
+    for r in results:
+        name = r["name"]
+        if r["result"] == "fail":
+            try:
+                log_file = open(f"output/thisshouldntwork/{name}.log", "w")
+                log_file.writelines(r["logs"])
+                log_file.close()
+            except OSError as e:
+                print(f"Error writing to file output/{name}.log: {e}")
+
+
 if __name__ == "__main__":
     results = parse_nested_tap(sys.stdin.read())
     results = flatten_results("", results)
     make_names_unique(results)
+    make_log_files(results)
     for r in results:
         print(f"{r['name']} {r['result']}")
