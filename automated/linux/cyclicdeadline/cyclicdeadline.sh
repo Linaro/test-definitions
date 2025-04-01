@@ -9,6 +9,7 @@
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/cyclicdeadline"
 RESULT_FILE="${OUTPUT}/result.txt"
+TMP_RESULT_FILE="${OUTPUT}/tmp_result.txt"
 
 INTERVAL="1000"
 STEP="500"
@@ -60,9 +61,10 @@ background_process_stop bgcmd
 # Parse test log.
 for i in $(seq ${ITERATIONS}); do
     ../../lib/parse_rt_tests_results.py cyclicdeadline "${LOGFILE}-${i}.json" \
-        | tee "${RESULT_FILE}"
+        | tee "${TMP_RESULT_FILE}"
 
     if [ ${ITERATIONS} -ne 1 ]; then
-        sed -i "s|^|iteration-${i}-|g" "${RESULT_FILE}"
+        sed -i "s|^|iteration-${i}-|g" "${TMP_RESULT_FILE}"
     fi
+    cat "${TMP_RESULT_FILE}" | tee -a "${RESULT_FILE}"
 done
