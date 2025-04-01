@@ -7,6 +7,8 @@
 OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/rt-migrate-test"
 RESULT_FILE="${OUTPUT}/result.txt"
+TMP_RESULT_FILE="${OUTPUT}/tmp_result.txt"
+
 PRIORITY="51"
 DURATION="1m"
 BACKGROUND_CMD=""
@@ -49,9 +51,10 @@ background_process_stop bgcmd
 # Parse test log.
 for i in $(seq ${ITERATIONS}); do
     ../../lib/parse_rt_tests_results.py rt-migrate-test "${LOGFILE}-${i}.json" \
-        | tee "${RESULT_FILE}"
+        | tee "${TMP_RESULT_FILE}"
 
     if [ ${ITERATIONS} -ne 1 ]; then
-        sed -i "s|^|iteration-${i}-|g" "${RESULT_FILE}"
+        sed -i "s|^|iteration-${i}-|g" "${TMP_RESULT_FILE}"
     fi
+    cat "${TMP_RESULT_FILE}" | tee -a "${RESULT_FILE}"
 done
