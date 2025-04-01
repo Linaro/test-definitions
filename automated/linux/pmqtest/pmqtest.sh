@@ -8,6 +8,8 @@ TEST_DIR=$(dirname "$(realpath "$0")")
 OUTPUT="${TEST_DIR}/output"
 LOGFILE="${OUTPUT}/pmqtest"
 RESULT_FILE="${OUTPUT}/result.txt"
+TMP_RESULT_FILE="${OUTPUT}/tmp_result.txt"
+
 DURATION="5m"
 BACKGROUND_CMD=""
 ITERATIONS=1
@@ -49,9 +51,10 @@ background_process_stop bgcmd
 # Parse test log.
 for i in $(seq ${ITERATIONS}); do
     ../../lib/parse_rt_tests_results.py pmqtest "${LOGFILE}-${i}.json" \
-        | tee "${RESULT_FILE}"
+        | tee "${TMP_RESULT_FILE}"
 
     if [ ${ITERATIONS} -ne 1 ]; then
-        sed -i "s|^|iteration-${i}-|g" "${RESULT_FILE}"
+        sed -i "s|^|iteration-${i}-|g" "${TMP_RESULT_FILE}"
     fi
+    cat "${TMP_RESULT_FILE}" | tee -a "${RESULT_FILE}"
 done
