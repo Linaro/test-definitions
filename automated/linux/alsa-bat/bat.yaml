@@ -1,0 +1,47 @@
+metadata:
+    name: alsabat
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run the ALSA Basic Audio Test"
+    maintainer:
+        - broonie@kernel.org
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - centos
+        - oe
+    scope:
+        - functional
+    devices:
+        - all
+
+params:
+    # Number of audio channel to use
+    TST_CHANNELS: ""
+
+    # Playback device
+    TST_PLAYBACK: ""
+
+    # Capture device
+    TST_CAPTURE: ""
+
+    # Sample format
+    TST_FORMAT: ""
+
+    # Sample rate
+    TST_RATE: ""
+
+    # Duration of generated signal
+    TST_LENGTH: ""
+
+    # Sigma k for analysis
+    TST_SIGMA_K: ""
+ 
+    # Target frequency
+    TST_FREQ: ""
+
+run:
+    steps:
+        - cd ./automated/linux/alsa-bat
+        - ./bat.sh
+        - ../../utils/send-to-lava.sh ./output/result.txt
