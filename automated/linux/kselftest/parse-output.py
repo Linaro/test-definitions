@@ -86,7 +86,7 @@ def make_log_files(results):
         name = r["name"]
         if r["result"] == "fail":
             try:
-                log_file = open(f"output/thisshouldntwork/{name}.log", "w")
+                log_file = open(f"output/{name}.log", "w")
                 log_file.writelines(r["logs"])
                 log_file.close()
             except OSError as e:
