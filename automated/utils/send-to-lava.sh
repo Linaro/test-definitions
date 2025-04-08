@@ -13,8 +13,6 @@ show_output() {
         echo "<LAVA_SIGNAL_STARTTC $test_name>"
         cat "$test_output"
         echo "<LAVA_SIGNAL_ENDTC $test_name>"
-    else
-        echo "WARNING: no log file found for ${test_name} at ${test_output}" >&2
     fi
 }
 
