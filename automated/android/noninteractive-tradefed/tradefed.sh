@@ -123,7 +123,18 @@ file_name=$(basename "${TEST_URL}")
 if echo "${TEST_URL}" | grep "^http://lkft-cache.lkftlab/" ; then
     NO_PROXY=.lkftlab wget -S --progress=dot:giga "${TEST_URL}" -O "${file_name}"
 elif echo "${TEST_URL}" | grep "^http" ; then
-    wget -S --progress=dot:giga "${TEST_URL}" -O "${file_name}"
+    # using kisscache to download the file, based on the following change:
+    #    https://gitlab.com/lava/lava/-/merge_requests/2734
+    # shellcheck disable=SC2153
+    if [ -n "${HTTP_CACHE}" ]; then
+        # and it's in the format like this:
+        #     https://cache.lavasoftware.org/api/v1/fetch/?url=%s
+        # so need to remove "%s" first here
+        http_cache=$(echo "${HTTP_CACHE}"|sed 's|%s||')
+        wget -S --progress=dot:giga "${http_cache}${TEST_URL}" -O "${file_name}"
+    else
+        wget -S --progress=dot:giga "${TEST_URL}" -O "${file_name}"
+    fi
 else
     cp "${TEST_URL}" "./${file_name}"
 fi
