@@ -31,6 +31,7 @@ SHARD_NUMBER=1
 SHARD_INDEX=1
 
 RUNNER=""
+KIRK_WORKERS=1
 
 LTP_TMPDIR=/ltp-tmp
 
@@ -58,7 +59,7 @@ usage() {
     exit 0
 }
 
-while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:" arg; do
+while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -135,6 +136,9 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:" arg; do
      n)
         SHARD_NUMBER="$OPTARG"
         ;;
+     w)
+        KIRK_WORKERS="$OPTARG"
+        ;;
      *)
         usage
         error_msg "No flag ${OPTARG}"
@@ -198,6 +202,7 @@ run_ltp() {
         pipe0_status "${RUNNER} --framework ltp --run-suite shardfile \
                                 -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
                                 ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
+                                ${KIRK_WORKERS:+--workers} ${KIRK_WORKERS} \
                                 --json-report /tmp/kirk-report.json" \
                                 "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
         parse_ltp_json_results "/tmp/kirk-report.json"
