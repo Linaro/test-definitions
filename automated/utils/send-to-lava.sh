@@ -6,13 +6,22 @@ if [ -z "${RESULT_DIR}" ]; then
     RESULT_DIR="$(dirname "${RESULT_FILE}")"
 fi
 
+signal() {
+    if [ -z ${KMSG} ]
+    then
+        echo "${1}"
+    else
+        echo "<0>${1}" > /dev/kmsg
+    fi
+}
+
 show_output() {
     test_name="$1"
     test_output="${RESULT_DIR}/${test_name}.log"
     if [ -r "$test_output" ]; then
-        echo "<LAVA_SIGNAL_STARTTC $test_name>"
+        signal "<LAVA_SIGNAL_STARTTC $test_name>"
         cat "$test_output"
-        echo "<LAVA_SIGNAL_ENDTC $test_name>"
+        signal "<LAVA_SIGNAL_ENDTC $test_name>"
     fi
 }
 
@@ -56,9 +65,9 @@ if [ -f "${RESULT_FILE}" ]; then
                 lava-test-set "${test_set_status}" "${test_set_name}"
             else
                 if [ "${test_set_status}" = "start" ]; then
-                    echo "<LAVA_SIGNAL_TESTSET START ${test_set_name}>"
+                    signal "<LAVA_SIGNAL_TESTSET START ${test_set_name}>"
                 else
-                    echo "<LAVA_SIGNAL_TESTSET STOP>"
+                    signal "<LAVA_SIGNAL_TESTSET STOP>"
                 fi
             fi
         fi
