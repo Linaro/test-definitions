@@ -91,6 +91,23 @@ check_module_unloaded() {
 	fi
 }
 
+kmemleak_scan() {
+	if [ -e /sys/kernel/debug/kmemleak ]; then
+		echo "Triggering kmemleak scan..."
+		echo scan > /sys/kernel/debug/kmemleak
+		sleep 5
+		if grep -q . /sys/kernel/debug/kmemleak; then
+			echo "Potential memory leaks detected:"
+			cat /sys/kernel/debug/kmemleak
+			report_fail "kmemleak_detected"
+		else
+			report_pass "kmemleak_no_leaks"
+		fi
+	else
+		echo "kmemleak not available, skipping scan."
+	fi
+}
+
 run () {
 	for module in ${MODULES_LIST}; do
 		# don't insert/remove modules that is already inserted.
@@ -119,3 +136,4 @@ info_msg "Output directory: ${OUTPUT}"
 info_msg "About to run  load/unload kernel modules ..."
 get_modules_list
 run
+kmemleak_scan
