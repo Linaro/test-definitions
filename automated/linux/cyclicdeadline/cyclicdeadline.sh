@@ -17,13 +17,14 @@ THREADS="1"
 DURATION="1m"
 BACKGROUND_CMD=""
 ITERATIONS=1
+PTHRESHOLD="10"
 
 usage() {
-    echo "Usage: $0 [-i interval] [-s step] [-t threads] [-D duration ] [-w background_cmd] [-I iterations]" 1>&2
+    echo "Usage: $0 [-i interval] [-s step] [-t threads] [-D duration ] [-w background_cmd] [-I iterations] [-p procent threshold]" 1>&2
     exit 1
 }
 
-while getopts ":i:s:t:D:w:I:" opt; do
+while getopts ":i:s:t:D:w:I:p:" opt; do
     case "${opt}" in
         i) INTERVAL="${OPTARG}" ;;
         s) STEP="${OPTARG}" ;;
@@ -31,6 +32,7 @@ while getopts ":i:s:t:D:w:I:" opt; do
         D) DURATION="${OPTARG}" ;;
         w) BACKGROUND_CMD="${OPTARG}" ;;
         I) ITERATIONS="${OPTARG}" ;;
+        p) PTHRESHOLD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -84,10 +86,11 @@ if [ "${ITERATIONS}" -gt 2 ]; then
     # Find the minimum latency
     min_latency=$(sort -n "${max_latencies_file}" | head -n1)
 
-    threshold=$(echo "$min_latency * 1.10" | bc -l)
+    echo "PTHRESHOLD: ${PTHRESHOLD}"
+    threshold=$(echo "$min_latency * (1.${PTHRESHOLD})" | bc -l)
 
     echo "Minimum max latency: $min_latency"
-    echo "Threshold (min * 1.10): $threshold"
+    echo "Threshold: $threshold in procent 1.$PTHRESHOLD"
 
     # Count how many latencies exceed threshold
     fail_count=0
@@ -102,7 +105,7 @@ if [ "${ITERATIONS}" -gt 2 ]; then
 
     echo "Max allowed failures: $fail_limit"
     echo "Actual failures: $fail_count"
-    echo "Number of max latencies above 110% of min: $fail_count"
+    echo "Number of max latencies above 1.${PTHRESHOLD}% of min: $fail_count"
 
     if [ "$fail_count" -ge "$fail_limit" ]; then
         report_fail "rt-tests-cyclicdeadline"
