@@ -76,6 +76,11 @@ report() {
 	fi
 }
 
+scan_dmesg_for_errors() {
+	echo "=== Scanning dmesg for errors ==="
+	dmesg -l 0,1,2,3,4,5 | grep -Ei "BUG:|WARNING:|Oops:|Call Trace:" && report_fail "dmesg_error_scan" || report_pass "dmesg_error_scan"
+}
+
 run () {
 	for module in ${MODULES_LIST}; do
 		# don't insert/remove modules that is already inserted.
@@ -86,8 +91,10 @@ run () {
 				echo
 				echo "modinfo ${module}"
 				modinfo "${module}"
+				scan_dmesg_for_errors
+
 				report "--remove" "${module}" "remove" "${num}"
-				dmesg -l 0,1,2,3,4,5
+				scan_dmesg_for_errors
 			done
 		fi
 	done
