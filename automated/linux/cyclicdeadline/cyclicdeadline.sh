@@ -68,3 +68,45 @@ for i in $(seq ${ITERATIONS}); do
     fi
     cat "${TMP_RESULT_FILE}" | tee -a "${RESULT_FILE}"
 done
+
+if [ "${ITERATIONS}" -gt 2 ]; then
+    max_latencies_file="${OUTPUT}/max_latencies.txt"
+
+    # Extract all max-latency values into a file
+    grep "max-latency" "${RESULT_FILE}" | grep "^iteration-" | awk '{ print $(NF-1) }' |tee "${max_latencies_file}"
+
+    if [ ! -s "${max_latencies_file}" ]; then
+        echo "No max-latency values found!"
+        report_fail "rt-tests-cyclicdeadline"
+        exit 1
+    fi
+
+    # Find the minimum latency
+    min_latency=$(sort -n "${max_latencies_file}" | head -n1)
+
+    threshold=$(echo "$min_latency * 1.10" | bc -l)
+
+    echo "Minimum max latency: $min_latency"
+    echo "Threshold (min * 1.10): $threshold"
+
+    # Count how many latencies exceed threshold
+    fail_count=0
+    while read -r val; do
+        is_greater=$(echo "$val > $threshold" | bc -l)
+        if [ "$is_greater" -eq 1 ]; then
+            fail_count=$((fail_count + 1))
+        fi
+    done < "${max_latencies_file}"
+
+    fail_limit=$((ITERATIONS / 2))
+
+    echo "Max allowed failures: $fail_limit"
+    echo "Actual failures: $fail_count"
+    echo "Number of max latencies above 110% of min: $fail_count"
+
+    if [ "$fail_count" -ge "$fail_limit" ]; then
+        report_fail "rt-tests-cyclicdeadline"
+    else
+        report_pass "rt-tests-cyclicdeadline"
+    fi
+fi
