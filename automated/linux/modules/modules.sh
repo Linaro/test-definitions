@@ -81,6 +81,16 @@ scan_dmesg_for_errors() {
 	dmesg -l 0,1,2,3,4,5 | grep -Ei "BUG:|WARNING:|Oops:|Call Trace:" && report_fail "dmesg_error_scan" || report_pass "dmesg_error_scan"
 }
 
+check_module_unloaded() {
+	local _module="$1"
+	if lsmod | grep "^${_module} " > /dev/null; then
+		echo "Module ${_module} still loaded after removal!"
+		report_fail "module_stuck_${_module}"
+	else
+		report_pass "module_unloaded_${_module}"
+	fi
+}
+
 run () {
 	for module in ${MODULES_LIST}; do
 		# don't insert/remove modules that is already inserted.
@@ -95,6 +105,8 @@ run () {
 
 				report "--remove" "${module}" "remove" "${num}"
 				scan_dmesg_for_errors
+
+				check_module_unloaded "${module}"
 			done
 		fi
 	done
