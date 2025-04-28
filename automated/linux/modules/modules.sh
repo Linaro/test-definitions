@@ -40,10 +40,21 @@ done
 
 get_modules_list() {
 	if [ -z "${MODULES_LIST}" ]; then
-		subdir=$(echo "${MODULES_SUBDIRS}" | tr ' ' '|')
-		skiplist=$(echo "${SKIPLIST}" | tr ' ' '|')
-		grep -E "kernel/(${subdir})" /lib/modules/"$(uname -r)"/modules.order | tee /tmp/find_modules.txt
-		grep -E -v "(${skiplist})" /tmp/find_modules.txt | tee /tmp/modules_to_run.txt
+		if [ -n "${MODULES_SUBDIRS}" ]; then
+			subdir=$(echo "${MODULES_SUBDIRS}" | tr ' ' '|')
+			grep -E "kernel/(${subdir})" /lib/modules/"$(uname -r)"/modules.order > /tmp/find_modules.txt
+		else
+			# No subdir given, default to all modules
+			cat /lib/modules/"$(uname -r)"/modules.order > /tmp/find_modules.txt
+		fi
+
+		if [ -n "${SKIPLIST}" ]; then
+			skiplist=$(echo "${SKIPLIST}" | tr ' ' '|')
+			grep -E -v "(${skiplist})" /tmp/find_modules.txt > /tmp/modules_to_run.txt
+		else
+			cp /tmp/find_modules.txt /tmp/modules_to_run.txt
+		fi
+
 		split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" /tmp/modules_to_run.txt > /tmp/shardfile
 		echo "============== Tests to run ==============="
 		cat /tmp/shardfile
