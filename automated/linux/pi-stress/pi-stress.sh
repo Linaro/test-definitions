@@ -17,19 +17,21 @@ MLOCKALL="false"
 RR="false"
 BACKGROUND_CMD=""
 ITERATIONS=1
+PTHRESHOLD="10"
 
 usage() {
-    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>] [-w background_cmd] [-i iterations]" 1>&2
+    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>] [-w background_cmd] [-i iterations] [-p procent threshold]" 1>&2
     exit 1
 }
 
-while getopts ":D:m:r:w:i:" opt; do
+while getopts ":D:m:r:w:i:p:" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
         m) MLOCKALL="${OPTARG}" ;;
         r) RR="${OPTARG}" ;;
         w) BACKGROUND_CMD="${OPTARG}" ;;
         i) ITERATIONS="${OPTARG}" ;;
+        p) PTHRESHOLD="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -92,10 +94,11 @@ if [ "${ITERATIONS}" -gt 2 ]; then
     # Find the minimum inversion
     min_inversion=$(sort -n "${max_inversions_file}" | head -n1)
 
-    threshold=$(echo "$min_inversion * 1.10" | bc -l)
+    echo "PTHRESHOLD: ${PTHRESHOLD}"
+    threshold=$(echo "$min_inversion * (1.${PTHRESHOLD})" | bc -l)
 
     echo "Minimum max inversion: $min_inversion"
-    echo "Threshold (min * 1.10): $threshold"
+    echo "Threshold: $threshold in procent 1.$PTHRESHOLD"
 
     # Count how many inversions exceed threshold
     fail_count=0
@@ -110,7 +113,7 @@ if [ "${ITERATIONS}" -gt 2 ]; then
 
     echo "Max allowed failures: $fail_limit"
     echo "Actual failures: $fail_count"
-    echo "Number of max inversions above 110% of min: $fail_count"
+    echo "Number of max inversions above 1.${PTHRESHOLD}% of min: $fail_count"
 
     if [ "$fail_count" -ge "$fail_limit" ]; then
         report_fail "rt-tests-pi-stress"
