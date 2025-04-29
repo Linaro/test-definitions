@@ -21,7 +21,7 @@ jobs:
 
       - name: Install current plugin
         run: |
-         python mkdocs_plugin/setup.py install --force
+         pip install mkdocs_plugin/
          pip freeze
 
       - name: Build docs

@@ -1,0 +1,30 @@
+[build-system]
+requires = [
+	"setuptools",
+	"mkdocs>=1.1",
+	"tags-macros-plugin@git+https://github.com/mwasilew/mkdocs-plugin-tags.git"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mkdocs-test-definitions-plugin"
+version = "1.5"
+keywords = [
+	"mkdocs",
+	"python",
+	"markdown",
+	"wiki"
+]
+requires-python = ">=3.5"
+license = "GPL-2.0-or-later"
+
+authors = [
+	{name = "Milosz Wasilewski", email = "milosz.wasilewski@oss.qualcomm.com"}
+]
+
+[project.urls]
+Repository = "https://github.com/linaro/test-definitions"
+GitHub = "https://github.com/linaro/test-definitions"
+
+[project.entry-points."mkdocs.plugins"]
+linaro-test-definitions = "testdefinitionsmkdocs:LinaroTestDefinitionsMkDocsPlugin"
