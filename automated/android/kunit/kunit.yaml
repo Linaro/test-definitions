@@ -1,0 +1,34 @@
+metadata:
+    name: kunit-tests
+    format: "Lava-Test Test Definition 1.0"
+    description: |
+        Run the KUnit test on Android based on the tradefed framework
+        provided by google.
+    maintainer:
+        - yongqin.liu@linaro.org
+    os:
+        - android
+    devices:
+        - db845c
+        - rb5
+        - sm8550
+    scope:
+        - functional
+
+params:
+    # The url of the tests.zip file generated during the kernel build,
+    # which includes files for the kunit modules and necessary configurations
+    TESTS_ZIP_URL: ""
+    # The SQUAD url to be used to upload the result and log files.
+    # see https://squad.readthedocs.io/en/latest/intro.html#submitting-results.
+    # SQUAD_ARCHIVE_SUBMIT_TOKEN is used for uploading authentication,
+    # and must be defined by the submitter as one profile managed token
+    SQUAD_UPLOAD_URL: ""
+
+run:
+    steps:
+        - cd ./automated/android/kunit
+        # Run setup.sh in the original shell to reserve env variables.
+        - ./kunit.sh -u "${TESTS_ZIP_URL}" -s "${SQUAD_UPLOAD_URL}"
+        # Send test result to LAVA.
+        - ../../utils/send-to-lava.sh ./output/result.txt
