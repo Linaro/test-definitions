@@ -46,11 +46,11 @@ params:
     ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
     ARTIFACTORIAL_TOKEN: ""
     ITERATIONS: 1
-    PTHRESHOLD: "10"
+    USER_BASELINE: ""
 
 run:
     steps:
         - cd ./automated/linux/cyclicdeadline/
-        - ./cyclicdeadline.sh -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" -D "${DURATION}" -I "${ITERATIONS}" -w "${BACKGROUND_CMD}" -p "${PTHRESHOLD}"
+        - ./cyclicdeadline.sh -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" -D "${DURATION}" -I "${ITERATIONS}" -w "${BACKGROUND_CMD}" -x "${USER_BASELINE}"
         - ../../utils/upload-to-artifactorial.sh -a "output/cyclicdeadline.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/send-to-lava.sh ./output/result.txt
