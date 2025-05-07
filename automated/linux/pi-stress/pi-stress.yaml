@@ -41,11 +41,11 @@ params:
     ARTIFACTORIAL_URL: "https://archive.validation.linaro.org/artifacts/team/qa/"
     ARTIFACTORIAL_TOKEN: ""
     ITERATIONS: 1
-    PTHRESHOLD: "10"
+    USER_BASELINE: ""
 
 run:
     steps:
         - cd automated/linux/pi-stress
-        - ./pi-stress.sh -D "${DURATION}" -m "${MLOCKALL}" -r "${RR}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}" -p "${PTHRESHOLD}"
+        - ./pi-stress.sh -D "${DURATION}" -m "${MLOCKALL}" -r "${RR}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}" -x "${USER_BASELINE}"
         - ../../utils/upload-to-artifactorial.sh -a "output/pi-stress.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/send-to-lava.sh ./output/result.txt
