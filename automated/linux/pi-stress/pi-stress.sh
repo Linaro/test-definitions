@@ -92,19 +92,15 @@ if [ "${ITERATIONS}" -gt 2 ]; then
     fi
 
     # Find the minimum inversion
-    min_inversion=$(sort -n "${max_inversions_file}" | head -n1)
+    max_inversion=$(sort -n "${max_inversions_file}" | tail -n1)
+    echo "Calculated max_inversion: ${max_inversion}"
+    threshold=$(echo "$max_inversion * (1 - (${PTHRESHOLD}/100))" | bc -l)
+    echo "Threshold: $threshold (i.e., within -${PTHRESHOLD}%)"
 
-    echo "PTHRESHOLD: ${PTHRESHOLD}"
-    threshold=$(echo "$min_inversion * (1.${PTHRESHOLD})" | bc -l)
-
-    echo "Minimum max inversion: $min_inversion"
-    echo "Threshold: $threshold in procent 1.$PTHRESHOLD"
-
-    # Count how many inversions exceed threshold
     fail_count=0
     while read -r val; do
-        is_greater=$(echo "$val > $threshold" | bc -l)
-        if [ "$is_greater" -eq 1 ]; then
+        is_less=$(echo "$val < $threshold" | bc -l)
+        if [ "$is_less" -eq 1 ]; then
             fail_count=$((fail_count + 1))
         fi
     done < "${max_inversions_file}"
@@ -113,7 +109,6 @@ if [ "${ITERATIONS}" -gt 2 ]; then
 
     echo "Max allowed failures: $fail_limit"
     echo "Actual failures: $fail_count"
-    echo "Number of max inversions above 1.${PTHRESHOLD}% of min: $fail_count"
 
     if [ "$fail_count" -ge "$fail_limit" ]; then
         report_fail "rt-tests-pi-stress"
