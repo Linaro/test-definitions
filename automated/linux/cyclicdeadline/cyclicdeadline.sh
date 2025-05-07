@@ -17,14 +17,14 @@ THREADS="1"
 DURATION="1m"
 BACKGROUND_CMD=""
 ITERATIONS=1
-PTHRESHOLD="10"
+USER_BASELINE=""
 
 usage() {
-    echo "Usage: $0 [-i interval] [-s step] [-t threads] [-D duration ] [-w background_cmd] [-I iterations] [-p procent threshold]" 1>&2
+    echo "Usage: $0 [-i interval] [-s step] [-t threads] [-D duration ] [-w background_cmd] [-I iterations] [-x user_baseline]" 1>&2
     exit 1
 }
 
-while getopts ":i:s:t:D:w:I:p:" opt; do
+while getopts ":i:s:t:D:w:I:x:" opt; do
     case "${opt}" in
         i) INTERVAL="${OPTARG}" ;;
         s) STEP="${OPTARG}" ;;
@@ -32,7 +32,7 @@ while getopts ":i:s:t:D:w:I:p:" opt; do
         D) DURATION="${OPTARG}" ;;
         w) BACKGROUND_CMD="${OPTARG}" ;;
         I) ITERATIONS="${OPTARG}" ;;
-        p) PTHRESHOLD="${OPTARG}" ;;
+        x) USER_BASELINE="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -83,19 +83,17 @@ if [ "${ITERATIONS}" -gt 2 ]; then
         exit 1
     fi
 
-    # Find the minimum latency
-    min_latency=$(sort -n "${max_latencies_file}" | head -n1)
+    if [ -n "${USER_BASELINE}" ]; then
+        echo "Using user-provided baseline: ${USER_BASELINE}"
+        min_latency="${USER_BASELINE}"
+    else
+        # Find the minimum latency
+        min_latency=$(sort -n "${max_latencies_file}" | head -n1)
+    fi
 
-    echo "PTHRESHOLD: ${PTHRESHOLD}"
-    threshold=$(echo "$min_latency * (1.${PTHRESHOLD})" | bc -l)
-
-    echo "Minimum max latency: $min_latency"
-    echo "Threshold: $threshold in procent 1.$PTHRESHOLD"
-
-    # Count how many latencies exceed threshold
     fail_count=0
     while read -r val; do
-        is_greater=$(echo "$val > $threshold" | bc -l)
+        is_greater=$(echo "$val > $min_latency" | bc -l)
         if [ "$is_greater" -eq 1 ]; then
             fail_count=$((fail_count + 1))
         fi
@@ -105,7 +103,7 @@ if [ "${ITERATIONS}" -gt 2 ]; then
 
     echo "Max allowed failures: $fail_limit"
     echo "Actual failures: $fail_count"
-    echo "Number of max latencies above 1.${PTHRESHOLD}% of min: $fail_count"
+    echo "Number of max latencies above baseline ($min_latency) : $fail_count"
 
     if [ "$fail_count" -ge "$fail_limit" ]; then
         report_fail "rt-tests-cyclicdeadline"
