@@ -17,21 +17,21 @@ MLOCKALL="false"
 RR="false"
 BACKGROUND_CMD=""
 ITERATIONS=1
-PTHRESHOLD="10"
+USER_BASELINE=""
 
 usage() {
-    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>] [-w background_cmd] [-i iterations] [-p procent threshold]" 1>&2
+    echo "Usage: $0 [-D runtime] [-m <true|false>] [-r <true|false>] [-w background_cmd] [-i iterations] [-x user baseline]" 1>&2
     exit 1
 }
 
-while getopts ":D:m:r:w:i:p:" opt; do
+while getopts ":D:m:r:w:i:x:" opt; do
     case "${opt}" in
         D) DURATION="${OPTARG}" ;;
         m) MLOCKALL="${OPTARG}" ;;
         r) RR="${OPTARG}" ;;
         w) BACKGROUND_CMD="${OPTARG}" ;;
         i) ITERATIONS="${OPTARG}" ;;
-        p) PTHRESHOLD="${OPTARG}" ;;
+        x) USER_BASELINE="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -92,14 +92,17 @@ if [ "${ITERATIONS}" -gt 2 ]; then
     fi
 
     # Find the minimum inversion
-    max_inversion=$(sort -n "${max_inversions_file}" | tail -n1)
-    echo "Calculated max_inversion: ${max_inversion}"
-    threshold=$(echo "$max_inversion * (1 - (${PTHRESHOLD}/100))" | bc -l)
-    echo "Threshold: $threshold (i.e., within -${PTHRESHOLD}%)"
+    if [ -n "${USER_BASELINE}" ]; then
+        max_inversion="${USER_BASELINE}"
+        echo "Using user-provided user_baseline: ${max_inversion}"
+    else
+        max_inversion=$(sort -n "${max_inversions_file}" | tail -n1)
+        echo "Calculated max_inversion: ${max_inversion}"
+    fi
 
     fail_count=0
     while read -r val; do
-        is_less=$(echo "$val < $threshold" | bc -l)
+        is_less=$(echo "$val < $max_inversion" | bc -l)
         if [ "$is_less" -eq 1 ]; then
             fail_count=$((fail_count + 1))
         fi
