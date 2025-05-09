@@ -40,10 +40,21 @@ done
 
 get_modules_list() {
 	if [ -z "${MODULES_LIST}" ]; then
-		subdir=$(echo "${MODULES_SUBDIRS}" | tr ' ' '|')
-		skiplist=$(echo "${SKIPLIST}" | tr ' ' '|')
-		grep -E "kernel/(${subdir})" /lib/modules/"$(uname -r)"/modules.order | tee /tmp/find_modules.txt
-		grep -E -v "(${skiplist})" /tmp/find_modules.txt | tee /tmp/modules_to_run.txt
+		if [ -n "${MODULES_SUBDIRS}" ]; then
+			subdir=$(echo "${MODULES_SUBDIRS}" | tr ' ' '|')
+			grep -E "kernel/(${subdir})" /lib/modules/"$(uname -r)"/modules.order > /tmp/find_modules.txt
+		else
+			# No subdir given, default to all modules
+			cat /lib/modules/"$(uname -r)"/modules.order > /tmp/find_modules.txt
+		fi
+
+		if [ -n "${SKIPLIST}" ]; then
+			skiplist=$(echo "${SKIPLIST}" | tr ' ' '|')
+			grep -E -v "(${skiplist})" /tmp/find_modules.txt > /tmp/modules_to_run.txt
+		else
+			cp /tmp/find_modules.txt /tmp/modules_to_run.txt
+		fi
+
 		split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" /tmp/modules_to_run.txt > /tmp/shardfile
 		echo "============== Tests to run ==============="
 		cat /tmp/shardfile
@@ -76,6 +87,38 @@ report() {
 	fi
 }
 
+scan_dmesg_for_errors() {
+	echo "=== Scanning dmesg for errors ==="
+	dmesg -l 0,1,2,3,4,5 | grep -Ei "BUG:|WARNING:|Oops:|Call Trace:" && report_fail "dmesg_error_scan" || report_pass "dmesg_error_scan"
+}
+
+check_module_unloaded() {
+	local _module="$1"
+	if lsmod | grep "^${_module} " > /dev/null; then
+		echo "Module ${_module} still loaded after removal!"
+		report_fail "module_stuck_${_module}"
+	else
+		report_pass "module_unloaded_${_module}"
+	fi
+}
+
+kmemleak_scan() {
+	if [ -e /sys/kernel/debug/kmemleak ]; then
+		echo "Triggering kmemleak scan..."
+		echo scan > /sys/kernel/debug/kmemleak
+		sleep 5
+		if grep -q . /sys/kernel/debug/kmemleak; then
+			echo "Potential memory leaks detected:"
+			cat /sys/kernel/debug/kmemleak
+			report_fail "kmemleak_detected"
+		else
+			report_pass "kmemleak_no_leaks"
+		fi
+	else
+		echo "kmemleak not available, skipping scan."
+	fi
+}
+
 run () {
 	for module in ${MODULES_LIST}; do
 		# don't insert/remove modules that is already inserted.
@@ -86,8 +129,12 @@ run () {
 				echo
 				echo "modinfo ${module}"
 				modinfo "${module}"
+				scan_dmesg_for_errors
+
 				report "--remove" "${module}" "remove" "${num}"
-				dmesg -l 0,1,2,3,4,5
+				scan_dmesg_for_errors
+
+				check_module_unloaded "${module}"
 			done
 		fi
 	done
@@ -100,3 +147,4 @@ info_msg "Output directory: ${OUTPUT}"
 info_msg "About to run  load/unload kernel modules ..."
 get_modules_list
 run
+kmemleak_scan
