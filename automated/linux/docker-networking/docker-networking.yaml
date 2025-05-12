@@ -26,9 +26,13 @@ params:
     # Docker image.
     IMAGE: "alpine:latest"
     SKIP_INSTALL: "true"
+    # NETWORK can be any of "bridge", "host", "none"
+    # or it can be a combination of them, like "bridge host"
+    NETWORK: "bridge"
+    HOST_INTERFACE: "eth0"
 
 run:
     steps:
         - cd ./automated/linux/docker-networking/
-        - ./docker-networking.sh -i "${IMAGE}" -s "${SKIP_INSTALL}"
+        - ./docker-networking.sh -i "${IMAGE}" -s "${SKIP_INSTALL}" -n "${NETWORK}" -b "${HOST_INTERFACE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
