@@ -238,7 +238,7 @@ dist_name() {
     fi
 
     # convert dist to lower case
-    dist=$(echo ${dist} | tr '[:upper:]' '[:lower:]')
+    dist=$(echo "${dist}" | tr '[:upper:]' '[:lower:]')
     case "${dist}" in
         rpb*) dist="oe-rpb" ;;
     esac
@@ -337,7 +337,6 @@ validate_check_sum() {
     if [ "$#" -ne 2 ]; then
         warn_msg "The number of parameters should be 2"
         error_msg "Usage: validate_check_sum filename known_sha256sum"
-        return 1
     fi
     # shellcheck disable=SC2039
     local OUTPUT_FILE_NAME="$1"
