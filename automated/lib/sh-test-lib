@@ -102,15 +102,16 @@ exit_on_skip() {
 check_return() {
     # shellcheck disable=SC2039
     local exit_code="$?"
-    [ "$#" -ne 1 ] && error_msg "Usage: check_return test_case"
+    [ "$#" -lt 1 ] && error_msg "Usage: check_return test_case [xfail]"
     # shellcheck disable=SC2039
     local test_case="$1"
+    local xfail="${2:-}"
 
-    if [ "${exit_code}" -ne 0 ]; then
-        echo "${test_case} fail" | tee -a "${RESULT_FILE}"
+    if [ "${exit_code}" -ne 0 ] && [ -z "${xfail}" ]; then
+        report_fail "${test_case}"
         return "${exit_code}"
     else
-        echo "${test_case} pass" | tee -a "${RESULT_FILE}"
+        report_pass "${test_case}"
         return 0
     fi
 }
