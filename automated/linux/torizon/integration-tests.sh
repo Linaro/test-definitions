@@ -10,9 +10,12 @@ set -x
 # install dependencies
 install_deps "bzip2 curl firefox-esr git python3-pip wget" "$SKIP_INSTALL"
 
-# install spire package
+# install spire packages
 wget https://github.com/Linaro/SPIRE-CLI-S-/releases/download/0.2.0-alpha%2B006/staging-spire_0.2.0-alpha+006_linux_amd64.deb
 dpkg -i staging-spire_0.2.0-alpha+006_linux_amd64.deb
+# also for arm64
+wget https://github.com/Linaro/SPIRE-CLI-S-/releases/download/0.2.0-alpha%2B019/staging-spire_0.2.0-alpha+019_linux_arm64.deb
+dpkg -i staging-spire_0.2.0-alpha+019_linux_arm64.deb
 
 # clone baklava-integration repo and install required pip pkgs
 get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration.git" "baklava-integration" "main"
