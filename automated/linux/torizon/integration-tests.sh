@@ -11,8 +11,8 @@ set -x
 install_deps "bzip2 curl firefox-esr git python3-pip wget" "$SKIP_INSTALL"
 
 # temp hack for aarch64 geckodriver
-curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux-aarch64.tar.gz"
-tar -xvf geckodriver-v0.35.0-linux-aarch64.tar.gz
+curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux-aarch64.tar.gz"
+tar -xvf geckodriver-v0.36.0-linux-aarch64.tar.gz
 mv geckodriver /usr/local/bin
 ls -lah /usr/local/bin
 geckodriver --help
