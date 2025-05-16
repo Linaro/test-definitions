@@ -10,6 +10,11 @@ set -x
 # install dependencies
 install_deps "bzip2 curl firefox-esr git python3-pip wget" "$SKIP_INSTALL"
 
+# temp hack for aarch64 geckodriver
+curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux-aarch64.tar.gz"
+tar -xvf geckodriver-v0.35.0-linux-aarch64.tar.gz
+mv geckodriver /usr/local/bin
+
 # install spire packages
 wget https://github.com/Linaro/SPIRE-CLI-S-/releases/download/0.2.0-alpha%2B006/staging-spire_0.2.0-alpha+006_linux_amd64.deb
 dpkg -i staging-spire_0.2.0-alpha+006_linux_amd64.deb
