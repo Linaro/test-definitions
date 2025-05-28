@@ -8,7 +8,7 @@ def slugify(line):
     non_ascii_pattern = r"[^A-Za-z0-9_-]+"
     line = re.sub(r"\[\d{1,5}\]", "", line)
     return re.sub(
-        r"_-", "_", re.sub(r"(^_|_$)", "", re.sub(non_ascii_pattern, "_", line))
+        r"_-", "__", re.sub(r"(^_|_$)", "", re.sub(non_ascii_pattern, "_", line))
     )
 
 
