@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2024 Linaro Ltd.
+metadata:
+    name: integration-tests
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run appliance integration tests in LAVA."
+    maintainer:
+        - stevan.radakovic@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - qemu
+    scope:
+        - functional
+
+params:
+    SKIP_INSTALL: "False"
+    IS_REMOTE: "False"
+    GITLAB_TOKEN: ""
+    BAKFLEET_URL: ""
+    LAVA_URL: ""
+    LAVA_USERNAME: ""
+    LAVA_TOKEN: ""
+    LAVA_PASSWORD: ""
+    BAKLAWEB_URL: ""
+    SPIRE_USER_EMAIL: ""
+    SPIRE_PAT_TOKEN: ""
+    ORG_UUID: ""
+
+run:
+    steps:
+        - cd ./automated/linux/torizon/
+        - export IS_REMOTE BAKFLEET_URL BAKLAWEB_URL SPIRE_USER_EMAIL LAVA_USERNAME LAVA_URL ORG_UUID
+        - ./integration-tests.sh
+        - ../../utils/parse-robot-framework.py -r output.xml
