@@ -38,6 +38,24 @@ while getopts "c:d:i:l:n:s:h" o; do
 	esac
 done
 
+get_mem_usage_kb() {
+	grep -i "MemAvailable:" /proc/meminfo | awk '{ print $2 }'
+}
+
+compare_memory_usage() {
+	local before_kb=$1
+	local after_kb=$2
+	local module=$3
+	local diff_kb
+	diff_kb=$((before_kb - after_kb))
+	echo "memcheck: before ${before_kb}, after ${after_kb}, diff ${diff_kb}"
+	if [ "$diff_kb" -lt 0 ]; then
+		report_fail "memcheck_${module}"
+	else
+		report_pass "memcheck_${module}"
+	fi
+}
+
 get_modules_list() {
 	if [ -z "${MODULES_LIST}" ]; then
 		if [ -n "${MODULES_SUBDIRS}" ]; then
@@ -125,6 +143,7 @@ run () {
 		if ! lsmod | grep "^${module}"; then
 			for num in $(seq "${MODULE_MODPROBE_NUMBER}"); do
 				dmesg -C
+				mem_before=$(get_mem_usage_kb)
 				report "" "${module}" "insert" "${num}"
 				echo
 				echo "modinfo ${module}"
@@ -135,6 +154,8 @@ run () {
 				scan_dmesg_for_errors
 
 				check_module_unloaded "${module}"
+				mem_after=$(get_mem_usage_kb)
+				compare_memory_usage "$mem_before" "$mem_after" "$module"
 			done
 		fi
 	done
