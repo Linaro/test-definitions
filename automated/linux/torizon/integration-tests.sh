@@ -7,9 +7,6 @@ set -x
 # source the secrets file to get the gitlab_token env var
 . ../../../../../../secrets > /dev/null 2>&1
 
-# install dependencies
-install_deps "bzip2 curl firefox-esr git python3-pip wget" "$SKIP_INSTALL"
-
 # temp hack for aarch64 geckodriver
 curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux-aarch64.tar.gz"
 tar -xvf geckodriver-v0.36.0-linux-aarch64.tar.gz
