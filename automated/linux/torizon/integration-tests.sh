@@ -8,10 +8,10 @@ set -x
 . ../../../../../../secrets > /dev/null 2>&1
 
 # temp hack for aarch64 geckodriver
-curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux-aarch64.tar.gz"
-tar -xvf geckodriver-v0.36.0-linux-aarch64.tar.gz
-mv geckodriver /usr/local/bin
-chown root:root /usr/local/bin/geckodriver
+#curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux-aarch64.tar.gz"
+#tar -xvf geckodriver-v0.36.0-linux-aarch64.tar.gz
+#mv geckodriver /usr/local/bin
+#chown root:root /usr/local/bin/geckodriver
 
 # install spire packages
 wget https://github.com/Linaro/SPIRE-CLI-S-/releases/download/0.2.0-alpha%2B006/staging-spire_0.2.0-alpha+006_linux_amd64.deb
