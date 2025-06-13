@@ -24,7 +24,7 @@ dpkg -i staging-spire_0.2.0-alpha+019_linux_arm64.deb
 get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration.git" "baklava-integration" "main"
 
 python3 -m venv venv
-source venv/bin/activate
+. venv/bin/activate
 pip3 install -r requirements.txt
 
 export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD
