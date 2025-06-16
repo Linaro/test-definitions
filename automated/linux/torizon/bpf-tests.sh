@@ -3,6 +3,9 @@
 output=$(/usr/share/bcc/tools/cpuunclaimed 1 5 2>&1)
 status=$?
 
+echo $status
+echo $output
+
 if [ $status -ne 0 ]; then
     echo "Command failed with exit status $status" >&2
     lava-test-case "bpf-test" --result "fail"
