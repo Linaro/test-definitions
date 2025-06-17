@@ -189,9 +189,18 @@ cp kselftest-list.txt kselftest-list.txt.orig
 echo "skiplist:"
 echo "========================================"
 while read -r skip_regex; do
-    echo "$skip_regex"
-    # Remove matching tests from list of tests to run and report it as skipped
-    perl -i -ne 'if (s|^('"${skip_regex}"')$|\1 skip|) { print STDERR; } else { print; }' kselftest-list.txt 2>>"${RESULT_FILE}"
+    subsuite="${skip_regex%%:*}"
+
+    # Loop through each subsuite in TST_CMDFILES and compare
+    for selected in ${TST_CMDFILES}; do
+        if [ "${subsuite}" = "${selected}" ]; then
+            echo "$skip_regex"
+            # Remove matching tests from list of tests to run and report it as skipped
+            perl -i -ne 'if (s|^('"${skip_regex}"')$|\1 skip|) { print STDERR; } else { print; }' \
+                kselftest-list.txt 2>>"${RESULT_FILE}"
+            break
+        fi
+    done
 done < "${skips}"
 echo "========================================"
 rm -f "${skips}"
