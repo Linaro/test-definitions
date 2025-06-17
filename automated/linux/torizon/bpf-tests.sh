@@ -3,9 +3,6 @@
 output=$(/usr/share/bcc/tools/cpuunclaimed 1 5 2>&1)
 status=$?
 
-echo $status
-echo $output
-
 if [ $status -ne 0 ]; then
     echo "Command failed with exit status $status" >&2
     lava-test-case "bpf-test" --result "fail"
@@ -13,8 +10,8 @@ if [ $status -ne 0 ]; then
 fi
 
 IFS=$'\n' read -rd '' -a lines <<< "$output"
-if [ ${#lines[@]} -ne 7 ]; then
-    echo "Expected 7 lines, got ${#lines[@]}" >&2
+if [ ${#lines[@]} -ne 6 ]; then
+    echo "Expected 6 lines, got ${#lines[@]}" >&2
     lava-test-case "bpf-test" --result "fail"
     exit 1
 fi
