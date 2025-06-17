@@ -199,6 +199,9 @@ run_ltp() {
         if [ $? -ne "0" ]; then
           error_msg "${RUNNER} is not installed into the file system."
         fi
+        if [ "${KIRK_WORKERS}" = "max" ]; then
+          KIRK_WORKERS=$(grep ^processor /proc/cpuinfo | wc -l)
+        fi
         pipe0_status "${RUNNER} --framework ltp --run-suite shardfile \
                                 -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
                                 ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
