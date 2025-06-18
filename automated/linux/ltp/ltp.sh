@@ -206,6 +206,7 @@ run_ltp() {
                                 -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
                                 ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
                                 ${KIRK_WORKERS:+--workers} ${KIRK_WORKERS} \
+				--no-colors \
                                 --json-report /tmp/kirk-report.json" \
                                 "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
         parse_ltp_json_results "/tmp/kirk-report.json"
