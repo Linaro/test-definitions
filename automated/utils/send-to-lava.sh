@@ -40,7 +40,7 @@ if [ -f "${RESULT_FILE}" ]; then
             if [ "${lava_test_case}" -eq 0 ]; then
                 lava-test-case "${test}" --result "${result}"
             else
-                echo "<TEST_CASE_ID=${test} RESULT=${result}>"
+                signal "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=${test} RESULT=${result}>"
             fi
         elif echo "${line}" | grep -iq -E ".*+ (pass|fail|skip|unknown)+ .*+"; then
             test="$(echo "${line}" | awk '{print $1}')"
@@ -56,7 +56,7 @@ if [ -f "${RESULT_FILE}" ]; then
                     lava-test-case "${test}" --result "${result}" --measurement "${measurement}"
                 fi
             else
-               echo "<TEST_CASE_ID=${test} RESULT=${result} MEASUREMENT=${measurement} UNITS=${units}>"
+               signal "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=${test} RESULT=${result} MEASUREMENT=${measurement} UNITS=${units}>"
             fi
         elif echo "${line}" | grep -iq -E "^lava-test-set.*"; then
             test_set_status="$(echo "${line}" | awk '{print $2}')"
