@@ -66,7 +66,7 @@ run:
         - chown testuser:testuser .
         - if echo "${TEST_REBOOT_EXPECTED}" |grep -i "true" ; then ./monitor_fastboot.sh & fi
         - ./monitor_adb.sh &
-        - sudo -u testuser ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" -i "${INTERNET_ACCESS}" -x "${ENABLE_XTS_DYNAMIC_DOWNLOADER}"|| if [ $? -eq 100 ]; then error_fatal "The network seems not available, as the ping command failed"; else true; fi
+        - sudo -u testuser HTTP_CACHE="${HTTP_CACHE}" ./tradefed.sh  -o "${TIMEOUT}" -c "${TEST_URL}" -t "${TEST_PARAMS}" -p "${TEST_PATH}" -r "${RESULTS_FORMAT}" -n "${ANDROID_SERIAL}" -f "${FAILURES_PRINTED}" -a "${AP_SSID}" -k "${AP_KEY}" -i "${INTERNET_ACCESS}" -x "${ENABLE_XTS_DYNAMIC_DOWNLOADER}"|| if [ $? -eq 100 ]; then error_fatal "The network seems not available, as the ping command failed"; else true; fi
         # Upload test log and result files to artifactorial.
         - cp -r ./${TEST_PATH}/results ./output/ || true
         - cp -r ./${TEST_PATH}/logs ./output/ || true
