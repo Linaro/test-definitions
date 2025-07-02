@@ -45,7 +45,7 @@ get_mem_usage_kb() {
 	grep -i "MemAvailable:" /proc/meminfo | awk '{ print $2 }'
 }
 
-compare_memory_usage() {
+check_module_memory_leaks_cumulative() {
 	local before_kb=$1
 	local after_kb=$2
 	local module=$3
@@ -158,7 +158,7 @@ run () {
 
 				check_module_unloaded "${module}"
 				mem_after=$(get_mem_usage_kb)
-				compare_memory_usage "$mem_before" "$mem_after" "$module"
+				check_module_memory_leaks_cumulative "$mem_before" "$mem_after" "$module"
 			done
 		fi
 	done
