@@ -49,13 +49,33 @@ check_module_memory_leaks_cumulative() {
 	local module=$1
 	local mem_start=$2
 	local mem_end=$3
-	local diff_kb
-	diff_kb=$((mem_start - mem_end))
-	echo "memcheck cumulative: start ${mem_start}, end ${mem_end}, diff ${diff_kb}"
-	if [ "$diff_kb" -lt "-${MEMORY_TOLERANCE}" ]; then
-		report_fail "memcheck_${module}"
+
+	if [ -e /sys/kernel/debug/kmemleak ]; then
+		# Trigger scan after all iterations complete
+		echo scan > /sys/kernel/debug/kmemleak
+		sleep 3
+
+		# Check for cumulative leaks from all iterations
+		if grep -q "." /sys/kernel/debug/kmemleak; then
+			echo "Cumulative memory leak detected for module ${module}:"
+			cat /sys/kernel/debug/kmemleak
+			report_fail "kmemleak_${module}"
+		else
+			report_pass "kmemleak_${module}"
+		fi
+
+		# Clear leaks for next module
+		echo clear > /sys/kernel/debug/kmemleak
 	else
-		report_pass "memcheck_${module}"
+		# Fallback: aggregate memory check (not per-iteration)
+		local diff_kb
+		diff_kb=$((mem_start - mem_end))
+		echo "memcheck cumulative: start ${mem_start}, end ${mem_end}, diff ${diff_kb}"
+		if [ "$diff_kb" -lt "-${MEMORY_TOLERANCE}" ]; then
+			report_fail "memcheck_${module}"
+		else
+			report_pass "memcheck_${module}"
+		fi
 	fi
 }
 
