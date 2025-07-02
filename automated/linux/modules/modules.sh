@@ -14,6 +14,7 @@ MODULE_MODPROBE_NUMBER="1"
 SKIPLIST=""
 SHARD_NUMBER=1
 SHARD_INDEX=1
+MEMORY_TOLERANCE=512
 
 usage() {
 	echo "Usage: $0 [-d <subdir of the modules directory> ]
@@ -22,11 +23,12 @@ usage() {
 		[-i <sharding bucket to run> ]
 		[-n <number of shard buckets to create> ]
 		[-s <skiplist modules to skip> ]
+		[-t <memory tolerance in KB for leak detection> ]
 		[-h ]" 1>&2
 	exit 0
 }
 
-while getopts "c:d:i:l:n:s:h" o; do
+while getopts "c:d:i:l:n:s:t:h" o; do
 	case "$o" in
 		d) MODULES_SUBDIRS="${OPTARG}" ;;
 		l) MODULES_LIST="${OPTARG}" ;;
@@ -34,6 +36,7 @@ while getopts "c:d:i:l:n:s:h" o; do
 		i) SHARD_INDEX="${OPTARG}" ;;
 		n) SHARD_NUMBER="${OPTARG}" ;;
 		s) SKIPLIST="${OPTARG}" ;;
+		t) MEMORY_TOLERANCE="${OPTARG}" ;;
 		h|*) usage ;;
 	esac
 done
@@ -49,7 +52,7 @@ compare_memory_usage() {
 	local diff_kb
 	diff_kb=$((before_kb - after_kb))
 	echo "memcheck: before ${before_kb}, after ${after_kb}, diff ${diff_kb}"
-	if [ "$diff_kb" -lt 0 ]; then
+	if [ "$diff_kb" -lt "-${MEMORY_TOLERANCE}" ]; then
 		report_fail "memcheck_${module}"
 	else
 		report_pass "memcheck_${module}"

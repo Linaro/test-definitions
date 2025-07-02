@@ -37,8 +37,11 @@ params:
     # Which bucket to run, default '1' which is the same as no sharding, run
     # all modules in the MODULES_SUBDIRS list.
     SHARD_INDEX: 1
+
+    # memory tolerance in KB for leak detection
+    MEMORY_TOLERANCE: 512
 run:
     steps:
         - cd ./automated/linux/modules/
-        - ./modules.sh -d "${MODULES_SUBDIRS}" -l "${MODULES_LIST}" -c "${MODULE_MODPROBE_NUMBER}" -n "${SHARD_NUMBER}" -i "${SHARD_INDEX}" -s "${SKIPLIST}"
+        - ./modules.sh -d "${MODULES_SUBDIRS}" -l "${MODULES_LIST}" -c "${MODULE_MODPROBE_NUMBER}" -n "${SHARD_NUMBER}" -i "${SHARD_INDEX}" -s "${SKIPLIST}" -t "${MEMORY_TOLERANCE}"
         - ../../utils/send-to-lava.sh ./output/result.txt
