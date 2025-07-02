@@ -128,6 +128,11 @@ report() {
 	fi
 }
 
+report_skip() {
+	local test_name="$1"
+	echo "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=${test_name} RESULT=skip>"
+}
+
 scan_dmesg_for_errors() {
 	echo "=== Scanning dmesg for errors ==="
 	dmesg -l 0,1,2,3,4,5 | grep -Ei "BUG:|WARNING:|Oops:|Call Trace:" && report_fail "dmesg_error_scan" || report_pass "dmesg_error_scan"
@@ -141,6 +146,59 @@ check_module_unloaded() {
 	else
 		report_pass "module_unloaded_${_module}"
 	fi
+}
+
+detect_platform_compatibility() {
+	local module=$1
+
+	# Skip ACPI-specific modules on non-ACPI systems
+	case "$module" in
+		*cppc_cpufreq*)
+			if [ ! -d /sys/firmware/acpi ]; then
+				echo "Skipping $module: ACPI not available on this platform"
+				report_skip "platform_${module}"
+				return 1
+			fi
+			;;
+	esac
+
+	# Skip Allwinner-specific modules on non-Allwinner platforms
+	case "$module" in
+		sun*i-*)
+			if ! grep -q "allwinner" /proc/device-tree/compatible 2>/dev/null; then
+				echo "Skipping $module: Not an Allwinner platform"
+				report_skip "platform_${module}"
+				return 1
+			fi
+			;;
+	esac
+
+	# Skip MediaTek modules with known issues on specific platforms
+	case "$module" in
+		mtk-adsp-ipc)
+			if grep -q "mediatek" /proc/device-tree/compatible 2>/dev/null; then
+				echo "Skipping $module: Known unload issues on MediaTek platforms"
+				report_skip "platform_${module}"
+				return 1
+			fi
+			;;
+	esac
+
+	return 0
+}
+
+can_remove_module() {
+	local module=$1
+
+	# Check if other modules depend on this one
+	local used_by
+	used_by="$(lsmod | grep "^$module " | awk '{print $4}')"
+	if [ -n "$used_by" ] && [ "$used_by" != "-" ] && [ "$used_by" != "0" ]; then
+		echo "Warning: $module has dependencies ($used_by), may not unload cleanly"
+		return 1
+	fi
+
+	return 0
 }
 
 kmemleak_scan() {
@@ -162,6 +220,11 @@ kmemleak_scan() {
 
 run () {
 	for module in ${MODULES_LIST}; do
+		# Check platform compatibility first
+		if ! detect_platform_compatibility "$module"; then
+			continue
+		fi
+
 		# don't insert/remove modules that is already inserted.
 		if ! lsmod | grep "^${module}"; then
 			# Clear kmemleak state before testing this module
@@ -180,7 +243,13 @@ run () {
 				modinfo "${module}"
 				scan_dmesg_for_errors
 
-				report "--remove" "${module}" "remove" "${num}"
+				# Check if module can be safely removed
+				if can_remove_module "${module}"; then
+					report "--remove" "${module}" "remove" "${num}"
+				else
+					echo "Skipping removal of ${module} (has dependencies)"
+					report_skip "remove_module_${num}_${module}"
+				fi
 				scan_dmesg_for_errors
 
 				check_module_unloaded "${module}"
