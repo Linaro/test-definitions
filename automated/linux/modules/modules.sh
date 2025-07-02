@@ -46,12 +46,12 @@ get_mem_usage_kb() {
 }
 
 check_module_memory_leaks_cumulative() {
-	local before_kb=$1
-	local after_kb=$2
-	local module=$3
+	local module=$1
+	local mem_start=$2
+	local mem_end=$3
 	local diff_kb
-	diff_kb=$((before_kb - after_kb))
-	echo "memcheck: before ${before_kb}, after ${after_kb}, diff ${diff_kb}"
+	diff_kb=$((mem_start - mem_end))
+	echo "memcheck cumulative: start ${mem_start}, end ${mem_end}, diff ${diff_kb}"
 	if [ "$diff_kb" -lt "-${MEMORY_TOLERANCE}" ]; then
 		report_fail "memcheck_${module}"
 	else
