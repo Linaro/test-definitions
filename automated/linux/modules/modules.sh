@@ -164,6 +164,11 @@ run () {
 	for module in ${MODULES_LIST}; do
 		# don't insert/remove modules that is already inserted.
 		if ! lsmod | grep "^${module}"; then
+			# Clear kmemleak state before testing this module
+			if [ -e /sys/kernel/debug/kmemleak ]; then
+				echo clear > /sys/kernel/debug/kmemleak
+			fi
+
 			# Record memory at start of all iterations
 			mem_start=$(get_mem_usage_kb)
 
