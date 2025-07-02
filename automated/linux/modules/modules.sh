@@ -144,9 +144,11 @@ run () {
 	for module in ${MODULES_LIST}; do
 		# don't insert/remove modules that is already inserted.
 		if ! lsmod | grep "^${module}"; then
+			# Record memory at start of all iterations
+			mem_start=$(get_mem_usage_kb)
+
 			for num in $(seq "${MODULE_MODPROBE_NUMBER}"); do
 				dmesg -C
-				mem_before=$(get_mem_usage_kb)
 				report "" "${module}" "insert" "${num}"
 				echo
 				echo "modinfo ${module}"
@@ -157,9 +159,11 @@ run () {
 				scan_dmesg_for_errors
 
 				check_module_unloaded "${module}"
-				mem_after=$(get_mem_usage_kb)
-				check_module_memory_leaks_cumulative "$mem_before" "$mem_after" "$module"
 			done
+
+			# Check for cumulative leaks after all iterations
+			mem_end=$(get_mem_usage_kb)
+			check_module_memory_leaks_cumulative "$module" "$mem_start" "$mem_end"
 		fi
 	done
 }
