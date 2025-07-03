@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2024 Linaro Ltd.
+metadata:
+    name: integration-tests
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run appliance integration tests in LAVA."
+    maintainer:
+        - stevan.radakovic@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - qemu
+    scope:
+        - functional
+
+params:
+    SKIP_INSTALL: "False"
+    IS_REMOTE: "False"
+    IS_CHECK: "False"
+    OSTREE_REMOTE_NAME: ""
+
+run:
+    steps:
+        - cd ./automated/linux/torizon/
+        - export SKIP_INSTALL IS_REMOTE IS_CHECK OSTREE_REMOTE_NAME
+        - ./ostree-upgrade-tests.sh
