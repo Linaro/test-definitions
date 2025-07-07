@@ -1,0 +1,44 @@
+name: Zstd Archive Release
+
+on:
+  push:
+    tags:
+      - '20[0-9][0-9].[0-9][0-9].[0-9][0-9]'  # Matching tags like 2025.06.01
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the tagged commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to ensure full history and tags are available
+
+      - name: Install zstd
+        run: sudo apt-get update && sudo apt-get install -y zstd
+
+      - name: Extract version info from tag
+        id: version
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          SHORT_TAG=$(echo "$TAG_NAME" | cut -d '.' -f 1,2)
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "short_tag=$SHORT_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create .tar.zst archives using git archive
+        run: |
+          git archive --format=tar --prefix=test-definitions/ ${{ steps.version.outputs.tag_name }} \
+            | zstd -o ../${{ steps.version.outputs.tag_name }}.tar.zst
+          cp ../${{ steps.version.outputs.tag_name }}.tar.zst ../${{ steps.version.outputs.short_tag }}.tar.zst
+
+      - name: Upload .tar.zst archives to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag_name }}
+          name: Release ${{ steps.version.outputs.tag_name }}
+          files: |
+            ../${{ steps.version.outputs.tag_name }}.tar.zst
+            ../${{ steps.version.outputs.short_tag }}.tar.zst
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
