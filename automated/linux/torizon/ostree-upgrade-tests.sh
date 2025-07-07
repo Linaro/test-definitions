@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $IS_CHECK -ne "True" ]; then
+if [ $IS_CHECK != "True" ]; then
     ostree admin status
     ostree remote add $OSTREE_REMOTE_NAME https://ostree.lavacloud.io/
     LATEST=$(ostree remote refs $OSTREE_REMOTE_NAME | grep laa-qemu | tail -n 1)
