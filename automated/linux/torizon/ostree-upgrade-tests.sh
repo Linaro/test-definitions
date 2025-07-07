@@ -8,6 +8,6 @@ if [ $IS_CHECK != "True" ]; then
     ostree admin deploy --os=laa $LATEST
     reboot
 else
-    LATEST=$(ostree remote refs $OSTREE_REMOTE_NAME | grep laa-qemu | tail -n 1 | awk -F'/' '{print $NF}')
+    LATEST=$(ostree remote refs $OSTREE_REMOTE_NAME | grep $OSTREE_REF | tail -n 1 | awk -F'/' '{print $NF}')
     ostree admin status | grep $LATEST && lava-test-case ostree-upgrade --result pass || lava-test-case ostree-upgrade --result fail
 fi

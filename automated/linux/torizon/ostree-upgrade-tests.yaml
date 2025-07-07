@@ -19,9 +19,10 @@ params:
     IS_REMOTE: "False"
     IS_CHECK: "False"
     OSTREE_REMOTE_NAME: ""
+    OSTREE_REF: ""
 
 run:
     steps:
         - cd ./automated/linux/torizon/
-        - export SKIP_INSTALL IS_REMOTE IS_CHECK OSTREE_REMOTE_NAME
+        - export SKIP_INSTALL IS_REMOTE IS_CHECK OSTREE_REMOTE_NAME OSTREE_REF
         - ./ostree-upgrade-tests.sh
