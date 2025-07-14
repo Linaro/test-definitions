@@ -27,11 +27,12 @@ params:
     SPIRE_USER_EMAIL: ""
     SPIRE_PAT_TOKEN: ""
     ORG_UUID: ""
+    BRANCH_NAME: "main"
 
 run:
     steps:
         - cd ./automated/linux/torizon/
-        - export IS_REMOTE BAKFLEET_URL BAKLAWEB_URL SPIRE_USER_EMAIL LAVA_USERNAME LAVA_URL ORG_UUID
+        - export IS_REMOTE BAKFLEET_URL BAKLAWEB_URL SPIRE_USER_EMAIL LAVA_USERNAME LAVA_URL ORG_UUID BRANCH_NAME
         - ./integration-tests.sh
         - source venv/bin/activate
         - ../../utils/parse-robot-framework.py -r output.xml
