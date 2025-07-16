@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2025 Linaro Ltd.
+set -x
 
 if [ $IS_CHECK != "True" ]; then
     ostree admin status

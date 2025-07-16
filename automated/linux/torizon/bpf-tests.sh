@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2025 Linaro Ltd.
+set -x
 
 output=$(/usr/share/bcc/tools/cpuunclaimed 0.3 5 2>&1)
 status=$?
