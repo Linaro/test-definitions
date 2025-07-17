@@ -12,7 +12,7 @@ else
     LATEST=$(ostree remote refs $OSTREE_REMOTE_NAME | grep laa-qemu | grep -v dev | tail -n 1)
     ostree pull $LATEST
     ostree admin deploy --os=laa $LATEST
-    reboot
+#    reboot
 fi
 
 exit 0
