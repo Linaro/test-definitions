@@ -14,3 +14,5 @@ else
     ostree admin deploy --os=laa $LATEST
     reboot
 fi
+
+exit 0
