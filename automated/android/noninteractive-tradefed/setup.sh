@@ -5,7 +5,7 @@
 . ../../lib/sh-test-lib
 . ../../lib/android-test-lib
 
-function get_required_java_version() {
+get_required_java_version() {
     local android_version="${1}"
     case "${android_version}" in
         *android11*|*android12*|*android13*) echo "11" ;;
