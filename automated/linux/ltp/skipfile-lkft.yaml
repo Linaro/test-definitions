@@ -708,3 +708,17 @@ skiplist:
       - all
     tests:
       - setsockopt06
+
+  - reason: >
+      LTP `mm/min_free_kbytes` test hangs due to OOM-killer activity
+      on several devices, causing LAVA test jobs to fail with a 20 minutes timeout.
+    url: null
+    environments: production
+    boards:
+      - dragonboard-410c
+      - rk3399-rock-pi-4b
+
+    branches:
+      - all
+    tests:
+      - min_free_kbytes
