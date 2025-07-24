@@ -48,4 +48,7 @@ export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD
 # run tests
 robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
 
+cd ..
+../../utils/parse-robot-framework.py -r output.xml
+
 exit 0
