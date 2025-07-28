@@ -28,7 +28,7 @@ jobs:
 
       - name: Create .tar.zst archives using git archive
         run: |
-          git archive --format=tar --prefix=test-definitions/ ${{ steps.version.outputs.tag_name }} \
+          git archive --format=tar ${{ steps.version.outputs.tag_name }} \
             | zstd -o ../${{ steps.version.outputs.tag_name }}.tar.zst
           cp ../${{ steps.version.outputs.tag_name }}.tar.zst ../${{ steps.version.outputs.short_tag }}.tar.zst
 
