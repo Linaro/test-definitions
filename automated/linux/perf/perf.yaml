@@ -22,9 +22,10 @@ metadata:
         - lava-test-shell
 params:
     SKIP_INSTALL: false
+    PARALLEL_TESTS: false
 
 run:
     steps:
         - cd ./automated/linux/perf/
-        - ./perf.sh -s "${SKIP_INSTALL}"
+        - ./perf.sh -s "${SKIP_INSTALL}" -p "${PARALLEL_TESTS}"
         - ../../utils/send-to-lava.sh ./output/result.txt

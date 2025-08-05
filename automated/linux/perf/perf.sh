@@ -11,19 +11,23 @@ TEST_FAIL_LOG="${OUTPUT}/test_fail_log.txt"
 TEST_SKIP_LOG="${OUTPUT}/test_skip_log.txt"
 export RESULT_FILE
 SKIP_INSTALL="false"
+PARALLEL_TESTS="false"
 # List of test cases
 TEST="record report stat test"
 # PERF version
 PERF_VERSION="$(uname -r | cut -d . -f 1-2)"
 
 usage() {
-    echo "Usage: $0 [-s <true|false>]" 1>&2
+    echo "Usage: $0 [options...]" 1>&2
+    echo " [-s <true|false>]        Skip to install perf" 1>&2
+    echo " [-p <true|false>]        Run tests in parallel" 1>&2
     exit 1
 }
 
-while getopts "s:h" arg; do
+while getopts "s:p:h" arg; do
    case "$arg" in
      s) SKIP_INSTALL="${OPTARG}";;
+     p) PARALLEL_TESTS="${OPTARG}";;
      h|*) usage ;;
    esac
 done
@@ -81,7 +85,11 @@ run_perf_stat() {
 run_perf_test() {
     # Test 'perf test'
     info_msg "Performing 'perf test'..."
-    perf test -v 2>&1 | tee "${RESULT_LOG}"
+    if [ "${PARALLEL_TESTS}" = "true" ]; then
+        perf test -v 2>&1 | tee "${RESULT_LOG}"
+    else
+        perf test -S -v 2>&1 | tee "${RESULT_LOG}"
+    fi
     report_pass "perf_test"
     parse_perf_test_results
 }
