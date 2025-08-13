@@ -11,11 +11,12 @@ def parse_line(line):
         line (str): A single line of input.
 
     Returns:
-        tuple: A tuple containing the result and description.
+        triple: A triple containing the result, description, and
+        error_log.
     """
-
+    error_log = None
     if not line.startswith("ok") and not line.startswith("not ok"):
-        return None, None
+        return None, None, None
 
     parts = re.split(r" \d+ - ", line)
     if len(parts) < 2:
@@ -24,11 +25,16 @@ def parse_line(line):
     result = "pass" if parts[0] == "ok" else "fail"
     description = parts[1].strip()
 
+    if ": " in description and result == "fail":
+        desc_part, error_part = description.split(": ", 1)
+        description = desc_part.strip()
+        error_log = error_part.strip()
+
     if "# skip" in description.lower():
         result = "skip"
         description = description.split("# skip")[0].strip()
 
-    return result, description
+    return result, description, error_log
 
 
 def sanitize_description(description):
@@ -56,11 +62,10 @@ def main():
     lines = sys.stdin.readlines()
 
     for line in lines:
-        result, description = parse_line(line)
+        result, description, error_log = parse_line(line)
 
         if not result or not description:
             continue
-
         print(f"{sanitize_description(description)} {result}")
 
 
