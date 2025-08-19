@@ -32,6 +32,7 @@ SHARD_INDEX=1
 
 RUNNER=""
 KIRK_WORKERS=1
+EXTRA_KIRK_ARGS=""
 
 LTP_TMPDIR=/ltp-tmp
 
@@ -55,11 +56,12 @@ usage() {
                       [-t build from tarfile ]
                       [-c sharding bucket to run ]
                       [-n number of shard buckets to create ]
+                      [-k extra kirk arguments ]
 " 1>&2
     exit 0
 }
 
-while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:" arg; do
+while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:k:" arg; do
    case "$arg" in
      T)
         TST_CMDFILES="${OPTARG}"
@@ -139,6 +141,9 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:" arg; do
      w)
         KIRK_WORKERS="$OPTARG"
         ;;
+     k)
+	EXTRA_KIRK_ARGS="$OPTARG"
+        ;;
      *)
         usage
         error_msg "No flag ${OPTARG}"
@@ -197,7 +202,7 @@ run_ltp() {
         if [ "${KIRK_WORKERS}" = "max" ]; then
           KIRK_WORKERS=$(grep ^processor /proc/cpuinfo | wc -l)
         fi
-        pipe0_status "${RUNNER} --framework ltp --run-suite shardfile \
+        pipe0_status "${RUNNER} ${EXTRA_KIRK_ARGS} --framework ltp --run-suite shardfile \
                                 -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
                                 ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
                                 ${KIRK_WORKERS:+--workers} ${KIRK_WORKERS} \
