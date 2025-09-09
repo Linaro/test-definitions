@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2024 Linaro Ltd.
+metadata:
+    name: bpf-tests
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run BPF test in LAVA."
+    maintainer:
+        - stevan.radakovic@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - qemu
+    scope:
+        - functional
+
+params:
+    SKIP_INSTALL: "False"
+    IS_REMOTE: "False"
+
+run:
+    steps:
+        - cd ./automated/linux/torizon/
+        - ./bpf-tests.sh
