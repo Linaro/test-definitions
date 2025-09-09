@@ -45,6 +45,9 @@ pip3 install -r requirements.txt
 
 export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD
 
+# debug
+wget http://localhost:8011/
+
 # run tests
 robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
 
