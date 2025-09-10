@@ -43,7 +43,7 @@ python3 -m venv venv
 . venv/bin/activate
 pip3 install -r requirements.txt
 
-export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD
+export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SSH_KEY
 
 # run tests
 robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
