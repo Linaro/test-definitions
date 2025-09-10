@@ -32,5 +32,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/torizon/
-        - export IS_REMOTE BAKFLEET_URL BAKLAWEB_URL SPIRE_USER_EMAIL LAVA_USERNAME LAVA_URL ORG_UUID BRANCH_NAME
+        - export IS_REMOTE BAKFLEET_URL BAKLAWEB_URL SPIRE_USER_EMAIL LAVA_USERNAME LAVA_URL ORG_UUID BRANCH_NAME SSH_KEY
         - ./integration-tests.sh
