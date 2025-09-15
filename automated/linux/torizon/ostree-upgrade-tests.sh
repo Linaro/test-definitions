@@ -3,6 +3,8 @@
 # Copyright (C) 2025 Linaro Ltd.
 set -x
 
+ostree remote add $OSTREE_REMOTE_NAME https://ostree.lavacloud.io/
+
 SORTED_VERSIONS=$(ostree remote refs lavacloud | grep laa-qemu/ | awk -F'/' '{
   version = $NF;
   base_version = version;
@@ -22,7 +24,6 @@ if [ "$IS_CHECK" = "True" ]; then
     ostree admin status | grep $LATEST && lava-test-case ostree-upgrade --result pass || lava-test-case ostree-upgrade --result fail
 else
     ostree admin status
-    ostree remote add $OSTREE_REMOTE_NAME https://ostree.lavacloud.io/
     ostree pull $LATEST
     ostree admin deploy --os=laa $LATEST
 fi
