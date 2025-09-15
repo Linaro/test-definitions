@@ -29,8 +29,8 @@ def parse_args():
 def send_output(result_file):
     print("connecting to ssh server...")
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    server = "people.linaro.org"
-    username = "pawel.szymaszek"
+    server = os.getenv("SSH_SERVER")
+    username = os.getenv("SSH_USERNAME")
     pkey = RSAKey.from_private_key(io.StringIO(os.getenv("SSH_KEY")))
 
     with SSHClient() as ssh:
