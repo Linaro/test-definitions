@@ -28,6 +28,9 @@ params:
     SPIRE_PAT_TOKEN: ""
     ORG_UUID: ""
     BRANCH_NAME: "main"
+    SSH_KEY: ""
+    SSH_SERVER: ""
+    SSH_USERNAME: ""
 
 run:
     steps:
