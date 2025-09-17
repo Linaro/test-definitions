@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import re
+import os
 from tap import parser
 
 
@@ -71,9 +72,21 @@ def parse_nested_tap(string):
     return results
 
 
+def make_log_files(results):
+    output_dir = os.environ["OUTPUT"]
+    for r in results:
+        if r["result"] == "fail":
+            try:
+                with open(f"{output_dir}/{r['name']}.log", "w") as log_file:
+                    log_file.write(r["logs"])
+            except OSError as e:
+                print(f"Error writing to file {output_dir}/{r['name']}.log: {e}")
+
+
 if __name__ == "__main__":
     raw_input = sys.stdin.read()
     cleaned_input = re.sub(r"<\d+>\[\s*\d+\.\d+\]\s*", "", raw_input)
     results = parse_nested_tap(cleaned_input)
+    make_log_files(results)
     for r in results:
         print(f"{r['name']} {r['result']}")
