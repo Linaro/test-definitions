@@ -25,9 +25,10 @@ params:
     # This will try to find all modules that ends with '*test.ko'
     # Example: test.ko
     KUNIT_TEST_MODULE: "test.ko"
+    SKIP_INSTALL: "true"
 
 run:
     steps:
         - cd ./automated/linux/kunit/
-        - ./kunit.sh -m "${KUNIT_TEST_MODULE}"
+        - ./kunit.sh -m "${KUNIT_TEST_MODULE}" -s "${SKIP_INSTALL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
