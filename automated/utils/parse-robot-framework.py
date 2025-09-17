@@ -31,7 +31,10 @@ def send_output(result_file):
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     server = os.getenv("SSH_SERVER")
     username = os.getenv("SSH_USERNAME")
-    pkey = RSAKey.from_private_key(io.StringIO(os.getenv("SSH_KEY")))
+    try:
+        pkey = RSAKey.from_private_key(io.StringIO(os.getenv("SSH_KEY")))
+    except Exception as ex:
+        print(f"Not able to get SSH_KEY: {os.getenv("SSH_KEY")}, exception msg: {ex}")
 
     with SSHClient() as ssh:
         try:
