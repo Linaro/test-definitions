@@ -10,15 +10,17 @@ TEST_CMD_FILE="${OUTPUT}/${TEST_CMD}.txt"
 # This will try to find all modules that ends with '*test.ko'
 # Example KUNIT_TEST_MODULE="test.ko"
 KUNIT_TEST_MODULE="test.ko"
+SKIP_INSTALL="true"
 
 usage() {
-    echo "Usage: $0 [-m <kunit test module> ]" 1>&2
+    echo "Usage: $0 [-m <kunit test module> ] [-s <skip_install>]" 1>&2
     exit 1
 }
 
-while getopts "m:h" o; do
+while getopts "m:s:h" o; do
   case "$o" in
     m) KUNIT_TEST_MODULE="${OPTARG}" ;;
+    s) SKIP_INSTALL="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -57,6 +59,8 @@ parse_results() {
 check_root || error_msg "Please run this script as root"
 # Test run.
 create_out_dir "${OUTPUT}"
+
+install_deps "python3-tap" "${SKIP_INSTALL}"
 
 find "/lib/modules/$(uname -r)" -name "*${KUNIT_TEST_MODULE}*"| tee /tmp/kunit_modules.txt
 rm /tmp/kunit_module_names_not_loaded.txt 2>/dev/null
