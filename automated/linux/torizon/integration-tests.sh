@@ -43,12 +43,13 @@ python3 -m venv venv
 . venv/bin/activate
 pip3 install -r requirements.txt
 
-export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SSH_KEY SSH_USERNAME SSH_SERVER
+export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SSH_KEY SSH_USERNAME SSH_SERVER SQUAD_UPLOAD_URL SQUAD_ARCHIVE_SUBMIT_TOKEN
 
 # run tests
 robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
 
 cd ..
+../../utils/upload-to-squad.sh -a output.xml -u $SQUAD_UPLOAD_URL
 ../../utils/parse-robot-framework.py -r output.xml
 
 exit 0
