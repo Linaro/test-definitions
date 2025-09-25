@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 import sys
 import re
+import os
+
+
+def make_log_file(name, error_log):
+    output_dir = os.environ["OUTPUT"]
+    try:
+        log_file = open(f"{output_dir}/{name}.log", "w")
+        log_file.writelines(error_log)
+        log_file.close()
+    except OSError as e:
+        print(f"Error writing to file {output}/{name}.log: {e}")
 
 
 def parse_line(line):
@@ -63,6 +74,9 @@ def main():
 
     for line in lines:
         result, description, error_log = parse_line(line)
+
+        if result == "fail" and description:
+            make_log_file(description, error_log)
 
         if not result or not description:
             continue
