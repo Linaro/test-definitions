@@ -5,7 +5,7 @@ set -x
 
 ostree remote add $OSTREE_REMOTE_NAME $OSTREE_URL || lava-test-case ostree-upgrade-remote-add --result fail
 
-SORTED_VERSIONS=$(ostree remote refs lavacloud | grep laa-qemu/ | awk -F'/' '{
+SORTED_VERSIONS=$(ostree remote refs lavacloud | grep $OSTREE_REF/ | awk -F'/' '{
   version = $NF;
   base_version = version;
   sub(/\.dev[0-9]+.*/, "", base_version);
@@ -15,9 +15,9 @@ SORTED_VERSIONS=$(ostree remote refs lavacloud | grep laa-qemu/ | awk -F'/' '{
 }' | sort -k2,2V -k1,1n -k3V | cut -d' ' -f3-)
 
 if [ "$OSTREE_TARGET_VERSION" = "latest" ]; then
-    LATEST=$(echo "$SORTED_VERSIONS" | grep $OSTREE_REF/ | grep dev | tail -n 1 | awk -F'/' '{print $NF}')
+    LATEST=$(echo "$SORTED_VERSIONS" | grep dev | tail -n 1 | awk -F'/' '{print $NF}')
 else  ##  means that the value is 'latest_tag'
-    LATEST=$(echo "$SORTED_VERSIONS" | grep $OSTREE_REF/ | grep -v dev | tail -n 1 | awk -F'/' '{print $NF}')
+    LATEST=$(echo "$SORTED_VERSIONS" | grep -v dev | tail -n 1 | awk -F'/' '{print $NF}')
 fi
 
 if [ "$IS_CHECK" = "True" ]; then
