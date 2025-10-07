@@ -3,7 +3,7 @@
 # Copyright (C) 2025 Linaro Ltd.
 set -x
 
-ostree remote add lavacloud $OSTREE_URL || lava-test-case ostree-upgrade-remote-add --result fail
+ostree remote add $OSTREE_REMOTE_NAME $OSTREE_URL || lava-test-case ostree-upgrade-remote-add --result fail
 
 SORTED_VERSIONS=$(ostree remote refs $OSTREE_REMOTE_NAME | grep $OSTREE_REF/ | awk -F'/' '{
   version = $NF;
