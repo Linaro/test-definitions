@@ -28,7 +28,7 @@ done
 ! check_root && error_msg "This script must be run as root"
 create_out_dir "${OUTPUT}"
 
-pkgs="net-tools"
+pkgs="net-tools iputils-ping"
 install_deps "${pkgs}" "${SKIP_INSTALL}"
 
 # Print all network interface status
