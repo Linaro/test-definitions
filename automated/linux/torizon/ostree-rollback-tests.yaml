@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2025 Linaro Ltd.
+metadata:
+    name: rollback-tests
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run appliance rollback tests in LAVA."
+    maintainer:
+        - stevan.radakovic@linaro.org
+    os:
+        - debian
+        - ubuntu
+    devices:
+        - qemu
+        - lol
+    scope:
+        - functional
+
+params:
+    SKIP_INSTALL: "False"
+    IS_REMOTE: "False"
+    IS_CHECK: "False"
+    OSTREE_URL: "https://ostree.lavacloud.io/"
+    OSTREE_REMOTE_NAME: ""
+    OSTREE_TARGET_VERSION: ""
+    OSTREE_REF: ""
+
+run:
+    steps:
+        - cd ./automated/linux/torizon/
+        - export SKIP_INSTALL IS_REMOTE IS_CHECK OSTREE_URL OSTREE_REMOTE_NAME OSTREE_TARGET_VERSION OSTREE_REF
+        - ./ostree-rollback-tests.sh
