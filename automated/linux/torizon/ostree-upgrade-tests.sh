@@ -24,8 +24,8 @@ if [ "$IS_CHECK" = "True" ]; then
     ostree admin status | grep $LATEST && lava-test-case ostree-upgrade --result pass || lava-test-case ostree-upgrade --result fail
 else
     ostree admin status
-    ostree pull $LATEST
-    ostree admin deploy --os=laa $LATEST
+    ostree pull $OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST
+    ostree admin deploy --os=laa $OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST
 fi
 
 exit 0
