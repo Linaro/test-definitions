@@ -2,27 +2,14 @@
 # SPDX-License-Identifier: GPL-2.0-only
 # Copyright (C) 2025 Linaro Ltd.
 set -x
+. ./lib.sh
 
-ostree remote delete "$OSTREE_REMOTE_NAME"
-ostree remote add "$OSTREE_REMOTE_NAME" "$OSTREE_URL" || lava-test-case ostree-upgrade-remote-add --result fail
+ostree_setup
 
-SORTED_VERSIONS=$(ostree remote refs "$OSTREE_REMOTE_NAME" | grep "$OSTREE_REF/" | awk -F'/' '{
-  version = $NF;
-  base_version = version;
-  sub(/\.dev[0-9]+.*/, "", base_version);
-  sub(/-[^-]+$/, "", base_version);
-  if (version ~ /\.dev/) print "1 " base_version " " $0;
-  else print "0 " base_version " " $0;
-}' | sort -k2,2V -k1,1n -k3V | cut -d' ' -f3-)
-
-if [ "$OSTREE_TARGET_VERSION" = "latest" ]; then
-    LATEST=$(echo "$SORTED_VERSIONS" | grep dev | tail -n 1 | awk -F'/' '{print $NF}')
-else  ##  means that the value is 'latest_tag'
-    LATEST=$(echo "$SORTED_VERSIONS" | grep -v dev | tail -n 1 | awk -F'/' '{print $NF}')
-fi
+LATEST=$(ostree_remote_refs "$OSTREE_REMOTE_NAME" "$OSTREE_REF" "$OSTREE_TARGET_VERSION")
 
 if [ "$IS_CHECK" = "True" ]; then
-    DEPLOYED_VERSION=$(ostree admin status | grep '^\*' -A 1 | grep 'Version:' | awk '{ print $2}')
+    DEPLOYED_VERSION=$(ostree_current_ref)
     if [ "$DEPLOYED_VERSION" == "$LATEST" ]
     then
       lava-test-case ostree-upgrade --result pass
@@ -30,12 +17,7 @@ if [ "$IS_CHECK" = "True" ]; then
       lava-test-case ostree-upgrade --result fail
     fi
 else
-    ostree admin status
-    ostree pull "$OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST"
-    ostree admin deploy --os=laa "$OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST"
-    fw_setenv upgrade_available 1
-    fw_setenv bootcount 0
-    fw_setenv rollback 0
+    ostree_upgrade "$OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST"
 fi
 
 exit 0
