@@ -16,15 +16,13 @@ metadata:
         - functional
 
 params:
-    SKIP_INSTALL: "False"
-    IS_REMOTE: "False"
+    OSTREE_URL: "https://ostree.lavacloud.io/"
     OSTREE_REMOTE_NAME: ""
+    OSTREE_TARGET_VERSION: "latest"
     OSTREE_REF: ""
 
 run:
     steps:
-        - ostree admin status
-        - ostree remote add "$OSTREE_REMOTE_NAME" https://ostree.lavacloud.io/
-        - ostree remote refs "$OSTREE_REMOTE_NAME"
-        - LATEST=$(ostree remote refs "$OSTREE_REMOTE_NAME" | grep "$OSTREE_REF/" | grep -v dev | tail -n 1 | awk -F'/' '{print $NF}')
-        - ostree admin status | grep $LATEST && lava-test-case ostree-version --result pass || lava-test-case ostree-version --result fail
+        - cd ./automated/linux/torizon/
+        - export OSTREE_URL OSTREE_REMOTE_NAME OSTREE_TARGET_VERSION OSTREE_REF
+        - ./boot-tests.sh
