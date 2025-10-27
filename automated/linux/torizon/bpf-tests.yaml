@@ -6,6 +6,7 @@ metadata:
     description: "Run BPF test in LAVA."
     maintainer:
         - stevan.radakovic@linaro.org
+        - remi.duraffort@linaro.org
     os:
         - debian
         - ubuntu
@@ -13,10 +14,6 @@ metadata:
         - qemu
     scope:
         - functional
-
-params:
-    SKIP_INSTALL: "False"
-    IS_REMOTE: "False"
 
 run:
     steps:
