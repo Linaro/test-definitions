@@ -22,7 +22,8 @@ else  ##  means that the value is 'latest_tag'
 fi
 
 if [ "$IS_CHECK" = "True" ]; then
-    ostree admin status | grep $LATEST && lava-test-case ostree-upgrade --result pass || lava-test-case ostree-upgrade --result fail
+    DEPLOYED_VERSION=$(ostree admin status | grep '^\*' -A 1 | grep 'Version:' | awk '{ print $2}')
+    [ "$DEPLOYED_VERSION" == "$LATEST" ] && lava-test-case ostree-upgrade --result pass || lava-test-case ostree-upgrade --result fail
 else
     ostree admin status
     ostree pull $OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST
