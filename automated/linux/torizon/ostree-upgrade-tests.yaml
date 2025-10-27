@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0-only
-# Copyright (C) 2024 Linaro Ltd.
+# Copyright (C) 2025 Linaro Ltd.
 metadata:
-    name: integration-tests
+    name: upgrade-tests
     format: "Lava-Test Test Definition 1.0"
-    description: "Run appliance integration tests in LAVA."
+    description: "Run appliance upgrade tests in LAVA."
     maintainer:
         - stevan.radakovic@linaro.org
     os:
@@ -11,6 +11,7 @@ metadata:
         - ubuntu
     devices:
         - qemu
+        - lol
     scope:
         - functional
 
