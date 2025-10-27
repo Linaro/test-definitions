@@ -3,6 +3,7 @@
 # Copyright (C) 2025 Linaro Ltd.
 set -x
 
+ostree remote delete "$OSTREE_REMOTE_NAME"
 ostree remote add $OSTREE_REMOTE_NAME $OSTREE_URL || lava-test-case ostree-upgrade-remote-add --result fail
 
 SORTED_VERSIONS=$(ostree remote refs $OSTREE_REMOTE_NAME | grep $OSTREE_REF/ | awk -F'/' '{
@@ -26,6 +27,9 @@ else
     ostree admin status
     ostree pull $OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST
     ostree admin deploy --os=laa $OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST
+    fw_setenv upgrade_available 1
+    fw_setenv bootcount 0
+    fw_setenv rollback 0
 fi
 
 exit 0
