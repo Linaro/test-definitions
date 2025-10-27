@@ -35,8 +35,7 @@ chown root:root /usr/local/bin/geckodriver
 
 
 # clone baklava-integration repo and install required pip pkgs
-get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration.git" "baklava-integration" "main"
-
+get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration/docker-tests.git" "docker-tests" "main"
 git checkout $BRANCH_NAME
 
 python3 -m venv venv
