@@ -29,14 +29,14 @@ fi
 
 # Download and install gecko driver
 curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.36.0/$DRIVER"
-tar -xvf $DRIVER
+tar -xf "$DRIVER"
 mv geckodriver /usr/local/bin
 chown root:root /usr/local/bin/geckodriver
 
 
 # clone baklava-integration repo and install required pip pkgs
 get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration/docker-tests.git" "docker-tests" "main"
-git checkout $BRANCH_NAME
+git checkout "$BRANCH_NAME"
 
 python3 -m venv venv
 . venv/bin/activate
@@ -48,7 +48,7 @@ export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SQUAD_UPLOAD_URL SQUAD_ARCHIVE_S
 robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
 
 cd ..
-../../utils/upload-to-squad.sh -a output.xml -u $SQUAD_UPLOAD_URL
+../../utils/upload-to-squad.sh -a output.xml -u "$SQUAD_UPLOAD_URL"
 ../../utils/parse-robot-framework.py -r output.xml
 
 exit 0

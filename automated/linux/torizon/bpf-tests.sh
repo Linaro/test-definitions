@@ -6,7 +6,7 @@ set -x
 output=$(/usr/share/bcc/tools/cpuunclaimed 0.3 5 2>&1)
 status=$?
 
-echo $output
+echo "$output"
 echo $status
 
 if [ $status -ne 0 ]; then

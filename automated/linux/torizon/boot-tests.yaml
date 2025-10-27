@@ -24,7 +24,7 @@ params:
 run:
     steps:
         - ostree admin status
-        - ostree remote add $OSTREE_REMOTE_NAME https://ostree.lavacloud.io/
-        - ostree remote refs $OSTREE_REMOTE_NAME
-        - LATEST=$(ostree remote refs $OSTREE_REMOTE_NAME | grep $OSTREE_REF/ | grep -v dev | tail -n 1 | awk -F'/' '{print $NF}')
+        - ostree remote add "$OSTREE_REMOTE_NAME" https://ostree.lavacloud.io/
+        - ostree remote refs "$OSTREE_REMOTE_NAME"
+        - LATEST=$(ostree remote refs "$OSTREE_REMOTE_NAME" | grep "$OSTREE_REF/" | grep -v dev | tail -n 1 | awk -F'/' '{print $NF}')
         - ostree admin status | grep $LATEST && lava-test-case ostree-version --result pass || lava-test-case ostree-version --result fail
