@@ -1,7 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0-only
 # Copyright (C) 2025 Linaro Ltd.
-set -x
+set -ex
 . ./lib.sh
 
 ostree_setup

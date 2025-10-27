@@ -7,7 +7,7 @@ export LANG
 
 ostree_setup() {
     info_msg "Setup ostree remotes"
-    ostree remote delete "$OSTREE_REMOTE_NAME"
+    ostree remote delete "$OSTREE_REMOTE_NAME" || true
     ostree remote add "$OSTREE_REMOTE_NAME" "$OSTREE_URL" || lava-test-case ostree-upgrade-remote-add --result fail
 }
 
