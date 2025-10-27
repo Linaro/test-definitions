@@ -4,9 +4,9 @@
 set -x
 
 ostree remote delete "$OSTREE_REMOTE_NAME"
-ostree remote add $OSTREE_REMOTE_NAME $OSTREE_URL || lava-test-case ostree-upgrade-remote-add --result fail
+ostree remote add "$OSTREE_REMOTE_NAME" "$OSTREE_URL" || lava-test-case ostree-upgrade-remote-add --result fail
 
-SORTED_VERSIONS=$(ostree remote refs $OSTREE_REMOTE_NAME | grep $OSTREE_REF/ | awk -F'/' '{
+SORTED_VERSIONS=$(ostree remote refs "$OSTREE_REMOTE_NAME" | grep "$OSTREE_REF/" | awk -F'/' '{
   version = $NF;
   base_version = version;
   sub(/\.dev[0-9]+.*/, "", base_version);
@@ -23,11 +23,16 @@ fi
 
 if [ "$IS_CHECK" = "True" ]; then
     DEPLOYED_VERSION=$(ostree admin status | grep '^\*' -A 1 | grep 'Version:' | awk '{ print $2}')
-    [ "$DEPLOYED_VERSION" == "$LATEST" ] && lava-test-case ostree-upgrade --result pass || lava-test-case ostree-upgrade --result fail
+    if [ "$DEPLOYED_VERSION" == "$LATEST" ]
+    then
+      lava-test-case ostree-upgrade --result pass
+    else
+      lava-test-case ostree-upgrade --result fail
+    fi
 else
     ostree admin status
-    ostree pull $OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST
-    ostree admin deploy --os=laa $OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST
+    ostree pull "$OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST"
+    ostree admin deploy --os=laa "$OSTREE_REMOTE_NAME:$OSTREE_REF/$LATEST"
     fw_setenv upgrade_available 1
     fw_setenv bootcount 0
     fw_setenv rollback 0
