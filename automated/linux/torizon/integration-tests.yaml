@@ -15,7 +15,6 @@ metadata:
         - functional
 
 params:
-    SKIP_INSTALL: "False"
     IS_REMOTE: "False"
     GITLAB_TOKEN: ""
     BAKFLEET_URL: ""
