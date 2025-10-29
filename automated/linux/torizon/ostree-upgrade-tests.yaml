@@ -16,7 +16,6 @@ metadata:
         - functional
 
 params:
-    IS_REMOTE: "False"
     IS_CHECK: "False"
     OSTREE_URL: "https://ostree.lavacloud.io/"
     OSTREE_REMOTE_NAME: ""
@@ -26,5 +25,5 @@ params:
 run:
     steps:
         - cd ./automated/linux/torizon/
-        - export IS_REMOTE IS_CHECK OSTREE_URL OSTREE_REMOTE_NAME OSTREE_TARGET_VERSION OSTREE_REF
+        - export IS_CHECK OSTREE_URL OSTREE_REMOTE_NAME OSTREE_TARGET_VERSION OSTREE_REF
         - ./ostree-upgrade-tests.sh
