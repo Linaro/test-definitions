@@ -1,0 +1,50 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2025 Linaro Ltd.
+metadata:
+    name: labgrid
+    format: "Lava-Test Test Definition 1.0"
+    description: "Run labgrid tests in lava docker test shell"
+    maintainer:
+        - chase.qi@linaro.org
+    scope:
+        - performance
+        - functional
+    os:
+        - python:3.13 # Debian Trixie based docker image.
+        - Debian
+        - Ubuntu
+    devices:
+        - all
+
+params:
+    # labgrid env configure file.
+    LG_ENV: "./tests/example/env.yaml"
+    # By default, labgrid env configure will be updated using the variables defined in
+    # lava device dictionary where board power control and serial connection commands
+    # should be defined. Set the parameter to 'false' to skip the update.
+    UPDATE_ENV: true
+    # pytest file.
+    LG_TEST: "./tests/example/test_shell.py"
+    # Extra Debian packages to be installed.
+    DEB_PKGS: ""
+    PYPI_PKGS: "labgrid PyYAML junitparser>=4.0.2"
+    SKIP_INSTALL: false
+
+run:
+    steps:
+        - cd ./automated/linux/labgrid
+        # Install
+        - |
+          if [ "${SKIP_INSTALL}" = "false" ] || [ "${SKIP_INSTALL}" = "False" ]; then
+            which pip3 || DEB_PKGS="${DEB_PKGS} python3-pip"
+            apt update -y && apt install -y telnet ${DEB_PKGS}
+            pip3 install ${PYPI_PKGS} || pip3 install --break-system-packages ${PYPI_PKGS}
+          fi
+        # Update env configure
+        - if [ "${UPDATE_ENV}" = "true" ] || [ "${UPDATE_ENV}" = "True" ]; then ./update_env.py "${LG_ENV}"; fi
+        # Run and create junit style result file
+        - pytest -vv --color=no --lg-env "${LG_ENV}" "${LG_TEST}" --junit-xml result.xml
+        # Parse and save results to result.txt in format "test-case pass/fail/skip"
+        - ../../lib/parse_junitxml.py result.xml
+        # Generate lava result
+        - ../../utils/send-to-lava.sh "result.txt"
