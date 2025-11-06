@@ -33,19 +33,18 @@ tar -xf "$DRIVER"
 mv geckodriver /usr/local/bin
 chown root:root /usr/local/bin/geckodriver
 
+# Download and install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+. "$HOME"/.local/bin/env
 
 # clone baklava-integration repo and install required pip pkgs
 get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration/docker-tests.git" "docker-tests" "main"
 git checkout "$BRANCH_NAME"
 
-python3 -m venv venv
-. venv/bin/activate
-pip3 install -r requirements.txt
-
 export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SQUAD_UPLOAD_URL SQUAD_ARCHIVE_SUBMIT_TOKEN
 
-# run tests
-robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
+# run tests with uv
+uv run robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
 
 cd ..
 ../../utils/upload-to-squad.sh -a output.xml -u "$SQUAD_UPLOAD_URL"
