@@ -44,7 +44,7 @@ git checkout "$BRANCH_NAME"
 export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SQUAD_UPLOAD_URL SQUAD_ARCHIVE_SUBMIT_TOKEN
 
 # run tests with uv
-uv run robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. test/
+uv run robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. --listener test/keyword_listener.py test/
 
 cd ..
 ../../utils/upload-to-squad.sh -a output.xml -u "$SQUAD_UPLOAD_URL"
