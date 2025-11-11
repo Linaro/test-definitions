@@ -46,8 +46,7 @@ export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SQUAD_UPLOAD_URL SQUAD_ARCHIVE_S
 # run tests with uv
 uv run robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. --listener test/keyword_listener.py test/
 
-cd ..
-../../utils/upload-to-squad.sh -a output.xml -u "$SQUAD_UPLOAD_URL"
-../../utils/parse-robot-framework.py -r output.xml
+../../../utils/upload-to-squad.sh -a ../output.xml -u "$SQUAD_UPLOAD_URL"
+uv run --project ../../../utils/ uv run ../../../utils/parse-robot-framework.py -r ../output.xml
 
 exit 0
