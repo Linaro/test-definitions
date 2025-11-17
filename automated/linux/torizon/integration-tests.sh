@@ -60,8 +60,7 @@ curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | sh
 . "$HOME"/.local/bin/env
 
 # clone baklava-integration repo and install required pip pkgs
-get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration/docker-tests.git" "docker-tests" "main"
-git checkout "$BRANCH_NAME"
+get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration/docker-tests.git" "docker-tests" "$BRANCH_NAME"
 
 export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SQUAD_UPLOAD_URL SQUAD_ARCHIVE_SUBMIT_TOKEN
 
