@@ -5,7 +5,19 @@ set -x
 . ../../lib/sh-test-lib
 
 # source the secrets file to get the gitlab_token env var
-. ../../../../../../secrets > /dev/null 2>&1
+lava_test_dir="$(
+  dir="$(pwd)"
+  while [ "$dir" != "/" ]; do
+    find "$dir" -maxdepth 1 -type d -regex '.*/lava-[0-9]+' 2>/dev/null
+    dir=$(dirname "$dir")
+  done |
+  sort -t- -k2,2n |
+  tail -1
+)"
+if test -f "${lava_test_dir}/secrets"; then
+. "${lava_test_dir}/secrets"
+fi
+
 
 # Determine the appropriate packages for the architecture
 ARCH=$(uname -m)
