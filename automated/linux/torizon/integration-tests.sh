@@ -18,20 +18,21 @@ if test -f "${lava_test_dir}/secrets"; then
 . "${lava_test_dir}/secrets"
 fi
 
-
 # Determine the appropriate packages for the architecture
 SPIRE_VERSION="0.3.4"
+GECKO_VERSION="v0.36.0"
+UV_VERSION="0.9.4"
 
 detect_abi
 # shellcheck disable=SC2154
 case "${abi}" in
   x86_64)
-    DRIVER="geckodriver-v0.36.0-linux64.tar.gz"
-    SPIRE="staging-spire_${SPIRE_VERSION}_linux_amd64.deb"
+    GECKODRIVER_ARCH="linux64"
+    SPIRE_ARCH="linux_amd64"
     ;;
   arm64|aarch64)
-    DRIVER="geckodriver-v0.36.0-linux-aarch64.tar.gz"
-    SPIRE="staging-spire_${SPIRE_VERSION}_linux_arm64.deb"
+    GECKODRIVER="linux-aarch64"
+    SPIRE_ARCH="linux_arm64"
     ;;
   *)
     echo "Unknown architecture: ${abi}"
@@ -39,18 +40,21 @@ case "${abi}" in
     ;;
 esac
 
+GECKODRIVER="geckodriver-${GECKO_VERSION}-${GECKODRIVER_ARCH}.tar.gz"
+SPIRE="staging-spire_${SPIRE_VERSION}_${SPIRE_ARCH}.deb"
+
 # Download and install spire package
 curl -sSLO "https://github.com/Linaro/SPIRE-CLI-S-/releases/download/$SPIRE_VERSION/$SPIRE"
 dpkg -i "$SPIRE"
 
 # Download and install gecko driver
-curl -LO "https://github.com/mozilla/geckodriver/releases/download/v0.36.0/$DRIVER"
-tar -xf "$DRIVER"
+curl -LO "https://github.com/mozilla/geckodriver/releases/download/${GECKO_VERSION}/$GECKODRIVER"
+tar -xf "$GECKODRIVER"
 mv geckodriver /usr/local/bin
 chown root:root /usr/local/bin/geckodriver
 
 # Download and install uv
-curl -LsSf https://astral.sh/uv/install.sh | sh
+curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | sh
 . "$HOME"/.local/bin/env
 
 # clone baklava-integration repo and install required pip pkgs
