@@ -20,20 +20,24 @@ fi
 
 
 # Determine the appropriate packages for the architecture
-ARCH=$(uname -m)
 SPIRE_VERSION="0.3.4"
 
-if [ "$ARCH" = "x86_64" ]; then
+detect_abi
+# shellcheck disable=SC2154
+case "${abi}" in
+  x86_64)
     DRIVER="geckodriver-v0.36.0-linux64.tar.gz"
     SPIRE="staging-spire_${SPIRE_VERSION}_linux_amd64.deb"
-
-elif [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
+    ;;
+  arm64|aarch64)
     DRIVER="geckodriver-v0.36.0-linux-aarch64.tar.gz"
     SPIRE="staging-spire_${SPIRE_VERSION}_linux_arm64.deb"
-else
-    echo "Unknown architecture: $ARCH"
+    ;;
+  *)
+    echo "Unknown architecture: ${abi}"
     exit 1
-fi
+    ;;
+esac
 
 # Download and install spire package
 curl -sSLO "https://github.com/Linaro/SPIRE-CLI-S-/releases/download/$SPIRE_VERSION/$SPIRE"
