@@ -4,7 +4,7 @@
 set -x
 . ../../lib/sh-test-lib
 
-UTILS_PATH=$(cd ../../utils && pwd)
+UTILS_PATH="$(cd ../../utils && pwd)"
 
 # source the secrets file to get the gitlab_token env var
 lava_test_dir="$(
@@ -46,28 +46,28 @@ GECKODRIVER="geckodriver-${GECKO_VERSION}-${GECKODRIVER_ARCH}.tar.gz"
 SPIRE="staging-spire_${SPIRE_VERSION}_${SPIRE_ARCH}.deb"
 
 # Download and install spire package
-curl -sSLO "https://github.com/Linaro/SPIRE-CLI-S-/releases/download/$SPIRE_VERSION/$SPIRE"
-dpkg -i "$SPIRE"
+curl -sSLO "https://github.com/Linaro/SPIRE-CLI-S-/releases/download/${SPIRE_VERSION}/${SPIRE}"
+dpkg -i "${SPIRE}"
 
 # Download and install gecko driver
-curl -LO "https://github.com/mozilla/geckodriver/releases/download/${GECKO_VERSION}/$GECKODRIVER"
-tar -xf "$GECKODRIVER"
+curl -LO "https://github.com/mozilla/geckodriver/releases/download/${GECKO_VERSION}/${GECKODRIVER}"
+tar -xf "${GECKODRIVER}"
 mv geckodriver /usr/local/bin
 chown root:root /usr/local/bin/geckodriver
 
 # Download and install uv
 curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | sh
-. "$HOME"/.local/bin/env
+. "${HOME}"/.local/bin/env
 
 # clone baklava-integration repo and install required pip pkgs
-get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration/docker-tests.git" "docker-tests" "$BRANCH_NAME"
+get_test_program "https://gitlab-ci-token:${GITLAB_TOKEN}@gitlab.com/LinaroLtd/lava/appliance/baklava-integration/docker-tests.git" "docker-tests" "${BRANCH_NAME}"
 
 export SPIRE_PAT_TOKEN LAVA_TOKEN LAVA_PASSWORD SQUAD_UPLOAD_URL SQUAD_ARCHIVE_SUBMIT_TOKEN
 
 # run tests with uv
-uv run robot --pythonpath . --exclude gitlab_pipeline --variable remote:"$IS_REMOTE" --outputdir=.. --listener test/keyword_listener.py test/
+uv run robot --pythonpath . --exclude gitlab_pipeline --variable remote:"${IS_REMOTE}" --outputdir=.. --listener test/keyword_listener.py test/
 
-"${UTILS_PATH}"/upload-to-squad.sh -a ../output.xml -u "$SQUAD_UPLOAD_URL"
+"${UTILS_PATH}"/upload-to-squad.sh -a ../output.xml -u "${SQUAD_UPLOAD_URL}"
 uv run --project "${UTILS_PATH}"/ uv run "${UTILS_PATH}"/parse-robot-framework.py -r ../output.xml
 
 exit 0
