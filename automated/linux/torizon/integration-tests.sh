@@ -21,7 +21,7 @@ if test -f "${lava_test_dir}/secrets"; then
 fi
 
 # Determine the appropriate packages for the architecture
-SPIRE_VERSION="0.3.4"
+SPIRE_VERSION="0.3.10"
 GECKO_VERSION="v0.36.0"
 UV_VERSION="0.9.4"
 
