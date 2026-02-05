@@ -11,7 +11,6 @@ from argparse import ArgumentParser
 from csv import DictWriter
 from jinja2 import Environment, FileSystemLoader
 
-
 logger = logging.getLogger()
 
 

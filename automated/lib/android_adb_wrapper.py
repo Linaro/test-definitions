@@ -4,7 +4,6 @@ import re
 import subprocess
 import time
 
-
 ADB_DEVICES_PATTERN = re.compile(r"^([a-z0-9-]+)\s+device$", flags=re.M)
 
 
