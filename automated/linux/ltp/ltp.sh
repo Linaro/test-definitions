@@ -30,7 +30,7 @@ BUILD_FROM_TAR="false"
 SHARD_NUMBER=1
 SHARD_INDEX=1
 
-RUNNER=""
+RUNNER="kirk"
 KIRK_WORKERS=1
 EXTRA_KIRK_ARGS=""
 
@@ -50,7 +50,7 @@ usage() {
                       [-v LTP_VERSION]
                       [-M Timeout_Multiplier]
                       [-R root_password]
-                      [-r new runner (kirk)]
+                      [-r runner (kirk)]
                       [-u git url]
                       [-p build directory]
                       [-t build from tarfile ]
@@ -162,13 +162,6 @@ if [ -n "${SKIPFILE_YAML}" ]; then
     SKIPFILE="-S ${SKIPFILE_PATH}"
 fi
 
-# Parse LTP output
-parse_ltp_output() {
-    grep -E "PASS|FAIL|CONF"  "$1" \
-        | awk '{print $1" "$2}' \
-        | sed 's/PASS/pass/; s/FAIL/fail/; s/CONF/skip/'  >> "${RESULT_FILE}"
-}
-
 parse_ltp_json_results() {
     jq -r '.results| .[]| "\(.test_fqn) \(.test.result)"'  "$1" \
         | sed 's/brok/fail/; s/conf/skip/'  >> "${RESULT_FILE}"
@@ -193,33 +186,23 @@ run_ltp() {
     cat runtest/shardfile
     echo "===========End Tests to run ==============="
 
-    if [ -n "${RUNNER}" ]; then
-        eval "${RUNNER}" --version
-        # shellcheck disable=SC2181
-        if [ $? -ne "0" ]; then
-          error_msg "${RUNNER} is not installed into the file system."
-        fi
-        if [ "${KIRK_WORKERS}" = "max" ]; then
-          KIRK_WORKERS=$(grep ^processor /proc/cpuinfo | wc -l)
-        fi
-        pipe0_status "${RUNNER} ${EXTRA_KIRK_ARGS} --framework ltp --run-suite shardfile \
-                                -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
-                                ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
-                                ${KIRK_WORKERS:+--workers} ${KIRK_WORKERS} \
-				--no-colors \
-                                --json-report /tmp/kirk-report.json" \
-                                "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
-        parse_ltp_json_results "/tmp/kirk-report.json"
-        rm "/tmp/kirk-report.json"
-    else
-        pipe0_status "./runltp -p -q -f shardfile \
-                                 -l ${OUTPUT}/LTP_${LOG_FILE}.log \
-                                 -C ${OUTPUT}/LTP_${LOG_FILE}.failed \
-                                 -d ${LTP_TMPDIR} \
-                                    ${SKIPFILE}" "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
-        parse_ltp_output "${OUTPUT}/LTP_${LOG_FILE}.log"
+    eval "${RUNNER}" --version
+    # shellcheck disable=SC2181
+    if [ $? -ne "0" ]; then
+      error_msg "${RUNNER} is not installed into the file system."
     fi
-#    check_return "runltp_${LOG_FILE}"
+    if [ "${KIRK_WORKERS}" = "max" ]; then
+      KIRK_WORKERS=$(grep ^processor /proc/cpuinfo | wc -l)
+    fi
+    pipe0_status "${RUNNER} ${EXTRA_KIRK_ARGS} --framework ltp --run-suite shardfile \
+                            -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
+                            ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
+                            ${KIRK_WORKERS:+--workers} ${KIRK_WORKERS} \
+                            --no-colors \
+                            --json-report /tmp/kirk-report.json" \
+                            "tee ${OUTPUT}/LTP_${LOG_FILE}.out"
+    parse_ltp_json_results "/tmp/kirk-report.json"
+    rm "/tmp/kirk-report.json"
 
     # Cleanup
     # don't fail the whole test job if rm fails
