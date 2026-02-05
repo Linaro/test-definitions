@@ -10,7 +10,6 @@ import subprocess
 import sys
 import time
 
-
 sys.path.insert(0, "../../../lib/")
 sys.path.insert(1, "../../")
 import py_test_lib  # nopep8
@@ -18,7 +17,6 @@ from py_util_lib import call_shell_lib  # nopep8
 import tradefed.result_parser as result_parser  # nopep8
 from multinode.tradefed.utils import *  # nopep8
 from multinode.tradefed.sts_util import StsUtil  # nopep8
-
 
 OUTPUT = "%s/output" % os.getcwd()
 RESULT_FILE = "%s/result.txt" % OUTPUT

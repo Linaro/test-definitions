@@ -15,7 +15,6 @@ import time
 sys.path.insert(0, "../../lib/")
 import py_test_lib  # nopep8
 
-
 OUTPUT = "%s/output" % os.getcwd()
 RESULT_FILE = "%s/result.txt" % OUTPUT
 TRADEFED_STDOUT = "%s/tradefed-stdout.txt" % OUTPUT

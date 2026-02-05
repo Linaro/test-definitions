@@ -14,7 +14,6 @@ from scapy.all import (
     fragment,
 )
 
-
 test_expectations = {
     "tcp_basic.pcap": "pass",
     "tcp_data.pcap": "pass",

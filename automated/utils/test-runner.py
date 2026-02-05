@@ -17,7 +17,6 @@ import time
 from uuid import uuid4
 from datetime import datetime
 
-
 try:
     from squad_client.core.api import SquadApi
     from squad_client.shortcuts import submit_results
@@ -1122,37 +1121,31 @@ def get_args():
         "--output",
         default=os.getenv("HOME", "") + "/output",
         dest="output",
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
                         specify a directory to store test and result files.
                         Default: $HOME/output
-                        """
-        ),
+                        """),
     )
     parser.add_argument(
         "-p",
         "--test_plan",
         default=None,
         dest="test_plan",
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
                         specify a test plan file which has tests and related
                         params listed in yaml format.
-                        """
-        ),
+                        """),
     )
     parser.add_argument(
         "-d",
         "--test_def",
         default=None,
         dest="test_def",
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
                         base on test definition repo location, specify relative
                         path to the test definition to run.
                         Format example: "ubuntu/smoke-tests-basic.yaml"
-                        """
-        ),
+                        """),
     )
     parser.add_argument(
         "-r",
@@ -1162,14 +1155,12 @@ def get_args():
         action=StoreDictKeyPair,
         nargs="+",
         metavar="KEY=VALUE",
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
                         Set additional parameters when using test definition without
                         a test plan. The name values are set similarily to environment
                         variables:
                         --test_def_params KEY1=VALUE1 KEY2=VALUE2 ...
-                        """
-        ),
+                        """),
     )
     parser.add_argument(
         "-k",
@@ -1177,12 +1168,10 @@ def get_args():
         default="automated",
         dest="kind",
         choices=["automated", "manual"],
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
                         Selects type of tests to be executed from the test plan.
                         Possible options: automated, manual
-                        """
-        ),
+                        """),
     )
     parser.add_argument(
         "-t",
@@ -1197,13 +1186,11 @@ def get_args():
         "--target",
         default=None,
         dest="target",
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
                         Specify SSH target to execute tests.
                         Format: user@host
                         Note: ssh authentication must be paswordless
-                        """
-        ),
+                        """),
     )
     parser.add_argument(
         "-s",
@@ -1234,14 +1221,12 @@ def get_args():
         "--overlay",
         default=None,
         dest="overlay",
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
                         Specify test plan overlay file to:
                         * skip tests
                         * amend test parameters
                         * add new tests
-                        """
-        ),
+                        """),
     )
     parser.add_argument(
         "-v",
@@ -1314,14 +1299,12 @@ def get_args():
         dest="cleanup",
         default=False,
         action="store_true",
-        help=textwrap.dedent(
-            """\
+        help=textwrap.dedent("""\
         If set to true, test-runner will remove all temporary files after
         running the test. It includes all collected logs and test results. This
         option should only be used if uploading results to SQUAD or LAVA.
         Default: false
-        """
-        ),
+        """),
     )
 
     args = parser.parse_args()
