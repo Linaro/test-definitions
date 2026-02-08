@@ -39,12 +39,12 @@ params:
     # root's password. Needed by ltp/su01.
     ROOT_PASSWD: root
 
-    # New kirk runner (https://github.com/linux-test-project/kirk.git)
+    # Kirk runner (https://github.com/linux-test-project/kirk.git)
     # Needs to be installed onto the rootfs.
-    # Set RUNNER to full path to kirk or to kirk if its in the PATH.
-    RUNNER: ""
+    # Set RUNNER to full path to kirk or to kirk if it's in the PATH.
+    RUNNER: "kirk"
 
-    # Number of parallel test workers to use with the new KIRK runner.
+    # Number of parallel test workers to use with kirk.
     # # Tests can now run concurrently by specifying '--workers X'.
     KIRK_WORKERS: 1
 
