@@ -18,9 +18,10 @@ params:
     DEVICE: wlan0
     # expected state on first boot: <enabled> or <disabled>
     BOOT: enabled
+    WAIT_TIME: 0
 
 run:
     steps:
         - cd ./automated/linux/wlan-smoke
-        - ./wlan-smoke-test.sh -d "${DEVICE}" -b "${BOOT}"
+        - ./wlan-smoke-test.sh -d "${DEVICE}" -b "${BOOT}" -w "${WAIT_TIME}"
         - ../../utils/send-to-lava.sh ./output/result.txt
