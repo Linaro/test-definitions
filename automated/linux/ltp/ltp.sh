@@ -21,7 +21,7 @@ BOARD=""
 BRANCH=""
 ENVIRONMENT=""
 # LTP version
-LTP_VERSION="20180926"
+LTP_VERSION="20260130"
 TEST_PROGRAM=ltp
 # https://github.com/linux-test-project/ltp.git
 TEST_GIT_URL=""
@@ -193,6 +193,10 @@ run_ltp() {
     cat runtest/shardfile
     echo "===========End Tests to run ==============="
 
+    if [ -z "${RUNNER}" ] && [ -x "${LTP_INSTALL_PATH}/kirk" ]; then
+        RUNNER="${LTP_INSTALL_PATH}/kirk"
+    fi
+
     if [ -n "${RUNNER}" ]; then
         eval "${RUNNER}" --version
         # shellcheck disable=SC2181
@@ -270,12 +274,12 @@ install() {
     case "${dist}" in
       debian|ubuntu)
         [[ -n "${TEST_GIT_URL}" ]] && pkgs="git"
-        pkgs="${pkgs} xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev libattr1-dev libcap-dev expect automake acl autotools-dev autoconf m4 pkgconf"
+        pkgs="${pkgs} xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev libattr1-dev libcap-dev expect automake acl autotools-dev autoconf m4 pkgconf python3"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
         [[ -n "${TEST_GIT_URL}" ]] && pkgs="git-core"
-        pkgs="${pkgs} xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage sudo libaio-devel libattr-devel libcap-devel m4 expect acl pkgconf"
+        pkgs="${pkgs} xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage sudo libaio-devel libattr-devel libcap-devel m4 expect acl pkgconf python3"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)
