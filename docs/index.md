@@ -93,29 +93,32 @@ More details on test-runner usage in [test-runner docs](test-runner.md)
 YAML files. Resulting markdown files are not stored in the repository. In order
 to generate documentation locally one needs to follow the steps below:
 
-1. create and activate virtualenv  
+1. create and activate virtualenv
    ```
-   virtualenv -p python3 venv
+   python3 -m venv venv
    source venv/bin/activate
    ```
-2. install requirements  
+2. install requirements
    ```
-   pip install -r mkdocs_plugin/requirements.txt
+   pip install -r requirements-docs.txt
    ```
-3. run mkdocs
-    * local http server  
+3. generate test docs from YAML definitions
+   ```
+   python generate_test_docs.py
+   ```
+4. run mkdocs
+    * local http server
       ```
       mkdocs serve
-      ```  
+      ```
       This will start small http server on http://127.0.0.1:8000
 
-    * build static docs  
+    * build static docs
       ```
       mkdocs build
-      ```  
+      ```
       This will convert all generated markdown files to HTML files. By default
-      files are stored in 'site' directory. See [mkdocs documentation](https://www.mkdocs.org/#building-the-site)
-      for more details.
+      files are stored in 'site' directory.
 
 ## Contributing
 

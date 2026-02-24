@@ -1,5 +1,5 @@
-mkdocs-test-definitions-plugin
-mdutils==1.0.0
+pyyaml
+mkdocs
 git+https://github.com/mwasilew/mkdocs-plugin-tags.git
 mkdocs-exclude
 mkdocs-material
