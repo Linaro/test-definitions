@@ -90,8 +90,14 @@ More details on test-runner usage in [test-runner docs](test-runner.md)
 ## Generating documentation
 
 [Full docs](https://test-definitions.readthedocs.io) are generated from existing
-YAML files. Resulting markdown files are not stored in the repository. In order
-to generate documentation locally one needs to follow the steps below:
+YAML files. Resulting markdown files are not stored in the repository.
+
+### Using uv
+
+    uv run --with pyyaml --with zensical -- python generate_test_docs.py
+    uv run --with zensical -- zensical serve
+
+### Using pip
 
 1. create and activate virtualenv
    ```
@@ -106,19 +112,18 @@ to generate documentation locally one needs to follow the steps below:
    ```
    python generate_test_docs.py
    ```
-4. run mkdocs
-    * local http server
-      ```
-      mkdocs serve
-      ```
-      This will start small http server on http://127.0.0.1:8000
+4. run zensical
+   ```
+   zensical serve
+   ```
 
-    * build static docs
-      ```
-      mkdocs build
-      ```
-      This will convert all generated markdown files to HTML files. By default
-      files are stored in 'site' directory.
+This will start a local http server on http://127.0.0.1:8000.
+
+To build static HTML instead:
+
+    zensical build
+
+Files are stored in the 'site' directory.
 
 ## Contributing
 
