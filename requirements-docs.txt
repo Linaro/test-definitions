@@ -1,5 +1,2 @@
 pyyaml
-mkdocs
-git+https://github.com/mwasilew/mkdocs-plugin-tags.git
-mkdocs-exclude
-mkdocs-material
+zensical

@@ -24,4 +24,4 @@ jobs:
 
       - name: Build docs
         run: |
-         python -m mkdocs build --clean --site-dir html --config-file mkdocs.yml
+         zensical build -c
