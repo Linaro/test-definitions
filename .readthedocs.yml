@@ -3,12 +3,9 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3"
-  jobs:
-    pre_build:
-      - python generate_test_docs.py
-mkdocs:
-  configuration: mkdocs.yml
-formats: all
-python:
-  install:
-    - requirements: requirements-docs.txt
+  commands:
+    - pip install -r requirements-docs.txt
+    - python generate_test_docs.py
+    - zensical build -c
+    - mkdir -p $READTHEDOCS_OUTPUT/html
+    - cp -r site/* $READTHEDOCS_OUTPUT/html/
