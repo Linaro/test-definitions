@@ -6,11 +6,6 @@ extra_css: [extra.css]
 theme:
     name: material
 plugins:
-    - linaro-test-definitions:
-        table_dirs:
-            - 'automated/linux'
-            - 'automated/android'
-            - 'manual'
     - tags:
         tags_file: tags.md
     - exclude:
