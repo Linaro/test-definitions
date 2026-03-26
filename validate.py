@@ -143,6 +143,13 @@ def validate_yaml_contents(filepath, args):
             publish_result(result_message_list, args)
             args.failed_message_list = args.failed_message_list + result_message_list
             return 1
+        # check run.steps exists
+        if "run" not in y or "steps" not in y.get("run", {}):
+            result_message_list.append("* METADATA [FAILED]: " + filepath)
+            result_message_list.append("\trun.steps section missing")
+            publish_result(result_message_list, args)
+            args.failed_message_list = args.failed_message_list + result_message_list
+            return 1
 
         result_message_list.append("* METADATA [PASSED]: " + filepath)
         publish_result(result_message_list, args)
