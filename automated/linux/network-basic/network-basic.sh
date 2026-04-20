@@ -10,12 +10,17 @@ CURL="curl -o"
 CURL_PACKAGE="curl"
 export RESULT_FILE
 NFS="false"
+SAMPLE_FILE_URL="https://deb.debian.org/debian/dists/trixie/main/installer-amd64/current/images/cdrom/gtk/initrd.gz"
+# md5sum of downloaded SAMPLE_FILE_URL
+SAMPLE_FILE_CHECKSUM="948a3e262203178e07bf1d923053781d"
 
 usage() {
     printf "Usage: %s \
         \n\t[-s <true|false>] \
         \n\t[-i <interface>] \
         \n\t[-n <true|false>] \
+        \n\t[-f <url>] \
+        \n\t[-m <md5sum>] \
         \n\t[-c <curl -o| wget -O>] \
         \n\t[-g <curl/wget package name>] \
         \n\t[-d <dhclient -v|udhcpc>] \
@@ -23,7 +28,7 @@ usage() {
     exit 1
 }
 
-while getopts "s:i:n:c:d:p:g:" o; do
+while getopts "s:i:n:c:d:p:g:f:m:" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     i) INTERFACE="${OPTARG}" ;;
@@ -32,6 +37,8 @@ while getopts "s:i:n:c:d:p:g:" o; do
     g) CURL_PACKAGE="${OPTARG}" ;;
     d) DHCLIENT="${OPTARG}" ;;
     p) DHCLIENT_PACKAGE="${OPTARG}" ;;
+    f) SAMPLE_FILE_URL="${OPTARG}" ;;
+    m) SAMPLE_FILE_CHECKSUM="${OPTARG}";;
     *) usage ;;
   esac
 done
@@ -93,7 +100,8 @@ esac
 run "${DHCLIENT} ${INTERFACE}" "Dynamic-Host-Configuration-Protocol-Client-dhclient-v"
 run "route" "print-routing-tables-after-dhclient-request"
 run "ping -c 5 ${GATEWAY}" "ping-gateway"
-run "${CURL} ${OUTPUT}/curl_big_video.avi http://samplemedia.linaro.org/MPEG4/big_buck_bunny_480p_MPEG4_MP3_25fps_1600K_short.AVI" "download-a-file"
+run "${CURL} ${OUTPUT}/output_file ${SAMPLE_FILE_URL}" "download-a-file"
+run "md5sum ${OUTPUT}/output_file | grep ${SAMPLE_FILE_CHECKSUM}" "download-a-file-md5"
 
 # exit with return code 0 to help LAVA parse results
 exit 0

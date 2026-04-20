@@ -41,9 +41,11 @@ params:
     # DHCLIENT_PACKAGE is a name of the package that will be installed
     # if SKIP_INSTALL is set to "False"
     DHCLIENT_PACKAGE: "isc-dhcp-client"
+    SAMPLE_FILE_URL: "https://deb.debian.org/debian/dists/trixie/main/installer-amd64/current/images/cdrom/gtk/initrd.gz"
+    SAMPLE_FILE_CHECKSUM: "948a3e262203178e07bf1d923053781d"
 
 run:
     steps:
         - cd ./automated/linux/network-basic/
-        - ./network-basic.sh -s "${SKIP_INSTALL}" -i "${INTERFACE}" -n "${NFS}" -c "${CURL}" -g "${CURL_PACKAGE}" -d "${DHCLIENT}" -p "${DHCLIENT_PACKAGE}"
+        - ./network-basic.sh -s "${SKIP_INSTALL}" -i "${INTERFACE}" -n "${NFS}" -c "${CURL}" -g "${CURL_PACKAGE}" -d "${DHCLIENT}" -p "${DHCLIENT_PACKAGE}" -f "${SAMPLE_FILE_URL}" -m "${SAMPLE_FILE_CHECKSUM}"
         - ../../utils/send-to-lava.sh ./output/result.txt
