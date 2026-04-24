@@ -82,24 +82,6 @@ skiplist:
       - mqueue:mq_perf_tests
 
   - reason: >
-      LKFT: Kselftest: rseq: Warning: file basic_test is not executable
-    url: https://bugs.linaro.org/show_bug.cgi?id=3923
-    environments: all
-    boards:
-      - dragonboard-410c
-      - hi6220-hikey
-      - juno-r2
-      - qemu_arm64
-      - qemu_arm
-      - x15
-      - bcm2711-rpi-4-b
-      - dragonboard-845c
-    branches:
-      - all
-    tests:
-      - rseq:run_param_test.sh
-
-  - reason: >
       LKFT: next: bpf: test_kmod.sh hangs on all devices
     url: https://bugs.linaro.org/show_bug.cgi?id=4006
     environments: all
