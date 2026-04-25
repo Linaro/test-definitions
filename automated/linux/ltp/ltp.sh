@@ -196,8 +196,9 @@ run_ltp() {
     if [ "${KIRK_WORKERS}" = "max" ]; then
       KIRK_WORKERS=$(grep ^processor /proc/cpuinfo | wc -l)
     fi
-    pipe0_status "${RUNNER} ${EXTRA_KIRK_ARGS} --framework ltp --run-suite shardfile \
-                            -d ${LTP_TMPDIR} --env LTP_COLORIZE_OUTPUT=0 \
+    export LTP_COLORIZE_OUTPUT=0
+    pipe0_status "${RUNNER} ${EXTRA_KIRK_ARGS} --run-suite shardfile \
+                            -d ${LTP_TMPDIR} \
                             ${SKIPFILE_PATH:+--skip-file} ${SKIPFILE_PATH} \
                             ${KIRK_WORKERS:+--workers} ${KIRK_WORKERS} \
                             --no-colors \
