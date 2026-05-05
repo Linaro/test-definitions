@@ -37,7 +37,7 @@ ip addr
 ip addr show "${INTERFACE}"
 
 # Get IP address of a given interface
-IP_ADDR=$(ip addr show "${INTERFACE}" | grep -a2 "state UP" | tail -1 | awk '{print $2}' | cut -f1 -d'/')
+IP_ADDR=$(ip addr show "${INTERFACE}" | grep -A2 "state UP" | tail -1 | awk '{print $2}' | cut -f1 -d'/')
 
 [ -n "${IP_ADDR}" ]
 exit_on_fail "ethernet-ping-state-UP" "ethernet-ping-route"
