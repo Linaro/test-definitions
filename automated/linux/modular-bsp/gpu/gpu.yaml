@@ -1,0 +1,45 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-gpu
+  description: >
+    Advantech BSP QA – GPU checks: DRI/KMS device nodes, GL/GLES/EGL
+    libraries, Wayland compositor status, Vulkan and VA-API device
+    detection, glmark2 validation, and DRM connector/LVDS/backlight
+    properties.
+    Tests that require an active display session (glmark2, GNOME desktop)
+    are skip stubs when the required tools or display are absent.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+  prerequisites:
+    - "glmark2 tests require a running Wayland/X11 compositor"
+    - "VA-API tests require vainfo tool"
+    - "Vulkan tests require vulkaninfo tool"
+
+params:
+  GPU_COUNT: "1"               # Number of GPU/display connectors
+
+  GPU0_DRI_KMS_DEV: "/dev/dri/card0"
+  GPU0_BACKLIGHT_DEV: ""       # /sys/class/backlight/<dev> (empty = skip)
+  GPU0_LVDS_MOD: ""            # Expected LVDS kernel module (empty = skip)
+  GPU0_LVDS_DEV: ""            # /sys/devices/…/connector path (empty = skip)
+  GPU0_DRM_CONNECTOR: ""       # modetest connector name (empty = skip)
+  GPU0_DRM_CONNECTOR_ENCODER: "" # modetest encoder name (empty = skip)
+  GPU0_RESOLUTION: ""          # Expected display resolution WxH (empty = skip)
+  GPU0_REFRESH_RATE: ""        # Expected refresh rate Hz (empty = skip)
+
+  GPU_WAYLAND: ""              # Compositor: weston, mutter, or empty to skip
+  GPU_VA_CODECS: ""            # Space-separated "codec:entry" pairs for vainfo
+  SKIP_INSTALL: "false"
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash gpu.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

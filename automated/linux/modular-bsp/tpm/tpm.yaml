@@ -1,0 +1,32 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-tpm
+  description: >
+    Advantech BSP QA – TPM checks: device node existence, self-test,
+    manufacturer ID, capabilities list, and PCR readability.
+    Supports both TPM 1.x (tpm-tools) and TPM 2.0 (tpm2-tools).
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  TPM_COUNT: "1"               # Number of TPM devices
+
+  TPM0_DEV: "/dev/tpm0"
+  TPM0_VERSION: "2"            # 1 or 2
+  TPM0_MANUF1: ""              # Expected TPM2_PT_VENDOR_STRING_1 (empty = skip)
+  TPM0_MANUF2: ""              # Expected TPM2_PT_VENDOR_STRING_2 (empty = skip)
+  TPM0_CAPS: ""                # Space-separated capability names to verify (TPM 2.0 only)
+  # TPM1_DEV, … for additional TPMs
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash tpm.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

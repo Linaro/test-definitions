@@ -1,0 +1,28 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-watchdog-reboot
+  description: >
+    Advantech BSP QA – Watchdog reboot test (separate job).
+    Opens the watchdog device and withholds the keepalive ping so that the
+    hardware watchdog fires and reboots the board.  LAVA's auto_login action
+    in the job definition must handle the reboot and re-login before the
+    result file is read.  This test MUST run in its own LAVA job.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  WATCHDOG_DEV: "/dev/watchdog0"
+  WATCHDOG_TIMEOUT_S: "30"     # Seconds to wait for the reboot to complete
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash watchdog-reboot.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

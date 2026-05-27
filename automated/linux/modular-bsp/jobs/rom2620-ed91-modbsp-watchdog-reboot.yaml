@@ -1,0 +1,68 @@
+# LAVA Job Definition – ROM-2620 ED91 ModBSP Watchdog Reboot Test
+# This is a SEPARATE job because triggering the watchdog reboots the board,
+# which terminates the current LAVA test session.
+#
+# LAVA handles recovery via auto_login after the reboot.  The test script
+# writes the result BEFORE firing the watchdog so LAVA can pick it up
+# after the board comes back up.
+#
+# Fill in device_type and deploy/boot as for the main job.
+---
+device_type: advantech-rom2620  # TODO: set to your lab's device type
+job_name: "Advantech ROM-2620 ED91 – Watchdog Reboot"
+visibility: public
+priority: medium
+
+timeouts:
+  job:
+    minutes: 15
+  action:
+    minutes: 5
+  connection:
+    minutes: 5
+
+metadata:
+  source: https://github.com/miketsukerman/yocto-auto
+  board: ROM-2620-ED91
+  bsp: ModBSP
+  test: watchdog-reboot
+
+actions:
+
+  - deploy:
+      timeout:
+        minutes: 10
+      to: tftp
+      kernel:
+        url: http://images.example.com/rom2620/Image  # TODO
+        type: image
+      dtb:
+        url: http://images.example.com/rom2620/rom2620-ed91-modbsp.dtb  # TODO
+      ramdisk:
+        url: http://images.example.com/rom2620/rootfs.cpio.gz  # TODO
+        compression: gz
+
+  - boot:
+      timeout:
+        minutes: 5
+      method: u-boot
+      commands: nfs
+      auto_login:
+        login_prompt: "login:"
+        username: root
+      prompts:
+        - "root@.*:.*#"
+        - "\\$"
+
+  - test:
+      timeout:
+        minutes: 10
+      definitions:
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/watchdog/watchdog-reboot.yaml
+          name: adv-watchdog-reboot
+          parameters:
+            WATCHDOG_DEV: /dev/watchdog0
+            WATCHDOG_TIMEOUT_S: "60"

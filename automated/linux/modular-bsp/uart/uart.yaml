@@ -1,0 +1,37 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-uart
+  description: >
+    Advantech BSP QA – UART checks: device node existence, bus controller,
+    stty configuration, optional HWFC, debug-console flag, and loopback
+    functional tests.  Loopback tests require a physical loopback cable and
+    are reported as skip when the loopback-test list is empty or "skip".
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+  prerequisites:
+    - "Physical UART loopback cable required for L-UART-LOOPBACK:F tests"
+
+params:
+  UART_COUNT: "1"              # Number of UART ports to check
+
+  UART0_DEV: "/dev/ttyLP0"
+  UART0_BUS: "soc"
+  UART0_BUS_ID: ""
+  UART0_HWFC: "0"              # 1 = hardware flow control expected
+  UART0_DEBUG_CONSOLE: "0"     # 1 = port is the kernel debug console
+  UART0_LOOPBACK_TEST: "skip"  # "skip" or space-separated "<baud>:<2W|4W>" entries
+  UART0_REFERENCE: ""          # Human reference (informational only)
+  # UART1_DEV, … for additional UARTs
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash uart.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

@@ -1,0 +1,34 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-disk
+  description: >
+    Advantech BSP QA – Disk checks: verifies rootfs mount point/mode,
+    block device type and sector count, MMC extended CSD readability, and
+    read/write throughput using dd.  Throughput tests are functional (:F)
+    and skipped when the minimum speed is 0.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  DISK_COUNT: "1"              # Number of block devices to check
+  DISK_ROOTFS_MOUNT: ""        # Space-separated "<dev>:<mode>:<label>" entries (empty = skip)
+
+  DISK0_DEV: "/dev/mmcblk0"
+  DISK0_TYPE: "MMC"            # Expected type: MMC, SD, USB, SATA, NVMe, …
+  DISK0_SECTORS: "0"           # Expected sector count (0 = skip)
+  DISK0_MIN_RS: "100"          # Minimum read speed MB/s (0 = skip)
+  DISK0_MIN_WS: "40"           # Minimum write speed MB/s (0 = skip)
+  # DISK1_DEV, DISK1_TYPE, … for additional disks
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash disk.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

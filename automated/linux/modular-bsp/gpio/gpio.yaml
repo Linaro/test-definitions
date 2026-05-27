@@ -1,0 +1,35 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-gpio
+  description: >
+    Advantech BSP QA – GPIO checks: device node existence, GPIO chip/controller
+    label, line count, per-pin direction, input read, output set high/low,
+    and interrupt edge configuration.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  GPIO_COUNT: "1"              # Number of GPIO chips
+
+  GPIO0_DEV: "/dev/gpiochip0"
+  GPIO0_CHIP: "gpiochip0"      # sysfs chip name
+  GPIO0_CONTROLLER: ""         # Expected controller label (empty = skip)
+  GPIO0_NLINES: "0"            # Expected line count (0 = skip)
+
+  # Per-pin entries: space-separated "<chip_label>:<pin>:<direction[.edge]>:<label>" strings
+  # direction: in | out    edge: rising | falling | both (optional, for IRQ pins)
+  # Example: "GPIO0:5:in:SENSOR_IRQ GPIO0:6:out:LED_RED"
+  GPIO_PINS: ""
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash gpio.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

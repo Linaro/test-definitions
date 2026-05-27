@@ -1,0 +1,29 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-spi
+  description: >
+    Advantech BSP QA – SPI device checks: verifies that each configured
+    /dev/spidevX.Y device node exists, is readable/writable, and passes
+    the spidev_test loopback test.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+  prerequisites:
+    - "Physical SPI loopback (MOSI–MISO) required for spidev_test"
+
+params:
+  SPI_COUNT: "1"               # Number of SPI devices to check
+  SPI0_DEV: "/dev/spidev0.0"  # Device node
+  # SPI1_DEV, … for additional devices
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash spi.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

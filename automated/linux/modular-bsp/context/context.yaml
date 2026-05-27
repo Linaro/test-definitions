@@ -1,0 +1,28 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-context
+  description: >
+    Advantech BSP QA – Context checks: distro ID, distro version,
+    kernel minimum version, CPU model, BIOS date.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  DISTRO_ID: "yocto"            # Expected distro ID (case-insensitive substring match)
+  DISTRO_VER: ""                # Expected distro version substring (empty = skip)
+  KERNEL_MIN_VER: "6.6"        # Minimum kernel version, e.g. "6.6"
+  CPU_MODEL: ""                 # Expected CPU model string (empty = skip)
+  BIOS_DATE: ""                 # Expected BIOS date YYYYMMDD (empty = skip)
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash context.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

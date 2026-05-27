@@ -1,0 +1,30 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-rtc
+  description: >
+    Advantech BSP QA – RTC checks (non-disruptive subset): device node
+    existence, hwclock get/set, and wakeup capability flag.
+    The suspend/wakeup test is NOT included here to avoid disrupting the
+    LAVA session; it lives in a separate job definition (rtc-suspend.yaml).
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  RTC_COUNT: "1"               # Number of RTC devices
+
+  RTC0_DEV: "/dev/rtc0"
+  RTC0_WAKEUP: "enabled"       # Expected /sys/…/wakeup value (enabled/disabled)
+  # RTC1_DEV, … for additional RTCs
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash rtc.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

@@ -1,0 +1,37 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-can
+  description: >
+    Advantech BSP QA – CAN bus checks: interface existence, bus controller,
+    clock frequency, software loopback tests (self-contained), and external
+    peer-to-peer loopback tests (require physical CAN cable, reported as skip
+    when not configured).
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+  prerequisites:
+    - "CAN external loopback (L-CAN-EXT-LOOP:F) requires two CAN ports wired together"
+
+params:
+  CAN_COUNT: "1"               # Number of CAN interfaces
+
+  CAN0_DEV: "can0"
+  CAN0_BUS: "soc"
+  CAN0_BUS_ID: ""
+  CAN0_CLOCK: ""               # Expected clock in Hz (empty = skip)
+  CAN0_LOOPBACK_SPEEDS: "125000 500000"  # Space-separated bitrates for SW loopback
+
+  CAN_EXT_LOOPBACK: ""         # "<ifA>:<ifB>:<bitrate>" space-separated (empty = skip)
+  # CAN1_DEV, … for additional CAN interfaces
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash can.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

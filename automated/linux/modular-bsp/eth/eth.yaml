@@ -1,0 +1,42 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-eth
+  description: >
+    Advantech BSP QA – Ethernet checks: device existence, bus controller,
+    link speed, IPv4/IPv6 addresses, Wake-on-LAN, DNS resolution, ping
+    connectivity, and optional iperf3 TX/RX throughput.
+    Throughput tests are skipped when IPERF3_SERVER_IP is empty.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  ETH_COUNT: "1"               # Number of Ethernet interfaces
+
+  ETH0_DEV: "eth0"
+  ETH0_BUS: "soc"
+  ETH0_BUS_ID: "29950000"
+  ETH0_LINK: "100"             # Expected link speed in Mbps
+  ETH0_WOL_FEATURED: ""        # WoL capability char (e.g. "g"), empty = skip
+  ETH0_WOL_WAKEUP: ""          # Expected /sys/…/wakeup value (enabled/disabled)
+  ETH0_MIN_TX_SPEED: "90"      # Minimum TX throughput MB/s (0 = skip)
+  ETH0_MIN_RX_SPEED: "90"      # Minimum RX throughput MB/s (0 = skip)
+  # ETH1_DEV, … for additional interfaces
+
+  IPERF3_SERVER_IP: ""         # Host-side iperf3 server IP (empty = skip throughput tests)
+  IPERF3_DURATION: "5"         # iperf3 test duration in seconds
+
+  DNS_CHECK_HOSTS: "advantech.com google.com"   # Space-separated hostnames
+  PING_CHECK_HOSTS: "advantech.com google.com"  # Space-separated hostnames
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash eth.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

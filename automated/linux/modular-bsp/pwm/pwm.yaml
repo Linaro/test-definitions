@@ -1,0 +1,31 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-pwm
+  description: >
+    Advantech BSP QA – PWM checks: verifies that each configured PWM chip
+    is present under /sys/class/pwm/ and that the associated bus controller
+    can be found in the platform device tree.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  PWM_COUNT: "1"               # Number of PWM chips to check
+  PWM0_DEV: "pwmchip0"         # sysfs chip name
+  PWM0_BUS: "soc"              # Bus type: soc or pci
+  PWM0_BUS_ID: ""              # Bus address/ID
+  PWM0_REFERENCE: ""           # Human reference (informational only)
+  PWM_BACKLIGHT_DEV: ""        # /sys/class/backlight/<dev> path (empty = skip)
+  # PWM1_DEV, PWM1_BUS, PWM1_BUS_ID, … for additional chips
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash pwm.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

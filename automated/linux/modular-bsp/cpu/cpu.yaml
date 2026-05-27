@@ -1,0 +1,31 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-cpu
+  description: >
+    Advantech BSP QA – CPU checks: number of CPUs, C-states, cpufreq
+    scaling min/max frequencies, scaling governors, and power suspension
+    states.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  CPU_MODEL: "Cortex-A35"      # Expected CPU model string
+  CPU_NPROC: "4"               # Expected number of CPUs (space-separated for variants, e.g. "2 4")
+  CPU_CSTATES: ""              # Space-separated expected C-state names (empty = skip)
+  CPU_SCALING_MIN: "0"         # Expected cpufreq scaling_min_freq in kHz (0 = skip)
+  CPU_SCALING_MAX: "0"         # Expected cpufreq scaling_max_freq in kHz (0 = skip)
+  CPU_SCALING_GOVERNORS: ""    # Space-separated governor names to verify
+  CPU_SUSPENSION_STATES: ""    # Space-separated /sys/power/state values, e.g. "freeze mem"
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash cpu.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

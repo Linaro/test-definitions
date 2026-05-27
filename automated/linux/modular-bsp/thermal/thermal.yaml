@@ -1,0 +1,29 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-thermal
+  description: >
+    Advantech BSP QA – Thermal zone checks: verifies that each configured
+    thermal_zone sysfs path exists and that the current temperature is within
+    the configured MIN/MAX bounds.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  THERMAL_COUNT: "1"            # Number of thermal zones to check
+  TZ0_DEV: "thermal_zone0"     # sysfs name under /sys/class/thermal/
+  TZ0_MIN: "10"                # Minimum expected temperature (°C)
+  TZ0_MAX: "95"                # Maximum expected temperature (°C)
+  # TZ1_DEV, TZ1_MIN, TZ1_MAX, … for additional zones
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash thermal.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

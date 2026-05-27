@@ -1,0 +1,298 @@
+# LAVA Job Definition – Advantech ROM-2620 ED91 ModBSP Full QA Suite
+# Board: ROM-2620-ED91 (NXP i.MX8MP, Cortex-A35)
+# Config source: qa/conf/rom2620-ed91_modbsp.conf
+#
+# USAGE:
+#   1. Set device_type to match your LAVA lab's device type name
+#   2. Fill in the deploy/boot sections with your lab's image location
+#   3. Adjust IPERF3_SERVER_IP if throughput tests are desired
+#   4. Submit to LAVA: lava-tool submit-job <server> <this-file>
+#
+# NOTE: RTC suspend and watchdog reboot tests are in separate job files:
+#   - rom2620-ed91-modbsp-rtc-suspend.yaml
+#   - rom2620-ed91-modbsp-watchdog-reboot.yaml
+---
+device_type: advantech-rom2620  # TODO: set to your lab's device type
+job_name: "Advantech ROM-2620 ED91 ModBSP Full QA"
+visibility: public
+priority: medium
+
+timeouts:
+  job:
+    minutes: 60
+  action:
+    minutes: 5
+  connection:
+    minutes: 2
+
+metadata:
+  source: https://github.com/miketsukerman/yocto-auto
+  board: ROM-2620-ED91
+  bsp: ModBSP
+  soc: NXP i.MX8MP
+  cpu: Cortex-A35
+
+tags: []
+
+actions:
+
+  # ── Deploy ──────────────────────────────────────────────────────────────────
+  - deploy:
+      timeout:
+        minutes: 10
+      to: tftp                       # TODO: adjust to your lab (tftp/nfs/sata/…)
+      kernel:
+        url: http://images.example.com/rom2620/Image  # TODO
+        type: image
+      dtb:
+        url: http://images.example.com/rom2620/rom2620-ed91-modbsp.dtb  # TODO
+      ramdisk:
+        url: http://images.example.com/rom2620/rootfs.cpio.gz  # TODO
+        compression: gz
+
+  # ── Boot ────────────────────────────────────────────────────────────────────
+  - boot:
+      timeout:
+        minutes: 5
+      method: u-boot
+      commands: nfs              # TODO: adjust to your lab boot method
+      auto_login:
+        login_prompt: "login:"
+        username: root
+      prompts:
+        - "root@.*:.*#"
+        - "\\$"
+
+  # ── Tests ───────────────────────────────────────────────────────────────────
+  - test:
+      timeout:
+        minutes: 50
+      definitions:
+
+        # ── System context ────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/context/context.yaml
+          name: adv-context
+          parameters:
+            DISTRO_ID: Yocto
+            DISTRO_VER: "scarthgap|styhead|walnascar"
+            KERNEL_MIN_VER: "6.6"
+            CPU_MODEL: Cortex-A35
+            BIOS_DATE: ""
+
+        # ── Thermal ──────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/thermal/thermal.yaml
+          name: adv-thermal
+          parameters:
+            THERMAL_COUNT: "1"
+            TZ0_DEV: cpu-thermal
+            TZ0_MIN: "10"
+            TZ0_MAX: "95"
+
+        # ── CPU ───────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/cpu/cpu.yaml
+          name: adv-cpu
+          parameters:
+            CPU_MODEL: Cortex-A35
+            CPU_NPROC: "2"
+            CPU_CSTATES: ""
+            CPU_SCALING_MIN: "0"
+            CPU_SCALING_MAX: "0"
+            CPU_SCALING_GOVERNORS: ""
+            CPU_SUSPENSION_STATES: "freeze mem"
+
+        # ── RAM ───────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/ram/ram.yaml
+          name: adv-ram
+          parameters:
+            RAM_SLOT_COUNT: "1"
+            RAM_MIN_AVAIL: "800"
+            RAM_SLOT0_SIZE: "2048"
+            RAM_SLOT0_SPEED: "3200"
+
+        # ── Disk (eMMC + SD + USB) ────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/disk/disk.yaml
+          name: adv-disk
+          parameters:
+            DISK_COUNT: "3"
+            DISK_ROOTFS_MOUNT: "/dev/mmcblk0p2:rw:MMC /dev/mmcblk2p2:rw:SD"
+            DISK0_DEV: /dev/mmcblk0
+            DISK0_TYPE: MMC
+            DISK0_SECTORS: "30777344"
+            DISK0_MIN_RS: "100"
+            DISK0_MIN_WS: "40"
+            DISK1_DEV: /dev/mmcblk2
+            DISK1_TYPE: SD
+            DISK1_SECTORS: "0"
+            DISK1_MIN_RS: "10"
+            DISK1_MIN_WS: "4"
+            DISK2_DEV: /dev/sda
+            DISK2_TYPE: USB
+            DISK2_SECTORS: "0"
+            DISK2_MIN_RS: "10"
+            DISK2_MIN_WS: "4"
+
+        # ── Ethernet ─────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/eth/eth.yaml
+          name: adv-eth
+          parameters:
+            ETH_COUNT: "1"
+            IPERF3_SERVER_IP: ""     # set to host IP to enable throughput tests
+            IPERF3_DURATION: "5"
+            ETH0_DEV: eth0
+            ETH0_BUS: soc
+            ETH0_BUS_ID: "29950000"
+            ETH0_LINK: "100"
+            ETH0_WOL_FEATURED: y
+            ETH0_WOL_WAKEUP: n
+            ETH0_MIN_TX_SPEED: "90"
+            ETH0_MIN_RX_SPEED: "90"
+
+        # ── UART ─────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/uart/uart.yaml
+          name: adv-uart
+          parameters:
+            UART_COUNT: "3"
+            UART0_DEV: /dev/ttyLP0
+            UART0_BUS: soc
+            UART0_BUS_ID: "29390000"
+            UART0_HWFC: n
+            UART0_DEBUG_CONSOLE: n
+            UART0_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART0_REFERENCE: LPUART4-COMA
+            UART1_DEV: /dev/ttyLP1
+            UART1_BUS: soc
+            UART1_BUS_ID: "293a0000"
+            UART1_HWFC: n
+            UART1_DEBUG_CONSOLE: y
+            UART1_LOOPBACK_TEST: skip
+            UART1_REFERENCE: LPUART5-COMD
+            UART2_DEV: /dev/ttyLP2
+            UART2_BUS: soc
+            UART2_BUS_ID: "29860000"
+            UART2_HWFC: n
+            UART2_DEBUG_CONSOLE: n
+            UART2_LOOPBACK_TEST: "9600:2W 921600:2W"
+            UART2_REFERENCE: ""
+
+        # ── I2C ──────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/i2c/i2c.yaml
+          name: adv-i2c
+          parameters:
+            I2C_COUNT: "2"
+            I2C0_DEV: /dev/i2c-1
+            I2C0_CONTROLLER: ""
+            I2C0_REFERENCE: ""
+            I2C1_DEV: /dev/i2c-2
+            I2C1_CONTROLLER: ""
+            I2C1_REFERENCE: ""
+
+        # ── PWM ──────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/pwm/pwm.yaml
+          name: adv-pwm
+          parameters:
+            PWM_COUNT: "1"
+            PWM0_DEV: pwmchip0
+            PWM0_BUS: soc
+            PWM0_BUS_ID: ""
+            PWM0_REFERENCE: ""
+            PWM_BACKLIGHT_DEV: ""
+
+        # ── USB ───────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/usb/usb.yaml
+          name: adv-usb
+          parameters:
+            USB_DEV_COUNT: "1"
+            USB_OTG_ENABLED: "1"
+            USB_OTG_CONF: ""
+            USB_DEV0_PORT: ""
+            USB_DEV0_DRIVER: ""
+            USB_DEV0_SPEED: "480"
+
+        # ── RTC (clock test only – suspend is a separate job) ─────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/rtc/rtc.yaml
+          name: adv-rtc
+          parameters:
+            RTC_COUNT: "1"
+            RTC0_DEV: /dev/rtc0
+            RTC0_WAKEUP: enabled
+
+        # ── Watchdog (ping/stop tests – reboot is a separate job) ─────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/watchdog/watchdog.yaml
+          name: adv-watchdog
+          parameters:
+            WATCHDOG_COUNT: "1"
+            WATCHDOG0_DEV: /dev/watchdog0
+
+        # ── OP-TEE ────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/optee/optee.yaml
+          name: adv-optee
+          parameters:
+            OPTEE_DEV: /dev/tee0
+
+        # ── GPU ───────────────────────────────────────────────────────────────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/gpu/gpu.yaml
+          name: adv-gpu
+          parameters:
+            GPU_COUNT: "1"
+            GPU_WAYLAND: weston
+            GPU_VA_CODECS: ""
+            GPU0_DRI_KMS_DEV: /dev/dri/card0
+            GPU0_BACKLIGHT_DEV: /sys/class/backlight/bl
+            GPU0_LVDS_MOD: ""
+            GPU0_LVDS_DEV: ""
+            GPU0_DRM_CONNECTOR: ""
+            GPU0_DRM_CONNECTOR_ENCODER: ""
+            GPU0_RESOLUTION: ""
+            GPU0_REFRESH_RATE: ""
+
+        # ── Audio (playback/capture are skip stubs without physical setup) ─────
+        - repository: https://github.com/miketsukerman/yocto-auto.git
+          from: git
+          branch: main
+          path: qa/lava/audio/audio.yaml
+          name: adv-audio
+          parameters:
+            AUDIO_PLAYBACK_COUNT: "0"
+            AUDIO_CAPTURE_COUNT: "0"

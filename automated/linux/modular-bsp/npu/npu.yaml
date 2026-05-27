@@ -1,0 +1,31 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-npu
+  description: >
+    Advantech BSP QA – NPU device checks: verifies that each configured
+    NPU device node exists, is readable/writable, and that the bus
+    controller is present in the platform device tree.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  NPU_COUNT: "1"               # Number of NPU devices to check
+  NPU0_DEV: ""                 # Device node, e.g. /dev/galcore
+  NPU0_BUS: "soc"              # Bus type: soc or pci
+  NPU0_BUS_ID: ""              # Bus address/ID
+  NPU0_BUS_DEVICE_TYPE: ""     # Bus device type for soc sysfs lookup
+  NPU0_BUS_NODE_NAME: ""       # Node name for soc sysfs lookup
+  # NPU1_DEV, … for additional devices
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash npu.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

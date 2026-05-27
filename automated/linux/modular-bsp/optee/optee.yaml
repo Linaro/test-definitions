@@ -1,0 +1,26 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-optee
+  description: >
+    Advantech BSP QA – OP-TEE checks: TEE device node existence and xtest
+    regression suite.  xtest is run in quick mode by default; set
+    OPTEE_FULL_TEST to run the full suite (much slower).
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  OPTEE_DEV: "/dev/tee0"
+  OPTEE_FULL_TEST: "0"         # 0 = quick xtest (skip suite 1001), 1 = full suite
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash optee.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

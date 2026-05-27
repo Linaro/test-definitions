@@ -1,0 +1,37 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-usb
+  description: >
+    Advantech BSP QA – USB host and OTG checks: verifies that any USB
+    devices are enumerated on the host bus, optionally checks specific
+    plugged devices by port/driver/speed, and checks USB OTG kernel config
+    and gadget driver loading.
+    Tests requiring a physically plugged USB device are skip stubs when
+    the device list is empty.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+  prerequisites:
+    - "USB plugged-device tests require specific USB devices connected to the board"
+
+params:
+  USB_DEV_COUNT: "0"           # Number of specific plugged devices to check (0 = skip)
+  USB_DEV0_PORT: ""            # USB port number (lsusb -t)
+  USB_DEV0_DRIVER: ""          # Expected driver name
+  USB_DEV0_SPEED: ""           # Expected speed, e.g. 480M
+  # USB_DEV1_PORT, … for additional plugged devices
+
+  USB_OTG_ENABLED: "0"         # 1 = check OTG gadget support
+  USB_OTG_CONF: ""             # Space-separated kernel config keys to verify (from /proc/config.gz)
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash usb.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

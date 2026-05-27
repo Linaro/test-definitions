@@ -1,0 +1,29 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-rtc-suspend
+  description: >
+    Advantech BSP QA – RTC suspend/wakeup test (separate job).
+    Puts the system into the configured sleep state for WAKE_SLEEP_TIME_S
+    seconds using rtcwake and verifies that it resumes after the expected
+    delay.  This test resets the board's power state and MUST run in its own
+    LAVA job to avoid disrupting other test sessions.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  RTC_DEV: "/dev/rtc0"
+  SLEEP_STATE: "mem"           # rtcwake -m argument: mem, freeze, standby, …
+  WAKE_SLEEP_TIME_S: "5"       # How many seconds to sleep before waking
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash rtc-suspend.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

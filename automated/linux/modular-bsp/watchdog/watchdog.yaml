@@ -1,0 +1,28 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-watchdog
+  description: >
+    Advantech BSP QA – Watchdog checks (non-disruptive): device node
+    existence and watchdog daemon running.
+    The reboot test is NOT included here; it lives in a separate LAVA job
+    (watchdog-reboot.yaml) to avoid disrupting the LAVA session.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  WATCHDOG_COUNT: "1"          # Number of watchdog devices
+  WATCHDOG0_DEV: "/dev/watchdog0"
+  # WATCHDOG1_DEV, … for additional devices
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash watchdog.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

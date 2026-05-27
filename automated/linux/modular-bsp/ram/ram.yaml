@@ -1,0 +1,29 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-ram
+  description: >
+    Advantech BSP QA – RAM checks: verifies each RAM slot's size (MB) and
+    speed (MT/s) via dmidecode, checks the minimum available memory, and
+    runs a memtester/memcheck stability test on 90% of free RAM.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+
+params:
+  RAM_SLOT_COUNT: "1"          # Number of RAM slots to verify
+  RAM_SLOT0_SIZE: "1024"       # Expected slot 0 size in MB
+  RAM_SLOT0_SPEED: ""          # Expected slot 0 speed in MT/s (empty = skip)
+  RAM_MIN_AVAIL: "800"         # Minimum reported MemTotal in MiB
+  # RAM_SLOT1_SIZE, RAM_SLOT1_SPEED, … for additional slots
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash ram.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt

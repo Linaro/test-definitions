@@ -1,0 +1,41 @@
+metadata:
+  format: Lava-Test-Definition 1.0
+  name: adv-audio
+  description: >
+    Advantech BSP QA – Audio device checks.
+    Device enumeration via aplay/arecord -l is automated.
+    Functional playback/recording tests require a physical loopback cable
+    and are reported as skip stubs in automated LAVA runs.
+  maintainer:
+    - qa@advantech.com
+  os:
+    - yocto
+    - debian
+  scope:
+    - functional
+  devices:
+    - all
+  prerequisites:
+    - "L-AUDIO-PLAYBACK-F and L-AUDIO-RECORDING-F tests are skip stubs"
+    - "Physical audio loopback cable required for functional tests"
+
+params:
+  AUDIO_PLAYBACK_COUNT: "0"    # Number of playback devices
+  AUDIO_CAPTURE_COUNT: "0"     # Number of capture devices
+
+  AUDIO_PB0_CARD: ""           # Expected card name from aplay -l
+  AUDIO_PB0_CONTROLLER: ""     # Expected controller (card index prefix)
+  AUDIO_PB0_DEV_ID: ""         # Expected device sub-id
+  AUDIO_PB0_CODEC: ""          # Expected codec name from aplay -l
+
+  AUDIO_CAP0_CARD: ""
+  AUDIO_CAP0_CONTROLLER: ""
+  AUDIO_CAP0_DEV_ID: ""
+  AUDIO_CAP0_CODEC: ""
+  # AUDIO_PB1_*, AUDIO_CAP1_*, … for additional devices
+
+run:
+  steps:
+    - cd "${TESTPATH}"
+    - bash audio.sh
+    - bash ../utils/send-to-lava.sh ./output/result.txt
