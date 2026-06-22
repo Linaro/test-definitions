@@ -40,22 +40,6 @@ skiplist:
   - reason:
     url:
     environments: all
-    boards: all
-    branches: all
-    tests:
-      - breakpoints:step_after_suspend_test
-
-  - reason:
-    url:
-    environments: all
-    boards: all
-    branches: all
-    tests:
-      - breakpoints:breakpoint_test
-
-  - reason:
-    url:
-    environments: all
     boards:
       - qemu_arm
       - qemu_arm64
