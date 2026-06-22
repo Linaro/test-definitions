@@ -219,6 +219,9 @@ elif [ -n "${TST_CMDFILES}" ]; then
         echo "===========End Tests to run ==============="
         if [ -s shardfile ]; then
             report_pass "shardfile-${test}"
+        elif grep -q "^${test}:" kselftest-list.txt.orig; then
+            report_skip "shardfile-${test}"
+            continue
         else
             report_fail "shardfile-${test}"
             continue
@@ -232,4 +235,5 @@ else
 fi
 # shellcheck disable=SC2164
 cd "$saved_pwd" || exit
+[ -f "${LOGFILE}" ] || : > "${LOGFILE}"
 parse_output
