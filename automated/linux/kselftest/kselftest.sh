@@ -139,6 +139,23 @@ parse_output() {
     ./parse-output.py < "${LOGFILE}" | tee -a "${RESULT_FILE}"
 }
 
+# Drop the skipped tests from a collection's list.
+# Args: collection name, source file, output file, skip file.
+# Each dropped test is written to RESULT_FILE as skipped.
+apply_skips() {
+    collection="${1}"
+    src="${2}"
+    dst="${3}"
+    skips_file="${4}"
+    cp "${src}" "${dst}"
+    while read -r skip_regex; do
+        subsuite="${skip_regex%%:*}"
+        [ "${subsuite}" = "${collection}" ] || continue
+        perl -i -ne 'if (s|^('"${skip_regex}"')$|\1 skip|) { print STDERR; } else { print; }' \
+            "${dst}" 2>>"${RESULT_FILE}"
+    done < "${skips_file}"
+}
+
 install() {
     dist_name
     # shellcheck disable=SC2154
@@ -185,54 +202,49 @@ if [ -f "${SKIPFILE}" ] &&  [ -z "${SKIPLIST}" ]; then
     done < "${SKIPFILE}"
 fi
 
-cp kselftest-list.txt kselftest-list.txt.orig
 echo "skiplist:"
 echo "========================================"
-while read -r skip_regex; do
-    subsuite="${skip_regex%%:*}"
-
-    # Loop through each subsuite in TST_CMDFILES and compare
-    for selected in ${TST_CMDFILES}; do
-        if [ "${subsuite}" = "${selected}" ]; then
-            echo "$skip_regex"
-            # Remove matching tests from list of tests to run and report it as skipped
-            perl -i -ne 'if (s|^('"${skip_regex}"')$|\1 skip|) { print STDERR; } else { print; }' \
-                kselftest-list.txt 2>>"${RESULT_FILE}"
-            break
-        fi
-    done
-done < "${skips}"
+cat "${skips}"
 echo "========================================"
-rm -f "${skips}"
 
 if [ -n "${TST_CASENAME}" ]; then
     ./run_kselftest.sh -t "${TST_CASENAME}" 2>&1 | tee -a "${LOGFILE}"
 elif [ -n "${TST_CMDFILES}" ]; then
-    cp kselftest-list.txt kselftest-list.txt.original
+    # run_kselftest.sh reads kselftest-list.txt. We change that file for
+    # each collection, so keep a clean copy to work from and put back.
+    cp kselftest-list.txt kselftest-list.txt.full
     # shellcheck disable=SC2086
     for test in ${TST_CMDFILES}; do
-        cp kselftest-list.txt.original kselftest-list.txt
-        grep "^${test}:" kselftest-list.txt | tee kselftest-list.tmp
-        split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" kselftest-list.tmp > shardfile
-        echo "============== Tests to run ==============="
-        cat shardfile
-        echo "===========End Tests to run ==============="
-        if [ -s shardfile ]; then
-            report_pass "shardfile-${test}"
-        elif grep -q "^${test}:" kselftest-list.txt.orig; then
-            report_skip "shardfile-${test}"
-            continue
-        else
+        grep "^${test}:" kselftest-list.txt.full > collection-all
+        if [ ! -s collection-all ]; then
             report_fail "shardfile-${test}"
             continue
         fi
+
+        apply_skips "${test}" collection-all collection-run "${skips}"
+        if [ ! -s collection-run ]; then
+            report_skip "shardfile-${test}"
+            continue
+        fi
+
+        split --verbose --numeric-suffixes=1 -n l/"${SHARD_INDEX}"/"${SHARD_NUMBER}" collection-run > shardfile
+        echo "============== Tests to run ==============="
+        cat shardfile
+        echo "===========End Tests to run ==============="
+        if [ ! -s shardfile ]; then
+            report_skip "shardfile-${test}"
+            continue
+        fi
+
+        report_pass "shardfile-${test}"
         cp shardfile kselftest-list.txt
-        ./run_kselftest.sh -c ${test} 2>&1 | tee -a "${LOGFILE}"
+        ./run_kselftest.sh -c "${test}" 2>&1 | tee -a "${LOGFILE}"
     done
-    cp kselftest-list.txt.original kselftest-list.txt
+    cp kselftest-list.txt.full kselftest-list.txt
 else
     ./run_kselftest.sh 2>&1 | tee "${LOGFILE}"
 fi
+rm -f "${skips}" collection-all collection-run shardfile kselftest-list.txt.full
 # shellcheck disable=SC2164
 cd "$saved_pwd" || exit
 [ -f "${LOGFILE}" ] || : > "${LOGFILE}"
