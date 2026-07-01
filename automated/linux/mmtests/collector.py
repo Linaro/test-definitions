@@ -156,7 +156,7 @@ def parse_cpu_info() -> Dict[str, Any]:
     freq_match = re.search(r"CPU MHz:\s+(\S+)", cpu_info)
     if freq_match:
         try:
-            freq_val = float(freq_match.group(1))
+            freq = round(float(freq_match.group(1)))
         except ValueError as e:
             log.warning("Failed to parse CPU frequency: %s", e)
 
@@ -427,59 +427,9 @@ def collect_sha256_kernel(ver: str) -> str:
     """Collect the SHA256 hash of the current kernel"""
     loc = get_current_kernel_loc(ver)
     if loc:
-        sha256 = get_file_sha256(loc)
-        return sha256
+        return get_file_sha256(loc)
     log.error("cannot get SHA256 for kernel: %s", ver)
     return UNKNOWN
-
-
-def read_sha256_file(file_path: Union[str, Path]) -> str:
-    """Read the SHA256 hash from a file"""
-    if not if_file_exists(file_path, "file"):
-        log.error("SHA256 file does not exist: %s", file_path)
-        return UNKNOWN
-
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            lines = content.splitlines()
-
-            if not lines:
-                log.error("SHA256 file is empty: %s", file_path)
-                return UNKNOWN
-
-            line = lines[0].strip()
-            if not line:
-                log.error("First line of SHA256 file is empty: %s", file_path)
-                return UNKNOWN
-
-            parts = line.split()
-            if not parts:
-                log.error("No content found in SHA256 file: %s", file_path)
-                return UNKNOWN
-
-            sha256 = parts[0]
-            return sha256
-
-    except (OSError, PermissionError) as e:
-        log.error("Unable to read SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-    except UnicodeDecodeError as e:
-        log.error("Unable to decode SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-    except Exception as e:
-        log.error("Unexpected error reading SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-
-
-def collect_sha256_benchmark(cfg_name: str) -> str:
-    """Collect the SHA256 hash of the benchmark"""
-    loc = f"/mmtests/{cfg_name}.SHA256"
-    if if_file_exists(loc, "file"):
-        return read_sha256_file(loc)
-    else:
-        log.warning("Unable to find file: %s", loc)
-        return UNKNOWN
 
 
 def if_file_exists(
@@ -628,7 +578,6 @@ def collect_system_info(cfg_name: str) -> Dict[str, Any]:
         "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
         "Instance type": get_instance_type(),
-        "Benchmark SHA256": collect_sha256_benchmark(cfg_name),
         "Boot time": parse_boottime(),
     }
 
@@ -875,11 +824,10 @@ if __name__ == "__main__":
     config_name = config_path.stem
     output_dir = Path(args.o)
 
-    # This is global info
-    variables = collect_vars(config_path, args.i)
-    info = collect_system_info(config_name)
-
-    results_root = get_results_root(args.d)
+    try:
+        results_root = get_results_root(args.d)
+    except FileNotFoundError:
+        sys.exit(1)
     results_dir = results_root / config_name
 
     if not if_file_exists(results_dir, "dir"):
@@ -899,25 +847,34 @@ if __name__ == "__main__":
             shutil.copytree(results_dir, output_dir / results_dir.stem)
             log.info("full results dir collected in %s", output_dir)
         except FileNotFoundError:
-            log.error("the results directory does not exist")
-
-    times = collect_times(results_dir)
+            log.error("failed to copy results: output directory does not exist")
+            sys.exit(1)
 
     benchmarks = get_names(results_dir)
+    if not benchmarks:
+        log.error("no benchmarks found in %s", results_dir)
+        sys.exit(1)
     log.info("benchmarks detected: %s", ", ".join(benchmarks))
+
+    # This is global info
+    variables = collect_vars(config_path, args.i)
+    info = collect_system_info(config_name)
+
+    times = collect_times(results_dir)
 
     for bench in benchmarks:
         output_file = compose_filename(bench, config_name)
         output_path = output_dir / output_file
         results = mmtest_extract_json(bench, results_root, config_name, mmtest_extr)
 
+        if not isinstance(results, dict):
+            log.error("extraction returned no data for %s, aborting", bench)
+            sys.exit(1)
+
         if check_results(results):
             log.error("results check failed for %s", bench)
             sys.exit(1)
-        else:
-            log.info("results check passed for %s", bench)
-            with open(RESULTS_OK, "w", encoding="utf-8") as file:
-                pass
+        log.info("results check passed for %s", bench)
 
         data = {
             "variables": variables,
@@ -929,3 +886,5 @@ if __name__ == "__main__":
         with open(output_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=2)
             log.info("results collected to %s", output_path)
+
+    Path(RESULTS_OK).touch()
