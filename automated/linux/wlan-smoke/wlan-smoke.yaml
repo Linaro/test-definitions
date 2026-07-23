@@ -15,7 +15,8 @@ metadata:
         - dragonboard410c
 
 params:
-    DEVICE: wlan0
+    # leave empty to auto-detect and test all wireless interfaces present
+    DEVICE: ""
     # expected state on first boot: <enabled> or <disabled>
     BOOT: enabled
     WAIT_TIME: 0
