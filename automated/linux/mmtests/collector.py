@@ -809,10 +809,6 @@ if __name__ == "__main__":
     config_name = config_path.stem
     output_dir = Path(args.o)
 
-    # This is global info
-    variables = collect_vars(config_path, args.i)
-    info = collect_system_info()
-
     results_root = get_results_root(args.d)
     results_dir = results_root / config_name
 
@@ -835,10 +831,14 @@ if __name__ == "__main__":
         except FileNotFoundError:
             log.error("the results directory does not exist")
 
-    times = collect_times(results_dir)
-
     benchmarks = get_names(results_dir)
     log.info("benchmarks detected: %s", ", ".join(benchmarks))
+
+    # This is global info
+    variables = collect_vars(config_path, args.i)
+    info = collect_system_info()
+
+    times = collect_times(results_dir)
 
     for bench in benchmarks:
         output_file = compose_filename(bench, config_name)
