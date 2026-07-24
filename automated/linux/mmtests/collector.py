@@ -274,13 +274,14 @@ def parse_os_info() -> Dict[str, Any]:
     """Parse OS information from /etc/os-release."""
     os_release_file = "/etc/os-release"
     packages = get_installed_packages()
+    fallback = {
+        "Name": UNKNOWN,
+        "Packages list": packages,
+    }
 
     if not if_file_exists(os_release_file, "file"):
         log.warning("OS release file not found: %s", os_release_file)
-        return {
-            "Name": UNKNOWN,
-            "Packages list": packages,
-        }
+        return fallback
 
     with open(os_release_file, "r", encoding="utf-8") as f:
         for line in f:
@@ -293,6 +294,9 @@ def parse_os_info() -> Dict[str, Any]:
                     "Name": os_info,
                     "Packages list": packages,
                 }
+
+    log.warning("Could not parse PRETTY_NAME from %s", os_release_file)
+    return fallback
 
 
 def get_installed_packages() -> Dict[str, str]:
