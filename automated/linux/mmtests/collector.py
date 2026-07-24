@@ -802,6 +802,14 @@ def parse_args() -> Any:
 
 
 if __name__ == "__main__":
+    # Clean up the results check file after previous run
+    try:
+        if if_file_exists(RESULTS_OK, "file"):
+            os.remove(RESULTS_OK)
+            log.debug("Removed previous results check file")
+    except (OSError, PermissionError) as e:
+        log.warning("Failed to remove results check file: %s", e)
+
     args = parse_args()
 
     mmtest_extr = f"{args.d}/bin/extract-mmtests.pl"
@@ -815,14 +823,6 @@ if __name__ == "__main__":
     if not if_file_exists(results_dir, "dir"):
         log.error("results dir '%s' does not exist", results_dir)
         sys.exit(1)
-
-    # Clean up the results check file after previous run
-    try:
-        if if_file_exists(RESULTS_OK, "file"):
-            os.remove(RESULTS_OK)
-            log.debug("Removed previous results check file")
-    except (OSError, PermissionError) as e:
-        log.warning("Failed to remove results check file: %s", e)
 
     if args.f:
         try:
@@ -848,10 +848,7 @@ if __name__ == "__main__":
         if check_results(results):
             log.error("results check failed for %s", bench)
             sys.exit(1)
-        else:
-            log.info("results check passed for %s", bench)
-            with open(RESULTS_OK, "w", encoding="utf-8") as file:
-                pass
+        log.info("results check passed for %s", bench)
 
         data = {
             "variables": variables,
@@ -863,3 +860,5 @@ if __name__ == "__main__":
         with open(output_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=2)
             log.info("results collected to %s", output_path)
+
+    Path(RESULTS_OK).touch()
