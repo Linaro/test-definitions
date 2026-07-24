@@ -106,24 +106,20 @@ def run_cmd(cmd: str, timeout: int = 30) -> str:
 
 def parse_cpu_info() -> Dict[str, Any]:
     """Parse CPU information from lscpu command."""
+    fallback = {
+        "Arch": UNKNOWN,
+        "Cores": 0,
+        "Frequency": f"{UNKNOWN} MHz",
+        "Caches": {},
+    }
     if not if_cmd_exists("lscpu"):
         log.warning("CPU info not available")
-        return {
-            "Arch": UNKNOWN,
-            "Cores": 0,
-            "Frequency": f"{UNKNOWN} MHz",
-            "Caches": {},
-        }
+        return fallback
 
     cpu_info = run_cmd("lscpu")
     if not cpu_info:
         log.error("Failed to get CPU information")
-        return {
-            "Arch": UNKNOWN,
-            "Cores": 0,
-            "Frequency": f"{UNKNOWN} MHz",
-            "Caches": {},
-        }
+        return fallback
 
     caches = {}
     for line in cpu_info.splitlines():
@@ -172,6 +168,10 @@ def parse_cpu_info() -> Dict[str, Any]:
 def parse_memory_info() -> Dict[str, str]:
     """Parse memory information from /proc/meminfo."""
     proc_mem = "/proc/meminfo"
+    fallback = {
+        "Total": f"{UNKNOWN} MB",
+        "Speed": UNKNOWN,
+    }
     log.info("Trying to read: %s", proc_mem)
     try:
         with open(proc_mem, "r", encoding="utf-8") as f:
@@ -184,25 +184,16 @@ def parse_memory_info() -> Dict[str, str]:
                 mem_info = ""
     except (OSError, PermissionError) as exc:
         log.error("Failed to read %s: %s", proc_mem, exc)
-        return {
-            "Total": f"{UNKNOWN} MB",
-            "Speed": UNKNOWN,
-        }
+        return fallback
 
     if not mem_info:
         log.error("Failed to get memory information")
-        return {
-            "Total": f"{UNKNOWN} MB",
-            "Speed": UNKNOWN,
-        }
+        return fallback
 
     match = re.search(r"MemTotal:\s+(\d+)\s+kB", mem_info)
     if not match:
         log.error("Could not parse memory total from: %s", mem_info)
-        return {
-            "Total": f"{UNKNOWN} MB",
-            "Speed": UNKNOWN,
-        }
+        return fallback
 
     total_kb = int(match.group(1))
     # Convert kB to MB
