@@ -246,8 +246,7 @@ def parse_storage_info() -> Dict[str, List[Dict[str, Any]]]:
             # Remove Unicode characters
             name = re.sub(r"[\u2500-\u257F]", "", name)
             size_bytes = int(parts[1])
-            size_gb = size_bytes // (1024**3)
-            size = f"{size_gb}G"
+            size = f"{round(size_bytes / (1024**3), 1)}G"
 
             block_type = parts[2]
             mountpoint = parts[3] if len(parts) > 3 else "Not mounted"
