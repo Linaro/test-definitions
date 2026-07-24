@@ -79,7 +79,7 @@ def run_cmd(cmd: str, timeout: int = 30) -> str:
             shell=True,
             executable="/bin/bash",
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            stderr=subprocess.PIPE,
             text=True,
             timeout=timeout,
             check=False,
@@ -87,10 +87,11 @@ def run_cmd(cmd: str, timeout: int = 30) -> str:
 
         if result.returncode != 0:
             log.error(
-                "Command failed with exit code %d: %s. Output: %s",
+                "Command failed with exit code %d: %s. Output: %s. Stderr: %s",
                 result.returncode,
                 cmd,
                 result.stdout,
+                result.stderr,
             )
             return ""
 
