@@ -422,8 +422,7 @@ def collect_sha256_kernel(ver: str) -> str:
     """Collect the SHA256 hash of the current kernel"""
     loc = get_current_kernel_loc(ver)
     if loc:
-        sha256 = get_file_sha256(loc)
-        return sha256
+        return get_file_sha256(loc)
     log.error("cannot get SHA256 for kernel: %s", ver)
     return UNKNOWN
 
