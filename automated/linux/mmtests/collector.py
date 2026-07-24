@@ -817,7 +817,10 @@ if __name__ == "__main__":
     config_name = config_path.stem
     output_dir = Path(args.o)
 
-    results_root = get_results_root(args.d)
+    try:
+        results_root = get_results_root(args.d)
+    except FileNotFoundError:
+        sys.exit(1)
     results_dir = results_root / config_name
 
     if not if_file_exists(results_dir, "dir"):
@@ -829,9 +832,13 @@ if __name__ == "__main__":
             shutil.copytree(results_dir, output_dir / results_dir.stem)
             log.info("full results dir collected in %s", output_dir)
         except FileNotFoundError:
-            log.error("the results directory does not exist")
+            log.error("failed to copy results: output directory does not exist")
+            sys.exit(1)
 
     benchmarks = get_names(results_dir)
+    if not benchmarks:
+        log.error("no benchmarks found in %s", results_dir)
+        sys.exit(1)
     log.info("benchmarks detected: %s", ", ".join(benchmarks))
 
     # This is global info
@@ -844,6 +851,10 @@ if __name__ == "__main__":
         output_file = compose_filename(bench, config_name)
         output_path = output_dir / output_file
         results = mmtest_extract_json(bench, results_root, config_name, mmtest_extr)
+
+        if not isinstance(results, dict):
+            log.error("extraction returned no data for %s, aborting", bench)
+            sys.exit(1)
 
         if check_results(results):
             log.error("results check failed for %s", bench)
