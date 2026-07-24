@@ -679,16 +679,14 @@ def check_results(results_data: Dict[str, Any]) -> bool:
     if "_OperationsSeen" not in results_data:
         log.error("_OperationsSeen is not present in the results data")
         errors = True
-
-    if len(results_data.get("_OperationsSeen", {})) == 0:
+    elif len(results_data["_OperationsSeen"]) == 0:
         log.error("_OperationsSeen is empty")
         errors = True
 
     if "_ResultData" not in results_data:
         log.error("_ResultData is not present in the results data")
         errors = True
-
-    if len(results_data.get("_ResultData", {}).keys()) == 0:
+    elif len(results_data["_ResultData"]) == 0:
         log.error("_ResultData is empty")
         errors = True
 
