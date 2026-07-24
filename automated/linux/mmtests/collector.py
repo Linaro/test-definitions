@@ -555,7 +555,7 @@ def parse_boottime() -> Dict[str, Dict[str, Any]]:
     return {"blame": blame_info, "time": time_info}
 
 
-def collect_system_info(cfg_name: str) -> Dict[str, Any]:
+def collect_system_info() -> Dict[str, Any]:
     """Build a dictionary with system information."""
     return {
         "CPU": parse_cpu_info(),
@@ -811,7 +811,7 @@ if __name__ == "__main__":
 
     # This is global info
     variables = collect_vars(config_path, args.i)
-    info = collect_system_info(config_name)
+    info = collect_system_info()
 
     results_root = get_results_root(args.d)
     results_dir = results_root / config_name
