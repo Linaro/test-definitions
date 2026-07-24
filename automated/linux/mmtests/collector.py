@@ -543,11 +543,7 @@ def parse_boottime() -> Dict[str, Dict[str, Any]]:
         return {"blame": blame_info, "time": time_info}
 
     try:
-        if if_cmd_exists("systemd-analyze"):
-            blame_output = run_cmd("systemd-analyze blame")
-        else:
-            blame_output = ""
-
+        blame_output = run_cmd("systemd-analyze blame")
         if blame_output:
             for line in blame_output.splitlines():
                 line = line.strip()
@@ -566,11 +562,7 @@ def parse_boottime() -> Dict[str, Dict[str, Any]]:
         log.error("Parsing blame output: %s", e)
 
     try:
-        if if_cmd_exists("systemd-analyze"):
-            time_output = run_cmd("systemd-analyze time")
-        else:
-            time_output = ""
-
+        time_output = run_cmd("systemd-analyze time")
         if time_output:
             lines = time_output.splitlines()
             if lines:
