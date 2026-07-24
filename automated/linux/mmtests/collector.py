@@ -427,55 +427,6 @@ def collect_sha256_kernel(ver: str) -> str:
     return UNKNOWN
 
 
-def read_sha256_file(file_path: Union[str, Path]) -> str:
-    """Read the SHA256 hash from a file"""
-    if not if_file_exists(file_path, "file"):
-        log.error("SHA256 file does not exist: %s", file_path)
-        return UNKNOWN
-
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            lines = content.splitlines()
-
-            if not lines:
-                log.error("SHA256 file is empty: %s", file_path)
-                return UNKNOWN
-
-            line = lines[0].strip()
-            if not line:
-                log.error("First line of SHA256 file is empty: %s", file_path)
-                return UNKNOWN
-
-            parts = line.split()
-            if not parts:
-                log.error("No content found in SHA256 file: %s", file_path)
-                return UNKNOWN
-
-            sha256 = parts[0]
-            return sha256
-
-    except (OSError, PermissionError) as e:
-        log.error("Unable to read SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-    except UnicodeDecodeError as e:
-        log.error("Unable to decode SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-    except Exception as e:
-        log.error("Unexpected error reading SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-
-
-def collect_sha256_benchmark(cfg_name: str) -> str:
-    """Collect the SHA256 hash of the benchmark"""
-    loc = f"/mmtests/{cfg_name}.SHA256"
-    if if_file_exists(loc, "file"):
-        return read_sha256_file(loc)
-    else:
-        log.warning("Unable to find file: %s", loc)
-        return UNKNOWN
-
-
 def if_file_exists(
     file_path: Union[str, Path], file_type: str = "file"
 ) -> Optional[Path]:
@@ -614,7 +565,6 @@ def collect_system_info(cfg_name: str) -> Dict[str, Any]:
         "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
         "Instance type": get_instance_type(),
-        "Benchmark SHA256": collect_sha256_benchmark(cfg_name),
         "Boot time": parse_boottime(),
     }
 
