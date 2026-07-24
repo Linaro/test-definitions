@@ -829,7 +829,9 @@ if __name__ == "__main__":
 
     if args.f:
         try:
-            shutil.copytree(results_dir, output_dir / results_dir.stem)
+            shutil.copytree(
+                results_dir, output_dir / results_dir.stem, dirs_exist_ok=True
+            )
             log.info("full results dir collected in %s", output_dir)
         except FileNotFoundError:
             log.error("failed to copy results: output directory does not exist")
