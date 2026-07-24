@@ -157,7 +157,7 @@ def parse_cpu_info() -> Dict[str, Any]:
     freq_match = re.search(r"CPU MHz:\s+(\S+)", cpu_info)
     if freq_match:
         try:
-            freq_val = float(freq_match.group(1))
+            freq = round(float(freq_match.group(1)))
         except ValueError as e:
             log.warning("Failed to parse CPU frequency: %s", e)
 
