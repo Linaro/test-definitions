@@ -834,7 +834,7 @@ if __name__ == "__main__":
             )
             log.info("full results dir collected in %s", output_dir)
         except FileNotFoundError:
-            log.error("failed to copy results: output directory does not exist")
+            log.error("failed to copy results: source dir %s is gone", results_dir)
             sys.exit(1)
 
     benchmarks = get_names(results_dir)
