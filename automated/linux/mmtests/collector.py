@@ -79,7 +79,7 @@ def run_cmd(cmd: str, timeout: int = 30) -> str:
             shell=True,
             executable="/bin/bash",
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            stderr=subprocess.PIPE,
             text=True,
             timeout=timeout,
             check=False,
@@ -87,10 +87,11 @@ def run_cmd(cmd: str, timeout: int = 30) -> str:
 
         if result.returncode != 0:
             log.error(
-                "Command failed with exit code %d: %s. Output: %s",
+                "Command failed with exit code %d: %s. Output: %s. Stderr: %s",
                 result.returncode,
                 cmd,
                 result.stdout,
+                result.stderr,
             )
             return ""
 
@@ -105,24 +106,20 @@ def run_cmd(cmd: str, timeout: int = 30) -> str:
 
 def parse_cpu_info() -> Dict[str, Any]:
     """Parse CPU information from lscpu command."""
+    fallback = {
+        "Arch": UNKNOWN,
+        "Cores": 0,
+        "Frequency": f"{UNKNOWN} MHz",
+        "Caches": {},
+    }
     if not if_cmd_exists("lscpu"):
         log.warning("CPU info not available")
-        return {
-            "Arch": UNKNOWN,
-            "Cores": 0,
-            "Frequency": f"{UNKNOWN} MHz",
-            "Caches": {},
-        }
+        return fallback
 
     cpu_info = run_cmd("lscpu")
     if not cpu_info:
         log.error("Failed to get CPU information")
-        return {
-            "Arch": UNKNOWN,
-            "Cores": 0,
-            "Frequency": f"{UNKNOWN} MHz",
-            "Caches": {},
-        }
+        return fallback
 
     caches = {}
     for line in cpu_info.splitlines():
@@ -156,7 +153,7 @@ def parse_cpu_info() -> Dict[str, Any]:
     freq_match = re.search(r"CPU MHz:\s+(\S+)", cpu_info)
     if freq_match:
         try:
-            freq_val = float(freq_match.group(1))
+            freq = round(float(freq_match.group(1)))
         except ValueError as e:
             log.warning("Failed to parse CPU frequency: %s", e)
 
@@ -171,6 +168,10 @@ def parse_cpu_info() -> Dict[str, Any]:
 def parse_memory_info() -> Dict[str, str]:
     """Parse memory information from /proc/meminfo."""
     proc_mem = "/proc/meminfo"
+    fallback = {
+        "Total": f"{UNKNOWN} MB",
+        "Speed": UNKNOWN,
+    }
     log.info("Trying to read: %s", proc_mem)
     try:
         with open(proc_mem, "r", encoding="utf-8") as f:
@@ -183,25 +184,16 @@ def parse_memory_info() -> Dict[str, str]:
                 mem_info = ""
     except (OSError, PermissionError) as exc:
         log.error("Failed to read %s: %s", proc_mem, exc)
-        return {
-            "Total": f"{UNKNOWN} MB",
-            "Speed": UNKNOWN,
-        }
+        return fallback
 
     if not mem_info:
         log.error("Failed to get memory information")
-        return {
-            "Total": f"{UNKNOWN} MB",
-            "Speed": UNKNOWN,
-        }
+        return fallback
 
     match = re.search(r"MemTotal:\s+(\d+)\s+kB", mem_info)
     if not match:
         log.error("Could not parse memory total from: %s", mem_info)
-        return {
-            "Total": f"{UNKNOWN} MB",
-            "Speed": UNKNOWN,
-        }
+        return fallback
 
     total_kb = int(match.group(1))
     # Convert kB to MB
@@ -254,8 +246,7 @@ def parse_storage_info() -> Dict[str, List[Dict[str, Any]]]:
             # Remove Unicode characters
             name = re.sub(r"[\u2500-\u257F]", "", name)
             size_bytes = int(parts[1])
-            size_gb = size_bytes // (1024**3)
-            size = f"{size_gb}G"
+            size = f"{round(size_bytes / (1024**3), 1)}G"
 
             block_type = parts[2]
             mountpoint = parts[3] if len(parts) > 3 else "Not mounted"
@@ -283,13 +274,14 @@ def parse_os_info() -> Dict[str, Any]:
     """Parse OS information from /etc/os-release."""
     os_release_file = "/etc/os-release"
     packages = get_installed_packages()
+    fallback = {
+        "Name": UNKNOWN,
+        "Packages list": packages,
+    }
 
     if not if_file_exists(os_release_file, "file"):
         log.warning("OS release file not found: %s", os_release_file)
-        return {
-            "Name": UNKNOWN,
-            "Packages list": packages,
-        }
+        return fallback
 
     with open(os_release_file, "r", encoding="utf-8") as f:
         for line in f:
@@ -302,6 +294,9 @@ def parse_os_info() -> Dict[str, Any]:
                     "Name": os_info,
                     "Packages list": packages,
                 }
+
+    log.warning("Could not parse PRETTY_NAME from %s", os_release_file)
+    return fallback
 
 
 def get_installed_packages() -> Dict[str, str]:
@@ -427,59 +422,9 @@ def collect_sha256_kernel(ver: str) -> str:
     """Collect the SHA256 hash of the current kernel"""
     loc = get_current_kernel_loc(ver)
     if loc:
-        sha256 = get_file_sha256(loc)
-        return sha256
+        return get_file_sha256(loc)
     log.error("cannot get SHA256 for kernel: %s", ver)
     return UNKNOWN
-
-
-def read_sha256_file(file_path: Union[str, Path]) -> str:
-    """Read the SHA256 hash from a file"""
-    if not if_file_exists(file_path, "file"):
-        log.error("SHA256 file does not exist: %s", file_path)
-        return UNKNOWN
-
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            lines = content.splitlines()
-
-            if not lines:
-                log.error("SHA256 file is empty: %s", file_path)
-                return UNKNOWN
-
-            line = lines[0].strip()
-            if not line:
-                log.error("First line of SHA256 file is empty: %s", file_path)
-                return UNKNOWN
-
-            parts = line.split()
-            if not parts:
-                log.error("No content found in SHA256 file: %s", file_path)
-                return UNKNOWN
-
-            sha256 = parts[0]
-            return sha256
-
-    except (OSError, PermissionError) as e:
-        log.error("Unable to read SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-    except UnicodeDecodeError as e:
-        log.error("Unable to decode SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-    except Exception as e:
-        log.error("Unexpected error reading SHA256 file %s: %s", file_path, e)
-        return UNKNOWN
-
-
-def collect_sha256_benchmark(cfg_name: str) -> str:
-    """Collect the SHA256 hash of the benchmark"""
-    loc = f"/mmtests/{cfg_name}.SHA256"
-    if if_file_exists(loc, "file"):
-        return read_sha256_file(loc)
-    else:
-        log.warning("Unable to find file: %s", loc)
-        return UNKNOWN
 
 
 def if_file_exists(
@@ -548,11 +493,7 @@ def parse_boottime() -> Dict[str, Dict[str, Any]]:
         return {"blame": blame_info, "time": time_info}
 
     try:
-        if if_cmd_exists("systemd-analyze"):
-            blame_output = run_cmd("systemd-analyze blame")
-        else:
-            blame_output = ""
-
+        blame_output = run_cmd("systemd-analyze blame")
         if blame_output:
             for line in blame_output.splitlines():
                 line = line.strip()
@@ -571,11 +512,7 @@ def parse_boottime() -> Dict[str, Dict[str, Any]]:
         log.error("Parsing blame output: %s", e)
 
     try:
-        if if_cmd_exists("systemd-analyze"):
-            time_output = run_cmd("systemd-analyze time")
-        else:
-            time_output = ""
-
+        time_output = run_cmd("systemd-analyze time")
         if time_output:
             lines = time_output.splitlines()
             if lines:
@@ -618,7 +555,7 @@ def parse_boottime() -> Dict[str, Dict[str, Any]]:
     return {"blame": blame_info, "time": time_info}
 
 
-def collect_system_info(cfg_name: str) -> Dict[str, Any]:
+def collect_system_info() -> Dict[str, Any]:
     """Build a dictionary with system information."""
     return {
         "CPU": parse_cpu_info(),
@@ -628,7 +565,6 @@ def collect_system_info(cfg_name: str) -> Dict[str, Any]:
         "Kernel": parse_kernel_info(),
         "Filesystem": parse_filesystem_info(),
         "Instance type": get_instance_type(),
-        "Benchmark SHA256": collect_sha256_benchmark(cfg_name),
         "Boot time": parse_boottime(),
     }
 
@@ -692,16 +628,14 @@ def check_results(results_data: Dict[str, Any]) -> bool:
     if "_OperationsSeen" not in results_data:
         log.error("_OperationsSeen is not present in the results data")
         errors = True
-
-    if len(results_data.get("_OperationsSeen", {})) == 0:
+    elif len(results_data["_OperationsSeen"]) == 0:
         log.error("_OperationsSeen is empty")
         errors = True
 
     if "_ResultData" not in results_data:
         log.error("_ResultData is not present in the results data")
         errors = True
-
-    if len(results_data.get("_ResultData", {}).keys()) == 0:
+    elif len(results_data["_ResultData"]) == 0:
         log.error("_ResultData is empty")
         errors = True
 
@@ -868,24 +802,6 @@ def parse_args() -> Any:
 
 
 if __name__ == "__main__":
-    args = parse_args()
-
-    mmtest_extr = f"{args.d}/bin/extract-mmtests.pl"
-    config_path = Path(args.d) / Path(args.c)
-    config_name = config_path.stem
-    output_dir = Path(args.o)
-
-    # This is global info
-    variables = collect_vars(config_path, args.i)
-    info = collect_system_info(config_name)
-
-    results_root = get_results_root(args.d)
-    results_dir = results_root / config_name
-
-    if not if_file_exists(results_dir, "dir"):
-        log.error("results dir '%s' does not exist", results_dir)
-        sys.exit(1)
-
     # Clean up the results check file after previous run
     try:
         if if_file_exists(RESULTS_OK, "file"):
@@ -894,30 +810,58 @@ if __name__ == "__main__":
     except (OSError, PermissionError) as e:
         log.warning("Failed to remove results check file: %s", e)
 
+    args = parse_args()
+
+    mmtest_extr = f"{args.d}/bin/extract-mmtests.pl"
+    config_path = Path(args.d) / Path(args.c)
+    config_name = config_path.stem
+    output_dir = Path(args.o)
+
+    try:
+        results_root = get_results_root(args.d)
+    except FileNotFoundError:
+        sys.exit(1)
+    results_dir = results_root / config_name
+
+    if not if_file_exists(results_dir, "dir"):
+        log.error("results dir '%s' does not exist", results_dir)
+        sys.exit(1)
+
     if args.f:
         try:
-            shutil.copytree(results_dir, output_dir / results_dir.stem)
+            shutil.copytree(
+                results_dir, output_dir / results_dir.stem, dirs_exist_ok=True
+            )
             log.info("full results dir collected in %s", output_dir)
         except FileNotFoundError:
-            log.error("the results directory does not exist")
-
-    times = collect_times(results_dir)
+            log.error("failed to copy results: source dir %s is gone", results_dir)
+            sys.exit(1)
 
     benchmarks = get_names(results_dir)
+    if not benchmarks:
+        log.error("no benchmarks found in %s", results_dir)
+        sys.exit(1)
     log.info("benchmarks detected: %s", ", ".join(benchmarks))
+
+    # This is global info
+    variables = collect_vars(config_path, args.i)
+    info = collect_system_info()
+
+    times = collect_times(results_dir)
 
     for bench in benchmarks:
         output_file = compose_filename(bench, config_name)
         output_path = output_dir / output_file
         results = mmtest_extract_json(bench, results_root, config_name, mmtest_extr)
 
+        if not isinstance(results, dict):
+            log.error("extraction returned no data for %s, aborting", bench)
+            sys.exit(1)
+
         if check_results(results):
             log.error("results check failed for %s", bench)
             sys.exit(1)
-        else:
-            log.info("results check passed for %s", bench)
-            with open(RESULTS_OK, "w", encoding="utf-8") as file:
-                pass
+        log.info("results check passed for %s", bench)
 
         data = {
             "variables": variables,
@@ -929,3 +873,5 @@ if __name__ == "__main__":
         with open(output_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=2)
             log.info("results collected to %s", output_path)
+
+    Path(RESULTS_OK).touch()

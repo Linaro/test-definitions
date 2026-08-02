@@ -215,7 +215,7 @@ run_test() {
 collect_results() {
   command="python3 $COLLECTOR -c $MMTESTS_CONFIG_FILE -d $TEST_DIR -i $MMTEST_ITERATIONS -o $OUTPUT"
 
-  if [ ! -f "$FULL_ARCHIVE" ]; then
+  if [ "$FULL_ARCHIVE" = "true" ]; then
     eval "$command" -f
   else
     eval "$command"
