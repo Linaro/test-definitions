@@ -1,0 +1,34 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: remoteproc-smoke
+    description: "Check that the remoteprocs which the kernel is expected to
+      boot are running. Catches regressions where a DSP silently fails to come
+      up, e.g. because its firmware could not be loaded."
+    maintainer:
+        - loic.minier@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - centos
+        - fedora
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - qcs6490-rb3gen2
+
+params:
+    # leave empty to auto-detect and test all remoteprocs present
+    DEVICE: ""
+    # remoteprocs which the kernel doesn't boot on its own, either because no
+    # firmware is shipped for them or because another subsystem owns their
+    # lifecycle, e.g. ath11k for wpss; see
+    # https://github.com/qualcomm/fastrpc/pull/372
+    SKIP: "modem wpss"
+    WAIT_TIME: 0
+
+run:
+    steps:
+        - cd ./automated/linux/remoteproc-smoke
+        - ./remoteproc-smoke-test.sh -d "${DEVICE}" -s "${SKIP}" -w "${WAIT_TIME}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
