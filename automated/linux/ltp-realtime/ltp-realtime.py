@@ -228,6 +228,10 @@ def async_handler_jk():
     result_results()
 
 
+def hrtimer_prio():
+    result_results()
+
+
 # Parse the input stream and tuen test names into function calls to parse their
 # details
 
