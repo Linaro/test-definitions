@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout the tagged commit
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0  # Needed to ensure full history and tags are available
 
@@ -33,7 +33,7 @@ jobs:
           cp ../${{ steps.version.outputs.tag_name }}.tar.zst ../${{ steps.version.outputs.short_tag }}.tar.zst
 
       - name: Upload .tar.zst archives to GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.version.outputs.tag_name }}
           name: Release ${{ steps.version.outputs.tag_name }}
