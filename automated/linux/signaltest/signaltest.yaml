@@ -27,7 +27,7 @@ metadata:
 
 params:
     # Priority of highest prio thread.
-    PRIORITY: "98"
+    RT_PRIORITY: "98"
     # Number of threads.
     # A value of "0" will run a thread per available CPU.
     THREADS: "2"
@@ -46,6 +46,6 @@ params:
 run:
     steps:
         - cd ./automated/linux/signaltest
-        - ./signaltest.sh -D "${DURATION}" -p "${PRIORITY}" -t "${THREADS}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}"
+        - ./signaltest.sh -D "${DURATION}" -p "${RT_PRIORITY}" -t "${THREADS}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}"
         - ../../utils/upload-to-artifactorial.sh -a "output/signaltest.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/send-to-lava.sh ./output/result.txt

@@ -26,7 +26,7 @@ metadata:
 
 params:
     # Priority of lowest prio thread (3 threads are created).
-    PRIORITY: "96"
+    RT_PRIORITY: "96"
     # Execute rt-migrate-test for given time
     DURATION: "5m"
     # Background workload to be run during the meassurement
@@ -42,6 +42,6 @@ params:
 run:
     steps:
         - cd ./automated/linux/rt-migrate-test/
-        - ./rt-migrate-test.sh -p "${PRIORITY}" -D "${DURATION}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}"
+        - ./rt-migrate-test.sh -p "${RT_PRIORITY}" -D "${DURATION}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}"
         - ../../utils/upload-to-artifactorial.sh -a "output/rt-migrate-test.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/send-to-lava.sh ./output/result.txt

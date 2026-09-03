@@ -10,7 +10,7 @@ OUTPUT="$(pwd)/output"
 LOGFILE="${OUTPUT}/cyclictest.json"
 RESULT_FILE="${OUTPUT}/result.txt"
 
-PRIORITY="98"
+RT_PRIORITY="98"
 INTERVAL="1000"
 THREADS="1"
 AFFINITY="0"
@@ -25,7 +25,7 @@ usage() {
 
 while getopts ":p:i:t:a:D:h:w:" opt; do
     case "${opt}" in
-        p) PRIORITY="${OPTARG}" ;;
+        p) RT_PRIORITY="${OPTARG}" ;;
         i) INTERVAL="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
         a) AFFINITY="${OPTARG}" ;;
@@ -60,7 +60,7 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 # shellcheck disable=SC2086
-"${binary}" -q -p "${PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
+"${binary}" -q -p "${RT_PRIORITY}" -i "${INTERVAL}" -t "${THREADS}" -a "${AFFINITY}" \
     -D "${DURATION}" ${HISTOGRAM} -m --json="${LOGFILE}"
 
 background_process_stop bgcmd
