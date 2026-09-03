@@ -231,7 +231,7 @@ if ! which stress-ng; then
         case "${dist}" in
             debian|ubuntu)
                 install_deps "git build-essential libaio-dev libapparmor-dev libattr1-dev libbsd-dev libcap-dev libkeyutils-dev libsctp-dev zlib1g-dev"
-                git clone git://kernel.ubuntu.com/cking/stress-ng.git
+                git clone git://kernel.ubuntu.com/ubuntu/stress-ng.git
                 (
                     cd stress-ng || exit
                     # Use a known good release.
