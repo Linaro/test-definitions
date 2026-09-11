@@ -9,7 +9,7 @@ LOGFILE="${OUTPUT}/rt-migrate-test"
 RESULT_FILE="${OUTPUT}/result.txt"
 TMP_RESULT_FILE="${OUTPUT}/tmp_result.txt"
 
-PRIORITY="51"
+RT_PRIORITY="51"
 DURATION="1m"
 BACKGROUND_CMD=""
 ITERATIONS=1
@@ -21,7 +21,7 @@ usage() {
 
 while getopts ":l:p:D:w:i:" opt; do
     case "${opt}" in
-        p) PRIORITY="${OPTARG}" ;;
+        p) RT_PRIORITY="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
         w) BACKGROUND_CMD="${OPTARG}" ;;
         i) ITERATIONS="${OPTARG}" ;;
@@ -42,7 +42,7 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 for i in $(seq ${ITERATIONS}); do
-    "${binary}" -q -p "${PRIORITY}" -D "${DURATION}" -c --json="${LOGFILE}-${i}.json"
+    "${binary}" -q -p "${RT_PRIORITY}" -D "${DURATION}" -c --json="${LOGFILE}-${i}.json"
 done
 
 

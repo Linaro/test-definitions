@@ -9,7 +9,7 @@ LOGFILE="${OUTPUT}/signaltest"
 RESULT_FILE="${OUTPUT}/result.txt"
 TMP_RESULT_FILE="${OUTPUT}/tmp_result.txt"
 
-PRIORITY="98"
+RT_PRIORITY="98"
 THREADS="2"
 DURATION="1m"
 BACKGROUND_CMD=""
@@ -22,7 +22,7 @@ usage() {
 
 while getopts ":p:t:D:w:i:" opt; do
     case "${opt}" in
-        p) PRIORITY="${OPTARG}" ;;
+        p) RT_PRIORITY="${OPTARG}" ;;
         t) THREADS="${OPTARG}" ;;
         D) DURATION="${OPTARG}" ;;
         w) BACKGROUND_CMD="${OPTARG}" ;;
@@ -48,7 +48,7 @@ fi
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 for i in $(seq ${ITERATIONS}); do
-    "${binary}" -q -D "${DURATION}" -a -m -p "${PRIORITY}" -t "${THREADS}" --json="${LOGFILE}-${i}.json"
+    "${binary}" -q -D "${DURATION}" -a -m -p "${RT_PRIORITY}" -t "${THREADS}" --json="${LOGFILE}-${i}.json"
 done
 
 background_process_stop bgcmd
