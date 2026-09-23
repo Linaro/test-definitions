@@ -142,7 +142,7 @@ recent commit:
 
 To develop locally, there are Dockerfiles in test/ that can be used to simulate
 target environments. The easiest way to use is to run `test.sh
-[debian|centos]`. test.sh will run validate.py, and then build the Docker
+[debian|fedora]`. test.sh will run validate.py, and then build the Docker
 environment specified, run plans/linux-test-plan-example.yaml, and then drop
 into a bash shell inside the container so that things like /root/output can be
 inspected. It is not (yet) a pass/fail test; merely a development helper and
