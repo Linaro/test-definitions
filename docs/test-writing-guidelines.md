@@ -97,7 +97,7 @@ Example 2::
     dist_name
     case "${dist}" in
       debian|ubuntu) install_deps "lsb-release" "${SKIP_INSTALL}" ;;
-      fedora|centos) install_deps "redhat-lsb-core" "${SKIP_INSTALL}" ;;
+      fedora|centos) install_deps "/usr/bin/lsb_release" "${SKIP_INSTALL}" ;;
       *) warn_msg "Unsupported distro: ${dist}! Package installation skipped." ;;
     esac
 
