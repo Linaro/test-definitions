@@ -477,7 +477,7 @@ create_out_dir() {
 }
 
 generate_skipfile() {
-    # Generate a skipfile and set the SKIPFILE variable based on SKIPFILE_YAML,
+    # Generate a skipfile and write it to SKIPFILE_PATH, based on SKIPFILE_YAML,
     # BOARD, BRANCH, and ENVIRONMENT.
     #
     # In:
