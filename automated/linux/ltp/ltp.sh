@@ -160,9 +160,10 @@ TEST_TARFILE=https://github.com/linux-test-project/ltp/releases/download/"${LTP_
 if [ -n "${SKIPFILE_YAML}" ]; then
     export SKIPFILE_PATH="${SCRIPTPATH}/generated_skipfile"
     generate_skipfile
-    if [ ! -f "${SKIPFILE_PATH}" ]; then
-        error_msg "Skipfile ${SKIPFILE_PATH} does not exist";
-    fi
+fi
+
+if [ -n "${SKIPFILE_PATH}" ] && [ ! -f "${SKIPFILE_PATH}" ]; then
+    error_msg "Skipfile ${SKIPFILE_PATH} does not exist"
 fi
 
 parse_ltp_json_results() {
