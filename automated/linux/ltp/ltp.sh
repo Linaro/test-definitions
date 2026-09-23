@@ -69,35 +69,26 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:k:" arg; do
         LOG_FILE=$(echo "${OPTARG}"| sed 's,\/,_,')
         ;;
      S)
-        if [ -z "${OPTARG##*http*}" ]; then
-          if [ -z "${OPTARG##*yaml*}" ]; then
-            # Skipfile is of type yaml
-            SKIPFILE_TMP="http-skipfile.yaml"
-            SKIPFILE_YAML="${SCRIPTPATH}/${SKIPFILE_TMP}"
-          else
-            # Skipfile is normal skipfile
-            SKIPFILE_TMP="http-skipfile"
-            SKIPFILE_PATH="${SCRIPTPATH}/${SKIPFILE_TMP}"
-          fi
-          # Download LTP skipfile from specified URL
-          if ! wget "${OPTARG}" -O "${SKIPFILE_TMP}"; then
-            error_msg "Failed to fetch ${OPTARG}"
-          fi
-        elif [ "${OPTARG##*.}" = "yaml" ]; then
-          # yaml skipfile. Absolute or relative path?
-          if [ "${OPTARG:0:1}" == "/" ]; then
+        case "${OPTARG}" in
+          *http*yaml*|*yaml*http*)
+            SKIPFILE_YAML="http-skipfile.yaml"
+            if ! wget "${OPTARG}" -O "${SKIPFILE_YAML}"; then
+              error_msg "Failed to fetch ${OPTARG}"
+            fi
+            ;;
+          *http*)
+            SKIPFILE_PATH="http-skipfile"
+            if ! wget "${OPTARG}" -O "${SKIPFILE_PATH}"; then
+              error_msg "Failed to fetch ${OPTARG}"
+            fi
+            ;;
+          *.yaml)
             SKIPFILE_YAML="${OPTARG}"
-          else
-            SKIPFILE_YAML="${SCRIPTPATH}/${OPTARG}"
-          fi
-        else
-          # Regular LTP skipfile. Absolute or relative path?
-          if [ "${OPTARG:0:1}" == "/" ]; then
+            ;;
+          *)
             SKIPFILE_PATH="${OPTARG}"
-          else
-            SKIPFILE_PATH="${SCRIPTPATH}/${OPTARG}"
-          fi
-        fi
+            ;;
+        esac
         ;;
      b)
         export BOARD="${OPTARG}"
@@ -158,6 +149,16 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:k:" arg; do
         ;;
   esac
 done
+
+# A relative skipfile path is resolved against this script
+case "${SKIPFILE_PATH}" in
+  ""|/*) ;;
+  *) SKIPFILE_PATH="${SCRIPTPATH}/${SKIPFILE_PATH}" ;;
+esac
+case "${SKIPFILE_YAML}" in
+  ""|/*) ;;
+  *) SKIPFILE_YAML="${SCRIPTPATH}/${SKIPFILE_YAML}" ;;
+esac
 
 TEST_TARFILE=https://github.com/linux-test-project/ltp/releases/download/"${LTP_VERSION}"/ltp-full-"${LTP_VERSION}".tar.xz
 
