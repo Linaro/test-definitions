@@ -3,7 +3,7 @@
 set -e
 
 if [ -z "$1" ] || [ ! -e "test/Dockerfile.${1}" ]; then
-    echo "USAGE: $0 [debian|centos]"
+    echo "USAGE: $0 [debian|fedora]"
     exit 1
 fi
 
