@@ -84,8 +84,12 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:k:" arg; do
             error_msg "Failed to fetch ${OPTARG}"
           fi
         elif [ "${OPTARG##*.}" = "yaml" ]; then
-          # yaml skipfile; use skipgen to generate a skipfile
-          SKIPFILE_YAML="${SCRIPTPATH}/${OPTARG}"
+          # yaml skipfile. Absolute or relative path?
+          if [ "${OPTARG:0:1}" == "/" ]; then
+            SKIPFILE_YAML="${OPTARG}"
+          else
+            SKIPFILE_YAML="${SCRIPTPATH}/${OPTARG}"
+          fi
         else
           # Regular LTP skipfile. Absolute or relative path?
           if [ "${OPTARG:0:1}" == "/" ]; then
