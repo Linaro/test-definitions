@@ -59,11 +59,11 @@ skip package install:
 
 Run a set of tests defined in agenda file:
 
-    test-runner -p ./plans/linux-example.yaml
+    test-runner -p ./plans/linux-test-plan-example.yaml
 
 Apply test plan overlay to skip, amend or add tests:
 
-    test-runner -p ./plans/linux-example.yaml -O test-plan-overlay-example.yaml
+    test-runner -p ./plans/linux-test-plan-example.yaml -O ./plans/test-plan-overlay-example.yaml
 
 ## Collecting result
 
@@ -143,9 +143,9 @@ recent commit:
 To develop locally, there are Dockerfiles in test/ that can be used to simulate
 target environments. The easiest way to use is to run `test.sh
 [debian|centos]`. test.sh will run validate.py, and then build the Docker
-environment specified, run plans/linux-example.yaml, and then drop into a bash
-shell inside the container so that things like /root/output can be inspected.
-It is not (yet) a pass/fail test; merely a development helper and validation
-environment.
+environment specified, run plans/linux-test-plan-example.yaml, and then drop
+into a bash shell inside the container so that things like /root/output can be
+inspected. It is not (yet) a pass/fail test; merely a development helper and
+validation environment.
 
 For full documentation visit [test-definitions.readthedocs.io](https://test-definitions.readthedocs.io).

@@ -65,11 +65,11 @@ authentication. This means that:
 
 Run a set of tests defined in agenda file:
 
-    test-runner -p ./plans/linux-example.yaml
+    test-runner -p ./plans/linux-test-plan-example.yaml
 
 Apply test plan overlay to skip, amend or add tests:
 
-    test-runner -p ./plans/linux-example.yaml -O test-plan-overlay-example.yaml
+    test-runner -p ./plans/linux-test-plan-example.yaml -O ./plans/test-plan-overlay-example.yaml
 
 
 ## Running manual tests
