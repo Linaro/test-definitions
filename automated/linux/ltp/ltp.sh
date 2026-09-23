@@ -14,7 +14,7 @@ echo "Script path is: ${SCRIPTPATH}"
 # List of test cases
 TST_CMDFILES=""
 # List of test cases to be skipped
-SKIPFILE=""
+SKIPFILE_PATH=""
 # List of test cases to be skipped in yaml/skipgen format
 SKIPFILE_YAML=""
 BOARD=""
@@ -77,7 +77,7 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:k:" arg; do
           else
             # Skipfile is normal skipfile
             SKIPFILE_TMP="http-skipfile"
-            SKIPFILE="-S ${SCRIPTPATH}/${SKIPFILE_TMP}"
+            SKIPFILE_PATH="${SCRIPTPATH}/${SKIPFILE_TMP}"
           fi
           # Download LTP skipfile from specified URL
           if ! wget "${OPTARG}" -O "${SKIPFILE_TMP}"; then
@@ -89,9 +89,9 @@ while getopts "M:T:S:b:d:g:e:i:s:v:R:r:u:p:t:c:n:w:k:" arg; do
         else
           # Regular LTP skipfile. Absolute or relative path?
           if [ "${OPTARG:0:1}" == "/" ]; then
-            SKIPFILE="-S ${OPTARG}"
+            SKIPFILE_PATH="${OPTARG}"
           else
-            SKIPFILE="-S ${SCRIPTPATH}/${OPTARG}"
+            SKIPFILE_PATH="${SCRIPTPATH}/${OPTARG}"
           fi
         fi
         ;;
@@ -161,9 +161,8 @@ if [ -n "${SKIPFILE_YAML}" ]; then
     export SKIPFILE_PATH="${SCRIPTPATH}/generated_skipfile"
     generate_skipfile
     if [ ! -f "${SKIPFILE_PATH}" ]; then
-        error_msg "Skipfile ${SKIPFILE} does not exist";
+        error_msg "Skipfile ${SKIPFILE_PATH} does not exist";
     fi
-    SKIPFILE="-S ${SKIPFILE_PATH}"
 fi
 
 parse_ltp_json_results() {
