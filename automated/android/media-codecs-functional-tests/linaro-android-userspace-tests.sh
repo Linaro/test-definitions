@@ -7,6 +7,7 @@
 # shellcheck disable=SC2320
 # shellcheck disable=SC3006
 # shellcheck disable=SC3010
+# shellcheck disable=SC3014
 # shellcheck disable=SC3018
 # shellcheck disable=SC3037
 # shellcheck disable=SC3057
