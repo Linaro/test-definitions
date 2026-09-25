@@ -168,7 +168,8 @@ if [ -n "${SKIPFILE_YAML}" ]; then
 fi
 
 if [ -n "${SKIPFILE_PATH}" ] && [ ! -f "${SKIPFILE_PATH}" ]; then
-    error_msg "Skipfile ${SKIPFILE_PATH} does not exist"
+    warn_msg "Skipfile ${SKIPFILE_PATH} does not exist, running without it"
+    SKIPFILE_PATH=""
 fi
 
 parse_ltp_json_results() {
