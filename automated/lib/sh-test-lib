@@ -277,7 +277,7 @@ install_deps() {
             ;;
           fedora)
             # shellcheck disable=SC2086
-            dnf -e 0 -y install ${pkgs}
+            dnf -y install ${pkgs}
             ;;
           *)
             warn_msg "Unsupported distro: ${dist}! Package installation skipped."
@@ -404,7 +404,7 @@ dist_info() {
         dist_name
         case "${dist}" in
           debian|ubuntu) install_deps "lsb-release" ;;
-          centos|fedora) install_deps "redhat-lsb-core" ;;
+          centos|fedora) install_deps "/usr/bin/lsb_release" ;;
           *) warn_msg "Unsupported distro: dist_info skipped"
         esac
     fi

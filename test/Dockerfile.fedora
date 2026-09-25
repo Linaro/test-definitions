@@ -1,10 +1,9 @@
-FROM python:2.7
+FROM fedora:44
 
-RUN apt-get update && apt-get install -y vim
+RUN dnf -y install vim python3 python3-pip git
 
 COPY . /work
 WORKDIR /work
-RUN pip install -r automated/utils/requirements.txt
+RUN pip3 install -r automated/utils/requirements.txt
 
 CMD . ./automated/bin/setenv.sh && test-runner -p plans/linux-test-plan-example.yaml && bash
-
