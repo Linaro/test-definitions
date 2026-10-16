@@ -802,3 +802,25 @@ compare_test_value() {
         report_fail "${test_name}"
     fi
 }
+
+# cpu_list_expand <list>: one CPU number per line for a kernel CPU list
+# such as the content of /sys/devices/system/cpu/online ("0,4-7").
+cpu_list_expand() {
+    echo "$1" | tr ',' '\n' | awk -F- '
+        NF == 2 { for (i = $1; i <= $2; i++) print i; next }
+        NF == 1 && $1 != "" { print $1 }'
+}
+
+# cpu_list_count <list>: number of CPUs in a kernel CPU list.
+cpu_list_count() {
+    cpu_list_expand "$1" | wc -l
+}
+
+# remoteproc_dirs <name>: the sysfs directory of every remoteproc called
+# <name>, one per line.
+remoteproc_dirs() {
+    for dir in /sys/class/remoteproc/remoteproc*; do
+        [ "$(cat "${dir}/name" 2>/dev/null)" = "$1" ] && echo "${dir}"
+    done
+    return 0
+}
