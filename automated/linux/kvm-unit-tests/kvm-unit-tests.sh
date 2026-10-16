@@ -9,29 +9,43 @@ RESULT_LOG="${OUTPUT}/result_log.txt"
 SKIP_INSTALL="false"
 SMP="true"
 GIT_REF="master"
+RESULTS="tap"
 CPUS=""
 
 usage() {
     echo "Usage: $0 [-s <true|false>]
                     [-m <true|false>]
                     [-g git-reference]
+                    [-r <tap|test>]
                     [-c <host cpu list>]" 1>&2
     exit 1
 }
 
-while getopts "s:m:g:c:h" o; do
+while getopts "s:m:g:r:c:h" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     m) SMP="${OPTARG}" ;;
     g) GIT_REF="${OPTARG}" ;;
+    r) RESULTS="${OPTARG}" ;;
     c) CPUS="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
 
+# The runner's verdict lines ("PASS|FAIL|SKIP <test> ...", coloured) as
+# "<test> pass|fail|skip"
+verdicts() {
+    sed "s/$(printf '\033')\[[0-9;]*m//g" "${RESULT_LOG}" |
+        awk '$1 ~ /^(PASS|FAIL|SKIP)$/ && NF >= 2 { print $2, tolower($1) }'
+}
+
 parse_output() {
     # Parse input test names and results log to results file
-    ./parse-output.py < "${RESULT_LOG}" | tee -a "${RESULT_FILE}"
+    if [ "${RESULTS}" = "test" ]; then
+        verdicts | tee -a "${RESULT_FILE}"
+    else
+        ./parse-output.py < "${RESULT_LOG}" | tee -a "${RESULT_FILE}"
+    fi
 }
 
 # Hold this shell, and the VMs it starts, on the CPUs in CPUS: with taskset
@@ -78,13 +92,20 @@ kvm_unit_tests_run_test() {
         TIMEOUT=0
         export TIMEOUT
     fi
+    flags="-a -t -v"
+    [ "${RESULTS}" = "test" ] && flags="-a -v"
     [ "${SMP}" = "false" ] && [ -z "${CPUS}" ] && CPUS=0
     if [ -n "${CPUS}" ] && ! pin_cpus; then
         warn_msg "cannot hold the VMs on CPUs ${CPUS}"
     fi
     # shellcheck disable=SC2086
-    ${PIN} ./run_tests.sh -a -t -v | tee -a "${RESULT_LOG}"
+    ${PIN} ./run_tests.sh ${flags} | tee -a "${RESULT_LOG}"
     unpin_cpus
+    # The output of each failed test
+    verdicts | awk '$2 == "fail" { print $1 }' | while read -r t; do
+        info_msg "${t} log:"
+        cat "logs/${t}.log"
+    done
 }
 
 kvm_unit_tests_build_test() {
