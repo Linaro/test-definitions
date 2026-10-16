@@ -11,23 +11,26 @@ SMP="true"
 GIT_REF="master"
 RESULTS="tap"
 CPUS=""
+REQUIRE_KVM="false"
 
 usage() {
     echo "Usage: $0 [-s <true|false>]
                     [-m <true|false>]
                     [-g git-reference]
                     [-r <tap|test>]
-                    [-c <host cpu list>]" 1>&2
+                    [-c <host cpu list>]
+                    [-k <true|false>]" 1>&2
     exit 1
 }
 
-while getopts "s:m:g:r:c:h" o; do
+while getopts "s:m:g:r:c:k:h" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     m) SMP="${OPTARG}" ;;
     g) GIT_REF="${OPTARG}" ;;
     r) RESULTS="${OPTARG}" ;;
     c) CPUS="${OPTARG}" ;;
+    k) REQUIRE_KVM="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -152,6 +155,14 @@ if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
 else
   # Install packages
   install
+fi
+
+if [ "${REQUIRE_KVM}" = "true" ] || [ "${REQUIRE_KVM}" = "True" ]; then
+    if [ -c /dev/kvm ]; then
+        report_pass "kvm-device"
+    else
+        report_fail "kvm-device"
+    fi
 fi
 
 # Build kvm unit tests if needed

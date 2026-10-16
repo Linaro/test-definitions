@@ -33,9 +33,12 @@ params:
     # Host CPUs (cpulist) to hold the VMs on, e.g. one cluster of a
     # heterogeneous system so a VM gets one PMU type; empty: any CPU.
     CPUS: ""
+    # true: report kvm-device, failing when there is no /dev/kvm (the
+    # runner then skips every test).
+    REQUIRE_KVM: "false"
 
 run:
     steps:
         - cd ./automated/linux/kvm-unit-tests/
-        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}" -g "${GIT_REF}" -r "${RESULTS}" -c "${CPUS}"
+        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}" -g "${GIT_REF}" -r "${RESULTS}" -c "${CPUS}" -k "${REQUIRE_KVM}"
         - ../../utils/send-to-lava.sh ./output/result.txt
