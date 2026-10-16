@@ -6,7 +6,9 @@
 #
 # Check that the remoteprocs which the kernel is expected to boot are running,
 # to catch regressions where a DSP silently fails to come up, e.g. because its
-# firmware could not be loaded.
+# firmware could not be loaded, and that none of them has crashed since boot:
+# a remoteproc that crashes and is recovered is running again by the time
+# its state is read.
 
 # shellcheck disable=SC1091,SC2034,SC2039
 . ../../lib/sh-test-lib
@@ -111,6 +113,16 @@ test_remoteproc_state() {
       running|attached) report_pass "${test_case}" ;;
       *) report_fail "${test_case}" ;;
     esac
+
+    # rproc_report_crash() logs "remoteproc<N>: crash detected in <name>: ..."
+    crash_case="${test_case%-running}-no-crash"
+    if ! dmesg > "${OUTPUT}/dmesg.txt" 2>/dev/null; then
+        report_skip "${crash_case}"
+    elif grep -F "$(basename "${dir}"): crash detected in ${name}:" "${OUTPUT}/dmesg.txt"; then
+        report_fail "${crash_case}"
+    else
+        report_pass "${crash_case}"
+    fi
 }
 
 # helper function to wait for remoteproc(s) to be enumerated. When DEVICE is

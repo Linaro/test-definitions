@@ -2,8 +2,9 @@ metadata:
     format: Lava-Test Test Definition 1.0
     name: remoteproc-smoke
     description: "Check that the remoteprocs which the kernel is expected to
-      boot are running. Catches regressions where a DSP silently fails to come
-      up, e.g. because its firmware could not be loaded."
+      boot are running and have not crashed since boot. Catches regressions
+      where a DSP silently fails to come up, e.g. because its firmware could
+      not be loaded, or crashes and is recovered."
     maintainer:
         - loic.minier@oss.qualcomm.com
     os:
