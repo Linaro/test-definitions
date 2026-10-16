@@ -9,19 +9,22 @@ RESULT_LOG="${OUTPUT}/result_log.txt"
 SKIP_INSTALL="false"
 SMP="true"
 GIT_REF="master"
+CPUS=""
 
 usage() {
     echo "Usage: $0 [-s <true|false>]
                     [-m <true|false>]
-                    [-g git-reference]" 1>&2
+                    [-g git-reference]
+                    [-c <host cpu list>]" 1>&2
     exit 1
 }
 
-while getopts "s:m:g:h" o; do
+while getopts "s:m:g:c:h" o; do
   case "$o" in
     s) SKIP_INSTALL="${OPTARG}" ;;
     m) SMP="${OPTARG}" ;;
     g) GIT_REF="${OPTARG}" ;;
+    c) CPUS="${OPTARG}" ;;
     h|*) usage ;;
   esac
 done
@@ -29,6 +32,36 @@ done
 parse_output() {
     # Parse input test names and results log to results file
     ./parse-output.py < "${RESULT_LOG}" | tee -a "${RESULT_FILE}"
+}
+
+# Hold this shell, and the VMs it starts, on the CPUs in CPUS: with taskset
+# or, where that is missing (BusyBox), a cgroup v2 cpuset.
+PIN=""
+CG=""
+CG_MOUNTED=""
+pin_cpus() {
+    if command -v taskset > /dev/null; then
+        PIN="taskset -c ${CPUS}"
+        return 0
+    fi
+    CG="$(awk '$3 == "cgroup2" { print $2; exit }' /proc/mounts)"
+    # Never over a cgroup v1 hierarchy already mounted there.
+    if [ -z "${CG}" ] && ! grep -q " /sys/fs/cgroup " /proc/mounts &&
+       mount -t cgroup2 none /sys/fs/cgroup; then
+        CG=/sys/fs/cgroup
+        CG_MOUNTED="${CG}"
+    fi
+    [ -n "${CG}" ] && grep -qw cpuset "${CG}/cgroup.controllers" &&
+        echo +cpuset > "${CG}/cgroup.subtree_control" &&
+        mkdir -p "${CG}/kvm-unit-tests" &&
+        echo "${CPUS}" > "${CG}/kvm-unit-tests/cpuset.cpus" &&
+        echo $$ > "${CG}/kvm-unit-tests/cgroup.procs"
+}
+
+unpin_cpus() {
+    [ -z "${CG}" ] || [ ! -d "${CG}/kvm-unit-tests" ] ||
+        { echo $$ > "${CG}/cgroup.procs"; rmdir "${CG}/kvm-unit-tests"; }
+    [ -z "${CG_MOUNTED}" ] || umount "${CG_MOUNTED}"
 }
 
 kvm_unit_tests_run_test() {
@@ -45,11 +78,13 @@ kvm_unit_tests_run_test() {
         TIMEOUT=0
         export TIMEOUT
     fi
-    if [ "${SMP}" = "false" ]; then
-        taskset -c 0 ./run_tests.sh -a -t -v | tee -a "${RESULT_LOG}"
-    else
-        ./run_tests.sh -a -t -v | tee -a "${RESULT_LOG}"
+    [ "${SMP}" = "false" ] && [ -z "${CPUS}" ] && CPUS=0
+    if [ -n "${CPUS}" ] && ! pin_cpus; then
+        warn_msg "cannot hold the VMs on CPUs ${CPUS}"
     fi
+    # shellcheck disable=SC2086
+    ${PIN} ./run_tests.sh -a -t -v | tee -a "${RESULT_LOG}"
+    unpin_cpus
 }
 
 kvm_unit_tests_build_test() {

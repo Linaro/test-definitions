@@ -26,9 +26,12 @@ params:
     SKIP_INSTALL: "False"
     SMP: "true"
     GIT_REF: "master"
+    # Host CPUs (cpulist) to hold the VMs on, e.g. one cluster of a
+    # heterogeneous system so a VM gets one PMU type; empty: any CPU.
+    CPUS: ""
 
 run:
     steps:
         - cd ./automated/linux/kvm-unit-tests/
-        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}" -g "${GIT_REF}"
+        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}" -g "${GIT_REF}" -c "${CPUS}"
         - ../../utils/send-to-lava.sh ./output/result.txt
