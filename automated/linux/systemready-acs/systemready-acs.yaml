@@ -1,0 +1,39 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: systemready-acs
+    description: "Report the results of an Arm SystemReady devicetree band
+      ACS run (https://github.com/ARM-software/arm-systemready), one test
+      case per test, from Arm's own parsed results (acs_summary JSON on the
+      BOOT_ACS partition). Run it in the ACS Linux after the automated run
+      has completed, once per SUITE: acs (Arm's compliance verdict per
+      suite, plus the SMBIOS BIOS version when given),
+      sct (UEFI SCT, EBBR sequence), bsa (BSA rules, UEFI and Linux), fwts,
+      dt (dt-validate and the DT kselftest), standalone (capsule update,
+      PSCI, SMBIOS, block devices, ethtool, network boot, runtime device
+      mapping), pfdi and post-script (systemready-scripts checks)."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - openembedded
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+
+params:
+    # acs, sct, bsa, fwts, dt, standalone, pfdi or post-script.
+    SUITE: "acs"
+    # acs_results directory; empty finds the BOOT_ACS partition.
+    RESULTS: ""
+    # SUITE=acs: a string the SMBIOS BIOS version must contain, e.g. the
+    # build ID of the firmware under test; empty skips.
+    BIOS_VERSION: ""
+    # true prints the results as a base64 tarball between markers.
+    DUMP: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/systemready-acs/
+        - ./systemready-acs.sh -s "${SUITE}" -r "${RESULTS}" -b "${BIOS_VERSION}" -d "${DUMP}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
