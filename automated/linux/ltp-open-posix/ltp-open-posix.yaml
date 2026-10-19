@@ -20,7 +20,7 @@ metadata:
         - lava-test-shell
 params:
     # LTP version
-    LTP_VERSION: 20180515
+    LTP_VERSION: 20260930
     SKIP_INSTALL: true
     # Run Option Group Feature Tests. Available Groups are AIO, MEM, MSG, SEM, SIG, THR, TMR, TPS
     GRP_TEST: ""
