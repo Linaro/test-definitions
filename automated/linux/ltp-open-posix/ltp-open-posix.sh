@@ -17,7 +17,7 @@ SKIP_INSTALL="true"
 # List of test cases
 TEST="conformance functional stress"
 # LTP version
-LTP_VERSION="20180515"
+LTP_VERSION="20260930"
 
 LTP_PRE_INSTALL=/opt/ltp
 LTP_PATH=/opt/ltp/testcases/open_posix_testsuite
