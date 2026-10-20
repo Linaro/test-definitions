@@ -268,11 +268,15 @@ install() {
       debian|ubuntu)
         [[ -n "${TEST_GIT_URL}" ]] && pkgs="git"
         pkgs="${pkgs} xz-utils flex bison build-essential wget curl net-tools quota genisoimage sudo libaio-dev libattr1-dev libcap-dev expect automake acl autotools-dev autoconf m4 pkgconf python3"
+        pkgs="${pkgs} libacl1-dev libmnl-dev libnuma-dev libssl-dev libtirpc-dev"
+        pkgs="${pkgs} bc bzip2 file iputils-ping jq numactl psmisc unzip"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       centos|fedora)
         [[ -n "${TEST_GIT_URL}" ]] && pkgs="git-core"
         pkgs="${pkgs} xz flex bison make automake gcc gcc-c++ kernel-devel wget curl net-tools quota genisoimage sudo libaio-devel libattr-devel libcap-devel m4 expect acl pkgconf python3"
+        pkgs="${pkgs} libacl-devel libmnl-devel numactl-devel openssl-devel libtirpc-devel"
+        pkgs="${pkgs} bc bzip2 file iputils jq numactl psmisc unzip"
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)
