@@ -21,7 +21,7 @@ BOARD=""
 BRANCH=""
 ENVIRONMENT=""
 # LTP version
-LTP_VERSION="20260130"
+LTP_VERSION="20260930"
 TEST_PROGRAM=ltp
 # https://github.com/linux-test-project/ltp.git
 TEST_GIT_URL=""
