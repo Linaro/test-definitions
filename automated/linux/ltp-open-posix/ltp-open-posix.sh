@@ -73,7 +73,7 @@ parse_ltp_grp_output() {
     sed -i 's/\s\s*/ /g' "${GRP_RESULT_FILE}"
     sed -i 's/Testing //g' "${GRP_RESULT_FILE}"
     {
-    sed 's/PASS/pass/; s/FAIL/fail/; s/CONF/skip/' "${GRP_RESULT_FILE}" | awk '{ if($5 == 1) {print $1 " " $4} else {print $1 " " $2} }'
+    sed 's/PASS/pass/; s/FAIL/fail/; s/CONF/skip/' "${GRP_RESULT_FILE}" | awk '{ if($5 > 0) {print $1 " " $4} else {print $1 " " $2} }'
     grep -e "UNRESOLVED" -e "UNTESTED" -e "UNSUPPORTED" -e "HUNG" -e "SKIPPED" "${GRP_OUTPUT_FILE}.bak" \
 	    | awk -F':' '{print $1 $3}' \
 	    | awk -F'/' '{print $NF}' \
