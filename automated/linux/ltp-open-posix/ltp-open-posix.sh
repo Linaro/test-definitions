@@ -76,13 +76,30 @@ parse_ltp_grp_output() {
     sed 's/PASS/pass/; s/FAIL/fail/; s/CONF/skip/' "${GRP_RESULT_FILE}" | awk '{ if($5 > 0) {print $1 " " $4} else {print $1 " " $2} }'
     grep -e "UNRESOLVED" -e "UNTESTED" -e "UNSUPPORTED" -e "HUNG" -e "SKIPPED" "${GRP_OUTPUT_FILE}.bak" \
 	    | awk -F':' '{print $1 $3}' \
-	    | awk -F'/' '{print $NF}' \
+	    | tr '/' '.' \
 	    | sed 's/SKIPPED/skip/; s/UNSUPPORTED/fail/; s/UNTESTED/fail/; s/UNRESOLVED/fail/; s/HUNG/skip/'
     } >> "${RESULT_FILE}"
 }
 
 # Run LTP test suite
 run_ltp_open_posix() {
+    if [ ! -f "${LTP_PATH}/Makefile" ]; then
+        : > "${GRP_OUTPUT_FILE}" || error_msg "Cannot create Open POSIX output file"
+        runner_count=0
+        for test_group in ${TEST}; do
+            [ -d "${LTP_PATH}/${test_group}" ] \
+                || error_msg "Cannot find installed Open POSIX ${test_group} tests"
+            previous_runner_count=${runner_count}
+            run_ltp_open_posix_installed "${LTP_PATH}/${test_group}"
+            [ "${runner_count}" -gt "${previous_runner_count}" ] \
+                || error_msg "No installed Open POSIX ${test_group} runners found"
+            [ "$(grep -c '^Testing ' "${GRP_OUTPUT_FILE}")" -eq "${runner_count}" ] \
+                || error_msg "Open POSIX ${test_group} runner produced no summary"
+        done
+        parse_ltp_grp_output
+        return
+    fi
+
     # shellcheck disable=SC2164
     cd "${LTP_PATH}"
     for EACH_TEST in ${TEST}
@@ -92,9 +109,25 @@ run_ltp_open_posix() {
     parse_ltp_output
 }
 
+run_ltp_open_posix_installed() {
+    if [ -f "$1/run.sh" ]; then
+        [ -x "$1/run.sh" ] || error_msg "Open POSIX runner is not executable: $1/run.sh"
+        test_name=$(printf '%s\n' "${1#"${LTP_PATH}"/}" | tr '/' '.')
+        (cd "$1" && ./run.sh) 2>&1 \
+            | sed "s|^Testing .*|Testing ${test_name}|" \
+            | tee -a "${GRP_OUTPUT_FILE}" \
+            || error_msg "Cannot save Open POSIX output"
+        runner_count=$((runner_count + 1))
+    else
+        for test_directory in "$1"/*; do
+            [ -d "${test_directory}" ] && [ ! -L "${test_directory}" ] || continue
+            run_ltp_open_posix_installed "${test_directory}"
+        done
+    fi
+}
+
 # Run specific LTP open posix group tests
 run_ltp_open_posix_grp() {
-    # shellcheck disable=SC2164
     GRP_TEST=$1
     "${LTP_PRE_INSTALL}"/bin/run-posix-option-group-test.sh "${GRP_TEST}" | tee "${GRP_OUTPUT_FILE}"
     parse_ltp_grp_output

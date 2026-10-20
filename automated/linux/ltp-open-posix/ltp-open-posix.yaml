@@ -1,7 +1,12 @@
 metadata:
     name: ltp-open-posix
     format: "Lava-Test Test Definition 1.0"
-    description: "Run LTP open posix test suite"
+    description: >-
+        Run LTP open posix test suite. With an empty GRP_TEST, use the
+        source-tree Makefile targets when available, otherwise run the
+        installed conformance, functional and stress suites under
+        /opt/ltp/testcases/open_posix_testsuite.
+        Named option groups select individual POSIX areas.
     maintainer:
         - naresh.kamboju@linaro.org
     os:
