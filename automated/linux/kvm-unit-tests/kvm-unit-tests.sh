@@ -33,6 +33,18 @@ parse_output() {
 
 kvm_unit_tests_run_test() {
     info_msg "running kvm unit tests ..."
+    # BusyBox has no getconf, and its timeout lacks the --foreground option
+    # the run scripts use: count the CPUs with nproc, and run the tests
+    # without their own time limit (the test job's timeout still applies).
+    if ! command -v getconf > /dev/null; then
+        MAX_SMP="$(nproc)"
+        export MAX_SMP
+    fi
+    if ! timeout --foreground 1 true 2> /dev/null; then
+        warn_msg "no timeout --foreground: per-test time limits disabled"
+        TIMEOUT=0
+        export TIMEOUT
+    fi
     if [ "${SMP}" = "false" ]; then
         taskset -c 0 ./run_tests.sh -a -t -v | tee -a "${RESULT_LOG}"
     else
