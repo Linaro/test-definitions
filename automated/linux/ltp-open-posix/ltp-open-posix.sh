@@ -68,10 +68,16 @@ parse_ltp_output() {
 
 # Parse LTP open posix grp output
 parse_ltp_grp_output() {
-    sed -i.bak '/^PASS\|^FAIL\|^Testing/!d' "${GRP_OUTPUT_FILE}"
-    paste -d " "  - - - < "${GRP_OUTPUT_FILE}" | tee "${GRP_RESULT_FILE}"
+    sed -i.bak '/^\(PASS\|FAIL\|TOTAL\|Testing\)[[:space:]]/!d' "${GRP_OUTPUT_FILE}"
+    paste -d " " - - - - < "${GRP_OUTPUT_FILE}" | tee "${GRP_RESULT_FILE}"
     sed -i 's/\s\s*/ /g' "${GRP_RESULT_FILE}"
     sed -i 's/Testing //g' "${GRP_RESULT_FILE}"
+    awk '
+        NF != 7 || $2 != "PASS" || $4 != "FAIL" || $6 != "TOTAL" ||
+        $3 !~ /^[0-9]+$/ || $5 !~ /^[0-9]+$/ || $7 !~ /^[0-9]+$/ ||
+        $7 == 0 || $3 + $5 != $7 { exit 1 }
+        END { if (NR == 0) exit 1 }
+    ' "${GRP_RESULT_FILE}" || error_msg "Missing or incomplete Open POSIX summary"
     {
     sed 's/PASS/pass/; s/FAIL/fail/; s/CONF/skip/' "${GRP_RESULT_FILE}" | awk '{ if($5 > 0) {print $1 " " $4} else {print $1 " " $2} }'
     grep -e "UNRESOLVED" -e "UNTESTED" -e "UNSUPPORTED" -e "HUNG" -e "SKIPPED" "${GRP_OUTPUT_FILE}.bak" \
