@@ -116,12 +116,16 @@ run_ltp_open_posix() {
 }
 
 run_ltp_open_posix_installed() {
+    local -a runner_status
+
     if [ -f "$1/run.sh" ]; then
         [ -x "$1/run.sh" ] || error_msg "Open POSIX runner is not executable: $1/run.sh"
         test_name=$(printf '%s\n' "${1#"${LTP_PATH}"/}" | tr '/' '.')
         (cd "$1" && ./run.sh) 2>&1 \
             | sed "s|^Testing .*|Testing ${test_name}|" \
-            | tee -a "${GRP_OUTPUT_FILE}" \
+            | tee -a "${GRP_OUTPUT_FILE}"
+        runner_status=("${PIPESTATUS[@]}")
+        [ "${runner_status[1]}" -eq 0 ] && [ "${runner_status[2]}" -eq 0 ] \
             || error_msg "Cannot save Open POSIX output"
         runner_count=$((runner_count + 1))
     else
@@ -134,8 +138,17 @@ run_ltp_open_posix_installed() {
 
 # Run specific LTP open posix group tests
 run_ltp_open_posix_grp() {
+    local group_runner="${LTP_PRE_INSTALL}/bin/run-posix-option-group-test.sh"
+    local -a runner_status
+
     GRP_TEST=$1
-    "${LTP_PRE_INSTALL}"/bin/run-posix-option-group-test.sh "${GRP_TEST}" | tee "${GRP_OUTPUT_FILE}"
+    [ -x "${group_runner}" ] \
+        || error_msg "Open POSIX group runner is not executable: ${group_runner}"
+    "${group_runner}" "${GRP_TEST}" 2>&1 | tee "${GRP_OUTPUT_FILE}"
+    runner_status=("${PIPESTATUS[@]}")
+    [ "${runner_status[1]}" -eq 0 ] || error_msg "Cannot save Open POSIX output"
+    [ "${runner_status[0]}" -eq 0 ] \
+        || error_msg "Open POSIX group runner failed with exit status ${runner_status[0]}"
     parse_ltp_grp_output
 }
 
