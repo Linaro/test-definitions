@@ -1,0 +1,67 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: inference
+    description: "Image classification (MobileNetV2, seven images) on each
+      processing unit the board has, with one model and one set of inputs:
+      every image's top-1 checked against its expected class, latency per
+      inference (mean, p50, p90 after warm-up) as measurements, each
+      accelerator against the CPU running the same runtime and the HTP
+      against the QAIRT x86 simulation, and a comparison table of all units.
+      Runtimes: the Qualcomm AI Runtime (QAIRT) QNN CPU, HTP (NPU) and DSP
+      (Hexagon DSPs without an HTP) backends, the last two over FastRPC, and
+      TensorFlow Lite with XNNPACK (CPU) and its GPU delegate (OpenCL),
+      through tflite-run (built here when it is not installed). The QAIRT
+      SDK zip and the model bundle (README.md) are inputs the job provides.
+      Units the board does not have, or cannot run without an input, are
+      skipped with the reason. NEGATIVE makes a negative control."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - buildroot
+        - openembedded
+        - debian
+        - ubuntu
+    scope:
+        - functional
+        - performance
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+        - sm8750-mtp
+
+params:
+    # What the board has, space separated: cpu:qnn, per Hexagon NSP
+    # npu<N>:qnn-htp:<Hexagon arch>:<QNN HTP device id>:<remoteproc>, per
+    # Hexagon DSP without an HTP (v66)
+    # npu<N>:qnn-dsp:<Hexagon arch>:<QNN device id>:<remoteproc>,
+    # cpu:tflite[:<threads>] and gpu:tflite-gpu[:fp16|fp32]
+    PUS: "cpu:qnn"
+    # Units the board does not have, "<pu>=<reason>;...": reported as skip.
+    ABSENT: ""
+    # The QAIRT SDK zip on the board, its SHA-256 and the directory its
+    # files sit under.
+    QAIRT_ZIP: ""
+    QAIRT_SHA256: ""
+    QAIRT_ROOT: "qairt/2.42.0.251225"
+    # QAIRT target directory of the board's binaries in the zip.
+    QNN_TARGET: "aarch64-oe-linux-gcc11.2"
+    # The model bundle (README.md): DLCs, TensorFlow Lite model, inputs,
+    # expected classes, x86 references, MANIFEST.sha256; empty skips.
+    MODEL_DIR: ""
+    MIN_COSINE: "0.98"
+    MAX_HOST_DIFF: "0.5"
+    MAX_TFLITE_DIFF: "0.01"
+    WARMUP: "5"
+    RUNS: "50"
+    # "", htp-down (the NSP and DSP cases must fail), gpu-down (the GPU cases must
+    # fail) or wrong-class (every top-1 case must fail)
+    NEGATIVE: ""
+
+run:
+    steps:
+        - cd ./automated/linux/inference/
+        - ./inference.sh -p "${PUS}" -a "${ABSENT}" -z "${QAIRT_ZIP}" -s "${QAIRT_SHA256}" -r "${QAIRT_ROOT}" -m "${MODEL_DIR}" -c "${MIN_COSINE}" -x "${MAX_HOST_DIFF}" -y "${MAX_TFLITE_DIFF}" -w "${WARMUP}" -l "${RUNS}" -n "${NEGATIVE}" -t "${QNN_TARGET}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

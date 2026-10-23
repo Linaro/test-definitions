@@ -1,0 +1,57 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: alsa-dsp-restart
+    description: "Audio playback across a restart of the DSP that hosts the
+      audio path (e.g. the Qualcomm ADSP): play, crash the DSP through
+      remoteproc debugfs while idle, wait for the DSP and the sound card to
+      come back and play again, then crash it in the middle of a stream and
+      check that the stream ends rather than hangs and that the card comes
+      back and plays. The mixer settings that route the PCM to an output
+      are a parameter and are applied before every playback. Without the
+      card the test is skipped; without the remoteproc or debugfs only the
+      restart cases are. With a capture PCM every playback is followed by a
+      recording that must deliver all its frames and not be all zeros."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - lemans-evk
+
+params:
+    # ALSA card id or name from /proc/asound/cards; empty is the first card.
+    CARD: ""
+    # Name of the playback PCM as aplay -l lists it; empty is the first.
+    PCM: ""
+    # Mixer settings, <control name>=<value> separated by ';'.
+    MIXER: ""
+    # Name of the remoteproc that runs the audio DSP.
+    REMOTEPROC: "adsp"
+    PLAY_SECONDS: "2"
+    # Length of the stream the DSP is crashed in.
+    BUSY_SECONDS: "10"
+    # How long the DSP and the card get to come back.
+    WAIT_SECONDS: "30"
+    FORMAT: "S16_LE"
+    RATE: "48000"
+    CHANNELS: "2"
+    # Name of the capture PCM as arecord -l lists it; empty skips capture.
+    CAPTURE_PCM: ""
+    # Mixer settings for capture, as MIXER.
+    CAPTURE_MIXER: ""
+    CAPTURE_CHANNELS: "1"
+    CAPTURE_RATE: "48000"
+
+run:
+    steps:
+        - cd ./automated/linux/alsa-dsp-restart/
+        - ./alsa-dsp-restart.sh -c "${CARD}" -p "${PCM}" -m "${MIXER}" -r "${REMOTEPROC}" -d "${PLAY_SECONDS}" -b "${BUSY_SECONDS}" -w "${WAIT_SECONDS}" -f "${FORMAT}" -R "${RATE}" -C "${CHANNELS}" -P "${CAPTURE_PCM}" -M "${CAPTURE_MIXER}" -N "${CAPTURE_CHANNELS}" -S "${CAPTURE_RATE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
