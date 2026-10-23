@@ -26,9 +26,19 @@ params:
     SKIP_INSTALL: "False"
     SMP: "true"
     GIT_REF: "master"
+    # tap: one case per check the test guests report (run_tests.sh -t).
+    # test: one case per test with the runner's verdict, which also catches
+    # a VM that fails before its guest reports anything.
+    RESULTS: "tap"
+    # Host CPUs (cpulist) to hold the VMs on, e.g. one cluster of a
+    # heterogeneous system so a VM gets one PMU type; empty: any CPU.
+    CPUS: ""
+    # true: report kvm-device, failing when there is no /dev/kvm (the
+    # runner then skips every test).
+    REQUIRE_KVM: "false"
 
 run:
     steps:
         - cd ./automated/linux/kvm-unit-tests/
-        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}" -g "${GIT_REF}"
+        - ./kvm-unit-tests.sh -s "${SKIP_INSTALL}" -m "${SMP}" -g "${GIT_REF}" -r "${RESULTS}" -c "${CPUS}" -k "${REQUIRE_KVM}"
         - ../../utils/send-to-lava.sh ./output/result.txt
