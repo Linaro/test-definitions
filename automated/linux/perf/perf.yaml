@@ -23,9 +23,10 @@ metadata:
 params:
     SKIP_INSTALL: false
     PARALLEL_TESTS: false
+    TESTPROG_URL: ""
 
 run:
     steps:
         - cd ./automated/linux/perf/
-        - ./perf.sh -s "${SKIP_INSTALL}" -p "${PARALLEL_TESTS}"
+        - ./perf.sh -s "${SKIP_INSTALL}" -p "${PARALLEL_TESTS}" -u "${TESTPROG_URL}"
         - ../../utils/send-to-lava.sh ./output/result.txt
