@@ -32,7 +32,7 @@ while getopts "s:p:u:h" arg; do
 done
 
 # Keep a prebuilt perf and its support files together without replacing the
-# rootfs's installed perf.
+# rootfs's installed perf or OpenCSD libraries.
 setup_prebuilt_perf() {
     PERF_ROOT=$(mktemp -d "${OUTPUT}/perf-binaries.XXXXXX") || return
     wget -O "${PERF_ROOT}.tar" "${TESTPROG_URL}" || return
@@ -44,6 +44,13 @@ setup_prebuilt_perf() {
     PATH="${PERF_ROOT}/usr/bin:${PATH}"
     PERF_EXEC_PATH="${PERF_ROOT}/usr/libexec/perf-core"
     export PATH PERF_EXEC_PATH
+    for perf_libdir in "${PERF_ROOT}/usr/lib/"*; do
+        if [ -d "${perf_libdir}" ]; then
+            LD_LIBRARY_PATH="${perf_libdir}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+        fi
+    done
+    export LD_LIBRARY_PATH
+    return 0
 }
 
 # Run perf record tests
