@@ -10,3 +10,7 @@ path. Other runtime packages are installed on Debian or Ubuntu unless
 
 Without `TESTPROG_URL`, the existing distro perf path is used. A startup check
 reports missing libraries before any functional tests run.
+
+`SKIP_TEST_NAMES` accepts one exact test name per line. It requires perf's
+`--skip-name` option; unsupported versions or unmatched names report failures.
+Leave it empty to run without CI exclusions.

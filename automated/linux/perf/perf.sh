@@ -9,6 +9,7 @@ export RESULT_FILE
 SKIP_INSTALL="false"
 PARALLEL_TESTS="false"
 TESTPROG_URL=""
+SKIP_TEST_NAMES=""
 # List of test cases
 TEST="record report stat test"
 # PERF version
@@ -19,14 +20,16 @@ usage() {
     echo " [-s <true|false>]        Skip dependency installation" 1>&2
     echo " [-p <true|false>]        Run tests in parallel" 1>&2
     echo " [-u <url>]               Download an installed perf tar archive" 1>&2
+    echo " [-n <names>]             Exact perf test names to skip, one per line" 1>&2
     exit 1
 }
 
-while getopts "s:p:u:h" arg; do
+while getopts "s:p:u:n:h" arg; do
    case "$arg" in
      s) SKIP_INSTALL="${OPTARG}";;
      p) PARALLEL_TESTS="${OPTARG}";;
      u) TESTPROG_URL="${OPTARG}";;
+     n) SKIP_TEST_NAMES="${OPTARG}";;
      h|*) usage ;;
    esac
 done
@@ -109,6 +112,19 @@ run_perf_test() {
     set -- -v
     if [ "${PARALLEL_TESTS}" != "true" ]; then
         set -- -S "$@"
+    fi
+    if [ -n "${SKIP_TEST_NAMES}" ]; then
+        info_msg "Checking perf --skip-name support"
+        if ! perf test -h 2>&1 | grep -q -- '--skip-name'; then
+            report_fail "perf-skip-name-support"
+            return
+        fi
+        while IFS= read -r test_name; do
+            [ -z "${test_name}" ] && continue
+            set -- "$@" --skip-name "${test_name}"
+        done <<EOF
+${SKIP_TEST_NAMES}
+EOF
     fi
     # Keep live output without losing perf's status to tee in this POSIX shell.
     perf_test_exit="${OUTPUT}/perf-test.exit"
