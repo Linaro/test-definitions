@@ -81,12 +81,22 @@ run_perf_stat() {
 run_perf_test() {
     # Test 'perf test'
     info_msg "Performing 'perf test'..."
-    if [ "${PARALLEL_TESTS}" = "true" ]; then
-        perf test -v 2>&1 | tee "${RESULT_LOG}"
-    else
-        perf test -S -v 2>&1 | tee "${RESULT_LOG}"
+    set -- -v
+    if [ "${PARALLEL_TESTS}" != "true" ]; then
+        set -- -S "$@"
     fi
-    report_pass "perf_test"
+    # Keep live output without losing perf's status to tee in this POSIX shell.
+    perf_test_exit="${OUTPUT}/perf-test.exit"
+    {
+        perf test "$@"
+        echo "$?" > "${perf_test_exit}"
+    } 2>&1 | tee "${RESULT_LOG}"
+    if [ "$(cat "${perf_test_exit}")" = "0" ]; then
+        report_pass "perf_test"
+    else
+        report_fail "perf_test"
+    fi
+    rm -f "${perf_test_exit}"
     parse_perf_test_results
 }
 
