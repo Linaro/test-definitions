@@ -24,9 +24,11 @@ params:
     SKIP_INSTALL: false
     PARALLEL_TESTS: false
     TESTPROG_URL: ""
+    # One exact name per line; requires perf --skip-name support.
+    SKIP_TEST_NAMES: ""
 
 run:
     steps:
         - cd ./automated/linux/perf/
-        - ./perf.sh -s "${SKIP_INSTALL}" -p "${PARALLEL_TESTS}" -u "${TESTPROG_URL}"
+        - ./perf.sh -s "${SKIP_INSTALL}" -p "${PARALLEL_TESTS}" -u "${TESTPROG_URL}" -n "${SKIP_TEST_NAMES}"
         - ../../utils/send-to-lava.sh ./output/result.txt
