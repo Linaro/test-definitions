@@ -188,6 +188,23 @@ A general test definition file should contain the below keywords and steps::
         # Send the results in result.txt to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
 
+LAVA copies the whole repository to the DUT, but most tests only need a few
+files from it. List them in `dependency_path`::
+
+    metadata:
+      dependency_path:
+        - /automated/lib/*
+        - /automated/utils/*
+
+Each entry is a glob from the repository root. LAVA always keeps the directory
+of the test definition, so you only list files outside it. If the test script
+calls `generate_skipfile` from sh-test-lib, add `/automated/bin/*/skipgen` too.
+Everything else is removed. That includes `.git`, so list `/.git` if the test
+needs it.
+
+validate.py checks that each entry matches something in the repository. It can
+not see if the list is complete, so run the test in LAVA once.
+
 ## Android specific
 
 The above test writing guidelines also apply to Android test cases. The major
