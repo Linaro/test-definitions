@@ -8,6 +8,8 @@ RESULT_LOG="${OUTPUT}/result_log.txt"
 export RESULT_FILE
 SKIP_INSTALL="false"
 PARALLEL_TESTS="false"
+TESTPROG_URL=""
+SKIP_TEST_NAMES=""
 # List of test cases
 TEST="record report stat test"
 # PERF version
@@ -15,18 +17,44 @@ PERF_VERSION="$(uname -r | cut -d . -f 1-2)"
 
 usage() {
     echo "Usage: $0 [options...]" 1>&2
-    echo " [-s <true|false>]        Skip to install perf" 1>&2
+    echo " [-s <true|false>]        Skip dependency installation" 1>&2
     echo " [-p <true|false>]        Run tests in parallel" 1>&2
+    echo " [-u <url>]               Download an installed perf tar archive" 1>&2
+    echo " [-n <names>]             Exact perf test names to skip, one per line" 1>&2
     exit 1
 }
 
-while getopts "s:p:h" arg; do
+while getopts "s:p:u:n:h" arg; do
    case "$arg" in
      s) SKIP_INSTALL="${OPTARG}";;
      p) PARALLEL_TESTS="${OPTARG}";;
+     u) TESTPROG_URL="${OPTARG}";;
+     n) SKIP_TEST_NAMES="${OPTARG}";;
      h|*) usage ;;
    esac
 done
+
+# Keep a prebuilt perf and its support files together without replacing the
+# rootfs's installed perf or OpenCSD libraries.
+setup_prebuilt_perf() {
+    PERF_ROOT=$(mktemp -d "${OUTPUT}/perf-binaries.XXXXXX") || return
+    wget -O "${PERF_ROOT}.tar" "${TESTPROG_URL}" || return
+    tar -xf "${PERF_ROOT}.tar" -C "${PERF_ROOT}" || return
+    rm -f "${PERF_ROOT}.tar"
+    test -x "${PERF_ROOT}/usr/bin/perf" || return
+    test -d "${PERF_ROOT}/usr/libexec/perf-core" || return
+
+    PATH="${PERF_ROOT}/usr/bin:${PATH}"
+    PERF_EXEC_PATH="${PERF_ROOT}/usr/libexec/perf-core"
+    export PATH PERF_EXEC_PATH
+    for perf_libdir in "${PERF_ROOT}/usr/lib/"*; do
+        if [ -d "${perf_libdir}" ]; then
+            LD_LIBRARY_PATH="${perf_libdir}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+        fi
+    done
+    export LD_LIBRARY_PATH
+    return 0
+}
 
 # Run perf record tests
 run_perf_record() {
@@ -81,12 +109,35 @@ run_perf_stat() {
 run_perf_test() {
     # Test 'perf test'
     info_msg "Performing 'perf test'..."
-    if [ "${PARALLEL_TESTS}" = "true" ]; then
-        perf test -v 2>&1 | tee "${RESULT_LOG}"
-    else
-        perf test -S -v 2>&1 | tee "${RESULT_LOG}"
+    set -- -v
+    if [ "${PARALLEL_TESTS}" != "true" ]; then
+        set -- -S "$@"
     fi
-    report_pass "perf_test"
+    if [ -n "${SKIP_TEST_NAMES}" ]; then
+        info_msg "Checking perf --skip-name support"
+        if ! perf test -h 2>&1 | grep -q -- '--skip-name'; then
+            report_fail "perf-skip-name-support"
+            return
+        fi
+        while IFS= read -r test_name; do
+            [ -z "${test_name}" ] && continue
+            set -- "$@" --skip-name "${test_name}"
+        done <<EOF
+${SKIP_TEST_NAMES}
+EOF
+    fi
+    # Keep live output without losing perf's status to tee in this POSIX shell.
+    perf_test_exit="${OUTPUT}/perf-test.exit"
+    {
+        perf test "$@"
+        echo "$?" > "${perf_test_exit}"
+    } 2>&1 | tee "${RESULT_LOG}"
+    if [ "$(cat "${perf_test_exit}")" = "0" ]; then
+        report_pass "perf_test"
+    else
+        report_fail "perf_test"
+    fi
+    rm -f "${perf_test_exit}"
     parse_perf_test_results
 }
 
@@ -106,13 +157,19 @@ info_msg "About to run perf test..."
 info_msg "Output directory: ${OUTPUT}"
 
 if [ "${SKIP_INSTALL}" = "True" ] || [ "${SKIP_INSTALL}" = "true" ]; then
-    info_msg "install perf skipped"
+    info_msg "dependency installation skipped"
 else
     dist_name
     # shellcheck disable=SC2154
     case "${dist}" in
       debian|ubuntu)
-	pkgs="linux-perf-${PERF_VERSION}"
+        if [ -n "${TESTPROG_URL}" ]; then
+            # libdw1/libelf1 are also provided by the Debian t64 packages.
+            pkgs="wget tar xz-utils python3 libelf1 libdw1 libnuma1"
+            pkgs="${pkgs} libtraceevent1 liblzma5 libzstd1 zlib1g libstdc++6"
+        else
+            pkgs="python3 linux-perf-${PERF_VERSION}"
+        fi
         install_deps "${pkgs}" "${SKIP_INSTALL}"
         ;;
       *)
@@ -120,9 +177,18 @@ else
     esac
 fi
 
+if [ -n "${TESTPROG_URL}" ]; then
+    setup_prebuilt_perf
+    exit_on_fail "perf-bundle-setup"
+fi
+
+command -v python3 > /dev/null
+exit_on_fail "perf-parser-check"
 info_msg "check which perf"
 which perf > /dev/null
 exit_on_fail "perf-existence-check"
+perf version --build-options
+exit_on_fail "perf-runtime-check"
 
 # List of test cases "record report stat test"
 for tests in ${TEST}; do
