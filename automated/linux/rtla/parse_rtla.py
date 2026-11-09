@@ -69,6 +69,14 @@ def get_field_name(col):
     return None
 
 
+def to_number(value):
+    # Newer rtla versions print the osnoise "avg:" with decimals.
+    try:
+        return int(value)
+    except ValueError:
+        return float(value)
+
+
 def parse_histogram(col, sel, i, hist):
     if i not in hist:
         hist[i] = {}
@@ -76,9 +84,9 @@ def parse_histogram(col, sel, i, hist):
 
     name = get_field_name(col)
     if name:
-        hist[i][name] = int(col[sel])
+        hist[i][name] = to_number(col[sel])
     else:
-        hist[i]["histogram"][col[0]] = int(col[sel])
+        hist[i]["histogram"][col[0]] = to_number(col[sel])
 
 
 def parse_osnoise(result_file, return_code):
