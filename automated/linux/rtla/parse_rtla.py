@@ -29,6 +29,14 @@ def parse_args():
         dest="output",
         help="Specify output file.",
     )
+    parser.add_argument(
+        "-c",
+        "--return-code",
+        dest="return_code",
+        type=int,
+        default=0,
+        help="Exit code of rtla.",
+    )
 
     args = parser.parse_args()
     return args
@@ -73,7 +81,7 @@ def parse_histogram(col, sel, i, hist):
         hist[i]["histogram"][col[0]] = int(col[sel])
 
 
-def parse_osnoise(result_file):
+def parse_osnoise(result_file, return_code):
     data = {}
     threads = {}
     num_cols = 0
@@ -93,7 +101,7 @@ def parse_osnoise(result_file):
             parse_histogram(col, sel, i, threads)
 
     data["file_version"] = 2
-    data["return_code"] = 0
+    data["return_code"] = return_code
     data["sysinfo"] = get_sysinfo()
     data["num_threads"] = num_cols
     data["resolution_in_ns"] = 0
@@ -102,7 +110,7 @@ def parse_osnoise(result_file):
     return data
 
 
-def parse_timerlat(result_file):
+def parse_timerlat(result_file, return_code):
     data = {}
     threads = {}
     irqs = {}
@@ -125,7 +133,7 @@ def parse_timerlat(result_file):
             parse_histogram(col, sel, i, threads)
 
     data["file_version"] = 2
-    data["return_code"] = 0
+    data["return_code"] = return_code
     data["sysinfo"] = get_sysinfo()
     data["num_threads"] = num_cols / 2
     data["num_irqs"] = num_cols / 2
@@ -139,9 +147,9 @@ def parse_timerlat(result_file):
 def main(args):
     with open(args.result_file, "r") as infile:
         if args.test_name == "osnoise":
-            data = parse_osnoise(infile)
+            data = parse_osnoise(infile, args.return_code)
         else:
-            data = parse_timerlat(infile)
+            data = parse_timerlat(infile, args.return_code)
 
     if args.output:
         with open(args.output, "w") as outfile:
