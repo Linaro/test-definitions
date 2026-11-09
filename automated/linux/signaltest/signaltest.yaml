@@ -47,5 +47,5 @@ run:
     steps:
         - cd ./automated/linux/signaltest
         - ./signaltest.sh -D "${DURATION}" -p "${RT_PRIORITY}" -t "${THREADS}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}"
-        - ../../utils/upload-to-artifactorial.sh -a "output/signaltest.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - for f in output/signaltest-*.json; do ../../utils/upload-to-artifactorial.sh -a "${f}" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"; done
         - ../../utils/send-to-lava.sh ./output/result.txt

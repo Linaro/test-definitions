@@ -41,5 +41,5 @@ run:
     steps:
         - cd ./automated/linux/pmqtest/
         - ./pmqtest.sh -D "${DURATION}" -i "${ITERATIONS}" -w "${BACKGROUND_CMD}"
-        - ../../utils/upload-to-artifactorial.sh -a "output/pmqtest.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - for f in output/pmqtest-*.json; do ../../utils/upload-to-artifactorial.sh -a "${f}" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"; done
         - ../../utils/send-to-lava.sh ./output/result.txt
