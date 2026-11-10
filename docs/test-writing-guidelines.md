@@ -175,6 +175,14 @@ Test case works with/without LAVA and can be tested locally.
 A general test definition file should contain the below keywords and steps::
 
     metadata:
+      format: Lava-Test Test Definition 2.0
+      name: smoke-tests-basic
+      description: "Run basic smoke tests."
+      maintainer:
+        - first.last@example.com
+      dependency_path:
+        - /automated/lib/*
+        - /automated/utils/*
     # Define parameters required by test case with default values.
     params:
       SKIP_INSTALL: False
@@ -204,6 +212,24 @@ needs it.
 
 validate.py checks that each entry matches something in the repository. It can
 not see if the list is complete, so run the test in LAVA once.
+
+#### Metadata formats
+
+`validate.py` accepts the following values of `metadata.format`:
+
+| Format                          | Mandatory keys                                                       | Optional keys              |
+|---------------------------------|----------------------------------------------------------------------|----------------------------|
+| `Lava-Test Test Definition 2.0` | `name`, `format`, `description`, `maintainer`, `dependency_path`     | `os`, `scope`, `devices`   |
+| `Lava-Test Test Definition 1.0` | `name`, `format`, `description`, `maintainer`, `os`, `devices`       | `scope`, `dependency_path` |
+| `Manual Test Definition 1.0`    | `name`, `format`, `description`, `maintainer`, `os`, `devices`       | `scope`, `dependency_path` |
+
+New test definitions should use `Lava-Test Test Definition 2.0`. In 2.0 the
+`os`, `scope` and `devices` keys are no longer required: where a test runs is
+decided by the test plan or LAVA job. They are still accepted when present.
+`dependency_path` is required in 2.0, so LAVA copies only the files the test
+needs. To migrate a 1.0 file, change `format` and add `dependency_path`; the
+`os`, `scope` and `devices` keys may be kept or removed. 1.0 files are still
+accepted.
 
 ## Android specific
 
