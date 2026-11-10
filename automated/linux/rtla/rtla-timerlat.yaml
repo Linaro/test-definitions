@@ -34,6 +34,8 @@ params:
     DURATION: "5m"
     # Background workload to be run during the meassurement
     BACKGROUND_CMD: ""
+    # CPUs to measure (cpu list); empty: all CPUs
+    CPUS: ""
     # Specify url and token for publishing artifacts.
     # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
     # 'secrets' dictionary, and set job visibility to personal or group.
@@ -44,7 +46,7 @@ params:
 run:
     steps:
         - cd ./automated/linux/rtla/
-        - ./rtla-timerlat.sh -d "${DURATION}" -w "${BACKGROUND_CMD}"
+        - ./rtla-timerlat.sh -d "${DURATION}" -w "${BACKGROUND_CMD}" -c "${CPUS}"
         - ../../utils/upload-to-artifactorial.sh -a "output/rtla-timerlat.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_thread_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_irq_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"

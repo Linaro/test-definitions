@@ -13,16 +13,18 @@ RCFILE="${OUTPUT}/rtla-timerlat.rc"
 
 DURATION="1m"
 BACKGROUND_CMD=""
+CPUS=""
 
 usage() {
-    echo "Usage: $0 [-d duration ] [-w background_cmd]" 1>&2
+    echo "Usage: $0 [-d duration ] [-w background_cmd] [-c cpus]" 1>&2
     exit 1
 }
 
-while getopts ":d:w:" opt; do
+while getopts ":d:w:c:" opt; do
     case "${opt}" in
         d) DURATION="${OPTARG}" ;;
 	w) BACKGROUND_CMD="${OPTARG}" ;;
+	c) CPUS="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -38,11 +40,18 @@ if [ -e /dev/cpu_dma_latency ]; then
     DMA_LATENCY="--dma-latency=0"
 fi
 
+# Measure only these CPUs (e.g. the isolated ones); rtla then keeps its
+# own threads on the others.
+CPU_OPTS=""
+if [ -n "${CPUS}" ]; then
+    CPU_OPTS="-c ${CPUS}"
+fi
+
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 # The pipe to tee loses rtla's exit code, keep it in a file.
 # shellcheck disable=SC2086
-{ rtla timerlat hist ${DMA_LATENCY} -d "${DURATION}" --trace \
+{ rtla timerlat hist ${DMA_LATENCY} -d "${DURATION}" ${CPU_OPTS} --trace \
      --event osnoise:irq_noise \
      --trigger hist:key=cpu,desc,duration.buckets=1000:sort=duration \
      --event osnoise:thread_noise \
