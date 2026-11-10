@@ -217,19 +217,21 @@ not see if the list is complete, so run the test in LAVA once.
 
 `validate.py` accepts the following values of `metadata.format`:
 
-| Format                          | Mandatory keys                                                       | Optional keys              |
-|---------------------------------|----------------------------------------------------------------------|----------------------------|
-| `Lava-Test Test Definition 2.0` | `name`, `format`, `description`, `maintainer`, `dependency_path`     | `os`, `scope`, `devices`   |
-| `Lava-Test Test Definition 1.0` | `name`, `format`, `description`, `maintainer`, `os`, `devices`       | `scope`, `dependency_path` |
-| `Manual Test Definition 1.0`    | `name`, `format`, `description`, `maintainer`, `os`, `devices`       | `scope`, `dependency_path` |
+| Format                          | Mandatory keys                                                   | Optional keys                               |
+|---------------------------------|------------------------------------------------------------------|---------------------------------------------|
+| `Lava-Test Test Definition 2.0` | `name`, `format`, `description`, `maintainer`, `dependency_path` | `os`, `scope`, `devices`                    |
+| `Lava-Test Test Definition 1.0` | `name`, `format`, `description`, `maintainer`, `os`, `devices`   | `scope`, `dependency_path`                  |
+| `Manual Test Definition 2.0`    | `name`, `format`, `description`, `maintainer`                    | `os`, `scope`, `devices`, `dependency_path` |
+| `Manual Test Definition 1.0`    | `name`, `format`, `description`, `maintainer`, `os`, `devices`   | `scope`, `dependency_path`                  |
 
-New test definitions should use `Lava-Test Test Definition 2.0`. In 2.0 the
+New test definitions should use `Lava-Test Test Definition 2.0` (or
+`Manual Test Definition 2.0` for manual tests). In 2.0 the
 `os`, `scope` and `devices` keys are no longer required: where a test runs is
 decided by the test plan or LAVA job. They are still accepted when present.
-`dependency_path` is required in 2.0, so LAVA copies only the files the test
-needs. To migrate a 1.0 file, change `format` and add `dependency_path`; the
-`os`, `scope` and `devices` keys may be kept or removed. 1.0 files are still
-accepted.
+`dependency_path` is required in `Lava-Test Test Definition 2.0`, so LAVA
+copies only the files the test needs. To migrate a 1.0 file, change `format`
+and, for Lava-Test files, add `dependency_path`; the `os`, `scope` and
+`devices` keys may be kept or removed. 1.0 files are still accepted.
 
 ## Android specific
 

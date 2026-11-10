@@ -42,6 +42,7 @@ TESTDEF_FORMATS = {
     "Lava-Test Test Definition 1.0": _METADATA_V1_MANDATORY,
     "Manual Test Definition 1.0": _METADATA_V1_MANDATORY,
     "Lava-Test Test Definition 2.0": _LAVA_TEST_V2_MANDATORY,
+    "Manual Test Definition 2.0": _METADATA_V2_MANDATORY,
 }
 
 
