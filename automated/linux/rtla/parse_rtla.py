@@ -92,26 +92,32 @@ def parse_histogram(col, sel, i, hist):
 def parse_osnoise(result_file, return_code):
     data = {}
     threads = {}
-    num_cols = 0
+    cpus = []
 
     for line in result_file.readlines():
-        if line.startswith(" "):
+        if line.startswith(" ") or line.startswith("#"):
             continue
 
         col = line.split()
+        if not col:
+            continue
+        if col[0] == "Index":
+            # "Index   CPU-001   CPU-002 ...": key the results by CPU, as
+            # with -c not every CPU has a column.
+            cpus = [str(int(c.split("-")[1])) for c in col[1:]]
+            continue
         name = get_field_name(col)
         if name == "ALL":
             break
 
-        num_cols = len(col) - 1
-
-        for i, sel in zip(range(0, num_cols), range(1, len(col), 1)):
-            parse_histogram(col, sel, i, threads)
+        keys = cpus if len(cpus) == len(col) - 1 else range(len(col) - 1)
+        for key, sel in zip(keys, range(1, len(col))):
+            parse_histogram(col, sel, str(key), threads)
 
     data["file_version"] = 2
     data["return_code"] = return_code
     data["sysinfo"] = get_sysinfo()
-    data["num_threads"] = num_cols
+    data["num_threads"] = len(threads)
     data["resolution_in_ns"] = 0
     data["thread"] = threads
 

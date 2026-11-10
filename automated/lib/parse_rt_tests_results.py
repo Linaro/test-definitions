@@ -37,9 +37,11 @@ def print_irq_res(iid, res, key):
 
 
 def parse_threads(rawdata):
-    num_threads = int(rawdata["num_threads"])
-    for thread_id in range(num_threads):
-        tid = str(thread_id)
+    tids = [str(i) for i in range(int(rawdata["num_threads"]))]
+    if not all(t in rawdata["thread"] for t in tids):
+        # rtla-osnoise keys its threads by CPU, which needn't start at 0
+        tids = sorted(rawdata["thread"], key=int)
+    for tid in tids:
         if "receiver" in rawdata["thread"][tid]:
             data = rawdata["thread"][tid]["receiver"]
         else:
