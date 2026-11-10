@@ -128,32 +128,48 @@ def parse_timerlat(result_file, return_code):
     data = {}
     threads = {}
     irqs = {}
-    num_cols = 0
+    users = {}
+    columns = []
 
     for line in result_file.readlines():
-        if line.startswith(" "):
+        if line.startswith(" ") or line.startswith("#"):
             continue
 
         col = line.split()
+        if not col:
+            continue
+        if col[0] == "Index":
+            # "Index   IRQ-001   Thr-001   Usr-001 ...": the kind and CPU
+            # of each column. Newer rtla adds the Usr column (user-space
+            # threads), and with -c not every CPU has columns.
+            columns = [tuple(c.split("-")) for c in col[1:]]
+            continue
         name = get_field_name(col)
         if name == "ALL":
             break
 
-        num_cols = len(col) - 1
-
-        for i, sel in zip(range(0, num_cols), range(1, len(col), 2)):
-            parse_histogram(col, sel, i, irqs)
-        for i, sel in zip(range(0, num_cols), range(2, len(col), 2)):
-            parse_histogram(col, sel, i, threads)
+        if len(columns) != len(col) - 1:
+            # no header (old rtla): IRQ and thread columns, CPU by CPU
+            columns = [
+                ("IRQ" if i % 2 == 0 else "Thr", str(i // 2))
+                for i in range(len(col) - 1)
+            ]
+        for sel, (kind, cpu) in enumerate(columns, 1):
+            hist = {"IRQ": irqs, "Thr": threads, "Usr": users}.get(kind)
+            if hist is not None:
+                parse_histogram(col, sel, str(int(cpu)), hist)
 
     data["file_version"] = 2
     data["return_code"] = return_code
     data["sysinfo"] = get_sysinfo()
-    data["num_threads"] = num_cols / 2
-    data["num_irqs"] = num_cols / 2
+    data["num_threads"] = len(threads)
+    data["num_irqs"] = len(irqs)
     data["resolution_in_ns"] = 0
     data["thread"] = threads
     data["irq"] = irqs
+    if users:
+        data["num_users"] = len(users)
+        data["user"] = users
 
     return data
 

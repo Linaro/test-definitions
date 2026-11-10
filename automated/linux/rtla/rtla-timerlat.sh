@@ -42,7 +42,7 @@ background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
 # The pipe to tee loses rtla's exit code, keep it in a file.
 # shellcheck disable=SC2086
-{ rtla timerlat hist ${DMA_LATENCY} -d "${DURATION}" --no-header --trace \
+{ rtla timerlat hist ${DMA_LATENCY} -d "${DURATION}" --trace \
      --event osnoise:irq_noise \
      --trigger hist:key=cpu,desc,duration.buckets=1000:sort=duration \
      --event osnoise:thread_noise \

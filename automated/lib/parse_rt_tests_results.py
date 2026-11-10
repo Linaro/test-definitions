@@ -36,12 +36,21 @@ def print_irq_res(iid, res, key):
     print("i{}-{}-latency pass {} us".format(iid, key, res[key]))
 
 
+def print_user_res(uid, res, key):
+    print("u{}-{}-latency pass {} us".format(uid, key, res[key]))
+
+
+def ids(rawdata, section, count):
+    """The ids of rawdata[section]: 0..count-1, or for the rtla tests,
+    which key their results by CPU, the CPUs they measured."""
+    keys = [str(i) for i in range(int(rawdata[count]))]
+    if not all(k in rawdata[section] for k in keys):
+        keys = sorted(rawdata[section], key=int)
+    return keys
+
+
 def parse_threads(rawdata):
-    tids = [str(i) for i in range(int(rawdata["num_threads"]))]
-    if not all(t in rawdata["thread"] for t in tids):
-        # rtla-osnoise keys its threads by CPU, which needn't start at 0
-        tids = sorted(rawdata["thread"], key=int)
-    for tid in tids:
+    for tid in ids(rawdata, "thread", "num_threads"):
         if "receiver" in rawdata["thread"][tid]:
             data = rawdata["thread"][tid]["receiver"]
         else:
@@ -52,12 +61,17 @@ def parse_threads(rawdata):
 
 
 def parse_irqs(rawdata):
-    num_irqs = int(rawdata["num_irqs"])
-    for irq_id in range(num_irqs):
-        iid = str(irq_id)
+    for iid in ids(rawdata, "irq", "num_irqs"):
         data = rawdata["irq"][iid]
         for key in ["min", "avg", "max"]:
             print_irq_res(iid, data, key)
+
+
+def parse_users(rawdata):
+    # rtla-timerlat's user-space threads
+    for uid in ids(rawdata, "user", "num_users"):
+        for key in ["min", "avg", "max"]:
+            print_user_res(uid, rawdata["user"][uid], key)
 
 
 def parse_json(testname, filename):
@@ -67,6 +81,8 @@ def parse_json(testname, filename):
     if "num_threads" in rawdata:
         # most rt-tests have generic per thread results
         parse_threads(rawdata)
+    if "num_users" in rawdata:
+        parse_users(rawdata)
     if "num_irqs" in rawdata:
         # rlta timertat also knows about irqs
         parse_irqs(rawdata)
