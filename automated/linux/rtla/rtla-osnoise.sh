@@ -59,10 +59,14 @@ fi
 
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-# real-time priority FIFO:1, for 900ms at each period (1s by default)
+# real-time priority FIFO:1, for 800ms at each period (1s by default).
+# Not more: the threaded IRQs are real-time tasks as well, and once all
+# of them together use more than sched_rt_runtime_us (950ms by default)
+# of a period, RT throttling stops the osnoise thread and the CPU idles,
+# which osnoise reports as milliseconds of noise.
 # The pipe to tee loses rtla's exit code, keep it in a file.
 # shellcheck disable=SC2086
-{ rtla osnoise hist -P F:1 -r 900000 -d "${DURATION}" ${CPU_OPTS} --trace \
+{ rtla osnoise hist -P F:1 -r 800000 -d "${DURATION}" ${CPU_OPTS} --trace \
      --event osnoise:irq_noise \
      --trigger hist:key=cpu,desc,duration.buckets=1000:sort=duration \
      --event osnoise:thread_noise \
