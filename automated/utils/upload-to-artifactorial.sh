@@ -56,7 +56,17 @@ if command -v lava-test-reference > /dev/null 2>&1; then
     fi
 
     attachmentBasename="$(basename "${ATTACHMENT}")"
-    if echo "${return}" | grep "${attachmentBasename}"; then
+    # A file of that name already in the directory (another board
+    # uploading the same test's results in the same minute) makes
+    # Artifactorial store this one as <name>_<random><extension>.
+    stem="${attachmentBasename%.*}"
+    extension="${attachmentBasename#"${stem}"}"
+    uploaded=false
+    case "${return##*/}" in
+        "${attachmentBasename}"|"${stem}"_*"${extension}") uploaded=true ;;
+    esac
+    if "${uploaded}"; then
+        echo "${return}"
         lava-test-reference "test-attachment" --result "pass" --reference "${return}"
     else
         echo "test-attachment fail"
