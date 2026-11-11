@@ -49,8 +49,31 @@ def ids(rawdata, section, count):
     return keys
 
 
-def parse_threads(rawdata):
-    for tid in ids(rawdata, "thread", "num_threads"):
+def not_latencies(testname, tids):
+    """Threads whose results are by the test's design, not latencies.
+
+    rt-migrate-test starts one task more than there are CPUs, all at
+    once, each running for 20 ms; the lowest priority one, thread 0,
+    waits for a CPU until another task is done (max ~20000 us). The
+    other threads' start delays are the latencies.
+
+    signaltest passes a signal around its threads; thread 0 sleeps 10 ms
+    every 16 round trips, which the other threads' round trips include
+    (max ~10000 us). Only thread 0 measures the round trip alone.
+    """
+    if testname == "rt-migrate-test":
+        return {"0"}
+    if testname == "signaltest":
+        return set(tids) - {"0"}
+    return set()
+
+
+def parse_threads(rawdata, testname):
+    tids = ids(rawdata, "thread", "num_threads")
+    skip = not_latencies(testname, tids)
+    for tid in tids:
+        if tid in skip:
+            continue
         if "receiver" in rawdata["thread"][tid]:
             data = rawdata["thread"][tid]["receiver"]
         else:
@@ -80,7 +103,7 @@ def parse_json(testname, filename):
 
     if "num_threads" in rawdata:
         # most rt-tests have generic per thread results
-        parse_threads(rawdata)
+        parse_threads(rawdata, testname)
     if "num_users" in rawdata:
         parse_users(rawdata)
     if "num_irqs" in rawdata:
