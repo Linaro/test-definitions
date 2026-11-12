@@ -619,11 +619,19 @@ background_process_start() {
     result_dir="${OUTPUT}/results/$NAME"
     mkdir -p "${result_dir}"
 
+    # The workload runs in the background of the loop: a signal ends
+    # the loop's wait at once, and the trap stops the workload too.
+    # Without that, a running workload outlives the loop and keeps
+    # loading the system after the test, e.g. during the next test of
+    # the same job.
     cat <<EOF > "${result_dir}/bg_run.sh"
-set -e
-trap "exit" SIGHUP SIGINT SIGTERM
+child=
+trap 'if [ -n "\$child" ]; then kill "\$child" 2>/dev/null; wait "\$child"; fi; exit' HUP INT TERM
 while true; do
-  $PROCESS > /dev/null
+  $PROCESS > /dev/null &
+  child=\$!
+  echo "\$child" > "${result_dir}/child"
+  wait "\$child"
   sleep 1
 done
 EOF
@@ -647,9 +655,21 @@ background_process_stop() {
 
     PID=$(cat "${result_dir}/pid")
 
-    if ps -p "${PID}" > /dev/null;
-    then
-	kill "${PID}" > /dev/null 2>&1
+    # kill -0, not ps: ps may not work on the target (procps' ps fails
+    # without NUMA support in the kernel), and then nothing was stopped.
+    if kill -0 "${PID}" 2>/dev/null; then
+	kill "${PID}" > /dev/null 2>&1 || true
+	# Wait until the loop and its workload are gone, so that what
+	# runs next doesn't run under the load; kill what is left after
+	# 30 s.
+	i=0
+	while kill -0 "${PID}" 2>/dev/null && [ "$i" -lt 30 ]; do
+	    sleep 1
+	    i=$((i + 1))
+	done
+	# Usually all of it is gone by now and kill fails: that is no
+	# error, and the scripts that use this run with set -e.
+	kill -9 "${PID}" "$(cat "${result_dir}/child" 2>/dev/null)" > /dev/null 2>&1 || true
     fi
 }
 
