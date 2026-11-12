@@ -36,6 +36,13 @@ params:
     BACKGROUND_CMD: ""
     # CPUs to measure (cpu list); empty: all CPUs
     CPUS: ""
+    # Measure with user-space threads (rtla -u): the latency up to the
+    # return to user space, comparable to cyclictest's. "false": the
+    # kernel threads of the timerlat tracer only.
+    USER_THREADS: "true"
+    # Priority of the measuring threads (rtla -P, e.g. "f:98" for
+    # SCHED_FIFO 98 like cyclictest's default); empty: rtla's default
+    RT_PRIORITY: ""
     # Specify url and token for publishing artifacts.
     # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
     # 'secrets' dictionary, and set job visibility to personal or group.
@@ -46,7 +53,7 @@ params:
 run:
     steps:
         - cd ./automated/linux/rtla/
-        - ./rtla-timerlat.sh -d "${DURATION}" -w "${BACKGROUND_CMD}" -c "${CPUS}"
+        - ./rtla-timerlat.sh -d "${DURATION}" -w "${BACKGROUND_CMD}" -c "${CPUS}" -u "${USER_THREADS}" -p "${RT_PRIORITY}"
         - ../../utils/upload-to-artifactorial.sh -a "output/rtla-timerlat.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_thread_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_irq_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
