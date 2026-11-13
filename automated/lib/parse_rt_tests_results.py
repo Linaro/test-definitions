@@ -36,10 +36,44 @@ def print_irq_res(iid, res, key):
     print("i{}-{}-latency pass {} us".format(iid, key, res[key]))
 
 
-def parse_threads(rawdata):
-    num_threads = int(rawdata["num_threads"])
-    for thread_id in range(num_threads):
-        tid = str(thread_id)
+def print_user_res(uid, res, key):
+    print("u{}-{}-latency pass {} us".format(uid, key, res[key]))
+
+
+def ids(rawdata, section, count):
+    """The ids of rawdata[section]: 0..count-1, or for the rtla tests,
+    which key their results by CPU, the CPUs they measured."""
+    keys = [str(i) for i in range(int(rawdata[count]))]
+    if not all(k in rawdata[section] for k in keys):
+        keys = sorted(rawdata[section], key=int)
+    return keys
+
+
+def not_latencies(testname, tids):
+    """Threads whose results are by the test's design, not latencies.
+
+    rt-migrate-test starts one task more than there are CPUs, all at
+    once, each running for 20 ms; the lowest priority one, thread 0,
+    waits for a CPU until another task is done (max ~20000 us). The
+    other threads' start delays are the latencies.
+
+    signaltest passes a signal around its threads; thread 0 sleeps 10 ms
+    every 16 round trips, which the other threads' round trips include
+    (max ~10000 us). Only thread 0 measures the round trip alone.
+    """
+    if testname == "rt-migrate-test":
+        return {"0"}
+    if testname == "signaltest":
+        return set(tids) - {"0"}
+    return set()
+
+
+def parse_threads(rawdata, testname):
+    tids = ids(rawdata, "thread", "num_threads")
+    skip = not_latencies(testname, tids)
+    for tid in tids:
+        if tid in skip:
+            continue
         if "receiver" in rawdata["thread"][tid]:
             data = rawdata["thread"][tid]["receiver"]
         else:
@@ -50,12 +84,17 @@ def parse_threads(rawdata):
 
 
 def parse_irqs(rawdata):
-    num_irqs = int(rawdata["num_irqs"])
-    for irq_id in range(num_irqs):
-        iid = str(irq_id)
+    for iid in ids(rawdata, "irq", "num_irqs"):
         data = rawdata["irq"][iid]
         for key in ["min", "avg", "max"]:
             print_irq_res(iid, data, key)
+
+
+def parse_users(rawdata):
+    # rtla-timerlat's user-space threads
+    for uid in ids(rawdata, "user", "num_users"):
+        for key in ["min", "avg", "max"]:
+            print_user_res(uid, rawdata["user"][uid], key)
 
 
 def parse_json(testname, filename):
@@ -64,7 +103,9 @@ def parse_json(testname, filename):
 
     if "num_threads" in rawdata:
         # most rt-tests have generic per thread results
-        parse_threads(rawdata)
+        parse_threads(rawdata, testname)
+    if "num_users" in rawdata:
+        parse_users(rawdata)
     if "num_irqs" in rawdata:
         # rlta timertat also knows about irqs
         parse_irqs(rawdata)
