@@ -624,11 +624,15 @@ background_process_start() {
     # Without that, a running workload outlives the loop and keeps
     # loading the system after the test, e.g. during the next test of
     # the same job.
+    # It runs in a process group of its own (setsid) and is stopped as
+    # a group, so that the processes a workload forks stop with it.
+    setsid=
+    command -v setsid > /dev/null && setsid=setsid
     cat <<EOF > "${result_dir}/bg_run.sh"
 child=
-trap 'if [ -n "\$child" ]; then kill "\$child" 2>/dev/null; wait "\$child"; fi; exit' HUP INT TERM
+trap 'if [ -n "\$child" ]; then kill -- -"\$child" 2>/dev/null || kill "\$child" 2>/dev/null; wait "\$child"; fi; exit' HUP INT TERM
 while true; do
-  $PROCESS > /dev/null &
+  $setsid $PROCESS > /dev/null &
   child=\$!
   echo "\$child" > "${result_dir}/child"
   wait "\$child"
@@ -669,7 +673,11 @@ background_process_stop() {
 	done
 	# Usually all of it is gone by now and kill fails: that is no
 	# error, and the scripts that use this run with set -e.
-	kill -9 "${PID}" "$(cat "${result_dir}/child" 2>/dev/null)" > /dev/null 2>&1 || true
+	child=$(cat "${result_dir}/child" 2>/dev/null) || true
+	kill -9 "${PID}" > /dev/null 2>&1 || true
+	if [ -n "${child}" ]; then
+	    kill -9 -- "-${child}" > /dev/null 2>&1 || kill -9 "${child}" > /dev/null 2>&1 || true
+	fi
     fi
 }
 
