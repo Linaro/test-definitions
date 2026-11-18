@@ -37,6 +37,9 @@ params:
     DURATION: "5m"
     # Background workload to be run during the meassurement
     BACKGROUND_CMD: ""
+    # CPUs for rtla's own threads (cpu list); they aren't measured.
+    # Empty: rtla runs anywhere and all CPUs are measured.
+    HOUSEKEEPING: "0"
     # Specify url and token for publishing artifacts.
     # For safety reasons, please set 'ARTIFACTORIAL_TOKEN' variable in job definition with
     # 'secrets' dictionary, and set job visibility to personal or group.
@@ -47,7 +50,7 @@ params:
 run:
     steps:
         - cd ./automated/linux/rtla/
-        - ./rtla-osnoise.sh -d "${DURATION}" -w "${BACKGROUND_CMD}"
+        - ./rtla-osnoise.sh -d "${DURATION}" -w "${BACKGROUND_CMD}" -H "${HOUSEKEEPING}"
         - ../../utils/upload-to-artifactorial.sh -a "output/rtla-osnoise.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_thread_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
         - ../../utils/upload-to-artifactorial.sh -a "output/osnoise_irq_noise_hist.txt" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"

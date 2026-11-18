@@ -52,5 +52,5 @@ run:
     steps:
         - cd ./automated/linux/cyclicdeadline/
         - ./cyclicdeadline.sh -i "${INTERVAL}" -s "${STEP}" -t "${THREADS}" -D "${DURATION}" -I "${ITERATIONS}" -w "${BACKGROUND_CMD}" -x "${USER_BASELINE}"
-        - ../../utils/upload-to-artifactorial.sh -a "output/cyclicdeadline.json" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"
+        - for f in output/cyclicdeadline-*.json; do ../../utils/upload-to-artifactorial.sh -a "${f}" -u "${ARTIFACTORIAL_URL}" -t "${ARTIFACTORIAL_TOKEN}"; done
         - ../../utils/send-to-lava.sh ./output/result.txt

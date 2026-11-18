@@ -9,19 +9,26 @@ OUTPUT="$(pwd)/output"
 TMPFILE="${OUTPUT}/rtla-timerlat.txt"
 LOGFILE="${OUTPUT}/rtla-timerlat.json"
 RESULT_FILE="${OUTPUT}/result.txt"
+RCFILE="${OUTPUT}/rtla-timerlat.rc"
 
 DURATION="1m"
 BACKGROUND_CMD=""
+CPUS=""
+USER_THREADS="true"
+RT_PRIORITY=""
 
 usage() {
-    echo "Usage: $0 [-d duration ] [-w background_cmd]" 1>&2
+    echo "Usage: $0 [-d duration ] [-w background_cmd] [-c cpus] [-u true|false] [-p priority]" 1>&2
     exit 1
 }
 
-while getopts ":d:w:" opt; do
+while getopts ":d:w:c:u:p:" opt; do
     case "${opt}" in
         d) DURATION="${OPTARG}" ;;
 	w) BACKGROUND_CMD="${OPTARG}" ;;
+	c) CPUS="${OPTARG}" ;;
+	u) USER_THREADS="${OPTARG}" ;;
+	p) RT_PRIORITY="${OPTARG}" ;;
         *) usage ;;
     esac
 done
@@ -29,20 +36,48 @@ done
 ! check_root && error_msg "Please run this script as root."
 create_out_dir "${OUTPUT}"
 
+# /dev/cpu_dma_latency only exists with CONFIG_CPU_IDLE; without it rtla
+# refuses to run if asked to set it, but there are no idle states to
+# keep the CPUs out of either.
+DMA_LATENCY=""
+if [ -e /dev/cpu_dma_latency ]; then
+    DMA_LATENCY="--dma-latency=0"
+fi
+
+# Measure only these CPUs (e.g. the isolated ones); rtla then keeps its
+# own threads on the others.
+CPU_OPTS=""
+if [ -n "${CPUS}" ]; then
+    CPU_OPTS="-c ${CPUS}"
+fi
+
+# User-space threads (-u) measure up to the return to user space, as
+# cyclictest does; ask for them, so that an rtla or kernel without them
+# fails instead of measuring something else.
+MODE_OPTS=""
+if [ "${USER_THREADS}" = "true" ]; then
+    MODE_OPTS="-u"
+fi
+if [ -n "${RT_PRIORITY}" ]; then
+    MODE_OPTS="${MODE_OPTS} -P ${RT_PRIORITY}"
+fi
+
 background_process_start bgcmd --cmd "${BACKGROUND_CMD}"
 
-rtla timerlat hist --dma-latency=0 -d "${DURATION}" --no-header --trace \
+# The pipe to tee loses rtla's exit code, keep it in a file.
+# shellcheck disable=SC2086
+{ rtla timerlat hist ${DMA_LATENCY} -d "${DURATION}" ${CPU_OPTS} ${MODE_OPTS} --trace \
      --event osnoise:irq_noise \
      --trigger hist:key=cpu,desc,duration.buckets=1000:sort=duration \
      --event osnoise:thread_noise \
-     --trigger hist:key=cpu,comm,duration.buckets=1000:sort=duration \
-    | tee -a "${TMPFILE}"
+     --trigger hist:key=cpu,comm,duration.buckets=1000:sort=duration; \
+  echo $? > "${RCFILE}"; } | tee -a "${TMPFILE}"
 
 background_process_stop bgcmd
 
 mv osnoise_thread_noise_hist.txt "${OUTPUT}"
 mv osnoise_irq_noise_hist.txt "${OUTPUT}"
 # Parse test log.
-./parse_rtla.py -t timerlat -r "${TMPFILE}" -o "${LOGFILE}"
+./parse_rtla.py -t timerlat -r "${TMPFILE}" -o "${LOGFILE}" -c "$(cat "${RCFILE}")"
 ../../lib/parse_rt_tests_results.py rtla-timerlat "${LOGFILE}" \
     | tee -a "${RESULT_FILE}"

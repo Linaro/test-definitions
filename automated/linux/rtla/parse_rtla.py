@@ -29,6 +29,14 @@ def parse_args():
         dest="output",
         help="Specify output file.",
     )
+    parser.add_argument(
+        "-c",
+        "--return-code",
+        dest="return_code",
+        type=int,
+        default=0,
+        help="Exit code of rtla.",
+    )
 
     args = parser.parse_args()
     return args
@@ -61,6 +69,14 @@ def get_field_name(col):
     return None
 
 
+def to_number(value):
+    # Newer rtla versions print the osnoise "avg:" with decimals.
+    try:
+        return int(value)
+    except ValueError:
+        return float(value)
+
+
 def parse_histogram(col, sel, i, hist):
     if i not in hist:
         hist[i] = {}
@@ -68,70 +84,92 @@ def parse_histogram(col, sel, i, hist):
 
     name = get_field_name(col)
     if name:
-        hist[i][name] = int(col[sel])
+        hist[i][name] = to_number(col[sel])
     else:
-        hist[i]["histogram"][col[0]] = int(col[sel])
+        hist[i]["histogram"][col[0]] = to_number(col[sel])
 
 
-def parse_osnoise(result_file):
+def parse_osnoise(result_file, return_code):
     data = {}
     threads = {}
-    num_cols = 0
+    cpus = []
 
     for line in result_file.readlines():
-        if line.startswith(" "):
+        if line.startswith(" ") or line.startswith("#"):
             continue
 
         col = line.split()
+        if not col:
+            continue
+        if col[0] == "Index":
+            # "Index   CPU-001   CPU-002 ...": key the results by CPU, as
+            # with -c not every CPU has a column.
+            cpus = [str(int(c.split("-")[1])) for c in col[1:]]
+            continue
         name = get_field_name(col)
         if name == "ALL":
             break
 
-        num_cols = len(col) - 1
-
-        for i, sel in zip(range(0, num_cols), range(1, len(col), 1)):
-            parse_histogram(col, sel, i, threads)
+        keys = cpus if len(cpus) == len(col) - 1 else range(len(col) - 1)
+        for key, sel in zip(keys, range(1, len(col))):
+            parse_histogram(col, sel, str(key), threads)
 
     data["file_version"] = 2
-    data["return_code"] = 0
+    data["return_code"] = return_code
     data["sysinfo"] = get_sysinfo()
-    data["num_threads"] = num_cols
+    data["num_threads"] = len(threads)
     data["resolution_in_ns"] = 0
     data["thread"] = threads
 
     return data
 
 
-def parse_timerlat(result_file):
+def parse_timerlat(result_file, return_code):
     data = {}
     threads = {}
     irqs = {}
-    num_cols = 0
+    users = {}
+    columns = []
 
     for line in result_file.readlines():
-        if line.startswith(" "):
+        if line.startswith(" ") or line.startswith("#"):
             continue
 
         col = line.split()
+        if not col:
+            continue
+        if col[0] == "Index":
+            # "Index   IRQ-001   Thr-001   Usr-001 ...": the kind and CPU
+            # of each column. Newer rtla adds the Usr column (user-space
+            # threads), and with -c not every CPU has columns.
+            columns = [tuple(c.split("-")) for c in col[1:]]
+            continue
         name = get_field_name(col)
         if name == "ALL":
             break
 
-        num_cols = len(col) - 1
-
-        for i, sel in zip(range(0, num_cols), range(1, len(col), 2)):
-            parse_histogram(col, sel, i, irqs)
-        for i, sel in zip(range(0, num_cols), range(2, len(col), 2)):
-            parse_histogram(col, sel, i, threads)
+        if len(columns) != len(col) - 1:
+            # no header (old rtla): IRQ and thread columns, CPU by CPU
+            columns = [
+                ("IRQ" if i % 2 == 0 else "Thr", str(i // 2))
+                for i in range(len(col) - 1)
+            ]
+        for sel, (kind, cpu) in enumerate(columns, 1):
+            hist = {"IRQ": irqs, "Thr": threads, "Usr": users}.get(kind)
+            if hist is not None:
+                parse_histogram(col, sel, str(int(cpu)), hist)
 
     data["file_version"] = 2
-    data["return_code"] = 0
+    data["return_code"] = return_code
     data["sysinfo"] = get_sysinfo()
-    data["num_threads"] = num_cols / 2
-    data["num_irqs"] = num_cols / 2
+    data["num_threads"] = len(threads)
+    data["num_irqs"] = len(irqs)
     data["resolution_in_ns"] = 0
     data["thread"] = threads
     data["irq"] = irqs
+    if users:
+        data["num_users"] = len(users)
+        data["user"] = users
 
     return data
 
@@ -139,9 +177,9 @@ def parse_timerlat(result_file):
 def main(args):
     with open(args.result_file, "r") as infile:
         if args.test_name == "osnoise":
-            data = parse_osnoise(infile)
+            data = parse_osnoise(infile, args.return_code)
         else:
-            data = parse_timerlat(infile)
+            data = parse_timerlat(infile, args.return_code)
 
     if args.output:
         with open(args.output, "w") as outfile:
