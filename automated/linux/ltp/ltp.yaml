@@ -11,6 +11,10 @@ metadata:
         - functional
     devices:
         - all
+    dependency_path:
+        - /automated/bin/*/skipgen
+        - /automated/lib/*
+        - /automated/utils/*
 params:
     TST_CMDFILES: syscalls,mm,math,timers,fcntl-locktests,ipc,fsx,fs,hugetlb,io,nptl,pty,containers,fs_bind,filecaps,admin_tools,connectors
 
