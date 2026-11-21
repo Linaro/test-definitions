@@ -78,7 +78,13 @@ def build_frontmatter(name, scope_list):
 
 
 def build_md_list(header, items):
-    """Build a markdown section with a header and bullet list."""
+    """Build a markdown section with a header and bullet list.
+
+    Returns an empty string for empty lists, so sections such as OS, Scope
+    and Devices are omitted for 'Lava-Test Test Definition 2.0' files.
+    """
+    if not items:
+        return ""
     lines = ["\n## %s\n" % header]
     for item in items:
         lines.append(" * %s" % item)

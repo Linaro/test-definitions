@@ -175,6 +175,14 @@ Test case works with/without LAVA and can be tested locally.
 A general test definition file should contain the below keywords and steps::
 
     metadata:
+      format: Lava-Test Test Definition 2.0
+      name: smoke-tests-basic
+      description: "Run basic smoke tests."
+      maintainer:
+        - first.last@example.com
+      dependency_path:
+        - /automated/lib/*
+        - /automated/utils/*
     # Define parameters required by test case with default values.
     params:
       SKIP_INSTALL: False
@@ -187,6 +195,43 @@ A general test definition file should contain the below keywords and steps::
         - ./smoke.sh -s "${SKIP_INSTALL}"
         # Send the results in result.txt to LAVA.
         - ../../utils/send-to-lava.sh ./output/result.txt
+
+LAVA copies the whole repository to the DUT, but most tests only need a few
+files from it. List them in `dependency_path`::
+
+    metadata:
+      dependency_path:
+        - /automated/lib/*
+        - /automated/utils/*
+
+Each entry is a glob from the repository root. LAVA always keeps the directory
+of the test definition, so you only list files outside it. If the test script
+calls `generate_skipfile` from sh-test-lib, add `/automated/bin/*/skipgen` too.
+Everything else is removed. That includes `.git`, so list `/.git` if the test
+needs it.
+
+validate.py checks that each entry matches something in the repository. It can
+not see if the list is complete, so run the test in LAVA once.
+
+#### Metadata formats
+
+`validate.py` accepts the following values of `metadata.format`:
+
+| Format                          | Mandatory keys                                                   | Optional keys                               |
+|---------------------------------|------------------------------------------------------------------|---------------------------------------------|
+| `Lava-Test Test Definition 2.0` | `name`, `format`, `description`, `maintainer`, `dependency_path` | `os`, `scope`, `devices`                    |
+| `Lava-Test Test Definition 1.0` | `name`, `format`, `description`, `maintainer`, `os`, `devices`   | `scope`, `dependency_path`                  |
+| `Manual Test Definition 2.0`    | `name`, `format`, `description`, `maintainer`                    | `os`, `scope`, `devices`, `dependency_path` |
+| `Manual Test Definition 1.0`    | `name`, `format`, `description`, `maintainer`, `os`, `devices`   | `scope`, `dependency_path`                  |
+
+New test definitions should use `Lava-Test Test Definition 2.0` (or
+`Manual Test Definition 2.0` for manual tests). In 2.0 the
+`os`, `scope` and `devices` keys are no longer required: where a test runs is
+decided by the test plan or LAVA job. They are still accepted when present.
+`dependency_path` is required in `Lava-Test Test Definition 2.0`, so LAVA
+copies only the files the test needs. To migrate a 1.0 file, change `format`
+and, for Lava-Test files, add `dependency_path`; the `os`, `scope` and
+`devices` keys may be kept or removed. 1.0 files are still accepted.
 
 ## Android specific
 

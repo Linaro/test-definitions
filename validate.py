@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import argparse
+import glob
 import os
 import sys
 import subprocess
@@ -22,6 +23,27 @@ except ImportError as e:
     print(e)
     print("Install python-magic: pip3 install python-magic")
     sys.exit(1)
+
+
+# Mandatory metadata keys for each supported test definition format.
+# Mandatory keys must be present and non-empty.
+_METADATA_V1_MANDATORY = frozenset(
+    ["name", "format", "description", "maintainer", "os", "devices"]
+)
+# 2.0 no longer requires 'os' and 'devices'. Where a test runs is decided by
+# the test plan / job, not by the test definition. 'os', 'scope' and
+# 'devices' are still allowed but optional.
+_METADATA_V2_MANDATORY = frozenset(["name", "format", "description", "maintainer"])
+# Lava-Test 2.0 also requires 'dependency_path', so LAVA only copies the
+# files the test needs to the DUT instead of the whole repository.
+_LAVA_TEST_V2_MANDATORY = _METADATA_V2_MANDATORY | frozenset(["dependency_path"])
+
+TESTDEF_FORMATS = {
+    "Lava-Test Test Definition 1.0": _METADATA_V1_MANDATORY,
+    "Manual Test Definition 1.0": _METADATA_V1_MANDATORY,
+    "Lava-Test Test Definition 2.0": _LAVA_TEST_V2_MANDATORY,
+    "Manual Test Definition 2.0": _METADATA_V2_MANDATORY,
+}
 
 
 def print_stderr(message):
@@ -57,6 +79,28 @@ def detect_abi():
         .decode("utf-8")
         .strip()
     )
+
+
+def dependency_path_error(metadata_dict):
+    patterns = metadata_dict.get("dependency_path")
+    if patterns is None:
+        return None
+    if not isinstance(patterns, list) or not all(
+        isinstance(pattern, str) for pattern in patterns
+    ):
+        return "'dependency_path' must be a list of paths"
+    repo_root = os.path.realpath(".")
+    for pattern in patterns:
+        matches = glob.glob(pattern.lstrip("/"))
+        if not matches:
+            return "'dependency_path' entry '%s' matches nothing" % pattern
+        for match in matches:
+            if os.path.commonpath([repo_root, os.path.realpath(match)]) != repo_root:
+                return (
+                    "'dependency_path' entry '%s' points outside the repository"
+                    % pattern
+                )
+    return None
 
 
 def pycodestyle_check(filepath, args):
@@ -102,14 +146,25 @@ def validate_yaml_contents(filepath, args):
             args.failed_message_list = args.failed_message_list + result_message_list
             exit(1)
         metadata_dict = y["metadata"]
-        mandatory_keys = set(
-            ["name", "format", "description", "maintainer", "os", "devices"]
-        )
+        # check 'format' value first, as it selects the rules to apply
+        test_format = metadata_dict.get("format")
+        if test_format not in TESTDEF_FORMATS:
+            result_message_list.append("* METADATA [FAILED]: " + filepath)
+            result_message_list.append(
+                "\t'format' has incorrect value: %s (supported: %s)"
+                % (test_format, ", ".join(sorted(TESTDEF_FORMATS)))
+            )
+            publish_result(result_message_list, args)
+            args.failed_message_list = args.failed_message_list + result_message_list
+            return 1
+        mandatory_keys = TESTDEF_FORMATS[test_format]
         if not mandatory_keys.issubset(set(metadata_dict.keys())):
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append(
                 "\tmandatory keys missing: %s"
-                % mandatory_keys.difference(set(metadata_dict.keys()))
+                % ", ".join(
+                    sorted(mandatory_keys.difference(set(metadata_dict.keys())))
+                )
             )
             result_message_list.append(
                 "\tactual keys present: %s" % metadata_dict.keys()
@@ -117,8 +172,8 @@ def validate_yaml_contents(filepath, args):
             publish_result(result_message_list, args)
             args.failed_message_list = args.failed_message_list + result_message_list
             return 1
-        for key in mandatory_keys:
-            if len(metadata_dict[key]) == 0:
+        for key in sorted(mandatory_keys):
+            if not metadata_dict[key]:
                 result_message_list.append("* METADATA [FAILED]: " + filepath)
                 result_message_list.append("\t%s has no content" % key)
                 publish_result(result_message_list, args)
@@ -133,20 +188,18 @@ def validate_yaml_contents(filepath, args):
             publish_result(result_message_list, args)
             args.failed_message_list = args.failed_message_list + result_message_list
             return 1
-        # check 'format' value
-        if metadata_dict["format"] not in [
-            "Lava-Test Test Definition 1.0",
-            "Manual Test Definition 1.0",
-        ]:
-            result_message_list.append("* METADATA [FAILED]: " + filepath)
-            result_message_list.append("\t'format' has incorrect value")
-            publish_result(result_message_list, args)
-            args.failed_message_list = args.failed_message_list + result_message_list
-            return 1
         # check run.steps exists
         if "run" not in y or "steps" not in y.get("run", {}):
             result_message_list.append("* METADATA [FAILED]: " + filepath)
             result_message_list.append("\trun.steps section missing")
+            publish_result(result_message_list, args)
+            args.failed_message_list = args.failed_message_list + result_message_list
+            return 1
+
+        error = dependency_path_error(metadata_dict)
+        if error is not None:
+            result_message_list.append("* METADATA [FAILED]: " + filepath)
+            result_message_list.append("\t" + error)
             publish_result(result_message_list, args)
             args.failed_message_list = args.failed_message_list + result_message_list
             return 1

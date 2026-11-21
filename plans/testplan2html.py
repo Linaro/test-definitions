@@ -155,8 +155,10 @@ def test_exists(test, repositories, args):
         # update test plan object
         test.update(test_yaml["run"])
         # prepend in reversed order so 'name' is on top
-        test.prepend("os", test_yaml["metadata"]["os"])
-        test.prepend("scope", test_yaml["metadata"]["scope"])
+        # 'os' and 'scope' were dropped in Lava-Test Test Definition 2.0
+        for key in ("os", "scope"):
+            if key in test_yaml["metadata"]:
+                test.prepend(key, test_yaml["metadata"][key])
         test.prepend("description", test_yaml["metadata"]["description"])
         if "name" not in test:
             test.prepend("name", test_yaml["metadata"]["name"])

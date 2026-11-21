@@ -13,6 +13,10 @@ metadata:
         - functional
     devices:
         - all
+    dependency_path:
+        - /automated/bin/*/skipgen
+        - /automated/lib/*
+        - /automated/utils/*
 
 params:
     # List of tests to run
