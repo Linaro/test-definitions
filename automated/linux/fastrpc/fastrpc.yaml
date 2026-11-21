@@ -1,0 +1,39 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: fastrpc
+    description: "FastRPC round trips from Linux to the DSPs with
+      fastrpc_test (https://github.com/qualcomm/fastrpc), in a signed or an
+      unsigned protection domain, after checking that the DSP's remoteproc
+      is running. DSPs fastrpc_test cannot call are checked for their
+      FastRPC device node only. Cases whose remoteproc does not exist, or
+      all cases when fastrpc_test is missing, are skipped."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - lemans-evk
+        - sm8750-mtp
+
+params:
+    # Space separated <case>:<remoteproc>:<domain>:<unsigned PD 0|1>.
+    # FastRPC domains: 0 ADSP, 1 MDSP, 2 SDSP, 3 CDSP, 4 CDSP1.
+    TESTS: "adsp:adsp:0:0 cdsp:cdsp:3:0 cdsp-unsigned-pd:cdsp:3:1"
+    # Space separated <remoteproc>:<device node prefix>, e.g.
+    # gpdsp0:/dev/fastrpc-gdsp0
+    NODES: ""
+
+run:
+    steps:
+        - cd ./automated/linux/fastrpc/
+        - ./fastrpc.sh -t "${TESTS}" -n "${NODES}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

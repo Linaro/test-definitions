@@ -1,0 +1,47 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: cpufreq-policy
+    description: "For every cpufreq policy with an online CPU, set the
+      lowest and the highest available frequency with the userspace
+      governor. Check that the hardware reports it back, unless the reading
+      is outside cpuinfo_min_freq..cpuinfo_max_freq (a driver reporting a
+      throttle limit, not the running frequency), and time a fixed busy loop
+      pinned to one CPU of the policy at both frequencies: the runtime ratio
+      must be within 15% of the frequency ratio. Then load every online CPU
+      with stress-ng under the default governor and check that the load
+      completes and each policy scales above its lowest frequency. Platforms
+      without cpufreq, the userspace governor, stress-ng or a way to pin the
+      loop (taskset or a cgroup v2 cpuset) skip the affected cases."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+
+params:
+    # Bring every offline CPU online first (true/false).
+    ONLINE_ALL: "false"
+    # stress-ng load phase length in seconds; 0 skips it.
+    STRESS_SECONDS: "60"
+    # Seconds to wait after a frequency request before reading it back.
+    SETTLE_SECONDS: "1"
+    # Negative control (true/false): time the loop at the highest frequency
+    # both times, so every runtime-ratio case must fail.
+    TIMED_NEGATIVE: "false"
+
+run:
+    steps:
+        - cd ./automated/linux/cpufreq-policy/
+        - ./cpufreq-policy.sh -o "${ONLINE_ALL}" -s "${STRESS_SECONDS}" -w "${SETTLE_SECONDS}" -n "${TIMED_NEGATIVE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

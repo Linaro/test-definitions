@@ -1,0 +1,47 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: boot-handoff
+    description: "Check the state the boot firmware hands over to Linux:
+      the boot CPU, the number of CPUs brought up, the exception level all
+      CPUs started at, KVM (mode and /dev/kvm), the TEE driver and
+      /dev/tee0, and the mode of the PSCI CPU PM domains (OSI or PC). A
+      check whose parameter is empty is skipped; the CPU count defaults
+      to all present CPUs."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+
+params:
+    # MPIDR of the expected boot CPU, e.g. 0x10000; empty skips the check.
+    BOOT_CPU: ""
+    # Number of CPUs that must be online; empty means all present CPUs.
+    CPUS: ""
+    # Exception level all CPUs must have entered the kernel at (EL2, EL1);
+    # empty skips the check.
+    EXCEPTION_LEVEL: ""
+    # KVM mode: any, vhe, nvhe, protected; none or empty skips KVM.
+    KVM: ""
+    # TEE: optee (driver and /dev/tee0), any (/dev/tee0 only); none or
+    # empty skips the TEE.
+    TEE: ""
+    # PSCI CPU PM domain mode: osi or pc; empty skips the check.
+    PSCI_MODE: ""
+
+run:
+    steps:
+        - cd ./automated/linux/boot-handoff/
+        - ./boot-handoff.sh -b "${BOOT_CPU}" -c "${CPUS}" -e "${EXCEPTION_LEVEL}" -k "${KVM}" -t "${TEE}" -p "${PSCI_MODE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

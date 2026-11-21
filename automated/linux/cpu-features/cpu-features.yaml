@@ -1,0 +1,38 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: cpu-features
+    description: "Read the AArch64 ID registers as Linux presents them (MRS
+      from EL0 on every CPU, KVM_GET_ONE_REG of a fresh vCPU, MIDR/REVIDR
+      from sysfs, hwcaps, the kernel's CPU features lines), decode them
+      into Arm FEAT_* names and check them against the board's list: every
+      FEAT_* in EXPECTED must be present, so a feature the silicon has that
+      the firmware hides fails; every FEAT_* in ABSENT must not be."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+        - sm8750-mtp
+
+params:
+    # FEAT_* names (features.txt) that must be present; empty checks none.
+    EXPECTED: ""
+    # FEAT_* names that must not be present; empty checks none.
+    ABSENT: ""
+
+run:
+    steps:
+        - cd ./automated/linux/cpu-features/
+        - ./cpu-features.sh -e "${EXPECTED}" -a "${ABSENT}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

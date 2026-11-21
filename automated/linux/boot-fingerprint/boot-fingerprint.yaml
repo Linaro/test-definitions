@@ -1,0 +1,43 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: boot-fingerprint
+    description: "Check that the running kernel (/proc/version) and the
+      rootfs carry the expected build fingerprint, an ID stamped into every
+      component of a build, so that results are never attributed to a stale
+      image. Where the firmware publishes its version to Linux (SMBIOS BIOS
+      version), that is checked too. Firmware stages that only print their
+      version on the console are for the job to check, e.g. with a LAVA
+      monitor."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+
+params:
+    # Fingerprint of the build under test; an empty value skips the test.
+    FINGERPRINT: ""
+    # Per-component overrides, when the kernel or rootfs come from another
+    # build than the firmware. Empty means FINGERPRINT.
+    LINUX_FINGERPRINT: ""
+    ROOTFS_FINGERPRINT: ""
+    FIRMWARE_FINGERPRINT: ""
+    # Files of which at least one must contain the rootfs fingerprint.
+    ROOTFS_FILES: "/etc/issue /etc/os-release"
+
+run:
+    steps:
+        - cd ./automated/linux/boot-fingerprint/
+        - ./boot-fingerprint.sh -f "${FINGERPRINT}" -l "${LINUX_FINGERPRINT}" -r "${ROOTFS_FINGERPRINT}" -F "${FIRMWARE_FINGERPRINT}" -R "${ROOTFS_FILES}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

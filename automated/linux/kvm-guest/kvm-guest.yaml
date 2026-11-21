@@ -1,0 +1,47 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: kvm-guest
+    description: "Boot a Linux guest under KVM with kvmtool: the guest
+      reaches userspace with the requested vCPUs and prints a ready line
+      (vCPU count, kernel release, uptime), runs a command sent over its
+      virtio console and powers off, so that kvmtool exits 0. The time to
+      the ready line is the guest-boot measurement. kvmtool runs on a pty
+      from socat, since it reads console input only from a terminal.
+      Skipped without kvmtool, socat or the guest kernel and initramfs;
+      fails without /dev/kvm."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+
+params:
+    # kvmtool binary
+    LKVM: "lkvm"
+    # Guest kernel (arm64 Image with a virtio console) and initramfs. The
+    # initramfs init must print "kvm-guest: ready vcpus=<N> ..." and run a
+    # shell on the console, as guest-init does.
+    KERNEL: "/opt/kvm-guest/Image"
+    INITRD: "/opt/kvm-guest/initramfs.cpio.gz"
+    # vCPUs and memory (MiB) of the guest
+    VCPUS: "2"
+    MEMORY: "256"
+    # Seconds to wait for the ready line, a command and the power off
+    TIMEOUT: "60"
+
+run:
+    steps:
+        - cd ./automated/linux/kvm-guest/
+        - ./kvm-guest.sh -l "${LKVM}" -k "${KERNEL}" -i "${INITRD}" -c "${VCPUS}" -m "${MEMORY}" -t "${TIMEOUT}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

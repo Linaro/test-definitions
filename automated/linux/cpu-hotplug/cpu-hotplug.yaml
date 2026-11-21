@@ -1,0 +1,44 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: cpu-hotplug
+    description: "CPU hotplug through the firmware (PSCI CPU_OFF and
+      CPU_ON): every hotpluggable CPU taken offline and back online ROUNDS
+      times, idle and under stress-ng load, then all together; then one
+      loop per CPU, all in parallel under load for RACE_SECONDS, taking its
+      CPU offline and at once back online, so that CPU_ON reaches the
+      firmware as soon as the CPU is reported off. A hotplug write that
+      does not return, a CPU that does not come back, an online mask that
+      is not restored or a PSCI error or kernel warning fails."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+        - stress
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+
+params:
+    # Offline/online rounds per CPU, idle and under load.
+    ROUNDS: "5"
+    # Duration of the parallel offline/online race; 0 skips it.
+    RACE_SECONDS: "300"
+    # Seconds a single online or offline write may take.
+    TIMEOUT: "20"
+    # Extended regex of kernel log lines not to count as issues.
+    IGNORE: ""
+
+run:
+    steps:
+        - cd ./automated/linux/cpu-hotplug/
+        - ./cpu-hotplug.sh -r "${ROUNDS}" -s "${RACE_SECONDS}" -t "${TIMEOUT}" -i "${IGNORE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

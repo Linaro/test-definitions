@@ -1,0 +1,39 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: maxcpus
+    description: "Boot with maxcpus=N on the kernel command line: check
+      that exactly N CPUs came up, then bring every other present CPU
+      online through CPU hotplug, which the firmware serves with PSCI
+      CPU_ON for CPUs it has not started in this boot, and check that they
+      all run. Run cpufreq-policy and boot-handoff (PSCI_MODE) after it to
+      check cpufreq and the PSCI idle mode with all CPUs online."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+
+params:
+    # Expected number of CPUs at boot; empty takes maxcpus= from
+    # /proc/cmdline, and without it the test is skipped.
+    MAXCPUS: ""
+    # Report a CPU the kernel refuses for a capability conflict with the
+    # boot CPUs as skip instead of fail (true/false).
+    ALLOW_CAPABILITY_CONFLICT: "true"
+
+run:
+    steps:
+        - cd ./automated/linux/maxcpus/
+        - ./maxcpus.sh -n "${MAXCPUS}" -a "${ALLOW_CAPABILITY_CONFLICT}"
+        - ../../utils/send-to-lava.sh ./output/result.txt

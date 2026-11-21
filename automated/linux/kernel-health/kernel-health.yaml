@@ -1,0 +1,38 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: kernel-health
+    description: "Count kernel warnings (WARNING:), BUGs, oopses (Oops,
+      Internal error, Unable to handle kernel), call traces and panics in
+      the kernel log since boot. Each class is a test case with its count
+      as the measurement and passes when the count is at most MAX.
+      kernel-log-complete fails when the log buffer has wrapped since boot,
+      so that lost messages cannot pass as a clean log. Run it after the
+      tests that exercise the system, before any that flood the log."
+    maintainer:
+        - tyler.baker@oss.qualcomm.com
+    os:
+        - debian
+        - ubuntu
+        - fedora
+        - openembedded
+        - buildroot
+    scope:
+        - functional
+    devices:
+        - monaco-arduino-monza
+        - qrb2210-arduino-imola
+        - qcs6490-rb3gen2
+        - qcs615-ride
+        - lemans-evk
+
+params:
+    # Highest count per class that still passes.
+    MAX: "0"
+    # Extended regex of kernel log lines not to count; empty counts all.
+    IGNORE: ""
+
+run:
+    steps:
+        - cd ./automated/linux/kernel-health/
+        - ./kernel-health.sh -m "${MAX}" -i "${IGNORE}"
+        - ../../utils/send-to-lava.sh ./output/result.txt
