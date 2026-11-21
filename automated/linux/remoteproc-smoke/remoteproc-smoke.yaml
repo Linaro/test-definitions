@@ -2,8 +2,13 @@ metadata:
     format: Lava-Test Test Definition 1.0
     name: remoteproc-smoke
     description: "Check that the remoteprocs which the kernel is expected to
-      boot are running. Catches regressions where a DSP silently fails to come
-      up, e.g. because its firmware could not be loaded."
+      boot are running and have not crashed since boot. Catches regressions
+      where a DSP silently fails to come up, e.g. because its firmware could
+      not be loaded, or crashes and is recovered. With ITERATIONS above 0,
+      also stop and start each remoteproc through sysfs that many times: the
+      state must read offline after the stop and running after the start,
+      its rpmsg devices must come back bound to the same drivers, and the
+      kernel must log no remoteproc crash, warning or oops meanwhile."
     maintainer:
         - loic.minier@oss.qualcomm.com
     os:
@@ -26,9 +31,21 @@ params:
     # https://github.com/qualcomm/fastrpc/pull/372
     SKIP: "modem wpss"
     WAIT_TIME: 0
+    # Stop and start each tested remoteproc this many times; 0 does not
+    # restart them.
+    ITERATIONS: 0
+    # Remoteprocs known not to survive a restart, <name>=<reason> separated
+    # by ';': reported as skip with the reason, not restarted.
+    EXPECTED_FAIL: ""
+    # Time allowed for each state change and for the rpmsg devices to come
+    # back after a start.
+    RESTART_TIMEOUT: 30
+    # Time a restarted remoteproc must stay up after its rpmsg devices are
+    # back.
+    SETTLE_TIME: 5
 
 run:
     steps:
         - cd ./automated/linux/remoteproc-smoke
-        - ./remoteproc-smoke-test.sh -d "${DEVICE}" -s "${SKIP}" -w "${WAIT_TIME}"
+        - ./remoteproc-smoke-test.sh -d "${DEVICE}" -s "${SKIP}" -w "${WAIT_TIME}" -n "${ITERATIONS}" -x "${EXPECTED_FAIL}" -t "${RESTART_TIMEOUT}" -e "${SETTLE_TIME}"
         - ../../utils/send-to-lava.sh ./output/result.txt
