@@ -1,4 +1,4 @@
-FROM fedora:44
+FROM fedora:45
 
 RUN dnf -y install vim python3 python3-pip git
 
